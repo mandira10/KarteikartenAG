@@ -1,0 +1,35 @@
+\begin{center}
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=4, fill=red!10]{\systemname}
+            \umlusecase[x=0, y=-19, width=1.5cm, name=choosedecks]{choose deck(s)}
+            	\umlusecase[x=4, y=-21, width=1.5cm, name=methodoftesting]{pick method of testing}
+            		\umlusecase[x=2, y=-23, width=1.5cm, name=leitnersystem]{use leitner method}
+            			\umlusecase[x=2, y=-25, width=1.5cm, name=sorting]{set order of cards}
+            				\umlusecase[x=0, y=-27, width=1.5cm, name=alphabetical]{use alphabetical order}
+            				\umlusecase[x=4, y=-27, width=1.5cm, name=random]{use random order}
+            		\umlusecase[x=6, y=-23, width=1.5cm, name=othersystem]{use other method}
+            \umlusecase[x=6, y=-19, width=1.5cm, name=starttest]{start test}
+            \umlusecase[x=10, y=-19, width=1.5cm, name=checktest]{check test}
+            %\umlusecase[x=6, fill=green!20]{use case5}
+            %\umlusecase[x=6, y=-4]{use case6}
+        \end{umlsystem}
+
+        % Actors
+        \umlactor[y=-16]{User}
+        \umlactor[x=17.5, y=-16]{\servername}
+
+
+        % Tests
+        \umlassoc[geometry=|-]{\clientname}{choosedecks}
+		\umlassoc{choosedecks}{methodoftesting}
+		\umlassoc{methodoftesting}{starttest}
+		\umlinherit{leitnersystem}{methodoftesting}
+		\umlassoc{sorting}{leitnersystem}
+		\umlinherit{alphabetical}{sorting}
+		\umlinherit{random}{sorting}
+		\umlinherit{othersystem}{methodoftesting}
+		\umlextend{starttest}{checktest}
+        \umlassoc[geometry=-|]{checktest}{\servername}
+    \end{tikzpicture}
+\end{center}
+

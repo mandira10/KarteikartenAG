@@ -1,0 +1,36 @@
+\large{Server UML Case Diagramm}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=4, fill=red!10]{\systemname}
+        	\umlusecase[x=0,   y=-4,   width=2.8cm, name=config]{Konfigurationsdatei}
+        	\umlusecase[x=5,   y=-3,   width=1.8cm, name=port]{Port ändern}
+        	\umlusecase[x=5,   y=-4.5, width=2cm,   name=prefix]{Präfix ändern}
+        	\umlusecase[x=5.5, y=-6.5, width=2cm,   name=attempts]{Anzahl Loginversuche ändern}
+        	\umlusecase[x=2,   y=-7,   width=2cm,   name=timeout]{Login timeout ändern}
+        	\umlusecase[x=-1,  y=-6,   width=2cm,   name=manual]{Manuelles Registrieren erlauben}
+
+        	\umlusecase[x=0, y=-11, width=2cm,   name=tool]{Datenbank Tool}
+        	\umlusecase[x=6, y=-11, width=2.5cm, name=create]{Datenbankeintrag erstellen}
+        	\umlusecase[x=6, y=-13, width=2.5cm, name=delete]{Datenbankeintrag löschen}
+        	\umlusecase[x=6, y=-9,  width=2.5cm, name=edit]{Datenbankeintrag ändern}
+        \end{umlsystem}
+
+        % Actors
+        \umlactor[y=-8]{Admin}
+        
+        % Associations
+        \umlassoc[geometry=|-]{Admin}{tool}
+        \umlinclude{create}{tool}
+        \umlinclude{delete}{tool}
+        \umlinclude{edit}{tool}
+
+        \umlassoc[geometry=|-]{Admin}{config}
+        \umlextend{port}{config}
+        \umlextend{prefix}{config}
+        \umlextend{attempts}{config}
+        \umlextend{timeout}{config}
+        \umlextend{manual}{config}
+        
+    \end{tikzpicture}
+\end{center}
+

@@ -1,0 +1,89 @@
+\large{Einstellungen UML Case Diagramm}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=4, fill=red!10]{\systemname}
+            \umlusecase[y=-10, name=setting-0]{Settings}
+            \umlusecase[x=5, y=-3.5, width=1.5cm, name=setting-1]{Sprache wählen}
+            \umlusecase[x=10, y=-20, width=1.5cm, name=setting-2]{Check if already logged in}
+            \umlusecase[x=5, y=-6, width=1.5cm, name=setting-3]{Exportiert Kategorie als PDF}
+            \umlusecase[x=10, y=-5, width=1.5cm, name=setting-4]{Deutsch}
+            \umlusecase[x=10, y=-3, width=1.5cm, name=setting-5]{Englisch}
+            \umlusecase[x=5, y=-8.7, width=1.5cm, name=setting-6]{Exportiert Kategorie als JSON}
+            \umlusecase[x=5, y=-11.5, width=1.5cm, name=setting-7]{Exportiert Kategorie als XML}
+            \umlusecase[x=4, y=-18, width=1.5cm, name=setting-8]{Logout}
+            \umlusecase[x=10, y=-7.5, width=1.5cm, name=setting-10]{Die aktuelle Kategorie}
+            \umlusecase[x=10, y=-11, width=1.5cm, name=setting-11]{Eine andere Kategorie}
+            \umlusecase[x=5, y=-14, width=1.5cm, name=setting-12]{Hellmodus}
+            \umlusecase[x=5, y=-16, width=1.7cm, name=setting-13]{Dunkelmodus}
+            \umlusecase[x=10, y=-14, width=1.7cm, name=setting-14]{Waehle eine Kategorie}
+            
+        \end{umlsystem}
+
+        % Actors
+        \umlactor[y=-6]{User}
+        \umlactor[x=17, y=-6]{\servername}
+
+
+        % Settings
+        \umlassoc[geometry=|-]{\clientname}{setting-0}
+        \umlextend{setting-1}{setting-0}
+        
+        \umlextend{setting-8}{setting-0}
+        \umlVHinclude{setting-2}{setting-8}
+        
+        \umlextend{setting-4}{setting-1}
+        \umlextend{setting-5}{setting-1}
+        
+        \umlassoc[geometry=|-]{\servername}{setting-8}
+        
+        \umlextend{setting-6}{setting-0}
+        \umlextend{setting-7}{setting-0}
+        \umlextend{setting-3}{setting-0}
+        
+        
+        \umlextend{setting-12}{setting-0}
+        \umlextend{setting-13}{setting-0}
+        
+        \umlextend{setting-10}{setting-3}
+        \umlextend{setting-10}{setting-6}
+        \umlextend{setting-10}{setting-7}
+        
+        \umlextend{setting-11}{setting-3}
+        \umlextend{setting-11}{setting-6}
+        \umlextend{setting-11}{setting-7}
+        
+        \umlinclude{setting-11}{setting-14}
+        
+    \end{tikzpicture}
+\end{center}
+
+\begin{answer}
+    Detailanwendungsfall die Sprache auf Englisch umstellen 
+\end{answer}
+\newline
+\textbf{Akteure}: Schüler Sam
+\newline
+\textbf{Vorbedingungen}: 
+\begin{itemize}  
+    \item Das System ist gestartet.
+    \item Sam hat sich nicht gemeldet.
+   \item Das System ist auf Deutsch.
+\end{itemize} 
+\textbf{Nachbedingungen}: 
+\begin{itemize}  
+    \item Er hat die App Sprache erfolgreich von Deutsch auf Englisch geändert.
+   \item Oder, er kann nicht finden, wo man die Sprache ändern kann.\\
+\end{itemize}
+\textbf{Regulärer Ablauf}: 
+\begin{itemize}  
+    \item Sam klickt auf den Button Settings.
+   \item Weitere Funktionen von Settings werden angezeigt. (siehe Abb.)
+   \item Sam bringt sein Mauszeiger zu Sprachen.
+    \item Weitere Funktionen von Sprachen werden angezeigt.
+    \item Sam klickt auf den Button Englisch.
+     \item Die Sprache wurde auf Englisch umgestellt.
+\end{itemize}
+\textbf{Alternative}: 
+\begin{itemize}  
+    \item Er hat nicht genug Deutschkentnisse, das Wort ,,Sprachen" zu verstehen. Deswegen bringt er sein Mauszeiger nicht zu Sprachen und kann das Button ,,Englisch" nicht finden.
+\end{itemize} 

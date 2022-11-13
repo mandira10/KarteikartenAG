@@ -1,0 +1,39 @@
+\large{Kategorien UML Case Diagramm}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=4, fill=red!10]{\systemname}
+            \umlusecase[x=6, y=-1.5, width=2.5cm, name=edit]{Kategorie bearbeiten}
+            \umlusecase[x=10, y=0, width=2.5cm, name=name]{Name setzen}
+            \umlusecase[x=10, y=-3, width=2.5cm, name=poly]{Polyhierarchie definieren}
+            \umlusecase[x=2, y=-3.5, name=create]{Kategorie anlegen}
+			\umlusecase[x=4, y=-4.5, name=delete]{Kategorie löschen}
+			\umlusecase[x=0, y=-10, name=overview]{Übersicht}
+			\umlusecase[x=5, y=-9, name=sort]{Übersicht sortieren}
+			\umlusecase[x=5, y=-11, name=view]{Polyhierarchie ansehen}
+			\umlusecase[x=7, y=-10, name=select]{mehrere Kategorien auswählen}
+			\umlusecase[x=10, y=-8, width=2.5cm,name=action]{Aktion über Kategorieauswahl}
+			
+			\umlusecase[x=6, y=-6.5, width=2.5cm,name=export]{Export als PDF/JSON/XML}
+			\umlusecase[x=11, y=-6, width=2cm,name=deck]{Karteikasten erstellen}
+        \end{umlsystem}
+
+        % Actors
+        \umlactor[y=-6]{User}
+        
+        % Associations
+        \umlassoc[geometry=|-]{User}{edit}
+        \umlinherit{name}{edit}
+        \umlinherit{poly}{edit}
+        \umlextend{create}{edit}
+        \umlextend{delete}{edit}
+        \umlassoc[geometry=|-]{User}{overview}
+		\umlinclude{overview}{sort}
+		\umlassoc{overview}{select}
+		\umlassoc{overview}{view}
+        \umlassoc{select}{action}
+        \umlextend{action}{edit}
+        \umlinclude{action}{export}
+        \umlinclude{action}{deck}
+    \end{tikzpicture}
+\end{center}
+

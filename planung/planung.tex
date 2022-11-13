@@ -1,0 +1,34 @@
+% !TeX root = planung.tex
+\documentclass[fleqn]{../swp}
+\usepackage{tikz-uml}
+
+\textwidth 18.5cm
+\textheight 25.5cm
+\hoffset=-2.9cm
+\voffset=-2.9cm
+
+\sloppy
+\hyphenpenalty 10000000
+
+\begin{document}
+        \fontfamily{arial}
+        \sffamily
+        \renewcommand\documentTitle{Anwendungsfälle Anhang UML Diagramme und weitere Detailbeschreibungen}
+        \renewcommand\groupName{KarteikartenAG}
+        \swpdocument{Rodrigue Wete Nguempnang}{13. November 2022}%
+                    {Mert As & meras@uni-bremen.de}%
+                    {Tom Beuke & tombeuke@uni-bremen.de}%
+                    {Efe Carkcioglu & efe1@uni-bremen.de}%
+                    {Nadja Cordes & ncordes@uni-bremen.de}%
+                    {Ole-Niklas Mahlstädt & olma@uni-bremen.de}%
+                    {Henry Zöllner & henry5@uni-bremen.de}%
+
+        \newpage\input{anwendungsbereiche/login.tex}      % Tom
+        \newpage\input{anwendungsbereiche/settings.tex}   % Efe
+        \newpage\input{anwendungsbereiche/cards.tex}      % Mert
+        \newpage\input{anwendungsbereiche/testing.tex}    % Henry
+        \newpage\input{anwendungsbereiche/categories.tex} % Ole
+        \newpage\input{anwendungsbereiche/overview.tex}   % Nadja
+        \newpage\input{anwendungsbereiche/decks.tex}      % Ole
+        \newpage\input{anwendungsbereiche/server.tex}     % Tom
+\end{document}

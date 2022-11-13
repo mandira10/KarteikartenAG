@@ -1,0 +1,46 @@
+\large{Decks UML Case Diagramm}
+
+\begin{center}
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=4, fill=red!10]{\systemname}
+        	\umlusecase[x=0, y=-2, name=overview]{Übersicht}
+        	\umlusecase[x=0, y=-12, width=2cm, name=edit]{Karteikasten bearbeiten}
+        	\umlusecase[x=6, y=-11, width=2cm, name=create]{Karteikasten erstellen}
+        	\umlusecase[x=6, y=-13, width=2cm, name=delete]{Karteikasten löschen}
+        	\umlusecase[x=0, y=-8.5, width=1.6cm, name=order]{Reihenfolge der Karten}
+        	\umlusecase[x=2, y=-10, width=1.5cm, name=system]{Lernsystem wählen}
+        	\umlusecase[x=5, y=-3, width=1.8cm, name=progress]{Lernfortschritt angucken}
+        	\umlusecase[x=5, y=-4.5, width=2cm, name=poly]{Polyhierarchie angucken}
+        	\umlusecase[x=1.8, y=-4.5, name=sort]{sortieren}
+        	\umlusecase[x=-0.5, y=-3.75, name=filter]{filtern}
+        	\umlusecase[x=1, y=-6, width=2cm, name=select]{einen/mehrere auswählen}
+        	\umlusecase[x=5, y=-7.5, width=2cm, name=testing]{Lernvorgang starten}
+        	\umlusecase[x=6, y=-6, width=2cm, name=export]{Export PDF/JSON/XML}
+        	\umlusecase[x=6, y=-9, width=2cm, name=privpub]{privat/öffentlich stellen}
+        \end{umlsystem}
+
+        % Actors
+        \umlactor[y=-8]{user}
+        \umlactor[x=14, y=-8]{server}
+        
+        % Associations
+        \umlassoc[geometry=|-]{user}{edit}
+        \umlassoc[geometry=|-]{user}{overview}
+        \umlextend{create}{edit}
+        \umlextend{delete}{edit}
+        \umlextend{privpub}{edit}
+        \umlextend{order}{edit}
+        \umlextend{system}{edit}
+        \umlextend{filter}{overview}
+        \umlextend{sort}{overview}
+        \umlassoc{select}{overview}
+        \umlinclude{select}{edit}
+        \umlinclude{select}{testing}
+        \umlinclude{select}{export}
+        \umlassoc{progress}{overview}
+        \umlassoc{poly}{overview}
+        \umlassoc{server}{privpub}
+        
+    \end{tikzpicture}
+\end{center}
+

@@ -1,0 +1,54 @@
+\large{Karteikarten UML Case Diagramm}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{umlsystem}[x=4, fill=red!10]{\systemname}
+            \umlusecase[x=0, y=-6, width=1.5cm, name=createcard]{Neue Karte erstellen}
+            \umlusecase[x=0, y=-12, width=1.5cm, name=editcard]{Karte bearbeiten}
+	    \umlusecase[x=0, y=-17.0, width=1.5cm, name=deletecard]{Karte löschen}
+            \umlusecase[x=5 	, y=-8, width=1.5cm, name=cardtype]{Kartentyp auswählen}
+            \umlusecase[x=5 , y=-11.0, width=1.5cm, name=takeinput]{Karte Informationen nehmen}
+            \umlusecase[x=5 , y=-13.0, width=1.5cm, name=tag]{Schlagwort hinzufügen}
+	    \umlusecase[x=5 , y=-15.0, width=1.5cm, name=bewertung]{Karte bewerten}	
+            \umlusecase[x=10, y=-5, width=1.5cm, name=multiplechoicetest]{Ankreuztest}
+ 	    \umlusecase[x=5, y=-5, width=1.5cm, name=kategorie]{Kategorie wählen}
+            \umlusecase[x=10, y=-7, width=1.5cm, name=truefalsetest]{Wahr/Falsch Test}
+            \umlusecase[x=10, y=-9, width=1.5cm, name=texttest]{Texteingabe Test}
+	    \umlusecase[x=10, y=-11, width=2cm, name=imagetest]{Bild Test}
+            \umlusecase[x=10, y=-13, width=2cm, name=3dtest]{Bildbeschreibung Test}
+            \umlusecase[x=10, y=-15.0, width=1.5cm, name=audiotest]{Audio Test}
+
+        \end{umlsystem}
+
+        % Actors
+        \umlactor[y=-6]{Benutzer}
+        \umlactor[x=17.5, y=-6]{\servername}
+
+        % Card Related
+       %% \umlVHextend{editcard}{exportcard}
+
+	\umlextend{tag}{createcard}
+	\umlextend{tag}{editcard}
+	\umlinclude{createcard}{cardtype}
+        \umlinclude{createcard}{kategorie}
+	\umlinclude{createcard}{takeinput}
+	\umlextend{bewertung}{editcard}
+        \umlextend{cardtype}{editcard}
+	\umlextend{takeinput}{editcard}
+        \umlinherit{cardtype}{multiplechoicetest}
+        \umlinherit{cardtype}{truefalsetest}
+        \umlinherit{cardtype}{texttest}
+        \umlinherit{cardtype}{imagetest}
+	\umlinherit{cardtype}{3dtest}
+	\umlinherit{cardtype}{audiotest}
+	\umlassoc[geometry=-|]{editcard}{\servername}
+        \umlassoc[geometry=-|]{createcard}{\servername}
+	\umlassoc[geometry=-|]{editcard}{User}
+        \umlassoc[geometry=-|]{createcard}{User}
+	\umlassoc[geometry=-|]{deletecard}{User}
+	\umlassoc[geometry=-|]{deletecard}{\servername}
+
+    \end{tikzpicture}
+\end{center}
+
+
+
