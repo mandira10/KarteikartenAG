@@ -37,7 +37,7 @@ Die Tag Klasse stellt alle aufgenommen Tags dar. Tags können auch kartenübergr
 Da es keine zwei Tags mit gleichem Namen geben soll, wird dafür equals in der Klasse überschrieben.
 \\
 \\
-\textbf{cardsToTag}\\
+\textbf{CardToTag}\\
 Ist eine Referenzklasse, die je Karte und Tag einen Eintrag enthält.\\
 Kann verwendet werden, um eine genaue Übersicht über die verwendeten Tags sowie deren 
 zugehörigen Karten (and viceversa) zu bekommen.\\
@@ -49,7 +49,7 @@ Die Klasse Kategorie stellt die Kategorien dar. Da diese in einer Polyhierarchie
 Da es keine zwei Kategorien mit gleichem Namen geben soll, wird dafür equals in der Klasse überschrieben.
 \\
 \\
-\textbf{cardsToCategory}\\
+\textbf{CardToCategory}\\
 Ist eine Referenzklasse, die je Karte und Kategorie einen Eintrag enthält. Kann verwendet werden, um eine genaue Übersicht über die verwendeten Kategorien sowie deren zugehörigen Karten (and viceversa) zu bekommen.
 Es gibt keine Setter für die Attribute Karte und Kategorie, da bei Änderungen neue Einträge erstellt werden.
 \\
@@ -58,7 +58,7 @@ Es gibt keine Setter für die Attribute Karte und Kategorie, da bei Änderungen 
 Das Deck besteht aus einer ID, einem zugewiesenem Namen und einer initialen Order. Auch hier kann die Sichtbarkeit des gesamten Kasten eingestellt werden. Da es keine zwei Decks mit gleichem Namen geben soll, wird dafür equals in der Klasse überschrieben.
 \\
 \\
-\textbf{decksToCards}\\
+\textbf{CardToDeck}\\
 Ist eine Referenzklasse, die je Karte und Deck einen Eintrag enthält.
 Kann verwendet werden, um eine genaue Übersicht über die verwendeten Decks sowie deren zugehörigen Karten (and viceversa) zu bekommen.
 Es gibt keine Setter für die Attribute Karte und Kategorie, da bei Änderungen neue Einträge erstellt werden.
@@ -78,5 +78,13 @@ dieser dient dazu, dass sich der Nutzer beim Server anmelden kann.
 \textbf{Settings}\\
 Jeder User hat eigene Einstellungen. Seine Spracheinstellung, seine Anzeigemodus und ServerPort und ServerAdresse werden darüber gespeichert.
 Zudem wird die Klasse Settings nur einmal initiiert, daher ist sie static und hat das Attribut SettingsInstance.
+
+\begin{landscape}
+    \thispagestyle{empty}
+    %\import{images/}{Datenmodell.pdf_tex}
+    %\input{datenmodell.pdf_tex}
+    \includepdf[pages={1},angle=90]{images/datenmodell.pdf}
+    %\includegraphics[scale=0.1]{images/datenmodell}
+\end{landscape}
 
 \end{document}

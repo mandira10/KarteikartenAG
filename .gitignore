@@ -1,5 +1,5 @@
 # LaTeX
-*.pdf
+swp-abgabe*.pdf
 *.aux
 *.bbl
 *.bcf
