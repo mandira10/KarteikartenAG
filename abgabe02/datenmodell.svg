@@ -10,28 +10,28 @@
         <path d="M541 -1023 L2451 -1023 L2451 130 L541 130 L541 -1023 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath3">
-        <path d="M1221 -706 L1221 -504 L1431 -504 L1431 -706 Z"/>
+        <path d="M1221 -706 L1221 -504 L1446 -504 L1446 -706 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath4">
         <path d="M1722 -706 L1722 -557 L1929 -557 L1929 -706 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath5">
-        <path d="M982 -241 L982 51 L1192 51 L1192 -241 Z"/>
+        <path d="M982 -241 L982 51 L1207 51 L1207 -241 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath6">
-        <path d="M1461 -241 L1461 51 L1679 51 L1679 -241 Z"/>
+        <path d="M1461 -241 L1461 51 L1686 51 L1686 -241 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath7">
-        <path d="M1461 -462 L1461 -297 L1679 -297 L1679 -462 Z"/>
+        <path d="M1461 -462 L1461 -297 L1686 -297 L1686 -462 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath8">
-        <path d="M982 -462 L982 -297 L1192 -297 L1192 -462 Z"/>
+        <path d="M982 -462 L982 -297 L1207 -297 L1207 -462 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath9">
-        <path d="M1221 -241 L1221 51 L1431 51 L1431 -241 Z"/>
+        <path d="M1221 -241 L1221 51 L1446 51 L1446 -241 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath10">
-        <path d="M1221 -462 L1221 -297 L1431 -297 L1431 -462 Z"/>
+        <path d="M1221 -462 L1221 -297 L1446 -297 L1446 -462 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath11">
         <path d="M1719 -462 L1719 -349 L1929 -349 L1929 -462 Z"/>
@@ -70,29 +70,32 @@
         <path d="M2147 -1007 L2147 -774 L2435 -774 L2435 -1007 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath23">
-        <path d="M1970 -607 L1970 -440 L2164 -440 L2164 -607 Z"/>
+        <path d="M556 -671 L556 -504 L766 -504 L766 -671 Z"/>
       </clipPath>
       <clipPath clipPathUnits="userSpaceOnUse" id="clipPath24">
-        <path d="M2219 -607 L2219 -362 L2429 -362 L2429 -607 Z"/>
+        <path d="M556 -433 L556 -188 L766 -188 L766 -433 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath25">
+        <path d="M-537.3808 137.7382 L-537.3808 -1772.2618 L615.6192 -1772.2618 L615.6192 137.7382 L-537.3808 137.7382 Z"/>
       </clipPath>
     </defs>
     <g fill="white" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="translate(-541,1023)" stroke="white">
       <rect x="541" width="1910" height="1153" y="-1023" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-541,1023)" stroke-linecap="butt">
-      <rect fill="none" x="1221.7619" width="210.2219" height="202.5804" y="-706.8754" clip-path="url(#clipPath2)"/>
-      <text x="1291.5145" xml:space="preserve" y="-691.0121" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none">&lt;&lt;abstract&gt;&gt;</text>
-      <text x="1312.0638" font-size="13px" y="-667.7006" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Card</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath3)" fill="none" x1="1222" x2="1430" y1="-659" y2="-659" stroke-miterlimit="10"/>
+      <rect fill="none" x="1221.7619" width="225.3256" height="202.5804" y="-706.8754" clip-path="url(#clipPath2)"/>
+      <text x="1299.0663" xml:space="preserve" y="-691.0121" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none">&lt;&lt;abstract&gt;&gt;</text>
+      <text x="1319.6156" font-size="13px" y="-667.7006" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Card</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath3)" fill="none" x1="1222" x2="1446" y1="-659" y2="-659" stroke-miterlimit="10"/>
       <text x="1226.762" xml:space="preserve" y="-644.0824" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none">+ iID : int  {readonly}</text>
       <text x="1226.762" xml:space="preserve" y="-630.6761" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none"># lCreationDate : long (epoch)</text>
-      <text x="1226.762" xml:space="preserve" y="-617.2699" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none"># oVisibility : Visibility</text>
+      <text x="1226.762" xml:space="preserve" y="-617.2699" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none"># bVisibility : boolean</text>
       <text x="1226.762" xml:space="preserve" y="-603.8636" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none"># iType : CardType</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath3)" fill="none" x1="1222" x2="1430" y1="-596" y2="-596" stroke-miterlimit="10"/>
+      <line stroke-linecap="square" clip-path="url(#clipPath3)" fill="none" x1="1222" x2="1446" y1="-596" y2="-596" stroke-miterlimit="10"/>
       <text x="1226.762" xml:space="preserve" y="-580.4574" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none">+ Card() : void</text>
       <text x="1226.762" xml:space="preserve" y="-567.0511" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none">+ getType() : CardType</text>
       <text x="1226.762" xml:space="preserve" y="-553.6449" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none">+ getCreationDate() : long</text>
-      <text x="1226.762" xml:space="preserve" y="-540.2386" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none">+ getVisibility() : Visibility</text>
+      <text x="1226.762" xml:space="preserve" y="-540.2386" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none">+ getVisibility() : boolean</text>
       <text x="1226.762" xml:space="preserve" y="-526.8324" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none">+ getContent() : String</text>
     </g>
     <g fill="rgb(255,204,153)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-541,1023)" stroke="rgb(255,204,153)">
@@ -110,69 +113,69 @@
       <text x="1727.0745" xml:space="preserve" y="-590.4574" clip-path="url(#clipPath4)" font-family="sans-serif" stroke="none">+ TEXT : int</text>
       <text x="1727.0745" xml:space="preserve" y="-577.0511" clip-path="url(#clipPath4)" font-family="sans-serif" stroke="none">+ AUDIO : int</text>
       <line stroke-linecap="square" clip-path="url(#clipPath4)" fill="none" x1="1723" x2="1928" y1="-569" y2="-569" stroke-miterlimit="10"/>
-      <rect fill="none" x="982.3803" width="210.2219" height="292.7724" y="-241.1063" clip-path="url(#clipPath2)"/>
-      <text x="1075.9353" font-size="13px" y="-224.3378" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Tag</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath5)" fill="none" x1="983" x2="1191" y1="-216" y2="-216" stroke-miterlimit="10"/>
+      <rect fill="none" x="982.3803" width="225.3256" height="292.7724" y="-241.1063" clip-path="url(#clipPath2)"/>
+      <text x="1083.4872" font-size="13px" y="-224.3378" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Tag</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath5)" fill="none" x1="983" x2="1206" y1="-216" y2="-216" stroke-miterlimit="10"/>
       <text x="987.3802" xml:space="preserve" y="-200.7196" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none">- iID : int {readonly}</text>
       <text x="987.3802" xml:space="preserve" y="-187.3134" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none">- sName : String</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath5)" fill="none" x1="983" x2="1191" y1="-179" y2="-179" stroke-miterlimit="10"/>
+      <line stroke-linecap="square" clip-path="url(#clipPath5)" fill="none" x1="983" x2="1206" y1="-179" y2="-179" stroke-miterlimit="10"/>
       <text x="987.3802" xml:space="preserve" y="-163.9071" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none">+ Tag(String)</text>
       <text x="987.3802" xml:space="preserve" y="-150.5009" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none">+ getID() : int</text>
       <text x="987.3802" xml:space="preserve" y="-137.0946" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none">+ getName() : String</text>
       <text x="987.3802" xml:space="preserve" y="-123.6884" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none">+ setName(String) : void</text>
       <text x="987.3802" xml:space="preserve" y="-110.2821" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none">+ equals(Tag) : boolean</text>
-      <rect fill="none" x="1461.1436" width="218.4269" height="292.7724" y="-241.1063" clip-path="url(#clipPath2)"/>
-      <text x="1554.818" font-size="13px" y="-224.3378" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Deck</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath6)" fill="none" x1="1462" x2="1678" y1="-216" y2="-216" stroke-miterlimit="10"/>
+      <rect fill="none" x="1461.1436" width="225.3256" height="292.7724" y="-241.1063" clip-path="url(#clipPath2)"/>
+      <text x="1558.2673" font-size="13px" y="-224.3378" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Deck</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath6)" fill="none" x1="1462" x2="1685" y1="-216" y2="-216" stroke-miterlimit="10"/>
       <text x="1466.1436" xml:space="preserve" y="-200.7196" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">- iID : int {readonly}</text>
       <text x="1466.1436" xml:space="preserve" y="-187.3134" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">- sName : String</text>
       <text x="1466.1436" xml:space="preserve" y="-173.9071" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">- oStudySystem: System</text>
       <text x="1466.1436" xml:space="preserve" y="-160.5009" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">- oInitialOrder : CardOrder</text>
-      <text x="1466.1436" xml:space="preserve" y="-147.0946" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">- oVisibility : Visibility</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath6)" fill="none" x1="1462" x2="1678" y1="-139" y2="-139" stroke-miterlimit="10"/>
+      <text x="1466.1436" xml:space="preserve" y="-147.0946" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">- bVisibility : boolean</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath6)" fill="none" x1="1462" x2="1685" y1="-139" y2="-139" stroke-miterlimit="10"/>
       <text x="1466.1436" xml:space="preserve" y="-123.6884" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">+ Deck(String, StudySystem, CardOrder)</text>
       <text x="1466.1436" xml:space="preserve" y="-110.2821" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">+ getID() : int</text>
       <text x="1466.1436" xml:space="preserve" y="-96.8759" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">+ getName() : String</text>
-      <text x="1466.1436" xml:space="preserve" y="-83.4696" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">+ getVisibility() : Visibility</text>
+      <text x="1466.1436" xml:space="preserve" y="-83.4696" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">+ getVisibility() : boolean</text>
       <text x="1466.1436" xml:space="preserve" y="-70.0634" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">+ getInitialOrder() : CardOrder</text>
       <text x="1466.1436" xml:space="preserve" y="-56.6571" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">+ getStudySystem() : System</text>
       <text x="1466.1436" xml:space="preserve" y="-43.2509" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">+ setName(String) : void</text>
       <text x="1466.1436" xml:space="preserve" y="-29.8446" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none">+ equals(Deck) : boolean</text>
     </g>
     <g fill="rgb(204,255,204)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-541,1023)" stroke="rgb(204,255,204)">
-      <rect x="1461.1436" width="218.4269" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)" stroke="none"/>
+      <rect x="1461.1436" width="225.3256" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-541,1023)" stroke-linecap="butt">
-      <rect fill="none" x="1461.1436" width="218.4269" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)"/>
-      <text x="1532.068" font-size="13px" y="-445.6823" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">CardToDeck</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath7)" fill="none" x1="1462" x2="1678" y1="-437" y2="-437" stroke-miterlimit="10"/>
+      <rect fill="none" x="1461.1436" width="225.3256" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)"/>
+      <text x="1535.5173" font-size="13px" y="-445.6823" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">CardToDeck</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath7)" fill="none" x1="1462" x2="1685" y1="-437" y2="-437" stroke-miterlimit="10"/>
       <text x="1466.1436" xml:space="preserve" y="-422.0641" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none">+ oCard : Card {readonly}</text>
       <text x="1466.1436" xml:space="preserve" y="-408.6579" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none">+ oDeck : Deck {readonly}</text>
       <text x="1466.1436" xml:space="preserve" y="-395.2516" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none">- iStatus : CardStatus</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath7)" fill="none" x1="1462" x2="1678" y1="-387" y2="-387" stroke-miterlimit="10"/>
+      <line stroke-linecap="square" clip-path="url(#clipPath7)" fill="none" x1="1462" x2="1685" y1="-387" y2="-387" stroke-miterlimit="10"/>
       <text x="1466.1436" xml:space="preserve" y="-371.8454" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none">+ CardToDeck(Card, Deck)</text>
       <text x="1466.1436" xml:space="preserve" y="-358.4391" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none">+ getStatus() : CardStatus</text>
       <text x="1466.1436" xml:space="preserve" y="-345.0329" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none">+ setStatus(CardStatus) : void</text>
     </g>
     <g fill="rgb(204,255,204)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-541,1023)" stroke="rgb(204,255,204)">
-      <rect x="982.3803" width="210.2219" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)" stroke="none"/>
+      <rect x="982.3803" width="225.3256" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-541,1023)" stroke-linecap="butt">
-      <rect fill="none" x="982.3803" width="210.2219" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)"/>
-      <text x="1053.1853" font-size="13px" y="-445.6823" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">CardToTag</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath8)" fill="none" x1="983" x2="1191" y1="-437" y2="-437" stroke-miterlimit="10"/>
+      <rect fill="none" x="982.3803" width="225.3256" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)"/>
+      <text x="1060.7372" font-size="13px" y="-445.6823" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">CardToTag</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath8)" fill="none" x1="983" x2="1206" y1="-437" y2="-437" stroke-miterlimit="10"/>
       <text x="987.3802" xml:space="preserve" y="-422.0641" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none">+ oCard : Card {readonly}</text>
       <text x="987.3802" xml:space="preserve" y="-408.6579" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none">+ oTag : Tag {readonly}</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath8)" fill="none" x1="983" x2="1191" y1="-401" y2="-401" stroke-miterlimit="10"/>
+      <line stroke-linecap="square" clip-path="url(#clipPath8)" fill="none" x1="983" x2="1206" y1="-401" y2="-401" stroke-miterlimit="10"/>
       <text x="987.3802" xml:space="preserve" y="-385.2516" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none">+ CardToTag(Card, Tag)</text>
-      <rect fill="none" x="1221.7619" width="210.2219" height="292.7724" y="-241.1063" clip-path="url(#clipPath2)"/>
-      <text x="1298.6989" font-size="13px" y="-224.3378" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Category</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath9)" fill="none" x1="1222" x2="1430" y1="-216" y2="-216" stroke-miterlimit="10"/>
+      <rect fill="none" x="1221.7619" width="225.3256" height="292.7724" y="-241.1063" clip-path="url(#clipPath2)"/>
+      <text x="1306.2506" font-size="13px" y="-224.3378" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Category</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath9)" fill="none" x1="1222" x2="1446" y1="-216" y2="-216" stroke-miterlimit="10"/>
       <text x="1226.762" xml:space="preserve" y="-200.7196" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none">- iID : int {readonly}</text>
       <text x="1226.762" xml:space="preserve" y="-187.3134" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none">- sName : String</text>
       <text x="1226.762" xml:space="preserve" y="-173.9071" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none">- aParents : Category[ ]</text>
       <text x="1226.762" xml:space="preserve" y="-160.5009" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none">- aChildren : Category[ ]</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath9)" fill="none" x1="1222" x2="1430" y1="-152" y2="-152" stroke-miterlimit="10"/>
+      <line stroke-linecap="square" clip-path="url(#clipPath9)" fill="none" x1="1222" x2="1446" y1="-152" y2="-152" stroke-miterlimit="10"/>
       <text x="1226.762" xml:space="preserve" y="-137.0946" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none">+ Category(String)</text>
       <text x="1226.762" xml:space="preserve" y="-123.6884" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none">+ Category(String, </text>
       <text x="1226.762" xml:space="preserve" y="-110.2821" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none">                  Category[ ])</text>
@@ -189,15 +192,15 @@
       <text x="1226.762" xml:space="preserve" y="37.1866" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none">+ equals(Category) : boolean</text>
     </g>
     <g fill="rgb(204,255,204)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-541,1023)" stroke="rgb(204,255,204)">
-      <rect x="1221.7619" width="210.2219" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)" stroke="none"/>
+      <rect x="1221.7619" width="225.3256" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-541,1023)" stroke-linecap="butt">
-      <rect fill="none" x="1221.7619" width="210.2219" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)"/>
-      <text x="1275.9489" font-size="13px" y="-445.6823" clip-path="url(#clipPath10)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">CardToCategory</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath10)" fill="none" x1="1222" x2="1430" y1="-437" y2="-437" stroke-miterlimit="10"/>
+      <rect fill="none" x="1221.7619" width="225.3256" height="165.4924" y="-462.4509" clip-path="url(#clipPath2)"/>
+      <text x="1283.5006" font-size="13px" y="-445.6823" clip-path="url(#clipPath10)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">CardToCategory</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath10)" fill="none" x1="1222" x2="1446" y1="-437" y2="-437" stroke-miterlimit="10"/>
       <text x="1226.762" xml:space="preserve" y="-422.0641" clip-path="url(#clipPath10)" font-family="sans-serif" stroke="none">+ oCard : Card {readonly}</text>
       <text x="1226.762" xml:space="preserve" y="-408.6579" clip-path="url(#clipPath10)" font-family="sans-serif" stroke="none">+ oCategory : Category {readonly}</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath10)" fill="none" x1="1222" x2="1430" y1="-401" y2="-401" stroke-miterlimit="10"/>
+      <line stroke-linecap="square" clip-path="url(#clipPath10)" fill="none" x1="1222" x2="1446" y1="-401" y2="-401" stroke-miterlimit="10"/>
       <text x="1226.762" xml:space="preserve" y="-385.2516" clip-path="url(#clipPath10)" font-family="sans-serif" stroke="none">+ CardToCategory(Card, Category)</text>
     </g>
     <g fill="rgb(255,204,153)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,-541,1023)" stroke="rgb(255,204,153)">
@@ -256,7 +259,7 @@
       <text x="561.06" xml:space="preserve" y="-966.9132" clip-path="url(#clipPath17)" font-family="sans-serif" stroke="none">- sQuestion : String</text>
       <text x="561.06" xml:space="preserve" y="-953.507" clip-path="url(#clipPath17)" font-family="sans-serif" stroke="none">- bAnswer : boolean</text>
       <line stroke-linecap="square" clip-path="url(#clipPath17)" fill="none" x1="557" x2="843" y1="-945" y2="-945" stroke-miterlimit="10"/>
-      <text x="561.06" xml:space="preserve" y="-930.1007" clip-path="url(#clipPath17)" font-family="sans-serif" stroke="none">+ TrueFalseCard(String, boolean, Visibility)</text>
+      <text x="561.06" xml:space="preserve" y="-930.1007" clip-path="url(#clipPath17)" font-family="sans-serif" stroke="none">+ TrueFalseCard(String, boolean, boolean)</text>
       <text x="561.06" xml:space="preserve" y="-916.6945" clip-path="url(#clipPath17)" font-family="sans-serif" stroke="none">+ getQuestion(): String</text>
       <text x="561.06" xml:space="preserve" y="-903.2882" clip-path="url(#clipPath17)" font-family="sans-serif" stroke="none">+ getAnswer(): boolean</text>
       <text x="561.06" xml:space="preserve" y="-889.882" clip-path="url(#clipPath17)" font-family="sans-serif" stroke="none">+ setQuestion(String): void</text>
@@ -268,20 +271,20 @@
       <text x="879.2819" xml:space="preserve" y="-953.507" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">- oAnswer : Texture</text>
       <text x="879.2819" xml:space="preserve" y="-940.1007" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">- bSwapQA : boolean</text>
       <line stroke-linecap="square" clip-path="url(#clipPath18)" fill="none" x1="875" x2="1161" y1="-932" y2="-932" stroke-miterlimit="10"/>
-      <text x="879.2819" xml:space="preserve" y="-916.6945" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">+ ImageTestCard(String, Texture, boolean, Visibility)</text>
+      <text x="879.2819" xml:space="preserve" y="-916.6945" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">+ ImageTestCard(String, Texture, boolean, boolean)</text>
       <text x="879.2819" xml:space="preserve" y="-903.2882" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">+ getQuestion(): String</text>
       <text x="879.2819" xml:space="preserve" y="-889.882" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">+ getAnswer(): Texture</text>
       <text x="879.2819" xml:space="preserve" y="-876.4757" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">+ getQAswap(): boolean</text>
       <text x="879.2819" xml:space="preserve" y="-863.0695" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">+ setQuestion(String): void</text>
       <text x="879.2819" xml:space="preserve" y="-849.6632" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">+ setAnswer(Texture): void</text>
-      <text x="879.2819" xml:space="preserve" y="-836.257" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">+ setQAswap(boolean</text>
+      <text x="879.2819" xml:space="preserve" y="-836.257" clip-path="url(#clipPath18)" font-family="sans-serif" stroke="none">+ setQAswap(boolean) : void</text>
       <rect fill="none" x="1192.5039" width="288.2219" height="233.4924" y="-1007.2999" clip-path="url(#clipPath2)"/>
       <text x="1267.2635" font-size="13px" y="-990.5314" clip-path="url(#clipPath19)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">ImageDescriptionCard</text>
       <line stroke-linecap="square" clip-path="url(#clipPath19)" fill="none" x1="1193" x2="1479" y1="-982" y2="-982" stroke-miterlimit="10"/>
       <text x="1197.5039" xml:space="preserve" y="-966.9132" clip-path="url(#clipPath19)" font-family="sans-serif" stroke="none">- oImage : Texture</text>
       <text x="1197.5039" xml:space="preserve" y="-953.507" clip-path="url(#clipPath19)" font-family="sans-serif" stroke="none">- sAnswer : String</text>
       <line stroke-linecap="square" clip-path="url(#clipPath19)" fill="none" x1="1193" x2="1479" y1="-945" y2="-945" stroke-miterlimit="10"/>
-      <text x="1197.5039" xml:space="preserve" y="-930.1007" clip-path="url(#clipPath19)" font-family="sans-serif" stroke="none">+ ImageDescriptionCard(Texture, String, Visibility)</text>
+      <text x="1197.5039" xml:space="preserve" y="-930.1007" clip-path="url(#clipPath19)" font-family="sans-serif" stroke="none">+ ImageDescriptionCard(Texture, String, boolean)</text>
       <text x="1197.5039" xml:space="preserve" y="-916.6945" clip-path="url(#clipPath19)" font-family="sans-serif" stroke="none">+ getImage(): Texture</text>
       <text x="1197.5039" xml:space="preserve" y="-903.2882" clip-path="url(#clipPath19)" font-family="sans-serif" stroke="none">+ getAnswer(): String</text>
       <text x="1197.5039" xml:space="preserve" y="-889.882" clip-path="url(#clipPath19)" font-family="sans-serif" stroke="none">+ setImage(Texture): void</text>
@@ -293,7 +296,7 @@
       <text x="1515.7258" xml:space="preserve" y="-953.507" clip-path="url(#clipPath20)" font-family="sans-serif" stroke="none">- saAnswers : String[ ]</text>
       <text x="1515.7258" xml:space="preserve" y="-940.1007" clip-path="url(#clipPath20)" font-family="sans-serif" stroke="none">- iaCorrectAnswers : int[ ]</text>
       <line stroke-linecap="square" clip-path="url(#clipPath20)" fill="none" x1="1511" x2="1797" y1="-932" y2="-932" stroke-miterlimit="10"/>
-      <text x="1515.7258" xml:space="preserve" y="-916.6945" clip-path="url(#clipPath20)" font-family="sans-serif" stroke="none">+ MultipleChoiceCard(String, String[ ], int[ ], Visibility)</text>
+      <text x="1515.7258" xml:space="preserve" y="-916.6945" clip-path="url(#clipPath20)" font-family="sans-serif" stroke="none">+ MultipleChoiceCard(String, String[ ], int[ ], boolean)</text>
       <text x="1515.7258" xml:space="preserve" y="-903.2882" clip-path="url(#clipPath20)" font-family="sans-serif" stroke="none">+ getQuestion(): String</text>
       <text x="1515.7258" xml:space="preserve" y="-889.882" clip-path="url(#clipPath20)" font-family="sans-serif" stroke="none">+ getAnwers(): String[]</text>
       <text x="1515.7258" xml:space="preserve" y="-876.4757" clip-path="url(#clipPath20)" font-family="sans-serif" stroke="none">+ getCorrectA(): int[]</text>
@@ -306,7 +309,7 @@
       <text x="1833.9478" xml:space="preserve" y="-966.9132" clip-path="url(#clipPath21)" font-family="sans-serif" stroke="none">- sQuestion : String</text>
       <text x="1833.9478" xml:space="preserve" y="-953.507" clip-path="url(#clipPath21)" font-family="sans-serif" stroke="none">- sAnswer : String</text>
       <line stroke-linecap="square" clip-path="url(#clipPath21)" fill="none" x1="1829" x2="2116" y1="-945" y2="-945" stroke-miterlimit="10"/>
-      <text x="1833.9478" xml:space="preserve" y="-930.1007" clip-path="url(#clipPath21)" font-family="sans-serif" stroke="none">+ TextCard(String, String, Visibility)</text>
+      <text x="1833.9478" xml:space="preserve" y="-930.1007" clip-path="url(#clipPath21)" font-family="sans-serif" stroke="none">+ TextCard(String, String, boolean)</text>
       <text x="1833.9478" xml:space="preserve" y="-916.6945" clip-path="url(#clipPath21)" font-family="sans-serif" stroke="none">+ getQuestion(): String</text>
       <text x="1833.9478" xml:space="preserve" y="-903.2882" clip-path="url(#clipPath21)" font-family="sans-serif" stroke="none">+ getAnswer(): String</text>
       <text x="1833.9478" xml:space="preserve" y="-889.882" clip-path="url(#clipPath21)" font-family="sans-serif" stroke="none">+ setQuestion(String: void</text>
@@ -318,69 +321,70 @@
       <text x="2152.1697" xml:space="preserve" y="-953.507" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">- sAnswer : String</text>
       <text x="2152.1697" xml:space="preserve" y="-940.1007" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">- bSwapQA : boolean</text>
       <line stroke-linecap="square" clip-path="url(#clipPath22)" fill="none" x1="2148" x2="2434" y1="-932" y2="-932" stroke-miterlimit="10"/>
-      <text x="2152.1697" xml:space="preserve" y="-916.6945" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">+ AudioCard(AudioFile, String, boolean, Visibility)</text>
+      <text x="2152.1697" xml:space="preserve" y="-916.6945" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">+ AudioCard(AudioFile, String, boolean, boolean)</text>
       <text x="2152.1697" xml:space="preserve" y="-903.2882" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">+ getQuestion(): File</text>
       <text x="2152.1697" xml:space="preserve" y="-889.882" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">+ getAnswer(): String</text>
       <text x="2152.1697" xml:space="preserve" y="-876.4757" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">+ getQAswap(): boolean</text>
       <text x="2152.1697" xml:space="preserve" y="-863.0695" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">+ setQuestion(File): void</text>
       <text x="2152.1697" xml:space="preserve" y="-849.6632" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">+ setAnswer(String): void</text>
       <text x="2152.1697" xml:space="preserve" y="-836.257" clip-path="url(#clipPath22)" font-family="sans-serif" stroke="none">+ setQAswap(boolean)</text>
-      <rect fill="none" x="1970.8726" width="194.1528" height="167.1677" y="-607.6089" clip-path="url(#clipPath2)"/>
-      <text x="2053.4954" font-size="13px" y="-590.8403" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">User</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath23)" fill="none" x1="1971" x2="2164" y1="-583" y2="-583" stroke-miterlimit="10"/>
-      <text x="1975.8727" xml:space="preserve" y="-567.2221" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">+ iID : int {readonly}</text>
-      <text x="1975.8727" xml:space="preserve" y="-553.8159" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">- sName : String</text>
-      <text x="1975.8727" xml:space="preserve" y="-540.4096" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">- sPassHash : String (Server)</text>
-      <text x="1975.8727" xml:space="preserve" y="-527.0034" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">- sSessionID : String</text>
-      <text x="1975.8727" xml:space="preserve" y="-513.5971" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">- bAuthenticated : boolean (Server)</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath23)" fill="none" x1="1971" x2="2164" y1="-506" y2="-506" stroke-miterlimit="10"/>
-      <text x="1975.8727" xml:space="preserve" y="-490.1909" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">+ User(String)</text>
-      <text x="1975.8727" xml:space="preserve" y="-476.7846" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">+ getName() : String</text>
-      <text x="1975.8727" xml:space="preserve" y="-463.3784" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">+ getSessionID() : String (Server)</text>
-      <rect fill="none" x="2219.3416" width="210.2219" height="245.9004" y="-607.6089" clip-path="url(#clipPath2)"/>
-      <text x="2298.8113" font-size="13px" y="-590.8403" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Settings</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath24)" fill="none" x1="2220" x2="2428" y1="-583" y2="-583" stroke-miterlimit="10"/>
-      <text x="2224.3416" xml:space="preserve" y="-567.2221" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- sLanguage : String</text>
-      <text x="2224.3416" xml:space="preserve" y="-553.8159" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- bDarkTheme : boolean</text>
-      <text x="2224.3416" xml:space="preserve" y="-540.4096" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- sServerAddress : String</text>
-      <text x="2224.3416" xml:space="preserve" y="-527.0034" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- iServerPort : int</text>
-      <text x="2224.3416" xml:space="preserve" y="-513.5971" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- oSettingsInstance : Settings {static}</text>
-      <line stroke-linecap="square" clip-path="url(#clipPath24)" fill="none" x1="2220" x2="2428" y1="-506" y2="-506" stroke-miterlimit="10"/>
-      <text x="2224.3416" xml:space="preserve" y="-490.1909" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- Settings()</text>
-      <text x="2224.3416" xml:space="preserve" y="-476.7846" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ getInstance() : Settings {static}</text>
-      <text x="2224.3416" xml:space="preserve" y="-463.3784" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ getLanguage() : String</text>
-      <text x="2224.3416" xml:space="preserve" y="-449.9721" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ isDarkTheme() : boolean</text>
-      <text x="2224.3416" xml:space="preserve" y="-436.5659" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ getServerAddress() : String</text>
-      <text x="2224.3416" xml:space="preserve" y="-423.1596" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ getServerPort() : int</text>
-      <text x="2224.3416" xml:space="preserve" y="-409.7534" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ setLanguage(String) : void</text>
-      <text x="2224.3416" xml:space="preserve" y="-396.3471" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ setDarkTheme(boolean) : void</text>
-      <text x="2224.3416" xml:space="preserve" y="-382.9409" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ setServerAddress(String) : void</text>
-      <text x="2224.3416" xml:space="preserve" y="-369.5346" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ setServerPort(int) : void</text>
-      <path fill="none" d="M1722.0854 -632.2387 L1431.9684 -632.2387" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M1439.0002 -605.5852 L1570.3571 -605.5852 L1570.3571 -462.4521" clip-path="url(#clipPath2)"/>
-      <path d="M1432.0002 -605.5852 L1439.0002 -610.5852 L1446.0002 -605.5852 L1439.0002 -600.5852 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="1444.1089" xml:space="preserve" y="-612.1282" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
-      <path fill="none" d="M1570.3571 -296.9437 L1570.3571 -248.1051" clip-path="url(#clipPath2)"/>
-      <path d="M1570.3571 -241.1051 L1565.3571 -248.1051 L1570.3571 -255.1051 L1575.3571 -248.1051 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="1559.4833" xml:space="preserve" y="-255.7743" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
-      <path fill="none" d="M1087.4912 -248.0739 L1087.4912 -296.9526" clip-path="url(#clipPath2)"/>
-      <path d="M1087.4912 -241.0739 L1082.4912 -248.0739 L1087.4912 -255.0739 L1092.4912 -248.0739 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="1076.8174" xml:space="preserve" y="-255.7743" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
-      <path fill="none" d="M1214.7635 -605.5852 L1087.4912 -605.5852 L1087.4912 -462.4521" clip-path="url(#clipPath2)"/>
-      <path d="M1221.7635 -605.5852 L1214.7635 -600.5852 L1207.7635 -605.5852 L1214.7635 -610.5852 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <rect fill="none" x="556.06" width="210.2219" height="167.1677" y="-671.4627" clip-path="url(#clipPath2)"/>
+      <text x="646.7173" font-size="13px" y="-654.6942" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">User</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath23)" fill="none" x1="557" x2="765" y1="-646" y2="-646" stroke-miterlimit="10"/>
+      <text x="561.06" xml:space="preserve" y="-631.076" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">+ iID : int {readonly}</text>
+      <text x="561.06" xml:space="preserve" y="-617.6697" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">- sName : String</text>
+      <text x="561.06" xml:space="preserve" y="-604.2635" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">- sPassHash : String (Server)</text>
+      <text x="561.06" xml:space="preserve" y="-590.8572" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">- sSessionID : String</text>
+      <text x="561.06" xml:space="preserve" y="-577.451" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">- bAuthenticated : boolean (Server)</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath23)" fill="none" x1="557" x2="765" y1="-569" y2="-569" stroke-miterlimit="10"/>
+      <text x="561.06" xml:space="preserve" y="-554.0447" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">+ User(String)</text>
+      <text x="561.06" xml:space="preserve" y="-540.6385" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">+ getName() : String</text>
+      <text x="561.06" xml:space="preserve" y="-527.2322" clip-path="url(#clipPath23)" font-family="sans-serif" stroke="none">+ getSessionID() : String (Server)</text>
+      <rect fill="none" x="556.06" width="210.2219" height="245.9004" y="-433.2297" clip-path="url(#clipPath2)"/>
+      <text x="635.5296" font-size="13px" y="-416.4612" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none" font-weight="bold" xml:space="preserve">Settings</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath24)" fill="none" x1="557" x2="765" y1="-408" y2="-408" stroke-miterlimit="10"/>
+      <text x="561.06" xml:space="preserve" y="-392.843" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- sLanguage : String</text>
+      <text x="561.06" xml:space="preserve" y="-379.4367" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- bDarkTheme : boolean</text>
+      <text x="561.06" xml:space="preserve" y="-366.0305" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- sServerAddress : String</text>
+      <text x="561.06" xml:space="preserve" y="-352.6242" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- iServerPort : int</text>
+      <text x="561.06" xml:space="preserve" y="-339.218" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- oSettingsInstance : Settings {static}</text>
+      <line stroke-linecap="square" clip-path="url(#clipPath24)" fill="none" x1="557" x2="765" y1="-331" y2="-331" stroke-miterlimit="10"/>
+      <text x="561.06" xml:space="preserve" y="-315.8117" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">- Settings()</text>
+      <text x="561.06" xml:space="preserve" y="-302.4055" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ getInstance() : Settings {static}</text>
+      <text x="561.06" xml:space="preserve" y="-288.9992" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ getLanguage() : String</text>
+      <text x="561.06" xml:space="preserve" y="-275.593" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ isDarkTheme() : boolean</text>
+      <text x="561.06" xml:space="preserve" y="-262.1867" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ getServerAddress() : String</text>
+      <text x="561.06" xml:space="preserve" y="-248.7805" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ getServerPort() : int</text>
+      <text x="561.06" xml:space="preserve" y="-235.3742" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ setLanguage(String) : void</text>
+      <text x="561.06" xml:space="preserve" y="-221.968" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ setDarkTheme(boolean) : void</text>
+      <text x="561.06" xml:space="preserve" y="-208.5617" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ setServerAddress(String) : void</text>
+      <text x="561.06" xml:space="preserve" y="-195.1555" clip-path="url(#clipPath24)" font-family="sans-serif" stroke="none">+ setServerPort(int) : void</text>
+      <path fill="none" d="M1722.0872 -632.2387 L1447.0654 -632.2387" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M1454.0732 -605.5852 L1573.8064 -605.5852 L1573.8064 -462.4521" clip-path="url(#clipPath2)"/>
+      <path d="M1447.0732 -605.5852 L1454.0732 -610.5852 L1461.0732 -605.5852 L1454.0732 -600.5852 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="1459.2125" xml:space="preserve" y="-612.1282" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
+      <path fill="none" d="M1573.8064 -296.9437 L1573.8064 -248.1051" clip-path="url(#clipPath2)"/>
+      <path d="M1573.8064 -241.1051 L1568.8064 -248.1051 L1573.8064 -255.1051 L1578.8064 -248.1051 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="1562.9326" xml:space="preserve" y="-255.7743" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
+      <path fill="none" d="M1095.0431 -248.0739 L1095.0431 -296.9526" clip-path="url(#clipPath2)"/>
+      <path d="M1095.0431 -241.0739 L1090.0431 -248.0739 L1095.0431 -255.0739 L1100.0431 -248.0739 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="1084.3693" xml:space="preserve" y="-255.7743" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
+      <path fill="none" d="M1214.7762 -605.5852 L1095.0431 -605.5852 L1095.0431 -462.4521" clip-path="url(#clipPath2)"/>
+      <path d="M1221.7762 -605.5852 L1214.7762 -600.5852 L1207.7762 -605.5852 L1214.7762 -610.5852 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="1202.9631" xml:space="preserve" y="-612.1282" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
-      <path fill="none" d="M1326.8729 -248.0739 L1326.8729 -296.9526" clip-path="url(#clipPath2)"/>
-      <path d="M1326.8729 -241.0739 L1321.8729 -248.0739 L1326.8729 -255.0739 L1331.8729 -248.0739 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="1316.1991" xml:space="preserve" y="-255.7743" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
-      <path fill="none" d="M1326.8729 -497.3084 L1326.8729 -462.4798" clip-path="url(#clipPath2)"/>
-      <path d="M1326.8729 -504.3084 L1331.8729 -497.3084 L1326.8729 -490.3084 L1321.8729 -497.3084 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="1316.1991" xml:space="preserve" y="-481.3067" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
-      <path fill="none" d="M1719.0455 -405.9392 L1679.5809 -405.9392" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M1968.6831 -94.7201 L1686.6147 -94.7201" clip-path="url(#clipPath2)"/>
-      <path d="M1679.6147 -94.7201 L1686.6147 -99.7201 L1693.6147 -94.7201 L1686.6147 -89.7201 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M1334.4247 -248.0739 L1334.4247 -296.9526" clip-path="url(#clipPath2)"/>
+      <path d="M1334.4247 -241.0739 L1329.4247 -248.0739 L1334.4247 -255.0739 L1339.4247 -248.0739 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="1323.7509" xml:space="preserve" y="-255.7743" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
+      <path fill="none" d="M1334.4247 -497.3084 L1334.4247 -462.4798" clip-path="url(#clipPath2)"/>
+      <path d="M1334.4247 -504.3084 L1339.4247 -497.3084 L1334.4247 -490.3084 L1329.4247 -497.3084 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="1323.7509" xml:space="preserve" y="-481.3067" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
+      <path fill="none" d="M1719.0161 -405.9392 L1686.4719 -405.9392" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M1968.6858 -94.7201 L1693.4569 -94.7201" clip-path="url(#clipPath2)"/>
+      <path d="M1686.4569 -94.7201 L1693.4569 -99.7201 L1700.4569 -94.7201 L1693.4569 -89.7201 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="1949.9108" xml:space="preserve" y="-101.2631" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
-      <text x="1691.6956" xml:space="preserve" y="-101.2631" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
-      <path fill="none" d="M1718.9982 -184.5947 L1679.5743 -184.5947" clip-path="url(#clipPath2)"/>
+      <text x="1698.5942" xml:space="preserve" y="-101.2631" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
+      <text x="1799.3966" xml:space="preserve" y="-80.9751" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">⏴ is part of</text>
+      <path fill="none" d="M1719.0414 -184.5947 L1686.4731 -184.5947" clip-path="url(#clipPath2)"/>
       <path fill="none" d="M2062.7871 -9.5009 L2062.7871 19.55 L2291.2808 19.55 L2291.2808 53.6726" clip-path="url(#clipPath2)"/>
       <path fill="white" d="M2062.7871 -24.5009 L2056.7871 -8.5009 L2068.7871 -8.5009 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <path fill="none" d="M2062.7871 -24.5009 L2056.7871 -8.5009 L2068.7871 -8.5009 Z" clip-path="url(#clipPath2)"/>
@@ -390,27 +394,30 @@
       <path fill="none" d="M2062.7871 -9.5009 L2062.7871 19.55 L1834.2935 19.55 L1834.2935 53.6726" clip-path="url(#clipPath2)"/>
       <path fill="white" d="M2062.7871 -24.5009 L2056.7871 -8.5009 L2068.7871 -8.5009 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <path fill="none" d="M2062.7871 -24.5009 L2056.7871 -8.5009 L2068.7871 -8.5009 Z" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M700.171 -773.8284 L700.171 -739.874 L1326.8729 -739.874 L1326.8729 -721.8591" clip-path="url(#clipPath2)"/>
-      <path fill="white" d="M1326.8729 -706.8591 L1332.8729 -722.8591 L1320.8729 -722.8591 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <path fill="none" d="M1326.8729 -706.8591 L1332.8729 -722.8591 L1320.8729 -722.8591 Z" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M1018.3929 -773.8284 L1018.3929 -739.874 L1326.8729 -739.874 L1326.8729 -721.8591" clip-path="url(#clipPath2)"/>
-      <path fill="white" d="M1326.8729 -706.8591 L1332.8729 -722.8591 L1320.8729 -722.8591 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <path fill="none" d="M1326.8729 -706.8591 L1332.8729 -722.8591 L1320.8729 -722.8591 Z" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M1351.3159 -773.7797 L1351.3159 -739.874 L1326.8729 -739.874 L1326.8729 -721.8875" clip-path="url(#clipPath2)"/>
-      <path fill="white" d="M1326.8729 -706.8875 L1332.8729 -722.8875 L1320.8729 -722.8875 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <path fill="none" d="M1326.8729 -706.8875 L1332.8729 -722.8875 L1320.8729 -722.8875 Z" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M1654.8368 -773.8284 L1654.8368 -739.874 L1326.8729 -739.874 L1326.8729 -721.8591" clip-path="url(#clipPath2)"/>
-      <path fill="white" d="M1326.8729 -706.8591 L1332.8729 -722.8591 L1320.8729 -722.8591 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <path fill="none" d="M1326.8729 -706.8591 L1332.8729 -722.8591 L1320.8729 -722.8591 Z" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M1973.0587 -773.8364 L1973.0587 -740.074 L1326.8729 -740.074 L1326.8729 -721.8787" clip-path="url(#clipPath2)"/>
-      <path fill="white" d="M1326.8729 -706.8787 L1332.8729 -722.8787 L1320.8729 -722.8787 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <path fill="none" d="M1326.8729 -706.8787 L1332.8729 -722.8787 L1320.8729 -722.8787 Z" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M2291.2808 -773.8284 L2291.2808 -739.874 L1326.8729 -739.874 L1326.8729 -721.8591" clip-path="url(#clipPath2)"/>
-      <path fill="white" d="M1326.8729 -706.8591 L1332.8729 -722.8591 L1320.8729 -722.8591 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <path fill="none" d="M1326.8729 -706.8591 L1332.8729 -722.8591 L1320.8729 -722.8591 Z" clip-path="url(#clipPath2)"/>
-      <path fill="none" d="M2219.3396 -524.025 L2172.0444 -524.025" clip-path="url(#clipPath2)"/>
-      <path d="M2165.0444 -524.025 L2172.0444 -529.025 L2179.0444 -524.025 L2172.0444 -519.025 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="2200.5427" xml:space="preserve" y="-530.568" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
+      <path fill="none" d="M700.171 -773.8284 L700.171 -739.874 L1334.4247 -739.874 L1334.4247 -721.8591" clip-path="url(#clipPath2)"/>
+      <path fill="white" d="M1334.4247 -706.8591 L1340.4247 -722.8591 L1328.4247 -722.8591 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M1334.4247 -706.8591 L1340.4247 -722.8591 L1328.4247 -722.8591 Z" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M1018.3929 -773.8284 L1018.3929 -739.874 L1334.4247 -739.874 L1334.4247 -721.8591" clip-path="url(#clipPath2)"/>
+      <path fill="white" d="M1334.4247 -706.8591 L1340.4247 -722.8591 L1328.4247 -722.8591 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M1334.4247 -706.8591 L1340.4247 -722.8591 L1328.4247 -722.8591 Z" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M1351.3159 -773.7797 L1351.3159 -739.874 L1334.4247 -739.874 L1334.4247 -721.8875" clip-path="url(#clipPath2)"/>
+      <path fill="white" d="M1334.4247 -706.8875 L1340.4247 -722.8875 L1328.4247 -722.8875 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M1334.4247 -706.8875 L1340.4247 -722.8875 L1328.4247 -722.8875 Z" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M1654.8368 -773.8284 L1654.8368 -739.874 L1334.4247 -739.874 L1334.4247 -721.8591" clip-path="url(#clipPath2)"/>
+      <path fill="white" d="M1334.4247 -706.8591 L1340.4247 -722.8591 L1328.4247 -722.8591 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M1334.4247 -706.8591 L1340.4247 -722.8591 L1328.4247 -722.8591 Z" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M1973.0587 -773.8364 L1973.0587 -740.074 L1334.4247 -740.074 L1334.4247 -721.8787" clip-path="url(#clipPath2)"/>
+      <path fill="white" d="M1334.4247 -706.8787 L1340.4247 -722.8787 L1328.4247 -722.8787 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M1334.4247 -706.8787 L1340.4247 -722.8787 L1328.4247 -722.8787 Z" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M2291.2808 -773.8284 L2291.2808 -739.874 L1334.4247 -739.874 L1334.4247 -721.8591" clip-path="url(#clipPath2)"/>
+      <path fill="white" d="M1334.4247 -706.8591 L1340.4247 -722.8591 L1328.4247 -722.8591 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M1334.4247 -706.8591 L1340.4247 -722.8591 L1328.4247 -722.8591 Z" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M661.171 -433.2762 L661.171 -497.2742" clip-path="url(#clipPath2)"/>
+      <path d="M661.171 -504.2742 L666.171 -497.2742 L661.171 -490.2742 L656.171 -497.2742 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="650.4971" xml:space="preserve" y="-447.8977" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">1</text>
+    </g>
+    <g text-rendering="geometricPrecision" stroke-miterlimit="1.45" shape-rendering="geometricPrecision" font-family="sans-serif" transform="matrix(0,1,-1,0,137.7382,537.3808)" stroke-linecap="butt">
+      <text x="2" xml:space="preserve" y="12.8633" clip-path="url(#clipPath25)" stroke="none">has ⏵</text>
     </g>
   </g>
 </svg>

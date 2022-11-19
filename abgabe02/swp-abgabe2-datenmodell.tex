@@ -17,67 +17,66 @@
             {Ole-Niklas Mahlstädt & olma@uni-bremen.de}%
             {Henry Zöllner & henry5@uni-bremen.de}%
 
+\newcommand\cat[1]{
+    \textbf{\large #1}\\[0.5em]
+}
+
 \section{Datenmodell Beschreibung}\label{sec:detailliert:Anwendungsfälle}
 
-\textbf{Card}\\
+\cat{Card}
 Eine Karte dient als abstrakte Überklasse für die unterschiedlichen Frage/Antwort Kategorien.\\
-Die Grundattribute einer Karte sind die ID, das Erstelldatum sowie die Sichtbarkeit der einzelnen Karte.\\\\ 
-Jede Frage/Antwort Kategorie erbt die Funktionen der Card Klasse und enthält spezifische Frage/Antwort Attribute 
-je nach Art sowie Getter-/Setter. Bei den Frageformen: ImageTest und Audio gibt es zusätzlich die Möglichkeit mit 
-bSwapQA festzulegen, dass die Frage und Antwortoptionen getauscht werden. Es kann also sowohl ein Bild 
-als Frage als auch als Antwort verwendet werden.
-\newline
-Um die Filterung über die Suchbegriffe zu ermöglichen, gibt es die Methode getContent().
-Diese zieht aus den Fragen/Antworten mit Textinhalt die gewünschten Begriffe und 
-wird durch die einzelnen Subklassen überschrieben. 
+Die Grundattribute einer Karte sind die ID, das Erstelldatum sowie die Sichtbarkeit der einzelnen Karte.\\
+\\ 
+Jede Frage/Antwort Kategorie erbt die Funktionen der \texttt{Card} Klasse und enthält spezifische Frage/Antwort Attribute 
+je nach Art sowie Getter-/Setter-Methoden. Bei den Frageformen: ImageTest und Audio gibt es zusätzlich die Möglichkeit mit 
+\texttt{bSwapQA} festzulegen, dass die Frage- und Antwortoptionen getauscht werden. Es kann also eine Bild- oder Audiodatei
+als Frage, als auch als Antwort verwendet werden. \\
 \\
+Um die Filterung über die Suchbegriffe zu ermöglichen, gibt es die Methode \texttt{getContent()}. Diese zieht aus den Fragen/Antworten mit Textinhalt die gewünschten Begriffe und wird durch die einzelnen Subklassen überschrieben. \\
 \\
-\textbf{Tag}\\
-Die Tag Klasse stellt alle aufgenommen Tags dar. Tags können auch kartenübergreifend verwendet werden und genutzt.\\
-Da es keine zwei Tags mit gleichem Namen geben soll, wird dafür equals in der Klasse überschrieben.
+
+\cat{Tag}
+Die \texttt{Tag} Klasse stellt alle aufgenommen \texttt{Tags} dar. \texttt{Tags} können auch kartenübergreifend verwendet werden.\\
+Da es keine zwei \texttt{Tags} mit gleichem Namen geben soll, wird dafür \texttt{equals} in der Klasse überschrieben.\\
 \\
+
+\cat{CardToTag}
+Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Tag} einen Eintrag enthält.\\
+Sie kann verwendet werden, um eine genaue Übersicht über die verwendeten \texttt{Tags} sowie deren zugehörigen \texttt{Cards} (und vice versa) zu bekommen.\\
+Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oTag}, da bei Änderungen neue Einträge erstellt werden.\\
 \\
-\textbf{CardToTag}\\
-Ist eine Referenzklasse, die je Karte und Tag einen Eintrag enthält.\\
-Kann verwendet werden, um eine genaue Übersicht über die verwendeten Tags sowie deren 
-zugehörigen Karten (and viceversa) zu bekommen.\\
-Es gibt keine Setter für die Attribute Karte und Tag, da bei Änderungen neue Einträge erstellt werden.
+
+\newpage
+\cat{Category}
+Die Klasse \texttt{Category} stellt die Kategorien dar. Da diese in einer Polyhierarchie strukturiert sind, sind sowohl die \textit{Children} als auch die \textit{Parents} in der Klasse gespeichert. Wenn die Polyhierarchie bearbeitet wird, soll dies sicherstellen, dass alle zugehörigen zu bearbeitenden Kategorien schnell bearbeitet werden können. Wenn der Setter \texttt{addChild()} aufgerufen wird, wird mit Aufruf gleichzeitig der \textit{Parent} des \textit{Childs} bearbeitet. Da es keine zwei Kategorien mit gleichem Namen geben soll, wird dafür \texttt{equals} in der Klasse überschrieben.\\
 \\
+
+\cat{CardToCategory}
+Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Category} einen Eintrag enthält. Kann verwendet werden, um eine genaue Übersicht über die verwendeten Kategorien sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
 \\
-\textbf{Category}\\
-Die Klasse Kategorie stellt die Kategorien dar. Da diese in einer Polyhierarchie strukturiert sind, sind sowohl die Children als auch die Parents in der Klasse gespeichert. Wenn die Polyhierarchie bearbeitet wird, soll dies sicherstellen, dass alle zugehörigen zu bearbeitenden Kategorien schnell bearbeitet werden können. Wenn der Setter addChild() aufgerufen wird, wird mit Aufruf gleichzeitig der Parent des Childs bearbeitet.
-Da es keine zwei Kategorien mit gleichem Namen geben soll, wird dafür equals in der Klasse überschrieben.
+
+\cat{Deck}
+Das \texttt{Deck} besteht aus einer \texttt{ID}, einem zugewiesenem Namen und einer initialen \textit{Order}. Auch hier kann die Sichtbarkeit des gesamten Kasten eingestellt werden. Da es keine zwei \texttt{Decks} mit gleichem Namen geben soll, wird dafür \texttt{equals} in der Klasse überschrieben. \\
 \\
+
+\cat{CardToDeck}
+Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Deck} einen Eintrag enthält. Kann verwendet werden, um eine genaue Übersicht über die verwendeten \texttt{Decks} sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
 \\
-\textbf{CardToCategory}\\
-Ist eine Referenzklasse, die je Karte und Kategorie einen Eintrag enthält. Kann verwendet werden, um eine genaue Übersicht über die verwendeten Kategorien sowie deren zugehörigen Karten (and viceversa) zu bekommen.
-Es gibt keine Setter für die Attribute Karte und Kategorie, da bei Änderungen neue Einträge erstellt werden.
+
+\newpage
+\cat{StudySystem}
+Je \texttt{Deck} gibt es auch ein \texttt{StudySystem}. Dieses ist eine abstrakte Klasse, die die Grundeigenschaften Name des Systems, Beschreibung (detaillierte Beschreibung für den Nutzer, wie das System funktioniert) und den Fortschritt je System enthält, der vom Nutzer abrufbar ist. \\
+Jedes voreingestellte Lernsystem kann initiiert werden und erbt die Attribute von \texttt{StudySystem} und überschreibt diese. \\
+Zudem hat jedes System einen eigenen spezifischen Zustand, wo die Karten drin gespeichert werden. Um das System zu \textit{updaten}, gibt es eine \texttt{update}-Methode. In dieser werden das Attribut Fortschritt und auch der spezifische Zustand des Systems gesetzt, daher gibt es für beide keine Setter.\\
 \\
+
+\cat{User}
+Der Nutzer erstellt die Karten, Kategorien und Decks. Neben seiner \texttt{ID} hat er einen Namen sowie ein Passwort. Zudem hat er die Attribute \texttt{PassHash} und \texttt{bAuthenticated}; diese dienen dazu, dass sich der Nutzer beim Server anmelden kann. \\
 \\
-\textbf{Deck}\\
-Das Deck besteht aus einer ID, einem zugewiesenem Namen und einer initialen Order. Auch hier kann die Sichtbarkeit des gesamten Kasten eingestellt werden. Da es keine zwei Decks mit gleichem Namen geben soll, wird dafür equals in der Klasse überschrieben.
-\\
-\\
-\textbf{CardToDeck}\\
-Ist eine Referenzklasse, die je Karte und Deck einen Eintrag enthält.
-Kann verwendet werden, um eine genaue Übersicht über die verwendeten Decks sowie deren zugehörigen Karten (and viceversa) zu bekommen.
-Es gibt keine Setter für die Attribute Karte und Kategorie, da bei Änderungen neue Einträge erstellt werden.
-\\
-\\
-\textbf{StudySystem}\\ 
-Je Deck gibt es auch ein StudySystem. Dieses ist eine abstrakte Klasse, 
-die die Grundeigenschaften Name des Systems, Beschreibung (detaillierte Beschreibung für den Nutzer, wie das System funktioniert) und den Fortschritt je System enthält, der vom Nutzer abrufbar ist. Jedes voreingestellte Lernsystem kann initiiert werden und erbt die Attribute von StudySystem und überschreibt diese. Zudem hat jedes System einen eigenen spezifischen Zustand, wo die Karten drin gespeichert werden. 
-Um das System zu updaten, gibt es eine update-Methode. In dieser werden das Attribut Fortschritt und auch der spezifische Zustand des Systems gesetzt, daher gibt es für beide keine Setter.
-\\
-\\
-\textbf{User}\\ 
-Der Nutzer erstellt die Karten, Kategorien und Decks. Neben seiner ID hat er einen Namen sowie ein Passwort. Zudem hat er die Attribute PassHash und Authentifiziert 
-dieser dient dazu, dass sich der Nutzer beim Server anmelden kann. 
-\\
-\\
-\textbf{Settings}\\
-Jeder User hat eigene Einstellungen. Seine Spracheinstellung, seine Anzeigemodus und ServerPort und ServerAdresse werden darüber gespeichert.
-Zudem wird die Klasse Settings nur einmal initiiert, daher ist sie static und hat das Attribut SettingsInstance.
+
+\cat{Settings}
+Jeder \texttt{User} hat eigene Einstellungen. Seine Spracheinstellung, seine Anzeigemodus und ServerPort und ServerAdresse werden darüber gespeichert.
+Zudem wird die Klasse \texttt{Settings} nur einmal initiiert, daher ist sie static und hat das Attribut \texttt{SettingsInstance} \textit{(Singleton)}.
 
 \begin{landscape}
     \thispagestyle{empty}
