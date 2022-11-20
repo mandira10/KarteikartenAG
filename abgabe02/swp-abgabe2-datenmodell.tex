@@ -41,7 +41,7 @@ Da es keine zwei \texttt{Tags} mit gleichem Namen geben soll, wird dafür \textt
 \\
 
 \cat{CardToTag}
-Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Tag} einen Eintrag enthält und im Konstruktor übergeben bekommt.\\
+Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Tag} einen Eintrag enthält und diese im Konstruktor übergeben bekommt.\\
 Sie kann verwendet werden, um eine genaue Übersicht über die verwendeten \texttt{Tags} sowie deren zugehörigen \texttt{Cards} (und vice versa) zu bekommen.\\
 Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oTag}, da bei Änderungen neue Einträge erstellt werden.\\
 \\
@@ -52,7 +52,7 @@ Die Klasse \texttt{Category} stellt die Kategorien dar. Da diese in einer Polyhi
 \\
 
 \cat{CardToCategory}
-Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Category} einen Eintrag enthält und im Konstruktor übergeben bekommt. Kann verwendet werden, um eine genaue Übersicht über die verwendeten Kategorien sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
+Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Category} einen Eintrag enthält und diese im Konstruktor übergeben bekommt. Kann verwendet werden, um eine genaue Übersicht über die verwendeten Kategorien sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
 \\
 
 \cat{Deck}
@@ -60,19 +60,19 @@ Das \texttt{Deck} besteht aus einer \texttt{ID}, einem zugewiesenem Namen und ei
 \\
 
 \cat{CardToDeck}
-Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Deck} einen Eintrag enthält und im Konstruktor übergeben bekommt. Kann verwendet werden, um eine genaue Übersicht über die verwendeten \texttt{Decks} sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
+Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Deck} einen Eintrag enthält und diese im Konstruktor übergeben bekommt. Kann verwendet werden, um eine genaue Übersicht über die verwendeten \texttt{Decks} sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
 \\
 
 \newpage
 \cat{StudySystem}
 Je \texttt{Deck} gibt es auch ein \texttt{StudySystem}. Dieses ist eine abstrakte Klasse, die die Grundeigenschaften Name des Systems, Beschreibung (detaillierte Beschreibung für den Nutzer, wie das System funktioniert) und den Fortschritt je System enthält, der vom Nutzer abrufbar ist. \\
 Jedes voreingestellte Lernsystem kann initiiert werden und erbt die Attribute von \texttt{StudySystem} und überschreibt diese. \\
-Zudem hat jedes System einen eigenen spezifischen Zustand, wo die Karten drin gespeichert werden. Um das System zu \textit{updaten}, gibt es eine \texttt{update}-Methode. In dieser werden das Attribut Fortschritt und auch der spezifische Zustand des Systems gesetzt, daher gibt es für beide keine Setter.\\
+Zudem hat jedes System einen eigenen spezifischen Zustand, wo die zugehörigen Karten drin gespeichert werden. Um das System zu \textit{updaten}, gibt es eine \texttt{update}-Methode. In dieser werden das Attribut Fortschritt und auch der spezifische Zustand des Systems gesetzt, daher gibt es für beide keine Setter.\\
 \\
 
 \cat{User}
 Der Nutzer erstellt die Karten, Kategorien und Decks. Neben seiner \texttt{ID} hat er einen Namen sowie ein Passwort. Zudem hat er die Attribute \texttt{PassHash} und \texttt{bAuthenticated}; diese dienen dazu, dass sich der Nutzer beim Server anmelden kann. \\
-In der Datenbank des Servers enthalten die Karten, Kategorien und Decks die User \texttt{ID} als Fremdschlüssel. Hiermit werden die entsprechenden Einträge je Nutzer gefiltert und falls der Nutzer gelöscht wird können sie auch entfernt werden.\\
+In der Datenbank des Servers enthalten die Karten, Kategorien und Decks die User \texttt{ID} als Fremdschlüssel. Hiermit werden die entsprechenden Einträge je Nutzer gefiltert und falls der Nutzer gelöscht wird, können sie auch entfernt werden.\\
 \\
 
 \cat{Settings}
