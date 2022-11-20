@@ -26,9 +26,9 @@
 \cat{Card}
 Eine Karte dient als abstrakte Überklasse für die unterschiedlichen Frage/Antwort Kategorien.\\
 Die Grundattribute einer Karte sind die ID, das Erstelldatum sowie die Sichtbarkeit der einzelnen Karte.\\
-\\ 
-Jede Frage/Antwort Kategorie erbt die Funktionen der \texttt{Card} Klasse und enthält spezifische Frage/Antwort Attribute 
-je nach Art sowie Getter-/Setter-Methoden. Bei den Frageformen: ImageTest und Audio gibt es zusätzlich die Möglichkeit mit 
+\\
+Jede Frage/Antwort Kategorie erbt die Funktionen der \texttt{Card} Klasse und enthält spezifische Frage/Antwort Attribute
+je nach Art sowie Getter-/Setter-Methoden. Bei den Frageformen: ImageTest und Audio gibt es zusätzlich die Möglichkeit mit
 \texttt{bSwapQA} festzulegen, dass die Frage- und Antwortoptionen getauscht werden. Es kann also eine Bild- oder Audiodatei
 als Frage, als auch als Antwort verwendet werden. \\
 \\
@@ -41,26 +41,26 @@ Da es keine zwei \texttt{Tags} mit gleichem Namen geben soll, wird dafür \textt
 \\
 
 \cat{CardToTag}
-Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Tag} einen Eintrag enthält.\\
+Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Tag} einen Eintrag enthält und im Konstruktor übergeben bekommt.\\
 Sie kann verwendet werden, um eine genaue Übersicht über die verwendeten \texttt{Tags} sowie deren zugehörigen \texttt{Cards} (und vice versa) zu bekommen.\\
 Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oTag}, da bei Änderungen neue Einträge erstellt werden.\\
 \\
 
 \newpage
 \cat{Category}
-Die Klasse \texttt{Category} stellt die Kategorien dar. Da diese in einer Polyhierarchie strukturiert sind, sind sowohl die \textit{Children} als auch die \textit{Parents} in der Klasse gespeichert. Wenn die Polyhierarchie bearbeitet wird, soll dies sicherstellen, dass alle zugehörigen zu bearbeitenden Kategorien schnell bearbeitet werden können. Wenn der Setter \texttt{addChild()} aufgerufen wird, wird mit Aufruf gleichzeitig der \textit{Parent} des \textit{Childs} bearbeitet. Da es keine zwei Kategorien mit gleichem Namen geben soll, wird dafür \texttt{equals} in der Klasse überschrieben.\\
+Die Klasse \texttt{Category} stellt die Kategorien dar. Da diese in einer Polyhierarchie strukturiert sind, sind sowohl die \textit{Children} als auch die \textit{Parents} in der Klasse gespeichert. Wenn die Polyhierarchie bearbeitet wird, soll dies sicherstellen, dass alle zugehörigen zu bearbeitenden Kategorien schnell bearbeitet werden können. Wenn der Setter \texttt{addChild()} aufgerufen wird, wird mit Aufruf gleichzeitig das Array \texttt{aParent} des \textit{Childs} bearbeitet. Da es keine zwei Kategorien mit gleichem Namen geben soll, wird dafür \texttt{equals} in der Klasse überschrieben.\\
 \\
 
 \cat{CardToCategory}
-Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Category} einen Eintrag enthält. Kann verwendet werden, um eine genaue Übersicht über die verwendeten Kategorien sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
+Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Category} einen Eintrag enthält und im Konstruktor übergeben bekommt. Kann verwendet werden, um eine genaue Übersicht über die verwendeten Kategorien sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
 \\
 
 \cat{Deck}
-Das \texttt{Deck} besteht aus einer \texttt{ID}, einem zugewiesenem Namen und einer initialen \textit{Order}. Auch hier kann die Sichtbarkeit des gesamten Kasten eingestellt werden. Da es keine zwei \texttt{Decks} mit gleichem Namen geben soll, wird dafür \texttt{equals} in der Klasse überschrieben. \\
+Das \texttt{Deck} besteht aus einer \texttt{ID}, einem zugewiesenem Namen und einer initialen \textit{Order}. Auch hier kann die Sichtbarkeit des gesamten Kastens eingestellt werden. Da es keine zwei \texttt{Decks} mit gleichem Namen geben soll, wird dafür \texttt{equals} in der Klasse überschrieben. \\
 \\
 
 \cat{CardToDeck}
-Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Deck} einen Eintrag enthält. Kann verwendet werden, um eine genaue Übersicht über die verwendeten \texttt{Decks} sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
+Ist eine Referenzklasse, die je \texttt{Card} und \texttt{Deck} einen Eintrag enthält und im Konstruktor übergeben bekommt. Kann verwendet werden, um eine genaue Übersicht über die verwendeten \texttt{Decks} sowie deren zugehörigen Karten (und vice versa) zu bekommen. Es gibt keine Setter für die Attribute \texttt{oCard} und \texttt{oCategory}, da bei Änderungen neue Einträge erstellt werden.\\
 \\
 
 \newpage
@@ -72,10 +72,11 @@ Zudem hat jedes System einen eigenen spezifischen Zustand, wo die Karten drin ge
 
 \cat{User}
 Der Nutzer erstellt die Karten, Kategorien und Decks. Neben seiner \texttt{ID} hat er einen Namen sowie ein Passwort. Zudem hat er die Attribute \texttt{PassHash} und \texttt{bAuthenticated}; diese dienen dazu, dass sich der Nutzer beim Server anmelden kann. \\
+In der Datenbank des Servers enthalten die Karten, Kategorien und Decks die User \texttt{ID} als Fremdschlüssel. Hiermit werden die entsprechenden Einträge je Nutzer gefiltert und falls der Nutzer gelöscht wird können sie auch entfernt werden.\\
 \\
 
 \cat{Settings}
-Jeder \texttt{User} hat eigene Einstellungen. Seine Spracheinstellung, seine Anzeigemodus und ServerPort und ServerAdresse werden darüber gespeichert.
+Jeder \texttt{User} hat eigene Einstellungen. Seine Spracheinstellung, seinen Anzeigemodus, ServerAdresse und ServerPort werden darüber gespeichert.
 Zudem wird die Klasse \texttt{Settings} nur einmal initiiert, daher ist sie static und hat das Attribut \texttt{SettingsInstance} \textit{(Singleton)}.
 
 \begin{landscape}
