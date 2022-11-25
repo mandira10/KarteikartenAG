@@ -1,0 +1,58 @@
+\documentclass[fontsize=12pt,paper=a4,twoside]{scrartcl}
+
+\input{swp-preamble.tex}
+\usepackage[shortlabels]{enumitem}
+\usepackage{../tikz-uml}
+\graphicspath{{./images/}}
+%
+% Und jetzt geht das Dokument los....
+%
+\begin{document}
+\renewcommand\documentTitle{Modulsicht}
+\renewcommand\groupName{KarteikartenAG}
+\swpdocument{Rodrigue Wete Nguempnang}{20. November 2022}%
+            {Mert As & meras@uni-bremen.de}%
+            {Tom Beuke & tombeuke@uni-bremen.de}%
+            {Efe Carkcioglu & efe1@uni-bremen.de}%
+            {Nadja Cordes & ncordes@uni-bremen.de}%
+            {Ole-Niklas Mahlstädt & olma@uni-bremen.de}%
+            {Henry Zöllner & henry5@uni-bremen.de}%
+
+\section{Modulsicht Beschreibung}\label{sec:detailliert:Modulsicht}
+
+GUI: \\
+
+
+
+
+
+%\begin{tikzpicture}
+%    \begin{umlcomponent}{Card}
+%    \umlbasiccomponent{B}
+%    \umlbasiccomponent[y=-2]{C}
+%    
+%    \umlrequiredinterface[interface=C-interface]{C}
+%    \umlprovidedinterface[interface=B-interface, with port, distance=3cm, padding=2.5cm]{B}
+%    \end{umlcomponent}
+%    \umlbasiccomponent[x=-10,y=1]{D}
+%    \umlbasiccomponent[x=3,y=-7.5]{E}
+%    \umlbasiccomponent[x=-2, y=-9]{F}
+%    \umlbasiccomponent[x=-7,y=-8]{G}
+%    \umlbasiccomponent[x=-7,y=-11]{H}
+%    
+%    \umlassemblyconnector[interface=DA, with port, name=toto]{D}{A}
+%    \umldelegateconnector{A-west-port}{B-west-interface}
+%    \umlVHVassemblyconnector[interface=AE, with port]{A}{E}
+%    \umlHVHassemblyconnector[interface=EF, with port, first arm]{E}{F}
+%    \umlHVHassemblyconnector[interface=GHF, with port, arm2=-2cm, last arm]{G}{F}
+%    \umlHVHassemblyconnector[with port, arm2=-2cm, last arm]{H}{F}
+%    
+%    \umlnote[x=-4, y=4, width=3.4cm]{B-west-interface}{I am the node named B-west-interface}
+%    \umlnote[x=2, y=4, width=3.4cm]{C-east-interface}{I am the node named C-east-interface}
+%    \umlnote[x=-8.5, y=-2, width=3.4cm]{toto-interface}{I am the node named toto-interface}
+%    \umlnote[x=-5.5, y=-4.5, width=3.4cm]{A-south-port}{I am the node named A-south-port}
+%    \umlnote[x=-1, y=-6, width=3.4cm]{AE-interface}{I am the node named AE-interface}
+%    \umlnote[x=2, y=-11, width=3.4cm]{F-east-port}{I am the node named F-east-port}
+%\end{tikzpicture}
+
+\end{document}

@@ -10,6 +10,7 @@ swp-abgabe*.pdf
 *.synctex.gz
 *.fdb_latexmk
 *.fls
+**/target/
 
 # git / hidden files
 .*
