@@ -1,7 +1,8 @@
 package com.swp.GUI;
 
+import com.gumse.gui.Primitives.RenderGUI;
 
-public class KarteikartenAGGUI
+public class KarteikartenAGGUI extends RenderGUI
 {
     private LoginPage pLoginPage;
     private DeckPage pDeckPage;
@@ -11,6 +12,7 @@ public class KarteikartenAGGUI
 
     public KarteikartenAGGUI()
     {
-
+        pLoginPage = new LoginPage();
+        addElement(pLoginPage);
     }
 }
