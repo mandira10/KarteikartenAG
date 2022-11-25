@@ -1,0 +1,3 @@
+[submodule "implementation/gum-gui-java"]
+	path = implementation/gum-gui-java
+	url = https://github.com/Gumsee/gum-gui-java
