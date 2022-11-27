@@ -23,8 +23,13 @@ public class Controller {
     }
 
     public void createTrueFalseCard(String question, boolean answer, boolean visibility) {
-         cardLogic.createTrueFalseCard(question,answer,visibility);
+        cardLogic.createTrueFalseCard(question,answer,visibility);
     }
+
+    public void deleteCard(Card card)    { /*TODO*/ }
+    public void deleteCards(Card[] card) { /*TODO*/ }
+    public void editCard(Card card)      { /*TODO*/ } //Override entry based on UUID
+    
 
 
     public void getAllInfosToCard(String card) {

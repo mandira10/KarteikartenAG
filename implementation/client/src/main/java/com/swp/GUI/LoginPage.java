@@ -46,7 +46,5 @@ public class LoginPage extends RenderGUI
         this.setSizeInPercent(true, true);
         reposition();
         resize();
-
-        PageManager.addPage(this);
     }    
 }

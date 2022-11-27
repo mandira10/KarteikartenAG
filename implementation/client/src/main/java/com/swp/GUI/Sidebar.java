@@ -15,18 +15,25 @@ import com.gumse.system.io.Mouse;
 
 public class Sidebar extends RenderGUI
 {
+    public interface SidebarCallbackFunction 
+    {
+        void run();
+    }
+
     private class SidebarItem extends RenderGUI
     {
         private TextBox pSymbol;
         private Text pTitle;
         private SmoothFloat pColorSmoothFloat;
+        private SidebarCallbackFunction pCallback;
 
-        public SidebarItem(char symbol, String title, ivec2 pos)
+        public SidebarItem(char symbol, String title, ivec2 pos, SidebarCallbackFunction callback)
         {
             this.sType = "SidebarItem";
             this.vPos.set(pos);
             this.vSize.set(new ivec2(100, 100));
             this.setSizeInPercent(true, false);
+            this.pCallback = callback;
 
             Font pFontAwesome = FontManager.getInstance().getFont("FontAwesome");
             pSymbol = new TextBox(Character.toString(symbol), pFontAwesome, new ivec2(0, 0), new ivec2(100, 100));
@@ -57,6 +64,11 @@ public class Sidebar extends RenderGUI
 
                 pSymbol.setTextColor(color);
                 pTitle.setColor(color);
+            }
+
+            if(isClicked())
+            {
+                pCallback.run();
             }
 
             if(isMouseInside())
@@ -101,13 +113,35 @@ public class Sidebar extends RenderGUI
 
         pSmoothFloat = new SmoothFloat(0, 10, 0);
 
-        pBackground.addGUI(new SidebarItem('', "Home",       new ivec2(0,10)));
-        pBackground.addGUI(new SidebarItem('', "Cards",      new ivec2(0,120)));
-        pBackground.addGUI(new SidebarItem('', "Decks",      new ivec2(0,230)));
-        pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,340)));
+        pBackground.addGUI(new SidebarItem('', "Home",       new ivec2(0,10), new SidebarCallbackFunction() {
+            @Override public void run() 
+            {
+                PageManager.viewPage("LoginPage");
+            }
+        }));
+        pBackground.addGUI(new SidebarItem('', "Cards",      new ivec2(0,120), new SidebarCallbackFunction() {
+            @Override public void run() 
+            {
+                PageManager.viewPage("CardOverview");
+            }
+        }));
+        pBackground.addGUI(new SidebarItem('', "Decks",      new ivec2(0,230), new SidebarCallbackFunction() {
+            @Override public void run() 
+            {
+            }
+        }));
+        pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,340), new SidebarCallbackFunction() {
+            @Override public void run() 
+            {
+            }
+        }));
 
 
-        SidebarItem settingsItem = new SidebarItem('', "Settings", new ivec2(0, 100));
+        SidebarItem settingsItem = new SidebarItem('', "Settings", new ivec2(0, 100), new SidebarCallbackFunction() {
+            @Override public void run() 
+            {
+            }
+        });
         settingsItem.setPositionInPercent(false, true);
         settingsItem.setOrigin(new ivec2(0, 100));
         pBackground.addGUI(settingsItem);

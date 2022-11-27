@@ -10,29 +10,32 @@ import com.gumse.maths.*;
 public class KarteikartenAGGUI extends RenderGUI
 {
     private Sidebar pSidebar;
-    private RenderGUI pPageCanvas;
 
     private LoginPage pLoginPage;
     private DeckPage pDeckPage;
     private SettingsPage pSettingsPage;
     private CategoryPage pCategoryPage;
-    private CardPage pCardPage;
+    private CardPages pCardPages;
 
     public KarteikartenAGGUI()
     {
-        pPageCanvas = new RenderGUI();
-        pPageCanvas.setPosition(new ivec2(100, 0));
-        pPageCanvas.setSize(new ivec2(100, 100));
-        pPageCanvas.setMargin(new ivec2(-60, 0));
-        pPageCanvas.setSizeInPercent(true, true);
-        addElement(pPageCanvas);
+        PageManager.init(this);
 
-        pLoginPage = new LoginPage();
-        pPageCanvas.addGUI(pLoginPage);
+        PageManager.addPage("LoginPage", new LoginPage());
+        pCardPages = new CardPages();
+
+
 
         pSidebar = new Sidebar();
         pSidebar.setSize(new ivec2(60, 100));
         pSidebar.setSizeInPercent(false, true);
         addElement(pSidebar);
+    }
+
+    @Override
+    public void render()
+    {
+        PageManager.render();
+        pSidebar.render();
     }
 }

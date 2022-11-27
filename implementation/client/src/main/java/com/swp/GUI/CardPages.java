@@ -5,15 +5,16 @@ import com.swp.GUI.Cards.EditCardPage;
 import com.swp.GUI.Cards.TestCardPage;
 import com.swp.GUI.Cards.ViewCardPage;
 
-public class CardPage 
+public class CardPages 
 {
     private CardOverviewPage pCardOverviewPage;
     private EditCardPage pEditCardPage;
     private TestCardPage pTestCardPage;
     private ViewCardPage pViewCardPage;
     
-    public CardPage()
+    public CardPages()
     {
-        
+        pCardOverviewPage = new CardOverviewPage();
+        PageManager.addPage("CardOverview", pCardOverviewPage);
     }
 }

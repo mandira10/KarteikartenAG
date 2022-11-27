@@ -1,36 +1,61 @@
 package com.swp.GUI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.gumse.gui.Primitives.RenderGUI;
+import com.gumse.maths.ivec2;
 
 public class PageManager
 {
-    private static ArrayList<RenderGUI> vPages = null;
+    private static Map<String, RenderGUI> mPages = null;
+    private static RenderGUI pActivePage = null;
+    private static RenderGUI pPageCanvas;
 
     private PageManager() {}
 
-    public static void init()
+    public static void init(RenderGUI parent)
     {
-        if(vPages == null)
+        if(mPages == null)
         {
-            vPages = new ArrayList<>();
+            mPages = new HashMap<>();
         }
+        pPageCanvas = new RenderGUI();
+        pPageCanvas.setPosition(new ivec2(100, 0));
+        pPageCanvas.setSize(new ivec2(100, 100));
+        pPageCanvas.setMargin(new ivec2(-60, 0));
+        pPageCanvas.setSizeInPercent(true, true);
+
+        parent.addGUI(pPageCanvas);
     }
 
 
-    public static void addPage(RenderGUI page)
+    public static void addPage(String name, RenderGUI page)
     {
-        vPages.add(page);
+        mPages.put(name, page);
+        pPageCanvas.addGUI(page);
+        if(pActivePage == null)
+            pActivePage = page;
     }
 
     public static void viewPage(RenderGUI page)
     {
-        if(!vPages.contains(page))
+        if(!mPages.containsValue(page))
+            return;
+        pActivePage = page;
+    }
+
+    public static void viewPage(String name)
+    {
+        if(!mPages.containsKey(name))
             return;
 
-        for(RenderGUI p : vPages)
-            p.hide(true);
-        page.hide(false);
+        pActivePage = mPages.get(name);
+    }
+
+    public static void render()
+    {
+        pActivePage.render();
     }
 }

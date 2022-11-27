@@ -38,8 +38,6 @@ public class KarteikartenAG
             }
         });
 
-        PageManager.init();
-
         KarteikartenAGGUI pKarteikartenAGGUI = new KarteikartenAGGUI();
         pKarteikartenAGGUI.setSize(new ivec2(100, 100));
         pKarteikartenAGGUI.setSizeInPercent(true, true);
