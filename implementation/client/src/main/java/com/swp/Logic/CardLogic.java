@@ -102,6 +102,16 @@ public class CardLogic
     public void createCardToCategory(Card card, Category category) {
     }
 
+    public void editCard(Card card){
+        cardRepository.updateCard(card)
+    }
+
+    public void deleteCard(Card card){}
+
+    public void deleteCards(Card[] card){}
+
+    public void rateCard(Card card){}
+
 
 
 

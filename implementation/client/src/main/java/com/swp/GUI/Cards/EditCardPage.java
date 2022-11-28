@@ -31,5 +31,13 @@ public class EditCardPage {
         //TODO
         }
 
+        public void finishCardRate(){
+
+        }
+
+        public void finishChangeAnswer(){
+            
+        }
+
 
     }

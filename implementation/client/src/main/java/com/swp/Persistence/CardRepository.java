@@ -24,7 +24,7 @@ public class CardRepository {
     {
         return new ArrayList<>();
     }
-
+    public void updateCard(Card card){}
     public void saveCard(Card card)                { /*TODO*/ }
     public List<Card> getCards(long from, long to) { /*TODO*/ return null; }
 
