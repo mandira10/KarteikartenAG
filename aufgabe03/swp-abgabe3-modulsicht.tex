@@ -18,9 +18,11 @@
             {Ole-Niklas Mahlstädt & olma@uni-bremen.de}%
             {Henry Zöllner & henry5@uni-bremen.de}%
 
-\section{Modulsicht Beschreibung}\label{sec:detailliert:Modulsicht}
-\newpage
+%\section{Modulsicht Beschreibung}\label{sec:detailliert:Modulsicht}
+%\newpage
 
+%Only to show how the structure is
+%some methods are still missing, folder implementation has more detail
 \begin{tikzpicture}
   \begin{umlcomponent}{GUI}
       \begin{umlcomponent}{CardGUI}
@@ -47,9 +49,16 @@
     %\umlemptyclass[x=8, y=-5]{CategoryGUI}
     \end{umlcomponent}{GUI}
      
-     \umlbasiccomponent[x=2, y=-6.5]{Controller}
+     \umlclass[x=2, y=-7]{Controller}{ 
+      + getCardsWithCategory(String): List<Card> \\ 
+      + getCardsWithTag(String): List<Card> \\ 
+      + getCardsWithSearchWords(String): List<Card> \\ 
+      + getCountOfDecksFor(String): void\\
+      + createTrueFalseCard(String, boolean, boolean): void \\
+      + getAllInfosToCard(String):Card\\
+   }{}
       \begin{umlcomponent}{Logic}
-        \umlclass[x=0, y=-10.75]{CardLogic}{ 
+        \umlclass[x=0, y=-13]{CardLogic}{ 
        + getCardsForTag(String): List<Card> \\ 
        + getCardsForCategory(String): List<Card> \\ 
        + getCardsForSearchWords(String): List<Card> \\ 
@@ -62,7 +71,7 @@
       \end{umlcomponent}{Logic}
 
       \begin{umlcomponent}{Persistence}
-        \umlclass[x=-1, y=-17]{CardRepository}{ 
+        \umlclass[x=-1, y=-19]{CardRepository}{ 
        + findCardsByCategory(Category): List<Card>\\
        + findCardsByTag(Tag): List<Card>\\
        + getCards(long,long): List<Card>\\
@@ -76,5 +85,5 @@
       \umlemptyclass[x=6, y=-18]{DM:Card}
       
   \end{tikzpicture}
-
+ 
 \end{document}
