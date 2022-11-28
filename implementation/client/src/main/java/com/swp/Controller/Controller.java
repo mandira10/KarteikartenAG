@@ -2,6 +2,8 @@ package com.swp.Controller;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
+import com.swp.DataModel.Deck;
+import com.swp.DataModel.StudySystem;
 import com.swp.Logic.CardLogic;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class Controller {
         cardLogic.getAllInfosForCard(card);
     }
 
-    public void createCardToCategory(Card card, String category) {
+    public void createCardToCategory(Card card, Category category) {
         //TODO
     }
 
@@ -47,4 +49,24 @@ public class Controller {
     public void getCountOfDecksFor(String card) {
         int numberOfDecks = cardLogic.getCountOfDecksFor(card);
     }
+
+    // CATEGORY
+    public void createCategory(String name, List<Category> parents, List<Category> children) { /*TODO*/ }
+    public void editCategory(Category category, String name, List<Category> parents, List<Category> children) { /*TODO*/ }
+    public void deleteCategory(Category category) { /*TODO*/ }
+    public void getCategories() { /*TODO*/ }
+    public void getAllInfosFor(String category) { /*TODO*/ }
+    public void getParentCategories(String category) { /*TODO*/ }
+    public void getChildrenCategories(String category) { /*TODO*/ }
+    public void getCountOfCardsFor(String category) { /*TODO*/ }
+    
+    // DECK
+    public void createDeck(String name, StudySystem studySystem, Deck.CardOrder order) { /*TODO*/ }
+    public void editDeck(Category deck, String name, StudySystem studySystem, Deck.CardOrder order, boolean visibility) { /*TODO*/ }
+    public void deleteDeck(Deck deck) { /*TODO*/ }
+    public void createCardToDeck(Card card, Deck deck) { /*TODO*/ }
+    public void createCardToDeckForCategory(Category category, Deck deck) { /*TODO*/ }
+    public void getDecks() { /*TODO*/ }
+    public void getAllInfosForDeck(String deck) { /*TODO*/ }
+
 }
