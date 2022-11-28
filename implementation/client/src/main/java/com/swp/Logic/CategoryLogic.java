@@ -3,9 +3,12 @@ package com.swp.Logic;
 import java.util.List;
 
 import com.swp.DataModel.Category;
+import com.swp.Persistence.CategoryRepository;
 
-public class CategoryLogic 
+public class CategoryLogic
 {
+    CategoryRepository categoryRepository;
+
     public List<Category> getCategories() { /* TODO */ return null; }
 
     public void createCategory(String name, List<Category> parents, List<Category> children) { /*TODO*/ }

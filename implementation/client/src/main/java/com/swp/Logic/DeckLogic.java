@@ -4,10 +4,13 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem;
+import com.swp.Persistence.DeckRepository;
 
 import java.util.List;
 
 public class DeckLogic {
+    DeckRepository deckRepository;
+
     public void createDeck(String name, StudySystem studySystem, Deck.CardOrder order) { /*TODO*/ }
     public void editDeck(Category deck, String name, StudySystem studySystem, Deck.CardOrder order, boolean visibility) { /*TODO*/}
     public void deleteDeck(Deck deck) { /*TODO*/ }
