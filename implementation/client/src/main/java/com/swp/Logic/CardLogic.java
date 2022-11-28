@@ -2,6 +2,7 @@ package com.swp.Logic;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
+import com.swp.DataModel.Deck;
 import com.swp.DataModel.Tag;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.Persistence.CardRepository;
@@ -48,5 +49,14 @@ public class CardLogic
 	{
         Card specificCard = cardRepository.findCardByName(card);
         return cardRepository.findNumberOfDecksToCard(specificCard);
+    }
+
+    public void createCardToDeck(Card card, Deck deck) {
+    }
+
+    public void createCardToDeckForCategory(Category category, Deck deck) {
+    }
+
+    public void createCardToCategory(Card card, Category category) {
     }
 }

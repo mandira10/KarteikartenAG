@@ -1,24 +1,25 @@
 package com.swp.GUI.Category;
 
 import com.swp.Controller.Controller;
+import com.swp.DataModel.Category;
 
 public class ViewCategoryPage {
     Controller controller;
 
     public void displayInformationToCard(){
-        String category="";
+        Category category = null;
         controller.getAllInfosFor(category);
     }
 
     public void showParentCategories()
     {
-        String category  ="";
+        Category category = null;
         controller.getParentCategories(category);
     }
 
     public void showChildrenCategories()
     {
-        String category  ="";
+        Category category  = null;
         controller.getChildrenCategories(category);
     }
 }

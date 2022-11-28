@@ -1,6 +1,7 @@
 package com.swp.GUI.Decks;
 
 import com.swp.Controller.Controller;
+import com.swp.DataModel.Deck;
 
 public class DeckOverviewPage {
     Controller controller;
@@ -11,7 +12,7 @@ public class DeckOverviewPage {
 
     public void getCountOfCardToDeck()
     {
-        String deck  ="";
+        Deck deck = null;
         controller.getCountOfCardsFor(deck);
     }
 }

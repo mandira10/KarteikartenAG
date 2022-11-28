@@ -1,6 +1,7 @@
 package com.swp.GUI.Category;
 
 import com.swp.Controller.Controller;
+import com.swp.DataModel.Category;
 
 public class CategoryOverviewPage {
     Controller controller;
@@ -12,19 +13,19 @@ public class CategoryOverviewPage {
 
     public void showParentCategories()
     {
-        String category  ="";
+        Category category = null;
         controller.getParentCategories(category);
     }
 
     public void showChildrenCategories()
     {
-        String category  ="";
+        Category category = null;
         controller.getChildrenCategories(category);
     }
 
     public void getCountOfCardToCategory()
     {
-        String category  ="";
+        Category category = null;
         controller.getCountOfCardsFor(category);
     }
 }

@@ -5,6 +5,8 @@ import com.swp.DataModel.Category;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem;
 import com.swp.Logic.CardLogic;
+import com.swp.Logic.CategoryLogic;
+import com.swp.Logic.DeckLogic;
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class Controller {
     }
 
     public void createCardToCategory(Card card, Category category) {
-        //TODO
+        cardLogic.createCardToCategory(card, category);
     }
 
     public void createCardToTag(Card card, String tag) {
@@ -51,22 +53,33 @@ public class Controller {
     }
 
     // CATEGORY
-    public void createCategory(String name, List<Category> parents, List<Category> children) { /*TODO*/ }
-    public void editCategory(Category category, String name, List<Category> parents, List<Category> children) { /*TODO*/ }
-    public void deleteCategory(Category category) { /*TODO*/ }
-    public void getCategories() { /*TODO*/ }
-    public void getAllInfosFor(String category) { /*TODO*/ }
-    public void getParentCategories(String category) { /*TODO*/ }
-    public void getChildrenCategories(String category) { /*TODO*/ }
-    public void getCountOfCardsFor(String category) { /*TODO*/ }
+    CategoryLogic categoryLogic;
+    public void createCategory(String name, List<Category> parents, List<Category> children) {
+        categoryLogic.createCategory(name, parents, children);
+    }
+    public void editCategory(Category category, String name, List<Category> parents, List<Category> children) {
+        categoryLogic.editCategory(category, name, parents, children);
+    }
+    public void deleteCategory(Category category) { categoryLogic.deleteCategory(category); }
+    public void getCategories() { categoryLogic.getCategories(); }
+    public void getAllInfosFor(Category category) { categoryLogic.getAllInfosFor(category); }
+    public List<Category> getParentCategories(Category category) { return categoryLogic.getParentCategories(category); }
+    public List<Category> getChildrenCategories(Category category) { return categoryLogic.getChildrenCategories(category); }
+    public void getCountOfCardsFor(Category category) { cardLogic.getCardsForCategory(category.toString()); }
     
     // DECK
-    public void createDeck(String name, StudySystem studySystem, Deck.CardOrder order) { /*TODO*/ }
-    public void editDeck(Category deck, String name, StudySystem studySystem, Deck.CardOrder order, boolean visibility) { /*TODO*/ }
-    public void deleteDeck(Deck deck) { /*TODO*/ }
-    public void createCardToDeck(Card card, Deck deck) { /*TODO*/ }
-    public void createCardToDeckForCategory(Category category, Deck deck) { /*TODO*/ }
-    public void getDecks() { /*TODO*/ }
-    public void getAllInfosForDeck(String deck) { /*TODO*/ }
+    DeckLogic deckLogic;
+    public void createDeck(String name, StudySystem studySystem, Deck.CardOrder order) {
+        deckLogic.createDeck(name, studySystem, order);
+    }
+    public void editDeck(Category deck, String name, StudySystem studySystem, Deck.CardOrder order, boolean visibility) {
+        deckLogic.editDeck(deck, name, studySystem, order, visibility);
+    }
+    public void deleteDeck(Deck deck) { deckLogic.deleteDeck(deck); }
+    public void createCardToDeck(Card card, Deck deck) { cardLogic.createCardToDeck(card, deck); }
+    public void createCardToDeckForCategory(Category category, Deck deck) { cardLogic.createCardToDeckForCategory(category, deck); }
+    public List<Deck> getDecks() { return deckLogic.getDecks(); }
+    public void getAllInfosForDeck(String deck) { deckLogic.getAllInfosForDeck(deck); }
+    public void getCountOfCardsFor(Deck deck) { deckLogic.getCountOfCardsFor(deck); }
 
 }
