@@ -28,4 +28,9 @@ public class EditCardPage {
         //TODO
         }
 
+        public void finishAddTagToCard(){
+        //TODO
+        }
+
+
     }

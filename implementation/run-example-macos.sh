@@ -1,3 +1,3 @@
 #!/bin/sh
 
-java -XstartOnFirstThread -jar ./example/target/example-1.0.0.jar
+java -XstartOnFirstThread -jar ./client/target/client-1.0.0.jar

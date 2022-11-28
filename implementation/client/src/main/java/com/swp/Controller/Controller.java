@@ -1,13 +1,12 @@
 package com.swp.Controller;
 
-import com.swp.DataModel.Card;
-import com.swp.DataModel.Category;
-import com.swp.DataModel.Deck;
-import com.swp.DataModel.StudySystem;
+import com.gumse.textures.Texture;
+import com.swp.DataModel.*;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Logic.DeckLogic;
 
+import javax.sound.sampled.AudioFileFormat;
 import java.util.List;
 
 public class Controller {
@@ -30,6 +29,21 @@ public class Controller {
         cardLogic.createTrueFalseCard(question,answer,visibility);
     }
 
+    public void createImageTestCard(String question, Texture answer, boolean qSwapQA, boolean visibility) {
+        cardLogic.createImageTestCard(question,answer,qSwapQA,visibility);}
+
+    public void createAudioCard(AudioFileFormat question, String answer, boolean qSwapQA, boolean visibility) {
+        cardLogic.createAudioCard(question,answer,qSwapQA,visibility);}
+
+    public void createImageDescCard(Texture question, String answer, boolean visibility) {
+        cardLogic.createImageDescCard(question,answer,visibility);}
+
+    public void createTextCard(String question, String answer, boolean visibility) {
+        cardLogic.createTextCard(question,answer,visibility);}
+
+    public void createMultipleChoiceCard(String question, String[] answers, int[] isCorrectAnswers, boolean visibility) {
+        cardLogic.createMultipleChoiceCard(question,answers, isCorrectAnswers,visibility);}
+
     public void deleteCard(Card card)    { /*TODO*/ }
     public void deleteCards(Card[] card) { /*TODO*/ }
     public void editCard(Card card)      { /*TODO*/ } //Override entry based on UUID
@@ -44,13 +58,19 @@ public class Controller {
         cardLogic.createCardToCategory(card, category);
     }
 
-    public void createCardToTag(Card card, String tag) {
+    public void createCardToTag(Card card, Tag tag) {
         //TODO
     }
 
     public void getCountOfDecksFor(String card) {
         int numberOfDecks = cardLogic.getCountOfDecksFor(card);
     }
+
+    public void getCardsToShow(long begin, long end){
+        cardLogic.getCardsToShow(begin, end);
+    }
+
+
 
     // CATEGORY
     CategoryLogic categoryLogic;
@@ -81,5 +101,6 @@ public class Controller {
     public List<Deck> getDecks() { return deckLogic.getDecks(); }
     public void getAllInfosForDeck(String deck) { deckLogic.getAllInfosForDeck(deck); }
     public void getCountOfCardsFor(Deck deck) { deckLogic.getCountOfCardsFor(deck); }
+
 
 }

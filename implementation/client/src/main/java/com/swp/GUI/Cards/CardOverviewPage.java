@@ -36,6 +36,13 @@ public class CardOverviewPage extends RenderGUI {
         controller.getCountOfDecksFor(card);
     }
 
+    public void getCardsToShowInitially(){
+        long begin = 0;
+        long end = 0;
+        controller.getCardsToShow(begin,end);
+
+    }
+
     public CardOverviewPage()
     {
         this.vSize = new ivec2(100,100);
