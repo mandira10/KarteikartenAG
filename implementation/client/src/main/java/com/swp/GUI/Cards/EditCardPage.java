@@ -8,17 +8,16 @@ public class EditCardPage {
     Controller controller;
 
     public void finishCreateCardTrueFalse() {
-        String question = "";
-        Boolean answer = true;
-        Boolean visibility = true;
-        //Read in
-        controller.createTrueFalseCard(question, answer, visibility);
-                //TODO: CategoryToCard wie umzusetzen? separate Methode?
-                //TODO: TagToCard wie umzusetzen? separate Methode?
             }
 
 
-    //TODO weitere Kartentypen
+    public void finishCreateImageTestCard() {
+    }
+    public void finishCreateImageDescCard() {}
+    public void finishCreateMultipleChoiceCard() {}
+    public void finishCreateTextCard() {}
+    public void finishCreateAudioCard(){}
+
 
         public void finishChangeCardType(){
             //TODO
