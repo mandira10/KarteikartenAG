@@ -163,3 +163,28 @@
 
 }
 
+
+%
+% Equalsign with a hat on top of it (^)
+%
+\newcommand\equalhat{\mathrel{\stackon[1.5pt]{=}{\stretchto{\scalerel*[\widthof{=}]{\wedge}{\rule{1ex}{3ex}}}{0.5ex}}}}
+
+\newcommand\bslash{\texttt{\char`\\}}
+\newcommand\quotec{\char`\"}
+
+%
+% Answer environment in a blue color
+%
+\definecolor{answer}{RGB}{52, 101, 164}
+\newenvironment{answer}
+{
+	\color{answer}
+	\bfseries
+	\setlength\parindent{24pt}
+	\hspace{\parindent}
+	%\vspace*{-6mm}
+	\\
+}
+{
+	\mdseries
+}

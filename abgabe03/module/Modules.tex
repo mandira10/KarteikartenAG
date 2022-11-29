@@ -1,0 +1,34 @@
+\begin{umlcomponent}{GUI}
+    \begin{umlcomponent}{CardGUI}
+        \input{module/CardGUI/CardOverviewPage.tex}
+        \input{module/CardGUI/EditCardPage.tex}
+        \input{module/CardGUI/ViewCardPage.tex}
+        \input{module/CardGUI/TestCardPage.tex}
+    \end{umlcomponent}{CardGUI}
+    %\umlemptyclass[x=8, y=0]{DeckGUI}
+    %\umlemptyclass[x=8, y=-5]{CategoryGUI}
+\end{umlcomponent}{GUI}
+   
+\umlclass[x=2, y=-7]{Controller}
+{ 
+    + getCardsWithCategory(String): List<Card> \\ 
+    + getCardsWithTag(String): List<Card> \\ 
+    + getCardsWithSearchWords(String): List<Card> \\ 
+    + getCountOfDecksFor(String): void\\
+    + createTrueFalseCard(String, boolean, boolean): void \\
+    + getAllInfosToCard(String):Card\\
+}{}
+
+\begin{umlcomponent}{Logic}
+    \input{module/Logic/CardLogic.tex}
+    % \umlemptyclass[x=8, y=-16]{DeckLogic}
+    % \umlemptyclass[x=8, y=-19]{CategoryLogic}
+\end{umlcomponent}{Logic}
+
+\begin{umlcomponent}{Persistence}
+    \input{module/Persistence/CardRepository.tex}
+    % \umlemptyclass[x=8, y=-16]{DeckLogic}
+    % \umlemptyclass[x=8, y=-19]{CategoryLogic}
+\end{umlcomponent}{Persistence}
+
+%\umlemptyclass[x=6, y=-18]{DM:Card}

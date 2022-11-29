@@ -38,4 +38,11 @@ public class KarteikartenAGGUI extends RenderGUI
         PageManager.render();
         pSidebar.render();
     }
+
+    @Override
+    public void update()
+    {
+        PageManager.update();
+        pSidebar.update();
+    }
 }

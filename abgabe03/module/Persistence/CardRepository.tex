@@ -1,0 +1,9 @@
+\umlclass[x=-1, y=-19]{CardRepository}
+{ 
+    + findCardsByCategory(Category): List<Card>\\
+    + findCardsByTag(Tag): List<Card>\\
+    + getCards(long,long): List<Card>\\
+    + findCardsWith(String): List<Card>\\
+    + findCardByName(String): Card\\
+    + findNumberOfDecksToCard(Card): int
+}{}

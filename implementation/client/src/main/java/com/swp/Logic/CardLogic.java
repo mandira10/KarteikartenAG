@@ -103,7 +103,7 @@ public class CardLogic
     }
 
     public void editCard(Card card){
-        cardRepository.updateCard(card)
+        cardRepository.updateCard(card);
     }
 
     public void deleteCard(Card card){}

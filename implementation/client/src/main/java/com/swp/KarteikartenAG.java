@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import com.gumse.basics.Globals;
 import com.gumse.gui.GUI;
+import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.maths.ivec2;
@@ -26,6 +27,7 @@ public class KarteikartenAG
         Display.init();
         Window pMainWindow = new Window("Example App", new ivec2(800, 600), Window.GUM_WINDOW_RESIZABLE, null);
         pMainWindow.setClearColor(new vec4(0.09f, 0.1f, 0.11f, 1.0f)); // Set the clear color);
+        pMainWindow.setVerticalSync(true);
 
         String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
@@ -43,6 +45,18 @@ public class KarteikartenAG
         pKarteikartenAGGUI.setSizeInPercent(true, true);
         pMainGUI.addGUI(pKarteikartenAGGUI);
 
+        //Debugging
+        TextBox fpsTextBox = null;
+        if(Globals.DEBUG_BUILD)
+        {
+            fpsTextBox = new TextBox("FPS: ", FontManager.getInstance().getDefaultFont(), new ivec2(100, 100), new ivec2(100, 30));
+            fpsTextBox.setPositionInPercent(true, true);
+            fpsTextBox.setColor(new vec4(0.0f, 0.0f, 0.0f, 0.3f));
+            fpsTextBox.setAlignment(TextBox.Alignment.LEFT);
+            fpsTextBox.setOrigin(fpsTextBox.getSize());
+            pMainGUI.addGUI(fpsTextBox);
+        }
+
         pMainGUI.updateCanvas();
         
         while(pMainWindow.isOpen())
@@ -51,12 +65,17 @@ public class KarteikartenAG
             pMainWindow.clear(GL_COLOR_BUFFER_BIT);
             pMainGUI.render();
             pMainGUI.update();
+            if(fpsTextBox != null)
+            {
+                fpsTextBox.setString("FPS: " + (int)FPS.getFPS());   
+            }
 
             //System.out.println("Mouse is: " + (Mouse.isBusy() ? "Busy" : "Available"));
 
             pMainWindow.finishRender();
             pMainWindow.getMouse().reset();
             pMainWindow.getKeyboard().reset();
+
 
             //pMainWindow.update();
             FPS.update();

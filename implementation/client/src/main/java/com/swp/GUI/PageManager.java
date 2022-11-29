@@ -58,4 +58,9 @@ public class PageManager
     {
         pActivePage.render();
     }
+
+    public static void update()
+    {
+        pActivePage.update();
+    }
 }

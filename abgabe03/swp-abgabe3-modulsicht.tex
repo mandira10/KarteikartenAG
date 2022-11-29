@@ -1,0 +1,40 @@
+% !TeX root = swp-abgabe3-modulsicht.tex
+\documentclass[fontsize=12pt,paper=A4,twoside]{scrartcl}
+
+\input{swp-preamble.tex}
+\usepackage[shortlabels]{enumitem}
+\usepackage{../tikz-uml}
+%\graphicspath{{./images/}}
+
+
+% Document start
+\begin{document}
+    \renewcommand\documentTitle{Modulsicht}
+    \renewcommand\groupName{KarteikartenAG}
+
+    \swpdocument{Rodrigue Wete Nguempnang}{04. Dezember 2022}%
+                {Mert As & meras@uni-bremen.de}%
+                {Tom Beuke & tombeuke@uni-bremen.de}%
+                {Efe Carkcioglu & efe1@uni-bremen.de}%
+                {Nadja Cordes & ncordes@uni-bremen.de}%
+                {Ole-Niklas Mahlstädt & olma@uni-bremen.de}%
+                {Henry Zöllner & henry5@uni-bremen.de}%
+
+    \sffamily
+    \KOMAoptions{paper=A4,paper=portrait,pagesize}
+    \section{Modulsicht Beschreibung}\label{sec:detailliert:Modulsicht}
+
+    \begin{answer}
+        TODO
+    \end{answer}
+    \recalctypearea
+
+    %Only to show how the structure is
+    %some methods are still missing, folder implementation has more detail
+    \KOMAoptions{paper=A3,paper=landscape,pagesize}
+    \thispagestyle{empty}
+    \begin{tikzpicture}% 
+        \input{module/Modules.tex} 
+    \end{tikzpicture}
+    \recalctypearea
+\end{document}
