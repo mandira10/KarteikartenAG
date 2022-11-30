@@ -3,10 +3,13 @@ package com.swp.GUI;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextField;
+import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
+import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.*;
+import com.gumse.tools.Debug;
 
 public class LoginPage extends RenderGUI
 {
@@ -14,34 +17,30 @@ public class LoginPage extends RenderGUI
     {
         this.vSize = new ivec2(100,100);
 
-        FontManager fonts = FontManager.getInstance();
-        float cornerradius = 7.0f;
+        addGUI(XMLGUI.loadFile("guis/loginpage.xml"));
 
-        TextField usernameField = new TextField("Username", fonts.getDefaultFont(), new ivec2(50, 100), new ivec2(400, 60));
-        usernameField.setCornerRadius(new vec4(cornerradius));
-        addElement(usernameField);
+        Button loginButton = (Button)findChildByID("loginbutton");
+        if(loginButton != null)
+        {
+            loginButton.setCallbackFunction(new ButtonCallback() {
+                @Override public void run()
+                {
+                    Debug.info("Login Button");
+                }
+            });
+        }
 
-        TextField passwordField = new TextField("Password", fonts.getDefaultFont(), new ivec2(50, 180), new ivec2(400, 60));
-        passwordField.setCornerRadius(new vec4(cornerradius));
-        addElement(passwordField);
+        Button registerButton = (Button)findChildByID("registerbutton");
+        if(registerButton != null)
+        {
+            registerButton.setCallbackFunction(new ButtonCallback() {
+                @Override public void run()
+                {
+                    Debug.info("Register Button");
+                }
+            });
+        }
 
-        Text rememberText = new Text("Remember me", fonts.getDefaultFont(), new ivec2(50, 250), 0);
-        rememberText.setCharacterHeight(20);
-		rememberText.setColor(new vec4(0.9f, 0.9f, 0.9f, 1.0f));
-        addElement(rememberText);
-
-        Switch rememberSwitch = new Switch(new ivec2(430, 250), new ivec2(20, 20), 12);
-        addElement(rememberSwitch);
-
-
-        Button registerButton = new Button(new ivec2(50, 400), new ivec2(190, 60), "Register", fonts.getDefaultFont());
-        registerButton.setCornerRadius(new vec4(cornerradius));
-        registerButton.setColor(new vec4(0.2f, 0.2f, 0.4f, 1.0f));
-        addElement(registerButton);
-
-        Button loginButton = new Button(new ivec2(260, 400), new ivec2(190, 60), "Login", fonts.getDefaultFont());
-        loginButton.setCornerRadius(new vec4(cornerradius));
-        addElement(loginButton);
 
         this.setSizeInPercent(true, true);
         reposition();
