@@ -20,10 +20,15 @@ public class Deck
         this.sUUID = uuid;
     }
 
+    //
+    // Setter
+    //
+    void setStudySystem(StudySystem system) { this.pStudySystem = system; }
+
 
     //
     // Getter
     //
-    public String getName()           { return this.sName; }
-    public String getUUID()           { return this.sUUID; }
+    public String getName()                 { return this.sName; }
+    public String getUUID()                 { return this.sUUID; }
 }
