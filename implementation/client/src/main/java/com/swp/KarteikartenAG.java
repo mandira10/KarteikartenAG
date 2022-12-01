@@ -14,6 +14,7 @@ import com.gumse.system.Window;
 import com.gumse.system.Window.WindowResizePosCallback;
 import com.gumse.tools.Debug;
 import com.gumse.tools.FPS;
+import com.swp.DataModel.Category;
 import com.swp.GUI.KarteikartenAGGUI;
 import com.swp.GUI.PageManager;
 
@@ -61,6 +62,8 @@ public class KarteikartenAG
         }
 
         pMainGUI.updateCanvas();
+
+        Category rootCategory = new Category("Root", "", null); //For now
         
         while(pMainWindow.isOpen())
         {

@@ -6,7 +6,7 @@ public class TextCard extends Card
 {
     public TextCard()
     {
-        super("");
+        super("", CardType.TEXT);
     }
     
 }

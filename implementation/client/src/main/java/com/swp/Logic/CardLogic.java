@@ -1,118 +1,99 @@
 package com.swp.Logic;
 
-import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.Tag;
 import com.swp.Persistence.CardRepository;
+import com.swp.Persistence.Exporter;
+import com.swp.Persistence.Exporter.ExportFileType;
 
-import javax.sound.sampled.AudioFileFormat;
 import java.util.List;
 
 public class CardLogic
 {
-    CardRepository cardRepository;
-
-    public List<Card> getCardsForCategory(String category)
+    public static List<Card> getCardsByCategory(Category category)
 	{
-        Category category1 = new Category();
-        return cardRepository.findCardsByCategory(category1);
+        return CardRepository.findCardsByCategory(category);
     }
 
-    public List<Card> getCardsForTag(String tag)
+    public static List<Card> getCardsByTag(Tag tag)
 	{
-        Tag tag1 = new Tag();
-        return cardRepository.findCardsByTag(tag1);
+        return CardRepository.findCardsByTag(tag);
 
     }
 
-    public List<Card> getCardsForSearchWords(String searchWords)
+    /**
+     * 
+     * @param terms Space separated string containing searchterms
+     * @return
+     */
+    public static List<Card> getCardsBySearchterms(String terms)
 	{
-        return cardRepository.findCardsWith(searchWords);
+        return CardRepository.findCardsWith(terms);
     }
 
-    public TrueFalseCard createTrueFalseCard(String question, boolean answer, boolean visibility) 
+    public static Card getAllInfosForCard(String card)
 	{
-        TrueFalseCard retCard = new TrueFalseCard();
-        cardRepository.saveCard(retCard);
-        
-        return retCard;
+        return CardRepository.findCardByName(card);
     }
 
-    public ImageTestCard createImageTestCard(String question, Texture answer, boolean qSwapQA, boolean visibility) {
-        ImageTestCard retCard = new ImageTestCard();
-        cardRepository.saveCard(retCard);
-
-        return retCard;
-    }
-
-    public AudioCard createAudioCard(AudioFileFormat question, String answer, boolean qSwapQA, boolean visibility) {
-        AudioCard retCard = new AudioCard();
-        cardRepository.saveCard(retCard);
-
-        return retCard;
-
-    }
-
-    public ImageDescriptionCard createImageDescCard(Texture question, String answer, boolean visibility) {
-        ImageDescriptionCard retCard = new ImageDescriptionCard();
-        cardRepository.saveCard(retCard);
-
-        return retCard;
-
-    }
-
-    public TextCard createTextCard(String question, String answer, boolean visibility) {
-        TextCard retCard = new TextCard();
-        cardRepository.saveCard(retCard);
-
-        return retCard;
-    }
-
-    public MultipleChoiceCard createMultipleChoiceCard(String question, String[] answers, int[] isCorrectAnswers, boolean visibility) {
-        MultipleChoiceCard retCard = new MultipleChoiceCard();
-        cardRepository.saveCard(retCard);
-
-        return retCard;
-    }
-
-    public Card getAllInfosForCard(String card)
+    public static int getCountOfDecksFor(String card)
 	{
-        return cardRepository.findCardByName(card);
+        Card specificCard = CardRepository.findCardByName(card);
+        return CardRepository.findNumberOfDecksToCard(specificCard);
     }
 
-    public int getCountOfDecksFor(String card)
-	{
-        Card specificCard = cardRepository.findCardByName(card);
-        return cardRepository.findNumberOfDecksToCard(specificCard);
+    public static List<Card> getCardsToShow(long begin, long end){
+        return CardRepository.getCards(begin, end);
     }
 
-    public List<Card> getCardsToShow(long begin, long end){
-        return cardRepository.getCards(begin, end);
+    public static void createCardToDeck(Card card, Deck deck) {
     }
 
-    public void createCardToDeck(Card card, Deck deck) {
+    public static void createCardToDeckForCategory(Category category, Deck deck) {
     }
 
-    public void createCardToDeckForCategory(Category category, Deck deck) {
+    public static void createCardToCategory(Card card, Category category) {
     }
 
-    public void createCardToCategory(Card card, Category category) {
+    public static void createCardToTag(Card card, Tag category) 
+    {
     }
 
-    public void editCard(Card card){
-        cardRepository.updateCard(card);
+    public static void createTag(String value)
+    {
+
     }
 
-    public void deleteCard(Card card){}
+    //private void changeCard() {}
 
-    public void deleteCards(Card[] card){}
+    /**
+     * Updates Database entry of given card
+     * @param card
+     */
+    public static void updateCardData(Card oldcard, Card newcard)
+    {
+        if(newcard.getUUID().isEmpty())
+            CardRepository.saveCard(newcard);
+        else
+            CardRepository.updateCard(oldcard, newcard);
+    }
 
-    public void rateCard(Card card){}
+    public static void deleteCard(Card card)
+    { 
+        CardRepository.deleteCard(card); 
+    }
+
+    public static void deleteCards(Card[] cards)
+    {
+        for(Card c : cards)
+            deleteCard(c);
+    }
 
 
-
-
+    public static void exportCards(Card[] cards, ExportFileType filetype)
+    {
+        new Exporter(cards, filetype);
+    }
 }

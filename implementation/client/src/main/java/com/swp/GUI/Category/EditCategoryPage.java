@@ -1,21 +1,14 @@
 package com.swp.GUI.Category;
 
-import com.swp.Controller.Controller;
+import com.swp.Controller.CardController;
+import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 
 import java.util.List;
 
-public class EditCategoryPage {
-    Controller controller;
-
-    public void createCategory()
-    {
-        String name = "";
-        List<Category> parents = null;
-        List<Category> children = null;
-        controller.createCategory(name, parents, children);
-    }
+public class EditCategoryPage 
+{
 
     public void editCategory()
     {
@@ -23,19 +16,19 @@ public class EditCategoryPage {
         String name = "";
         List<Category> parents = null;
         List<Category> children = null;
-        controller.editCategory(category, name, parents, children);
+        CategoryController.updateCategoryData(category, category); //TODO
     }
 
     public void deleteCategory()
     {
         Category category = null;
-        controller.deleteCategory(category);
+        CategoryController.deleteCategory(category);
     }
 
     public void addCardToCategory()
     {
         Card card = null;
         Category category = null;
-        controller.createCardToCategory(card,category);
+        CategoryController.createCardToCategory(card,category);
     }
 }

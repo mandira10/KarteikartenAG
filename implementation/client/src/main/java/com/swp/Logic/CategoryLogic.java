@@ -7,14 +7,35 @@ import com.swp.Persistence.CategoryRepository;
 
 public class CategoryLogic
 {
-    CategoryRepository categoryRepository;
+    public static List<Category> getCategories() 
+    { 
+        List<Category> catList = CategoryRepository.getCategories();
 
-    public List<Category> getCategories() { /* TODO */ return null; }
+        //Convert parentuuid entries to actual category references
 
-    public void createCategory(String name, List<Category> parents, List<Category> children) { /*TODO*/ }
-    public void editCategory(Category category, String name, List<Category> parents, List<Category> children) { /*TODO*/ }
-    public void deleteCategory(Category category) { /*TODO*/ }
-    public void getAllInfosFor(Category category) { /*TODO*/ }
-    public List<Category> getParentCategories(Category category) { return null; /*TODO*/ }
-    public List<Category> getChildrenCategories(Category category) { return null; /*TODO*/ }
+        return catList;
+    }
+
+    public static void updateCategoryData(Category oldcategory, Category newcategory) 
+    {
+        if(newcategory.getUUID().isEmpty())
+            CategoryRepository.saveCategory(newcategory);
+        else
+            CategoryRepository.updateCategory(oldcategory, newcategory);
+    }
+
+    public static void deleteCategory(Category category)                  
+    { 
+        CategoryRepository.deleteCategory(category); 
+    }
+
+    public static void deleteCategories(Category[] categories)                  
+    { 
+        for(Category c : categories)
+            CategoryRepository.deleteCategory(c); 
+    }
+    public static void getAllInfosFor(Category category)
+    { 
+        /*CategoryRepository.()*/ 
+    }
 }

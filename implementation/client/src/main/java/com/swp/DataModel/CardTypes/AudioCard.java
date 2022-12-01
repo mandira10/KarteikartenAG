@@ -6,6 +6,6 @@ public class AudioCard extends Card
 {
     public AudioCard()
     {
-        super("");
+        super("", CardType.AUDIO);
     }
 }

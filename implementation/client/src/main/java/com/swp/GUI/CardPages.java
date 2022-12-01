@@ -3,14 +3,14 @@ package com.swp.GUI;
 import com.swp.GUI.Cards.CardOverviewPage;
 import com.swp.GUI.Cards.EditCardPage;
 import com.swp.GUI.Cards.TestCardPage;
-import com.swp.GUI.Cards.ViewCardPage;
+import com.swp.GUI.Cards.ViewSingleCardPage;
 
 public class CardPages 
 {
     private CardOverviewPage pCardOverviewPage;
     private EditCardPage pEditCardPage;
     private TestCardPage pTestCardPage;
-    private ViewCardPage pViewCardPage;
+    private ViewSingleCardPage pViewCardPage;
     
     public CardPages()
     {

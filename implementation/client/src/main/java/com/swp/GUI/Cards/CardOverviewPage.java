@@ -3,45 +3,47 @@ package com.swp.GUI.Cards;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextBox;
+import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
-import com.swp.Controller.Controller;
+import com.swp.Controller.CardController;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.SettingsPage;
+import com.swp.GUI.Settings.ExportSettingsPage;
 
-public class CardOverviewPage extends RenderGUI {
-    Controller controller;
-
+public class CardOverviewPage extends RenderGUI 
+{
     public void showCardsWithCategory()
     {
-        String category  ="";
-        controller.getCardsWithCategory(category);
+        CardController.getCardsByCategory(null);
     }
 
     public void showCardsWithTag()
     {
-        String tag = "";
-        controller.getCardsWithTag(tag);
+        CardController.getCardsByTag(null);
     }
 
     public void showCardsWithSearchWords()
     {
-        String searchWords="";
-        controller.getCardsWithSearchWords(searchWords);
+        CardController.getCardsBySearchterms("");
     }
 
     public void getCountOfDecksToCard()
     {
         String card = "";
-        controller.getCountOfDecksFor(card);
+        CardController.getCountOfDecksFor(card);
     }
 
     public void getCardsToShowInitially(){
         long begin = 0;
         long end = 0;
-        controller.getCardsToShow(begin,end);
+        CardController.getCardsToShow(begin,end);
 
     }
+
+    private TextField pSearchField; //TODO
 
     public CardOverviewPage()
     {
@@ -98,5 +100,11 @@ public class CardOverviewPage extends RenderGUI {
         this.setSizeInPercent(true, true);
         reposition();
         resize();
+    }
+
+    private void exportCards()
+    {
+        ExportSettingsPage.setToExport(null);
+        PageManager.viewPage("ExportSettingsPage");
     }
 }

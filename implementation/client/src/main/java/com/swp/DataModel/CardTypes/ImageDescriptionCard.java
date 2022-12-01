@@ -6,6 +6,6 @@ public class ImageDescriptionCard extends Card
 {
     public ImageDescriptionCard()
     {
-        super("");
+        super("", CardType.IMAGEDESC);
     }
 }

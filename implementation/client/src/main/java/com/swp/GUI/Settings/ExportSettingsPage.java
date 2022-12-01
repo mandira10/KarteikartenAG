@@ -1,51 +1,25 @@
 package com.swp.GUI.Settings;
 
-public class ExportSettingsPage {
+import com.swp.Controller.CardController;
+import com.swp.DataModel.Card;
+import com.swp.Persistence.Exporter.ExportFileType;
 
+public class ExportSettingsPage 
+{
+    private static Card[] aCards;
 
-    private String language;
-    private boolean darkTheme;
-    private String serverAdress;
-    private int serverPort;
-    private static ExportSettingsPage settingsInstance;
-
-    private ExportSettingsPage() {
+    public ExportSettingsPage() 
+    {
     }
 
-    public String getLanguage() {
-        return language;
+    public static void setToExport(Card[] cards)
+    {
+        aCards = cards;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    private void doExport()
+    {
+        ExportFileType type = ExportFileType.EXPORT_XML;
+        CardController.exportCards(aCards, type);
     }
-
-    public boolean isDarkTheme() {
-        return darkTheme;
-    }
-
-    public void setDarkTheme(boolean darkTheme) {
-        this.darkTheme = darkTheme;
-    }
-
-    public String getServerAdress() {
-        return serverAdress;
-    }
-
-    public void setServerAdress(String serverAdress) {
-        this.serverAdress = serverAdress;
-    }
-
-    public int getServerPort() {
-        return serverPort;
-    }
-
-    public void setServerPort(int serverPort) {
-        this.serverPort = serverPort;
-    }
-
-    public static ExportSettingsPage getSettingsInstance() {
-        return settingsInstance;
-    }
-
 }

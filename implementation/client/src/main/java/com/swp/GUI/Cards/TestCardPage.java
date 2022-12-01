@@ -1,11 +1,13 @@
 package com.swp.GUI.Cards;
 
+import com.swp.DataModel.*;
+
 public class TestCardPage {
 
     private Deck Deck = null;
     private Card Card = null;
-    private float progress = 0.0;
-    private float rating = 0.0;
+    private float progress = 0.0f;
+    private float rating = 0.0f;
 
 
     TestCardPage(){/*load card at progress state*/};
@@ -14,9 +16,9 @@ public class TestCardPage {
 
     public void getCardOfNextDeck(){/*load and display next Card of the next Deck */};
 
-    public float getProgress(){/*Get the progress specific to Studysystem */};
+    public float getProgress(){/*Get the progress specific to Studysystem */ return 0.0f;};
 
-    public float getRating(){/*Timed Rating or User Rating*/};
+    public float getRating(){/*Timed Rating or User Rating*/ return 0.0f;};
 
     public void setRating(){/*Rating by User*/};
 

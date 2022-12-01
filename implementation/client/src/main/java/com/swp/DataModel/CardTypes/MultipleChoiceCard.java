@@ -6,7 +6,7 @@ public class MultipleChoiceCard extends Card
 {
     public MultipleChoiceCard()
     {
-        super("");
+        super("", CardType.MULITPLECHOICE);
     }
     
 }

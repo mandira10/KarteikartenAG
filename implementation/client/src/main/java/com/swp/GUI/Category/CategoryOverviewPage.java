@@ -1,31 +1,26 @@
 package com.swp.GUI.Category;
 
-import com.swp.Controller.Controller;
+import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Category;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.Settings.ExportSettingsPage;
 
-public class CategoryOverviewPage {
-    Controller controller;
-
+public class CategoryOverviewPage 
+{
     public void showCategories()
     {
-        controller.getCategories();
-    }
-
-    public void showParentCategories()
-    {
-        Category category = null;
-        controller.getParentCategories(category);
-    }
-
-    public void showChildrenCategories()
-    {
-        Category category = null;
-        controller.getChildrenCategories(category);
+        CategoryController.getCategories();
     }
 
     public void getCountOfCardToCategory()
     {
         Category category = null;
-        controller.getCountOfCardsFor(category);
+        CategoryController.getCountOfCardsFor(category);
+    }
+
+    private void exportCards()
+    {
+        ExportSettingsPage.setToExport(null);
+        PageManager.viewPage("ExportSettingsPage");
     }
 }
