@@ -45,4 +45,11 @@ public class DeckLogic
     public static void getAllInfosForDeck(String deck)  { /*TODO*/ }
     public static void getCountOfCardsInDeck(Deck deck) { /*TODO*/ }
     public static List<CardToDeck> getCardToDecks()     { return DeckRepository.getCardToDecks(); }
+
+    public static void getDecksAndCards() {
+        List <Deck> listOfDecks = getDecks();
+        for( Deck d : listOfDecks){
+            getCardToDecks();
+        }
+    }
 }

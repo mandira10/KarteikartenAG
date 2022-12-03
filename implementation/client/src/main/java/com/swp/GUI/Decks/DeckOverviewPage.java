@@ -11,8 +11,8 @@ public class DeckOverviewPage
 {
     public void showDecks()
     {
-        DeckController.getCards();
-        DeckController.getDecks();
+        DeckController.getDecksAndCards();
+
     }
 
     public void getCountOfCardToDeck()
@@ -21,6 +21,9 @@ public class DeckOverviewPage
         DeckController.getCountOfCardsFor(deck);
     }
 
+    public void deleteDeck(){
+        DeckController.deleteDeck(null);
+    }
     public void deleteDecks(){
         DeckController.deleteDecks(null);
     }

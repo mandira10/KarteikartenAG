@@ -19,7 +19,14 @@ public class DeckController
     }
     public static void deleteDeck(Deck deck) { DeckLogic.deleteDeck(deck); }
     public static void deleteDecks(Deck[] decks) { DeckLogic.deleteDecks(decks); }
-    public static Card[] getCards() 
+
+    public static void getDecksAndCards(){
+        DeckLogic.getDecksAndCards();
+
+    }
+
+
+    /*public static Card[] getCards()
     {
         ArrayList<Card> retCards = new ArrayList<>();
         for(CardToDeck c2d : DeckLogic.getCardToDecks())
@@ -28,7 +35,7 @@ public class DeckController
         }
         
         return (Card[])retCards.toArray();
-    }
+    }*/
 
     public static void createCardToDeck(Card card, Deck deck) { CardLogic.createCardToDeck(card, deck); }
     public static void createCardToDeckForCategory(Category category, Deck deck) { CardLogic.createCardToDeckForCategory(category, deck); }
