@@ -6,7 +6,7 @@ import com.swp.DataModel.CardToDeck;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem;
 
-public class DeckRepository 
+public class DeckRepository
 {
     /**
      * 
@@ -30,7 +30,7 @@ public class DeckRepository
         //server.send("/createdeck", jsonString);
     }
 
-    public static void deleteDeck(Deck card)
+    public static void deleteDeck(Deck deck)
     {
         //server.send("/deletedeck", jsonString);
     }

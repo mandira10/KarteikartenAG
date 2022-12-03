@@ -31,4 +31,6 @@ public class Deck
     //
     public String getName()                 { return this.sName; }
     public String getUUID()                 { return this.sUUID; }
+
+    public StudySystem getStudySystem(){return this.pStudySystem;}
 }

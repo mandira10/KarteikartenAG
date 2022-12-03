@@ -36,7 +36,7 @@ public class CardController
     
     /**
      * Gets called by the EditCardPage GUI upon clicking apply
-     * @param card
+     * @param oldcard
      */
     public static void editCard(Card oldcard, Card newcard)
     { 

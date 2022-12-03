@@ -102,6 +102,15 @@ public class CardOverviewPage extends RenderGUI
         resize();
     }
 
+    public void deleteCards(){
+        CardController.deleteCards(null);
+    }
+
+    private void deleteCard()
+    {
+        CardController.deleteCard(null);
+    }
+
     private void exportCards()
     {
         ExportSettingsPage.setToExport(null);

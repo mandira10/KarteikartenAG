@@ -1,5 +1,6 @@
 package com.swp.GUI.Decks;
 
+import com.swp.Controller.CardController;
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Deck;
 import com.swp.GUI.PageManager;
@@ -18,6 +19,10 @@ public class DeckOverviewPage
     {
         Deck deck = null;
         DeckController.getCountOfCardsFor(deck);
+    }
+
+    public void deleteDecks(){
+        DeckController.deleteDecks(null);
     }
 
     private void exportCards()

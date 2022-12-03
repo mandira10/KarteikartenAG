@@ -20,7 +20,10 @@ public class DeckLogic
         if(newdeck.getUUID().isEmpty())
             DeckRepository.saveDeck(newdeck);
         else
+            if(olddeck.getStudySystem().equals(newdeck.getStudySystem()))
             DeckRepository.updateDeck(olddeck, newdeck);
+            else
+                updateStudySystem(newdeck, newdeck.getStudySystem());
     }
 
     public static void updateStudySystem(Deck deck, StudySystem system)
