@@ -12,6 +12,11 @@
     \renewcommand\documentTitle{Modulsicht}
     \renewcommand\groupName{KarteikartenAG}
 
+    \newcommand\cat[1]{
+    \textbf{\large #1}\\[0.5em]}
+    \newcommand\cata[1]{
+    \textbf{#1}\\[0.3em]}
+
     \swpdocument{Rodrigue Wete Nguempnang}{04. Dezember 2022}%
                 {Mert As & meras@uni-bremen.de}%
                 {Tom Beuke & tombeuke@uni-bremen.de}%
@@ -24,11 +29,102 @@
     \KOMAoptions{paper=A4,paper=portrait,pagesize}
     \section{Modulsicht Beschreibung}\label{sec:detailliert:Modulsicht}
 
-    \begin{answer}
-        TODO
-    \end{answer}
+    \cat{Module}
+    Unsere Module sind in fünf unterschiedliche Module mit teils Untermodulen aufgeteilt.
+    \begin{itemize}
+        \item \textbf{GUI} mit den Untermodulen: CardGUI, DeckGUI und CategoryGUI mit jeweils mehreren Klassen.
+        \item \textbf{Controller} mit den Klassen: CardController, DeckController, CategoryController.
+        \item \textbf{Logic} mit den Klassen. CardLogic, DeckLogic, CategoryLogic.
+        \item \textbf{Persistence} mit den Klassen CardRepository, DeckRepository, CategoryRepository.
+        \item \textbf{Datenmodell} 
+    \end{itemize}
+
+     
+    \cat{GUI}
+    Die \texttt{GUI} ist zuständig für die Darstellung unseres Karteikartensystems.
+    Sie ist aufteilt in mehrere Untermodule für die einzelnen Hauptbestandteile 
+    unserer Software: Die Karteikarten, die Decks zum Lernen der Karteikarten und die Kategorien, 
+    denen die Karten zugeordnet werden. Diese Module enthalten die einzelnen Klassen zur Darstellung
+    unseres Systems.\\\\
+    \cata{CardGUI} \texttt{CardGUI} beinhaltet 4 Klassen. In der \texttt{CardOverviewPage} werden
+    alle Karten dargestellt (Glossar). Wenn man neue Karten anlegen oder bestehende bearbeiten will, tut 
+    man dies über die \texttt{EditCardPage}, die über das Glossar geöffnet werden kann. Auch eine Einzelkartensicht
+    kann über das Glossar aufgerufen, der User wird dann zur \texttt{ViewSingleCardPage} weitergeleitet.
+    Die letzte Seite wird beim Lernmodus genutzt die \texttt{TestCardPage}.\\\\
+    \cata{DeckGUI} \texttt{DeckGUI} beinhaltet 3 Klassen. Die Standardseite ist \texttt{DeckOverviewPage}, 
+    in der alle zur Verfügung stehenden Decks aufgelistet werden. Über diese kann auf die \texttt{EditDeckPage} 
+    navigiert werden, worüber neue Decks erstellt werden oder aber bestehende angepasst werden. Auch kann sich ein
+    User ein einzelnes Deck über \texttt{ViewSingleDeckPage} anzeigen lassen mitsamt der wichtigsten Informationen 
+    zum Deck.\\\\
+    \cata{CategoryGUI} \texttt{CategoryGUI} beinhaltet 4 Klassen. \texttt{CategoryOverviewPage} listet alle Kategorien
+    und wie oft sie verwendet werden auf. Über die Klasse \texttt{ViewCategoryHierarchyPage} kann 
+    der Nutzer die gesamte Hierachie der Klassen mit \texttt{Parents} und \texttt{Children} einsehen.
+    Auch hier gibt es analog zu \texttt{Deck} und \texttt{Card} eine extra Seite für das Erstellen und Bearbeiten 
+    (\texttt{EditCategoryPage}) sowie eine Einzelkategorieübersicht (\texttt{ViewSingeCategoryPage}).
+   
+    \cat{Controller}
+    Der \texttt{Controller} steht im Austausch (TODO) mit der \texttt{GUI} und gibt Aufrufe, die vom Nutzer 
+    in der \texttt{GUI} gemacht werden, an die \texttt{Logik} weiter.\\
+    Er teilt sind in 3 Klassen: \texttt{CardController}, \texttt{DeckController} und \texttt{CategoryController}, die alle Aufrufe, die von den 3 Gui-Untermodulen kommen, bearbeiten.
+   
+    \cat{Logik}
+    Der \texttt{Logik} ist das Modul, dass sich um die Ausführung von den Anwendungsfällen kümmert.
+    Sie leitet Datenbezogene Aufgaben an die \texttt{Persistence} weiter.\\\\
+    Die Logik teilt sind in 3 Klassen: \texttt{CardLogic}, \texttt{DeckLogic} und \texttt{CategoryLogic}. Diese übernehmen
+    die Ausführung für die einzelnen Submodule.
+  
+    \cat{Persistence}
+    Der \texttt{Persistence} ist das Modul, dass datenbezogene Arbeiten ausführt. Das Laden und Speichern wird
+    an unseren Server weitergegeben.\\\\
+    Die Persistence teilt sind in 3 Klassen: \texttt{CardRepository}, \texttt{DeckRepository} und \texttt{CategoryRepository}, die das Laden und Speichern der
+    Submodule ausführen, indem sie mit der Datenbank auf dem Server kommunizieren.
+
+
+    \textbf{TODO}\\ 
+    Klärung Connection Controller / GUI -> aktuell eher einseitig
+    \begin{itemize}
+    \item Wollen wir über den Controller Fehlermeldungen für die GUI 
+    aufrufen lassen?
+    \item Soll über den Controller das Starten der Applikation + PageManager Geschichten laufen? 
+    \end{itemize}
+
+    \section{Modulsicht Detailbeschreibung}
+    Da die Methoden aufeinander aufbauen, wird hier jeweils die gedachte Funktionsweise von GUI bis Persistence beschrieben.\\
+    \cat{Karte}:
+    \begin{itemize}
+    \item \textit{N1 Karteikarte anlegen/ N3 Karteikarte bearbeiten}\\ Das Anlegen/Bearbeiter einer Karte wird in \texttt{EditCardPage} mittels \texttt{applyChanges} umgesetzt.
+    Dieses ruft im \texttt{CardController} die Methode \texttt{editCard} auf. In der darauf aufgerufenen Methode 
+    \texttt{updateCardData} mitsamt Weitergabe alter und neuer Karteninformationen erfolgt die Umsetzung in \texttt{CardLogic}.
+    Die Logik prüft, ob die Karte neu ist oder geupdatet wird und ruft darauf aufbauend entweder \texttt{saveCard} oder \texttt{updateCard}
+    in \texttt{CardRepository} auf.\\
+    Auch Tags und Kategorien können über die Seite aufgerufen werden, auch dies wird über die Logik in \texttt{updateCardData} registriert und über die Methoden 
+    \texttt{createCardToCategory} und \texttt{createTagToCategory} umgesetzt.\\
+    Der Nutzer kann zudem die Karte bewerten, was als Attribut in der Karte über \texttt{applyChanges} gespeichert wird.
+    \item TODO: importieren fehlt
+    \item \textit{N2 Karteikarte löschen} Kann entweder bei Kartenbearbeitung (\texttt{CardEditPage}) oder über das Glossar (\texttt{CardOverviewPage}) 
+    für einzelne oder mehrere Karten aufgerufen werden.
+    \item \textit{N4 Karteikarte als PDF exportieren/ N7 Karteikarte als JSON exportieren / Karteikarte als XML exportieren} Für das Exportieren gibt es eine separate Seite \texttt{ExportSettingsPage}, die nach Aufruf 
+    in \texttt{CardOverviewPage} aufgerufen wird. Die Methode ist im Abschnitt \texttt{Settings} erläutert.
+    \item \textit{N19 Karteikarten anzeigen} Für das Anzeigen der Karteikarten gibt es in \texttt{CardOverviewPage} zwei zugehörige Methoden
+    \texttt{getCardsToShowInitially}, nicht alle Karten werden bei Öffnen
+    des Glossars angezeigt, die Methode dient dem initialen Laden. Die zweite Methode baut darauf auf und zieht aus \texttt{CardToDeck} die Anzahl der
+    Decks pro geladener Karte. TODO: was ist bei Seitenwechsel im Glossar? // zusammenführen des getCountOfDecks nur in Logic aufrufen?
+    \item \textit{N20 Karteikartenansicht verändern}
+
+
+
+    \end{itemize}
+     \newpage
     \recalctypearea
 
+    %Only to show how the structure is
+    %some methods are still missing, folder implementation has more detail
+    \KOMAoptions{paper=A3,paper=landscape,pagesize}
+    \thispagestyle{empty}
+    \begin{tikzpicture}% 
+        \input{module/ModuleOverview.tex} 
+    \end{tikzpicture}
+    \newpage
     %Only to show how the structure is
     %some methods are still missing, folder implementation has more detail
     \KOMAoptions{paper=A3,paper=landscape,pagesize}

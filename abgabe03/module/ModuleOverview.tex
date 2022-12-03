@@ -1,0 +1,44 @@
+\definecolor{beaublue}{rgb}{0.74, 0.83, 0.9}
+\begin{umlpackage}[fill=beaublue]{GUI}
+    \begin{umlpackage}[fill=beaublue]{CardGUI}
+        \umlemptyclass[x=0, y=0]{CardOverviewPage}
+        \umlemptyclass[x=0, y=-2]{EditCardPage}
+        \umlemptyclass[x=0, y=-4]{ViewCardPage}
+        \umlemptyclass[x=0, y=-6]{TestCardPage}
+    \end{umlpackage}{CardGUI}
+    \begin{umlpackage}[fill=beaublue]{DeckGUI}
+       \umlemptyclass[x=5, y=0]{DeckOverviewPage}
+       \umlemptyclass[x=5, y=-2]{EditDeckPage}
+       \umlemptyclass[x=5, y=-4]{ViewSingleDeckPage}
+    \end{umlpackage}{DeckGUI}   
+    \begin{umlpackage}[fill=beaublue]{CategoryGUI}
+        \umlemptyclass[x=11, y=0]{CategoryOverviewPage}
+        \umlemptyclass[x=11, y=-2]{EditCategoryPage}
+        \umlemptyclass[x=11, y=-4]{ViewCategoryHierarchyPage}
+        \umlemptyclass[x=11, y=-6]{ViewSingeCategoryPage}
+     \end{umlpackage}{CategoryGUI}   
+\end{umlpackage}{GUI}
+
+\begin{umlpackage}[fill=beaublue]{Controller}
+    \umlemptyclass[x=0, y=-10]{CardController}
+    \umlemptyclass[x=5, y=-10]{DeckController}
+    \umlemptyclass[x=11, y=-10]{CategoryController}
+\end{umlpackage}{Controller}
+
+\begin{umlpackage}[fill=beaublue]{Logic}
+    \umlemptyclass[x=-0.5, y=-14]{CardLogic}
+    \umlemptyclass[x=5, y=-14]{DeckLogic}
+    \umlemptyclass[x=11, y=-14]{CategoryLogic}
+\end{umlpackage}{Logic}
+
+\begin{umlpackage}[fill=beaublue]{Persistence}
+    \umlemptyclass[x=0, y=-18]{CardRepository}
+    \umlemptyclass[x=5, y=-18]{DeckRepository}
+    \umlemptyclass[x=11, y=-18]{CategoryRepository}
+\end{umlpackage}{Persistence}
+
+\begin{umlpackage}[x=20, y=0, fill=beaublue]{Datamodel}
+    %\umlemptyclass[x=20, y=0]{CardRepository}
+    %\umlemptyclass[x=5, y=-18]{DeckRepository}
+    %\umlemptyclass[x=11, y=-18]{CategoryRepository}
+\end{umlpackage}{Datamodel}

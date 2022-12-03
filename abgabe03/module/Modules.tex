@@ -1,34 +1,32 @@
-\begin{umlcomponent}{GUI}
-    \begin{umlcomponent}{CardGUI}
+%\definecolor{columbiablue}{rgb}{0.61, 0.87, 1.0}
+\definecolor{beaublue}{rgb}{0.74, 0.83, 0.9}
+\begin{umlpackage}[fill=beaublue]{GUI}
+    \begin{umlpackage}[fill=beaublue]{CardGUI}
         \input{module/CardGUI/CardOverviewPage.tex}
         \input{module/CardGUI/EditCardPage.tex}
         \input{module/CardGUI/ViewCardPage.tex}
         \input{module/CardGUI/TestCardPage.tex}
-    \end{umlcomponent}{CardGUI}
-    %\umlemptyclass[x=8, y=0]{DeckGUI}
-    %\umlemptyclass[x=8, y=-5]{CategoryGUI}
-\end{umlcomponent}{GUI}
-   
-\umlclass[x=2, y=-7]{Controller}
-{ 
-    + getCardsWithCategory(String): List<Card> \\ 
-    + getCardsWithTag(String): List<Card> \\ 
-    + getCardsWithSearchWords(String): List<Card> \\ 
-    + getCountOfDecksFor(String): void\\
-    + createTrueFalseCard(String, boolean, boolean): void \\
-    + getAllInfosToCard(String):Card\\
-}{}
+    \end{umlpackage}{CardGUI}
+    \begin{umlpackage}[fill=beaublue]{DeckGUI}
+        \input{module/DeckGUI/DeckOverviewPage.tex}
+        \input{module/DeckGUI/EditDeckPage.tex}
+        \input{module/DeckGUI/ViewSingleDeckPage.tex}
+    \end{umlpackage}{DeckGUI}   
+\end{umlpackage}{GUI}
 
-\begin{umlcomponent}{Logic}
+\begin{umlpackage}[fill=beaublue]{Controller}
+    \input{module/Controller/CardController.tex}
+    \input{module/Controller/DeckController.tex}
+\end{umlpackage}{Controller}
+
+\begin{umlpackage}[fill=beaublue]{Logic}
     \input{module/Logic/CardLogic.tex}
-    % \umlemptyclass[x=8, y=-16]{DeckLogic}
-    % \umlemptyclass[x=8, y=-19]{CategoryLogic}
-\end{umlcomponent}{Logic}
+    \input{module/Logic/DeckLogic.tex}
+\end{umlpackage}{Logic}
 
-\begin{umlcomponent}{Persistence}
+\begin{umlpackage}[fill=beaublue]{Persistence}
     \input{module/Persistence/CardRepository.tex}
-    % \umlemptyclass[x=8, y=-16]{DeckLogic}
-    % \umlemptyclass[x=8, y=-19]{CategoryLogic}
-\end{umlcomponent}{Persistence}
+    \input{module/Persistence/DeckRepository.tex}
+\end{umlpackage}{Persistence}
 
 %\umlemptyclass[x=6, y=-18]{DM:Card}
