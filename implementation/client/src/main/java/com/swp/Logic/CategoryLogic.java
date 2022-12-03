@@ -2,13 +2,19 @@ package com.swp.Logic;
 
 import java.util.List;
 
+import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
 import com.swp.Persistence.CategoryRepository;
 
 public class CategoryLogic
 {
-    public static List<Category> getCategories() 
-    { 
+    public static void createCategory(String name, List<Category> parents, List<Category> children)
+    {
+        CategoryRepository.createCategory(name, parents, children);
+    }
+
+    public static List<Category> getCategories()
+    {
         List<Category> catList = CategoryRepository.getCategories();
 
         //Convert parentuuid entries to actual category references
@@ -16,7 +22,7 @@ public class CategoryLogic
         return catList;
     }
 
-    public static void updateCategoryData(Category oldcategory, Category newcategory) 
+    public static void updateCategoryData(Category oldcategory, Category newcategory)
     {
         if(newcategory.getUUID().isEmpty())
             CategoryRepository.saveCategory(newcategory);
@@ -24,18 +30,21 @@ public class CategoryLogic
             CategoryRepository.updateCategory(oldcategory, newcategory);
     }
 
-    public static void deleteCategory(Category category)                  
-    { 
-        CategoryRepository.deleteCategory(category); 
+    public static void deleteCategory(Category category)
+    {
+        CategoryRepository.deleteCategory(category);
     }
 
-    public static void deleteCategories(Category[] categories)                  
-    { 
+    public static void deleteCategories(Category[] categories)
+    {
         for(Category c : categories)
-            CategoryRepository.deleteCategory(c); 
+            CategoryRepository.deleteCategory(c);
     }
     public static void getAllInfosFor(Category category)
-    { 
-        /*CategoryRepository.()*/ 
+    {
+        /*CategoryRepository.()*/
+    }
+
+    public static void deleteCardToCategory(CardToCategory c2d) {
     }
 }

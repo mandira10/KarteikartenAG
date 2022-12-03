@@ -7,15 +7,15 @@ import com.swp.Persistence.DeckRepository;
 
 import java.util.List;
 
-public class DeckLogic 
+public class DeckLogic
 {
-    public static List<Deck> getDecks() 
-    { 
+    public static List<Deck> getDecks()
+    {
         List<Deck> deckList = DeckRepository.getDecks();
         return deckList;
     }
 
-    public static void updateDeckData(Deck olddeck, Deck newdeck) 
+    public static void updateDeckData(Deck olddeck, Deck newdeck)
     {
         if(newdeck.getUUID().isEmpty())
             DeckRepository.saveDeck(newdeck);
@@ -31,9 +31,9 @@ public class DeckLogic
         DeckRepository.updateStudySystem(deck, system);
     }
 
-    public static void deleteDeck(Deck deck) 
+    public static void deleteDeck(Deck deck)
     {
-        
+
     }
 
     public static void deleteDecks(Deck[] decks)

@@ -5,7 +5,7 @@ import com.swp.DataModel.Category;
 
 public class ViewSingleCategoryPage 
 {
-    public void displayInformationToCard(){
+    public void displayInformationForCard(){
         Category category = null;
         CategoryController.getAllInfosFor(category);
     }

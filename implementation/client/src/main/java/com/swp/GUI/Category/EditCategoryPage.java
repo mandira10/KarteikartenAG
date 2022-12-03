@@ -10,6 +10,14 @@ import java.util.List;
 public class EditCategoryPage 
 {
 
+    public void createCategory()
+    {
+        String name = "";
+        List<Category> parents = null;
+        List<Category> children = null;
+        CategoryController.createCategory(name, parents, children);
+    }
+
     public void editCategory()
     {
         Category category = null;

@@ -5,7 +5,7 @@ import com.swp.DataModel.Category;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Settings.ExportSettingsPage;
 
-public class CategoryOverviewPage 
+public class CategoryOverviewPage
 {
     public void showCategories()
     {
@@ -15,7 +15,7 @@ public class CategoryOverviewPage
     public void getCountOfCardToCategory()
     {
         Category category = null;
-        CategoryController.getCountOfCardsFor(category);
+        int count = CategoryController.getCountOfCardsFor(category);
     }
 
     private void exportCards()

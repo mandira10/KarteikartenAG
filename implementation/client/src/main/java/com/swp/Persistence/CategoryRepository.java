@@ -29,4 +29,9 @@ public class CategoryRepository
 
     public static List<Category> getCategories()  { return null; }
     public static Category getCategory(int index) { return null; }
+
+    public static void createCategory(String name, List<Category> parents, List<Category> children)
+    {
+        // create Category locally and call `saveCategory(category)`
+    }
 }
