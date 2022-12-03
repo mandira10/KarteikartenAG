@@ -11,22 +11,31 @@
         \input{module/DeckGUI/DeckOverviewPage.tex}
         \input{module/DeckGUI/EditDeckPage.tex}
         \input{module/DeckGUI/ViewSingleDeckPage.tex}
-    \end{umlpackage}{DeckGUI}   
+    \end{umlpackage}{DeckGUI}
+	\begin{umlpackage}[fill=beaublue]{CategoryGUI}
+		\input{module/CategoryGUI/CategoryOverviewPage.tex}
+		\input{module/CategoryGUI/EditCategoryPage.tex}
+		\input{module/CategoryGUI/ViewCategoryHierarchyPage.tex}
+		\input{module/CategoryGUI/ViewSingleCategoryPage.tex}
+	\end{umlpackage}
 \end{umlpackage}{GUI}
 
 \begin{umlpackage}[fill=beaublue]{Controller}
     \input{module/Controller/CardController.tex}
     \input{module/Controller/DeckController.tex}
+    \input{module/Controller/CategoryController.tex}
 \end{umlpackage}{Controller}
 
 \begin{umlpackage}[fill=beaublue]{Logic}
     \input{module/Logic/CardLogic.tex}
     \input{module/Logic/DeckLogic.tex}
+    \input{module/Logic/CategoryLogic.tex}
 \end{umlpackage}{Logic}
 
 \begin{umlpackage}[fill=beaublue]{Persistence}
     \input{module/Persistence/CardRepository.tex}
     \input{module/Persistence/DeckRepository.tex}
+    \input{module/Persistence/CategoryRepository.tex}
 \end{umlpackage}{Persistence}
 
 %\umlemptyclass[x=6, y=-18]{DM:Card}
