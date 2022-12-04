@@ -31,9 +31,9 @@
             %
             % get available categories
             %
-            \begin{umlcall}[op=getCategories(), type=synchron, return=List<Category>]{\editpage}{\control}
-                \begin{umlcall}[op=getCategories(), type=synchron, return=List<Category>]{\control}{\logic}
-                        \begin{umlcall}[op=getCategories(), type=synchron, return=List<Category>]{\logic}{\pers}
+            \begin{umlcall}[op=getCategories(), type=synchron, return=Set<Category>]{\editpage}{\control}
+                \begin{umlcall}[op=getCategories(), type=synchron, return=Set<Category>]{\control}{\logic}
+                        \begin{umlcall}[op=getCategories(), type=synchron, return=Set<Category>]{\logic}{\pers}
                         \end{umlcall}
                 \end{umlcall}
             \end{umlcall}
@@ -42,9 +42,9 @@
             %
             % get available tags
             %
-            \begin{umlcall}[op=getTags(), type=synchron, return=List<Tag>]{\editpage}{\control}
-                \begin{umlcall}[op=getTags(), type=synchron, return=List<Tag>]{\control}{\logic}
-                        \begin{umlcall}[op=getTags(), type=synchron, return=List<Tag>]{\logic}{\pers}
+            \begin{umlcall}[op=getTags(), type=synchron, return=Set<Tag>]{\editpage}{\control}
+                \begin{umlcall}[op=getTags(), type=synchron, return=Set<Tag>]{\control}{\logic}
+                        \begin{umlcall}[op=getTags(), type=synchron, return=Set<Tag>]{\logic}{\pers}
                         \end{umlcall}
                 \end{umlcall}
             \end{umlcall}

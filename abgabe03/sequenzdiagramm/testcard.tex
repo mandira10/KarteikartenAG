@@ -1,7 +1,8 @@
 \begin{tikzpicture}
     \begin{umlseqdiag}
         \umlactor[class=User]{\user}
-        \umlobject[class=ViewSingleDeckPage]{\deckpage}
+        \umlobject[class=TestDeckPage]{\deckpage}
+        \umlobject[class=StudySystem]{\ssystem}
         \umlobject[class=TestCardPage]{\testpage}
         \umlobject[class=Controller]{\control}
         \umlobject[class=Logic]{\logic}
@@ -9,17 +10,50 @@
         
         \begin{umlcall}[op=Will Deck testen, type=synchron]{\user}{\deckpage}
             %
+            % Get Data
+            %
+            \begin{umlcall}[op=getDeck(), type=synchron, return=Deck]{\deckpage}{\control}
+                \begin{umlcall}[op=getDeck(), type=synchron, return=Deck]{\control}{\logic}
+                    \begin{umlcall}[op=getDecks(), type=synchron, return=Set<Deck>]{\logic}{\pers}
+                    \end{umlcall}
+                \end{umlcall}
+            \end{umlcall}
+
+
+
+            %
+            % Get First Card
+            %
+            \begin{umlcall}[op=getNextCard(), type=synchron, return=Card]{\deckpage}{\ssystem}
+            \end{umlcall}
+
+
+            %
             % Test card
             %
-            \begin{umlcall}[op=startTests(), type=synchron]{\deckpage}{\testpage}
-                \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\control}{\logic}
-                    \begin{umlfragment}[type=alt, label=!empty, inner xsep=8, fill=green!10]
-                        %\umlfpart[default]
+            \begin{umlcall}[op=startTests(Card), type=synchron, dt=5]{\deckpage}{\testpage}
+            \end{umlcall}
+        \end{umlcall}
 
-                        \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\logic}{\pers}
-                        \end{umlcall}
-                    \end{umlfragment}
-                \end{umlcall}
+
+        %
+        % On User Answer
+        %
+        \begin{umlfragment}[type=opt, label=selbst bewertet, inner xsep=12, fill=green!10]
+            \begin{umlcall}[op=Antwort aufdecken, type=synchron]{\user}{\testpage}
+                \begin{umlcallself}[op=showAnswer(), type=synchron]{\testpage}
+                \end{umlcallself}
+            \end{umlcall}
+        \end{umlfragment}
+        \begin{umlcall}[op=Antwort abschicken/bestätigen, type=synchron, dt=5]{\user}{\testpage}
+            \begin{umlcall}[op=onAnswer(boolean), type=synchron, dt=5]{\testpage}{\deckpage}
+            \end{umlcall}
+
+            \begin{umlcall}[op=giveAnswer(boolean), type=synchron]{\deckpage}{\ssystem}
+            \end{umlcall}
+            \begin{umlcall}[op=getNextCard(), type=synchron, return=Card]{\deckpage}{\ssystem}
+            \end{umlcall}
+            \begin{umlcall}[op=startTests(Card), type=synchron, dt=5]{\deckpage}{\testpage}
             \end{umlcall}
         \end{umlcall}
 
