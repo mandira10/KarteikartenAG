@@ -5,7 +5,5 @@ import com.swp.DataModel.Category;
 
 public class ViewSingleCategoryPage 
 {
-    public void displayInformationForCard(){
-        Category category = null;
-    }
+    
 }
