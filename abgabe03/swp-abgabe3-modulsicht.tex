@@ -95,8 +95,8 @@
     Karteikarte als XML exportieren /\\
     N24 Kartenauswahl exportieren}\\ 
     Für das Exportieren gibt es eine separate Seite \texttt{ExportSettingsPage}, die nach Aufruf 
-    in verschiedenen Übersichten aufgerufen und über die \texttt{CardLogic} verarbeitet wird. 
-    Die Methode ist im Abschnitt \texttt{Settings} erläutert.
+    in verschiedenen Übersichten aufgerufen und über die \texttt{CardLogic} verarbeitet wird. In der \texttt{Persistence} Klasse gibt es einen \texttt{Exporter}, der die Befehle 
+    verarbeitet und je nach Art des Exports einen der drei spezifischen Exporter in \texttt{Persistence} aufruft, die den eigentlichen Export behandeln.
     \item \textit{N19 Karteikarten anzeigen}\\ Für das Anzeigen der Karteikarten benötigt man zwei Methoden. Initial werden die
     Karten über \texttt{getCardsToShowInitially()} geladen, die im Controller verarbeitet wird und an die Logik weitergereicht werden. Für die gezogenen Karten wird
     dann über den \texttt{DeckController} noch die Anzahl der Karten abgefragt, was ebenfalls über die Logik erfolgt.
@@ -116,33 +116,32 @@
     Sollte der Nutzer später sein Lernsystem ändern, wird dies auch über die Methode aufgerufen in der \texttt{GUI} aber später in der \texttt{DeckLogic}
     separat behandelt über \texttt{updateStudySystem}.
     Zuvor wird, wie bei \texttt{Card} auch, die unterschiedlichen Lernsysteme abgerufen, damit sie ausgewählt werden können.
-   
     \item \textit{N31 Kasten Lernen/ \\
     N32 Lernvorgang unterbrechen/ \\
     N33 Lernvorgang fortsetzen/ \\
     N34 Lernfortschritt/ \\
-    N35 Antwort prüfen}  Siehe Beschreibung in Sequenzdiagramm Teil 2.
+    N35 Antwort prüfen} \\ Siehe Beschreibung in Sequenzdiagramm Teil 2.
+    \item \textit{N28-4 Neue Lernmethoden erstellen}\\
+    Für die Funktion neue Lernmethoden anzulegen, gibt es eine extra Seite, die über die \texttt{DeckOverviewPage} aufgerufen werden kann: \texttt{EditStudySystemTypePage}.
+    Über diese können auch bestehende custom Systeme angepasst werden und neue erstellt werden. Nach Anpassung der Kartenboxen sowie der Wiederholungsintervalle wird über \texttt{applyChanges} 
+    wieder an den Controller weitergereicht und in der \texttt{DeckLogik} werden dann zwei Methoden ausgeführt: Zum einen wird das neue StudySystem hinzugefügt und geprüft, ob es neu ist, zum anderen
+    werden alle StudySystems geupdated auf dem Cache.
     \item \textit{N35 Status der Karteikarten/ \\ N36 Karteikastenübersicht}\\ 
     Für die Karteikästen gibt es, wie bei Karteikarten auch, eine Übersicht, wo zu jedem Karteikasten seine Karten und ihr Status angezeigt werden.
     Dies wird über die Methode \texttt{showDecks} in \texttt{DeckOverviewPage} realisiert. Hier wird die Methode \texttt{getCardToDecks} im \texttt{DeckController}, 
     die in der \texttt{DeckLogic} bearbeitet wird und weiter aufgesplittet. Zunächst wird dort \texttt{getDecksAndCards} aufgerufen, in der dann Zunächst
     die Decks mittel \texttt{getDecks} alle Decks gezogen werden und dann für jedes Deck mit \texttt{getCardsToDeck} die einzelnen Karten mit Status
     ermittelt werden.
-    \item Karteikasten löschen: Wird über \texttt{DeckOverviewPage} oder einzeln über \texttt{EditDeckPage} aufgerufen, für einen oder mehrere Karteikästen (analog zu \texttt{Card})
+    \item\textit{ N38 Karteikasten löschen}\\ Wird über \texttt{DeckOverviewPage} oder einzeln über \texttt{EditDeckPage} aufgerufen, für einen oder mehrere Karteikästen (analog zu \texttt{Card})
     \end{itemize}
     \cat{Category}
     \begin{itemize}
         \item \textit{N12 Kategorie anlegen/ \\
-         N14 Kategorie bearbeiten}
+         N14 Kategorie bearbeiten}\\
     Analog wie bei Karteikarten und Karteikästen gibt eine Methode für das Bearbeiten und Erstellen von Kategorien. (Hierarchieanpassungen beschreiben)
         \item \textit{N14 Kategorie löschen}\\
-    Eine Kategorie kann über \texttt{EditCategoryPage} gelöscht werden.
-    \item \textit{N15 Kategorien anzeigen} TODO: Sollen die Karten in der Übersicht mit angezeigt werden? Über getCategories in Logic mitreinnehmen?\\
+    Eine Kategorie kann über \texttt{EditCategoryPage} gelöscht werden. Verfahren analog wie bei \texttt{Card}.
     \end{itemize}
-    \cat{Settings}
-    TODO: Export beschreiben, mehr?\\
-    TODO: Karten importieren fehlt\\
-    \textit{N28-4 Neue Lernmethoden erstellen} TODO
     \section{Sequenzdiagramm Detailbeschreibung}
     \cat{Sequenzdiagramm 1: Karte erstellen}
     Susi möchte eine Karte erstellen und ruft über die Kartenübersicht Karte erstellen auf.\\
@@ -157,6 +156,31 @@
     \item Wenn Susi auf Übernehmen klickt, wird im \texttt{CardController} \texttt{updateCardData()} aufgerufen. Auch hier folgt
     in der Logik wieder eine Prüfung, ob es sich um eine bestehende oder eine neue Karte handelt und je nachdem wird im \texttt{CardRepository}
     \texttt{saveCard(Card)} oder \texttt{updateCard(Card)}.
+    \end{enumerate}
+
+    \cat{Sequenzdiagramm 2: Lernsystem lernen}
+    Susi möchte einen bereits erstellen Karteikasten testen.\\
+    \begin{enumerate}
+    \item Dazu gelangt sie zunächst zur \texttt{TestDeckPage}. Über den Controller wird \texttt{getDeck()} aufgerufen und das Deck über die Persistence und den Server geladen.
+    \item Über das StudySystem wird die nächste zu bearbeitende Karte geladen. Falls bereits vorher gelernt wurde, beginnt man beim vorherigen Lernfortschritt.
+    \item Sobald das Laden fertig ist, startet der Test
+    \item Hierbei gibt es zwei Optionen:
+        \begin {enumerate}
+        \item  Wenn es sich z.B. um eine Wahr/Falsch Frage handelt, weiß das System, welche Antwort es gibt. 
+        \item Bei anderen Typen, wie bspw. der Text Frage, weiß das System es nicht. 
+        \end {enumerate}
+     \item Daher gibt es eine optionale Selbstbewertung, wo Susi die Antwort aufdecken muss und die \texttt{EditTestPage} die Antwort anzeigt.
+     \item Danach wird die Antwort bestätigt von Susi, bzw. abgeschickt bei einer Frage mit bekanntem Ergebnis und ein \texttt{onAnswer} zurückgegeben, ob die Antwort falsch 
+    oder richtig war.
+    \item Abhängig von der Antwort wird die Karte dann über \texttt{mmoveCardToBox} in \texttt{StudySystem} intern verschoben.
+    \item Darauf gibt es wieder zwei Möglichkeiten: 
+        \begin {enumerate}
+        \item Die Karte war die letzte im Stapel. Das System wird gefinished und der Lernfortschritt über den \texttt{DeckController} gespeichert. Dieser leitet 
+        \texttt{updateStudySystem} weiter an die \texttt{DeckLogic}, die die Funktion an den Server weitergibt, der es dort in der Datenbank speichert.
+        \item Es gibt eine weitere Karte zu lernen. Diese wird angezeigt und das Lernen wird fortgesetzt wie oben bereits beschrieben.   
+        \end {enumerate}
+    \item Zudem kann Susi jederzeit das Lernen abbrechen. Wenn Sie dies auswählt, dann muss der Lernfortschritt vom StudySystem ebenso auf dem Server gespeichert werden. Dafür wird 
+     \texttt{updateStudySystem} aufgerufen, wie bei \texttt{finish}.
     \end{enumerate}
 
     
