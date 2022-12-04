@@ -1,42 +1,45 @@
 package com.swp.GUI.Category;
 
-import com.swp.Controller.CardController;
+import com.gumse.gui.Basics.Button;
 import com.swp.Controller.CategoryController;
-import com.swp.DataModel.Card;
+import com.swp.Controller.CategoryController;
+import com.swp.DataModel.Category;
 import com.swp.DataModel.Category;
 
 import java.util.List;
 
 public class EditCategoryPage 
 {
+    private Button pApplyButton;
+    private Category pOldCategory, pNewCategory;
 
-    public void createCategory()
+    public EditCategoryPage()
     {
-        String name = "";
-        List<Category> parents = null;
-        List<Category> children = null;
-        CategoryController.createCategory(name, parents, children);
+
     }
 
-    public void editCategory()
+    public void editCategory(String uuid) { editCategory(CategoryController.getCategoryByUUID(uuid)); }
+    public void editCategory(Category category)
     {
-        Category category = null;
-        String name = "";
-        List<Category> parents = null;
-        List<Category> children = null;
-        CategoryController.updateCategoryData(category, category); //TODO
+        if(category == null)
+        {
+
+        }
+        else
+        {
+
+        }
+        pOldCategory = category;
+        //pNewCategory = Category.copyCategory(category);
     }
 
-    public void deleteCategory()
+    private void deleteCategory()
     {
-        Category category = null;
-        CategoryController.deleteCategory(category);
+        CategoryController.deleteCategory(pOldCategory);
     }
 
-    public void addCardToCategory()
+    private void applyChanges()
     {
-        Card card = null;
-        Category category = null;
-        CategoryController.createCardToCategory(card,category);
+        CategoryController.updateCategoryData(pOldCategory, pNewCategory);
     }
 }

@@ -7,6 +7,5 @@ public class ViewSingleCategoryPage
 {
     public void displayInformationForCard(){
         Category category = null;
-        CategoryController.getAllInfosFor(category);
     }
 }

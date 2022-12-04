@@ -2,28 +2,40 @@ package com.swp.Persistence;
 
 import com.gumse.tools.Debug;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class CardRepository 
 {
-    public static List<Card> findCardsByCategory(Category category1) 
-    {
-        return new ArrayList<>();
+    public static Set<Card> getCards(long from, long to) 
+    { 
+        /*TODO*/ return null; 
     }
 
-    public static List<Card> findCardsByTag(Tag tag1) 
+    public static Set<Card> findCardsByCategory(Category category) 
     {
-        return new ArrayList<>();
+        return null;
     }
 
-    public static List<Card> findCardsWith(String searchWords) 
+    public static Set<Card> findCardsByTag(Tag tag) 
     {
-        return new ArrayList<>();
+        return null;
+    }
+
+    public static Set<Card> findCardsContaining(String searchWords) 
+    {
+        return null;
+    }
+
+    public static Card getCardByUUID(String uuid) 
+    {
+        return null;
     }
 
     /**
@@ -31,7 +43,7 @@ public class CardRepository
      * @param oldcard
      * @param newcard
      */
-    public static void updateCard(Card oldcard, Card newcard)
+    public static boolean updateCard(Card oldcard, Card newcard)
     {
         String jsonString = "";
         if(!oldcard.sName.equals(newcard.sName))
@@ -57,28 +69,51 @@ public class CardRepository
             
         }
 
-        //server.send("/updatecarddata", jsonString);
+        //return server.send("/updatecarddata", jsonString);
+        return false;
     }
 
-    public static void saveCard(Card card)
+    public static boolean saveCard(Card card)
     {
-        //server.send("/createcard", jsonString);
+        //return server.send("/createcard", jsonString);
+        return false;
     }
 
-    public static void deleteCard(Card card)
+    public static boolean deleteCard(Card card)
     {
-        //server.send("/deletecard", jsonString);
+        //return server.send("/deletecard", jsonString);
+        return false;
     }
 
-    public static List<Card> getCards(long from, long to) { /*TODO*/ return null; }
 
-    public static Card findCardByName(String card) 
+
+
+    //
+    // Tags
+    //
+    public static boolean saveTag(String value)
     {
-        return null;
+        //return server.send("/createtag", jsonString);
+        return false;
     }
 
-    public static int findNumberOfDecksToCard(Card specificCard) 
-    {
-        return 0;
+    public static Set<Tag> getTags()  
+    { 
+        Set<Tag> tags = Cache.getInstance().getTags();
+        if(!tags.isEmpty())
+            return tags;
+
+        //server.send("/gettags", jsonString);
+        return null; 
+    }
+
+    public static Set<CardToTag> getCardToTags()  
+    { 
+        Set<CardToTag> tags = Cache.getInstance().getCardToTags();
+        if(!tags.isEmpty())
+            return tags;
+
+        //server.send("/getcardtotags", jsonString);
+        return null; 
     }
 }

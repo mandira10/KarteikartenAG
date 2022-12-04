@@ -1,50 +1,104 @@
 package com.swp.Logic;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
 import com.swp.Persistence.CategoryRepository;
 
 public class CategoryLogic
-{
-    public static void createCategory(String name, List<Category> parents, List<Category> children)
+{    
+    public static boolean createCardToCategory(Card card, Category category) 
     {
-        CategoryRepository.createCategory(name, parents, children);
+        if(getCategoriesByCard(card).contains(category))
+            return true;
+        
+        return CategoryRepository.saveCardToCategory(card, category);
     }
 
-    public static List<Category> getCategories()
+    public static Set<Category> getCategories()
     {
-        List<Category> catList = CategoryRepository.getCategories();
+        Set<Category> catList = CategoryRepository.getCategories();
 
         //Convert parentuuid entries to actual category references
 
         return catList;
     }
 
-    public static void updateCategoryData(Category oldcategory, Category newcategory)
+    public static Category getCategory(String uuid) 
+    {
+        Set<Category> cats = CategoryRepository.getCategories();
+        for(Category c : cats)
+        {
+            if(c.getUUID() == uuid)
+                return c;
+        }
+        return null; 
+    }
+
+    public static Category getCategoryByUUID(String uuid)
+    { 
+        return null;
+    }
+
+    public static Set<Category> getCategoriesByCard(Card card)
+    { 
+        Set<Category> retArr = new HashSet<>();
+        for(CardToCategory c2c : CategoryRepository.getCardToCategories())
+        {
+            if(c2c.getCard() == card)
+                retArr.add(c2c.getCategory());
+        }
+        return retArr;
+    }
+
+    public static Set<Card> getCardsByCategory(Category category)
+    { 
+        Set<Card> retArr = new HashSet<>();
+        for(CardToCategory c2c : CategoryRepository.getCardToCategories())
+        {
+            if(c2c.getCategory() == category)
+                retArr.add(c2c.getCard());
+        }
+        return retArr;
+    }
+
+
+    public static int numCardsInCategory(Category category)
+    { 
+        return getCardsByCategory(category).size(); 
+    }
+
+    public static boolean updateCategoryData(Category oldcategory, Category newcategory)
     {
         if(newcategory.getUUID().isEmpty())
-            CategoryRepository.saveCategory(newcategory);
+            return CategoryRepository.saveCategory(newcategory);
         else
-            CategoryRepository.updateCategory(oldcategory, newcategory);
+            return CategoryRepository.updateCategory(oldcategory, newcategory);
     }
 
-    public static void deleteCategory(Category category)
+    public static boolean deleteCategory(Category category)
     {
-        CategoryRepository.deleteCategory(category);
+        return CategoryRepository.deleteCategory(category);
     }
 
-    public static void deleteCategories(Category[] categories)
+    public static boolean deleteCategories(Category[] categories)
     {
+        boolean ret = true;
         for(Category c : categories)
-            CategoryRepository.deleteCategory(c);
-    }
-    public static void getAllInfosFor(Category category)
-    {
-        /*CategoryRepository.()*/
+        {
+            if(!CategoryRepository.deleteCategory(c))
+                ret = false;
+        }
+        
+        return ret;
     }
 
-    public static void deleteCardToCategory(CardToCategory c2d) {
+    public static boolean deleteCardToCategory(CardToCategory c2d) 
+    {
+        return false;
     }
 }

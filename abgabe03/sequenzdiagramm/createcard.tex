@@ -1,0 +1,79 @@
+\begin{tikzpicture}
+    \begin{umlseqdiag}
+        \umlactor[class=User]{\user}
+        \umlobject[class=EditCardPage]{\editpage}
+        \umlobject[class=Controller]{\control}
+        \umlobject[class=Logic]{\logic}
+        \umlobject[class=Persistence]{\pers}
+        %\umlmulti[class=C]{c}
+        \begin{umlcall}[op=Will Karte erstellen, type=synchron]{\user}{\editpage}
+            %
+            % Get card data
+            %
+            \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\editpage}{\control}
+                \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\control}{\logic}
+                    \begin{umlfragment}[type=alt, label=!empty, inner xsep=8, fill=green!10]
+                        %\umlfpart[default]
+
+                        \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\logic}{\pers}
+                        \end{umlcall}
+                    \end{umlfragment}
+                \end{umlcall}
+            \end{umlcall}
+
+            \begin{umlfragment}[type=alt, name=showdelete, fill=green!10]
+                \begin{umlcallself}[op=Löschen Button anzeigen, type=synchron]{\editpage}
+                \end{umlcallself}
+            \end{umlfragment}
+            \umlnote[x=-3, y=-6] {showdelete}{getCardByUUID() $\ne$ null}
+
+            
+            %
+            % get available categories
+            %
+            \begin{umlcall}[op=getCategories(), type=synchron, return=List<Category>]{\editpage}{\control}
+                \begin{umlcall}[op=getCategories(), type=synchron, return=List<Category>]{\control}{\logic}
+                        \begin{umlcall}[op=getCategories(), type=synchron, return=List<Category>]{\logic}{\pers}
+                        \end{umlcall}
+                \end{umlcall}
+            \end{umlcall}
+
+            
+            %
+            % get available tags
+            %
+            \begin{umlcall}[op=getTags(), type=synchron, return=List<Tag>]{\editpage}{\control}
+                \begin{umlcall}[op=getTags(), type=synchron, return=List<Tag>]{\control}{\logic}
+                        \begin{umlcall}[op=getTags(), type=synchron, return=List<Tag>]{\logic}{\pers}
+                        \end{umlcall}
+                \end{umlcall}
+            \end{umlcall}
+        \end{umlcall}
+
+        %
+        % Cancel
+        %
+        \begin{umlcall}[op=Abbrechen, type=synchron, return=Zurück zur übersicht]{\user}{\editpage}
+        \end{umlcall}
+
+        %
+        % Apply changes
+        %
+        \begin{umlcall}[op=Übernehmen, type=synchron, return=Zurück zur übersicht]{\user}{\editpage}
+            \begin{umlcall}[op=updateCardData(), type=synchron, return=boolean]{\editpage}{\control}
+                \begin{umlcall}[op=updateCardData(), type=synchron, return=boolean]{\control}{\logic}
+                    \begin{umlfragment}[type=alt, label=uuid.isEmpty, inner xsep=10, fill=green!10]
+                        \begin{umlcall}[op=saveCard(), type=synchron, return=boolean]{\logic}{\pers}
+                        \end{umlcall}
+                        \umlfpart[default]
+                        \begin{umlcall}[op=updateCard(), type=synchron, return=boolean]{\logic}{\pers}
+                        \end{umlcall}
+                    \end{umlfragment}
+                \end{umlcall}
+            \end{umlcall}
+        \end{umlcall}
+
+
+        %\umlcreatecall[class=E, x=8]{\user}{e}
+    \end{umlseqdiag}
+\end{tikzpicture}

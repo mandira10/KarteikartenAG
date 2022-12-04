@@ -5,8 +5,8 @@ import com.swp.DataModel.Card;
 public class XMLExporter
 {
     private XMLExporter() {};
-    public static void export(Card[] cards)
+    public static boolean export(Card[] cards)
     {
-        //TODO
+        return false;
     }
 }

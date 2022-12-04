@@ -1,26 +1,28 @@
 package com.swp.Logic;
 
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Category;
-import com.swp.DataModel.Deck;
 import com.swp.DataModel.Tag;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.Exporter;
 import com.swp.Persistence.Exporter.ExportFileType;
 
 import java.util.List;
+import java.util.Set;
 
 public class CardLogic
 {
-    public static List<Card> getCardsByCategory(Category category)
-	{
-        return CardRepository.findCardsByCategory(category);
-    }
-
-    public static List<Card> getCardsByTag(Tag tag)
+    public static Set<Card> getCardsByTag(Tag tag)
 	{
         return CardRepository.findCardsByTag(tag);
 
+    }
+
+    public static Card getCardByUUID(String uuid) 
+    {
+        if(uuid == null || uuid == "")
+            return null;
+
+        return CardRepository.getCardByUUID(uuid);
     }
 
     /**
@@ -28,72 +30,65 @@ public class CardLogic
      * @param terms Space separated string containing searchterms
      * @return
      */
-    public static List<Card> getCardsBySearchterms(String terms)
+    public static Set<Card> getCardsBySearchterms(String terms)
 	{
-        return CardRepository.findCardsWith(terms);
+        return CardRepository.findCardsContaining(terms);
     }
 
-    public static Card getAllInfosForCard(String card)
-	{
-        return CardRepository.findCardByName(card);
-    }
-
-    public static int getCountOfDecksFor(String card)
-	{
-        Card specificCard = CardRepository.findCardByName(card);
-        return CardRepository.findNumberOfDecksToCard(specificCard);
-    }
-
-    public static List<Card> getCardsToShow(long begin, long end){
+    public static Set<Card> getCardsToShow(long begin, long end){
         return CardRepository.getCards(begin, end);
     }
 
-    public static void createCardToDeck(Card card, Deck deck) {
-    }
 
-    public static void createCardToDeckForCategory(Category category, Deck deck) {
-    }
-
-    public static void createCardToCategory(Card card, Category category) {
-    }
-
-    public static void createCardToTag(Card card, Tag category) 
+    public static boolean createCardToTag(Card card, Tag category) 
     {
+        return false;
     }
 
-    public static void createTag(String value)
+    public static boolean createTag(String value)
     {
+        return CardRepository.saveTag(value);
+    }
 
+    public static Set<Tag> getTags()
+    {
+        return CardRepository.getTags();
     }
 
     //private void changeCard() {}
 
+    
     /**
      * Updates Database entry of given card
      * @param card
      */
-    public static void updateCardData(Card oldcard, Card newcard)
+    public static boolean updateCardData(Card oldcard, Card newcard)
     {
         if(newcard.getUUID().isEmpty())
-            CardRepository.saveCard(newcard);
+            return CardRepository.saveCard(newcard);
         else
-            CardRepository.updateCard(oldcard, newcard);
+            return CardRepository.updateCard(oldcard, newcard);
     }
 
-    public static void deleteCard(Card card)
+    public static boolean deleteCard(Card card)
     { 
-        CardRepository.deleteCard(card); 
+        return CardRepository.deleteCard(card); 
     }
 
-    public static void deleteCards(Card[] cards)
+    public static boolean deleteCards(Card[] cards)
     {
+        boolean ret = true;
         for(Card c : cards)
-            deleteCard(c);
+        {
+            if(!deleteCard(c))
+                ret = false;
+        }
+        return ret;
     }
 
 
-    public static void exportCards(Card[] cards, ExportFileType filetype)
+    public static boolean exportCards(Card[] cards, ExportFileType filetype)
     {
-        new Exporter(cards, filetype);
+        return (new Exporter(filetype)).export(cards);
     }
 }

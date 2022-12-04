@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+    \begin{umlseqdiag}
+        \umlactor[class=User]{\user}
+        \umlobject[class=ViewSingleDeckPage]{\deckpage}
+        \umlobject[class=TestCardPage]{\testpage}
+        \umlobject[class=Controller]{\control}
+        \umlobject[class=Logic]{\logic}
+        \umlobject[class=Persistence]{\pers}
+        
+        \begin{umlcall}[op=Will Deck testen, type=synchron]{\user}{\deckpage}
+            %
+            % Test card
+            %
+            \begin{umlcall}[op=startTests(), type=synchron]{\deckpage}{\testpage}
+                \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\control}{\logic}
+                    \begin{umlfragment}[type=alt, label=!empty, inner xsep=8, fill=green!10]
+                        %\umlfpart[default]
+
+                        \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\logic}{\pers}
+                        \end{umlcall}
+                    \end{umlfragment}
+                \end{umlcall}
+            \end{umlcall}
+        \end{umlcall}
+
+        %\umlcreatecall[class=E, x=8]{\user}{e}
+    \end{umlseqdiag}
+\end{tikzpicture}

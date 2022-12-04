@@ -13,14 +13,20 @@ public class Exporter
 
     ExportFileType iType;
 
-    public Exporter(Card[] cards, ExportFileType filetype)
+    public Exporter(ExportFileType filetype)
     {
         this.iType = filetype;
+    }
+
+    public boolean export(Card[] cards)
+    {
         switch(this.iType)
         {
-            case EXPORT_PDF:  PDFExporter.export(cards);  break;
-            case EXPORT_XML:  XMLExporter.export(cards);  break;
-            case EXPORT_JSON: JSONExporter.export(cards); break;
+            case EXPORT_PDF:  return PDFExporter.export(cards);
+            case EXPORT_XML:  return XMLExporter.export(cards);
+            case EXPORT_JSON: return JSONExporter.export(cards);
         }
+        
+        return false;
     }
 }

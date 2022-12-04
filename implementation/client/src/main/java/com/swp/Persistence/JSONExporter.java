@@ -5,8 +5,8 @@ import com.swp.DataModel.Card;
 public class JSONExporter
 {
     private JSONExporter() {};
-    public static void export(Card[] cards)
+    public static boolean export(Card[] cards)
     {
-
+        return false;
     }
 }

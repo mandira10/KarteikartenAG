@@ -1,7 +1,10 @@
 package com.swp.Persistence;
 
 import java.util.List;
+import java.util.Set;
 
+import com.swp.DataModel.Card;
+import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
 
 public class CategoryRepository 
@@ -11,27 +14,48 @@ public class CategoryRepository
      * @param oldcategory
      * @param newcategory
      */
-    public static void updateCategory(Category oldcategory, Category newcategory)
+    public static boolean updateCategory(Category oldcategory, Category newcategory)
     {
 
         //server.send("/updatecategorydata", jsonString);
+        return false;
     }
 
-    public static void saveCategory(Category category)
+    public static boolean saveCategory(Category category)
     {
         //server.send("/createcategory", jsonString);
+        return false;
     }
 
-    public static void deleteCategory(Category card)
+    public static boolean saveCardToCategory(Card card, Category category) 
+    {
+        //server.send("/createcardtocategory", jsonString);
+        return false;
+    }
+
+    public static boolean deleteCategory(Category card)
     {
         //server.send("/deletecategory", jsonString);
+        return false;
     }
 
-    public static List<Category> getCategories()  { return null; }
-    public static Category getCategory(int index) { return null; }
+    public static Set<Category> getCategories()  
+    { 
+        Set<Category> cats = Cache.getInstance().getCategories();
+        if(!cats.isEmpty())
+            return cats;
 
-    public static void createCategory(String name, List<Category> parents, List<Category> children)
-    {
-        // create Category locally and call `saveCategory(category)`
+        //server.send("/getcategories", jsonString);
+        return null; 
+    }
+
+    public static Set<CardToCategory> getCardToCategories()  
+    { 
+        Set<CardToCategory> cats = Cache.getInstance().getCardToCategories();
+        if(!cats.isEmpty())
+            return cats;
+
+        //server.send("/getcardtocategories", jsonString);
+        return null; 
     }
 }

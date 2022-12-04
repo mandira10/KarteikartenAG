@@ -10,7 +10,10 @@ public class TestCardPage {
     private float rating = 0.0f;
 
 
-    TestCardPage(){/*load card at progress state*/};
+    TestCardPage()
+    {
+        /*load card at progress state*/
+    };
 
     public void getNextCard(){/*load and display next Card of Deck (only possible if answers != null) (display prompt to skip card) */};
 

@@ -9,24 +9,8 @@ import com.swp.GUI.Settings.ExportSettingsPage;
 
 public class DeckOverviewPage 
 {
-    public void showDecks()
-    {
-        DeckController.getDecksAndCards();
 
-    }
-
-    public void getCountOfCardToDeck()
-    {
-        Deck deck = null;
-        DeckController.getCountOfCardsFor(deck);
-    }
-
-    public void deleteDeck(){
-        DeckController.deleteDeck(null);
-    }
-    public void deleteDecks(){
-        DeckController.deleteDecks(null);
-    }
+    
 
     private void exportCards()
     {

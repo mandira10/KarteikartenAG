@@ -6,6 +6,5 @@ public class ViewSingleDeckPage
 {
     public void displayInformationToCard(){
         String deck="";
-        DeckController.getAllInfosForDeck(deck);
     }
 }

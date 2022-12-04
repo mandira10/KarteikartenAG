@@ -1,47 +1,44 @@
 package com.swp.GUI.Decks;
 
+import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.swp.Controller.DeckController;
-import com.swp.DataModel.Card;
-import com.swp.DataModel.Category;
 import com.swp.DataModel.Deck;
-import com.swp.DataModel.StudySystem;
-
-import java.util.List;
 
 public class EditDeckPage extends RenderGUI
 {
     private Dropdown pStudySystemDropdown; //TODO
+    private Button pApplyButton;
+    private Deck pOldDeck, pNewDeck;
 
-
-    public void editDeck()
+    public EditDeckPage()
     {
-        Deck deck = null;
-        String name = "";
-        StudySystem studySystem = null;
-        Deck.CardOrder order = null;
-        boolean visibility = false;
-        DeckController.updateDeckData(deck, deck); //TODO
+
     }
 
-    public void deleteDeck()
+    public void editDeck(String uuid) { editDeck(DeckController.getDeckByUUID(uuid)); }
+    public void editDeck(Deck deck)
     {
-        Deck deck = null;
-        DeckController.deleteDeck(deck);
+        if(deck == null)
+        {
+
+        }
+        else
+        {
+
+        }
+        pOldDeck = deck;
+        //pNewDeck = Deck.copyDeck(deck);
     }
 
-    public void addCardToDeck()
+    private void deleteDeck()
     {
-        Card card = null;
-        Deck deck = null;
-        DeckController.createCardToDeck(card,deck);
+        DeckController.deleteDeck(pOldDeck);
     }
 
-    public void addCardsOfCategoryToDeck()
+    private void applyChanges()
     {
-        Category category = null;
-        Deck deck = null;
-        DeckController.createCardToDeckForCategory(category,deck);
+        DeckController.updateDeckData(pOldDeck, pNewDeck);
     }
 }

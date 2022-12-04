@@ -4,63 +4,21 @@ import com.swp.DataModel.*;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter.ExportFileType;
 
-import java.util.List;
+import java.util.Set;
 
 public class CardController 
 {
     private CardController() {}
 
-    public static List<Card> getCardsByCategory(Category category) {
-    return CardLogic.getCardsByCategory(category);
-    }
-
-    public static List<Card> getCardsByTag(Tag tag) {
-        return CardLogic.getCardsByTag(tag);
-    }
-
-    public static List<Card> getCardsBySearchterms(String searchterms) {
-        return CardLogic.getCardsBySearchterms(searchterms);
-    }
-
-    public static void deleteCard(Card card)    { 
-        CardLogic.deleteCard(card);
-    }
-    public static void deleteCards(Card[] card) { 
-        CardLogic.deleteCards(card);
-     }
-
-    public void createTag(String value)
-    {
-        CardLogic.createTag(value);
-    }
-    
-    /**
-     * Gets called by the EditCardPage GUI upon clicking apply
-     * @param oldcard
-     */
-    public static void editCard(Card oldcard, Card newcard)
-    { 
-        CardLogic.updateCardData(oldcard, newcard);
-    } //Override entry based on UUID
-
-    public static void getAllInfosToCard(String card) {
-        CardLogic.getAllInfosForCard(card);
-    }
-
-    public static void createCardToTag(Card card, Tag tag) {
-        //TODO
-    }
-
-    public static void getCountOfDecksFor(String card) {
-        int numberOfDecks = CardLogic.getCountOfDecksFor(card);
-    }
-
-    public static void getCardsToShow(long begin, long end){
-        CardLogic.getCardsToShow(begin, end);
-    }
-
-    public static void exportCards(Card[] cards, ExportFileType filetype)
-    {
-        CardLogic.exportCards(cards, filetype);
-    }
+    public static Set<Card> getCardsByTag(Tag tag)                           { return CardLogic.getCardsByTag(tag); }
+    public static Set<Card> getCardsBySearchterms(String searchterms)        { return CardLogic.getCardsBySearchterms(searchterms); }
+    public static Card getCardByUUID(String uuid)                            { return CardLogic.getCardByUUID(uuid); }
+    public static boolean deleteCard(Card card)                              { return CardLogic.deleteCard(card); }
+    public static boolean deleteCards(Card[] card)                           { return CardLogic.deleteCards(card); }
+    public static boolean createTag(String value)                            { return CardLogic.createTag(value); }
+    public static Set<Tag> getTags()                                         { return CardLogic.getTags(); }
+    public static boolean updateCardData(Card oldcard, Card newcard)         { return CardLogic.updateCardData(oldcard, newcard); }
+    public static boolean createCardToTag(Card card, Tag tag)                { return CardLogic.createCardToTag(card, tag); }
+    public static Set<Card> getCardsToShow(long begin, long end)             { return CardLogic.getCardsToShow(begin, end); }
+    public static boolean exportCards(Card[] cards, ExportFileType filetype) { return CardLogic.exportCards(cards, filetype); }
 }

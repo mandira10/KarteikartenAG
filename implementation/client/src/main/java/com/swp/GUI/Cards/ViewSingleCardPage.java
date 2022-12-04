@@ -15,6 +15,5 @@ public class ViewSingleCardPage
 
     public void displayInformationToCard(){
         String card="";
-        CardController.getAllInfosToCard(card);
     }
 }

@@ -15,27 +15,6 @@ import com.swp.GUI.Settings.ExportSettingsPage;
 
 public class CardOverviewPage extends RenderGUI 
 {
-    public void showCardsWithCategory()
-    {
-        CardController.getCardsByCategory(null);
-    }
-
-    public void showCardsWithTag()
-    {
-        CardController.getCardsByTag(null);
-    }
-
-    public void showCardsWithSearchWords()
-    {
-        CardController.getCardsBySearchterms("");
-    }
-
-    public void getCountOfDecksToCard()
-    {
-        String card = "";
-        CardController.getCountOfDecksFor(card);
-    }
-
     public void getCardsToShowInitially(){
         long begin = 0;
         long end = 0;

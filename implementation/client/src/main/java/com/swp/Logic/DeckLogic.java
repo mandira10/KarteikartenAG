@@ -1,55 +1,95 @@
 package com.swp.Logic;
 
+import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToDeck;
+import com.swp.DataModel.Category;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem;
 import com.swp.Persistence.DeckRepository;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DeckLogic
 {
-    public static List<Deck> getDecks()
+    public static Set<Deck> getDecks()
     {
-        List<Deck> deckList = DeckRepository.getDecks();
+        Set<Deck> deckList = DeckLogic.getDecks();
         return deckList;
     }
 
-    public static void updateDeckData(Deck olddeck, Deck newdeck)
+    public static boolean createCardToDeck(Card card, Deck deck) 
+    {
+        return false;
+    }
+
+    public static boolean createCardToDeckForCategory(Category category, Deck deck) 
+    {
+        return false;
+    }
+
+    public static Deck getDeckByUUID(String uuid)
+    { 
+        return null;
+    }
+
+    public static boolean updateDeckData(Deck olddeck, Deck newdeck)
     {
         if(newdeck.getUUID().isEmpty())
-            DeckRepository.saveDeck(newdeck);
+            return DeckRepository.saveDeck(newdeck);
         else
             if(olddeck.getStudySystem().equals(newdeck.getStudySystem()))
-            DeckRepository.updateDeck(olddeck, newdeck);
+                return DeckRepository.updateDeck(olddeck, newdeck);
             else
-                updateStudySystem(newdeck, newdeck.getStudySystem());
+                return updateStudySystem(newdeck, newdeck.getStudySystem());
     }
 
-    public static void updateStudySystem(Deck deck, StudySystem system)
+    public static boolean updateStudySystem(Deck deck, StudySystem system)
     {
-        DeckRepository.updateStudySystem(deck, system);
+        return DeckRepository.updateStudySystem(deck, system);
     }
 
-    public static void deleteDeck(Deck deck)
+    public static boolean deleteDeck(Deck deck)
     {
-
+        return DeckRepository.deleteDeck(deck);
     }
 
-    public static void deleteDecks(Deck[] decks)
+    public static boolean deleteDecks(Deck[] decks)
     {
+        boolean ret = true;
         for(Deck d : decks)
-            deleteDeck(d);
+        {
+            if(!deleteDeck(d))
+                ret = false;
+        }
+
+        return ret;
     }
 
-    public static void getAllInfosForDeck(String deck)  { /*TODO*/ }
-    public static void getCountOfCardsInDeck(Deck deck) { /*TODO*/ }
-    public static List<CardToDeck> getCardToDecks()     { return DeckRepository.getCardToDecks(); }
-
-    public static void getDecksAndCards() {
-        List <Deck> listOfDecks = getDecks();
-        for( Deck d : listOfDecks){
-            getCardToDecks();
+    public static Set<Deck> getDecksByCard(Card card)
+    { 
+        Set<Deck> retArr = new HashSet<>();
+        for(CardToDeck c2d : DeckRepository.getCardToDecks())
+        {
+            if(c2d.getCard() == card)
+                retArr.add(c2d.getDeck());
         }
+        return retArr;
+    }
+
+    public static Set<Card> getCardsInDeck(Deck deck)
+    { 
+        Set<Card> retArr = new HashSet<>();
+        for(CardToDeck c2d : DeckRepository.getCardToDecks())
+        {
+            if(c2d.getDeck() == deck)
+                retArr.add(c2d.getCard());
+        }
+        return retArr;
+    }
+
+    public static int numCardsInDeck(Deck deck)      
+    {
+        return getCardsInDeck(deck).size();
     }
 }

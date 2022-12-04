@@ -7,17 +7,6 @@ import com.swp.GUI.Settings.ExportSettingsPage;
 
 public class CategoryOverviewPage
 {
-    public void showCategories()
-    {
-        CategoryController.getCategories();
-    }
-
-    public void getCountOfCardToCategory()
-    {
-        Category category = null;
-        int count = CategoryController.getCountOfCardsFor(category);
-    }
-
     private void exportCards()
     {
         ExportSettingsPage.setToExport(null);
