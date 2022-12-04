@@ -1,12 +1,15 @@
 \umlclass[x=0, y=-30.5]{CardRepository}
 { 
-    + findCardsByCategory(Category): List<Card>\\
-    + findCardsByTag(Tag): List<Card>\\
-    + getCards(long,long): List<Card>\\
-    + findCardsWith(String): List<Card>\\
-    + findCardByName(String): Card\\
-    + updateCard(Card,Card): void\\
-    + saveCard(Card): void\\
-    + deleteCard(Card): void\\
-    + findNumberOfDecksToCard(Card): int\\
+    + getCards(long, long): Set<Card> \\
+    + findCardsByCategory(Category): Set<Card> \\
+    + findCardsByTag(Tag): Set<Card> \\
+    + findCardsContaining(String): Set<Card> \\
+    + getCardByUUID(String): Card \\
+    + updateCard(Card, Card): boolean \\
+    + saveCard(Card): boolean \\
+    + deleteCard(Card): boolean \\
+    % Tags
+    + saveTag(String): boolean \\
+    + getTags(): Set<Tag> \\
+    + getCardToTags(): Set<CardToTag> \\
 }{}
