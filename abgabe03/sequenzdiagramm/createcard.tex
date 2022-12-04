@@ -12,16 +12,15 @@
             %
             \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\editpage}{\control}
                 \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\control}{\logic}
-                    \begin{umlfragment}[type=alt, label=!empty, inner xsep=8, fill=green!10]
+                    \begin{umlfragment}[type=if, label=!empty, inner xsep=8, fill=green!10]
                         %\umlfpart[default]
-
                         \begin{umlcall}[op=getCardByUUID(), type=synchron, return=Card]{\logic}{\pers}
                         \end{umlcall}
                     \end{umlfragment}
                 \end{umlcall}
             \end{umlcall}
 
-            \begin{umlfragment}[type=alt, name=showdelete, fill=green!10]
+            \begin{umlfragment}[type=if, name=showdelete, fill=green!10]
                 \begin{umlcallself}[op=Löschen Button anzeigen, type=synchron]{\editpage}
                 \end{umlcallself}
             \end{umlfragment}
@@ -62,10 +61,10 @@
         \begin{umlcall}[op=Übernehmen, type=synchron, return=Zurück zur übersicht]{\user}{\editpage}
             \begin{umlcall}[op=updateCardData(), type=synchron, return=boolean]{\editpage}{\control}
                 \begin{umlcall}[op=updateCardData(), type=synchron, return=boolean]{\control}{\logic}
-                    \begin{umlfragment}[type=alt, label=uuid.isEmpty, inner xsep=10, fill=green!10]
+                    \begin{umlfragment}[type=if, label=uuid.isEmpty, inner xsep=10, fill=green!10]
                         \begin{umlcall}[op=saveCard(), type=synchron, return=boolean]{\logic}{\pers}
                         \end{umlcall}
-                        \umlfpart[default]
+                        \umlfpart[else]
                         \begin{umlcall}[op=updateCard(), type=synchron, return=boolean]{\logic}{\pers}
                         \end{umlcall}
                     \end{umlfragment}
