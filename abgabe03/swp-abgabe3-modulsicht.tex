@@ -4,6 +4,7 @@
 \input{swp-preamble.tex}
 \usepackage[shortlabels]{enumitem}
 \usepackage{../tikz-uml}
+\usetikzlibrary{shapes.misc}
 %\graphicspath{{./images/}}
 
 
@@ -208,6 +209,10 @@
     \KOMAoptions{paper=A2,paper=landscape,pagesize}
     \thispagestyle{empty}
     \begin{tikzpicture}%
+        \tikzset{cross/.style={cross out, draw, 
+         minimum size=2*(#1-\pgflinewidth), 
+         inner sep=0pt, outer sep=0pt}}
+
         \input{module/Modules.tex}
     \end{tikzpicture}
     \newpage

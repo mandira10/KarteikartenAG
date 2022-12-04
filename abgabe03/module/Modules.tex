@@ -7,7 +7,7 @@
         \input{module/CardGUI/ViewCardPage.tex}
         \input{module/CardGUI/TestCardPage.tex}
     \end{umlpackage}{CardGUI}
-    \begin{umlpackage}[fill=beaublue]{DeckGUI}
+    \begin{umlpackage}[fill=beaublue, x=0, y=0.75]{DeckGUI}
         \input{module/DeckGUI/DeckOverviewPage.tex}
         \input{module/DeckGUI/EditDeckPage.tex}
         \input{module/DeckGUI/EditStudySystemPage.tex}
@@ -22,33 +22,37 @@
 	\end{umlpackage}
 \end{umlpackage}{GUI}
 
-\begin{umlpackage}[fill=beaublue, x=0, y=0]{Controller}
+\begin{umlpackage}[fill=beaublue, x=3.75, y=0]{Controller}
     \input{module/Controller/CardController.tex}
     \input{module/Controller/DeckController.tex}
     \input{module/Controller/CategoryController.tex}
-\end{umlpackage}{Controller}
+\end{umlpackage}{Controller}0.5
 
-\begin{umlpackage}[fill=beaublue, x=-0.5, y=0]{Logic}
+\begin{umlpackage}[fill=beaublue, x=5.25, y=0.75]{Logic}
     \input{module/Logic/CardLogic.tex}
     \input{module/Logic/DeckLogic.tex}
     \input{module/Logic/CategoryLogic.tex}
 \end{umlpackage}{Logic}
 
-\begin{umlpackage}[fill=beaublue, x=-2.05, y=0]{Persistence}
+\begin{umlpackage}[fill=beaublue, x=3, y=0]{Persistence}
     \input{module/Persistence/CardRepository.tex}
     \input{module/Persistence/DeckRepository.tex}
     \input{module/Persistence/CategoryRepository.tex}
 \end{umlpackage}{Persistence}
 
+
 \begin{umlpackage}[x=40, y=-30, fill=beaublue]{Datamodel}
 \end{umlpackage}{Datamodel}
 
-\umlassoc[]{GUI}{Controller}
-\umluniassoc[]{Controller}{Logic}
-\umluniassoc[]{Logic}{Persistence} 
+\umlassoc[attr1=1|\ , attr2=\ |1]{GUI}{Controller}
+\umluniassoc[attr1=1|\ , attr2=\ |1]{Controller}{Logic}
+\umluniassoc[attr1=1|\ , attr2=\ |1]{Logic}{Persistence} 
 \umldep[stereo=use]{Persistence}{Datamodel}
 \umldep[stereo=use, geometry=-|]{Logic}{Datamodel}
 \umldep[stereo=use, geometry=-|]{Controller}{Datamodel}
+
+\draw (15.2,-16) node {\Huge x};
+\draw (15.15,-25.7) node {\Huge x};
 
 
 
