@@ -40,4 +40,16 @@
     \input{module/Persistence/CategoryRepository.tex}
 \end{umlpackage}{Persistence}
 
+\begin{umlpackage}[x=40, y=-30, fill=beaublue]{Datamodel}
+\end{umlpackage}{Datamodel}
+
+\umlassoc[]{GUI}{Controller}
+\umluniassoc[]{Controller}{Logic}
+\umluniassoc[]{Logic}{Persistence} 
+\umldep[stereo=use]{Persistence}{Datamodel}
+\umldep[stereo=use, geometry=-|]{Logic}{Datamodel}
+\umldep[stereo=use, geometry=-|]{Controller}{Datamodel}
+
+
+
 %\umlemptyclass[x=6, y=-18]{DM:Card}
