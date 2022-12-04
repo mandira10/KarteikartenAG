@@ -5,6 +5,7 @@ import com.swp.DataModel.CardToDeck;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem;
+import com.swp.DataModel.StudySystemType;
 import com.swp.Persistence.DeckRepository;
 
 import java.util.HashSet;
@@ -38,16 +39,20 @@ public class DeckLogic
         if(newdeck.getUUID().isEmpty())
             return DeckRepository.saveDeck(newdeck);
         else
-            if(olddeck.getStudySystem().equals(newdeck.getStudySystem()))
-                return DeckRepository.updateDeck(olddeck, newdeck);
-            else
-                return updateStudySystem(newdeck, newdeck.getStudySystem());
+            return DeckRepository.updateDeck(olddeck, newdeck);
     }
 
     public static boolean updateStudySystem(Deck deck, StudySystem system)
     {
         return DeckRepository.updateStudySystem(deck, system);
     }
+
+    public static boolean addStudySystemTypeAndUpdate(StudySystemType type)                  
+    {             
+        return DeckRepository.addStudySystemType(type) 
+            && DeckRepository.updateStudySystemTypes();
+    }
+
 
     public static boolean deleteDeck(Deck deck)
     {
@@ -91,5 +96,10 @@ public class DeckLogic
     public static int numCardsInDeck(Deck deck)      
     {
         return getCardsInDeck(deck).size();
+    }
+
+    public static Set<StudySystemType> getStudySystemTypes()                        
+    { 
+        return DeckRepository.getStudySystemTypes(); 
     }
 }

@@ -1,12 +1,12 @@
 \begin{tikzpicture}
     \begin{umlseqdiag}
         \umlactor[class=User]{\user}
-        \umlobject[class=TestDeckPage]{\deckpage}
-        \umlobject[class=StudySystem]{\ssystem}
-        \umlobject[class=TestCardPage]{\testpage}
-        \umlobject[class=Controller]{\control}
-        \umlobject[class=Logic]{\logic}
-        \umlobject[class=Persistence]{\pers}
+        \umlobject[class=TestDeckPage, x= 6]{\deckpage}
+        \umlobject[class=StudySystem,  x=12]{\ssystem}
+        \umlobject[class=TestCardPage, x=18]{\testpage}
+        \umlobject[class=Controller,   x=24]{\control}
+        \umlobject[class=Logic,        x=30]{\logic}
+        \umlobject[class=Persistence,  x=36]{\pers}
         
         \begin{umlcall}[op=Will Deck testen, type=synchron]{\user}{\deckpage}
             %
@@ -47,13 +47,42 @@
         \end{umlfragment}
         \begin{umlcall}[op=Antwort abschicken/bestätigen, type=synchron, dt=5]{\user}{\testpage}
             \begin{umlcall}[op=onAnswer(boolean), type=synchron, dt=5]{\testpage}{\deckpage}
+                \begin{umlcall}[op=giveAnswer(boolean), type=synchron, dt=5]{\deckpage}{\ssystem}
+                    \begin{umlcallself}[op=moveCardToBox(Card{,} int), type=synchron]{\ssystem}
+                    \end{umlcallself}
+                    \begin{umlfragment}[type=if, label=next {=} null, inner xsep=12, fill=green!10]
+                        \begin{umlcallself}[op=finish(), type=synchron, dt=5]{\deckpage}
+                            \begin{umlcall}[op=updateStudySystem(StudySystem), type=synchron, return=boolean]{\deckpage}{\control}
+                                \begin{umlcall}[op=updateStudySystem(StudySystem), type=synchron, return=boolean]{\control}{\logic}
+                                    \begin{umlcall}[op=updateStudySystem(StudySystem), type=synchron, return=boolean]{\logic}{\pers}
+                                        
+                                    \end{umlcall}
+                                \end{umlcall}
+                            \end{umlcall}
+                        \end{umlcallself}
+                        \umlfpart[else]
+                        \begin{umlcall}[op=getNextCard(), type=synchron, return=Card]{\deckpage}{\ssystem}
+                        \end{umlcall}
+                    \end{umlfragment}
+                \end{umlcall}
+                \begin{umlcall}[op=startTests(Card), type=synchron, dt=5]{\deckpage}{\testpage}
+                \end{umlcall}
             \end{umlcall}
+        \end{umlcall}
 
-            \begin{umlcall}[op=giveAnswer(boolean), type=synchron]{\deckpage}{\ssystem}
-            \end{umlcall}
-            \begin{umlcall}[op=getNextCard(), type=synchron, return=Card]{\deckpage}{\ssystem}
-            \end{umlcall}
-            \begin{umlcall}[op=startTests(Card), type=synchron, dt=5]{\deckpage}{\testpage}
+
+        %
+        % On User Cancel
+        %
+        \begin{umlcall}[op=Test Abbrechen, type=synchron, dt=5]{\user}{\testpage}
+            \begin{umlcall}[op=cancelTest(), type=synchron, dt=5]{\testpage}{\deckpage}
+                \begin{umlcall}[op=updateStudySystem(StudySystem), type=synchron, return=boolean]{\deckpage}{\control}
+                    \begin{umlcall}[op=updateStudySystem(StudySystem), type=synchron, return=boolean]{\control}{\logic}
+                        \begin{umlcall}[op=updateStudySystem(StudySystem), type=synchron, return=boolean]{\logic}{\pers}
+                            
+                        \end{umlcall}
+                    \end{umlcall}
+                \end{umlcall}
             \end{umlcall}
         \end{umlcall}
 

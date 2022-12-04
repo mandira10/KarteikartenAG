@@ -9,6 +9,7 @@ public class Cache
 {
     private static Cache pCacheInstance = null;
     private Set<Deck> stDecks;
+    private Set<StudySystemType> stStudySystemTypes;
     private Set<Category> stCategories;
     private Set<Tag> stTags;
     private Set<CardToDeck> stCardToDecks;
@@ -23,6 +24,7 @@ public class Cache
         stCardToDecks = new HashSet<>();
         stCardToCategories = new HashSet<>();
         stCardToTags = new HashSet<>();
+        stStudySystemTypes = new HashSet<>();
     }
 
     public static Cache getInstance()
@@ -43,6 +45,8 @@ public class Cache
     public void setCardToDecks(Set<CardToDeck> stCardToDecks)               { this.stCardToDecks = stCardToDecks; }
     public void setCardToCategories(Set<CardToCategory> stCardToCategories) { this.stCardToCategories = stCardToCategories; }
     public void setCardToTags(Set<CardToTag> stCardToTags)                  { this.stCardToTags = stCardToTags; }
+    public void setStudySystemTypes(Set<StudySystemType> stStudySystemTypes){ this.stStudySystemTypes = stStudySystemTypes; }
+
 
     //
     // Getter
@@ -53,6 +57,7 @@ public class Cache
     public Set<CardToTag> getCardToTags()            { return stCardToTags; }
     public Set<CardToDeck> getCardToDecks()          { return stCardToDecks; }
     public Set<CardToCategory> getCardToCategories() { return stCardToCategories; }
+    public Set<StudySystemType> getStudySystemTypes(){ return stStudySystemTypes; }
 
 
 

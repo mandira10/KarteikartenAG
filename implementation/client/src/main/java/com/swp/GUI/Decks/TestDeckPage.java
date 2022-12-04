@@ -27,9 +27,7 @@ public class TestDeckPage extends RenderGUI
     @Override
     public void update()
     {
-        if(StudySytstem.getNextCard() != null)
-        {
-            nextCard();
-        }
+
+        updatechildren();
     }
 }
