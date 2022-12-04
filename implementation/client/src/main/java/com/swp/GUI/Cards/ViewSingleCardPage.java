@@ -11,9 +11,4 @@ public class ViewSingleCardPage
     {
         //pRatingGUI = new RatingGUI(card);
     }
-
-
-    public void displayInformationToCard(){
-        String card="";
-    }
 }
