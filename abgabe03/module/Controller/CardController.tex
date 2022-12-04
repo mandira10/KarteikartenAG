@@ -1,15 +1,14 @@
 \umlclass[x=-2, y=-12]{CardController}
-{ 
-    + getCardsByCategory(Category): List<Card> \\ 
-    + getCardsByTag(Tag): List<Card> \\ 
-    + getCardsBySearchterms(String): List<Card> \\ 
-    + getCountOfDecksFor(String): void\\
-    + deleteCard(Card): void \\
-    + deleteCards(Card[]): void\\
-    + createTag(String): void\\
-    + editCard(Card,Card): void\\
-    + createCardToTag(Card,Tag): void\\
-    + getCardsToShow(long,long): void\\
-    + exportCards(Card[],ExportFileType): void\\
-    + getAllInfosToCard(String): void\\
+{
+    + getCardsByTag(Tag): Set<Card> \\
+    + getCardsBySearchterms(String): Set<Card> \\
+    + getCardByUUID(String): Card \\
+    + deleteCard(Card): boolean \\
+    + deleteCards(Card[]): boolean \\
+    + createTag(String): boolean \\
+    + getTags(): Set<Tag> \\
+    + updateCardData(Card, Card): boolean \\
+    + createCardToTag(Card, Tag): boolean \\
+    + getCardsToShow(long, long): Set<Card> \\
+    + exportCards(Card[], ExportFileType): boolean \\
 }{}

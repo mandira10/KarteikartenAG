@@ -1,12 +1,11 @@
 \umlclass[x=12, y=-12]{DeckController}
-{ 
-    + updateDeckData(Deck, Deck): void \\ 
-    + deleteDeck(Deck): void \\ 
-    + deleteDecks(Deck[]) \\ 
-    + getCards() : Card[]\\
-    + createCardToDeck(Card, Deck): void \\
-    + createCardToDeckForCategory(Category, Deck): List<Deck>\\
-    + getAllInfosForDeck(String): void\\
-    + getCountOfCardsFor(Deck): void\\
-    + exportCards(Card[], ExportFileType): void
+{
+    + updateDeckData(Deck, Deck): boolean \\
+    + deleteDeck(Deck): boolean \\
+    + deleteDecks(Deck[]): boolean \\
+    + createCardToDeck(Card, Deck): boolean \\
+    + createCardToDeckForCategory(Category, Deck): boolean \\
+    + getDecks(): Set<Deck> \\
+    + getDeckByUUID(String): Deck \\
+    + numCardsInDeck(Deck): int
 }{}

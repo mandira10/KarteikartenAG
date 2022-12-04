@@ -92,31 +92,31 @@
     Da die Methoden aufeinander aufbauen, wird hier jeweils die gedachte Funktionsweise von GUI bis Persistence beschrieben.\\\\
     \cat{Karte}
     \begin{itemize}
-    \item \textit{N1 Karteikarte anlegen/\\ N3 Karteikarte bearbeiten}\\ 
+    \item \textit{N1 Karteikarte anlegen/\\ N3 Karteikarte bearbeiten}\\
     Das Anlegen / Bearbeiter einer Karte wird in \texttt{EditCardPage} mittels \texttt{applyChanges} umgesetzt.
-    Dieses ruft im \texttt{CardController} die Methode \texttt{editCard} auf. In der darauf aufgerufenen Methode 
+    Dieses ruft im \texttt{CardController} die Methode \texttt{editCard} auf. In der darauf aufgerufenen Methode
     \texttt{updateCardData} mitsamt Weitergabe alter und neuer Karteninformationen erfolgt die Umsetzung in \texttt{CardLogic}.
     Die Logik prüft, ob die Karte neu ist oder geupdatet wird und ruft darauf aufbauend entweder \texttt{saveCard} oder \texttt{updateCard}
     in \texttt{CardRepository} auf.\\
-    Auch Tags und Kategorien können über die Seite aufgerufen werden, auch dies wird über die Logik in \texttt{updateCardData} registriert und über die Methoden 
+    Auch Tags und Kategorien können über die Seite aufgerufen werden, auch dies wird über die Logik in \texttt{updateCardData} registriert und über die Methoden
     \texttt{createCardToCategory} und \texttt{createTagToCategory} umgesetzt.\\
     Der Nutzer kann zudem die Karte bewerten, was als Attribut in der Karte über \texttt{applyChanges} gespeichert wird.\\
     Zudem werden die Suchwörter bei Aufruf der Methode aktualisiert bzw. eingetragen.
     \item TODO: importieren fehlt\\
-    \item \textit{N2 Karteikarte löschen/\\ N23 Kartenauswahl löschen}\\ 
-    Kann entweder bei Kartenbearbeitung (\texttt{CardEditPage}) oder über das Glossar (\texttt{CardOverviewPage}) 
+    \item \textit{N2 Karteikarte löschen/\\ N23 Kartenauswahl löschen}\\
+    Kann entweder bei Kartenbearbeitung (\texttt{CardEditPage}) oder über das Glossar (\texttt{CardOverviewPage})
     für einzelne oder mehrere Karten aufgerufen werden.
-    \item \textit{N4 Karteikarte als PDF exportieren/\\ N7 Karteikarte als JSON exportieren /\\Karteikarte als XML exportieren /\\ N24 Kartenauswahl exportieren}\\ Für das Exportieren gibt es eine separate Seite \texttt{ExportSettingsPage}, die nach Aufruf 
+    \item \textit{N4 Karteikarte als PDF exportieren/\\ N7 Karteikarte als JSON exportieren /\\Karteikarte als XML exportieren /\\ N24 Kartenauswahl exportieren}\\ Für das Exportieren gibt es eine separate Seite \texttt{ExportSettingsPage}, die nach Aufruf
     in \texttt{CardOverviewPage} aufgerufen wird. Die Methode ist im Abschnitt \texttt{Settings} erläutert.
     \item \textit{N19 Karteikarten anzeigen}\\ Für das Anzeigen der Karteikarten gibt es in \texttt{CardOverviewPage} zwei zugehörige Methoden
     \texttt{getCardsToShowInitially}, nicht alle Karten werden bei Öffnen
     des Glossars angezeigt, die Methode dient dem initialen Laden. Die zweite Methode baut darauf auf und zieht aus \texttt{CardToDeck} die Anzahl der
     Decks pro geladener Karte. \\
     TODO: was ist bei Seitenwechsel im Glossar? zusammenführen des getCountOfDecks nur in Logic aufrufen?
-    \item \textit{N20 Karteikartenansicht verändern\\- Filterung}\\ 
+    \item \textit{N20 Karteikartenansicht verändern\\- Filterung}\\
     Für die Filterung der Karte gibt es \texttt{CardOverviewPage} drei Methoden:
-    \texttt{showCardsWithCategory}, \texttt{showCardsWithTag}, \texttt{showCardsWithSearchWords}. Diese rufen die zugehörigen \texttt{CardController} Methoden auf. Die an 
-    die \texttt{CardLogic} übergebenen Methoden werden an den Server über die \texttt{CardRepository} weiterrgeben. \texttt{SearchWords} werden über 
+    \texttt{showCardsWithCategory}, \texttt{showCardsWithTag}, \texttt{showCardsWithSearchWords}. Diese rufen die zugehörigen \texttt{CardController} Methoden auf. Die an
+    die \texttt{CardLogic} übergebenen Methoden werden an den Server über die \texttt{CardRepository} weiterrgeben. \texttt{SearchWords} werden über
     den Server mit den \texttt{getContent} Methoden der \texttt{Card} verglichen.
     \end{itemize}
     \cat{Deck}
@@ -130,9 +130,9 @@
     separat behandelt über \texttt{updateStudySystem}.
     \item \texttt{N28-4 Neue Lernmethoden erstellen} TODO
     \item \texttt{N31 Kasten Lernen/ \\N32 Lernvorgang unterbrechen/ \\N33 Lernvorgang fortsetzen/ \\N34 Lernfortschritt/ \\N35 Antwort prüfen} TODO
-    \item \texttt{N35 Status der Karteikarten/ \\ N36 Karteikastenübersicht}\\ 
+    \item \texttt{N35 Status der Karteikarten/ \\ N36 Karteikastenübersicht}\\
     Für die Karteikästen gibt es, wie bei Karteikarten auch, eine Übersicht, wo zu jedem Karteikasten seine Karten und ihr Status angezeigt werden.
-    Dies wird über die Methode \texttt{showDecks} in \texttt{DeckOverviewPage} realisiert. Hier wird die Methode \texttt{getCardToDecks} im \texttt{DeckController}, 
+    Dies wird über die Methode \texttt{showDecks} in \texttt{DeckOverviewPage} realisiert. Hier wird die Methode \texttt{getCardToDecks} im \texttt{DeckController},
     die in der \texttt{DeckLogic} bearbeitet wird und weiter aufgesplittet. Zunächst wird dort \texttt{getDecksAndCards} aufgerufen, in der dann Zunächst
     die Decks mittel \texttt{getDecks} alle Decks gezogen werden und dann für jedes Deck mit \texttt{getCardsToDeck} die einzelnen Karten mit Status
     ermittelt werden.
@@ -140,7 +140,7 @@
     \end{itemize}
     \cat{Category}
     \begin{itemize}
-        \item \textit{N12 Kategorie anlegen/ \\ N14 Kategorie bearbeiten} TODO gleich wie Card und Deck machen, aktuell separate Methoden in GUI? 
+        \item \textit{N12 Kategorie anlegen/ \\ N14 Kategorie bearbeiten} TODO gleich wie Card und Deck machen, aktuell separate Methoden in GUI?
     Analog wie bei Karteikarten und Karteikästen gibt eine Methode für das Bearbeiten und Erstellen von Kategorien. (Hierarchieanpassungen beschreiben)
         \item \textit{N14 Kategorie löschen}\\
     Eine Kategorie kann über \texttt{EditCategoryPage} gelöscht werden.
