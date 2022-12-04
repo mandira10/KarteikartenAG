@@ -1,9 +1,18 @@
-\umlclass[x=-1, y=-16]{CardLogic}
+\umlclass[x=-1, y=-21.5]{CardLogic}
 { 
-    + getCardsForTag(String): List<Card> \\ 
-    + getCardsForCategory(String): List<Card> \\ 
-    + getCardsForSearchWords(String): List<Card> \\ 
+    + getCardsByTag(String): List<Card> \\ 
+    + getCardsByCategory(String): List<Card> \\ 
+    + getCardsBySearchterms(String): List<Card> \\ 
+    + getCardsToShow(long,long): List<Card> \\ 
     + getCountOfDecksFor(String): int\\
-    + createTrueFalseCard(String, boolean, booleam): TrueFalseCard \\
-    + getAllInfosForCard(String):Card\\
+    + getAllInfosForCard(String): Card\\
+    + createCardToDeck(Card,Deck): void\\
+    + createCardToDeckForCategory(Category,Deck): void\\
+    + createCardToCategory(Card,Category): void\\
+    + createCardToTag(Card,Tag): void\\
+    + createTag(String): void\\
+    + updateCardData(Card,Card): void\\
+    + deleteCard(Card): void\\
+    + deleteCards(Card[]): void\\
+    + exportCards(Card[], ExportFileType): void\\
 }{}
