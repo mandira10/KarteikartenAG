@@ -12,7 +12,8 @@ public class ViewCategoryHierarchyPage
         
     }
 
-    public void updateTopLevelCategories()
+    public void updateData()
     {
+        //CategoryController.getCategories();
     }
 }
