@@ -19,18 +19,18 @@ public class DeckLogic
         return deckList;
     }
 
-    public static boolean createCardToDeck(Card card, Deck deck) 
+    public static boolean createCardToDeck(Card card, Deck deck)
     {
         return false;
     }
 
-    public static boolean createCardToDeckForCategory(Category category, Deck deck) 
+    public static boolean createCardToDeckForCategory(Category category, Deck deck)
     {
         return false;
     }
 
     public static Deck getDeckByUUID(String uuid)
-    { 
+    {
         return null;
     }
 
@@ -47,9 +47,9 @@ public class DeckLogic
         return DeckRepository.updateStudySystem(deck, system);
     }
 
-    public static boolean addStudySystemTypeAndUpdate(StudySystemType type)                  
-    {             
-        return DeckRepository.addStudySystemType(type) 
+    public static boolean addStudySystemTypeAndUpdate(StudySystemType type)
+    {
+        return DeckRepository.addStudySystemType(type)
             && DeckRepository.updateStudySystemTypes();
     }
 
@@ -72,7 +72,7 @@ public class DeckLogic
     }
 
     public static Set<Deck> getDecksByCard(Card card)
-    { 
+    {
         Set<Deck> retArr = new HashSet<>();
         for(CardToDeck c2d : DeckRepository.getCardToDecks())
         {
@@ -83,7 +83,7 @@ public class DeckLogic
     }
 
     public static Set<Card> getCardsInDeck(Deck deck)
-    { 
+    {
         Set<Card> retArr = new HashSet<>();
         for(CardToDeck c2d : DeckRepository.getCardToDecks())
         {
@@ -93,13 +93,13 @@ public class DeckLogic
         return retArr;
     }
 
-    public static int numCardsInDeck(Deck deck)      
+    public static int numCardsInDeck(Deck deck)
     {
         return getCardsInDeck(deck).size();
     }
 
-    public static Set<StudySystemType> getStudySystemTypes()                        
-    { 
-        return DeckRepository.getStudySystemTypes(); 
+    public static Set<StudySystemType> getStudySystemTypes()
+    {
+        return DeckRepository.getStudySystemTypes();
     }
 }

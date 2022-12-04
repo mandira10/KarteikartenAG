@@ -1,10 +1,14 @@
 \umlclass[x=25,y=-21.5]{CategoryLogic}
 {
-    + getCategories(): List<Category> \\
-    + createCategory(String, List<Category>, List<Category>): void \\
-    + updateCategoryData(Category, Category): void \\
-    + deleteCategory(Category): void \\
-    + deleteCategories(Category[]): void \\
-    + getAllInfosFor(Category): void \\ % ViewSingleCategoryPage
-    + deleteCardToCategory(CardToCategory): void
+    + createCardToCategory(Card, Category): boolean \\
+    + getCategories(): Set<Category> \\
+    + getCategory(String): Category \\
+    + getCategoryByUUID(String): Category \\
+    + getCategoriesByCard(Card): Set<Category> \\
+    + getCardsByCategory(Category): Set<Card> \\
+    + numCardsInCategory(Category): int \\
+    + updateCategoryData(Category, Category): boolean \\
+    + deleteCategory(Category): boolean \\
+    + deleteCategories(Category[]): boolean \\
+    + deleteCardToCategory(CardToCategory): boolean \\
 }{}

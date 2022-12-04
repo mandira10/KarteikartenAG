@@ -1,12 +1,15 @@
 \umlclass[x=8, y=-11.3]{DeckController}
 {
     + updateDeckData(Deck, Deck): boolean \\
+    + updateStudySystemData(Deck, StudySystem): boolean\\
+    + addStudySystemTypeAndUpdate(StudySystemType):boolean
     + deleteDeck(Deck): boolean \\
     + deleteDecks(Deck[]): boolean \\
     + createCardToDeck(Card, Deck): boolean \\
     + createCardToDeckForCategory(Category, Deck): boolean \\
     + getDecks(): Set<Deck> \\
     + getDeckByUUID(String): Deck \\
-    + numCardsInDeck(Deck): int
+    + numCardsInDeck(Deck): int\\
+    + getStudySystemTypes(): Set<StudySystemType>
 }{}
  

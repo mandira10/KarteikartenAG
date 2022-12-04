@@ -10,8 +10,8 @@ import com.swp.DataModel.Category;
 import com.swp.Persistence.CategoryRepository;
 
 public class CategoryLogic
-{    
-    public static boolean createCardToCategory(Card card, Category category) 
+{
+    public static boolean createCardToCategory(Card card, Category category)
     {
         if(getCategoriesByCard(card).contains(category))
             return true;
@@ -28,7 +28,7 @@ public class CategoryLogic
         return catList;
     }
 
-    public static Category getCategory(String uuid) 
+    public static Category getCategory(String uuid)
     {
         Set<Category> cats = CategoryRepository.getCategories();
         for(Category c : cats)
@@ -36,16 +36,16 @@ public class CategoryLogic
             if(c.getUUID() == uuid)
                 return c;
         }
-        return null; 
+        return null;
     }
 
     public static Category getCategoryByUUID(String uuid)
-    { 
+    {
         return null;
     }
 
     public static Set<Category> getCategoriesByCard(Card card)
-    { 
+    {
         Set<Category> retArr = new HashSet<>();
         for(CardToCategory c2c : CategoryRepository.getCardToCategories())
         {
@@ -56,7 +56,7 @@ public class CategoryLogic
     }
 
     public static Set<Card> getCardsByCategory(Category category)
-    { 
+    {
         Set<Card> retArr = new HashSet<>();
         for(CardToCategory c2c : CategoryRepository.getCardToCategories())
         {
@@ -68,8 +68,8 @@ public class CategoryLogic
 
 
     public static int numCardsInCategory(Category category)
-    { 
-        return getCardsByCategory(category).size(); 
+    {
+        return getCardsByCategory(category).size();
     }
 
     public static boolean updateCategoryData(Category oldcategory, Category newcategory)
@@ -97,7 +97,7 @@ public class CategoryLogic
         return ret;
     }
 
-    public static boolean deleteCardToCategory(CardToCategory c2d) 
+    public static boolean deleteCardToCategory(CardToCategory c2d)
     {
         return false;
     }

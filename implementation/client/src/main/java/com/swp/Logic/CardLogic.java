@@ -17,7 +17,7 @@ public class CardLogic
 
     }
 
-    public static Card getCardByUUID(String uuid) 
+    public static Card getCardByUUID(String uuid)
     {
         if(uuid == null || uuid == "")
             return null;
@@ -26,7 +26,7 @@ public class CardLogic
     }
 
     /**
-     * 
+     *
      * @param terms Space separated string containing searchterms
      * @return
      */
@@ -40,7 +40,7 @@ public class CardLogic
     }
 
 
-    public static boolean createCardToTag(Card card, Tag category) 
+    public static boolean createCardToTag(Card card, Tag category)
     {
         return false;
     }
@@ -71,8 +71,8 @@ public class CardLogic
     }
 
     public static boolean deleteCard(Card card)
-    { 
-        return CardRepository.deleteCard(card); 
+    {
+        return CardRepository.deleteCard(card);
     }
 
     public static boolean deleteCards(Card[] cards)

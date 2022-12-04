@@ -1,18 +1,15 @@
 \umlclass[x=-1, y=-21.5]{CardLogic}
 { 
-    + getCardsByTag(String): List<Card> \\ 
-    + getCardsByCategory(String): List<Card> \\ 
-    + getCardsBySearchterms(String): List<Card> \\ 
-    + getCardsToShow(long,long): List<Card> \\ 
-    + getCountOfDecksFor(String): int\\
-    + getAllInfosForCard(String): Card\\
-    + createCardToDeck(Card,Deck): void\\
-    + createCardToDeckForCategory(Category,Deck): void\\
-    + createCardToCategory(Card,Category): void\\
-    + createCardToTag(Card,Tag): void\\
-    + createTag(String): void\\
-    + updateCardData(Card,Card): void\\
-    + deleteCard(Card): void\\
-    + deleteCards(Card[]): void\\
-    + exportCards(Card[], ExportFileType): void\\
+    + getCardsByTag(Tag): Set<Card> \\
+    + getCardByUUID(String): Card \\
+    + getCardsBySearchterms(String): Set<Card> \\
+    + getCardsToShow(long, long): Set<Card> \\
+    + createCardToTag(Card, Tag): boolean \\
+    + createTag(String): boolean \\
+    + getTags(): Set<Tag> \\
+    % -changeCard(): void
+    + updateCardData(Card, Card): boolean \\
+    + deleteCard(Card): boolean \\
+    + deleteCards(Card[]): boolean \\
+    + exportCards(Card[], ExportFileType): boolean \\
 }{}
