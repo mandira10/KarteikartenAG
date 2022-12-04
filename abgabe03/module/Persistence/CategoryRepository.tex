@@ -1,9 +1,17 @@
 \umlclass[x=24,y=-30.5]{CategoryRepository}
 {
-    + createCategory(String, List<Category>, List<Category>): void \\
-    + updateCategory(Category, Category): void \\
-    + saveCategory(Category): void \\
-    + deleteCategory(Category): void \\
-    + getCategories(): List<Category> \\
-    + getCategory(int): Category
+    + updateCategory(Category, Category): boolean \\
+    + saveCategory(Category): boolean \\
+    + saveCardToCategory(Card, Category): boolean \\
+    + deleteCategory(Category): boolean \\
+    + getCategories(): Set<Category> \\
+    + getCardToCategories(): Set<CardToCategory> \\
 }{}
+
+
+    + updateCategory(Category, Category): boolean \\
+    + saveCategory(Category): boolean \\
+    + saveCardToCategory(Card, Category): boolean \\
+    + deleteCategory(Category): boolean \\
+    + getCategories(): Set<Category> \\
+    + getCardToCategories(): Set<CardToCategory> \\

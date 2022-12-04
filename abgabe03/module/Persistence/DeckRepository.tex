@@ -1,9 +1,14 @@
 \umlclass[x=12, y=-30.5]{DeckRepository}
 { 
-    + updateDeck(Deck,Deck): void\\
-    + updateStudySystem(Deck,StudySystem): void\\
-    + saveDeck(Deck): void\\
-    + deleteDeck(Deck): void\\
-    + getDecks(): List<Deck>\\
-    + getDeck(int): Deck\\
+    + saveDeck(Deck): boolean \\
+    + updateDeck(Deck, Deck): boolean \\
+    + deleteDeck(Deck): boolean \\
+    + getDecks(): Set<Deck> \\
+    + getCardToDecks(): Set<CardToDeck> \\
+    % StudySystem
+    + updateStudySystem(Deck, StudySystem): boolean \\
+    + addStudySystemType(StudySystemType): boolean \\
+    + updateStudySystemTypes(): boolean \\
+    + getStudySystem(Deck): StudySystem \\
+    + getStudySystemTypes(): Set<StudySystemType> \\
 }{}

@@ -11,35 +11,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class CardRepository 
+public class CardRepository
 {
-    public static Set<Card> getCards(long from, long to) 
-    { 
-        /*TODO*/ return null; 
+    public static Set<Card> getCards(long from, long to)
+    {
+        /*TODO*/ return null;
     }
 
-    public static Set<Card> findCardsByCategory(Category category) 
+    public static Set<Card> findCardsByCategory(Category category)
     {
         return null;
     }
 
-    public static Set<Card> findCardsByTag(Tag tag) 
+    public static Set<Card> findCardsByTag(Tag tag)
     {
         return null;
     }
 
-    public static Set<Card> findCardsContaining(String searchWords) 
+    public static Set<Card> findCardsContaining(String searchWords)
     {
         return null;
     }
 
-    public static Card getCardByUUID(String uuid) 
+    public static Card getCardByUUID(String uuid)
     {
         return null;
     }
 
     /**
-     * 
+     *
      * @param oldcard
      * @param newcard
      */
@@ -64,9 +64,9 @@ public class CardRepository
             case TRUEFALSE:
                 break;
             default:
-                Debug.error("Unknown cardtype!"); 
+                Debug.error("Unknown cardtype!");
                 break;
-            
+
         }
 
         //return server.send("/updatecarddata", jsonString);
@@ -97,23 +97,23 @@ public class CardRepository
         return false;
     }
 
-    public static Set<Tag> getTags()  
-    { 
+    public static Set<Tag> getTags()
+    {
         Set<Tag> tags = Cache.getInstance().getTags();
         if(!tags.isEmpty())
             return tags;
 
         //server.send("/gettags", jsonString);
-        return null; 
+        return null;
     }
 
-    public static Set<CardToTag> getCardToTags()  
-    { 
+    public static Set<CardToTag> getCardToTags()
+    {
         Set<CardToTag> tags = Cache.getInstance().getCardToTags();
         if(!tags.isEmpty())
             return tags;
 
         //server.send("/getcardtotags", jsonString);
-        return null; 
+        return null;
     }
 }

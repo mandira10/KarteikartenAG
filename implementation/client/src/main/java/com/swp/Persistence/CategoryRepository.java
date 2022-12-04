@@ -7,10 +7,10 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
 
-public class CategoryRepository 
+public class CategoryRepository
 {
     /**
-     * 
+     *
      * @param oldcategory
      * @param newcategory
      */
@@ -27,7 +27,7 @@ public class CategoryRepository
         return false;
     }
 
-    public static boolean saveCardToCategory(Card card, Category category) 
+    public static boolean saveCardToCategory(Card card, Category category)
     {
         //server.send("/createcardtocategory", jsonString);
         return false;
@@ -39,23 +39,23 @@ public class CategoryRepository
         return false;
     }
 
-    public static Set<Category> getCategories()  
-    { 
+    public static Set<Category> getCategories()
+    {
         Set<Category> cats = Cache.getInstance().getCategories();
         if(!cats.isEmpty())
             return cats;
 
         //server.send("/getcategories", jsonString);
-        return null; 
+        return null;
     }
 
-    public static Set<CardToCategory> getCardToCategories()  
-    { 
+    public static Set<CardToCategory> getCardToCategories()
+    {
         Set<CardToCategory> cats = Cache.getInstance().getCardToCategories();
         if(!cats.isEmpty())
             return cats;
 
         //server.send("/getcardtocategories", jsonString);
-        return null; 
+        return null;
     }
 }
