@@ -1,11 +1,10 @@
 \umlclass[x=28,y=-12]{CategoryController}{
-	+ createCategory(String, List<Category>, List<Category>): void \\
-	+ updateCategoryData(Category, Category): void \\
-	+ createCardToCategory(Card, Category): void \\
-	+ deleteCategory(Category): void \\
-	+ deleteCardToCategory(CardToCategory): void \\
-	+ getCategories(): List<Category> \\
-	+ getAllInfosFor(Category): void \\ % -> ViewSingleCategoryPage
-	+ getCountOfCardsFor(Category): int \\
-	+ exportCards(Card[], ExportFileType): void \\
+	+ updateCategoryData(Category, Category): boolean \\
+	+ createCardToCategory(Card, Category): boolean \\
+	+ deleteCategory(Category): boolean \\
+	+ deleteCardToCategory(CardToCategory) \\
+	+ getCategories(): Set<Category> \\
+	+ getCategoryByUUID(String): Category \\
+	+ getCardsInCategory(Category): Set<Card> \\
+	+ numCardsInCategory(Category): int \\
 }{}
