@@ -13,6 +13,7 @@ public class CardToDeck
 
     private Card pCard;
     private Deck pDeck;
+    private CardStatus iStatus;
 
     public CardToDeck(Card c, Deck d)
     {
@@ -20,6 +21,17 @@ public class CardToDeck
         this.pDeck = d;
     }
 
-    public Card getCard() { return pCard; }
-    public Deck getDeck() { return pDeck; }
+
+    //
+    // Setter
+    //
+    public void setStatus(CardStatus status) { this.iStatus = status; }
+
+
+    //
+    // Getter
+    //
+    public Card getCard()         { return pCard; }
+    public Deck getDeck()         { return pDeck; }
+    public CardStatus getStatus() { return iStatus; }
 }
