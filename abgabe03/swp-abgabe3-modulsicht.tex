@@ -13,10 +13,8 @@
     \renewcommand\documentTitle{Modulsicht}
     \renewcommand\groupName{KarteikartenAG}
 
-    \newcommand\cat[1]{
-    \textbf{\large #1}\\[0.5em]}
-    \newcommand\cata[1]{
-    \textbf{#1}\\[0.3em]}
+    \newcommand\cat[1]{\textbf{\large #1}\\[0.5em]}
+    \newcommand\cata[1]{\textbf{#1}\\[0.3em]}
 
     \swpdocument{Rodrigue Wete Nguempnang}{04. Dezember 2022}%
                 {Mert As & meras@uni-bremen.de}%
@@ -63,6 +61,7 @@
     Auch hier gibt es analog zu \texttt{Deck} und \texttt{Card} eine extra Seite für das Erstellen und Bearbeiten
     (\texttt{EditCategoryPage}) sowie eine Einzelkategorieübersicht (\texttt{ViewSingeCategoryPage}).
 
+    \newpage
     \cat{Controller}
     Der \texttt{Controller} steht im Austausch mit der \texttt{GUI} und gibt Aufrufe, die vom Nutzer
     in der \texttt{GUI} gemacht werden, an die \texttt{Logik} weiter.\\
@@ -82,13 +81,14 @@
 
 
 
+    \clearpage
     \section{Modulsicht Detailbeschreibung}
     Da die Methoden aufeinander aufbauen, wird hier jeweils die gedachte Funktionsweise von GUI bis Persistence beschrieben.\\
     Die spätere Funktion der Datenbank, die bei uns über den Server läuft, ist hier noch nicht inkludiert.\\
     Auch gibt es Zusatzfunktionen, die nicht vollends dargestellt sind, wie bspw. die Exportfunktion, die beschrieben wird,
-    aber der Übersicht halber nicht in der Modulsicht erscheint.\\\\
+    aber der Übersicht halber nicht in der Modulsicht erscheint. \\
 
-    \cat{Karte}
+    \textbf{\large Karte}
     \begin{itemize}
     \item \textit{N1 Karteikarte anlegen/\\ N3 Karteikarte bearbeiten}\\ 
     Siehe Beschreibung in Sequenzdiagramm Teil 1. Nach Aufruf wird ein \texttt{boolean} zurückgegeben, ob erfolgreich.
@@ -111,7 +111,9 @@
     den Server mit den \texttt{getContent} Methoden der \texttt{Card} verglichen.
     Die Filterung nach \texttt{Category} wird über den \texttt{CategoryController} behandelt und dort weitergereicht.
     \end{itemize}
-    \cat{Deck}
+    \ 
+
+    \textbf{\large Deck}
     \begin{itemize}
     \item\textit{N25 Karteikasten einzelne Kategorie / \\
     N26 Karteikasten mehrere Kategorien erstellen\\
@@ -139,19 +141,22 @@
     ermittelt werden.
     \item\textit{ N38 Karteikasten löschen}\\ Wird über \texttt{DeckOverviewPage} oder einzeln über \texttt{EditDeckPage} aufgerufen, für einen oder mehrere Karteikästen (analog zu \texttt{Card})
     \end{itemize}
-    \cat{Category}
+    \newpage
+    \textbf{\large Category}
     \begin{itemize}
         \item \textit{N12 Kategorie anlegen/ \\
          N14 Kategorie bearbeiten}\\
-    Analog wie bei Karteikarten und Karteikästen gibt eine Methode für das Bearbeiten und Erstellen von Kategorien. (Hierarchieanpassungen beschreiben)
+    Analog wie bei Karteikarten und Karteikästen gibt eine Methode für das Bearbeiten und Erstellen von Kategorien.
         \item \textit{N14 Kategorie löschen}\\
     Eine Kategorie kann über \texttt{EditCategoryPage} gelöscht werden. Verfahren analog wie bei \texttt{Card}.
     \end{itemize}
+
+    \clearpage
     \section{Sequenzdiagramm Detailbeschreibung}
     \cat{Sequenzdiagramm 1: Karte erstellen}
-    Susi möchte eine Karte erstellen und ruft über die Kartenübersicht Karte erstellen auf.\\
+    Susi möchte eine Karte erstellen und ruft über die Kartenübersicht Karte erstellen auf.
     \begin{enumerate}
-    \item Da die EditCardPage sowohl zur Bearbeitung als auch zur Erstellung von Karten benutzt wird, prüft der \texttt{CardController}
+    \item Da die \texttt{EditCardPage} sowohl zur Bearbeitung als auch zur Erstellung von Karten benutzt wird, prüft der \texttt{CardController}
     zunächst, ob eine Karte mitgegeben wurde und lädt die Informationen, wenn diese nicht leer ist. Dies wird an die \texttt{CardLogic} weitergegeben, die 
     den Befehl ans \texttt{CardRepository} leitet, dass die Funktion prüft, indem es auf dem Server auf die Datenbank zugreift.
     \item Wenn es eine Bearbeitung einer bestehenden Karte ist, wird nach Rückgabe ein Löschbutton für die Karte angezeigt.
@@ -163,8 +168,9 @@
     \texttt{saveCard(Card)} oder \texttt{updateCard(Card)}.
     \end{enumerate}
 
+    \newpage
     \cat{Sequenzdiagramm 2: Lernsystem lernen}
-    Susi möchte einen bereits erstellen Karteikasten testen.\\
+    Susi möchte einen bereits erstellen Karteikasten testen.
     \begin{enumerate}
     \item Dazu gelangt sie zunächst zur \texttt{TestDeckPage}. Über den Controller wird \texttt{getDeck()} aufgerufen und das Deck über die Persistence und den Server geladen.
     \item Über das StudySystem wird die nächste zu bearbeitende Karte geladen. Falls bereits vorher gelernt wurde, beginnt man beim vorherigen Lernfortschritt.
@@ -198,11 +204,11 @@
 
     %Only to show how the structure is
     %some methods are still missing, folder implementation has more detail
-    \KOMAoptions{paper=A3,paper=landscape,pagesize}
-    \thispagestyle{empty}
-    \begin{tikzpicture}%
-        \input{module/ModuleOverview.tex}
-    \end{tikzpicture}
+    %\KOMAoptions{paper=A3,paper=landscape,pagesize}
+    %\thispagestyle{empty}
+    %\begin{tikzpicture}%
+    %    \input{module/ModuleOverview.tex}
+    %\end{tikzpicture}
     \newpage
     %Only to show how the structure is
     %some methods are still missing, folder implementation has more detail
@@ -228,7 +234,9 @@
     \newcommand\pers{p}
     \thispagestyle{empty}
     \hspace*{15cm}
-    \begin{minipage}{0cm}
+    \begin{minipage}{50cm}
+        \section*{Sequenzdiagramm 1: Karte erstellen}
+        \vspace*{4cm}
         \input{sequenzdiagramm/createcard.tex}
     \end{minipage}
     \newpage
@@ -236,6 +244,7 @@
     %\hspace*{1.5\textwidth}
     \hspace*{5cm}\vspace*{2cm}
     \begin{minipage}{50cm}
+        \section*{Sequenzdiagramm 2: Lernsystem lernen}
         \input{sequenzdiagramm/testcard.tex}
     \end{minipage}
     \recalctypearea
