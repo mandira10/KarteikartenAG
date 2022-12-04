@@ -1,17 +1,5 @@
 \umlclass[x=8.75, y=-20]{DeckLogic}
 { 
-<<<<<<< HEAD
-    + getDecks(): List<Deck> \\ 
-    + updateDeckData(Deck, Deck): void\\
-    + updateStudySystem(Deck, StudySystem): void\\
-    + deleteDeck(Deck):void\\
-    + deleteDecks(Deck[]):void\\
-    + getCountOfDecksFor(String): int\\
-    + getAllInfosForDeck(String):Deck\\
-    + getCountOfCardsInDeck(Deck):Deck\\
-    + getCardsToDecks(): List<CardToDeck>\\
-}{} 
-=======
     + getDecks(): Set<Deck> \\
     + createCardToDeck(Card, Deck): boolean \\
     + createCardToDeckForCategory(Category, Deck): boolean \\
@@ -26,4 +14,3 @@
     + numCardsInDeck(Deck): int \\
     + getStudySystemTypes(): Set<StudySystemType> \\
 }{}
->>>>>>> 209d0be2ff9f5d6e3bebf4fe1b58322b02d32381
