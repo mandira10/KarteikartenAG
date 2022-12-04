@@ -63,61 +63,48 @@
     (\texttt{EditCategoryPage}) sowie eine Einzelkategorieübersicht (\texttt{ViewSingeCategoryPage}).
 
     \cat{Controller}
-    Der \texttt{Controller} steht im Austausch (TODO) mit der \texttt{GUI} und gibt Aufrufe, die vom Nutzer
+    Der \texttt{Controller} steht im Austausch mit der \texttt{GUI} und gibt Aufrufe, die vom Nutzer
     in der \texttt{GUI} gemacht werden, an die \texttt{Logik} weiter.\\
     Er teilt sind in 3 Klassen: \texttt{CardController}, \texttt{DeckController} und \texttt{CategoryController}, die alle Aufrufe, die von den 3 Gui-Untermodulen kommen, bearbeiten.
 
     \cat{Logik}
-    Der \texttt{Logik} ist das Modul, dass sich um die Ausführung von den Anwendungsfällen kümmert.
+    Die \texttt{Logik} ist das Modul, dass sich um die Ausführung von den Anwendungsfällen kümmert.
     Sie leitet Datenbezogene Aufgaben an die \texttt{Persistence} weiter.\\\\
     Die Logik teilt sind in 3 Klassen: \texttt{CardLogic}, \texttt{DeckLogic} und \texttt{CategoryLogic}. Diese übernehmen
     die Ausführung für die einzelnen Submodule.
 
     \cat{Persistence}
-    Der \texttt{Persistence} ist das Modul, dass datenbezogene Arbeiten ausführt. Das Laden und Speichern wird
+    Die \texttt{Persistence} ist das Modul, dass datenbezogene Arbeiten ausführt. Das Laden und Speichern wird
     an unseren Server weitergegeben.\\\\
     Die Persistence teilt sind in 3 Klassen: \texttt{CardRepository}, \texttt{DeckRepository} und \texttt{CategoryRepository}, die das Laden und Speichern der
     Submodule ausführen, indem sie mit der Datenbank auf dem Server kommunizieren.
 
 
-    \textbf{TODO}\\
-    Klärung Connection Controller / GUI -> aktuell eher einseitig
-    \begin{itemize}
-    \item Wollen wir über den Controller Fehlermeldungen für die GUI
-    aufrufen lassen?
-    \item Soll über den Controller das Starten der Applikation + PageManager Geschichten laufen?
-    \end{itemize}
 
     \section{Modulsicht Detailbeschreibung}
     Da die Methoden aufeinander aufbauen, wird hier jeweils die gedachte Funktionsweise von GUI bis Persistence beschrieben.\\\\
     \cat{Karte}
     \begin{itemize}
-    \item \textit{N1 Karteikarte anlegen/\\ N3 Karteikarte bearbeiten}\\
-    Das Anlegen / Bearbeiter einer Karte wird in \texttt{EditCardPage} mittels \texttt{applyChanges} umgesetzt.
-    Dieses ruft im \texttt{CardController} die Methode \texttt{editCard} auf. In der darauf aufgerufenen Methode
-    \texttt{updateCardData} mitsamt Weitergabe alter und neuer Karteninformationen erfolgt die Umsetzung in \texttt{CardLogic}.
-    Die Logik prüft, ob die Karte neu ist oder geupdatet wird und ruft darauf aufbauend entweder \texttt{saveCard} oder \texttt{updateCard}
-    in \texttt{CardRepository} auf.\\
-    Auch Tags und Kategorien können über die Seite aufgerufen werden, auch dies wird über die Logik in \texttt{updateCardData} registriert und über die Methoden
-    \texttt{createCardToCategory} und \texttt{createTagToCategory} umgesetzt.\\
-    Der Nutzer kann zudem die Karte bewerten, was als Attribut in der Karte über \texttt{applyChanges} gespeichert wird.\\
-    Zudem werden die Suchwörter bei Aufruf der Methode aktualisiert bzw. eingetragen.
-    \item TODO: importieren fehlt\\
-    \item \textit{N2 Karteikarte löschen/\\ N23 Kartenauswahl löschen}\\
-    Kann entweder bei Kartenbearbeitung (\texttt{CardEditPage}) oder über das Glossar (\texttt{CardOverviewPage})
-    für einzelne oder mehrere Karten aufgerufen werden.
-    \item \textit{N4 Karteikarte als PDF exportieren/\\ N7 Karteikarte als JSON exportieren /\\Karteikarte als XML exportieren /\\ N24 Kartenauswahl exportieren}\\ Für das Exportieren gibt es eine separate Seite \texttt{ExportSettingsPage}, die nach Aufruf
-    in \texttt{CardOverviewPage} aufgerufen wird. Die Methode ist im Abschnitt \texttt{Settings} erläutert.
-    \item \textit{N19 Karteikarten anzeigen}\\ Für das Anzeigen der Karteikarten gibt es in \texttt{CardOverviewPage} zwei zugehörige Methoden
-    \texttt{getCardsToShowInitially}, nicht alle Karten werden bei Öffnen
-    des Glossars angezeigt, die Methode dient dem initialen Laden. Die zweite Methode baut darauf auf und zieht aus \texttt{CardToDeck} die Anzahl der
-    Decks pro geladener Karte. \\
-    TODO: was ist bei Seitenwechsel im Glossar? zusammenführen des getCountOfDecks nur in Logic aufrufen?
-    \item \textit{N20 Karteikartenansicht verändern\\- Filterung}\\
-    Für die Filterung der Karte gibt es \texttt{CardOverviewPage} drei Methoden:
-    \texttt{showCardsWithCategory}, \texttt{showCardsWithTag}, \texttt{showCardsWithSearchWords}. Diese rufen die zugehörigen \texttt{CardController} Methoden auf. Die an
-    die \texttt{CardLogic} übergebenen Methoden werden an den Server über die \texttt{CardRepository} weiterrgeben. \texttt{SearchWords} werden über
+    \item \textit{N1 Karteikarte anlegen/\\ N3 Karteikarte bearbeiten}\\ 
+    Siehe Beschreibung in Sequenzdiagramm Teil 1. Nach Aufruf wird ein \texttt{boolean} zurückgegeben, ob erfolgreich.
+    \item \textit{N2 Karteikarte löschen/\\ N23 Kartenauswahl löschen}\\ 
+    Kann entweder bei Kartenbearbeitung direkt (\texttt{CardEditPage} - siehe Sequenzdiagramm Teil 1) oder über das Glossar (\texttt{CardOverviewPage}) 
+    für einzelne oder mehrere Karten über den \texttt{CardController} aufgerufen werden. Nach Aufruf wird ein \texttt{boolean} zurückgegeben, ob erfolgreich.
+    \item \textit{N4 Karteikarte als PDF exportieren/\\ 
+    N7 Karteikarte als JSON exportieren /\\
+    Karteikarte als XML exportieren /\\
+    N24 Kartenauswahl exportieren}\\ 
+    Für das Exportieren gibt es eine separate Seite \texttt{ExportSettingsPage}, die nach Aufruf 
+    in verschiedenen Übersichten aufgerufen und über die \texttt{CardLogic} verarbeitet wird. 
+    Die Methode ist im Abschnitt \texttt{Settings} erläutert.
+    \item \textit{N19 Karteikarten anzeigen}\\ Für das Anzeigen der Karteikarten benötigt man zwei Methoden. Initial werden die
+    Karten über \texttt{getCardsToShowInitially()} geladen, die im Controller verarbeitet wird und an die Logik weitergereicht werden. Für die gezogenen Karten wird
+    dann über den \texttt{DeckController} noch die Anzahl der Karten abgefragt, was ebenfalls über die Logik erfolgt.
+    \item \textit{N20 Karteikartenansicht verändern\\- Filterung}\\ 
+    Für die Filterung der Karte gibt es drei Methoden: Bei Filterung nach Tag wird im \texttt{CardController} \texttt{getCardsByTag(tag)} aufgerufem.
+    Für die Suchbegriffe wird im \texttt{CardController} \texttt{getCardsBySearchTerms(String)} aufgerufen.die \texttt{CardLogic} übergebenen Methoden werden an den Server über die \texttt{CardRepository} weiterrgeben. \texttt{SearchWords} werden über 
     den Server mit den \texttt{getContent} Methoden der \texttt{Card} verglichen.
+    Die Filterung nach \texttt{Category} wird über den \texttt{CategoryController} behandelt und dort weitergereicht.
     \end{itemize}
     \cat{Deck}
     \begin{itemize}
@@ -128,27 +115,50 @@
     Analog wie bei \texttt{Card} gibt es eine gebündelte Methode für die Bearbeitung und Erstellung von Karteikästen.
     Sollte der Nutzer später sein Lernsystem ändern, wird dies auch über die Methode aufgerufen in der \texttt{GUI} aber später in der \texttt{DeckLogic}
     separat behandelt über \texttt{updateStudySystem}.
-    \item \texttt{N28-4 Neue Lernmethoden erstellen} TODO
-    \item \texttt{N31 Kasten Lernen/ \\N32 Lernvorgang unterbrechen/ \\N33 Lernvorgang fortsetzen/ \\N34 Lernfortschritt/ \\N35 Antwort prüfen} TODO
-    \item \texttt{N35 Status der Karteikarten/ \\ N36 Karteikastenübersicht}\\
+    Zuvor wird, wie bei \texttt{Card} auch, die unterschiedlichen Lernsysteme abgerufen, damit sie ausgewählt werden können.
+   
+    \item \textit{N31 Kasten Lernen/ \\
+    N32 Lernvorgang unterbrechen/ \\
+    N33 Lernvorgang fortsetzen/ \\
+    N34 Lernfortschritt/ \\
+    N35 Antwort prüfen}  Siehe Beschreibung in Sequenzdiagramm Teil 2.
+    \item \textit{N35 Status der Karteikarten/ \\ N36 Karteikastenübersicht}\\ 
     Für die Karteikästen gibt es, wie bei Karteikarten auch, eine Übersicht, wo zu jedem Karteikasten seine Karten und ihr Status angezeigt werden.
-    Dies wird über die Methode \texttt{showDecks} in \texttt{DeckOverviewPage} realisiert. Hier wird die Methode \texttt{getCardToDecks} im \texttt{DeckController},
+    Dies wird über die Methode \texttt{showDecks} in \texttt{DeckOverviewPage} realisiert. Hier wird die Methode \texttt{getCardToDecks} im \texttt{DeckController}, 
     die in der \texttt{DeckLogic} bearbeitet wird und weiter aufgesplittet. Zunächst wird dort \texttt{getDecksAndCards} aufgerufen, in der dann Zunächst
     die Decks mittel \texttt{getDecks} alle Decks gezogen werden und dann für jedes Deck mit \texttt{getCardsToDeck} die einzelnen Karten mit Status
     ermittelt werden.
-    \item Karteikasten löschen: Wird über \texttt{DeckOverviewPage} aufgerufen, für einen oder mehrere Karteikästen.
+    \item Karteikasten löschen: Wird über \texttt{DeckOverviewPage} oder einzeln über \texttt{EditDeckPage} aufgerufen, für einen oder mehrere Karteikästen (analog zu \texttt{Card})
     \end{itemize}
     \cat{Category}
     \begin{itemize}
-        \item \textit{N12 Kategorie anlegen/ \\ N14 Kategorie bearbeiten} TODO gleich wie Card und Deck machen, aktuell separate Methoden in GUI?
+        \item \textit{N12 Kategorie anlegen/ \\
+         N14 Kategorie bearbeiten}
     Analog wie bei Karteikarten und Karteikästen gibt eine Methode für das Bearbeiten und Erstellen von Kategorien. (Hierarchieanpassungen beschreiben)
         \item \textit{N14 Kategorie löschen}\\
     Eine Kategorie kann über \texttt{EditCategoryPage} gelöscht werden.
     \item \textit{N15 Kategorien anzeigen} TODO: Sollen die Karten in der Übersicht mit angezeigt werden? Über getCategories in Logic mitreinnehmen?\\
     \end{itemize}
     \cat{Settings}
-    TODO: Export beschreiben, mehr?
-    
+    TODO: Export beschreiben, mehr?\\
+    TODO: Karten importieren fehlt\\
+    \textit{N28-4 Neue Lernmethoden erstellen} TODO
+    \section{Sequenzdiagramm Detailbeschreibung}
+    \cat{Sequenzdiagramm 1: Karte erstellen}
+    Susi möchte eine Karte erstellen und ruft über die Kartenübersicht Karte erstellen auf.\\
+    \begin{enumerate}
+    \item Da die EditCardPage sowohl zur Bearbeitung als auch zur Erstellung von Karten benutzt wird, prüft der \texttt{CardController}
+    zunächst, ob eine Karte mitgegeben wurde und lädt die Informationen, wenn diese nicht leer ist. Dies wird an die \texttt{CardLogic} weitergegeben, die 
+    den Befehl ans \texttt{CardRepository} leitet, dass die Funktion prüft, indem es auf dem Server auf die Datenbank zugreift.
+    \item Wenn es eine Bearbeitung einer bestehenden Karte ist, wird nach Rückgabe ein Löschbutton für die Karte angezeigt.
+    \item Da die bereits bestehenden Kategorien und Tags zur Auswahl im Dropdown angegeben werden sollen, werden auch diese abgerufen.
+    Hierbei wird für die Kategorien der \texttt{CategoryController} verwendet.
+    \item Nach Laden aller notwendigen Informationen kann die Bearbeitung erfolgen, hierbei kann jederzeit abgebrochen werden.
+    \item Wenn Susi auf Übernehmen klickt, wird im \texttt{CardController} \texttt{updateCardData()} aufgerufen. Auch hier folgt
+    in der Logik wieder eine Prüfung, ob es sich um eine bestehende oder eine neue Karte handelt und je nachdem wird im \texttt{CardRepository}
+    \texttt{saveCard(Card)} oder \texttt{updateCard(Card)}.
+    \end{enumerate}
+
     
 
 
