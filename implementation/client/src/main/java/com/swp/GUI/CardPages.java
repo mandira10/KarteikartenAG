@@ -16,5 +16,14 @@ public class CardPages
     {
         pCardOverviewPage = new CardOverviewPage();
         PageManager.addPage("CardOverview", pCardOverviewPage);
+
+        pViewCardPage = new ViewSingleCardPage();
+        PageManager.addPage("ViewSingleCard", pViewCardPage);
+
+        pEditCardPage = new EditCardPage();
+        PageManager.addPage("EditCard", pEditCardPage);
+
+        pTestCardPage = new TestCardPage();
+        PageManager.addPage("TestCard", pTestCardPage);
     }
 }

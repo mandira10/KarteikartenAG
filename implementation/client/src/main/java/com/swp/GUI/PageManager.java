@@ -10,13 +10,16 @@ import com.gumse.maths.ivec2;
 public class PageManager
 {
     private static Map<String, RenderGUI> mPages = null;
-    private static RenderGUI pActivePage = null;
+    private static RenderGUI pActivePage, pLastPage;
     private static RenderGUI pPageCanvas;
 
     private PageManager() {}
 
     public static void init(RenderGUI parent)
     {
+        pActivePage = null;
+        pLastPage = null;
+
         if(mPages == null)
         {
             mPages = new HashMap<>();
@@ -43,6 +46,8 @@ public class PageManager
     {
         if(!mPages.containsValue(page))
             return;
+
+        pLastPage = pActivePage;
         pActivePage = page;
     }
 
@@ -51,7 +56,21 @@ public class PageManager
         if(!mPages.containsKey(name))
             return;
 
+        pLastPage = pActivePage;
         pActivePage = mPages.get(name);
+    }
+
+    public static void viewLastPage()
+    {
+        pActivePage = pLastPage;
+    }
+
+    public static RenderGUI getPage(String name)
+    {
+        if(!mPages.containsKey(name))
+            return null;
+
+        return mPages.get(name);
     }
 
     public static void render()

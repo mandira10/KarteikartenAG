@@ -1,8 +1,9 @@
 package com.swp.GUI.Cards;
 
+import com.gumse.gui.Primitives.RenderGUI;
 import com.swp.DataModel.*;
 
-public class TestCardPage 
+public class TestCardPage extends RenderGUI
 {
     private Card pCard = null;
 

@@ -11,10 +11,11 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.*;
 import com.gumse.tools.Debug;
 
-public class LoginPage extends RenderGUI
+public class LoginPage extends Page
 {
     public LoginPage()
     {
+        super("Login");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/loginpage.xml"));

@@ -6,6 +6,10 @@ import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.*;
+import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import com.swp.DataModel.CardTypes.TrueFalseCard;
+import com.swp.GUI.Cards.EditCardPage;
+import com.swp.GUI.Cards.ViewSingleCardPage;
 
 public class KarteikartenAGGUI extends RenderGUI
 {
@@ -24,6 +28,9 @@ public class KarteikartenAGGUI extends RenderGUI
         PageManager.addPage("LoginPage", new LoginPage());
         pCardPages = new CardPages();
 
+        EditCardPage page = (EditCardPage)PageManager.getPage("EditCard");
+        page.editCard(new TrueFalseCard());
+        PageManager.viewPage(page);
 
 
         pSidebar = new Sidebar();

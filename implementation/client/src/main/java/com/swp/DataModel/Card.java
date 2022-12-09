@@ -29,7 +29,7 @@ public abstract class Card
 
     public static Card copyCard(Card card)
     {
-        Card retCard = null;
+        Card retCard = card;
         /*switch(card.iType)
         {
             case AUDIO: retCard = new AudioCard((AudioCard)card); break;

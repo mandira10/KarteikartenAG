@@ -5,9 +5,11 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
+import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +17,10 @@ public class CardRepository
 {
     public static Set<Card> getCards(long from, long to)
     {
-        /*TODO*/ return null;
+        Set<Card> cards = new HashSet<>();
+        for(int i = 0; i < to - from; i++)
+            cards.add(new MultipleChoiceCard());
+        return cards;
     }
 
     public static Set<Card> findCardsByCategory(Category category)
