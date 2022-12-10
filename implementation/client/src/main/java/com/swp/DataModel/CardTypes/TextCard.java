@@ -7,6 +7,7 @@ public class TextCard extends Card
     public TextCard()
     {
         super("", CardType.TEXT);
+        setTitle("TextCard");
     }
     
 }

@@ -7,5 +7,6 @@ public class AudioCard extends Card
     public AudioCard()
     {
         super("", CardType.AUDIO);
+        setTitle("AudioCard");
     }
 }

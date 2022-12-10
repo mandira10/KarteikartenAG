@@ -18,13 +18,14 @@ public abstract class Card
     protected final CardType iType;
     protected int iRating;
     protected String sContent;
-    public String sName;
+    protected String sTitle;
 
     public Card(String uuid, CardType type)
     {
         this.sUUID = uuid;
         this.iType = type;
         this.iRating = 0;
+        this.sTitle = "";
     }
 
     public static Card copyCard(Card card)
@@ -54,7 +55,8 @@ public abstract class Card
     //
     // Setter
     //
-    public void setRating(int rating) { this.iRating = rating; }
+    public void setRating(int rating)  { this.iRating = rating; }
+    public void setTitle(String title) { this.sTitle = title; }
 
     
     //
@@ -63,4 +65,5 @@ public abstract class Card
     public CardType getType() { return iType; }
     public String getUUID()   { return sUUID; }
     public String getContent(){ return sContent; }
+    public String getTitle()  { return sTitle; }
 }

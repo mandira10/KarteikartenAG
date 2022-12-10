@@ -7,6 +7,7 @@ public class MultipleChoiceCard extends Card
     public MultipleChoiceCard()
     {
         super("UUID", CardType.MULITPLECHOICE);
+        setTitle("MultipleChoiceCard");
     }
     
 }

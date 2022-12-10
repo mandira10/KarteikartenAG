@@ -9,11 +9,13 @@ import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
+import com.swp.GUI.Cards.CardRenderer.CardRenderer;
 
 public class ViewSingleCardPage extends Page
 {
     //RatingGUI pRatingGUI; //TODO
     Card pCard;
+    RenderGUI pCanvas;
 
     public ViewSingleCardPage()
     {
@@ -22,6 +24,8 @@ public class ViewSingleCardPage extends Page
 
         //pRatingGUI = new RatingGUI(card);
         addGUI(XMLGUI.loadFile("guis/viewcardpage.xml"));
+
+        pCanvas = findChildByID("canvas");
         
         Button editButton = (Button)findChildByID("editbutton");
         if(editButton != null)
@@ -56,5 +60,8 @@ public class ViewSingleCardPage extends Page
     public void setCard(Card card)
     {
         pCard = card;
+        pCanvas.destroyChildren();
+        CardRenderer cardRenderer = new CardRenderer(card);
+        pCanvas.addGUI(cardRenderer);
     }
 }

@@ -9,11 +9,15 @@ import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
+import com.gumse.model.Model3D;
+import com.gumse.shader.Shader;
+import com.gumse.shader.ShaderProgram;
 import com.gumse.system.Display;
 import com.gumse.system.Window;
 import com.gumse.system.Window.WindowResizePosCallback;
 import com.gumse.tools.Debug;
 import com.gumse.tools.FPS;
+import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Category;
 import com.swp.GUI.KarteikartenAGGUI;
 import com.swp.GUI.PageManager;
@@ -64,6 +68,8 @@ public class KarteikartenAG
         pMainGUI.updateCanvas();
 
         Category rootCategory = new Category("Root", "", null); //For now
+
+
         
         while(pMainWindow.isOpen())
         {

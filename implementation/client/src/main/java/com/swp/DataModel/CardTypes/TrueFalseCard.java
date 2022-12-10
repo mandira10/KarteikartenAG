@@ -7,6 +7,7 @@ public class TrueFalseCard extends Card
     public TrueFalseCard()
     {
         super("", CardType.TRUEFALSE);
+        setTitle("TrueFalseCard");
     }
     
 }

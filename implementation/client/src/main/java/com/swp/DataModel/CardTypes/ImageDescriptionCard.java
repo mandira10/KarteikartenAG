@@ -7,5 +7,6 @@ public class ImageDescriptionCard extends Card
     public ImageDescriptionCard()
     {
         super("", CardType.IMAGEDESC);
+        setTitle("ImageDescriptionCard");
     }
 }

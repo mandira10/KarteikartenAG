@@ -5,7 +5,11 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
+import com.swp.DataModel.CardTypes.AudioCard;
+import com.swp.DataModel.CardTypes.ImageDescriptionCard;
+import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 
 import java.util.ArrayList;
@@ -17,9 +21,19 @@ public class CardRepository
 {
     public static Set<Card> getCards(long from, long to)
     {
+        //////////////////////////////////////
+        // For Testing 
+        //////////////////////////////////////
         Set<Card> cards = new HashSet<>();
-        for(int i = 0; i < to - from; i++)
+        for(int i = 0; i < to - from; i += 6)
+        {
+            cards.add(new AudioCard());
+            cards.add(new ImageDescriptionCard());
+            cards.add(new ImageTestCard());
             cards.add(new MultipleChoiceCard());
+            cards.add(new TextCard());
+            cards.add(new TrueFalseCard());
+        }
         return cards;
     }
 
@@ -51,8 +65,8 @@ public class CardRepository
     public static boolean updateCard(Card oldcard, Card newcard)
     {
         String jsonString = "";
-        if(!oldcard.sName.equals(newcard.sName))
-            jsonString += "\"name\":" + newcard.sName;
+        if(!oldcard.getTitle().equals(newcard.getTitle()))
+            jsonString += "\"title\":" + newcard.getTitle();
 
         switch(newcard.getType())
         {

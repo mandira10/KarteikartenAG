@@ -44,7 +44,7 @@ public class CardOverviewPage extends Page
             this.pCard = card;
             FontManager fonts = FontManager.getInstance();
 
-            this.pCardNameBox = new TextBox(card.getUUID(), fonts.getDefaultFont(), new ivec2(0, 0), new ivec2(100, 100));
+            this.pCardNameBox = new TextBox(card.getTitle(), fonts.getDefaultFont(), new ivec2(0, 0), new ivec2(100, 100));
             pCardNameBox.setSizeInPercent(true, true);
             pCardNameBox.setAlignment(TextBox.Alignment.LEFT);
             pCardNameBox.setTextSize(20);
@@ -73,7 +73,7 @@ public class CardOverviewPage extends Page
                 Mouse mouse = Window.CurrentlyBoundWindow.getMouse();
                 mouse.setCursor(Mouse.GUM_CURSOR_HAND);
 
-                if(hasClickedInside())
+                if(isClicked())
                 {
                     ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage("ViewSingleCard");
                     page.setCard(pCard);

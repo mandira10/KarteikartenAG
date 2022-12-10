@@ -7,6 +7,7 @@ public class ImageTestCard extends Card
     public ImageTestCard()
     {
         super("", CardType.IMAGETEST);
+        setTitle("ImageTestCard");
     }
     
 }
