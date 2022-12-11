@@ -4,6 +4,7 @@ import com.gumse.basics.Camera;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.maths.mat3;
 import com.gumse.maths.mat4;
 import com.gumse.maths.vec3;
 import com.gumse.maths.vec4;
@@ -17,10 +18,12 @@ public class CardRenderer extends RenderGUI
 {
     private Model3D pCardModel;
     private Camera pCamera;
+    private vec3 v3Rotation;
 
     public CardRenderer(Card card)
     {
         this.vSize = new ivec2(100,100);
+        this.v3Rotation = new vec3();
 
         //pRatingGUI = new RatingGUI(card);
         addGUI(XMLGUI.loadFile("guis/cardrendererlayout.xml"));
@@ -68,10 +71,30 @@ public class CardRenderer extends RenderGUI
         Model3D.getDefaultShader().use();
         Model3D.getDefaultShader().loadUniform("projectionMatrix", pCamera.getProjectionMatrix());
         Model3D.getDefaultShader().loadUniform("viewMatrix", pCamera.getViewMatrix());
-        pCardModel.increaseRotation(new vec3(0, FPS.getFrametime() * 100.0f, 0));
         pCardModel.render();
         Model3D.getDefaultShader().unuse();
 
         renderchildren();
+    }
+
+    private final static float ROTATIONAL_SPEED = 10.0f;
+
+    @Override
+    public void update()
+    {
+        if(bIsHidden)
+            return;
+
+        vec3 strafeDir = new vec3(1,0,0);
+
+        ivec2 delta = Window.CurrentlyBoundWindow.getMouse().getPositionDelta();
+        mat3 rotator = mat3.rotateMatrix(vec3.mul(pCamera.Up, -delta.x * ROTATIONAL_SPEED)) *
+                       mat3.rotateMatrix(vec3.mul(strafeDir, -delta.y * ROTATIONAL_SPEED));
+
+        v3Rotation = vec3.mul(rotator, v3Rotation);
+        //pCardModel.increaseRotation(new vec3(0, FPS.getFrametime() * 100.0f, 0));
+        pCardModel.setRotation(v3Rotation);
+
+        updatechildren();
     }
 }
