@@ -2,9 +2,21 @@ package com.swp.DataModel;
 
 public class CardToCategory 
 {
-    private Card pCard;
-    private Category pCategory;
+    /**
+     * Zugehörige Karte
+     */
+    private final Card pCard;
 
+    /**
+     * Zugehörige Kategorie
+     */
+    private final Category pCategory;
+
+    /**
+     * Konstruktor der Klasse CardToCategory
+     * @param c: Karte
+     * @param d: Kategorie
+     */
     public CardToCategory(Card c, Category d)
     {
         this.pCard = c;

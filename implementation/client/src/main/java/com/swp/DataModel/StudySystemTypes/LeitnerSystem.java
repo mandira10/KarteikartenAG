@@ -1,9 +1,6 @@
 package com.swp.DataModel.StudySystemTypes;
 
-import java.util.ArrayList;
-import java.util.Set;
 
-import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem;
 import com.swp.DataModel.StudySystemType;
