@@ -29,14 +29,14 @@ public class TrueFalseCard extends Card
 
     /**
      * Konstruktor der Klasse TrueFalseCard
-     * @param question
-     * @param answer
-     * @param visible
+     * @param question: Frage der Karte
+     * @param answer: Antwort der Karte
+     * @param visible: Sichtbarkeit der Karte
      */
-    public TrueFalseCard(String question, boolean answer, boolean visible)
+    public TrueFalseCard(String question, boolean answer, String title, boolean visible)
     {
         super(CardType.TRUEFALSE);
-        setTitle("TrueFalseCard");
+        setTitle(title);
         sQuestion = question;
         bAnswer = answer;
         bVisibility = visible;

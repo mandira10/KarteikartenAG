@@ -93,6 +93,7 @@ public class Category
     public int numChildren(){
         return stChildren.size();
     }
+
     /**
      * Add a new child to a category
      */

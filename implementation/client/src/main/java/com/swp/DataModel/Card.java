@@ -44,8 +44,7 @@ public abstract class Card
     protected String sContent;
 
     /**
-     * Titel der Karte. Wird für das Vergleichen zweier Karten verwendet.
-     * TODO: warum notwendig? Warum nicht über UUID?
+     * Titel der Karte. Ist optional, wird verwendet im Glossar, wenn befüllt
      */
     protected String sTitle;
 

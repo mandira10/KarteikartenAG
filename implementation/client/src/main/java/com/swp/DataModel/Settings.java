@@ -1,30 +1,68 @@
 package com.swp.DataModel;
 
+/**
+ * Die Klasse repräsentiert die Einstellungen des Nutzers.
+ */
 public class Settings 
 {
+    /**
+     * Enum für die verfügbaren Sprachen.
+     */
     public enum Language
     {
         ENGLISH,
         GERMAN,
     };
+
+    /**
+     * Hilfsattribut, um sicherzustellen, dass Setttings nur einmal
+     * konfiguriert werden.
+     */
     private static Settings oSettingsInstance = null;
+
+    /**
+     * Language des Users
+     */
     private Language iLanguage;
+
+    /**
+     * Serveradresse
+     */
     private String sServerAddress;
+
+    /**
+     * DarkTheme Einstellung des Nutzers
+     */
     private boolean bDarkTheme;
+
+    /**
+     * ServerPort
+     */
     private int iServerPort;
 
+    /**
+     * Konstruktor der Settings Klasse
+     */
     private Settings()
     {
         //Toolbox.loadFile();
     }
 
-
+    /**
+     * Gibt die Instanz von Settings wider, falls es bereits eine gibt
+     * @return oSettingsInstance
+     */
     public static Settings getInstance()
     {
         if(oSettingsInstance == null)
             oSettingsInstance = new Settings();
         return oSettingsInstance;
     }
+
+    /**
+     * Wandelt die Sprache in einen String um
+     * @return Spracheinstellung
+     */
 
     public String languageToString()
     {

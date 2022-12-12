@@ -37,10 +37,12 @@ public class MultipleChoiceCard extends Card
      * @param question Frage der Karte
      * @param answers Antwortmöglichkeiten der Karte
      * @param correctAnswers Korrekte Antworten für die Karte
+     * @param title Optionaler Titel der Karte
+     * @param visible Sichtbarkeit der Karte
      */
-    public MultipleChoiceCard(String question, String[] answers, int[] correctAnswers, boolean visible){
+    public MultipleChoiceCard(String question, String[] answers, int[] correctAnswers, String title, boolean visible){
         super(CardType.MULITPLECHOICE);
-        setTitle("MultipleChoiceCard");
+        setTitle(title);
         sQuestion = question;
         saAnswers = answers;
         iaCorrectAnswers = correctAnswers;

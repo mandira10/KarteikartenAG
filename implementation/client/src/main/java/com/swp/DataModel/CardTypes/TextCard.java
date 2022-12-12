@@ -30,13 +30,15 @@ public class TextCard extends Card
 
     /**
      * Konstruktor der Klasse TextCard
-     * @param question Frage der Karte
-     * @param answer Antwort der Karte
+     * @param question: Frage der Karte
+     * @param answer: Antwort der Karte
+     * @param title: Optionaler Titel der Karte
+     * @param visible: Sichtbarkeit der Karte
      */
-    public TextCard(String question, String answer, boolean visible)
+    public TextCard(String question, String answer, String title, boolean visible)
     {
         super(CardType.TEXT);
-        setTitle("TextCard");
+        setTitle(title);
         sQuestion = question;
         sAnswer = answer;
         bVisibility = visible;
