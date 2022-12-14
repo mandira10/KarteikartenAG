@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 public class CardToDeck 
 {
+    /**
+     * Enum des CardStatus
+     */
     public enum CardStatus
     {
         LEARNED,
@@ -11,10 +14,26 @@ public class CardToDeck
         NEW
     };
 
-    private Card pCard;
-    private Deck pDeck;
+    /**
+     * Zugehörige Karte
+     */
+    private final Card pCard;
+
+    /**
+     * Zugehöriges Deck
+     */
+    private final Deck pDeck;
+
+    /**
+     * Status der Karte im Deck. Wird beim Lernen aktualisiert.
+     */
     private CardStatus iStatus;
 
+    /**
+     * Konstruktor der Klasse CardToDeck
+     * @param c: Karte
+     * @param d: Deck
+     */
     public CardToDeck(Card c, Deck d)
     {
         this.pCard = c;

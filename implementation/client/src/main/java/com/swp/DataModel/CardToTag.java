@@ -2,13 +2,25 @@ package com.swp.DataModel;
 
 public class CardToTag 
 {
-    private Card pCard;
-    private Tag pTag;
+    /**
+     * Zugehörige Karte
+     */
+    private final Card pCard;
 
-    public CardToTag(Card c, Tag d)
+    /**
+     * Zugehöriger Tag
+     */
+    private final Tag pTag;
+
+    /**
+     * Konstruktor der Klasse CardToTag
+     * @param c: Karte
+     * @param t: Tag
+     */
+    public CardToTag(Card c, Tag t)
     {
         this.pCard = c;
-        this.pTag = d;
+        this.pTag = t;
     }
 
 
