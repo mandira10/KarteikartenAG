@@ -28,8 +28,8 @@ public class KarteikartenAGGUI extends RenderGUI
         PageManager.addPage("LoginPage", new LoginPage());
         pCardPages = new CardPages();
 
-        EditCardPage page = (EditCardPage)PageManager.getPage("EditCard");
-        page.editCard(new TrueFalseCard());
+        ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage("ViewSingleCard");
+        page.setCard(new TrueFalseCard());
         PageManager.viewPage(page);
 
 

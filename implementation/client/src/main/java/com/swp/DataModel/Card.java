@@ -69,6 +69,7 @@ public abstract class Card
         this.iType = type;
         this.iRating = 0;
         this.sTitle = "";
+        this.sContent = "";
         this.iCreationDate = System.currentTimeMillis();
     }
 

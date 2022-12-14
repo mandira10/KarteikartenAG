@@ -67,14 +67,14 @@ public class KarteikartenAG
 
         pMainGUI.updateCanvas();
 
-        Category rootCategory = new Category("Root", "", null); //For now
+        Category rootCategory = new Category("Root"); //For now
 
 
         
         while(pMainWindow.isOpen())
         {
             Display.pollEvents();
-            pMainWindow.clear(GL_COLOR_BUFFER_BIT);
+            pMainWindow.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             pMainGUI.render();
             pMainGUI.update();
             if(fpsTextBox != null)

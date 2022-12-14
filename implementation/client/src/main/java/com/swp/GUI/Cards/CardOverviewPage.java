@@ -138,7 +138,6 @@ public class CardOverviewPage extends Page
         Scroller canvasScroller = new Scroller(new ivec2(0, 0), new ivec2(100, 100));
         canvasScroller.setSizeInPercent(true, true);
         canvas.addGUI(canvasScroller);
-
         
         int entryHeight = 40;
         int gapSize = 5;

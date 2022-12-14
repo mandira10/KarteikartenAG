@@ -5,7 +5,6 @@ import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;

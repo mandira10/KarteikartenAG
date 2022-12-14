@@ -1,56 +1,82 @@
 package com.swp.GUI.Cards.CardRenderer;
 
+import org.lwjgl.opengl.GL30;
+
+import com.gumse.PostProcessing.Framebuffer;
 import com.gumse.basics.Camera;
 import com.gumse.gui.Primitives.RenderGUI;
-import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.maths.mat3;
 import com.gumse.maths.mat4;
 import com.gumse.maths.vec3;
 import com.gumse.maths.vec4;
 import com.gumse.model.Model3D;
+import com.gumse.shader.Shader;
+import com.gumse.shader.ShaderProgram;
 import com.gumse.system.Window;
+import com.gumse.system.io.Mouse;
 import com.gumse.textures.Texture;
-import com.gumse.tools.FPS;
+import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 
 public class CardRenderer extends RenderGUI
 {
-    private Model3D pCardModel;
-    private Camera pCamera;
-    private vec3 v3Rotation;
+    private static Model3D pCardModel = null;
+    private static ShaderProgram pCardShader = null;
+    private static Camera pCamera = null;
+    private static Framebuffer pFramebuffer = null;
+    private Card pCard;
+    Texture tex;
 
     public CardRenderer(Card card)
     {
         this.vSize = new ivec2(100,100);
-        this.v3Rotation = new vec3();
+        this.pCard = card;
 
-        //pRatingGUI = new RatingGUI(card);
-        addGUI(XMLGUI.loadFile("guis/cardrendererlayout.xml"));
+        if(pCardModel == null)
+        {
+            pCardShader = new ShaderProgram();
+            pCardShader.addShader(new Shader(Shader.SHADER_VERSION_STR + Toolbox.loadResourceAsString("shaders/card.vert", CardRenderer.class), Shader.TYPES.VERTEX_SHADER));
+            pCardShader.addShader(new Shader(Shader.SHADER_VERSION_STR + Toolbox.loadResourceAsString("shaders/card.frag", CardRenderer.class), Shader.TYPES.FRAGMENT_SHADER));
+            pCardShader.build("CardShader");
+            pCardShader.addUniform("color");
+            pCardShader.addUniform("hasTexture");
+            pCardShader.addTexture("frontTexture", 0);
+            pCardShader.addTexture("backTexture", 1);
 
-        pCardModel = new Model3D(null);
-        pCardModel.load("models/card.obj");
-        pCardModel.setPosition(new vec3(0,1,0));
-        pCardModel.setScale(new vec3(1.5f));
-        pCardModel.setColor(new vec4(0.26f, 0.26f, 0.31f, 1.0f));
+            pCardModel = new Model3D(pCardShader);
+            pCardModel.load("models/card.obj", CardRenderer.class);
+            pCardModel.setPosition(new vec3(0,1,0));
+            pCardModel.setScale(new vec3(1.5f));
+            //pCardModel.setColor(new vec4(0.26f, 0.26f, 0.31f, 1.0f));
+            pCardModel.setColor(new vec4(1.0f));
 
-        pCamera = new Camera(90.0f);
-        pCamera.setPosition(new vec3(0, 0, 10.0f));
+            pCamera = new Camera(90.0f);
+            pCamera.setPosition(new vec3(0, 0, 10.0f));
+            //pCamera.setProjectionMatrix(Window.CurrentlyBoundWindow.getScreenMatrix());
+
+            pFramebuffer = new Framebuffer(Window.CurrentlyBoundWindow.getSize());
+            pFramebuffer.addTextureAttachment();
+            pCardModel.setTexture(pFramebuffer.getTexture());
+            tex = new Texture("TestTex");
+            tex.load("textures/orange-ket.png", CardRenderer.class);
+            //pCardModel.setTexture(tex);
+        }
+
         updateOnSizeChange();
-        //pCamera.setProjectionMatrix(Window.CurrentlyBoundWindow.getScreenMatrix());
-
 
         
         this.setSizeInPercent(true, true);
         reposition();
         resize();
+
+        renderToTexture();
     }
 
-    public Texture renderToTexture()
+    public void renderToTexture()
     {
-        Texture retTex = new Texture();
-        
-        return retTex;
+        pFramebuffer.bind();
+        CardTypesRenderer.render(pCard);
+        pFramebuffer.unbind();
     }
 
     @Override
@@ -68,32 +94,35 @@ public class CardRenderer extends RenderGUI
         if(bIsHidden)
             return;
         
-        Model3D.getDefaultShader().use();
-        Model3D.getDefaultShader().loadUniform("projectionMatrix", pCamera.getProjectionMatrix());
-        Model3D.getDefaultShader().loadUniform("viewMatrix", pCamera.getViewMatrix());
+        pCardShader.use();
+        pCardShader.loadUniform("projectionMatrix", pCamera.getProjectionMatrix());
+        pCardShader.loadUniform("viewMatrix", pCamera.getViewMatrix());
+        tex.bind(1);
+        
+		GL30.glEnable(GL30.GL_DEPTH_TEST);
         pCardModel.render();
-        Model3D.getDefaultShader().unuse();
+		GL30.glDisable(GL30.GL_DEPTH_TEST);
+        pCardShader.unuse();
+
 
         renderchildren();
     }
-
-    private final static float ROTATIONAL_SPEED = 10.0f;
 
     @Override
     public void update()
     {
         if(bIsHidden)
             return;
-
-        vec3 strafeDir = new vec3(1,0,0);
-
-        ivec2 delta = Window.CurrentlyBoundWindow.getMouse().getPositionDelta();
-        mat3 rotator = mat3.rotateMatrix(vec3.mul(pCamera.Up, -delta.x * ROTATIONAL_SPEED)) *
-                       mat3.rotateMatrix(vec3.mul(strafeDir, -delta.y * ROTATIONAL_SPEED));
-
-        v3Rotation = vec3.mul(rotator, v3Rotation);
-        //pCardModel.increaseRotation(new vec3(0, FPS.getFrametime() * 100.0f, 0));
-        pCardModel.setRotation(v3Rotation);
+        if(isMouseInside())
+        {
+            Mouse.setActiveHovering(true);
+            Window.CurrentlyBoundWindow.getMouse().setCursor(Mouse.GUM_CURSOR_ALL_SIDES_RESIZE);
+            if(isHoldingLeftClick())
+            {
+                ivec2 delta = Window.CurrentlyBoundWindow.getMouse().getPositionDelta();
+                pCardModel.increaseRotation(new vec3(delta.y, delta.x, 0));
+            }       
+        }
 
         updatechildren();
     }
