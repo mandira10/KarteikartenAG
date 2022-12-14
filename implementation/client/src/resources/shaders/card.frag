@@ -10,7 +10,7 @@ uniform vec4 color;
 void main() 
 {
     if(normalz > 0)
-        fragColor = texture(frontTexture, texcoord) * color;
-    else
         fragColor = texture(backTexture, texcoord) * color;
+    else
+        fragColor = texture(frontTexture, texcoord) * color;
 }

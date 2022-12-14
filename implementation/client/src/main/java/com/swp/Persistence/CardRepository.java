@@ -1,5 +1,6 @@
 package com.swp.Persistence;
 
+import com.gumse.textures.Texture;
 import com.gumse.tools.Debug;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToTag;
@@ -25,14 +26,16 @@ public class CardRepository
         // For Testing 
         //////////////////////////////////////
         Set<Card> cards = new HashSet<>();
+        Texture ketTexture = new Texture("ket");
+        ketTexture.load("textures/orange-ket.png", CardRepository.class);
         for(int i = 0; i < to - from; i += 6)
         {
-            cards.add(new AudioCard());
-            cards.add(new ImageDescriptionCard());
-            cards.add(new ImageTestCard());
-            cards.add(new MultipleChoiceCard());
-            cards.add(new TextCard());
-            cards.add(new TrueFalseCard());
+            cards.add(new AudioCard(null, "AudioCardTitle", "Some Audio Related Question", "The Correct Audio Answer", false, true));
+            cards.add(new ImageDescriptionCard("Some Image Description Question", "Correct Image Description Answer", "ImageDescriptionTitle", ketTexture, false));
+            cards.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", ketTexture, "ImageTestCardTitle", false, true));
+            cards.add(new MultipleChoiceCard("MultipleChoice Question", new String[]{"Correct Answer1", "Answer2", "Answer3", "Correct Answer4"}, new int[]{0, 3}, "MultipleChoiceCardTitle", false));
+            cards.add(new TextCard("Some Text Question", "Correct Text Answer", "TextCardTitle", false));
+            cards.add(new TrueFalseCard("TrueFalse Question", true, "TrueFalseCardTitle", false));
         }
         return cards;
     }

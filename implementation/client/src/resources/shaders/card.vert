@@ -12,6 +12,6 @@ out float normalz;
 void main() 
 {
     gl_Position = vec4(vPositions, 1.0) * transformationMatrix * viewMatrix * projectionMatrix;
-    normalz = vNormals.z;
+    normalz = vNormals.x;
     texcoord = vTexCoords;
 }

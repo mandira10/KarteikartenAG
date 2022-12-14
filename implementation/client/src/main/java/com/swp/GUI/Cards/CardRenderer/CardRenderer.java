@@ -23,7 +23,8 @@ public class CardRenderer extends RenderGUI
     private static Model3D pCardModel = null;
     private static ShaderProgram pCardShader = null;
     private static Camera pCamera = null;
-    private static Framebuffer pFramebuffer = null;
+    private static Framebuffer pFrontFramebuffer = null, pBackFramebuffer;
+    private static mat4 m4FramebufferMatrix;
     private Card pCard;
     Texture tex;
 
@@ -54,12 +55,14 @@ public class CardRenderer extends RenderGUI
             pCamera.setPosition(new vec3(0, 0, 10.0f));
             //pCamera.setProjectionMatrix(Window.CurrentlyBoundWindow.getScreenMatrix());
 
-            pFramebuffer = new Framebuffer(Window.CurrentlyBoundWindow.getSize());
-            pFramebuffer.addTextureAttachment();
-            pCardModel.setTexture(pFramebuffer.getTexture());
-            tex = new Texture("TestTex");
-            tex.load("textures/orange-ket.png", CardRenderer.class);
-            //pCardModel.setTexture(tex);
+            ivec2 resolution = new ivec2(500, 600);
+            m4FramebufferMatrix = mat4.ortho((float)resolution.y, (float)resolution.x, 0.0f, 0.0f, -100.0f, 100.0f);
+
+            pFrontFramebuffer = new Framebuffer(resolution);
+            pFrontFramebuffer.addTextureAttachment();
+            pBackFramebuffer = new Framebuffer(resolution);
+            pBackFramebuffer.addTextureAttachment();
+            pCardModel.setTexture(pFrontFramebuffer.getTexture());
         }
 
         updateOnSizeChange();
@@ -69,14 +72,22 @@ public class CardRenderer extends RenderGUI
         reposition();
         resize();
 
+        pCardModel.setRotation(new vec3(0, 90, 0));
         renderToTexture();
     }
 
     public void renderToTexture()
     {
-        pFramebuffer.bind();
-        CardTypesRenderer.render(pCard);
-        pFramebuffer.unbind();
+        mat4 windowMat = Window.CurrentlyBoundWindow.getScreenMatrix();
+        Window.CurrentlyBoundWindow.setScreenMatrix(m4FramebufferMatrix);
+        pFrontFramebuffer.bind();
+        CardTypesRenderer.renderFront(pCard, pFrontFramebuffer.getSize());
+        pFrontFramebuffer.unbind();
+
+        pBackFramebuffer.bind();
+        CardTypesRenderer.renderBack(pCard, pBackFramebuffer.getSize());
+        pBackFramebuffer.unbind();
+        Window.CurrentlyBoundWindow.setScreenMatrix(windowMat);
     }
 
     @Override
@@ -97,7 +108,7 @@ public class CardRenderer extends RenderGUI
         pCardShader.use();
         pCardShader.loadUniform("projectionMatrix", pCamera.getProjectionMatrix());
         pCardShader.loadUniform("viewMatrix", pCamera.getViewMatrix());
-        tex.bind(1);
+        pBackFramebuffer.getTexture().bind(1);
         
 		GL30.glEnable(GL30.GL_DEPTH_TEST);
         pCardModel.render();
