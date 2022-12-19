@@ -12,7 +12,7 @@
             die folgenden 3 Eigenschaften für Server-Betrieb überschreiben/umkonfigurieren
             -->
             <property name="jakarta.persistence.jdbc.url"
-                value="jdbc:h2:./db.h2;AUTO_SERVER=TRUE" />
+                value="jdbc:h2:~/.swpws2022/karteikarten-ag.h2;AUTO_SERVER=TRUE" />
             <property name="jakarta.persistence.jdbc.user" value="local-user" />
             <property name="jakarta.persistence.jdbc.password" value="local-user-password" />
             <!--
