@@ -1,29 +1,46 @@
 package com.swp.DataModel;
 
+import jakarta.persistence.*;
+
 /**
  * Klasse repräsentiert den einzelnen Nutzer des Lernsystems.
  */
+@Entity
+@Table
 public class User 
 {
     /**
      * Unique User ID
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "userID")
     private final long lID;
 
     /**
      * Name des Nutzers
      */
+    @Column(name = "name")
     private final String sName;
 
     /**
      * sessionID des Nutzers
      */
+    @Column(name = "sessionID")
     private String sSessionID;
 
     /**
      * Gibt wieder ob Nutzer authentifiziert ist (Server)
      */
+    @Column(name = "autheticated")
     private boolean bAuthenticated;
+
+    /**
+     * Passwort vom Nutzer als Hash gespeichert
+     * @param sPassHash
+     */
+    @Column(name = "passHash")
+    private String sPassHash;
 
     /**
      * Konstruktor der Klasse User

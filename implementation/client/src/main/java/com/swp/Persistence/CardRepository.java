@@ -12,6 +12,7 @@ import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
+import jakarta.persistence.EntityManager;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ import java.util.Set;
 
 public class CardRepository
 {
+    private static final PersistenceManager pm = new PersistenceManager();
     public static Set<Card> getCards(long from, long to)
     {
         //////////////////////////////////////
@@ -37,6 +39,13 @@ public class CardRepository
             cards.add(new TextCard("Some Text Question", "Correct Text Answer", "TextCardTitle", false));
             cards.add(new TrueFalseCard("TrueFalse Question", true, "TrueFalseCardTitle", false));
         }
+        /*
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            em.createQuery();
+            em.getTransaction().commit();
+        }
+        */
         return cards;
     }
 
@@ -97,14 +106,26 @@ public class CardRepository
 
     public static boolean saveCard(Card card)
     {
-        //return server.send("/createcard", jsonString);
-        return false;
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(card);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean deleteCard(Card card)
     {
-        //return server.send("/deletecard", jsonString);
-        return false;
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            em.remove(card);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
 
