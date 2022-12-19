@@ -1,15 +1,26 @@
 package com.swp.DataModel;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table
 public class CardToTag 
 {
     /**
      * Zugehörige Karte
      */
+    @OneToOne
+    @Column(name = "card")
     private final Card pCard;
 
     /**
      * Zugehöriger Tag
      */
+    @OneToOne
+    @Column(name = "tag")
     private final Tag pTag;
 
     /**

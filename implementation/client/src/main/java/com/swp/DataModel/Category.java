@@ -1,5 +1,6 @@
 package com.swp.DataModel;
 
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -7,21 +8,29 @@ import java.util.UUID;
 /**
  * Klasse für eine Kategorie
  */
+@Entity
+@Table
 public class Category 
 {
     /**
      * Bezeichnung der Kategorie
      */
+    @Column(name = "name")
     private String sName;
 
     /**
      * UUID der Kategorie
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     private final String sUUID;
 
     /**
      * Parents der Kategorie, kann mehrere haben
      */
+    @Column(name = "parents")
+    @OneToMany
     private Set<Category> stParents;
 
     /**
@@ -32,6 +41,8 @@ public class Category
     /**
      * Children der Kategorie, kann mehrere haben
      */
+    @Column(name = "children")
+    @OneToMany
     private Set<Category> stChildren;
 
     /**

@@ -1,17 +1,23 @@
 package com.swp.DataModel;
 
 
+import jakarta.persistence.*;
 import java.util.UUID;
 
 /**
  * Abstrakte Superklasse für die Karten. Enthält die einzelnen Kartentypen sowie
  * weitere generische Eigenschaften jeder Karte, die alle Untertypen erben.
  */
+@Entity
+@Table
 public abstract class Card
 {
     /**
      * Enum für den Kartentypen
      */
+    // @Column(name = "type")
+    // funktioniert nicht, man könnte z.B. einen String persisten und mit einer HashMap hin und her übersetzen
+    // siehe: https://stackoverflow.com/a/492126
     public enum CardType
     {
         TRUEFALSE,
@@ -25,38 +31,47 @@ public abstract class Card
     /**
      * UUID der Karte
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "uuid")
     protected final String sUUID;
 
     /**
      * Kartentyp der spezifischen Karte
      */
+    @Column(name = "type")
     protected final CardType iType;
 
     /**
      * Rating der Karte. Kann der Nutzer vergeben, um Karten (inhaltlich) zu bewerten.
      */
+    @Column(name = "rating")
     protected int iRating;
 
     /**
      * String Aggregat des Inhaltes. Wird aus den String Inhalten der Karte zusammengestellt.
      * Wird verwendet für die Filterung nach Suchbegriffen.
      */
+    @Column(name = "content")
     protected String sContent;
 
     /**
      * Titel der Karte. Ist optional, wird verwendet im Glossar, wenn befüllt
      */
+    @Column(name = "title")
     protected String sTitle;
 
     /**
      * Erstellzeitpunkt der Karte.
      */
+    @Column(name = "creationDate")
     protected long iCreationDate;
 
 
     /**
      * Sichtbarkeit der Karte, wenn wahr für alle sichtbar, ansonsten privat
      */
+    @Column(name = "visibility")
     protected boolean bVisibility;
 
     /**

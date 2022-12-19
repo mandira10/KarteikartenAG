@@ -1,5 +1,7 @@
 package com.swp.DataModel;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
 import java.util.ArrayList;
 
 public class CardToDeck 
@@ -17,16 +19,22 @@ public class CardToDeck
     /**
      * Zugehörige Karte
      */
+    @OneToOne
+    @Column(name = "card")
     private final Card pCard;
 
     /**
      * Zugehöriges Deck
      */
+    @OneToOne
+    @Column(name = "deck")
     private final Deck pDeck;
 
     /**
      * Status der Karte im Deck. Wird beim Lernen aktualisiert.
      */
+    @OneToOne
+    @Column(name = "status")
     private CardStatus iStatus;
 
     /**

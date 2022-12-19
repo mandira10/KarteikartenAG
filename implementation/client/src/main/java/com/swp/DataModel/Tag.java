@@ -1,20 +1,27 @@
 package com.swp.DataModel;
 
+import jakarta.persistence.*;
 import java.util.UUID;
 
 /**
  * Klasse für einen Tag für Karteikarten
  */
+@Entity
+@Table
 public class Tag 
 {
     /**
      * Value des Tags
      */
+    @Column(name = "value")
     private String sValue;
 
     /**
      * UUID des Tags
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private final String sUUID;
 
     /**
