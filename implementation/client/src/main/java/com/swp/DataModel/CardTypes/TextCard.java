@@ -42,6 +42,7 @@ public class TextCard extends Card
         sQuestion = question;
         sAnswer = answer;
         bVisibility = visible;
+        sContent = getContent();
     }
 
     public String getQuestion() {
@@ -58,5 +59,11 @@ public class TextCard extends Card
 
     public void setAnswer(String sAnswer) {
         this.sAnswer = sAnswer;
+    }
+
+    @Override
+    public String getContent(){
+        StringBuilder string = new StringBuilder();
+        return string.append(sTitle+" "+sQuestion+" "+sAnswer).toString();
     }
 }

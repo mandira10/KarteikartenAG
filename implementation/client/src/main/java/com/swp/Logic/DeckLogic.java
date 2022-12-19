@@ -64,8 +64,10 @@ public class DeckLogic
         boolean ret = true;
         for(Deck d : decks)
         {
-            if(!deleteDeck(d))
+            if (!deleteDeck(d)) {
                 ret = false;
+                break;
+            }
         }
 
         return ret;
@@ -76,7 +78,7 @@ public class DeckLogic
         Set<Deck> retArr = new HashSet<>();
         for(CardToDeck c2d : DeckRepository.getCardToDecks())
         {
-            if(c2d.getCard() == card)
+            if(c2d.getCard() == card) //TODO: equals Methode überschrieben
                 retArr.add(c2d.getDeck());
         }
         return retArr;

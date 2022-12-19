@@ -58,6 +58,7 @@ public class ImageTestCard extends Card
         oImage = image;
         bSwapQA = swapQA;
         bVisibility = visible;
+        sContent = getContent();
     }
 
 
@@ -90,4 +91,10 @@ public class ImageTestCard extends Card
     }
 
     public void setAnswer(String sAnswer) {this.sAnswer = sAnswer;}
+
+    @Override
+    public String getContent(){
+        StringBuilder string = new StringBuilder();
+        return string.append(sTitle+" "+sQuestion+" "+sAnswer).toString();
+    }
 }

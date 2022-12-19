@@ -57,6 +57,7 @@ public class AudioCard extends Card
         sAnswer = answer;
         bSwapQA = swapQA;
         bVisibility = visibility;
+        sContent = getContent();
     }
 
     public AudioFileFormat getAudio() {
@@ -84,4 +85,9 @@ public class AudioCard extends Card
 
     public void setsQuestion(String sQuestion) {this.sQuestion = sQuestion;}
 
+    @Override
+    public String getContent(){
+        StringBuilder string = new StringBuilder();
+        return string.append(sTitle+" "+sQuestion+" "+sAnswer).toString();
+    }
 }

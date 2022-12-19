@@ -40,6 +40,7 @@ public class TrueFalseCard extends Card
         sQuestion = question;
         bAnswer = answer;
         bVisibility = visible;
+        sContent = getContent();
     }
 
     public String getQuestion() {
@@ -55,5 +56,11 @@ public class TrueFalseCard extends Card
 
     public void setAnswer(boolean bAnswer) {
         this.bAnswer = bAnswer;
+    }
+
+    @Override
+    public String getContent(){
+        StringBuilder string = new StringBuilder();
+        return string.append(sTitle+" "+sQuestion).toString();
     }
 }

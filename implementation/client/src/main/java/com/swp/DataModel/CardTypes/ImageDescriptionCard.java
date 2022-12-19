@@ -49,6 +49,7 @@ public class ImageDescriptionCard extends Card
         oImage = image;
         sAnswer = answer;
         bVisibility = visible;
+        sContent = getContent();
     }
 
     public Texture getImage() {
@@ -71,4 +72,10 @@ public class ImageDescriptionCard extends Card
     }
 
     public void setsQuestion(String sQuestion) {this.sQuestion = sQuestion;}
+
+    @Override
+    public String getContent(){
+        StringBuilder string = new StringBuilder();
+        return string.append(sTitle+" "+sQuestion+" "+sAnswer).toString();
+    }
 }

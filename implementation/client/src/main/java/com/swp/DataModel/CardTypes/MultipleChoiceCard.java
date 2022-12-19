@@ -47,6 +47,7 @@ public class MultipleChoiceCard extends Card
         saAnswers = answers;
         iaCorrectAnswers = correctAnswers;
         bVisibility = visible;
+        sContent = getContent();
     }
 
     public String getQuestion() {
@@ -70,5 +71,11 @@ public class MultipleChoiceCard extends Card
 
     public void setCorrectAnswers(int[] iaCorrectAnswers) {
         this.iaCorrectAnswers = iaCorrectAnswers;
+    }
+
+    @Override
+    public String getContent(){
+        StringBuilder string = new StringBuilder();
+        return string.append(sTitle+" "+sQuestion+" "+saAnswers).toString();
     }
 }

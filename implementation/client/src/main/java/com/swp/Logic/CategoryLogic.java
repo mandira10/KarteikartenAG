@@ -33,7 +33,7 @@ public class CategoryLogic
         Set<Category> cats = CategoryRepository.getCategories();
         for(Category c : cats)
         {
-            if(c.getUUID() == uuid)
+            if(c.getUUID().equals(uuid))
                 return c;
         }
         return null;

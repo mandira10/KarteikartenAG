@@ -67,9 +67,10 @@ public class CardRepository
      */
     public static boolean updateCard(Card oldcard, Card newcard)
     {
-        String jsonString = "";
-        if(!oldcard.getTitle().equals(newcard.getTitle()))
-            jsonString += "\"title\":" + newcard.getTitle();
+        //TODO: update Methode Hibernate? Kein Server Handling mehr
+//        String jsonString = "";
+//        if(!oldcard.getTitle().equals(newcard.getTitle()))
+//            jsonString += "\"title\":" + newcard.getTitle();
 
         switch(newcard.getType())
         {
@@ -91,20 +92,21 @@ public class CardRepository
 
         }
 
-        //return server.send("/updatecarddata", jsonString);
+
         return false;
     }
 
     public static boolean saveCard(Card card)
     {
-        //return server.send("/createcard", jsonString);
+
         return false;
+        //TODO: create all CardTo..
     }
 
     public static boolean deleteCard(Card card)
     {
-        //return server.send("/deletecard", jsonString);
         return false;
+        //TODO: Delete Card and all references for card: cardTo...
     }
 
 
@@ -125,7 +127,6 @@ public class CardRepository
         if(!tags.isEmpty())
             return tags;
 
-        //server.send("/gettags", jsonString);
         return null;
     }
 
@@ -135,7 +136,10 @@ public class CardRepository
         if(!tags.isEmpty())
             return tags;
 
-        //server.send("/getcardtotags", jsonString);
         return null;
+    }
+
+    public static boolean createCardToTag(Card card, Tag category) {
+    return false;
     }
 }

@@ -87,7 +87,7 @@ public class EditCardPage extends Page
             return;
         
         pOldCard = card;
-        pNewCard = Card.copyCard(card);
+        pNewCard = Card.copyCard(card); //TODO: lieber keine Kopie sondern Hibernate update Methode verwenden?
 
         pTitlefield.setString(pNewCard.getTitle());
 
