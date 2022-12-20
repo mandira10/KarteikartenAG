@@ -1,9 +1,15 @@
 package com.swp.DataModel;
 
-import java.util.HashSet;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Set;
 import java.util.UUID;
 
+@Getter
+@Setter
 /**
  * Klasse für eine Kategorie
  */
@@ -17,6 +23,7 @@ public class Category
     /**
      * UUID der Kategorie
      */
+    @Setter(AccessLevel.NONE)
     private final String sUUID;
 
     /**
@@ -69,14 +76,6 @@ public class Category
         this.stChildren = children;
     }
 
-
-    //
-    // Getter
-    //
-    public String getName()           { return this.sName; }
-    public String getUUID()           { return this.sUUID; }
-    public Set<Category> getParents() { return this.stParents; }
-    public void setName(String sName) {        this.sName = sName;}
 
     /**
      * Gibt die Anzahl der Parents zurück

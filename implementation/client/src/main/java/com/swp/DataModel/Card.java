@@ -1,12 +1,19 @@
 package com.swp.DataModel;
 
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
 /**
  * Abstrakte Superklasse für die Karten. Enthält die einzelnen Kartentypen sowie
  * weitere generische Eigenschaften jeder Karte, die alle Untertypen erben.
  */
+@Setter
+@Getter
+
 public abstract class Card
 {
     /**
@@ -20,16 +27,18 @@ public abstract class Card
         MULITPLECHOICE,
         TEXT,
         AUDIO
-    };
+    }
 
     /**
      * UUID der Karte
      */
+    @Setter(AccessLevel.NONE)
     protected final String sUUID;
 
     /**
      * Kartentyp der spezifischen Karte
      */
+    @Setter(AccessLevel.NONE)
     protected final CardType iType;
 
     /**
@@ -71,65 +80,6 @@ public abstract class Card
         this.sTitle = "";
         this.sContent = "";
         this.iCreationDate = System.currentTimeMillis();
-    }
-
-    /**
-     * Setter für das Rating
-     * @param rating: Übergebene Bewertung
-     */
-    public void setRating(int rating)  { this.iRating = rating; }
-
-    /**
-     * Fügt der Karte einen Titel hinzu.
-     * @param title: Titel der Karte
-     */
-    public void setTitle(String title) { this.sTitle = title; }
-
-    /**
-     * Ändert die Sichtbarkeit der Karte
-     * @param bVisibility
-     */
-    public void setVisible(boolean bVisibility) {
-        this.bVisibility = bVisibility;
-    }
-    /**
-     * Gibt den Karteikartentyp zurück.
-     * @return iType
-     */
-    public CardType getType() { return iType; }
-
-    /**
-     * Gibt die UUID der Karte zurück.
-     * @return sUUID
-     */
-    public String getUUID()   { return sUUID; }
-
-    /**
-     * Gibt den textuellen Inhalt einer Karte zurück.
-     * @return sContent
-     */
-    public String getContent(){ return sContent; }
-
-    /**
-     * Gibt den Titel einer Karte zurück.
-     * @return sTitle
-     */
-    public String getTitle()  { return sTitle; }
-
-    /**
-     * Gibt den Erstellzeitpunkt der Karte zurück.
-     * @return CreationDate
-     */
-    public long getCreationDate() {
-        return iCreationDate;
-    }
-
-    /**
-     * Gibt die Sichtbarkeit der Karte zurück
-     * @return bVisibility
-     */
-    public boolean isVisible() {
-        return bVisibility;
     }
 
 

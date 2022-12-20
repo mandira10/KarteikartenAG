@@ -1,5 +1,8 @@
 package com.swp.DataModel;
 
+import lombok.Getter;
+
+@Getter
 public class CardToCategory 
 {
     /**
@@ -23,10 +26,4 @@ public class CardToCategory
         this.pCategory = d;
     }
 
-
-    //
-    // Getter
-    //
-    public Card getCard()         { return pCard; }
-    public Category getCategory() { return pCategory; }
 }

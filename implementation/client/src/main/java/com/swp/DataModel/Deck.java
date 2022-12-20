@@ -1,10 +1,17 @@
 package com.swp.DataModel;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
 /**
  * Klasse für einen Karteikasten.
  */
+
+@Getter
+@Setter
 public class Deck
 {
     /**
@@ -15,7 +22,7 @@ public class Deck
         ALPHABETICAL,
         REVERSED_ALPHABETICAL,
         RANDOM
-    };
+    }
 
     /**
      * Bezeichnung des Decks
@@ -25,6 +32,7 @@ public class Deck
     /**
      * UUID des Decks
      */
+    @Setter(AccessLevel.NONE)
     private final String sUUID;
 
     /**
@@ -66,20 +74,4 @@ public class Deck
         bVisibility = visibile;
     }
 
-    //
-    // Setter
-    //
-    void setStudySystem(StudySystem system) { this.pStudySystem = system; }
-    public void setName(String sName) {this.sName = sName;}
-    public void setOrder(CardOrder iOrder) {this.iOrder = iOrder;    }
-    public void setVisibility(boolean bVisibility) {this.bVisibility = bVisibility;}
-
-    //
-    // Getter
-    //
-    public String getName()                 { return this.sName; }
-    public String getUUID()                 { return this.sUUID; }
-    public StudySystem getStudySystem(){return this.pStudySystem;}
-    public CardOrder getOrder() {return iOrder;}
-    public boolean isVisibility() {return bVisibility;}
 }

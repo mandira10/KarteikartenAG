@@ -1,7 +1,12 @@
 package com.swp.DataModel;
 
-import java.util.ArrayList;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 public class CardToDeck 
 {
     /**
@@ -12,16 +17,18 @@ public class CardToDeck
         LEARNED,
         RELEARN,
         NEW
-    };
+    }
 
     /**
      * Zugehörige Karte
      */
+    @Setter(AccessLevel.NONE)
     private final Card pCard;
 
     /**
      * Zugehöriges Deck
      */
+    @Setter(AccessLevel.NONE)
     private final Deck pDeck;
 
     /**
@@ -40,17 +47,4 @@ public class CardToDeck
         this.pDeck = d;
     }
 
-
-    //
-    // Setter
-    //
-    public void setStatus(CardStatus status) { this.iStatus = status; }
-
-
-    //
-    // Getter
-    //
-    public Card getCard()         { return pCard; }
-    public Deck getDeck()         { return pDeck; }
-    public CardStatus getStatus() { return iStatus; }
 }

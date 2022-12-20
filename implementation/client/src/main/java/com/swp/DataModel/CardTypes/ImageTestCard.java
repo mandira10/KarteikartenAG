@@ -2,12 +2,17 @@ package com.swp.DataModel.CardTypes;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs ImageTestCard
  * Erbt die Grundeigenschaften der Klasse Card
  */
+
+@Getter
+@Setter
 public class ImageTestCard extends Card 
 {
     /**
@@ -62,39 +67,9 @@ public class ImageTestCard extends Card
     }
 
 
-    public String getQuestion() {
-        return sQuestion;
-    }
-
-    public Texture getImage() {
-        return oImage;
-    }
-
-    public void setQuestion(String sQuestion) {
-        this.sQuestion = sQuestion;
-    }
-
-    public String getAnswer() {return sAnswer;}
-
-
-
-    public boolean isSwapQA() {
-        return bSwapQA;
-    }
-
-    public void setAnswer(Texture oAnswer) {
-        this.oImage = oAnswer;
-    }
-
-    public void setSwapQA(boolean bSwapQA) {
-        this.bSwapQA = bSwapQA;
-    }
-
-    public void setAnswer(String sAnswer) {this.sAnswer = sAnswer;}
 
     @Override
     public String getContent(){
-        StringBuilder string = new StringBuilder();
-        return string.append(sTitle+" "+sQuestion+" "+sAnswer).toString();
+        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
 }

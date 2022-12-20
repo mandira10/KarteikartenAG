@@ -2,11 +2,16 @@ package com.swp.DataModel.CardTypes;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs ImageDescriptionCard
  * Erbt die Grundeigenschaften der Klasse Card
  */
+
+@Getter
+@Setter
 public class ImageDescriptionCard extends Card
 {
     /**
@@ -52,30 +57,8 @@ public class ImageDescriptionCard extends Card
         sContent = getContent();
     }
 
-    public Texture getImage() {
-        return oImage;
-    }
-
-    public String getAnswer() {
-        return sAnswer;
-    }
-
-    public String getQuestion() {return sQuestion;}
-
-
-    public void setAnswer(String sAnswer) {
-        this.sAnswer = sAnswer;
-    }
-
-    public void setImage(Texture oImage) {
-        this.oImage = oImage;
-    }
-
-    public void setsQuestion(String sQuestion) {this.sQuestion = sQuestion;}
-
     @Override
     public String getContent(){
-        StringBuilder string = new StringBuilder();
-        return string.append(sTitle+" "+sQuestion+" "+sAnswer).toString();
+        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
 }

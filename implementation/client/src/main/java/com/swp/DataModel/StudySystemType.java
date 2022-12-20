@@ -1,10 +1,15 @@
 package com.swp.DataModel;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Klasse für die unterschiedlichen StudySystem Typen
  * Neben den drei bereits bestehenden Typen werden alle neu hinzugefügten Systeme
  * als custom System angelegt.
  */
+@Getter
+@Setter
 public class StudySystemType
 {
     /**
@@ -46,15 +51,4 @@ public class StudySystemType
         }
     }
 
-
-    //
-    // Setter
-    //
-    void setName(String name) { this.sTypeName = name; }
-
-
-    //
-    // Getter
-    //
-    String getName() { return this.sTypeName; }
 }

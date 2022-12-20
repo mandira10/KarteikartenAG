@@ -1,17 +1,16 @@
 package com.swp.Controller;
 
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
+
 import com.swp.DataModel.*;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter.ExportFileType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;
 
+@Slf4j
 public class CardController
 {
-
-    private static final Logger log = LoggerFactory.getLogger(CardController.class);
 
     private CardController() {}
 

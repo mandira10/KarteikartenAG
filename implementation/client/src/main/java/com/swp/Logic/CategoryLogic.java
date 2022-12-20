@@ -8,7 +8,9 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
 import com.swp.Persistence.CategoryRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class CategoryLogic
 {
     public static boolean createCardToCategory(Card card, Category category)

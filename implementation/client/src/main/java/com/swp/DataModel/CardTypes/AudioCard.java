@@ -1,6 +1,8 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.sound.sampled.AudioFileFormat;
 
@@ -8,6 +10,8 @@ import javax.sound.sampled.AudioFileFormat;
  * Klasse zum Erstellen von Karteikarten des Typs AudioCard.
  * Erbt die Grundeigenschaften der Klasse Card
  */
+@Setter
+@Getter
 public class AudioCard extends Card 
 {
     /**
@@ -60,34 +64,8 @@ public class AudioCard extends Card
         sContent = getContent();
     }
 
-    public AudioFileFormat getAudio() {
-        return oAudio;
-    }
-
-    public String getAnswer() {
-        return sAnswer;
-    }
-
-    public boolean isSwapQA() {
-        return bSwapQA;
-    }
-
-    public String getsQuestion() {return sQuestion;}
-    public void setQuestion(AudioFileFormat oAudio) {
-        this.oAudio = oAudio;
-    }
-
-    public void setAnswer(String sAnswer) {
-        this.sAnswer = sAnswer;
-    }
-
-    public void setSwapQA(boolean bSwapQA) {        this.bSwapQA = bSwapQA;}
-
-    public void setsQuestion(String sQuestion) {this.sQuestion = sQuestion;}
-
     @Override
     public String getContent(){
-        StringBuilder string = new StringBuilder();
-        return string.append(sTitle+" "+sQuestion+" "+sAnswer).toString();
+        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
 }

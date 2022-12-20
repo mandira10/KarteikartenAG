@@ -1,8 +1,14 @@
 package com.swp.DataModel;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Die Klasse repräsentiert die Einstellungen des Nutzers.
  */
+
+@Getter
+@Setter
 public class Settings 
 {
     /**
@@ -12,7 +18,7 @@ public class Settings
     {
         ENGLISH,
         GERMAN,
-    };
+    }
 
     /**
      * Hilfsattribut, um sicherzustellen, dass Setttings nur einmal

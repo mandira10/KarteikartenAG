@@ -1,5 +1,8 @@
 package com.swp.DataModel;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,12 +11,15 @@ import java.util.Set;
  * Abstrakte Superklasse für das StudySystem von der die einzelnen
  * Systeme erben
  */
+
+@Getter
+@Setter
 public abstract class StudySystem 
 {
     /**
      *TODO: wofür?
      */
-    private String[] asProfiles; //TODO
+   // private String[] asProfiles; //TODO
 
     /**
      * Zugehöriges Deck für das System

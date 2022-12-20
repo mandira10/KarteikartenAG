@@ -7,10 +7,11 @@ import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem;
 import com.swp.DataModel.StudySystemType;
 import com.swp.Persistence.DeckRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.Set;
-
+@Slf4j
 public class DeckLogic
 {
     public static Set<Deck> getDecks()

@@ -5,10 +5,11 @@ import com.swp.DataModel.Tag;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.Exporter;
 import com.swp.Persistence.Exporter.ExportFileType;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Set;
-
+@Slf4j
 public class CardLogic
 {
     public static Set<Card> getCardsByTag(Tag tag)

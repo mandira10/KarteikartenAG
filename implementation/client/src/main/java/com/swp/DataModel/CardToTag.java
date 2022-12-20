@@ -1,5 +1,8 @@
 package com.swp.DataModel;
 
+import lombok.Getter;
+
+@Getter
 public class CardToTag 
 {
     /**
@@ -24,9 +27,4 @@ public class CardToTag
     }
 
 
-    //
-    // Getter
-    //
-    public Card getCard() { return pCard; }
-    public Tag getTag()   { return pTag; }
 }

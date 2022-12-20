@@ -1,10 +1,17 @@
 package com.swp.DataModel;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
 /**
  * Klasse für einen Tag für Karteikarten
  */
+
+@Getter
+@Setter
 public class Tag 
 {
     /**
@@ -15,6 +22,7 @@ public class Tag
     /**
      * UUID des Tags
      */
+    @Setter(AccessLevel.NONE)
     private final String sUUID;
 
     /**
@@ -25,15 +33,5 @@ public class Tag
     {
         this.sValue = val;
         this.sUUID = UUID.randomUUID().toString();
-    }
-
-    //
-    // Getter
-    //
-    public String getValue() { return this.sValue; }
-    public String getUUID()  { return this.sUUID; }
-
-    public void setValue(String sValue) {
-        this.sValue = sValue;
     }
 }

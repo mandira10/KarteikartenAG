@@ -1,12 +1,17 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs TextCard
  * Erbt die Grundeigenschaften der Klasse Card
  */
+
+@Getter
+@Setter
 public class TextCard extends Card 
 {
     /**
@@ -63,7 +68,6 @@ public class TextCard extends Card
 
     @Override
     public String getContent(){
-        StringBuilder string = new StringBuilder();
-        return string.append(sTitle+" "+sQuestion+" "+sAnswer).toString();
+        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
 }

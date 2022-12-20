@@ -1,11 +1,16 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs TrueFalseCard
  * Erbt die Grundeigenschaften der Klasse Card
  */
+
+@Getter
+@Setter
 public class TrueFalseCard extends Card 
 {
     /**
@@ -43,24 +48,9 @@ public class TrueFalseCard extends Card
         sContent = getContent();
     }
 
-    public String getQuestion() {
-        return sQuestion;
-    }
-
-    public boolean isAnswer() {
-        return bAnswer;
-    }
-    public void setQuestion(String sQuestion) {
-        this.sQuestion = sQuestion;
-    }
-
-    public void setAnswer(boolean bAnswer) {
-        this.bAnswer = bAnswer;
-    }
 
     @Override
     public String getContent(){
-        StringBuilder string = new StringBuilder();
-        return string.append(sTitle+" "+sQuestion).toString();
+        return sTitle + "\n" + sQuestion;
     }
 }
