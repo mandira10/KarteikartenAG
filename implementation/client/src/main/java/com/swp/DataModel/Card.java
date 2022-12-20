@@ -13,7 +13,6 @@ import java.util.UUID;
  */
 @Setter
 @Getter
-
 public abstract class Card
 {
     /**

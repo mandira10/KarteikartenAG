@@ -68,7 +68,7 @@ public class CardLogic
     public static boolean updateCardData(Card oldcard, Card newcard)
     {
         //TODO: Logik ändern?
-        if(newcard.getUUID().isEmpty())
+        if(newcard.getSUUID().isEmpty())
             return CardRepository.saveCard(newcard);
         else
             return CardRepository.updateCard(oldcard, newcard);

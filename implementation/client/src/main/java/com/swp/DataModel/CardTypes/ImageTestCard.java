@@ -42,7 +42,7 @@ public class ImageTestCard extends Card
     public ImageTestCard()
     {
         super(CardType.IMAGETEST);
-        setTitle("ImageTestCard");
+        setSTitle("ImageTestCard");
     }
 
     /**
@@ -57,19 +57,19 @@ public class ImageTestCard extends Card
     public ImageTestCard(String question, String answer, Texture image, String title, boolean swapQA, boolean visible)
     {
         super(CardType.IMAGETEST);
-        setTitle(title);
+        setSTitle(title);
         sQuestion = question;
         sAnswer = answer;
         oImage = image;
         bSwapQA = swapQA;
         bVisibility = visible;
-        sContent = getContent();
+        sContent = getSContent();
     }
 
 
 
     @Override
-    public String getContent(){
+    public String getSContent(){
         return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
 }

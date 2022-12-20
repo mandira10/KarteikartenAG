@@ -30,7 +30,7 @@ public class TextCard extends Card
     public TextCard()
     {
         super(CardType.TEXT);
-        setTitle("TextCard");
+        setSTitle("TextCard");
     }
 
     /**
@@ -43,11 +43,11 @@ public class TextCard extends Card
     public TextCard(String question, String answer, String title, boolean visible)
     {
         super(CardType.TEXT);
-        setTitle(title);
+        setSTitle(title);
         sQuestion = question;
         sAnswer = answer;
         bVisibility = visible;
-        sContent = getContent();
+        sContent = getSContent();
     }
 
     public String getQuestion() {
@@ -67,7 +67,7 @@ public class TextCard extends Card
     }
 
     @Override
-    public String getContent(){
+    public String getSContent(){
         return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
 }

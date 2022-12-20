@@ -37,7 +37,7 @@ public class DeckLogic
 
     public static boolean updateDeckData(Deck olddeck, Deck newdeck)
     {
-        if(newdeck.getUUID().isEmpty())
+        if(newdeck.getSUUID().isEmpty())
             return DeckRepository.saveDeck(newdeck);
         else
             return DeckRepository.updateDeck(olddeck, newdeck);
@@ -79,8 +79,8 @@ public class DeckLogic
         Set<Deck> retArr = new HashSet<>();
         for(CardToDeck c2d : DeckRepository.getCardToDecks())
         {
-            if(c2d.getCard() == card) //TODO: equals Methode überschrieben
-                retArr.add(c2d.getDeck());
+            if(c2d.getPCard() == card) //TODO: equals Methode überschrieben
+                retArr.add(c2d.getPDeck());
         }
         return retArr;
     }
@@ -90,8 +90,8 @@ public class DeckLogic
         Set<Card> retArr = new HashSet<>();
         for(CardToDeck c2d : DeckRepository.getCardToDecks())
         {
-            if(c2d.getDeck() == deck)
-                retArr.add(c2d.getCard());
+            if(c2d.getPDeck() == deck)
+                retArr.add(c2d.getPCard());
         }
         return retArr;
     }

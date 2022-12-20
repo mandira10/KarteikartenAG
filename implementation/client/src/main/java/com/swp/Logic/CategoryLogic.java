@@ -35,7 +35,7 @@ public class CategoryLogic
         Set<Category> cats = CategoryRepository.getCategories();
         for(Category c : cats)
         {
-            if(c.getUUID().equals(uuid))
+            if(c.getSUUID().equals(uuid))
                 return c;
         }
         return null;
@@ -51,8 +51,8 @@ public class CategoryLogic
         Set<Category> retArr = new HashSet<>();
         for(CardToCategory c2c : CategoryRepository.getCardToCategories())
         {
-            if(c2c.getCard() == card)
-                retArr.add(c2c.getCategory());
+            if(c2c.getPCard() == card)
+                retArr.add(c2c.getPCategory());
         }
         return retArr;
     }
@@ -62,8 +62,8 @@ public class CategoryLogic
         Set<Card> retArr = new HashSet<>();
         for(CardToCategory c2c : CategoryRepository.getCardToCategories())
         {
-            if(c2c.getCategory() == category)
-                retArr.add(c2c.getCard());
+            if(c2c.getPCategory() == category)
+                retArr.add(c2c.getPCard());
         }
         return retArr;
     }
@@ -76,7 +76,7 @@ public class CategoryLogic
 
     public static boolean updateCategoryData(Category oldcategory, Category newcategory)
     {
-        if(newcategory.getUUID().isEmpty())
+        if(newcategory.getSUUID().isEmpty())
             return CategoryRepository.saveCategory(newcategory);
         else
             return CategoryRepository.updateCategory(oldcategory, newcategory);

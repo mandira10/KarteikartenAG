@@ -72,7 +72,7 @@ public class CardRepository
 //        if(!oldcard.getTitle().equals(newcard.getTitle()))
 //            jsonString += "\"title\":" + newcard.getTitle();
 
-        switch(newcard.getType())
+        switch(newcard.getIType())
         {
             case AUDIO:
                 break;

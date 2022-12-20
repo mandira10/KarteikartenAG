@@ -40,7 +40,7 @@ public class AudioCard extends Card
      */
     public AudioCard(){
         super(CardType.AUDIO);
-        setTitle("AudioCard");
+        setSTitle("AudioCard");
     }
 
     /**
@@ -55,17 +55,17 @@ public class AudioCard extends Card
     public AudioCard(AudioFileFormat audioFile, String title, String question, String answer, boolean swapQA, boolean visibility)
     {
         super(CardType.AUDIO);
-        setTitle(title);
+        setSTitle(title);
         oAudio = audioFile;
         sQuestion = question;
         sAnswer = answer;
         bSwapQA = swapQA;
         bVisibility = visibility;
-        sContent = getContent();
+        sContent = getSContent();
     }
 
     @Override
-    public String getContent(){
+    public String getSContent(){
         return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
 }

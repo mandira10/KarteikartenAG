@@ -35,7 +35,7 @@ public class ImageDescriptionCard extends Card
     public ImageDescriptionCard()
     {
         super(CardType.IMAGEDESC);
-        setTitle("ImageDescriptionCard");
+        setSTitle("ImageDescriptionCard");
     }
 
     /**
@@ -49,16 +49,16 @@ public class ImageDescriptionCard extends Card
     public ImageDescriptionCard(String question, String answer, String title, Texture image, boolean visible)
     {
         super(CardType.IMAGEDESC);
-        setTitle(title);
+        setSTitle(title);
         sQuestion = question;
         oImage = image;
         sAnswer = answer;
         bVisibility = visible;
-        sContent = getContent();
+        sContent = getSContent();
     }
 
     @Override
-    public String getContent(){
+    public String getSContent(){
         return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
 }

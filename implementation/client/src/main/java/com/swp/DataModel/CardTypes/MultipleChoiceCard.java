@@ -34,7 +34,7 @@ public class MultipleChoiceCard extends Card
     public MultipleChoiceCard()
     {
         super(CardType.MULITPLECHOICE);
-        setTitle("MultipleChoiceCard");
+        setSTitle("MultipleChoiceCard");
     }
 
     /**
@@ -47,17 +47,17 @@ public class MultipleChoiceCard extends Card
      */
     public MultipleChoiceCard(String question, String[] answers, int[] correctAnswers, String title, boolean visible){
         super(CardType.MULITPLECHOICE);
-        setTitle(title);
+        setSTitle(title);
         sQuestion = question;
         saAnswers = answers;
         iaCorrectAnswers = correctAnswers;
         bVisibility = visible;
-        sContent = getContent();
+        sContent = getSContent();
     }
 
 
     @Override
-    public String getContent(){
+    public String getSContent(){
         return sTitle + "\n" + sQuestion + "\n" + saAnswers;
     }
 }
