@@ -48,6 +48,17 @@
       <artifactId>h2</artifactId>
       <version>2.1.214</version>
     </dependency>
+          <dependency>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>1.18.24</version>
+              <scope>provided</scope>
+          </dependency>
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>2.0.3</version>
+      </dependency>
   </dependencies>
 
   <build>
@@ -144,6 +155,14 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+                  <source>16</source>
+                  <target>16</target>
+              </configuration>
+          </plugin>
       </plugins>
     <!--</pluginManagement>-->
   </build>
