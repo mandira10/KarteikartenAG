@@ -15,6 +15,7 @@ public class ViewSingleCardPage extends Page
     //RatingGUI pRatingGUI; //TODO
     Card pCard;
     RenderGUI pCanvas;
+    CardRenderer pCardRenderer;
 
     public ViewSingleCardPage()
     {
@@ -25,6 +26,8 @@ public class ViewSingleCardPage extends Page
         addGUI(XMLGUI.loadFile("guis/viewcardpage.xml"));
 
         pCanvas = findChildByID("canvas");
+        pCardRenderer = new CardRenderer();
+        pCanvas.addGUI(pCardRenderer);
         
         Button editButton = (Button)findChildByID("editbutton");
         if(editButton != null)
@@ -50,6 +53,17 @@ public class ViewSingleCardPage extends Page
             });
         }
 
+        Button flipButton = (Button)findChildByID("flipcardbutton");
+        if(flipButton != null)
+        {
+            flipButton.setCallbackFunction(new ButtonCallback() {
+                @Override public void run()
+                {
+                    pCardRenderer.flip();
+                }
+            });
+        }
+
         
         this.setSizeInPercent(true, true);
         reposition();
@@ -59,8 +73,6 @@ public class ViewSingleCardPage extends Page
     public void setCard(Card card)
     {
         pCard = card;
-        pCanvas.destroyChildren();
-        CardRenderer cardRenderer = new CardRenderer(card);
-        pCanvas.addGUI(cardRenderer);
+        pCardRenderer.setCard(card);
     }
 }
