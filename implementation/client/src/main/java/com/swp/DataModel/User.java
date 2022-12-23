@@ -52,7 +52,12 @@ public class User
         this.sName = username;
     }
 
- //Getter
+    /**
+     * no-arg constructor needed for hibernates `@Entity` tag
+     */
+    public User() {}
+
+    //Getter
 
     String getName()    { return sName; }
     String getSession() { return sSessionID; }

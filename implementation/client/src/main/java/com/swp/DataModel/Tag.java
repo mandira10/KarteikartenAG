@@ -34,6 +34,11 @@ public class Tag
         this.sUUID = UUID.randomUUID().toString();
     }
 
+    /**
+     * no-arg constructor needed for hibernates `@Entity` tag
+     */
+    public Tag() {}
+
     //
     // Getter
     //

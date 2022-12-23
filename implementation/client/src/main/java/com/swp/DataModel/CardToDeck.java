@@ -1,9 +1,13 @@
 package com.swp.DataModel;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import java.util.ArrayList;
 
+@Table
+@Entity
 public class CardToDeck 
 {
     /**
@@ -48,6 +52,10 @@ public class CardToDeck
         this.pDeck = d;
     }
 
+    /**
+     * no-arg constructor needed for hibernates `@Entity` tag
+     */
+    public CardToDeck() {}
 
     //
     // Setter

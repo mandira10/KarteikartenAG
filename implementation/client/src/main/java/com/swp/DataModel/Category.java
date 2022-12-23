@@ -80,6 +80,11 @@ public class Category
         this.stChildren = children;
     }
 
+    /**
+     * no-arg constructor needed for hibernates `@Entity` tag
+     */
+    public Category() {}
+
 
     //
     // Getter

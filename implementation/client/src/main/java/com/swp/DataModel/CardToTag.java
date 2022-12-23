@@ -34,6 +34,11 @@ public class CardToTag
         this.pTag = t;
     }
 
+    /**
+     * no-arg constructor needed for hibernates `@Entity` tag
+     */
+    public CardToTag() {}
+
 
     //
     // Getter

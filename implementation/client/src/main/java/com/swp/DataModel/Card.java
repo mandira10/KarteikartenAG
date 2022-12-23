@@ -13,6 +13,11 @@ import java.util.UUID;
 public abstract class Card
 {
     /**
+     * no-arg constructor needed for hibernates `@Entity` tag
+     */
+    public Card() {}
+
+    /**
      * Enum für den Kartentypen
      */
     // @Column(name = "type")
@@ -40,6 +45,7 @@ public abstract class Card
      * Kartentyp der spezifischen Karte
      */
     @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     protected final CardType iType;
 
     /**

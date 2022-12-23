@@ -32,6 +32,10 @@ public class CardToCategory
         this.pCategory = d;
     }
 
+    /**
+     * no-arg constructor needed for hibernates `@Entity` tag
+     */
+    public CardToCategory() {}
 
     //
     // Getter
