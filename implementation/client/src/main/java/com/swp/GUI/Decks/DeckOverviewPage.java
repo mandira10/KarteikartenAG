@@ -1,11 +1,8 @@
 package com.swp.GUI.Decks;
 
-import com.swp.Controller.CardController;
-import com.swp.Controller.DeckController;
-import com.swp.DataModel.Deck;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.SettingsPage;
-import com.swp.GUI.Settings.ExportSettingsPage;
+import com.swp.GUI.Cards.CardExportPage;
+import com.swp.GUI.PageManager.PAGES;
 
 public class DeckOverviewPage 
 {
@@ -14,7 +11,7 @@ public class DeckOverviewPage
 
     private void exportCards()
     {
-        ExportSettingsPage.setToExport(null);
-        PageManager.viewPage("ExportSettingsPage");
+        CardExportPage.setToExport(null);
+        PageManager.viewPage(PAGES.CARD_EXPORT);
     }
 }

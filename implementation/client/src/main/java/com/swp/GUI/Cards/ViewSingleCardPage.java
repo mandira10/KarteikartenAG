@@ -9,6 +9,7 @@ import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardRenderer.CardRenderer;
+import com.swp.GUI.PageManager.PAGES;
 
 public class ViewSingleCardPage extends Page
 {
@@ -35,9 +36,9 @@ public class ViewSingleCardPage extends Page
             editButton.setCallbackFunction(new ButtonCallback() {
                 @Override public void run()
                 {
-                    EditCardPage page = (EditCardPage)PageManager.getPage("EditCard");
+                    EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
                     page.editCard(pCard);
-                    PageManager.viewPage(page);
+                    PageManager.viewPage(PAGES.CARD_EDIT);
                 }
             });
         }
@@ -48,7 +49,7 @@ public class ViewSingleCardPage extends Page
             backButton.setCallbackFunction(new ButtonCallback() {
                 @Override public void run()
                 {
-                    PageManager.viewPage("CardOverview");
+                    PageManager.viewPage(PAGES.CARD_OVERVIEW);
                 }
             });
         }

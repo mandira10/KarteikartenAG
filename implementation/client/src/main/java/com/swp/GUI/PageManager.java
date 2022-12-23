@@ -1,16 +1,28 @@
 package com.swp.GUI;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
+import com.swp.GUI.Cards.*;
+import com.swp.GUI.Settings.SettingsPage;
 
 public class PageManager
 {
-    private static Map<String, RenderGUI> mPages = null;
-    private static RenderGUI pActivePage, pLastPage;
+    public static enum PAGES
+    {
+        LOGIN,
+        CARD_OVERVIEW,
+        CARD_SINGLEVIEW,
+        CARD_EDIT,
+        CARD_TEST,
+        CARD_EXPORT,
+        SETTINGS,
+    };
+
+    private static Map<PAGES, Page> mPages = null;
+    private static Page pActivePage, pLastPage;
     private static RenderGUI pPageCanvas;
 
     private PageManager() {}
@@ -31,27 +43,31 @@ public class PageManager
         pPageCanvas.setSizeInPercent(true, true);
 
         parent.addGUI(pPageCanvas);
+
+        initPages();
+    }
+
+    private static void initPages()
+    {
+        addPage(PAGES.CARD_OVERVIEW,   new CardOverviewPage());
+        addPage(PAGES.CARD_SINGLEVIEW, new ViewSingleCardPage());
+        addPage(PAGES.CARD_EDIT,       new EditCardPage());
+        addPage(PAGES.CARD_TEST,       new TestCardPage());
+        addPage(PAGES.CARD_EXPORT,     new CardExportPage());
+        addPage(PAGES.LOGIN,           new LoginPage());
+        addPage(PAGES.SETTINGS,        new SettingsPage());
     }
 
 
-    public static void addPage(String name, RenderGUI page)
+    private static void addPage(PAGES type, Page page)
     {
-        mPages.put(name, page);
+        mPages.put(type, page);
         pPageCanvas.addGUI(page);
         if(pActivePage == null)
             pActivePage = page;
     }
 
-    public static void viewPage(RenderGUI page)
-    {
-        if(!mPages.containsValue(page))
-            return;
-
-        pLastPage = pActivePage;
-        pActivePage = page;
-    }
-
-    public static void viewPage(String name)
+    public static void viewPage(PAGES name)
     {
         if(!mPages.containsKey(name))
             return;
@@ -65,7 +81,7 @@ public class PageManager
         pActivePage = pLastPage;
     }
 
-    public static RenderGUI getPage(String name)
+    public static Page getPage(PAGES name)
     {
         if(!mPages.containsKey(name))
             return null;

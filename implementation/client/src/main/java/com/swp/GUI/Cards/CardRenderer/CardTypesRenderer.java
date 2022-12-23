@@ -18,8 +18,6 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 
-import static com.swp.DataModel.Card.CardType.*;
-
 public class CardTypesRenderer 
 {
     public static void renderFront(Card card, ivec2 resolution)

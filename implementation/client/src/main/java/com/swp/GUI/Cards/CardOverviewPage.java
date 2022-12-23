@@ -19,8 +19,7 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.SettingsPage;
-import com.swp.GUI.Settings.ExportSettingsPage;
+import com.swp.GUI.PageManager.PAGES;
 
 public class CardOverviewPage extends Page 
 {
@@ -75,9 +74,9 @@ public class CardOverviewPage extends Page
 
                 if(isClicked())
                 {
-                    ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage("ViewSingleCard");
+                    ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
                     page.setCard(pCard);
-                    PageManager.viewPage(page);
+                    PageManager.viewPage(PAGES.CARD_SINGLEVIEW);
                 }
             }
 
@@ -165,7 +164,7 @@ public class CardOverviewPage extends Page
 
     private void exportCards()
     {
-        ExportSettingsPage.setToExport(null);
-        PageManager.viewPage("ExportSettingsPage");
+        CardExportPage.setToExport(null);
+        PageManager.viewPage(PAGES.CARD_EXPORT);
     }
 }

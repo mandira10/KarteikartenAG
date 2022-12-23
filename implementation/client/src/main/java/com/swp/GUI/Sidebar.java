@@ -12,6 +12,7 @@ import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.*;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
+import com.swp.GUI.PageManager.PAGES;
 
 public class Sidebar extends RenderGUI
 {
@@ -116,13 +117,13 @@ public class Sidebar extends RenderGUI
         pBackground.addGUI(new SidebarItem('', "Home",       new ivec2(0,10), new SidebarCallbackFunction() {
             @Override public void run() 
             {
-                PageManager.viewPage("LoginPage");
+                PageManager.viewPage(PAGES.LOGIN);
             }
         }));
         pBackground.addGUI(new SidebarItem('', "Cards",      new ivec2(0,120), new SidebarCallbackFunction() {
             @Override public void run() 
             {
-                PageManager.viewPage("CardOverview");
+                PageManager.viewPage(PAGES.CARD_OVERVIEW);
             }
         }));
         pBackground.addGUI(new SidebarItem('', "Decks",      new ivec2(0,230), new SidebarCallbackFunction() {
@@ -140,6 +141,7 @@ public class Sidebar extends RenderGUI
         SidebarItem settingsItem = new SidebarItem('', "Settings", new ivec2(0, 100), new SidebarCallbackFunction() {
             @Override public void run() 
             {
+                PageManager.viewPage(PAGES.SETTINGS);
             }
         });
         settingsItem.setPositionInPercent(false, true);

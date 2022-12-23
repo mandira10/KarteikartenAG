@@ -15,12 +15,15 @@ import com.gumse.shader.Shader;
 import com.gumse.shader.ShaderProgram;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
+import com.gumse.tools.Debug;
 import com.gumse.tools.FPS;
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 
 public class CardRenderer extends RenderGUI
 {
+    private static final float MAX_MOUSE_MOVE_ANGLE = 35.0f;
+
     private static Model3D pCardModel = null;
     private static ShaderProgram pCardShader = null;
     private static Camera pCamera = null;
@@ -31,7 +34,6 @@ public class CardRenderer extends RenderGUI
     private ivec2 viewportpos;
     private vec3 v3TargetRotation;
     private boolean bCurrentSide, bDoneRotating;
-    private final float MAX_MOUSE_MOVE_ANGLE = 45.0f;
 
     public CardRenderer()
     {
@@ -207,7 +209,6 @@ public class CardRenderer extends RenderGUI
                                 speed))
                 );
             }
-            bDoneRotating = false;
         }
         else
         {

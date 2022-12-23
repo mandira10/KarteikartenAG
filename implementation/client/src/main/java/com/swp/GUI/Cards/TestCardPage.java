@@ -2,13 +2,15 @@ package com.swp.GUI.Cards;
 
 import com.gumse.gui.Primitives.RenderGUI;
 import com.swp.DataModel.*;
+import com.swp.GUI.Page;
 
-public class TestCardPage extends RenderGUI
+public class TestCardPage extends Page
 {
     private Card pCard = null;
 
     public TestCardPage()
     {
+        super("Test Card");
         /*load card at progress state*/
     };
 
