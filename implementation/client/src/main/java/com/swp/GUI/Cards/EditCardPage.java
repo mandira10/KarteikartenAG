@@ -44,7 +44,7 @@ public class EditCardPage extends Page
         //oDropdown = new Dropdown(null, null, null, null, 0)
 
 
-        addGUI(XMLGUI.loadFile("guis/cardeditpage.xml"));
+        addGUI(XMLGUI.loadFile("guis/cards/cardeditpage.xml"));
 
         pCanvas = findChildByID("canvas");
         

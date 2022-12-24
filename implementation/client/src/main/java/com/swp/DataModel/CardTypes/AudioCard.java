@@ -38,9 +38,9 @@ public class AudioCard extends Card
     /**
      * Leerer Konstruktor der Klasse AudioCard
      */
-    public AudioCard(){
-        super(CardType.AUDIO);
-        setSTitle("AudioCard");
+    public AudioCard()
+    {
+        this(null, "AudioCard", "", "", false, false);
     }
 
     /**

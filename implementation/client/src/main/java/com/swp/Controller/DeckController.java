@@ -19,6 +19,7 @@ public class DeckController
     public static boolean createCardToDeckForCategory(Category category, Deck deck) { return DeckLogic.createCardToDeckForCategory(category, deck); }
     public static Set<Deck> getDecks()                                              { return DeckLogic.getDecks(); }
     public static Deck getDeckByUUID(String uuid)                                   { return DeckLogic.getDeckByUUID(uuid); }
+    public static Set<Card> getCardsInDeck(Deck deck)                               { return DeckLogic.getCardsByDeck(deck); }
     public static int numCardsInDeck(Deck deck)                                     { return DeckLogic.numCardsInDeck(deck); }
     public static Set<StudySystemType> getStudySystemTypes()                        { return DeckLogic.getStudySystemTypes(); }
 }

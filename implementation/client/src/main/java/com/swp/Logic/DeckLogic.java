@@ -16,8 +16,7 @@ public class DeckLogic
 {
     public static Set<Deck> getDecks()
     {
-        Set<Deck> deckList = DeckLogic.getDecks();
-        return deckList;
+        return DeckRepository.getDecks();
     }
 
     public static boolean createCardToDeck(Card card, Deck deck)
@@ -33,6 +32,17 @@ public class DeckLogic
     public static Deck getDeckByUUID(String uuid)
     {
         return null;
+    }
+
+    public static Set<Card> getCardsByDeck(Deck deck)
+    {
+        Set<Card> retArr = new HashSet<>();
+        for(CardToDeck c2c : DeckRepository.getCardToDecks())
+        {
+            if(c2c.getPDeck() == deck)
+                retArr.add(c2c.getPCard());
+        }
+        return retArr;
     }
 
     public static boolean updateDeckData(Deck olddeck, Deck newdeck)

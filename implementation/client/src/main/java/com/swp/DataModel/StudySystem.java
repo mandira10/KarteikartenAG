@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.swp.DataModel.CardTypes.AudioCard;
+
 /**
  * Abstrakte Superklasse für das StudySystem von der die einzelnen
  * Systeme erben
@@ -93,6 +95,14 @@ public abstract class StudySystem
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    public Card getNextCard()              { return null; }
-
+    public Card getNextCard()
+    {
+        /////////////////////////////////////////////////////////////////
+        //
+        // TEMPORARY
+        //
+        return new AudioCard(null, "title", "Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo,", 
+                                "Smart Answer", false, false);
+        /////////////////////////////////////////////////////////////////
+    }
 }

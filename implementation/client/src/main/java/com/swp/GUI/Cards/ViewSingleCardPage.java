@@ -24,7 +24,7 @@ public class ViewSingleCardPage extends Page
         this.vSize = new ivec2(100,100);
 
         //pRatingGUI = new RatingGUI(card);
-        addGUI(XMLGUI.loadFile("guis/viewcardpage.xml"));
+        addGUI(XMLGUI.loadFile("guis/cards/viewcardpage.xml"));
 
         pCanvas = findChildByID("canvas");
         pCardRenderer = new CardRenderer();

@@ -10,7 +10,6 @@ public class KarteikartenAGGUI extends RenderGUI
 {
     private Sidebar pSidebar;
 
-    private DeckPage pDeckPage;
     private CategoryPage pCategoryPage;
 
     public KarteikartenAGGUI()
@@ -19,7 +18,7 @@ public class KarteikartenAGGUI extends RenderGUI
 
         ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
         page.setCard(new TrueFalseCard());
-        PageManager.viewPage(PAGES.CARD_SINGLEVIEW);
+        PageManager.viewPage(PAGES.DECK_OVERVIEW);
 
 
         pSidebar = new Sidebar();

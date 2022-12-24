@@ -120,7 +120,7 @@ public class Sidebar extends RenderGUI
                 PageManager.viewPage(PAGES.LOGIN);
             }
         }));
-        pBackground.addGUI(new SidebarItem('', "Cards",      new ivec2(0,120), new SidebarCallbackFunction() {
+        pBackground.addGUI(new SidebarItem('', "Cards",      new ivec2(0,120), new SidebarCallbackFunction() {
             @Override public void run() 
             {
                 PageManager.viewPage(PAGES.CARD_OVERVIEW);
@@ -129,11 +129,13 @@ public class Sidebar extends RenderGUI
         pBackground.addGUI(new SidebarItem('', "Decks",      new ivec2(0,230), new SidebarCallbackFunction() {
             @Override public void run() 
             {
+                PageManager.viewPage(PAGES.DECK_OVERVIEW);
             }
         }));
         pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,340), new SidebarCallbackFunction() {
             @Override public void run() 
             {
+                PageManager.viewPage(PAGES.CATEGORY_OVERVIEW);
             }
         }));
 

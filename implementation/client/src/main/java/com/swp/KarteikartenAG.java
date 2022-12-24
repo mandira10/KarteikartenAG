@@ -32,7 +32,7 @@ public class KarteikartenAG
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(new ivec2(800, 600));
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
 
