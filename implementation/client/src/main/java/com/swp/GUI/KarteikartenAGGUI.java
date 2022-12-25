@@ -23,18 +23,18 @@ public class KarteikartenAGGUI extends RenderGUI
 
         ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
         page.setCard(new TrueFalseCard());
-        PageManager.viewPage(PAGES.DECK_OVERVIEW);
+        PageManager.viewPage(PAGES.LOGIN);
 
         pNotifications = NotificationGUI.getInstance();
         addElement(pNotifications);
 
 
-        NotificationGUI.addNotification("Info Message with a little more text test test test test test test test", NotificationType.INFO, 5);
-        NotificationGUI.addNotification("Warning Message", NotificationType.WARNING, 10);
-        NotificationGUI.addNotification("Error Message", NotificationType.ERROR, 5);
-        NotificationGUI.addNotification("Critical Error Message", NotificationType.CRITICAL, 5);
-        NotificationGUI.addNotification("Debug Message", NotificationType.DEBUG, 3);
-        NotificationGUI.addNotification("Some Connection Message/Error", NotificationType.CONNECTION, 3);
+        //NotificationGUI.addNotification("Info Message with a little more text test test test test test test test", NotificationType.INFO, 5);
+        //NotificationGUI.addNotification("Warning Message", NotificationType.WARNING, 10);
+        //NotificationGUI.addNotification("Error Message", NotificationType.ERROR, 5);
+        //NotificationGUI.addNotification("Critical Error Message", NotificationType.CRITICAL, 5);
+        //NotificationGUI.addNotification("Debug Message", NotificationType.DEBUG, 3);
+        //NotificationGUI.addNotification("Some Connection Message/Error", NotificationType.CONNECTION, 3);
 
         pSidebar = new Sidebar();
         pSidebar.setSize(new ivec2(60, 100));

@@ -9,11 +9,13 @@ import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardRenderer.CardRenderer;
+import com.swp.GUI.Extras.RatingGUI;
+import com.swp.GUI.Extras.RatingGUI.RateCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 public class ViewSingleCardPage extends Page
 {
-    //RatingGUI pRatingGUI; //TODO
+    RatingGUI pRatingGUI;
     Card pCard;
     RenderGUI pCanvas;
     CardRenderer pCardRenderer;
@@ -23,12 +25,17 @@ public class ViewSingleCardPage extends Page
         super("View Card");
         this.vSize = new ivec2(100,100);
 
-        //pRatingGUI = new RatingGUI(card);
         addGUI(XMLGUI.loadFile("guis/cards/viewcardpage.xml"));
 
         pCanvas = findChildByID("canvas");
         pCardRenderer = new CardRenderer();
         pCanvas.addGUI(pCardRenderer);
+
+        pRatingGUI = new RatingGUI(new ivec2(20, 20), 30, 5);
+        pRatingGUI.setCallback(new RateCallback() {
+            @Override public void run(int rating) { pCard.setIRating(rating); }
+        });
+        addElement(pRatingGUI);
         
         Button editButton = (Button)findChildByID("editbutton");
         if(editButton != null)
@@ -64,7 +71,6 @@ public class ViewSingleCardPage extends Page
                 }
             });
         }
-
         
         this.setSizeInPercent(true, true);
         reposition();
@@ -75,5 +81,6 @@ public class ViewSingleCardPage extends Page
     {
         pCard = card;
         pCardRenderer.setCard(card);
+        pRatingGUI.setRating(card.getIRating());
     }
 }

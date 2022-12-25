@@ -22,9 +22,9 @@ import com.swp.GUI.KarteikartenAGGUI;
 // TODO-List
 // 
 // GUIs
-//   - Notification GUI
+//   - Notification GUI    -- done
 //   - Confirmation GUI
-//   - Rate Card GUI
+//   - Rate Card GUI       -- done
 //   - Tag Textfield GUI
 //   - Category GUIs
 //       - Category List
@@ -54,9 +54,16 @@ public class KarteikartenAG
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(new ivec2(800, 600));
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
+
+        //
+        // Hollow symbols
+        //
+        String usedRegularCharacters = "";
+		Font pFontAwesomeRegular = Font.loadFontFromResource("fonts/font-awesome6-free-regular-400.otf", usedRegularCharacters);
+        FontManager.getInstance().addFont(pFontAwesomeRegular, "FontAwesomeRegular");
 
         pMainGUI = new GUI(pMainWindow);
 		pMainWindow.onResized(new WindowResizePosCallback() {

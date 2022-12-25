@@ -173,7 +173,7 @@ public class CardRenderer extends RenderGUI
     {
         if(bIsHidden)
             return;
-        if(isMouseInside())
+        if(!Mouse.isActiveHovering() && isMouseInside())
         {
             Mouse.setActiveHovering(true);
             Window.CurrentlyBoundWindow.getMouse().setCursor(Mouse.GUM_CURSOR_ALL_SIDES_RESIZE);

@@ -10,6 +10,7 @@ import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.*;
 import com.gumse.tools.Debug;
+import com.swp.GUI.Extras.RatingGUI;
 
 public class LoginPage extends Page
 {
