@@ -24,6 +24,8 @@ import com.swp.GUI.KarteikartenAGGUI;
 // GUIs
 //   - Notification GUI
 //   - Confirmation GUI
+//   - Rate Card GUI
+//   - Tag Textfield GUI
 //   - Category GUIs
 //       - Category List
 //       - Single Category View
@@ -47,12 +49,12 @@ public class KarteikartenAG
 
         Debug.init();
         Display.init();
-        Window pMainWindow = new Window("Example App", new ivec2(800, 600), Window.GUM_WINDOW_RESIZABLE, null);
+        Window pMainWindow = new Window("KarteikartenAG", new ivec2(800, 600), Window.GUM_WINDOW_RESIZABLE, null);
         pMainWindow.setClearColor(new vec4(0.09f, 0.1f, 0.11f, 1.0f)); // Set the clear color);
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(new ivec2(800, 600));
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
 
