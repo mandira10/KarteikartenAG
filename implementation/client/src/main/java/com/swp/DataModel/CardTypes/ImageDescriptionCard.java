@@ -25,11 +25,6 @@ public class ImageDescriptionCard extends Card
     private String sAnswer;
 
     /**
-     * Frage, die zusätzlich zum Bildelement verwendet wird
-     */
-    private String sQuestion;
-
-    /**
      * Leerer Konstruktor der Klasse ImageDescriptionCard
      */
     public ImageDescriptionCard()

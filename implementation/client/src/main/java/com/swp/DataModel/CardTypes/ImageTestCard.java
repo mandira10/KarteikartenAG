@@ -15,10 +15,6 @@ import lombok.Setter;
 @Setter
 public class ImageTestCard extends Card 
 {
-    /**
-     * Frage für das Bild
-     */
-    private String sQuestion;
 
     /**
      * Bild für die Karteikarte

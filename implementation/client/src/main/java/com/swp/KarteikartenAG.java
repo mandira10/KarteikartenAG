@@ -17,6 +17,26 @@ import com.gumse.tools.FPS;
 import com.swp.DataModel.Category;
 import com.swp.GUI.KarteikartenAGGUI;
 
+////////////////////////////////////////////////////
+//
+// TODO-List
+// 
+// GUIs
+//   - Notification GUI
+//   - Confirmation GUI
+//   - Category GUIs
+//       - Category List
+//       - Single Category View
+//       - Category Tree
+//   - Finalize Decktests
+//   - Export Cards GUI
+//   - Add icons to edit options
+//   - Finalize Editpages
+//   - Fix Scroller class
+//   - 
+////////////////////////////////////////////////////
+
+
 public class KarteikartenAG 
 {
     static GUI pMainGUI;

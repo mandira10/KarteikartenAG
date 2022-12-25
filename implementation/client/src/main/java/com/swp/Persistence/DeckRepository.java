@@ -1,7 +1,9 @@
 package com.swp.Persistence;
 
+import java.util.ArrayList;
 import java.util.Set;
 
+import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToDeck;
 import com.swp.DataModel.Deck;
@@ -9,6 +11,11 @@ import com.swp.DataModel.StudySystem;
 import com.swp.DataModel.StudySystemType;
 import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.AudioCard;
+import com.swp.DataModel.CardTypes.ImageDescriptionCard;
+import com.swp.DataModel.CardTypes.ImageTestCard;
+import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import com.swp.DataModel.CardTypes.TextCard;
+import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Deck.CardOrder;
 import com.swp.DataModel.StudySystemTypes.LeitnerSystem;
 import com.swp.DataModel.StudySystemTypes.TimingSystem;
@@ -84,15 +91,24 @@ public class DeckRepository
         //
         // TEMPORARY
         //
-        int imax = 0;
+
+        Texture ket = new Texture("orangeket");
+        ket.load("textures/orange-ket.png", DeckRepository.class);
+
+        ArrayList<Card> cards = new ArrayList<Card>();
+        cards.add(new MultipleChoiceCard("Multiple Choice Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", new String[] {"Answer 1", "Answer 2", "Answer 3"}, new int[] {1}, "notitle", false));
+        cards.add(new TrueFalseCard("True False Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", true, "notitle", false));
+        cards.add(new TextCard("Text Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "text answer", "notitle", false));
+        cards.add(new ImageDescriptionCard("Image Desc Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "image answer", "notitle", ket, false));
+        cards.add(new ImageTestCard("Image Test Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "image answer", ket, "notitle", false, false));
+        cards.add(new AudioCard(null, "notitle", "Audio Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "audio answer", false, false));
         for(Deck deck : getDecks())
         {
-            for(int i = 0; i < imax ; i++)
+            for(Card card : cards)
             {
-                CardToDeck cardtodeck = new CardToDeck(new AudioCard(), deck);
+                CardToDeck cardtodeck = new CardToDeck(card, deck);
                 card2decks.add(cardtodeck);
             }
-            imax++;
         }
         Cache.getInstance().setCardToDecks(card2decks);
         return card2decks;

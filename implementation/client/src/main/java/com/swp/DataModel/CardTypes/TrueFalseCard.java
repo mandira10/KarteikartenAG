@@ -13,10 +13,6 @@ import lombok.Setter;
 @Setter
 public class TrueFalseCard extends Card 
 {
-    /**
-     * Frage der Karte
-     */
-    private String sQuestion;
 
     /**
      * Antwort der Karte

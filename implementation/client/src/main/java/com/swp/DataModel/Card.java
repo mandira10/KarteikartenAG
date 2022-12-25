@@ -41,6 +41,11 @@ public abstract class Card
     protected final CardType iType;
 
     /**
+     * Frage der Karte
+     */
+    protected String sQuestion;
+
+    /**
      * Rating der Karte. Kann der Nutzer vergeben, um Karten (inhaltlich) zu bewerten.
      */
     protected int iRating;

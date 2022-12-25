@@ -14,11 +14,6 @@ import lombok.Setter;
 public class MultipleChoiceCard extends Card 
 {
     /**
-     * Frage der Karte
-     */
-    private String sQuestion;
-
-    /**
      * Antwortmöglichkeiten der Karte
      */
     private String[] saAnswers;

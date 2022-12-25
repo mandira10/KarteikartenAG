@@ -15,11 +15,6 @@ import lombok.Setter;
 public class TextCard extends Card 
 {
     /**
-     * Frage der Karte
-     */
-    private String sQuestion;
-
-    /**
      * Antwort der Karte
      */
     private String sAnswer;
@@ -50,16 +45,8 @@ public class TextCard extends Card
         sContent = getSContent();
     }
 
-    public String getQuestion() {
-        return sQuestion;
-    }
-
     public String getAnswer() {
         return sAnswer;
-    }
-
-    public void setQuestion(String sQuestion) {
-        this.sQuestion = sQuestion;
     }
 
     public void setAnswer(String sAnswer) {

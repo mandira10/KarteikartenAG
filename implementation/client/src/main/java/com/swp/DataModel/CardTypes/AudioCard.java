@@ -20,11 +20,6 @@ public class AudioCard extends Card
     private AudioFileFormat oAudio;
 
     /**
-     * Zusätzliche Beschreibung zur Audiodatei
-     */
-    private String sQuestion;
-
-    /**
      * Textuelle Beschreibung zur AudioKarte
      */
     private String sAnswer;

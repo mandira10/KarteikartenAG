@@ -5,8 +5,10 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import com.swp.Controller.DeckController;
 import com.swp.DataModel.CardTypes.AudioCard;
 
 /**
@@ -95,14 +97,20 @@ public abstract class StudySystem
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
+    Iterator<Card> it = null;
     public Card getNextCard()
     {
         /////////////////////////////////////////////////////////////////
         //
         // TEMPORARY
         //
-        return new AudioCard(null, "title", "Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo,", 
-                                "Smart Answer", false, false);
+        if(it == null)
+            it = DeckController.getCardsInDeck(pDeck).iterator();
+        if(it.hasNext())
+            return (Card)it.next();
+            
+        it = null;
+        return null;
         /////////////////////////////////////////////////////////////////
     }
 }
