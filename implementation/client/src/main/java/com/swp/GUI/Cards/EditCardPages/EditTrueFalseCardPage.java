@@ -11,7 +11,7 @@ public class EditTrueFalseCardPage extends RenderGUI
         this.vSize = new ivec2(100,100);
 
         //pRatingGUI = new RatingGUI(card);
-        addGUI(XMLGUI.loadFile("guis/edittruefalsecardpage.xml"));
+        addGUI(XMLGUI.loadFile("guis/cards/edit/edittruefalsecardpage.xml"));
         
         this.setSizeInPercent(true, true);
         reposition();

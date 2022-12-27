@@ -1,18 +1,18 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs MultipleChoiceCard
  * Erbt die Grundeigenschaften der Klasse Card
  */
+
+@Getter
+@Setter
 public class MultipleChoiceCard extends Card 
 {
-    /**
-     * Frage der Karte
-     */
-    private String sQuestion;
-
     /**
      * Antwortmöglichkeiten der Karte
      */
@@ -29,7 +29,7 @@ public class MultipleChoiceCard extends Card
     public MultipleChoiceCard()
     {
         super(CardType.MULITPLECHOICE);
-        setTitle("MultipleChoiceCard");
+        setSTitle("MultipleChoiceCard");
     }
 
     /**
@@ -42,33 +42,17 @@ public class MultipleChoiceCard extends Card
      */
     public MultipleChoiceCard(String question, String[] answers, int[] correctAnswers, String title, boolean visible){
         super(CardType.MULITPLECHOICE);
-        setTitle(title);
+        setSTitle(title);
         sQuestion = question;
         saAnswers = answers;
         iaCorrectAnswers = correctAnswers;
         bVisibility = visible;
+        sContent = getSContent();
     }
 
-    public String getQuestion() {
-        return sQuestion;
-    }
 
-    public String[] getAnswers() {
-        return saAnswers;
-    }
-
-    public int[] getCorrectAnswers() {
-        return iaCorrectAnswers;
-    }
-    public void setQuestion(String sQuestion) {
-        this.sQuestion = sQuestion;
-    }
-
-    public void setAnswers(String[] saAnswers) {
-        this.saAnswers = saAnswers;
-    }
-
-    public void setCorrectAnswers(int[] iaCorrectAnswers) {
-        this.iaCorrectAnswers = iaCorrectAnswers;
+    @Override
+    public String getSContent(){
+        return sTitle + "\n" + sQuestion + "\n" + saAnswers;
     }
 }

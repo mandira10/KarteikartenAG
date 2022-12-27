@@ -2,18 +2,19 @@ package com.swp.DataModel.CardTypes;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs ImageTestCard
  * Erbt die Grundeigenschaften der Klasse Card
  */
+
+@Getter
+@Setter
 public class ImageTestCard extends Card 
 {
-    /**
-     * Frage für das Bild
-     */
-    private String sQuestion;
 
     /**
      * Bild für die Karteikarte
@@ -37,7 +38,7 @@ public class ImageTestCard extends Card
     public ImageTestCard()
     {
         super(CardType.IMAGETEST);
-        setTitle("ImageTestCard");
+        setSTitle("ImageTestCard");
     }
 
     /**
@@ -52,42 +53,19 @@ public class ImageTestCard extends Card
     public ImageTestCard(String question, String answer, Texture image, String title, boolean swapQA, boolean visible)
     {
         super(CardType.IMAGETEST);
-        setTitle(title);
+        setSTitle(title);
         sQuestion = question;
         sAnswer = answer;
         oImage = image;
         bSwapQA = swapQA;
         bVisibility = visible;
+        sContent = getSContent();
     }
 
 
-    public String getQuestion() {
-        return sQuestion;
+
+    @Override
+    public String getSContent(){
+        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
-
-    public Texture getImage() {
-        return oImage;
-    }
-
-    public void setQuestion(String sQuestion) {
-        this.sQuestion = sQuestion;
-    }
-
-    public String getAnswer() {return sAnswer;}
-
-
-
-    public boolean isSwapQA() {
-        return bSwapQA;
-    }
-
-    public void setAnswer(Texture oAnswer) {
-        this.oImage = oAnswer;
-    }
-
-    public void setSwapQA(boolean bSwapQA) {
-        this.bSwapQA = bSwapQA;
-    }
-
-    public void setAnswer(String sAnswer) {this.sAnswer = sAnswer;}
 }

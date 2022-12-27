@@ -10,7 +10,7 @@
   <artifactId>client</artifactId>
   <name>client</name>
   <version>1.0.0</version>
-  <url>#</url>
+  <url>gitlab.informatik.uni-bremen.de:wete/swpws2022_karteikartenag</url>
   <build>
     <plugins>
       <plugin>
@@ -35,8 +35,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>16</source>
+          <target>16</target>
         </configuration>
       </plugin>
       <plugin>
@@ -53,22 +53,6 @@
               <mainClass>com.swp.KarteikartenAG</mainClass>
             </manifest>
           </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-          </descriptorRefs>
         </configuration>
       </plugin>
       <plugin>
@@ -113,6 +97,12 @@
           <groupId>org.hamcrest</groupId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.24</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <properties>

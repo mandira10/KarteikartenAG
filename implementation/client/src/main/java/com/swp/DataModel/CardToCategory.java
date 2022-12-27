@@ -1,9 +1,11 @@
 package com.swp.DataModel;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
 @Table
+@Getter
 public class CardToCategory 
 {
     /**
@@ -37,9 +39,4 @@ public class CardToCategory
      */
     public CardToCategory() {}
 
-    //
-    // Getter
-    //
-    public Card getCard()         { return pCard; }
-    public Category getCategory() { return pCategory; }
 }

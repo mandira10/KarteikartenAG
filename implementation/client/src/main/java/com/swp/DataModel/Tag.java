@@ -1,6 +1,14 @@
 package com.swp.DataModel;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import java.util.UUID;
 
 /**
@@ -8,6 +16,8 @@ import java.util.UUID;
  */
 @Entity
 @Table
+@Getter
+@Setter
 public class Tag 
 {
     /**
@@ -22,6 +32,7 @@ public class Tag
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     private final String sUUID;
 
     /**

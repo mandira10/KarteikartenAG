@@ -2,9 +2,14 @@ package com.swp.DataModel;
 
 import jakarta.persistence.*;
 import java.util.HashSet;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import java.util.Set;
 import java.util.UUID;
 
+@Getter
+@Setter
 /**
  * Klasse für eine Kategorie
  */
@@ -24,6 +29,7 @@ public class Category
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
+    @Setter(AccessLevel.NONE)
     private final String sUUID;
 
     /**
@@ -85,14 +91,6 @@ public class Category
      */
     public Category() {}
 
-
-    //
-    // Getter
-    //
-    public String getName()           { return this.sName; }
-    public String getUUID()           { return this.sUUID; }
-    public Set<Category> getParents() { return this.stParents; }
-    public void setName(String sName) {        this.sName = sName;}
 
     /**
      * Gibt die Anzahl der Parents zurück

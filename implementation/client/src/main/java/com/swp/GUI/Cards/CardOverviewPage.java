@@ -2,25 +2,17 @@ package com.swp.GUI.Cards;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
-import com.gumse.gui.Basics.Switch;
-import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.Button.ButtonCallback;
-import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.maths.vec4;
-import com.gumse.system.Window;
-import com.gumse.system.io.Mouse;
 import com.gumse.tools.Debug;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.SettingsPage;
-import com.swp.GUI.Settings.ExportSettingsPage;
+import com.swp.GUI.PageManager.PAGES;
 
 public class CardOverviewPage extends Page 
 {
@@ -31,59 +23,6 @@ public class CardOverviewPage extends Page
         CardController.getCardsToShow(begin,end);
     }
 
-    class CardOverviewEntry extends RenderGUI
-    {
-        private Card pCard;
-        private TextBox pCardNameBox;
-        private Switch pSelectSwitch;
-
-        public CardOverviewEntry(Card card, ivec2 pos, ivec2 size)
-        {
-            this.vSize = size;
-            this.vPos = pos;
-            this.pCard = card;
-            FontManager fonts = FontManager.getInstance();
-
-            this.pCardNameBox = new TextBox(card.getTitle(), fonts.getDefaultFont(), new ivec2(0, 0), new ivec2(100, 100));
-            pCardNameBox.setSizeInPercent(true, true);
-            pCardNameBox.setAlignment(TextBox.Alignment.LEFT);
-            pCardNameBox.setTextSize(20);
-            pCardNameBox.setTextOffset(new ivec2(-10, 0));
-            //pCardNameBox.setCornerRadius(new vec4(cornerradius));
-            addElement(pCardNameBox);
-
-            pSelectSwitch = new Switch(new ivec2(100, 10), new ivec2(20, 20), 0.0f);
-            pSelectSwitch.setPositionInPercent(true, false);
-            pSelectSwitch.setOrigin(new ivec2(30, 0));
-            addElement(pSelectSwitch);
-
-            reposition();
-            resize();
-        }
-
-        @Override
-        public void update()
-        {
-            if(bIsHidden)
-                return;
-
-            if(isMouseInside())
-            {
-                Mouse.setActiveHovering(true);
-                Mouse mouse = Window.CurrentlyBoundWindow.getMouse();
-                mouse.setCursor(Mouse.GUM_CURSOR_HAND);
-
-                if(isClicked())
-                {
-                    ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage("ViewSingleCard");
-                    page.setCard(pCard);
-                    PageManager.viewPage(page);
-                }
-            }
-
-            updatechildren();
-        }
-    };
 
     private TextField pSearchField; //TODO
 
@@ -92,11 +31,7 @@ public class CardOverviewPage extends Page
         super("Card Overview");
         this.vSize = new ivec2(100,100);
 
-        float cornerradius = 7.0f;
-
-        int buttonWidth = 200;
-        int textSize = 24;
-        addGUI(XMLGUI.loadFile("guis/cardoverviewpage.xml"));
+        addGUI(XMLGUI.loadFile("guis/cards/cardoverviewpage.xml"));
 
         RenderGUI optionsMenu = findChildByID("menu");
 
@@ -165,7 +100,7 @@ public class CardOverviewPage extends Page
 
     private void exportCards()
     {
-        ExportSettingsPage.setToExport(null);
-        PageManager.viewPage("ExportSettingsPage");
+        CardExportPage.setToExport(null);
+        PageManager.viewPage(PAGES.CARD_EXPORT);
     }
 }

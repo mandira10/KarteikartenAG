@@ -9,18 +9,35 @@ import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
-import com.gumse.model.Model3D;
-import com.gumse.shader.Shader;
-import com.gumse.shader.ShaderProgram;
 import com.gumse.system.Display;
 import com.gumse.system.Window;
 import com.gumse.system.Window.WindowResizePosCallback;
 import com.gumse.tools.Debug;
 import com.gumse.tools.FPS;
-import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Category;
 import com.swp.GUI.KarteikartenAGGUI;
-import com.swp.GUI.PageManager;
+
+////////////////////////////////////////////////////
+//
+// TODO-List
+// 
+// GUIs
+//   - Notification GUI    -- done
+//   - Confirmation GUI
+//   - Rate Card GUI       -- done
+//   - Tag Textfield GUI
+//   - Category GUIs
+//       - Category List
+//       - Single Category View
+//       - Category Tree
+//   - Finalize Decktests
+//   - Export Cards GUI
+//   - Add icons to edit options
+//   - Finalize Editpages
+//   - Fix Scroller class
+//   - 
+////////////////////////////////////////////////////
+
 
 public class KarteikartenAG 
 {
@@ -32,14 +49,21 @@ public class KarteikartenAG
 
         Debug.init();
         Display.init();
-        Window pMainWindow = new Window("Example App", new ivec2(800, 600), Window.GUM_WINDOW_RESIZABLE, null);
+        Window pMainWindow = new Window("KarteikartenAG", new ivec2(800, 600), Window.GUM_WINDOW_RESIZABLE, null);
         pMainWindow.setClearColor(new vec4(0.09f, 0.1f, 0.11f, 1.0f)); // Set the clear color);
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(new ivec2(800, 600));
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
+
+        //
+        // Hollow symbols
+        //
+        String usedRegularCharacters = "";
+		Font pFontAwesomeRegular = Font.loadFontFromResource("fonts/font-awesome6-free-regular-400.otf", usedRegularCharacters);
+        FontManager.getInstance().addFont(pFontAwesomeRegular, "FontAwesomeRegular");
 
         pMainGUI = new GUI(pMainWindow);
 		pMainWindow.onResized(new WindowResizePosCallback() {

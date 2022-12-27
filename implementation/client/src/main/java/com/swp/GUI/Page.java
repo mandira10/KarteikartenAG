@@ -9,13 +9,22 @@ import com.gumse.maths.vec4;
 
 public class Page extends RenderGUI
 {
+    Text pNameText;
     public Page(String name)
     {
-        Text nameText = new Text(name, FontManager.getInstance().getDefaultFont(), new ivec2(100, 3), 0);
-        nameText.setCharacterHeight(50);
-        nameText.setPositionInPercent(true, false);
-        nameText.setOrigin(new ivec2(nameText.getSize().x + 10, 0));
-        nameText.setColor(new vec4(0.15f, 0.15f, 0.15f, 1.0f));
-        addElement(nameText);
+        pNameText = new Text(name, FontManager.getInstance().getDefaultFont(), new ivec2(100, 3), 0);
+        pNameText.setCharacterHeight(50);
+        pNameText.setPositionInPercent(true, false);
+        pNameText.setOrigin(new ivec2(pNameText.getSize().x + 10, 0));
+        pNameText.setColor(new vec4(0.15f, 0.15f, 0.15f, 1.0f));
+        addElement(pNameText);
+    }
+
+    @Override
+    public void render()
+    {
+        renderchildren();
+        
+        pNameText.render();
     }
 }

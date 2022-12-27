@@ -13,12 +13,12 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import jakarta.persistence.EntityManager;
-
-import java.util.ArrayList;
+import lombok.extern.slf4j.Slf4j;
 import java.util.HashSet;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 public class CardRepository
 {
     private static final PersistenceManager pm = new PersistenceManager();
@@ -47,6 +47,14 @@ public class CardRepository
         }
         */
         return cards;
+
+        //////////////////////////////////////
+        // For Implemenation we need a view because we need card and cardtodeck
+        //////////////////////////////////////
+        /*
+        SELECT * FROM CARDS WHERE...
+        LEFT JOIN CARDTODECK ON ...
+         */
     }
 
     public static Set<Card> findCardsByCategory(Category category)
@@ -56,6 +64,7 @@ public class CardRepository
 
     public static Set<Card> findCardsByTag(Tag tag)
     {
+        log.info("Rufe alle Karten für Tag" + tag + "ab");
         return null;
     }
 
@@ -76,11 +85,12 @@ public class CardRepository
      */
     public static boolean updateCard(Card oldcard, Card newcard)
     {
-        String jsonString = "";
-        if(!oldcard.getTitle().equals(newcard.getTitle()))
-            jsonString += "\"title\":" + newcard.getTitle();
+        //TODO: update Methode Hibernate? Kein Server Handling mehr
+//        String jsonString = "";
+//        if(!oldcard.getTitle().equals(newcard.getTitle()))
+//            jsonString += "\"title\":" + newcard.getTitle();
 
-        switch(newcard.getType())
+        switch(newcard.getIType())
         {
             case AUDIO:
                 break;
@@ -100,7 +110,7 @@ public class CardRepository
 
         }
 
-        //return server.send("/updatecarddata", jsonString);
+
         return false;
     }
 
@@ -114,6 +124,7 @@ public class CardRepository
             return false;
         }
         return true;
+        //TODO: create all CardTo..
     }
 
     public static boolean deleteCard(Card card)
@@ -126,6 +137,7 @@ public class CardRepository
             return false;
         }
         return true;
+        //TODO: Delete Card and all references for card: cardTo...
     }
 
 
@@ -146,7 +158,6 @@ public class CardRepository
         if(!tags.isEmpty())
             return tags;
 
-        //server.send("/gettags", jsonString);
         return null;
     }
 
@@ -156,7 +167,18 @@ public class CardRepository
         if(!tags.isEmpty())
             return tags;
 
-        //server.send("/getcardtotags", jsonString);
         return null;
+    }
+
+    public static boolean createCardToTag(Card card, Tag category) {
+    return false;
+    }
+
+    public static boolean updateCard(Card card) {
+        return false;
+    }
+
+    public static Optional<Tag> find(String name) {
+    return null;
     }
 }

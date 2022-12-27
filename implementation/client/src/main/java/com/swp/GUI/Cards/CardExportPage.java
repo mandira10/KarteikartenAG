@@ -1,15 +1,17 @@
-package com.swp.GUI.Settings;
+package com.swp.GUI.Cards;
 
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
+import com.swp.GUI.Page;
 import com.swp.Persistence.Exporter.ExportFileType;
 
-public class ExportSettingsPage 
+public class CardExportPage extends Page
 {
     private static Card[] aCards;
 
-    public ExportSettingsPage() 
+    public CardExportPage() 
     {
+        super("Export Cards");
     }
 
     public static void setToExport(Card[] cards)

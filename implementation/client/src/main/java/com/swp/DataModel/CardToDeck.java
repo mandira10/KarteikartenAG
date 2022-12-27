@@ -5,9 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 @Table
 @Entity
+@Getter
+@Setter
 public class CardToDeck 
 {
     /**
@@ -18,13 +23,14 @@ public class CardToDeck
         LEARNED,
         RELEARN,
         NEW
-    };
+    }
 
     /**
      * Zugehörige Karte
      */
     @OneToOne
     @Column(name = "card")
+    @Setter(AccessLevel.NONE)
     private final Card pCard;
 
     /**
@@ -32,6 +38,7 @@ public class CardToDeck
      */
     @OneToOne
     @Column(name = "deck")
+    @Setter(AccessLevel.NONE)
     private final Deck pDeck;
 
     /**
@@ -57,16 +64,4 @@ public class CardToDeck
      */
     public CardToDeck() {}
 
-    //
-    // Setter
-    //
-    public void setStatus(CardStatus status) { this.iStatus = status; }
-
-
-    //
-    // Getter
-    //
-    public Card getCard()         { return pCard; }
-    public Deck getDeck()         { return pDeck; }
-    public CardStatus getStatus() { return iStatus; }
 }

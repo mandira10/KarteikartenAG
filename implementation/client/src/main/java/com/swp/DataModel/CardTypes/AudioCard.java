@@ -1,6 +1,8 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.sound.sampled.AudioFileFormat;
 
@@ -8,17 +10,14 @@ import javax.sound.sampled.AudioFileFormat;
  * Klasse zum Erstellen von Karteikarten des Typs AudioCard.
  * Erbt die Grundeigenschaften der Klasse Card
  */
+@Setter
+@Getter
 public class AudioCard extends Card 
 {
     /**
      * Die AudioFile für die Karte
      */
     private AudioFileFormat oAudio;
-
-    /**
-     * Zusätzliche Beschreibung zur Audiodatei
-     */
-    private String sQuestion;
 
     /**
      * Textuelle Beschreibung zur AudioKarte
@@ -34,9 +33,9 @@ public class AudioCard extends Card
     /**
      * Leerer Konstruktor der Klasse AudioCard
      */
-    public AudioCard(){
-        super(CardType.AUDIO);
-        setTitle("AudioCard");
+    public AudioCard()
+    {
+        this(null, "AudioCard", "", "", false, false);
     }
 
     /**
@@ -51,37 +50,17 @@ public class AudioCard extends Card
     public AudioCard(AudioFileFormat audioFile, String title, String question, String answer, boolean swapQA, boolean visibility)
     {
         super(CardType.AUDIO);
-        setTitle(title);
+        setSTitle(title);
         oAudio = audioFile;
         sQuestion = question;
         sAnswer = answer;
         bSwapQA = swapQA;
         bVisibility = visibility;
+        sContent = getSContent();
     }
 
-    public AudioFileFormat getAudio() {
-        return oAudio;
+    @Override
+    public String getSContent(){
+        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
-
-    public String getAnswer() {
-        return sAnswer;
-    }
-
-    public boolean isSwapQA() {
-        return bSwapQA;
-    }
-
-    public String getsQuestion() {return sQuestion;}
-    public void setQuestion(AudioFileFormat oAudio) {
-        this.oAudio = oAudio;
-    }
-
-    public void setAnswer(String sAnswer) {
-        this.sAnswer = sAnswer;
-    }
-
-    public void setSwapQA(boolean bSwapQA) {        this.bSwapQA = bSwapQA;}
-
-    public void setsQuestion(String sQuestion) {this.sQuestion = sQuestion;}
-
 }

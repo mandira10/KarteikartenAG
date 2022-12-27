@@ -4,9 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 @Entity
 @Table
+@Getter
 public class CardToTag 
 {
     /**
@@ -40,9 +42,4 @@ public class CardToTag
     public CardToTag() {}
 
 
-    //
-    // Getter
-    //
-    public Card getCard() { return pCard; }
-    public Tag getTag()   { return pTag; }
 }

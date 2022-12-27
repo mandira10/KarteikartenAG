@@ -7,16 +7,16 @@ import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem;
 import com.swp.DataModel.StudySystemType;
 import com.swp.Persistence.DeckRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.Set;
-
+@Slf4j
 public class DeckLogic
 {
     public static Set<Deck> getDecks()
     {
-        Set<Deck> deckList = DeckLogic.getDecks();
-        return deckList;
+        return DeckRepository.getDecks();
     }
 
     public static boolean createCardToDeck(Card card, Deck deck)
@@ -34,9 +34,20 @@ public class DeckLogic
         return null;
     }
 
+    public static Set<Card> getCardsByDeck(Deck deck)
+    {
+        Set<Card> retArr = new HashSet<>();
+        for(CardToDeck c2c : DeckRepository.getCardToDecks())
+        {
+            if(c2c.getPDeck() == deck)
+                retArr.add(c2c.getPCard());
+        }
+        return retArr;
+    }
+
     public static boolean updateDeckData(Deck olddeck, Deck newdeck)
     {
-        if(newdeck.getUUID().isEmpty())
+        if(newdeck.getSUUID().isEmpty())
             return DeckRepository.saveDeck(newdeck);
         else
             return DeckRepository.updateDeck(olddeck, newdeck);
@@ -64,8 +75,10 @@ public class DeckLogic
         boolean ret = true;
         for(Deck d : decks)
         {
-            if(!deleteDeck(d))
+            if (!deleteDeck(d)) {
                 ret = false;
+                break;
+            }
         }
 
         return ret;
@@ -76,8 +89,8 @@ public class DeckLogic
         Set<Deck> retArr = new HashSet<>();
         for(CardToDeck c2d : DeckRepository.getCardToDecks())
         {
-            if(c2d.getCard() == card)
-                retArr.add(c2d.getDeck());
+            if(c2d.getPCard() == card) //TODO: equals Methode überschrieben
+                retArr.add(c2d.getPDeck());
         }
         return retArr;
     }
@@ -87,8 +100,8 @@ public class DeckLogic
         Set<Card> retArr = new HashSet<>();
         for(CardToDeck c2d : DeckRepository.getCardToDecks())
         {
-            if(c2d.getDeck() == deck)
-                retArr.add(c2d.getCard());
+            if(c2d.getPDeck() == deck)
+                retArr.add(c2d.getPCard());
         }
         return retArr;
     }

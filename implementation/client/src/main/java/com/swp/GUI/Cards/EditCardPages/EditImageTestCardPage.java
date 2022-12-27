@@ -11,7 +11,7 @@ public class EditImageTestCardPage extends RenderGUI
         this.vSize = new ivec2(100,100);
 
         //pRatingGUI = new RatingGUI(card);
-        addGUI(XMLGUI.loadFile("guis/editimagetestcardpage.xml"));
+        addGUI(XMLGUI.loadFile("guis/cards/edit/editimagetestcardpage.xml"));
         
         this.setSizeInPercent(true, true);
         reposition();

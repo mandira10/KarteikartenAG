@@ -11,7 +11,7 @@ public class EditAudioCardPage extends RenderGUI
         this.vSize = new ivec2(100,100);
 
         //pRatingGUI = new RatingGUI(card);
-        addGUI(XMLGUI.loadFile("guis/editaudiocardpage.xml"));
+        addGUI(XMLGUI.loadFile("guis/cards/edit/editaudiocardpage.xml"));
         
         this.setSizeInPercent(true, true);
         reposition();

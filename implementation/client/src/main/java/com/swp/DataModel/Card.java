@@ -2,6 +2,9 @@ package com.swp.DataModel;
 
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import java.util.UUID;
 
 /**
@@ -10,13 +13,10 @@ import java.util.UUID;
  */
 @Entity
 @Table
+@Setter
+@Getter
 public abstract class Card
 {
-    /**
-     * no-arg constructor needed for hibernates `@Entity` tag
-     */
-    public Card() {}
-
     /**
      * Enum für den Kartentypen
      */
@@ -31,7 +31,7 @@ public abstract class Card
         MULITPLECHOICE,
         TEXT,
         AUDIO
-    };
+    }
 
     /**
      * UUID der Karte
@@ -39,6 +39,7 @@ public abstract class Card
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "uuid")
+    @Setter(AccessLevel.NONE)
     protected final String sUUID;
 
     /**
@@ -46,7 +47,13 @@ public abstract class Card
      */
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
+    @Setter(AccessLevel.NONE)
     protected final CardType iType;
+
+    /**
+     * Frage der Karte
+     */
+    protected String sQuestion;
 
     /**
      * Rating der Karte. Kann der Nutzer vergeben, um Karten (inhaltlich) zu bewerten.
@@ -95,62 +102,12 @@ public abstract class Card
     }
 
     /**
-     * Setter für das Rating
-     * @param rating: Übergebene Bewertung
+     * Leerer Konstruktor für eine einfache Karte.
      */
-    public void setRating(int rating)  { this.iRating = rating; }
-
-    /**
-     * Fügt der Karte einen Titel hinzu.
-     * @param title: Titel der Karte
-     */
-    public void setTitle(String title) { this.sTitle = title; }
-
-    /**
-     * Ändert die Sichtbarkeit der Karte
-     * @param bVisibility
-     */
-    public void setVisible(boolean bVisibility) {
-        this.bVisibility = bVisibility;
-    }
-    /**
-     * Gibt den Karteikartentyp zurück.
-     * @return iType
-     */
-    public CardType getType() { return iType; }
-
-    /**
-     * Gibt die UUID der Karte zurück.
-     * @return sUUID
-     */
-    public String getUUID()   { return sUUID; }
-
-    /**
-     * Gibt den textuellen Inhalt einer Karte zurück.
-     * @return sContent
-     */
-    public String getContent(){ return sContent; }
-
-    /**
-     * Gibt den Titel einer Karte zurück.
-     * @return sTitle
-     */
-    public String getTitle()  { return sTitle; }
-
-    /**
-     * Gibt den Erstellzeitpunkt der Karte zurück.
-     * @return CreationDate
-     */
-    public long getCreationDate() {
-        return iCreationDate;
-    }
-
-    /**
-     * Gibt die Sichtbarkeit der Karte zurück
-     * @return bVisibility
-     */
-    public boolean isVisible() {
-        return bVisibility;
+    public Card()
+    {
+        this.sUUID = UUID.randomUUID().toString();
+        this.iType = null;
     }
 
 

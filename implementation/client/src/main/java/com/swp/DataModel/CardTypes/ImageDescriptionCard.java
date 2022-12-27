@@ -2,11 +2,16 @@ package com.swp.DataModel.CardTypes;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs ImageDescriptionCard
  * Erbt die Grundeigenschaften der Klasse Card
  */
+
+@Getter
+@Setter
 public class ImageDescriptionCard extends Card
 {
     /**
@@ -20,17 +25,12 @@ public class ImageDescriptionCard extends Card
     private String sAnswer;
 
     /**
-     * Frage, die zusätzlich zum Bildelement verwendet wird
-     */
-    private String sQuestion;
-
-    /**
      * Leerer Konstruktor der Klasse ImageDescriptionCard
      */
     public ImageDescriptionCard()
     {
         super(CardType.IMAGEDESC);
-        setTitle("ImageDescriptionCard");
+        setSTitle("ImageDescriptionCard");
     }
 
     /**
@@ -44,31 +44,16 @@ public class ImageDescriptionCard extends Card
     public ImageDescriptionCard(String question, String answer, String title, Texture image, boolean visible)
     {
         super(CardType.IMAGEDESC);
-        setTitle(title);
+        setSTitle(title);
         sQuestion = question;
         oImage = image;
         sAnswer = answer;
         bVisibility = visible;
+        sContent = getSContent();
     }
 
-    public Texture getImage() {
-        return oImage;
+    @Override
+    public String getSContent(){
+        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
     }
-
-    public String getAnswer() {
-        return sAnswer;
-    }
-
-    public String getQuestion() {return sQuestion;}
-
-
-    public void setAnswer(String sAnswer) {
-        this.sAnswer = sAnswer;
-    }
-
-    public void setImage(Texture oImage) {
-        this.oImage = oImage;
-    }
-
-    public void setsQuestion(String sQuestion) {this.sQuestion = sQuestion;}
 }

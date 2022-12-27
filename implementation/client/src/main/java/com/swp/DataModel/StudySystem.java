@@ -1,19 +1,29 @@
 package com.swp.DataModel;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+
+import com.swp.Controller.DeckController;
+import com.swp.DataModel.CardTypes.AudioCard;
 
 /**
  * Abstrakte Superklasse für das StudySystem von der die einzelnen
  * Systeme erben
  */
+
+@Getter
+@Setter
 public abstract class StudySystem 
 {
     /**
      *TODO: wofür?
      */
-    private String[] asProfiles; //TODO
+   // private String[] asProfiles; //TODO
 
     /**
      * Zugehöriges Deck für das System
@@ -87,6 +97,20 @@ public abstract class StudySystem
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    public Card getNextCard()              { return null; }
-
+    Iterator<Card> it = null;
+    public Card getNextCard()
+    {
+        /////////////////////////////////////////////////////////////////
+        //
+        // TEMPORARY
+        //
+        if(it == null)
+            it = DeckController.getCardsInDeck(pDeck).iterator();
+        if(it.hasNext())
+            return (Card)it.next();
+            
+        it = null;
+        return null;
+        /////////////////////////////////////////////////////////////////
+    }
 }

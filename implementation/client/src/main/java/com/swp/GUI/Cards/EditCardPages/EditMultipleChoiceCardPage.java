@@ -11,7 +11,7 @@ public class EditMultipleChoiceCardPage extends RenderGUI
         this.vSize = new ivec2(100,100);
 
         //pRatingGUI = new RatingGUI(card);
-        addGUI(XMLGUI.loadFile("guis/editmultiplechoicecardpage.xml"));
+        addGUI(XMLGUI.loadFile("guis/cards/edit/editmultiplechoicecardpage.xml"));
         
         this.setSizeInPercent(true, true);
         reposition();

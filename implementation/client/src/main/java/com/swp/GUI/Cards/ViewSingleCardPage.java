@@ -9,22 +9,33 @@ import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardRenderer.CardRenderer;
+import com.swp.GUI.Extras.RatingGUI;
+import com.swp.GUI.Extras.RatingGUI.RateCallback;
+import com.swp.GUI.PageManager.PAGES;
 
 public class ViewSingleCardPage extends Page
 {
-    //RatingGUI pRatingGUI; //TODO
+    RatingGUI pRatingGUI;
     Card pCard;
     RenderGUI pCanvas;
+    CardRenderer pCardRenderer;
 
     public ViewSingleCardPage()
     {
         super("View Card");
         this.vSize = new ivec2(100,100);
 
-        //pRatingGUI = new RatingGUI(card);
-        addGUI(XMLGUI.loadFile("guis/viewcardpage.xml"));
+        addGUI(XMLGUI.loadFile("guis/cards/viewcardpage.xml"));
 
         pCanvas = findChildByID("canvas");
+        pCardRenderer = new CardRenderer();
+        pCanvas.addGUI(pCardRenderer);
+
+        pRatingGUI = new RatingGUI(new ivec2(20, 20), 30, 5);
+        pRatingGUI.setCallback(new RateCallback() {
+            @Override public void run(int rating) { pCard.setIRating(rating); }
+        });
+        addElement(pRatingGUI);
         
         Button editButton = (Button)findChildByID("editbutton");
         if(editButton != null)
@@ -32,9 +43,9 @@ public class ViewSingleCardPage extends Page
             editButton.setCallbackFunction(new ButtonCallback() {
                 @Override public void run()
                 {
-                    EditCardPage page = (EditCardPage)PageManager.getPage("EditCard");
+                    EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
                     page.editCard(pCard);
-                    PageManager.viewPage(page);
+                    PageManager.viewPage(PAGES.CARD_EDIT);
                 }
             });
         }
@@ -45,11 +56,21 @@ public class ViewSingleCardPage extends Page
             backButton.setCallbackFunction(new ButtonCallback() {
                 @Override public void run()
                 {
-                    PageManager.viewPage("CardOverview");
+                    PageManager.viewPage(PAGES.CARD_OVERVIEW);
                 }
             });
         }
 
+        Button flipButton = (Button)findChildByID("flipcardbutton");
+        if(flipButton != null)
+        {
+            flipButton.setCallbackFunction(new ButtonCallback() {
+                @Override public void run()
+                {
+                    pCardRenderer.flip();
+                }
+            });
+        }
         
         this.setSizeInPercent(true, true);
         reposition();
@@ -59,8 +80,7 @@ public class ViewSingleCardPage extends Page
     public void setCard(Card card)
     {
         pCard = card;
-        pCanvas.destroyChildren();
-        CardRenderer cardRenderer = new CardRenderer(card);
-        pCanvas.addGUI(cardRenderer);
+        pCardRenderer.setCard(card);
+        pRatingGUI.setRating(card.getIRating());
     }
 }
