@@ -86,6 +86,15 @@ public abstract class Card
         this.iCreationDate = System.currentTimeMillis();
     }
 
+    /**
+     * Leerer Konstruktor für eine einfache Karte.
+     */
+    public Card()
+    {
+        this.sUUID = UUID.randomUUID().toString();
+        this.iType = null;
+    }
+
 
     /**
      * Methode für das Kopieren einer Karte. Hilfsmethode fürs

@@ -12,10 +12,13 @@ import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 public class CardRepository
 {
     public static Set<Card> getCards(long from, long to)
@@ -36,6 +39,14 @@ public class CardRepository
             cards.add(new TrueFalseCard("TrueFalse Question", true, "TrueFalseCardTitle", false));
         }
         return cards;
+
+        //////////////////////////////////////
+        // For Implemenation we need a view because we need card and cardtodeck
+        //////////////////////////////////////
+        /*
+        SELECT * FROM CARDS WHERE...
+        LEFT JOIN CARDTODECK ON ...
+         */
     }
 
     public static Set<Card> findCardsByCategory(Category category)
@@ -45,6 +56,7 @@ public class CardRepository
 
     public static Set<Card> findCardsByTag(Tag tag)
     {
+        log.info("Rufe alle Karten für Tag" + tag + "ab");
         return null;
     }
 
@@ -139,5 +151,13 @@ public class CardRepository
 
     public static boolean createCardToTag(Card card, Tag category) {
     return false;
+    }
+
+    public static boolean updateCard(Card card) {
+        return false;
+    }
+
+    public static Optional<Tag> find(String name) {
+    return null;
     }
 }
