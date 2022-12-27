@@ -21,6 +21,7 @@ public class CardToCategory implements Serializable
     /**
      * Zugehörige Karte
      */
+    @Getter
     @OneToOne
     //@ForeignKey
     @Column
@@ -29,6 +30,7 @@ public class CardToCategory implements Serializable
     /**
      * Zugehörige Kategorie
      */
+    @Getter
     @OneToOne
     @Column
     private final Category pCategory;
