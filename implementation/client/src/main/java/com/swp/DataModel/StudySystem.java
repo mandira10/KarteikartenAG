@@ -2,12 +2,11 @@ package com.swp.DataModel;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.CardTypes.AudioCard;
 
@@ -18,7 +17,7 @@ import com.swp.DataModel.CardTypes.AudioCard;
 
 @Getter
 @Setter
-public abstract class StudySystem 
+public abstract class StudySystem implements Serializable
 {
     /**
      *TODO: wofür?

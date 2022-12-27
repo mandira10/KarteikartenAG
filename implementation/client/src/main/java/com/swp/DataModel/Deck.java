@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -13,7 +14,7 @@ import java.util.UUID;
 @Table
 @Getter
 @Setter
-public class Deck
+public class Deck implements Serializable
 {
     /**
      * Enum für die CardOrder des Decks
@@ -28,7 +29,7 @@ public class Deck
     /**
      * Bezeichnung des Decks
      */
-    @Column(name = "name")
+    @Column
     private String sName;
 
     /**
@@ -36,26 +37,26 @@ public class Deck
      */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column
     @Setter(AccessLevel.NONE)
     private final String sUUID;
 
     /**
      * Gewähltes StudySystem für das spezifische Deck
      */
-    @Column(name = "studySystem")
+    @Column
     private StudySystem pStudySystem;
 
     /**
      * Initiale Reihenfolge des Decks
      */
-    @Column(name = "order")
+    @Column
     private CardOrder iOrder;
 
     /**
      * Sichtbarkeit des Decks. Wenn wahr, dann für alle sichtbar.
      */
-    @Column(name = "visibility")
+    @Column
     private boolean bVisibility;
 
     /**

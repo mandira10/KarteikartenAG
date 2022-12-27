@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -18,12 +19,12 @@ import java.util.UUID;
 @Table
 @Getter
 @Setter
-public class Tag 
+public class Tag implements Serializable
 {
     /**
      * Value des Tags
      */
-    @Column(name = "value")
+    @Column
     private String sValue;
 
     /**
@@ -31,7 +32,7 @@ public class Tag
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column
     @Setter(AccessLevel.NONE)
     private final String sUUID;
 
@@ -48,7 +49,10 @@ public class Tag
     /**
      * no-arg constructor needed for hibernates `@Entity` tag
      */
-    public Tag() {}
+    public Tag() {
+        this.sValue = null;
+        this.sUUID = null;
+    }
 
     //
     // Getter

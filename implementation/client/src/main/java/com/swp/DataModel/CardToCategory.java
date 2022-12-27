@@ -2,25 +2,35 @@ package com.swp.DataModel;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Table
 @Getter
-public class CardToCategory 
+public class CardToCategory implements Serializable
 {
+    /**
+     * Identifier und Primärschlüssel für die
+     * Karte-zu-Kategorie Verbindung.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    protected final String id;
+
     /**
      * Zugehörige Karte
      */
     @OneToOne
     //@ForeignKey
-    @Column(name = "card")
+    @Column
     private final Card pCard;
 
     /**
      * Zugehörige Kategorie
      */
     @OneToOne
-    @Column(name = "category")
+    @Column
     private final Category pCategory;
 
     /**
@@ -32,11 +42,16 @@ public class CardToCategory
     {
         this.pCard = c;
         this.pCategory = d;
+        this.id = UUID.randomUUID().toString();
     }
 
     /**
      * no-arg constructor needed for hibernates `@Entity` tag
      */
-    public CardToCategory() {}
+    public CardToCategory() {
+        this.pCard = null;
+        this.pCategory = null;
+        this.id = UUID.randomUUID().toString();
+    }
 
 }

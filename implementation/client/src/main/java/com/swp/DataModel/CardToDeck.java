@@ -1,10 +1,9 @@
 package com.swp.DataModel;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class CardToDeck 
+public class CardToDeck implements Serializable
 {
     /**
      * Enum des CardStatus
@@ -29,7 +28,7 @@ public class CardToDeck
      * Zugehörige Karte
      */
     @OneToOne
-    @Column(name = "card")
+    @Column
     @Setter(AccessLevel.NONE)
     private final Card pCard;
 
@@ -37,15 +36,23 @@ public class CardToDeck
      * Zugehöriges Deck
      */
     @OneToOne
-    @Column(name = "deck")
+    @Column
     @Setter(AccessLevel.NONE)
     private final Deck pDeck;
+
+    @Id
+    @GeneratedValue
+    /**
+     * Identifier und Primärschlüssel für
+     * Karte-zu-Deck Verbindung
+     */
+    protected final String id;
 
     /**
      * Status der Karte im Deck. Wird beim Lernen aktualisiert.
      */
-    @OneToOne
-    @Column(name = "status")
+    @Column
+    @Enumerated(EnumType.STRING)
     private CardStatus iStatus;
 
     /**
@@ -57,11 +64,16 @@ public class CardToDeck
     {
         this.pCard = c;
         this.pDeck = d;
+        this.id = UUID.randomUUID().toString();
     }
 
     /**
      * no-arg constructor needed for hibernates `@Entity` tag
      */
-    public CardToDeck() {}
+    public CardToDeck() {
+        this.pCard = null;
+        this.pDeck = null;
+        this.id = UUID.randomUUID().toString();
+    }
 
 }

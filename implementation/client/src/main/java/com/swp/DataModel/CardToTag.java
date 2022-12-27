@@ -1,29 +1,36 @@
 package com.swp.DataModel;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Table
 @Getter
-public class CardToTag 
+public class CardToTag implements Serializable
 {
     /**
      * Zugehörige Karte
      */
     @OneToOne
-    @Column(name = "card")
+    @Column
     private final Card pCard;
 
     /**
      * Zugehöriger Tag
      */
     @OneToOne
-    @Column(name = "tag")
+    @Column
     private final Tag pTag;
+
+    /**
+     * Identifier und Primärschlüssel für die
+     * Karte-zu-Tag Verbindung.
+     */
+    @Id
+    @GeneratedValue
+    protected final String id;
 
     /**
      * Konstruktor der Klasse CardToTag
@@ -34,12 +41,17 @@ public class CardToTag
     {
         this.pCard = c;
         this.pTag = t;
+        this.id = UUID.randomUUID().toString();
     }
 
     /**
      * no-arg constructor needed for hibernates `@Entity` tag
      */
-    public CardToTag() {}
+    public CardToTag() {
+        this.pCard = null;
+        this.pTag = null;
+        this.id = UUID.randomUUID().toString();
+    }
 
 
 }

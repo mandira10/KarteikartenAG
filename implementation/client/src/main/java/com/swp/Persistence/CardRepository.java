@@ -148,8 +148,10 @@ public class CardRepository
     //
     public static boolean saveTag(String value)
     {
-        //return server.send("/createtag", jsonString);
-        return false;
+        // prüfen, ob Tag bereits existiert.
+        // falls ja -> return true
+        // falls nein -> neuen Tag persisten
+        return true;
     }
 
     public static Set<Tag> getTags()
@@ -179,6 +181,6 @@ public class CardRepository
     }
 
     public static Optional<Tag> find(String name) {
-    return null;
+        return null;
     }
 }

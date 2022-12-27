@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Table
 @Setter
 @Getter
-public abstract class Card
+public abstract class Card implements Serializable
 {
     /**
      * Enum für den Kartentypen
@@ -38,14 +39,14 @@ public abstract class Card
      */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "uuid")
+    @Column
     @Setter(AccessLevel.NONE)
     protected final String sUUID;
 
     /**
      * Kartentyp der spezifischen Karte
      */
-    @Column(name = "type")
+    @Column
     @Enumerated(EnumType.STRING)
     @Setter(AccessLevel.NONE)
     protected final CardType iType;
@@ -58,33 +59,33 @@ public abstract class Card
     /**
      * Rating der Karte. Kann der Nutzer vergeben, um Karten (inhaltlich) zu bewerten.
      */
-    @Column(name = "rating")
+    @Column
     protected int iRating;
 
     /**
      * String Aggregat des Inhaltes. Wird aus den String Inhalten der Karte zusammengestellt.
      * Wird verwendet für die Filterung nach Suchbegriffen.
      */
-    @Column(name = "content")
+    @Column
     protected String sContent;
 
     /**
      * Titel der Karte. Ist optional, wird verwendet im Glossar, wenn befüllt
      */
-    @Column(name = "title")
+    @Column
     protected String sTitle;
 
     /**
      * Erstellzeitpunkt der Karte.
      */
-    @Column(name = "creationDate")
+    @Column
     protected long iCreationDate;
 
 
     /**
      * Sichtbarkeit der Karte, wenn wahr für alle sichtbar, ansonsten privat
      */
-    @Column(name = "visibility")
+    @Column
     protected boolean bVisibility;
 
     /**

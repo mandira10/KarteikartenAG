@@ -1,6 +1,8 @@
 package com.swp.DataModel;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.util.HashSet;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,12 +17,12 @@ import java.util.UUID;
  */
 @Entity
 @Table
-public class Category 
+public class Category implements Serializable
 {
     /**
      * Bezeichnung der Kategorie
      */
-    @Column(name = "name")
+    @Column
     private String sName;
 
     /**
@@ -28,14 +30,14 @@ public class Category
      */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column
     @Setter(AccessLevel.NONE)
     private final String sUUID;
 
     /**
      * Parents der Kategorie, kann mehrere haben
      */
-    @Column(name = "parents")
+    @Column
     @OneToMany
     private Set<Category> stParents;
 
@@ -47,7 +49,7 @@ public class Category
     /**
      * Children der Kategorie, kann mehrere haben
      */
-    @Column(name = "children")
+    @Column
     @OneToMany
     private Set<Category> stChildren;
 
@@ -89,7 +91,12 @@ public class Category
     /**
      * no-arg constructor needed for hibernates `@Entity` tag
      */
-    public Category() {}
+    public Category() {
+        this.sName = null;
+        this.sUUID = UUID.randomUUID().toString();
+        this.stParents = null;
+        this.stChildren = null;
+    }
 
 
     /**

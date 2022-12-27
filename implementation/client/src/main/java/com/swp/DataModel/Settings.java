@@ -2,6 +2,7 @@ package com.swp.DataModel;
 
 import lombok.Getter;
 import lombok.Setter;
+import java.io.Serializable;
 
 /**
  * Die Klasse repräsentiert die Einstellungen des Nutzers.
@@ -9,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Settings 
+public class Settings implements Serializable
 {
     /**
      * Enum für die verfügbaren Sprachen.
