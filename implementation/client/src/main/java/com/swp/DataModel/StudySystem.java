@@ -97,7 +97,7 @@ public abstract class StudySystem implements Serializable
      * @return Karte die als nächstes gelernt werden soll
      */
     Iterator<Card> it = null;
-    public Card getNextCard()
+    public Card getNextCard(int index)
     {
         /////////////////////////////////////////////////////////////////
         //
