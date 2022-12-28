@@ -8,6 +8,12 @@ import java.util.UUID;
 @Entity
 @Table
 @Getter
+@NamedQuery(name = "CardToCategory.allCardsOfCategory",
+            query = "SELECT pCard FROM CardToCategory WHERE pCategory = :category")
+@NamedQuery(name = "CardToCategory.allCategoriesOfCard",
+            query = "SELECT pCategory FROM CardToCategory WHERE pCard = :card")
+@NamedQuery(name = "CardToCategory.allC2CByCard",
+            query = "SELECT CardToCategory FROM CardToCategory WHERE pCard =: card")
 public class CardToCategory implements Serializable
 {
     /**
@@ -21,7 +27,6 @@ public class CardToCategory implements Serializable
     /**
      * Zugehörige Karte
      */
-    @Getter
     @OneToOne
     //@ForeignKey
     @Column
@@ -30,7 +35,6 @@ public class CardToCategory implements Serializable
     /**
      * Zugehörige Kategorie
      */
-    @Getter
     @OneToOne
     @Column
     private final Category pCategory;

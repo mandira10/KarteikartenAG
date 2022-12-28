@@ -13,10 +13,21 @@ import static com.swp.Validator.checkNotNullOrBlank;
 
 @Slf4j
 public class CategoryLogic {
-    public static boolean createCardToCategory(Card card, Category category) {
-        if (getCategoriesByCard(card).contains(category))
-            return true;
 
+    /**
+     * Methode zum Hinzufügen einzelner Kategorien zu Karten. Wird bei Erstellen und Aktualisieren aufgerufen, wenn Tags für die
+     * Karte mit übergeben worden sind. Prüft zunächst, ob der Tag bereit für die Karte in CardToCategory enthalten ist.
+     * @param card Übergebende Karte
+     * @param category Übergebende Kategorie
+     * @return true, wenn erfolgreich oder bereits enthalten
+     */
+    public static boolean createCardToCategory(Card card, Category category) {
+        if (getCategoriesByCard(card).contains(category)){
+            log.info("Kategorie {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", category.getSUUID(), card.getSUUID());
+            return true;
+        }
+
+        log.info("Kategorie {} wird zu Karte {} hinzugefügt", category.getSUUID(), card.getSUUID());
         return CategoryRepository.saveCardToCategory(card, category);
     }
 
@@ -84,20 +95,21 @@ public class CategoryLogic {
         return retArr;
     }
 
-    public static boolean createCardToCategory(Card card, ArrayList<String> categories) {
+    public static boolean createCardToCategory(Card card, Set<String> categories) {
         boolean ret = true;
         for (String name : categories) {
             checkNotNullOrBlank(name, "Category Name");
             final Optional<Category> optionalCategory = CategoryRepository.find(name);
             if (optionalCategory.isPresent()) {
                 final Category category = optionalCategory.get();
-                if(!createCardToCategory(card,category));{ret = false;}
+                if(!createCardToCategory(card,category));
             }
             else{
                 Category category = new Category(name);
                 CategoryRepository.saveCategory(category);
-                if(!createCardToCategory(card,category));{ret = false;}
+                if(!createCardToCategory(card,category));
             }
+            {ret = false;}
         }
         return ret;
     }

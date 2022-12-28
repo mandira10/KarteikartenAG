@@ -6,6 +6,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.NamedQuery;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,8 @@ import java.util.UUID;
 @Table
 @Getter
 @Setter
+@NamedQuery(name = "Tag.findTagByName",
+            query = "SELECT Tag FROM Tag WHERE LOWER(sValue) LIKE LOWER(:text)")
 public class Tag implements Serializable
 {
     /**

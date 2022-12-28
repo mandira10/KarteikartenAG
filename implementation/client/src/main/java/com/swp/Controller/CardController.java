@@ -145,11 +145,13 @@ public class CardController {
      * @return true, wenn erfolgreich erstellt
      */
     public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories){
+       
+
         return CardLogic.updateCardData(card, type, attributes, tags, categories);
 
     }
 
-    public static boolean addTagsToCard(Card card, ArrayList<String> tags) {
+    public static boolean addTagsToCard(Card card, Set<String> tags) {
         return CardLogic.createCardToTags(card, tags);
     }
 
@@ -169,11 +171,12 @@ public class CardController {
 
 
     //TO DISCUSS
+
     public static boolean createTag(String value) { //TODO:auch einzeln aufgerufen? wo? ansonsten nur über Logik bei CardCreate?
         return CardLogic.createTag(value);
     }
 
-    public static boolean updateCardData(Card oldcard, Card newcard) {
+    public static boolean updateCardData(Card oldcard, Card newcard) { //TODO: abgelöst durch update Hibernate
         return CardLogic.updateCardData(oldcard, newcard);
     }
 }
