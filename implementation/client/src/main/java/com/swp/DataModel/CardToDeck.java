@@ -12,6 +12,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@NamedQuery(name = "CardToDeck.allC2DByCard",
+            query = "SELECT CardToDeck FROM CardToDeck WHERE pCard = :card")
 public class CardToDeck implements Serializable
 {
     /**
