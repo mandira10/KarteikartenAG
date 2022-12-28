@@ -2,6 +2,8 @@ package com.swp.DataModel.CardTypes;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,23 +15,27 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
 public class ImageTestCard extends Card 
 {
 
     /**
      * Bild für die Karteikarte
      */
+    @Column
     private Texture oImage;
 
     /**
      * Zusätzliche Beschreibung zum Bild als Antwort
      */
+    @Column
     private String sAnswer;
 
     /**
      * Tauscht die Frage/Antwort Option, sodass das Bild sowohl
      * als Frage als auch als Antwort verwendet werden kann.
      */
+    @Column
     private boolean bSwapQA;
 
     /**

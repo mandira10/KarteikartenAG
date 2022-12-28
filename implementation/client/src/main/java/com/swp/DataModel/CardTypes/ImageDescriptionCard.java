@@ -2,6 +2,8 @@ package com.swp.DataModel.CardTypes;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,16 +14,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
 public class ImageDescriptionCard extends Card
 {
     /**
      * Bilddatei für die Frage
      */
+    @Column
     private Texture oImage;
 
     /**
      * Antwort der Frage
      */
+    @Column
     private String sAnswer;
 
     /**

@@ -1,6 +1,8 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,16 +13,19 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
 public class MultipleChoiceCard extends Card 
 {
     /**
      * Antwortmöglichkeiten der Karte
      */
+    @Column
     private String[] saAnswers;
 
     /**
      * Array mit den korrekten Antworten
      */
+    @Column
     private int[] iaCorrectAnswers;
 
     /**

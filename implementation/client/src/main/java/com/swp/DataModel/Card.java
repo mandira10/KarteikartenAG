@@ -13,7 +13,7 @@ import java.util.UUID;
  * weitere generische Eigenschaften jeder Karte, die alle Untertypen erben.
  */
 @Entity
-@Table
+@Inheritance(strategy = InheritanceType.JOINED)
 @Setter
 @Getter
 @NamedQuery(name = "Card.findCardByUUID",

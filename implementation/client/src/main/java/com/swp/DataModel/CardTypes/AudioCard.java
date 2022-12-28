@@ -1,6 +1,8 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,22 +14,26 @@ import javax.sound.sampled.AudioFileFormat;
  */
 @Setter
 @Getter
+@Entity
 public class AudioCard extends Card 
 {
     /**
      * Die AudioFile für die Karte
      */
+    @Column
     private AudioFileFormat oAudio;
 
     /**
      * Textuelle Beschreibung zur AudioKarte
      */
+    @Column
     private String sAnswer;
 
     /**
      * Tauscht die Frage/Antwort Option, sodass die AudioFile sowohl
      * als Frage als auch als Antwort verwendet werden kann.
      */
+    @Column
     private boolean bSwapQA;
 
     /**
