@@ -22,7 +22,7 @@ public class CategoryController
     public static Category getCategoryByUUID(String uuid)                                { return CategoryLogic.getCategoryByUUID(uuid); }
 
     public static int numCardsInCategory(Category category)                              { return CategoryLogic.numCardsInCategory(category); }
-    public static boolean addCategoriesToCard(Card card, ArrayList<String> categories){
+    public static boolean addCategoriesToCard(Card card, Set<String> categories){
         return CategoryLogic.createCardToCategory(card, categories);
     }
 

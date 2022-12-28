@@ -1,8 +1,10 @@
 package com.swp.Logic;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Tag;
+import com.swp.Persistence.Cache;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.Exporter;
 import com.swp.Persistence.Exporter.ExportFileType;
@@ -10,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 
@@ -117,11 +116,23 @@ public class CardLogic
     }
 
 
+    /**
+     * Methode zum Hinzufügen einzelner Tags zu Karten. Wird bei Erstellen und Aktualisieren aufgerufen, wenn Tags für die
+     * Karte mit übergeben worden sind. Prüft zunächst, ob der Tag bereit für die Karte in CardToTag enthalten ist.
+     * @param card Übergebende Karte
+     * @param tag Übergebender Tag
+     * @return true, wenn erfolgreich oder bereits enthalten
+     */
+    public static boolean createCardToTag(Card card, Tag tag) {
+        if (getCardsByTag(tag).contains(card)) {
+            log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", tag.getSUUID(), card.getSUUID());
+            return true;
+        }
 
-    public static boolean createCardToTag(Card card, Tag category)
-    {
-        return CardRepository.createCardToTag(card, category);
+        log.info("Tag {} wird zu Karte {} hinzugefügt", tag.getSUUID(), card.getSUUID());
+        return CardRepository.createCardToTag(card, tag);
     }
+
 
     public static boolean createTag(String value)
     {
@@ -178,42 +189,48 @@ public class CardLogic
      */
     private static boolean updateCardContent(Card card, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories, boolean neu) {
         try {
+            log.info("Versuche die Attribute der Karte {} zu aktualisieren", card.getSUUID());
             BeanUtils.populate(card, attributes); //TODO: Testing
         } catch (IllegalAccessException | InvocationTargetException ex) {
             //TODO + weitere Exceptions, Prüfung mit Validator? in Constructor einnbauen
         }
         if (neu) {
-            if (CardRepository.saveCard(card)) {
-                //TODO createCardToTags(card,tags);
-                //TODO CategoryLogic.createCardToCategory(card,categories);
-            } else {
-                throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
-            }
-        } else {
-            if (CardRepository.updateCard(card)) {
-            //TODO createCardToTags(card,tags);
-            //TODO CategoryLogic.createCardToCategory(card,categories);
-            } else {
-                throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
-            }
+            CardRepository.saveCard(card);
+            //} else {
+            //    throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
+
+        } else { return true;
+              //if (CardRepository.updateCard(card)){
+            //} else {
+              //  throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
+          //  }
+        }
+        if (tags != null){
+            log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getSUUID());
+            createCardToTags(card,tags);
+        }
+        if (categories != null) {
+            log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getSUUID());
+            CategoryLogic.createCardToCategory(card, categories);
         }
         return false;
     }
 
-    public static boolean createCardToTags(Card card, ArrayList<String> tags) {
+    public static boolean createCardToTags(Card card, Set<String> tags) {
         boolean ret = true;
         for (String name : tags) {
             checkNotNullOrBlank(name, "Tag Name");
             final Optional<Tag> optionalTag = CardRepository.find(name);
             if (optionalTag.isPresent()) {
                 final Tag tag = optionalTag.get();
-                if(!createCardToTag(card,tag));{ret = false;}
+                if(!createCardToTag(card,tag));
             }
             else{
                 Tag tag = new Tag(name);
                 CardRepository.saveTag(name);
-                if(!createCardToTag(card,tag));{ret = false;}
+                if(!createCardToTag(card,tag));
             }
+            {ret = false;}
         }
         return ret;
     }
