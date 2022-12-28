@@ -8,6 +8,8 @@ import java.util.UUID;
 @Entity
 @Table
 @Getter
+@NamedQuery(name = "CardToTag.allCardsWithTag",
+            query = "SELECT pCard FROM CardToTag WHERE pTag = :tag")
 public class CardToTag implements Serializable
 {
     /**

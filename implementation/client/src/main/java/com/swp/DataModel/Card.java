@@ -16,6 +16,10 @@ import java.util.UUID;
 @Table
 @Setter
 @Getter
+@NamedQuery(name = "Card.findCardByUUID",
+            query = "SELECT Card FROM Card WHERE sUUID = :uuid")
+@NamedQuery(name = "Card.findCardsByContent",
+            query = "SELECT Card FROM Card WHERE LOWER(sContent) LIKE '%LOWER(:content)%' ")
 public abstract class Card implements Serializable
 {
     /**

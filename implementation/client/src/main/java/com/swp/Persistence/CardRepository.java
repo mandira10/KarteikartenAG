@@ -13,9 +13,7 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 import java.util.HashSet;
 import java.util.Optional;
@@ -49,8 +47,9 @@ public class CardRepository
             cards = (Set<Card>) em.createQuery("SELECT Card FROM Card").getResultStream().collect(Collectors.toSet());
             em.getTransaction().commit();
             return cards;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             // wie soll die Fehlermeldung zur GUI gelangen?
+            log.warn("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
         }
 
         return cards;
@@ -67,47 +66,81 @@ public class CardRepository
     public static Set<Card> findCardsByCategory(Category category)
     {
         Set<Card> cards = null;
+        log.info(String.format("Rufe alle Karten für Kategorie %s ab", category.getSName()));
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            /*cards = em.createQuery("SELECT CardToCategory FROM CardToCategory")
+            cards = (Set<Card>) em.createNamedQuery("CardToCategory.allCardsOfCategory")
+                    .setParameter("category", category)
                     .getResultStream()
-                    .filter( c2c -> c2c.getpCategory.equals(category) )
-                    .map( c2c -> c2c.getpCard )
-                    .collect(Collectors.toSet());*/
-            //cards = em.createQuery("SELECT pCard FROM CardToCategory WHERE pCategory = category")
-
-            // https://docs.jboss.org/hibernate/orm/5.1/userguide/html_single/Hibernate_User_Guide.html
-
-            /*CriteriaBuilder builder = em.getCriteriaBuilder();
-            CriteriaQuery<Card> criteria = builder.createQuery( Card.class );
-            Root<CardToCategory> root = criteria.from(CardToCategory.class);
-            criteria.select(root.get( CardToCategory_.pCard));
-            criteria.where( builder.equal(root.get( CardToCategory_.pCategory), category));
-            cards = em.createQuery(criteria).getResultStream().collect(Collectors.toSet());*/
+                    .collect(Collectors.toSet());
             em.getTransaction().commit();
-        } catch (Exception e) {
-
+        } catch (final NoResultException e) {
+            log.info(String.format("Keine Karten mit der Kategorie \"%s\" gefunden"), category.getSName());
+        } catch (final Exception e) {
+            log.warn(String.format("Beim Suchen nach Karten mit der Kategorie \"%s\" ist eine Fehler aufgetreten: \"%s\"",
+                    category.getSName(), e));
         }
 
-        log.info(String.format("Rule alle Karten für Kategorie %s ab", category.getSName()));
         return cards;
     }
 
     public static Set<Card> findCardsByTag(Tag tag)
     {
-        // wie bei `findCardsByCategory`
+        Set<Card> cards = null;
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            cards = (Set<Card>) em.createNamedQuery("CardToTag.allCardsWithTag")
+                    .setParameter("tag", tag)
+                    .getResultStream()
+                    .collect(Collectors.toSet());
+            em.getTransaction().commit();
+        } catch (final NoResultException e) {
+        } catch (final Exception e) {
+        }
+
         log.info("Rufe alle Karten für Tag " + tag.getSValue() + " ab");
-        return null;
+        return cards;
     }
 
     public static Set<Card> findCardsContaining(String searchWords)
     {
-        return null;
+        Set<Card> cards = null;
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            cards = (Set<Card>) em.createNamedQuery("Card.findCardsByContent")
+                    .setParameter("content", searchWords)
+                    .getResultStream()
+                    .collect(Collectors.toSet());
+            em.getTransaction().commit();
+        } catch (final NoResultException e) {
+            // keine Karten mit entsprechendem Inhalt gefunden
+            log.info(String.format("Keine Karten mit dem Inhalt \"%s\" gefunden"), searchWords);
+        } catch (final Exception e) {
+            log.warn(String.format("Beim Suchen nach Karten mit Inhalt \"%s\" ist ein Fehler aufgetreten: \"%s\"",
+                    searchWords, e));
+        }
+
+        log.info("Rule alle Karten mit folgendem Inhalt ab: " + searchWords);
+        return cards;
     }
 
     public static Card getCardByUUID(String uuid)
     {
-        return null;
+        Card card = null;
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            em.createNamedQuery("Card.findCardByUUID")
+                .setParameter("uuid", uuid)
+                .getSingleResult();
+            em.getTransaction().commit();
+        } catch (final NoResultException e) {
+            // Keine Karte mit entsprechender UUID gefunden
+        } catch (final Exception e) {
+            // andere Fehler auch über GUI an User melden
+        }
+
+        log.info();
+        return card;
     }
 
     /**
@@ -204,8 +237,15 @@ public class CardRepository
         return null;
     }
 
-    public static boolean createCardToTag(Card card, Tag category) {
-    return false;
+    public static boolean createCardToTag(Card card, Tag tag) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(new CardToTag(card, tag));
+            em.getTransaction().commit();
+        } catch (final Exception e) {
+            return false;
+        }
+        return true;
     }
 
     public static boolean updateCard(Card card) {
@@ -213,6 +253,19 @@ public class CardRepository
     }
 
     public static Optional<Tag> find(String name) {
-        return null;
+        Optional<Tag> tag = Optional.empty();
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            tag = (Optional<Tag>) em.createNamedQuery("Tag.findTagByName")
+                    .setParameter("text", name)
+                    .getSingleResult();
+            em.getTransaction().commit();
+        } catch (final NoResultException e) {
+            tag = Optional.empty();
+        } catch (final Exception e) {
+
+        }
+
+        return tag;
     }
 }
