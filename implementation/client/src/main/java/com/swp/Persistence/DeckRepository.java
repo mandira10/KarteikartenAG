@@ -66,7 +66,7 @@ public class DeckRepository
             decks.add(deck);
 
             deck = new Deck("Deck " + (i+1), null, CardOrder.RANDOM, true); 
-            deck.setPStudySystem(new TimingSystem(deck));
+            deck.setPStudySystem(new TimingSystem(deck,5));
             decks.add(deck); 
 
             deck = new Deck("Deck " + (i+2), null, CardOrder.REVERSED_ALPHABETICAL, true);
