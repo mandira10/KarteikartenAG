@@ -9,24 +9,22 @@ import java.util.UUID;
 @Table
 @Getter
 @NamedQuery(name = "CardToTag.allCardsWithTag",
-            query = "SELECT pCard FROM CardToTag WHERE pTag = :tag")
+            query = "SELECT card FROM CardToTag WHERE tag = :tag")
 @NamedQuery(name = "CardToTag.allC2TByCard",
-            query = "SELECT CardToTag FROM CardToTag WHERE pCard = :card")
+            query = "SELECT CardToTag FROM CardToTag WHERE card = :card")
 public class CardToTag implements Serializable
 {
     /**
      * Zugehörige Karte
      */
     @OneToOne
-    @Column
-    private final Card pCard;
+    private final Card card;
 
     /**
      * Zugehöriger Tag
      */
     @OneToOne
-    @Column
-    private final Tag pTag;
+    private final Tag tag;
 
     /**
      * Identifier und Primärschlüssel für die
@@ -43,8 +41,8 @@ public class CardToTag implements Serializable
      */
     public CardToTag(Card c, Tag t)
     {
-        this.pCard = c;
-        this.pTag = t;
+        this.card = c;
+        this.tag = t;
         this.id = UUID.randomUUID().toString();
     }
 
@@ -52,8 +50,8 @@ public class CardToTag implements Serializable
      * no-arg constructor needed for hibernates `@Entity` tag
      */
     public CardToTag() {
-        this.pCard = null;
-        this.pTag = null;
+        this.card = null;
+        this.tag = null;
         this.id = UUID.randomUUID().toString();
     }
 

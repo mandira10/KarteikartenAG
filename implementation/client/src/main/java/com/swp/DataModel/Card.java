@@ -17,9 +17,9 @@ import java.util.UUID;
 @Setter
 @Getter
 @NamedQuery(name = "Card.findCardByUUID",
-            query = "SELECT Card FROM Card WHERE sUUID = :uuid")
+            query = "SELECT Card FROM Card WHERE uuid = :uuid")
 @NamedQuery(name = "Card.findCardsByContent",
-            query = "SELECT Card FROM Card WHERE LOWER(sContent) LIKE '%LOWER(:content)%' ")
+            query = "SELECT Card FROM Card WHERE LOWER(content) LIKE '%LOWER(:content)%' ")
 public abstract class Card implements Serializable
 {
     /**
@@ -42,10 +42,10 @@ public abstract class Card implements Serializable
      * UUID der Karte
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    //@GeneratedValue(strategy = GenerationType.UUID) //TODO: Führt zu Problemen beim Persistieren
     @Column
     @Setter(AccessLevel.NONE)
-    protected final String sUUID;
+    protected final String uuid;
 
     /**
      * Kartentyp der spezifischen Karte
@@ -53,44 +53,44 @@ public abstract class Card implements Serializable
     @Column
     @Enumerated(EnumType.STRING)
     @Setter(AccessLevel.NONE)
-    protected final CardType iType;
+    protected final CardType type;
 
     /**
      * Frage der Karte
      */
-    protected String sQuestion;
+    protected String question;
 
     /**
      * Rating der Karte. Kann der Nutzer vergeben, um Karten (inhaltlich) zu bewerten.
      */
     @Column
-    protected int iRating;
+    protected int rating;
 
     /**
      * String Aggregat des Inhaltes. Wird aus den String Inhalten der Karte zusammengestellt.
      * Wird verwendet für die Filterung nach Suchbegriffen.
      */
     @Column
-    protected String sContent;
+    protected String content;
 
     /**
      * Titel der Karte. Ist optional, wird verwendet im Glossar, wenn befüllt
      */
     @Column
-    protected String sTitle;
+    protected String title;
 
     /**
      * Erstellzeitpunkt der Karte.
      */
     @Column
-    protected long iCreationDate;
+    protected long creationDate;
 
 
     /**
      * Sichtbarkeit der Karte, wenn wahr für alle sichtbar, ansonsten privat
      */
     @Column
-    protected boolean bVisibility;
+    protected boolean visibility;
 
     /**
      * Konstruktor für eine einfache Karte.
@@ -98,12 +98,12 @@ public abstract class Card implements Serializable
      */
     public Card(CardType type)
     {
-        this.sUUID = UUID.randomUUID().toString();
-        this.iType = type;
-        this.iRating = 0;
-        this.sTitle = "";
-        this.sContent = "";
-        this.iCreationDate = System.currentTimeMillis();
+        this.uuid = UUID.randomUUID().toString();
+        this.type = type;
+        this.rating = 0;
+        this.title = "";
+        this.content = "";
+        this.creationDate = System.currentTimeMillis();
     }
 
     /**
@@ -111,8 +111,8 @@ public abstract class Card implements Serializable
      */
     public Card()
     {
-        this.sUUID = UUID.randomUUID().toString();
-        this.iType = null;
+        uuid = UUID.randomUUID().toString();
+        this.type = null;
     }
 
 

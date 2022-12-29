@@ -8,64 +8,64 @@ import java.io.Serializable;
  */
 @Entity
 @Table
-public class User implements Serializable
+public class KarteikartenUser implements Serializable
 {
     /**
-     * Unique User ID
+     * Unique KarteikartenUser ID
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private final long lID;
+    private final long id;
 
     /**
      * Name des Nutzers
      */
     @Column
-    private final String sName;
+    private final String name;
 
     /**
      * sessionID des Nutzers
      */
     @Column
-    private String sSessionID;
+    private String sessionID;
 
     /**
      * Gibt wieder ob Nutzer authentifiziert ist (Server)
      */
     @Column
-    private boolean bAuthenticated;
+    private boolean authenticated;
 
     /**
      * Passwort vom Nutzer als Hash gespeichert
      * @param sPassHash
      */
     @Column
-    private String sPassHash;
+    private String passHash;
 
     /**
-     * Konstruktor der Klasse User
+     * Konstruktor der Klasse KarteikartenUser
      * @param username: Name des Nutzers
      */
-    public User(String username)
+    public KarteikartenUser(String username)
     {
-        this.lID = 0;
-        this.sName = username;
+        this.id = 0;
+        this.name = username;
     }
 
     /**
      * no-arg constructor needed for hibernates `@Entity` tag
      */
-    public User() {
-        this.lID = 0;
-        this.sName = null;
+    public KarteikartenUser() {
+        this.id = 0;
+        this.name = null;
     }
 
     //Getter
 
-    String getName()    { return sName; }
-    String getSession() { return sSessionID; }
-    long getID()        { return lID; }
+    String getName()    { return name; }
+    String getSession() { return sessionID; }
+    long getID()        { return id; }
 
     /**
      * Login-Funktion für den Nutzer

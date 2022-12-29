@@ -30,13 +30,13 @@ public class CardRepository
         // For Testing 
         //////////////////////////////////////
         Set<Card> cards = new HashSet<>();
-        Texture ketTexture = new Texture("ket");
-        ketTexture.load("textures/orange-ket.png", CardRepository.class);
+       // Texture ketTexture = new Texture("ket");
+       // ketTexture.load("textures/orange-ket.png", CardRepository.class); //TODO: byte[] nutzen
         for(int i = 0; i < to - from; i += 6)
         {
             cards.add(new AudioCard(null, "AudioCardTitle", "Some Audio Related Question", "The Correct Audio Answer", false, true));
-            cards.add(new ImageDescriptionCard("Some Image Description Question", "Correct Image Description Answer", "ImageDescriptionTitle", ketTexture, false));
-            cards.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", ketTexture, "ImageTestCardTitle", false, true));
+            cards.add(new ImageDescriptionCard("Some Image Description Question", "Correct Image Description Answer", "ImageDescriptionTitle", null, false));
+            cards.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", null, "ImageTestCardTitle", false, true));
             cards.add(new MultipleChoiceCard("MultipleChoice Question", new String[]{"Correct Answer1", "Answer2", "Answer3", "Correct Answer4"}, new int[]{0, 3}, "MultipleChoiceCardTitle", false));
             cards.add(new TextCard("Some Text Question", "Correct Text Answer", "TextCardTitle", false));
             cards.add(new TrueFalseCard("TrueFalse Question", true, "TrueFalseCardTitle", false));
@@ -66,7 +66,7 @@ public class CardRepository
     public static Set<Card> findCardsByCategory(Category category)
     {
         Set<Card> cards = null;
-        log.info(String.format("Rufe alle Karten für Kategorie %s ab", category.getSName()));
+        log.info(String.format("Rufe alle Karten für Kategorie %s ab", category.getName()));
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             cards = (Set<Card>) em.createNamedQuery("CardToCategory.allCardsOfCategory")
@@ -75,10 +75,10 @@ public class CardRepository
                     .collect(Collectors.toSet());
             em.getTransaction().commit();
         } catch (final NoResultException e) {
-            log.info(String.format("Keine Karten mit der Kategorie \"%s\" gefunden"), category.getSName());
+            log.info(String.format("Keine Karten mit der Kategorie \"%s\" gefunden"), category.getName());
         } catch (final Exception e) {
             log.warn(String.format("Beim Suchen nach Karten mit der Kategorie \"%s\" ist eine Fehler aufgetreten: \"%s\"",
-                    category.getSName(), e));
+                    category.getName(), e));
         }
 
         return cards;
@@ -98,7 +98,7 @@ public class CardRepository
         } catch (final Exception e) {
         }
 
-        log.info("Rufe alle Karten für Tag " + tag.getSValue() + " ab");
+        log.info("Rufe alle Karten für Tag " + tag.getVal() + " ab");
         return cards;
     }
 
@@ -138,7 +138,7 @@ public class CardRepository
             // Keine Karte mit entsprechender UUID gefunden
             log.info(String.format("Keine Karte mit der UUID \"%s\" gefunden"), uuid);
         } catch (final Exception e) {
-            // andere Fehler auch über GUI an User melden
+            // andere Fehler auch über GUI an KarteikartenUser melden
             log.warn(String.format("Beim Suchen nach einer Karte mit der UUID \"%s\" ist einer Fehler aufgetreten: \"%s\""),
                     uuid, e);
         }
@@ -158,7 +158,7 @@ public class CardRepository
 //        if(!oldcard.getTitle().equals(newcard.getTitle()))
 //            jsonString += "\"title\":" + newcard.getTitle();
 
-        switch(newcard.getIType())
+        switch(newcard.getType())
         {
             case AUDIO:
                 break;
@@ -182,17 +182,22 @@ public class CardRepository
         return false;
     }
 
+
+
     public static boolean saveCard(Card card)
     {
-        try (final EntityManager em = pm.getEntityManager()) {
-            em.getTransaction().begin();
-            em.persist(card);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            log.warn(String.format("Karte \"%s\" konnte nicht gespeichert werden", card.getSUUID()));
-            return false;
-        }
-        log.info(String.format("Karte \"%s\" wurde erfolgreich gespeichert", card.getSUUID()));
+
+        //try
+        final EntityManager em = pm.getEntityManager();
+        em.getTransaction().begin();
+        em.persist(card);
+        em.getTransaction().commit();
+        // }
+        //catch (Exception e) {
+        //   log.warn(String.format("Karte \"%s\" konnte nicht gespeichert werden", card.getUuid()));
+        //    return false;
+
+        log.info(String.format("Karte \"%s\" wurde erfolgreich gespeichert", card.getUuid()));
         return true;
         //TODO: create all CardTo..
     }
@@ -219,10 +224,10 @@ public class CardRepository
                         .forEach(c2d -> em.remove(c2d));
             em.getTransaction().commit();
         } catch (Exception e) {
-            log.warn(String.format("Karte \"%s\" konnte nicht gelöscht werden", card.getSUUID()));
+            log.warn(String.format("Karte \"%s\" konnte nicht gelöscht werden", card.getUuid()));
             return false;
         }
-        log.info(String.format("Karte \"%s\" wurde erfolgreich gelöscht", card.getSUUID()));
+        log.info(String.format("Karte \"%s\" wurde erfolgreich gelöscht", card.getUuid()));
         return true;
     }
 
@@ -283,11 +288,11 @@ public class CardRepository
             em.getTransaction().commit();
         } catch (final Exception e) {
             log.warn(String.format("Beim Speichern von `CardToTag` zwischen Karte \"%s\" und Tag \"%s\" ist ein Fehler aufgetreten: %s",
-                    card.getSUUID(), tag.getSValue(), e));
+                    card.getUuid(), tag.getVal(), e));
             return false;
         }
         log.info(String.format("Verbindung zwischen der Karte \"%s\" und dem Tag \"%s\" hergestellt",
-                card.getSUUID(), tag.getSValue()));
+                card.getUuid(), tag.getVal()));
         return true;
     }
 

@@ -29,7 +29,7 @@ public class TrueFalseCard extends Card
     public TrueFalseCard()
     {
         super(CardType.TRUEFALSE);
-        setSTitle("TrueFalseCard");
+        setTitle("TrueFalseCard");
     }
 
     /**
@@ -41,16 +41,16 @@ public class TrueFalseCard extends Card
     public TrueFalseCard(String question, boolean answer, String title, boolean visible)
     {
         super(CardType.TRUEFALSE);
-        setSTitle(title);
-        sQuestion = question;
-        bAnswer = answer;
-        bVisibility = visible;
-        sContent = getSContent();
+        setTitle(title);
+        this.question = question;
+        answer = answer;
+        visibility = visible;
+        content = getContent();
     }
 
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion;
+    public String getContent(){
+        return title + "\n" + question;
     }
 }

@@ -64,7 +64,7 @@ public class EditCardPage extends Page
         pCanvas.addGUI(pEditAudioCardPage);
 
         pTitlefield = (TextField)findChildByID("titlefield");
-        pTitlefield.setReturnCallback(new TextFieldFinishedInputCallback() { @Override public void run(String str) { pNewCard.setSTitle(str); } });
+        pTitlefield.setReturnCallback(new TextFieldFinishedInputCallback() { @Override public void run(String str) { pNewCard.setTitle(str); } });
 
         Button applyButton = (Button)findChildByID("applybutton");
         if(applyButton != null)
@@ -89,9 +89,9 @@ public class EditCardPage extends Page
         pOldCard = card;
         pNewCard = Card.copyCard(card); //TODO: lieber keine Kopie sondern Hibernate update Methode verwenden?
 
-        pTitlefield.setString(pNewCard.getSTitle());
+        pTitlefield.setString(pNewCard.getTitle());
 
-        switch(pNewCard.getIType())
+        switch(pNewCard.getType())
         {
             case TRUEFALSE:      setPage(pEditTrueFalseCardPage); break;
             case IMAGETEST:      setPage(pEditImageTestCardPage); break;

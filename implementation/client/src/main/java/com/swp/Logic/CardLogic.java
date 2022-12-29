@@ -125,11 +125,11 @@ public class CardLogic
      */
     public static boolean createCardToTag(Card card, Tag tag) {
         if (getCardsByTag(tag).contains(card)) {
-            log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", tag.getSUUID(), card.getSUUID());
+            log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", tag.getUuid(), card.getUuid());
             return true;
         }
 
-        log.info("Tag {} wird zu Karte {} hinzugefügt", tag.getSUUID(), card.getSUUID());
+        log.info("Tag {} wird zu Karte {} hinzugefügt", tag.getUuid(), card.getUuid());
         return CardRepository.createCardToTag(card, tag);
     }
 
@@ -189,31 +189,42 @@ public class CardLogic
      */
     private static boolean updateCardContent(Card card, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories, boolean neu) {
         try {
-            log.info("Versuche die Attribute der Karte {} zu aktualisieren", card.getSUUID());
+            log.info("Versuche die Attribute der Karte {} zu aktualisieren", card.getUuid());
             BeanUtils.populate(card, attributes); //TODO: Testing
         } catch (IllegalAccessException | InvocationTargetException ex) {
             //TODO + weitere Exceptions, Prüfung mit Validator? in Constructor einnbauen
         }
         if (neu) {
-            CardRepository.saveCard(card);
-            //} else {
-            //    throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
+            if (CardRepository.saveCard(card)) {
+                if (tags != null) {
+                    log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getUuid());
+                    return createCardToTags(card, tags);
+                }
+                if (categories != null) {
+                    log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getUuid());
+                    return CategoryLogic.createCardToCategory(card, categories);
+                }
+                return true;
+            } else {
+                throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
+            }
+        } else {
+            if (CardRepository.updateCard(card)) {
+                if (tags != null) {
+                    log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getUuid());
+                    createCardToTags(card, tags);
+                }
+                if (categories != null) {
+                    log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getUuid());
+                    CategoryLogic.createCardToCategory(card, categories);
+                }
+                return false;
+            } else {
+                throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
+            }
 
-        } else { return true;
-              //if (CardRepository.updateCard(card)){
-            //} else {
-              //  throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
-          //  }
+
         }
-        if (tags != null){
-            log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getSUUID());
-            createCardToTags(card,tags);
-        }
-        if (categories != null) {
-            log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getSUUID());
-            CategoryLogic.createCardToCategory(card, categories);
-        }
-        return false;
     }
 
     public static boolean createCardToTags(Card card, Set<String> tags) {
@@ -264,7 +275,7 @@ public class CardLogic
         //TODO: Logik ändern?
 
 
-        if(newcard.getSUUID().isEmpty())
+        if(newcard.getUuid().isEmpty())
             return CardRepository.saveCard(newcard);
         else
             return CardRepository.updateCard(oldcard, newcard);

@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NamedQuery(name = "CardToDeck.allC2DByCard",
-            query = "SELECT CardToDeck FROM CardToDeck WHERE pCard = :card")
+            query = "SELECT CardToDeck FROM CardToDeck WHERE card = :card")
 public class CardToDeck implements Serializable
 {
     /**
@@ -30,17 +30,15 @@ public class CardToDeck implements Serializable
      * Zugehörige Karte
      */
     @OneToOne
-    @Column
     @Setter(AccessLevel.NONE)
-    private final Card pCard;
+    private final Card card;
 
     /**
      * Zugehöriges Deck
      */
     @OneToOne
-    @Column
     @Setter(AccessLevel.NONE)
-    private final Deck pDeck;
+    private final Deck deck;
 
     @Id
     @GeneratedValue
@@ -55,7 +53,7 @@ public class CardToDeck implements Serializable
      */
     @Column
     @Enumerated(EnumType.STRING)
-    private CardStatus iStatus;
+    private CardStatus status;
 
     /**
      * Konstruktor der Klasse CardToDeck
@@ -64,8 +62,8 @@ public class CardToDeck implements Serializable
      */
     public CardToDeck(Card c, Deck d)
     {
-        this.pCard = c;
-        this.pDeck = d;
+        this.card = c;
+        this.deck = d;
         this.id = UUID.randomUUID().toString();
     }
 
@@ -73,8 +71,8 @@ public class CardToDeck implements Serializable
      * no-arg constructor needed for hibernates `@Entity` tag
      */
     public CardToDeck() {
-        this.pCard = null;
-        this.pDeck = null;
+        this.card = null;
+        this.deck = null;
         this.id = UUID.randomUUID().toString();
     }
 

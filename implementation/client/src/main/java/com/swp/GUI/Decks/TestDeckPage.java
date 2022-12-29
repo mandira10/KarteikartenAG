@@ -66,7 +66,7 @@ public class TestDeckPage extends Page
     {
         pCanvas.destroyChildren();
 
-        Card nextCard = pDeck.getPStudySystem().getNextCard(0);
+        Card nextCard = pDeck.getStudySystem().getNextCard(0);
         if(nextCard == null)
         {
             finishTest();

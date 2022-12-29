@@ -43,7 +43,7 @@ public class TestCardGUI extends RenderGUI
         pQuestionScroller.setPositionInPercent(true, true);
         addGUI(pQuestionScroller);
 
-        pQuestionBox = new TextBox(card.getSQuestion(), defaultFont, new ivec2(0, 0), new ivec2(100, 100));
+        pQuestionBox = new TextBox(card.getQuestion(), defaultFont, new ivec2(0, 0), new ivec2(100, 100));
         pQuestionBox.setSizeInPercent(true, false);
         pQuestionBox.setAutoInsertLinebreaks(true);
         pQuestionBox.setTextSize(30);
@@ -61,7 +61,7 @@ public class TestCardGUI extends RenderGUI
         pCorrectAnswerBox.setAutoInsertLinebreaks(true);
         addGUI(pCorrectAnswerBox);
 
-        switch(pCard.getIType())
+        switch(pCard.getType())
         {
             case AUDIO:          createAudioCardTest();                        break;
             case IMAGEDESC:      createImageDescCardTest();                    break;
@@ -105,7 +105,7 @@ public class TestCardGUI extends RenderGUI
         Box cardImage = new Box(new ivec2(55, 5), new ivec2(40, 60));
         cardImage.setPositionInPercent(true, true);
         cardImage.setSizeInPercent(true, true);
-        cardImage.setTexture(card.getOImage());
+        //cardImage.setTexture(card.getImage());
         cardImage.invertTexcoordY(true);
         addGUI(cardImage);
 
@@ -124,7 +124,7 @@ public class TestCardGUI extends RenderGUI
         Box cardImage = new Box(new ivec2(55, 5), new ivec2(40, 60));
         cardImage.setPositionInPercent(true, true);
         cardImage.setSizeInPercent(true, true);
-        cardImage.setTexture(card.getOImage());
+        //cardImage.setTexture(card.getImage());
         cardImage.invertTexcoordY(true);
         addGUI(cardImage);
 

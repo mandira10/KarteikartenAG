@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import com.swp.Controller.DeckController;
-import com.swp.DataModel.CardTypes.AudioCard;
 
 /**
  * Abstrakte Superklasse für das StudySystem von der die einzelnen
@@ -27,17 +26,17 @@ public abstract class StudySystem implements Serializable
     /**
      * Zugehöriges Deck für das System
      */
-    protected Deck pDeck;
+    protected Deck deck;
 
     /**
      * Einzelne Boxen des Systems, die Karten enthalten
      */
-    protected ArrayList<Set<Card> > alBoxes;
+    protected ArrayList<Set<Card> > boxes;
 
     /**
      * Zugehöriger Typ des Systems
      */
-    protected StudySystemType pType;
+    protected StudySystemType type;
 
     /**
      * Konstruktor der Klasse StudySystem
@@ -47,9 +46,9 @@ public abstract class StudySystem implements Serializable
      */
     public StudySystem(Deck deck, StudySystemType type, int nboxes)
     {
-        this.pDeck = deck;
-        this.pType = type;
-        alBoxes = initArray(nboxes);
+        this.deck = deck;
+        this.type = type;
+        this.boxes = initArray(nboxes);
     }
 
     /**
@@ -73,16 +72,16 @@ public abstract class StudySystem implements Serializable
      */
     public void moveCardToBox(Card card, int boxindex)
     {
-        if(boxindex >= alBoxes.size() || boxindex < 0)
+        if(boxindex >= boxes.size() || boxindex < 0)
             return;
 
-        for(Set<Card> set : alBoxes)
+        for(Set<Card> set : boxes)
         {
             if(set.contains(card))
                 set.remove(card);
         }
 
-        alBoxes.get(boxindex).add(card);
+        boxes.get(boxindex).add(card);
     }
 
     /**
@@ -104,7 +103,7 @@ public abstract class StudySystem implements Serializable
         // TEMPORARY
         //
         if(it == null)
-            it = DeckController.getCardsInDeck(pDeck).iterator();
+            it = DeckController.getCardsInDeck(deck).iterator();
         if(it.hasNext())
             return (Card)it.next();
             

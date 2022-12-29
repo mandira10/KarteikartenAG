@@ -20,14 +20,15 @@ public class ImageDescriptionCard extends Card
     /**
      * Bilddatei für die Frage
      */
+
     @Column
-    private Texture oImage;
+    private String image;  //texture
 
     /**
      * Antwort der Frage
      */
     @Column
-    private String sAnswer;
+    private String answer;
 
     /**
      * Leerer Konstruktor der Klasse ImageDescriptionCard
@@ -35,7 +36,7 @@ public class ImageDescriptionCard extends Card
     public ImageDescriptionCard()
     {
         super(CardType.IMAGEDESC);
-        setSTitle("ImageDescriptionCard");
+        setTitle("ImageDescriptionCard");
     }
 
     /**
@@ -46,19 +47,19 @@ public class ImageDescriptionCard extends Card
      * @param title Optionaler Titel der Karte
      * @param visible Sichtbarkeit der Karte
      */
-    public ImageDescriptionCard(String question, String answer, String title, Texture image, boolean visible)
+    public ImageDescriptionCard(String question, String answer, String title, String image, boolean visible)
     {
         super(CardType.IMAGEDESC);
-        setSTitle(title);
-        sQuestion = question;
-        oImage = image;
-        sAnswer = answer;
-        bVisibility = visible;
-        sContent = getSContent();
+        setTitle(title);
+        this.question = question;
+        this.image = image;
+        this.answer = answer;
+        this.visibility = visible;
+        this.content = getContent();
     }
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
+    public String getContent(){
+        return title + "\n" + question + "\n" + answer;
     }
 }

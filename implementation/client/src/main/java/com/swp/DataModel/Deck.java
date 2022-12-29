@@ -30,7 +30,7 @@ public class Deck implements Serializable
      * Bezeichnung des Decks
      */
     @Column
-    private String sName;
+    private String name;
 
     /**
      * UUID des Decks
@@ -39,32 +39,34 @@ public class Deck implements Serializable
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column
     @Setter(AccessLevel.NONE)
-    private final String sUUID;
+    private final String uuid;
 
     /**
      * Gewähltes StudySystem für das spezifische Deck
      */
     @Column
-    private StudySystem pStudySystem;
+    private StudySystem studySystem;
 
     /**
      * Initiale Reihenfolge des Decks
      */
+
     @Column
-    private CardOrder iOrder;
+    @Enumerated(EnumType.STRING)
+    private CardOrder cardOrder;
 
     /**
      * Sichtbarkeit des Decks. Wenn wahr, dann für alle sichtbar.
      */
     @Column
-    private boolean bVisibility;
+    private boolean visibility;
 
     /**
      * Leerer Konstruktor der Klasse Deck
      */
     public Deck()
     {
-        this.sUUID = UUID.randomUUID().toString();
+        this.uuid = UUID.randomUUID().toString();
     }
 
     /**
@@ -76,11 +78,11 @@ public class Deck implements Serializable
      */
     public Deck(String name, StudySystem studySystem, CardOrder cardOrder, boolean visibile)
     {
-        this.sUUID = UUID.randomUUID().toString();
-        sName =  name;
-        pStudySystem = studySystem;
-        iOrder = cardOrder;
-        bVisibility = visibile;
+        this.uuid = UUID.randomUUID().toString();
+        this.name =  name;
+        this.studySystem = studySystem;
+        this.cardOrder = cardOrder;
+        this.visibility = visibile;
     }
 
 }

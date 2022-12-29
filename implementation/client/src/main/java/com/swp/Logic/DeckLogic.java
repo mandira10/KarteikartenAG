@@ -39,15 +39,15 @@ public class DeckLogic
         Set<Card> retArr = new HashSet<>();
         for(CardToDeck c2c : DeckRepository.getCardToDecks())
         {
-            if(c2c.getPDeck() == deck)
-                retArr.add(c2c.getPCard());
+            if(c2c.getDeck() == deck)
+                retArr.add(c2c.getCard());
         }
         return retArr;
     }
 
     public static boolean updateDeckData(Deck olddeck, Deck newdeck)
     {
-        if(newdeck.getSUUID().isEmpty())
+        if(newdeck.getUuid().isEmpty())
             return DeckRepository.saveDeck(newdeck);
         else
             return DeckRepository.updateDeck(olddeck, newdeck);
@@ -89,8 +89,8 @@ public class DeckLogic
         Set<Deck> retArr = new HashSet<>();
         for(CardToDeck c2d : DeckRepository.getCardToDecks())
         {
-            if(c2d.getPCard() == card) //TODO: equals Methode überschrieben
-                retArr.add(c2d.getPDeck());
+            if(c2d.getCard() == card) //TODO: equals Methode überschrieben
+                retArr.add(c2d.getDeck());
         }
         return retArr;
     }
@@ -100,8 +100,8 @@ public class DeckLogic
         Set<Card> retArr = new HashSet<>();
         for(CardToDeck c2d : DeckRepository.getCardToDecks())
         {
-            if(c2d.getPDeck() == deck)
-                retArr.add(c2d.getPCard());
+            if(c2d.getDeck() == deck)
+                retArr.add(c2d.getCard());
         }
         return retArr;
     }

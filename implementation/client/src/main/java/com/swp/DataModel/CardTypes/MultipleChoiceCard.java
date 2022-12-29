@@ -19,14 +19,16 @@ public class MultipleChoiceCard extends Card
     /**
      * Antwortmöglichkeiten der Karte
      */
+    @SuppressWarnings("JpaAttributeTypeInspection")
     @Column
-    private String[] saAnswers;
+    private String[] answers;
 
     /**
      * Array mit den korrekten Antworten
      */
+    @SuppressWarnings("JpaAttributeTypeInspection")
     @Column
-    private int[] iaCorrectAnswers;
+    private int[] correctAnswers;
 
     /**
      * Leerer Konstruktor der Klasse MultipleChoiceCard
@@ -34,7 +36,7 @@ public class MultipleChoiceCard extends Card
     public MultipleChoiceCard()
     {
         super(CardType.MULITPLECHOICE);
-        setSTitle("MultipleChoiceCard");
+        setTitle("MultipleChoiceCard");
     }
 
     /**
@@ -47,17 +49,17 @@ public class MultipleChoiceCard extends Card
      */
     public MultipleChoiceCard(String question, String[] answers, int[] correctAnswers, String title, boolean visible){
         super(CardType.MULITPLECHOICE);
-        setSTitle(title);
-        sQuestion = question;
-        saAnswers = answers;
-        iaCorrectAnswers = correctAnswers;
-        bVisibility = visible;
-        sContent = getSContent();
+        setTitle(title);
+        this.question = question;
+        this.answers = answers;
+        this.correctAnswers = correctAnswers;
+        this.visibility = visible;
+        content = getContent();
     }
 
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion + "\n" + saAnswers;
+    public String getContent(){
+        return title + "\n" +  question + "\n" + answers;
     }
 }

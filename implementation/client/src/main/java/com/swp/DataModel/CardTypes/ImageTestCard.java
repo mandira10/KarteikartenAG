@@ -22,21 +22,22 @@ public class ImageTestCard extends Card
     /**
      * Bild für die Karteikarte
      */
+
     @Column
-    private Texture oImage;
+    private String image; //Texture
 
     /**
      * Zusätzliche Beschreibung zum Bild als Antwort
      */
     @Column
-    private String sAnswer;
+    private String answer;
 
     /**
      * Tauscht die Frage/Antwort Option, sodass das Bild sowohl
      * als Frage als auch als Antwort verwendet werden kann.
      */
     @Column
-    private boolean bSwapQA;
+    private boolean swapQA;
 
     /**
      * Leerer Konstruktor der Klasse ImageTestCard
@@ -44,7 +45,7 @@ public class ImageTestCard extends Card
     public ImageTestCard()
     {
         super(CardType.IMAGETEST);
-        setSTitle("ImageTestCard");
+        setTitle("ImageTestCard");
     }
 
     /**
@@ -56,22 +57,22 @@ public class ImageTestCard extends Card
      * @param title Optionaler Titel der Karte
      * @param visible Sichtbarkeit der Karte
      */
-    public ImageTestCard(String question, String answer, Texture image, String title, boolean swapQA, boolean visible)
+    public ImageTestCard(String question, String answer, String image, String title, boolean swapQA, boolean visible)
     {
         super(CardType.IMAGETEST);
-        setSTitle(title);
-        sQuestion = question;
-        sAnswer = answer;
-        oImage = image;
-        bSwapQA = swapQA;
-        bVisibility = visible;
-        sContent = getSContent();
+        setTitle(title);
+        this.question = question;
+        this.answer = answer;
+        this.image = image;
+        this.swapQA = swapQA;
+        this.visibility = visible;
+        this.content = getContent();
     }
 
 
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
+    public String getContent(){
+        return title + "\n" + question + "\n" + answer;
     }
 }

@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.NamedQuery;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.UUID;
@@ -21,14 +22,14 @@ import java.util.UUID;
 @Getter
 @Setter
 @NamedQuery(name = "Tag.findTagByName",
-            query = "SELECT Tag FROM Tag WHERE LOWER(sValue) LIKE LOWER(:text)")
+            query = "SELECT Tag FROM Tag WHERE LOWER(val) LIKE LOWER(:text)")
 public class Tag implements Serializable
 {
     /**
      * Value des Tags
      */
     @Column
-    private String sValue;
+    private String val;
 
     /**
      * UUID des Tags
@@ -37,7 +38,7 @@ public class Tag implements Serializable
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     @Setter(AccessLevel.NONE)
-    private final String sUUID;
+    private final String uuid;
 
     /**
      * Konstruktor der Klasse Tag
@@ -45,25 +46,17 @@ public class Tag implements Serializable
      */
     public Tag(String val)
     {
-        this.sValue = val;
-        this.sUUID = UUID.randomUUID().toString();
+        this.val = val;
+        this.uuid = UUID.randomUUID().toString();
     }
 
     /**
      * no-arg constructor needed for hibernates `@Entity` tag
      */
     public Tag() {
-        this.sValue = null;
-        this.sUUID = null;
+        this.val = null;
+        this.uuid = null;
     }
 
-    //
-    // Getter
-    //
-    public String getValue() { return this.sValue; }
-    public String getUUID()  { return this.sUUID; }
 
-    public void setValue(String sValue) {
-        this.sValue = sValue;
-    }
 }

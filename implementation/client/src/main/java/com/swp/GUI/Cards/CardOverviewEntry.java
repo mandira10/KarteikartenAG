@@ -24,7 +24,7 @@ public class CardOverviewEntry extends RenderGUI
         this.pCard = card;
         FontManager fonts = FontManager.getInstance();
 
-        this.pCardNameBox = new TextBox(card.getSTitle(), fonts.getDefaultFont(), new ivec2(0, 0), new ivec2(100, 100));
+        this.pCardNameBox = new TextBox(card.getTitle(), fonts.getDefaultFont(), new ivec2(0, 0), new ivec2(100, 100));
         pCardNameBox.setSizeInPercent(true, true);
         pCardNameBox.setAlignment(TextBox.Alignment.LEFT);
         pCardNameBox.setTextSize(20);

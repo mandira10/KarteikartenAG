@@ -21,15 +21,15 @@ public class TextCard extends Card
      * Antwort der Karte
      */
     @Column
-    private String sAnswer;
+    private String answer;
 
     /**
      * Leerer Konstruktor der Klasse TextCard
      */
     public TextCard()
     {
-        super(CardType.TEXT);
-        setSTitle("TextCard");
+        //super(CardType.TEXT);
+        //setSTitle("TextCard");
     }
 
     /**
@@ -42,23 +42,17 @@ public class TextCard extends Card
     public TextCard(String question, String answer, String title, boolean visible)
     {
         super(CardType.TEXT);
-        setSTitle(title);
-        sQuestion = question;
-        sAnswer = answer;
-        bVisibility = visible;
-        sContent = getSContent();
+        setTitle(title);
+        this.question = question;
+        this.answer = answer;
+        this.visibility = visible;
+        this.content = getContent();
     }
 
-    public String getAnswer() {
-        return sAnswer;
-    }
 
-    public void setAnswer(String sAnswer) {
-        this.sAnswer = sAnswer;
-    }
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
+    public String getContent(){
+        return title + "\n" + question + "\n" + answer;
     }
 }

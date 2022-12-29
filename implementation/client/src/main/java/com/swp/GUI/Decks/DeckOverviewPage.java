@@ -31,7 +31,7 @@ public class DeckOverviewPage extends Page
             Font defaultFont = FontManager.getInstance().getDefaultFont();
             Font fontAwesome = FontManager.getInstance().getFont("FontAwesome");
 
-            Text deckName = new Text(deck.getSName(), defaultFont, new ivec2(10,10), 0);
+            Text deckName = new Text(deck.getName(), defaultFont, new ivec2(10,10), 0);
             deckName.setCharacterHeight(35);  
             addElement(deckName);
 

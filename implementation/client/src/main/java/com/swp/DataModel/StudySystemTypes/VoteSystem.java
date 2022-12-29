@@ -52,7 +52,7 @@ public class VoteSystem extends StudySystem implements MouseListener {
             if(checkAnswer(answer,questionCount)){
                 NotificationGUI.addNotification("Answer is true!", Notification.NotificationType.INFO, 3);
                 int vote = 5; // will get from gui
-                unsortedCards.put(cards.get(questionCount).getSQuestion(),vote);
+                unsortedCards.put(cards.get(questionCount).getQuestion(),vote);
                 questionCount++;
                 trueAnswerCount++;
                 if(questionCount == cards.size()){
@@ -77,7 +77,7 @@ public class VoteSystem extends StudySystem implements MouseListener {
             else{
                 NotificationGUI.addNotification("Answer is wrong!", Notification.NotificationType.INFO, 3);
                 int vote = 5; // will get from gui
-                unsortedCards.put(cards.get(questionCount).getSQuestion(),vote);
+                unsortedCards.put(cards.get(questionCount).getQuestion(),vote);
                 questionCount++;
                 falseAnswerCount++;
                 if(questionCount == cards.size()){

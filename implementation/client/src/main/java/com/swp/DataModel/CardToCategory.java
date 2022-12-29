@@ -9,11 +9,11 @@ import java.util.UUID;
 @Table
 @Getter
 @NamedQuery(name = "CardToCategory.allCardsOfCategory",
-            query = "SELECT pCard FROM CardToCategory WHERE pCategory = :category")
+            query = "SELECT card FROM CardToCategory WHERE category = :category")
 @NamedQuery(name = "CardToCategory.allCategoriesOfCard",
-            query = "SELECT pCategory FROM CardToCategory WHERE pCard = :card")
+            query = "SELECT category FROM CardToCategory WHERE card = :card")
 @NamedQuery(name = "CardToCategory.allC2CByCard",
-            query = "SELECT CardToCategory FROM CardToCategory WHERE pCard =: card")
+            query = "SELECT CardToCategory FROM CardToCategory WHERE card =: card")
 public class CardToCategory implements Serializable
 {
     /**
@@ -29,15 +29,13 @@ public class CardToCategory implements Serializable
      */
     @OneToOne
     //@ForeignKey
-    @Column
-    private final Card pCard;
+    private final Card card;
 
     /**
      * Zugehörige Kategorie
      */
     @OneToOne
-    @Column
-    private final Category pCategory;
+    private final Category category;
 
     /**
      * Konstruktor der Klasse CardToCategory
@@ -46,8 +44,8 @@ public class CardToCategory implements Serializable
      */
     public CardToCategory(Card c, Category d)
     {
-        this.pCard = c;
-        this.pCategory = d;
+        this.card = c;
+        this.category = d;
         this.id = UUID.randomUUID().toString();
     }
 
@@ -55,8 +53,8 @@ public class CardToCategory implements Serializable
      * no-arg constructor needed for hibernates `@Entity` tag
      */
     public CardToCategory() {
-        this.pCard = null;
-        this.pCategory = null;
+        this.card = null;
+        this.category = null;
         this.id = UUID.randomUUID().toString();
     }
 
