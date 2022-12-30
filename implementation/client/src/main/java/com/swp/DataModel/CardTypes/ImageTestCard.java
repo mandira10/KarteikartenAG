@@ -44,8 +44,7 @@ public class ImageTestCard extends Card
      */
     public ImageTestCard()
     {
-        super(CardType.IMAGETEST);
-        setTitle("ImageTestCard");
+        this("","","","",false,false);
     }
 
     /**
@@ -66,13 +65,13 @@ public class ImageTestCard extends Card
         this.image = image;
         this.swapQA = swapQA;
         this.visibility = visible;
-        this.content = getContent();
+        setContent();
     }
 
 
 
     @Override
-    public String getContent(){
-        return title + "\n" + question + "\n" + answer;
+    public void setContent(){
+        content =  title + "\n" + question + "\n" + answer;
     }
 }

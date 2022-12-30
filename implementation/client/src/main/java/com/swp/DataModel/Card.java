@@ -17,17 +17,16 @@ import java.util.UUID;
 @Setter
 @Getter
 @NamedQuery(name = "Card.findCardByUUID",
-            query = "SELECT Card FROM Card WHERE uuid = :uuid")
+            query = "SELECT c FROM Card c WHERE c.uuid = :uuid")
 @NamedQuery(name = "Card.findCardsByContent",
-            query = "SELECT Card FROM Card WHERE LOWER(content) LIKE '%LOWER(:content)%' ")
+            query = "SELECT c FROM Card c WHERE LOWER(c.content) LIKE '%LOWER(:content)%' ")
+@NamedQuery(name = "Card.findByTitle",
+        query = "SELECT c FROM Card c WHERE c.title = :title ")
 public abstract class Card implements Serializable
 {
     /**
      * Enum für den Kartentypen
      */
-    // @Column(name = "type")
-    // funktioniert nicht, man könnte z.B. einen String persisten und mit einer HashMap hin und her übersetzen
-    // siehe: https://stackoverflow.com/a/492126
     public enum CardType
     {
         TRUEFALSE,
@@ -113,6 +112,7 @@ public abstract class Card implements Serializable
     {
         uuid = UUID.randomUUID().toString();
         this.type = null;
+        this.creationDate = System.currentTimeMillis();
     }
 
 
@@ -145,4 +145,6 @@ public abstract class Card implements Serializable
 
         return retCard;
     }
+
+    public void setContent(){}
 }

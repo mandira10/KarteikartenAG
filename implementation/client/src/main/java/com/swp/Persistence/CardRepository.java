@@ -1,7 +1,5 @@
 package com.swp.Persistence;
 
-import com.gumse.textures.Texture;
-import com.gumse.tools.Debug;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.Category;
@@ -84,6 +82,23 @@ public class CardRepository
         return cards;
     }
 
+    public static Optional<Card> findCardByTitle(String title)
+    {
+        log.info(String.format("Rufe Karte für Titel %s ab", title));
+        try (final EntityManager em = pm.getEntityManager()) {
+          final Card card = (Card) em.createNamedQuery("Card.findByTitle")
+                    .setParameter("title", title)
+                    .getSingleResult();
+           return Optional.of(card);
+        } catch (final NoResultException e) {
+            log.info(String.format("Keine Karten mit der Kategorie \"%s\" gefunden"), title);
+        } catch (final Exception e) {
+            log.warn(String.format("Beim Suchen nach Karten mit der Kategorie \"%s\" ist eine Fehler aufgetreten: \"%s\"",
+                    title, e));
+        }
+    return null;
+    }
+
     public static Set<Card> findCardsByTag(Tag tag)
     {
         Set<Card> cards = null;
@@ -146,57 +161,22 @@ public class CardRepository
         return card;
     }
 
-    /**
-     *
-     * @param oldcard
-     * @param newcard
-     */
-    public static boolean updateCard(Card oldcard, Card newcard)
-    {
-        //TODO: update Methode Hibernate? Kein Server Handling mehr
-//        String jsonString = "";
-//        if(!oldcard.getTitle().equals(newcard.getTitle()))
-//            jsonString += "\"title\":" + newcard.getTitle();
-
-        switch(newcard.getType())
-        {
-            case AUDIO:
-                break;
-            case IMAGEDESC:
-                break;
-            case IMAGETEST:
-                break;
-            case MULITPLECHOICE:
-                break;
-            case TEXT:
-                break;
-            case TRUEFALSE:
-                break;
-            default:
-                Debug.error("Unknown cardtype!");
-                break;
-
-        }
-
-
-        return false;
-    }
 
 
 
     public static boolean saveCard(Card card)
     {
 
-        //try
+        try{
         final EntityManager em = pm.getEntityManager();
         em.getTransaction().begin();
         em.persist(card);
         em.getTransaction().commit();
-        // }
-        //catch (Exception e) {
-        //   log.warn(String.format("Karte \"%s\" konnte nicht gespeichert werden", card.getUuid()));
-        //    return false;
-
+         }
+        catch (Exception e) {
+            log.warn(String.format("Karte \"%s\" konnte nicht gespeichert werden", card.getUuid()));
+            return false;
+        }
         log.info(String.format("Karte \"%s\" wurde erfolgreich gespeichert", card.getUuid()));
         return true;
         //TODO: create all CardTo..
@@ -316,4 +296,8 @@ public class CardRepository
 
         return tag;
     }
+
+
+
+
 }

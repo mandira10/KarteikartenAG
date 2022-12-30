@@ -21,15 +21,14 @@ public class TrueFalseCard extends Card
      * Antwort der Karte
      */
     @Column
-    private boolean bAnswer;
+    private boolean answer;
 
     /**
      * Leerer Konstruktor der Klasse TrueFalseCard
      */
     public TrueFalseCard()
     {
-        super(CardType.TRUEFALSE);
-        setTitle("TrueFalseCard");
+       this("",false,"",false);
     }
 
     /**
@@ -43,14 +42,14 @@ public class TrueFalseCard extends Card
         super(CardType.TRUEFALSE);
         setTitle(title);
         this.question = question;
-        answer = answer;
+        this.answer = answer;
         visibility = visible;
-        content = getContent();
+       setContent();
     }
 
 
     @Override
-    public String getContent(){
-        return title + "\n" + question;
+    public void setContent(){
+        content =  title + "\n" + question;
     }
 }

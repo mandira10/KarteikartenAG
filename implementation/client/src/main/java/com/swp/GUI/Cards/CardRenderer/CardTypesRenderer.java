@@ -60,7 +60,7 @@ public class CardTypesRenderer
             case IMAGETEST:      strs.add(((ImageTestCard) card).getAnswer());                         break;
             case MULITPLECHOICE: strs.addAll(Arrays.asList(((MultipleChoiceCard) card).getAnswers())); break;
             case TEXT:           strs.add(((TextCard) card).getAnswer());                              break;
-            case TRUEFALSE:      strs.add(((TrueFalseCard) card).isBAnswer() ? "True" : "False");       break;
+            case TRUEFALSE:      strs.add(((TrueFalseCard) card).isAnswer() ? "True" : "False");       break;
             default:             Debug.error("CardTypesRenderer: Unknown card type");                  break;
         }
 

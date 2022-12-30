@@ -35,8 +35,7 @@ public class ImageDescriptionCard extends Card
      */
     public ImageDescriptionCard()
     {
-        super(CardType.IMAGEDESC);
-        setTitle("ImageDescriptionCard");
+        this("","","","",false);
     }
 
     /**
@@ -55,11 +54,11 @@ public class ImageDescriptionCard extends Card
         this.image = image;
         this.answer = answer;
         this.visibility = visible;
-        this.content = getContent();
+        setContent();
     }
 
     @Override
-    public String getContent(){
-        return title + "\n" + question + "\n" + answer;
+    public void setContent(){
+        content = title + "\n" + question + "\n" + answer;
     }
 }

@@ -176,7 +176,5 @@ public class CardController {
         return CardLogic.createTag(value);
     }
 
-    public static boolean updateCardData(Card oldcard, Card newcard) { //TODO: abgelöst durch update Hibernate
-        return CardLogic.updateCardData(oldcard, newcard);
-    }
+
 }

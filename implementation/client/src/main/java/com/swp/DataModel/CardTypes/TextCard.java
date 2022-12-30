@@ -28,8 +28,7 @@ public class TextCard extends Card
      */
     public TextCard()
     {
-        //super(CardType.TEXT);
-        //setSTitle("TextCard");
+       this("","","",false);
     }
 
     /**
@@ -46,13 +45,13 @@ public class TextCard extends Card
         this.question = question;
         this.answer = answer;
         this.visibility = visible;
-        this.content = getContent();
+        setContent();
     }
 
 
 
     @Override
-    public String getContent(){
-        return title + "\n" + question + "\n" + answer;
+    public void setContent(){
+        content =  title + "\n" + question + "\n" + answer;
     }
 }

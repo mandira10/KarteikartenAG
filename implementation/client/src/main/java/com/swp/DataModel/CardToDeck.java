@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NamedQuery(name = "CardToDeck.allC2DByCard",
-            query = "SELECT CardToDeck FROM CardToDeck WHERE card = :card")
+            query = "SELECT cd FROM CardToDeck cd WHERE cd.card = :card")
 public class CardToDeck implements Serializable
 {
     /**

@@ -117,6 +117,6 @@ public class EditCardPage extends Page
     private void applyChanges()
     {
         Debug.info("Applying changes");
-        CardController.updateCardData(pOldCard, pNewCard);
+      //  CardController.updateCardData(pOldCard, pNewCard);
     }
 }

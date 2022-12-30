@@ -190,7 +190,8 @@ public class CardLogic
     private static boolean updateCardContent(Card card, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories, boolean neu) {
         try {
             log.info("Versuche die Attribute der Karte {} zu aktualisieren", card.getUuid());
-            BeanUtils.populate(card, attributes); //TODO: Testing
+            BeanUtils.populate(card, attributes);
+            card.setContent();
         } catch (IllegalAccessException | InvocationTargetException ex) {
             //TODO + weitere Exceptions, Prüfung mit Validator? in Constructor einnbauen
         }
@@ -261,25 +262,6 @@ public class CardLogic
     {
         return (new Exporter(filetype)).export(cards);
         //TODO:Exceptions?
-    }
-
-    //TO DISCUSS
-
-    /**
-     * Aktualisiert die Datenbankeinträge der Karte
-     * @param oldcard Alte Karte
-     * @param newcard Neue Karte
-     */
-    public static boolean updateCardData(Card oldcard, Card newcard)
-    {
-        //TODO: Logik ändern?
-
-
-        if(newcard.getUuid().isEmpty())
-            return CardRepository.saveCard(newcard);
-        else
-            return CardRepository.updateCard(oldcard, newcard);
-
     }
 
 

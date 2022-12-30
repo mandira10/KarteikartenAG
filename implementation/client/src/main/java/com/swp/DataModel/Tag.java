@@ -22,7 +22,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NamedQuery(name = "Tag.findTagByName",
-            query = "SELECT Tag FROM Tag WHERE LOWER(val) LIKE LOWER(:text)")
+            query = "SELECT t FROM Tag t WHERE LOWER(t.val) LIKE LOWER(:text)")
 public class Tag implements Serializable
 {
     /**

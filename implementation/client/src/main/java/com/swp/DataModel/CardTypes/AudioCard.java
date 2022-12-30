@@ -62,11 +62,11 @@ public class AudioCard extends Card
         this.answer = answer;
         this.swapQA = swapQA;
         this.visibility = visibility;
-        content = getContent();
+        setContent();
     }
 
     @Override
-    public String getContent(){
-        return title + "\n" +  question + "\n" + answer;
+    public void setContent(){
+        content =  title + "\n" +  question + "\n" + answer;
     }
 }

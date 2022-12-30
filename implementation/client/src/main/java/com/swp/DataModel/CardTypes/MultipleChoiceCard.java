@@ -35,8 +35,7 @@ public class MultipleChoiceCard extends Card
      */
     public MultipleChoiceCard()
     {
-        super(CardType.MULITPLECHOICE);
-        setTitle("MultipleChoiceCard");
+        this("",null,null,"",false);
     }
 
     /**
@@ -54,12 +53,12 @@ public class MultipleChoiceCard extends Card
         this.answers = answers;
         this.correctAnswers = correctAnswers;
         this.visibility = visible;
-        content = getContent();
+        setContent();
     }
 
 
     @Override
-    public String getContent(){
-        return title + "\n" +  question + "\n" + answers;
+    public void setContent(){
+        content = title + "\n" +  question; //TODO incorporate answers?
     }
 }
