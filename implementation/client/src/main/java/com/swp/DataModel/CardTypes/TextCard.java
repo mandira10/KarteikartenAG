@@ -2,6 +2,7 @@ package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@DiscriminatorValue("TEXT")
 public class TextCard extends Card 
 {
     /**

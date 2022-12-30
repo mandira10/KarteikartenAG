@@ -13,7 +13,8 @@ import java.util.UUID;
  * weitere generische Eigenschaften jeder Karte, die alle Untertypen erben.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "CardType")
 @Setter
 @Getter
 @NamedQuery(name = "Card.findCardByUUID",
@@ -49,8 +50,6 @@ public abstract class Card implements Serializable
     /**
      * Kartentyp der spezifischen Karte
      */
-    @Column
-    @Enumerated(EnumType.STRING)
     @Setter(AccessLevel.NONE)
     protected final CardType type;
 
