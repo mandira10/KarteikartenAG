@@ -1,13 +1,20 @@
 package com.swp.DataModel;
 
+import jakarta.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-
+@Table
+@Entity
 @Getter
 @Setter
-public class CardToDeck 
+@NamedQuery(name = "CardToDeck.allC2DByCard",
+            query = "SELECT cd FROM CardToDeck cd WHERE cd.card = :card")
+public class CardToDeck implements Serializable
 {
     /**
      * Enum des CardStatus
@@ -22,19 +29,31 @@ public class CardToDeck
     /**
      * Zugehörige Karte
      */
+    @OneToOne
     @Setter(AccessLevel.NONE)
-    private final Card pCard;
+    private final Card card;
 
     /**
      * Zugehöriges Deck
      */
+    @OneToOne
     @Setter(AccessLevel.NONE)
-    private final Deck pDeck;
+    private final Deck deck;
+
+    @Id
+    @GeneratedValue
+    /**
+     * Identifier und Primärschlüssel für
+     * Karte-zu-Deck Verbindung
+     */
+    protected final String id;
 
     /**
      * Status der Karte im Deck. Wird beim Lernen aktualisiert.
      */
-    private CardStatus iStatus;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CardStatus status;
 
     /**
      * Konstruktor der Klasse CardToDeck
@@ -43,8 +62,18 @@ public class CardToDeck
      */
     public CardToDeck(Card c, Deck d)
     {
-        this.pCard = c;
-        this.pDeck = d;
+        this.card = c;
+        this.deck = d;
+        this.id = UUID.randomUUID().toString();
+    }
+
+    /**
+     * no-arg constructor needed for hibernates `@Entity` tag
+     */
+    public CardToDeck() {
+        this.card = null;
+        this.deck = null;
+        this.id = UUID.randomUUID().toString();
     }
 
 }

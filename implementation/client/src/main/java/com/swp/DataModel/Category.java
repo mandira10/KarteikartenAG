@@ -1,45 +1,58 @@
 package com.swp.DataModel;
 
+import jakarta.persistence.*;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.Set;
 import java.util.UUID;
 
-@Getter
-@Setter
+
 /**
  * Klasse für eine Kategorie
  */
-public class Category 
+@Getter
+@Setter
+@Entity
+@Table
+public class Category implements Serializable
 {
     /**
      * Bezeichnung der Kategorie
      */
-    private String sName;
+    @Column
+    private String name;
 
     /**
      * UUID der Kategorie
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column
     @Setter(AccessLevel.NONE)
-    private final String sUUID;
+    private final String uuid;
 
     /**
      * Parents der Kategorie, kann mehrere haben
      */
-    private Set<Category> stParents;
+    @Column
+    @OneToMany
+    private Set<Category> parents;
 
     /**
      * Zugehörige UUIDs der Parents der Kategorie
      */
-    private Set<String> stParentUUIDs;
+    private Set<String> parentUUIDs;
 
     /**
      * Children der Kategorie, kann mehrere haben
      */
-    private Set<Category> stChildren;
+    @Column
+    @OneToMany
+    private Set<Category> children;
 
     /**
      * Konstruktor der Klasse Category
@@ -47,8 +60,8 @@ public class Category
      */
     public Category(String name)
     {
-        this.sName = name;
-        this.sUUID = UUID.randomUUID().toString();
+        this.name = name;
+        this.uuid = UUID.randomUUID().toString();
     }
     /**
      * Konstruktor der Klasse Category
@@ -57,9 +70,9 @@ public class Category
      */
     public Category(String name, Set<Category> parents)
     {
-        this.sName = name;
-        this.sUUID = UUID.randomUUID().toString();
-        this.stParents = parents;
+        this.name = name;
+        this.uuid = UUID.randomUUID().toString();
+        this.parents = parents;
     }
 
     /**
@@ -70,10 +83,20 @@ public class Category
      */
     public Category(String name, Set<Category> parents, Set<Category> children)
     {
-        this.sName = name;
-        this.sUUID = UUID.randomUUID().toString();
-        this.stParents = parents;
-        this.stChildren = children;
+        this.name = name;
+        this.uuid = UUID.randomUUID().toString();
+        this.parents = parents;
+        this.children = children;
+    }
+
+    /**
+     * no-arg constructor needed for hibernates `@Entity` tag
+     */
+    public Category() {
+        this.name = null;
+        this.uuid = UUID.randomUUID().toString();
+        this.parents = null;
+        this.children = null;
     }
 
 
@@ -82,7 +105,7 @@ public class Category
      * @return Anzahl Parents
      */
     public int numParents(){
-        return stParents.size();
+        return parents.size();
     }
 
     /**
@@ -90,7 +113,7 @@ public class Category
      * @return Anzahl Children
      */
     public int numChildren(){
-        return stChildren.size();
+        return children.size();
     }
 
     /**
@@ -98,7 +121,7 @@ public class Category
      */
     public void addChild(Category child)
     {
-        this.stChildren.add(child);
+        this.children.add(child);
     }
 
 }

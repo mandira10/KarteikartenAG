@@ -28,10 +28,10 @@ public class CardTypesRenderer
         background.setColor(new vec4(0.26f, 0.26f, 0.31f, 1.0f));
         background.render();
 
-        new Text(card.getSTitle(), defaultFont, new ivec2(10, 10), 0).render();
+        new Text(card.getTitle(), defaultFont, new ivec2(10, 10), 0).render();
 
 
-        switch(card.getIType())
+        switch(card.getType())
         {
             case AUDIO:          renderAudioCard((AudioCard) card);                       break;
             case IMAGEDESC:      renderImageDescriptionCard((ImageDescriptionCard) card); break;
@@ -53,14 +53,14 @@ public class CardTypesRenderer
 
         ArrayList<String> strs = new ArrayList<>();
 
-        switch(card.getIType())
+        switch(card.getType())
         {
-            case AUDIO:          strs.add(((AudioCard) card).getSAnswer());                             break;
-            case IMAGEDESC:      strs.add(((ImageDescriptionCard) card).getSAnswer());                  break;
-            case IMAGETEST:      strs.add(((ImageTestCard) card).getSAnswer());                         break;
-            case MULITPLECHOICE: strs.addAll(Arrays.asList(((MultipleChoiceCard) card).getSaAnswers())); break;
+            case AUDIO:          strs.add(((AudioCard) card).getAnswer());                             break;
+            case IMAGEDESC:      strs.add(((ImageDescriptionCard) card).getAnswer());                  break;
+            case IMAGETEST:      strs.add(((ImageTestCard) card).getAnswer());                         break;
+            case MULITPLECHOICE: strs.addAll(Arrays.asList(((MultipleChoiceCard) card).getAnswers())); break;
             case TEXT:           strs.add(((TextCard) card).getAnswer());                              break;
-            case TRUEFALSE:      strs.add(((TrueFalseCard) card).isBAnswer() ? "True" : "False");       break;
+            case TRUEFALSE:      strs.add(((TrueFalseCard) card).isAnswer() ? "True" : "False");       break;
             default:             Debug.error("CardTypesRenderer: Unknown card type");                  break;
         }
 

@@ -19,6 +19,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <version.commons-io>2.4</version.commons-io>
   </properties>
 
   <dependencies>
@@ -62,10 +63,23 @@
     </dependency>
 
     <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.4</version>
+    </dependency>
+
+    <dependency>
         <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
+        <artifactId>slf4j-nop</artifactId>
         <version>2.0.3</version>
     </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -96,9 +110,15 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
           <configuration>
+<<<<<<< HEAD
             <source>1.8</source>
             <target>1.8</target>
             <release>11</release>
+=======
+            <source>16</source>
+            <target>16</target>
+            <!--<release>9</release>-->
+>>>>>>> f1acf7301c620cd11eca8d45ea8785dc15c03675
           </configuration>
         </plugin>
         <plugin>

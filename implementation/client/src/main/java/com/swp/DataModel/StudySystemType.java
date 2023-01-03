@@ -26,7 +26,7 @@ public class StudySystemType
     /**
      * Name des Systems. Kann bei neu angelegten Systemen hinzugefügt werden
      */
-    private String sTypeName;
+    private String typeName;
 
     /**
      * Konstruktor der Klasse StudySystemType ohne Angabe eines Namens
@@ -43,11 +43,11 @@ public class StudySystemType
     {
         switch(type)
         {
-            case LEITNER: this.sTypeName = "Leitner"; 
-            case TIMING:  this.sTypeName = "Timing"; 
-            case VOTE:    this.sTypeName = "Vote"; 
+            case LEITNER: this.typeName = "Leitner";
+            case TIMING:  this.typeName = "Timing";
+            case VOTE:    this.typeName = "Vote";
             case CUSTOM:
-            default:      this.sTypeName = name;
+            default:      this.typeName = name;
         }
     }
 

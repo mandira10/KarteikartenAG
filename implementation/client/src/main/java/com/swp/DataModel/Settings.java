@@ -2,6 +2,7 @@ package com.swp.DataModel;
 
 import lombok.Getter;
 import lombok.Setter;
+import java.io.Serializable;
 
 /**
  * Die Klasse repräsentiert die Einstellungen des Nutzers.
@@ -9,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Settings 
+public class Settings implements Serializable
 {
     /**
      * Enum für die verfügbaren Sprachen.
@@ -24,27 +25,27 @@ public class Settings
      * Hilfsattribut, um sicherzustellen, dass Setttings nur einmal
      * konfiguriert werden.
      */
-    private static Settings oSettingsInstance = null;
+    private static Settings settingsInstance = null;
 
     /**
      * Language des Users
      */
-    private Language iLanguage;
+    private Language language;
 
     /**
      * Serveradresse
      */
-    private String sServerAddress;
+    private String serverAddress;
 
     /**
      * DarkTheme Einstellung des Nutzers
      */
-    private boolean bDarkTheme;
+    private boolean darkTheme;
 
     /**
      * ServerPort
      */
-    private int iServerPort;
+    private int serverPort;
 
     /**
      * Konstruktor der Settings Klasse
@@ -60,9 +61,9 @@ public class Settings
      */
     public static Settings getInstance()
     {
-        if(oSettingsInstance == null)
-            oSettingsInstance = new Settings();
-        return oSettingsInstance;
+        if(settingsInstance == null)
+            settingsInstance = new Settings();
+        return settingsInstance;
     }
 
     /**
@@ -72,7 +73,7 @@ public class Settings
 
     public String languageToString()
     {
-        switch(iLanguage)
+        switch(language)
         {
             case ENGLISH: return "English";
             case GERMAN:  return "German";
@@ -81,20 +82,4 @@ public class Settings
     }
 
 
-    //
-    // Setter
-    //
-    public void setLanguage(Language lang)    { this.iLanguage      = lang; }
-    public void setServerAddress(String addr) { this.sServerAddress = addr; }
-    public void setDarkTheme(boolean dark)    { this.bDarkTheme     = dark; }
-    public void setServerPort(int port)       { this.iServerPort    = port; }
-
-
-    //
-    // Getter
-    //
-    public Language getLanguage()             { return iLanguage; }
-    public String getServerAddress()          { return sServerAddress; }
-    public boolean isDarkTheme()              { return bDarkTheme; }
-    public int getServerPort()                { return iServerPort; }
 }

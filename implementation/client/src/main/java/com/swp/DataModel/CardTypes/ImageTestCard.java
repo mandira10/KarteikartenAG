@@ -2,6 +2,9 @@ package com.swp.DataModel.CardTypes;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,32 +16,37 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
+@DiscriminatorValue("IMAGETEST")
 public class ImageTestCard extends Card 
 {
 
     /**
      * Bild für die Karteikarte
      */
-    private Texture oImage;
+
+    @Column
+    private String image; //Texture
 
     /**
      * Zusätzliche Beschreibung zum Bild als Antwort
      */
-    private String sAnswer;
+    @Column
+    private String answer;
 
     /**
      * Tauscht die Frage/Antwort Option, sodass das Bild sowohl
      * als Frage als auch als Antwort verwendet werden kann.
      */
-    private boolean bSwapQA;
+    @Column
+    private boolean swapQA;
 
     /**
      * Leerer Konstruktor der Klasse ImageTestCard
      */
     public ImageTestCard()
     {
-        super(CardType.IMAGETEST);
-        setSTitle("ImageTestCard");
+        this("","","","",false,false);
     }
 
     /**
@@ -50,22 +58,22 @@ public class ImageTestCard extends Card
      * @param title Optionaler Titel der Karte
      * @param visible Sichtbarkeit der Karte
      */
-    public ImageTestCard(String question, String answer, Texture image, String title, boolean swapQA, boolean visible)
+    public ImageTestCard(String question, String answer, String image, String title, boolean swapQA, boolean visible)
     {
         super(CardType.IMAGETEST);
-        setSTitle(title);
-        sQuestion = question;
-        sAnswer = answer;
-        oImage = image;
-        bSwapQA = swapQA;
-        bVisibility = visible;
-        sContent = getSContent();
+        setTitle(title);
+        this.question = question;
+        this.answer = answer;
+        this.image = image;
+        this.swapQA = swapQA;
+        this.visibility = visible;
+        setContent();
     }
 
 
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
+    public void setContent(){
+        content =  title + "\n" + question + "\n" + answer;
     }
 }

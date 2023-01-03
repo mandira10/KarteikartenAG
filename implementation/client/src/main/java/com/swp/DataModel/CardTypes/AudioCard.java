@@ -1,6 +1,9 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,23 +15,28 @@ import javax.sound.sampled.AudioFileFormat;
  */
 @Setter
 @Getter
+@Entity
+@DiscriminatorValue("AUDIO")
 public class AudioCard extends Card 
 {
     /**
      * Die AudioFile für die Karte
      */
-    private AudioFileFormat oAudio;
+    @Column
+    private String audio;
 
     /**
      * Textuelle Beschreibung zur AudioKarte
      */
-    private String sAnswer;
+    @Column
+    private String answer;
 
     /**
      * Tauscht die Frage/Antwort Option, sodass die AudioFile sowohl
      * als Frage als auch als Antwort verwendet werden kann.
      */
-    private boolean bSwapQA;
+    @Column
+    private boolean swapQA;
 
     /**
      * Leerer Konstruktor der Klasse AudioCard
@@ -47,20 +55,20 @@ public class AudioCard extends Card
      * @param swapQA Wechsel Frage/Antwort
      * @param visibility Sichtbarkeit der Karte
      */
-    public AudioCard(AudioFileFormat audioFile, String title, String question, String answer, boolean swapQA, boolean visibility)
+    public AudioCard(String audioFile, String title, String question, String answer, boolean swapQA, boolean visibility)
     {
         super(CardType.AUDIO);
-        setSTitle(title);
-        oAudio = audioFile;
-        sQuestion = question;
-        sAnswer = answer;
-        bSwapQA = swapQA;
-        bVisibility = visibility;
-        sContent = getSContent();
+        setTitle(title);
+        audio = audioFile;
+        this.question = question;
+        this.answer = answer;
+        this.swapQA = swapQA;
+        this.visibility = visibility;
+        setContent();
     }
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
+    public void setContent(){
+        content =  title + "\n" +  question + "\n" + answer;
     }
 }

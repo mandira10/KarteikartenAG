@@ -1,6 +1,9 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,21 +14,23 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
+@DiscriminatorValue("TRUEFALSE")
 public class TrueFalseCard extends Card 
 {
 
     /**
      * Antwort der Karte
      */
-    private boolean bAnswer;
+    @Column
+    private boolean answer;
 
     /**
      * Leerer Konstruktor der Klasse TrueFalseCard
      */
     public TrueFalseCard()
     {
-        super(CardType.TRUEFALSE);
-        setSTitle("TrueFalseCard");
+       this("",false,"",false);
     }
 
     /**
@@ -37,16 +42,16 @@ public class TrueFalseCard extends Card
     public TrueFalseCard(String question, boolean answer, String title, boolean visible)
     {
         super(CardType.TRUEFALSE);
-        setSTitle(title);
-        sQuestion = question;
-        bAnswer = answer;
-        bVisibility = visible;
-        sContent = getSContent();
+        setTitle(title);
+        this.question = question;
+        this.answer = answer;
+        visibility = visible;
+       setContent();
     }
 
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion;
+    public void setContent(){
+        content =  title + "\n" + question;
     }
 }

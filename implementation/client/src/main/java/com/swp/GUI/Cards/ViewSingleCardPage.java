@@ -33,7 +33,7 @@ public class ViewSingleCardPage extends Page
 
         pRatingGUI = new RatingGUI(new ivec2(20, 20), 30, 5);
         pRatingGUI.setCallback(new RateCallback() {
-            @Override public void run(int rating) { pCard.setIRating(rating); }
+            @Override public void run(int rating) { pCard.setRating(rating); }
         });
         addElement(pRatingGUI);
         
@@ -82,6 +82,6 @@ public class ViewSingleCardPage extends Page
     {
         pCard = card;
         pCardRenderer.setCard(card);
-        pRatingGUI.setRating(card.getIRating());
+        pRatingGUI.setRating(card.getRating());
     }
 }

@@ -1,6 +1,9 @@
 package com.swp.DataModel.CardTypes;
 
 import com.swp.DataModel.Card;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,25 +14,30 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
+@DiscriminatorValue("MULITPLECHOICE")
 public class MultipleChoiceCard extends Card 
 {
     /**
      * Antwortmöglichkeiten der Karte
      */
-    private String[] saAnswers;
+    @SuppressWarnings("JpaAttributeTypeInspection")
+    @Column
+    private String[] answers;
 
     /**
      * Array mit den korrekten Antworten
      */
-    private int[] iaCorrectAnswers;
+    @SuppressWarnings("JpaAttributeTypeInspection")
+    @Column
+    private int[] correctAnswers;
 
     /**
      * Leerer Konstruktor der Klasse MultipleChoiceCard
      */
     public MultipleChoiceCard()
     {
-        super(CardType.MULITPLECHOICE);
-        setSTitle("MultipleChoiceCard");
+        this("",null,null,"",false);
     }
 
     /**
@@ -42,17 +50,17 @@ public class MultipleChoiceCard extends Card
      */
     public MultipleChoiceCard(String question, String[] answers, int[] correctAnswers, String title, boolean visible){
         super(CardType.MULITPLECHOICE);
-        setSTitle(title);
-        sQuestion = question;
-        saAnswers = answers;
-        iaCorrectAnswers = correctAnswers;
-        bVisibility = visible;
-        sContent = getSContent();
+        setTitle(title);
+        this.question = question;
+        this.answers = answers;
+        this.correctAnswers = correctAnswers;
+        this.visibility = visible;
+        setContent();
     }
 
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion + "\n" + saAnswers;
+    public void setContent(){
+        content = title + "\n" +  question; //TODO incorporate answers?
     }
 }

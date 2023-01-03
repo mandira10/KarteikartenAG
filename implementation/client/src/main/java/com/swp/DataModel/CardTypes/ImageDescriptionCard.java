@@ -2,6 +2,9 @@ package com.swp.DataModel.CardTypes;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,25 +15,29 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Entity
+@DiscriminatorValue("IMAGEDESC")
 public class ImageDescriptionCard extends Card
 {
     /**
      * Bilddatei für die Frage
      */
-    private Texture oImage;
+
+    @Column
+    private String image;  //texture
 
     /**
      * Antwort der Frage
      */
-    private String sAnswer;
+    @Column
+    private String answer;
 
     /**
      * Leerer Konstruktor der Klasse ImageDescriptionCard
      */
     public ImageDescriptionCard()
     {
-        super(CardType.IMAGEDESC);
-        setSTitle("ImageDescriptionCard");
+        this("","","","",false);
     }
 
     /**
@@ -41,19 +48,19 @@ public class ImageDescriptionCard extends Card
      * @param title Optionaler Titel der Karte
      * @param visible Sichtbarkeit der Karte
      */
-    public ImageDescriptionCard(String question, String answer, String title, Texture image, boolean visible)
+    public ImageDescriptionCard(String question, String answer, String title, String image, boolean visible)
     {
         super(CardType.IMAGEDESC);
-        setSTitle(title);
-        sQuestion = question;
-        oImage = image;
-        sAnswer = answer;
-        bVisibility = visible;
-        sContent = getSContent();
+        setTitle(title);
+        this.question = question;
+        this.image = image;
+        this.answer = answer;
+        this.visibility = visible;
+        setContent();
     }
 
     @Override
-    public String getSContent(){
-        return sTitle + "\n" + sQuestion + "\n" + sAnswer;
+    public void setContent(){
+        content = title + "\n" + question + "\n" + answer;
     }
 }

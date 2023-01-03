@@ -1,18 +1,20 @@
 package com.swp.DataModel;
 
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Klasse für einen Karteikasten.
  */
-
+@Entity
+@Table
 @Getter
 @Setter
-public class Deck
+public class Deck implements Serializable
 {
     /**
      * Enum für die CardOrder des Decks
@@ -27,36 +29,49 @@ public class Deck
     /**
      * Bezeichnung des Decks
      */
-    private String sName;
+    @Column
+    private String name;
 
     /**
      * UUID des Decks
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column
     @Setter(AccessLevel.NONE)
-    private final String sUUID;
+    private final String uuid;
 
     /**
      * Gewähltes StudySystem für das spezifische Deck
      */
-    private StudySystem pStudySystem;
+    @Column
+    private StudySystem studySystem;
 
     /**
      * Initiale Reihenfolge des Decks
      */
-    private CardOrder iOrder;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CardOrder cardOrder;
 
     /**
      * Sichtbarkeit des Decks. Wenn wahr, dann für alle sichtbar.
      */
-    private boolean bVisibility;
+    @Column
+    private boolean visibility;
 
     /**
      * Leerer Konstruktor der Klasse Deck
      */
     public Deck()
     {
+<<<<<<< HEAD
         this("", null, CardOrder.ALPHABETICAL, false);
         //this.sUUID = UUID.randomUUID().toString();
+=======
+        this.uuid = UUID.randomUUID().toString();
+>>>>>>> f1acf7301c620cd11eca8d45ea8785dc15c03675
     }
 
     /**
@@ -68,11 +83,11 @@ public class Deck
      */
     public Deck(String name, StudySystem studySystem, CardOrder cardOrder, boolean visibile)
     {
-        this.sUUID = UUID.randomUUID().toString();
-        sName =  name;
-        pStudySystem = studySystem;
-        iOrder = cardOrder;
-        bVisibility = visibile;
+        this.uuid = UUID.randomUUID().toString();
+        this.name =  name;
+        this.studySystem = studySystem;
+        this.cardOrder = cardOrder;
+        this.visibility = visibile;
     }
 
 }

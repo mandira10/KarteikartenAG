@@ -1,19 +1,29 @@
 package com.swp.DataModel;
 
 
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Abstrakte Superklasse für die Karten. Enthält die einzelnen Kartentypen sowie
  * weitere generische Eigenschaften jeder Karte, die alle Untertypen erben.
  */
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "CardType")
 @Setter
 @Getter
-public abstract class Card
+@NamedQuery(name = "Card.findCardByUUID",
+            query = "SELECT c FROM Card c WHERE c.uuid = :uuid")
+@NamedQuery(name = "Card.findCardsByContent",
+            query = "SELECT c FROM Card c WHERE LOWER(c.content) LIKE '%LOWER(:content)%' ")
+@NamedQuery(name = "Card.findByTitle",
+        query = "SELECT c FROM Card c WHERE c.title = :title ")
+public abstract class Card implements Serializable
 {
     /**
      * Enum für den Kartentypen
@@ -31,46 +41,54 @@ public abstract class Card
     /**
      * UUID der Karte
      */
+    @Id
+    //@GeneratedValue(strategy = GenerationType.UUID) //TODO: Führt zu Problemen beim Persistieren
+    @Column
     @Setter(AccessLevel.NONE)
-    protected final String sUUID;
+    protected final String uuid;
 
     /**
      * Kartentyp der spezifischen Karte
      */
     @Setter(AccessLevel.NONE)
-    protected final CardType iType;
+    protected final CardType type;
 
     /**
      * Frage der Karte
      */
-    protected String sQuestion;
+    protected String question;
 
     /**
      * Rating der Karte. Kann der Nutzer vergeben, um Karten (inhaltlich) zu bewerten.
      */
-    protected int iRating;
+    @Column
+    protected int rating;
 
     /**
      * String Aggregat des Inhaltes. Wird aus den String Inhalten der Karte zusammengestellt.
      * Wird verwendet für die Filterung nach Suchbegriffen.
      */
-    protected String sContent;
+    @Column
+    protected String content;
 
     /**
      * Titel der Karte. Ist optional, wird verwendet im Glossar, wenn befüllt
      */
-    protected String sTitle;
+    @Column
+    protected String title;
 
     /**
      * Erstellzeitpunkt der Karte.
      */
-    protected long iCreationDate;
+    @Column
+    protected long creationDate;
 
 
     /**
      * Sichtbarkeit der Karte, wenn wahr für alle sichtbar, ansonsten privat
      */
-    protected boolean bVisibility;
+    @Column
+    protected boolean visibility;
 
     /**
      * Konstruktor für eine einfache Karte.
@@ -78,12 +96,22 @@ public abstract class Card
      */
     public Card(CardType type)
     {
-        this.sUUID = UUID.randomUUID().toString();
-        this.iType = type;
-        this.iRating = 0;
-        this.sTitle = "";
-        this.sContent = "";
-        this.iCreationDate = System.currentTimeMillis();
+        this.uuid = UUID.randomUUID().toString();
+        this.type = type;
+        this.rating = 0;
+        this.title = "";
+        this.content = "";
+        this.creationDate = System.currentTimeMillis();
+    }
+
+    /**
+     * Leerer Konstruktor für eine einfache Karte.
+     */
+    public Card()
+    {
+        uuid = UUID.randomUUID().toString();
+        this.type = null;
+        this.creationDate = System.currentTimeMillis();
     }
 
 
@@ -116,4 +144,6 @@ public abstract class Card
 
         return retCard;
     }
+
+    public void setContent(){}
 }
