@@ -65,13 +65,11 @@ public class EditCardPage extends Page
         pCanvas.addGUI(pEditAudioCardPage);
 
         pTitlefield = (TextField)findChildByID("titlefield");
-<<<<<<< HEAD
         pTitlefield.setCallback(new TextFieldInputCallback() { 
             @Override
             public void enter(String complete) 
             {
-                pNewCard.setSTitle(complete); 
-                
+                pNewCard.setTitle(complete); 
             }
 
             @Override
@@ -79,9 +77,6 @@ public class EditCardPage extends Page
             {
             } 
         });
-=======
-        pTitlefield.setReturnCallback(new TextFieldFinishedInputCallback() { @Override public void run(String str) { pNewCard.setTitle(str); } });
->>>>>>> f1acf7301c620cd11eca8d45ea8785dc15c03675
 
         Button applyButton = (Button)findChildByID("applybutton");
         if(applyButton != null)

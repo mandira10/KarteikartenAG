@@ -150,7 +150,7 @@ public class TestCardGUI extends RenderGUI
         answerScroller.setMargin(new ivec2(0, -200));
         addGUI(answerScroller);
 
-        Radiobutton radiobutton = new Radiobutton(new ivec2(0, 0), 30, 100, defaultFont, card.getSaAnswers());
+        Radiobutton radiobutton = new Radiobutton(new ivec2(0, 0), 30, 100, defaultFont, card.getAnswers());
         radiobutton.setSizeInPercent(true, false);
         answerScroller.addGUI(radiobutton);
     }

@@ -66,12 +66,7 @@ public class Deck implements Serializable
      */
     public Deck()
     {
-<<<<<<< HEAD
         this("", null, CardOrder.ALPHABETICAL, false);
-        //this.sUUID = UUID.randomUUID().toString();
-=======
-        this.uuid = UUID.randomUUID().toString();
->>>>>>> f1acf7301c620cd11eca8d45ea8785dc15c03675
     }
 
     /**
