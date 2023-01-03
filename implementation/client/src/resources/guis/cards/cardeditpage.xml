@@ -4,7 +4,10 @@
         <text pos="10, 10" fontsize="30">Title:</text>
         <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint="(Optional)"></textfield>
 
-        <gui id="canvas" size="100%, 80%" pos="0, 50">
+        <text pos="10, 60" fontsize="30">Question:</text>
+        <textfield id="questionfield" pos="150, 60" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint=""></textfield>
+
+        <gui id="canvas" size="100%, 100%" pos="0, 110" margin="0, -130">
 
         </gui>
 

@@ -2,13 +2,10 @@ package com.swp.GUI;
 
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.*;
-import com.gumse.system.Window;
-import com.gumse.system.io.Keyboard;
-import com.swp.DataModel.CardTypes.AudioCard;
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import com.swp.DataModel.CardTypes.ImageDescriptionCard;
+import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.GUI.Cards.EditCardPage;
 import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
 
 public class KarteikartenAGGUI extends RenderGUI
@@ -24,7 +21,16 @@ public class KarteikartenAGGUI extends RenderGUI
 
         EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
         //page.setCard(new TrueFalseCard());
-        page.editCard(new MultipleChoiceCard());
+        
+        ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
+            new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),
+            new ImageDescriptionCardAnswer("Orange",       61, 26),
+            new ImageDescriptionCardAnswer("Nase",         40, 67),
+            new ImageDescriptionCardAnswer("Hand",         82, 58),
+            new ImageDescriptionCardAnswer("Fuß",          62, 89),
+        };
+
+        page.editCard(new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", "textures/orange-ket.png", true));
         PageManager.viewPage(PAGES.CARD_EDIT);
 
         pNotifications = NotificationGUI.getInstance();

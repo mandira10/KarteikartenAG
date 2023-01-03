@@ -4,9 +4,9 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 
-public class EditTrueFalseCardPage extends RenderGUI
+public class EditTrueFalseCard extends RenderGUI
 {
-    public EditTrueFalseCardPage()
+    public EditTrueFalseCard()
     {
         this.vSize = new ivec2(100,100);
 

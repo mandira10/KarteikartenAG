@@ -4,9 +4,9 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 
-public class EditTextCardPage extends RenderGUI
+public class EditTextCard extends RenderGUI
 {
-    public EditTextCardPage()
+    public EditTextCard()
     {
         this.vSize = new ivec2(100,100);
 

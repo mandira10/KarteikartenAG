@@ -7,15 +7,14 @@ import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Debug;
 import com.swp.GUI.Cards.EditCardPages.EditMultipleChoiceCardAnswerEntry.RemoveAnswerEntryCallback;
 
-public class EditMultipleChoiceCardPage extends RenderGUI
+public class EditMultipleChoiceCard extends RenderGUI
 {
     private Button pAddEntryButton;
     private Scroller pContextScroller;
 
-    public EditMultipleChoiceCardPage()
+    public EditMultipleChoiceCard()
     {
         this.vSize = new ivec2(100,100);
 

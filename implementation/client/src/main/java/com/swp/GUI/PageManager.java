@@ -6,6 +6,7 @@ import java.util.Map;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.swp.GUI.Cards.*;
+import com.swp.GUI.Cards.EditCardPages.EditImageDescriptionCardAnswersPage;
 import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.Decks.EditDeckPage;
@@ -23,6 +24,7 @@ public class PageManager
         CARD_EDIT,
         CARD_TEST,
         CARD_EXPORT,
+        CARD_IMAGE_ANSWERS,
         CATEGORY_OVERVIEW,
         DECK_OVERVIEW,
         DECK_SINGLEVIEW,
@@ -59,17 +61,18 @@ public class PageManager
 
     private static void initPages()
     {
-        addPage(PAGES.CARD_OVERVIEW,     new CardOverviewPage());
-        addPage(PAGES.CARD_SINGLEVIEW,   new ViewSingleCardPage());
-        addPage(PAGES.CARD_EDIT,         new EditCardPage());
-        addPage(PAGES.CARD_EXPORT,       new CardExportPage());
-        addPage(PAGES.CATEGORY_OVERVIEW, new CategoryOverviewPage());
-        addPage(PAGES.DECK_OVERVIEW,     new DeckOverviewPage());
-        addPage(PAGES.DECK_SINGLEVIEW,   new ViewSingleDeckPage());
-        addPage(PAGES.DECK_EDIT,         new EditDeckPage());
-        addPage(PAGES.DECK_TEST,         new TestDeckPage());
-        addPage(PAGES.LOGIN,             new LoginPage());
-        addPage(PAGES.SETTINGS,          new SettingsPage());
+        addPage(PAGES.CARD_OVERVIEW,      new CardOverviewPage());
+        addPage(PAGES.CARD_SINGLEVIEW,    new ViewSingleCardPage());
+        addPage(PAGES.CARD_EDIT,          new EditCardPage());
+        addPage(PAGES.CARD_EXPORT,        new CardExportPage());
+        addPage(PAGES.CATEGORY_OVERVIEW,  new CategoryOverviewPage());
+        addPage(PAGES.DECK_OVERVIEW,      new DeckOverviewPage());
+        addPage(PAGES.DECK_SINGLEVIEW,    new ViewSingleDeckPage());
+        addPage(PAGES.DECK_EDIT,          new EditDeckPage());
+        addPage(PAGES.DECK_TEST,          new TestDeckPage());
+        addPage(PAGES.LOGIN,              new LoginPage());
+        addPage(PAGES.SETTINGS,           new SettingsPage());
+        addPage(PAGES.CARD_IMAGE_ANSWERS, new EditImageDescriptionCardAnswersPage());
     }
 
 

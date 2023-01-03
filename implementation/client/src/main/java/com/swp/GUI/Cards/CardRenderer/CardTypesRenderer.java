@@ -56,7 +56,7 @@ public class CardTypesRenderer
         switch(card.getType())
         {
             case AUDIO:          strs.add(((AudioCard) card).getAnswer());                             break;
-            case IMAGEDESC:      strs.add(((ImageDescriptionCard) card).getAnswer());                  break;
+            //case IMAGEDESC:      strs.add(((ImageDescriptionCard) card).getAnswer());                  break;
             case IMAGETEST:      strs.add(((ImageTestCard) card).getAnswer());                         break;
             case MULITPLECHOICE: strs.addAll(Arrays.asList(((MultipleChoiceCard) card).getAnswers())); break;
             case TEXT:           strs.add(((TextCard) card).getAnswer());                              break;

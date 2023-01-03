@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui-root pos="0, 0" size="100%, 100%">
-    <text pos="10, 10" fontsize="30">Question:</text>
-    <textfield pos="150, 10" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint=""></textfield>
+    <text pos="10, 0" fontsize="30">Answer:</text>
+    <textfield pos="150, 0" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint=""></textfield>
 
-    <text pos="10, 60" fontsize="30">Answer:</text>
-    <textfield pos="150, 60" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint=""></textfield>
-
-    <text pos="10, 110" fontsize="30">Audio:</text>
-    <gui id="audio" pos="150, 110" size="60, 60"></gui>
-    <button title="Click to upload audio" id="audioupload" pos="220, 110" size="100%, 60" margin="-220, 0" fontsize="30"></button>
+    <text pos="10, 50" fontsize="30">Audio:</text>
+    <gui id="audio" pos="150, 50" size="60, 60"></gui>
+    <button title="Click to upload audio" id="audioupload" pos="220, 50" size="100%, 60" margin="-220, 0" fontsize="30"></button>
 </gui-root>

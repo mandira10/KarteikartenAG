@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui-root pos="0, 0" size="100%, 100%">
+    <box id="imagebox" pos="10, 60" size="50%, 120" border-radius="1" color="#282A36" margin="-10, -10"></box>
+
+    <scroller id="canvas" size="50%, 100%" pos="50%, 60" margin="-20, -120" origin="-10, 0">
+    </scroller>
+
+    <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
+        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Cancel" color="#9C88FF" />
+        <button id="applybutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Apply"  color="#9C88FF" />
+    </gui>
+</gui-root>

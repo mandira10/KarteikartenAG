@@ -6,6 +6,7 @@ import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
+import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
@@ -33,7 +34,7 @@ public class CardRepository
         for(int i = 0; i < to - from; i += 6)
         {
             cards.add(new AudioCard(null, "AudioCardTitle", "Some Audio Related Question", "The Correct Audio Answer", false, true));
-            cards.add(new ImageDescriptionCard("Some Image Description Question", "Correct Image Description Answer", "ImageDescriptionTitle", null, false));
+            cards.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[] {}, "ImageDescriptionTitle", null, false));
             cards.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", null, "ImageTestCardTitle", false, true));
             cards.add(new MultipleChoiceCard("MultipleChoice Question", new String[]{"Correct Answer1", "Answer2", "Answer3", "Correct Answer4"}, new int[]{0, 3}, "MultipleChoiceCardTitle", false));
             cards.add(new TextCard("Some Text Question", "Correct Text Answer", "TextCardTitle", false));

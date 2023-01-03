@@ -1,7 +1,6 @@
 package com.swp.GUI.Cards;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
@@ -12,28 +11,23 @@ import com.gumse.maths.ivec2;
 import com.gumse.tools.Debug;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.Cards.EditCardPages.EditAudioCardPage;
-import com.swp.GUI.Cards.EditCardPages.EditImageTestCardPage;
-import com.swp.GUI.Cards.EditCardPages.EditMultipleChoiceCardPage;
-import com.swp.GUI.Cards.EditCardPages.EditTextCardPage;
-import com.swp.GUI.Cards.EditCardPages.EditTrueFalseCardPage;
-import com.swp.GUI.Extras.ListTextField;
+import com.swp.GUI.Cards.EditCardPages.*;
 
 public class EditCardPage extends Page
 {
-    private EditTextCardPage pEditTextCardPage;
-    private EditTrueFalseCardPage pEditTrueFalseCardPage;
-    private EditMultipleChoiceCardPage pEditMultipleChoiceCardPage;
-    private EditImageTestCardPage pEditImageTestCardPage;
-    private EditAudioCardPage pEditAudioCardPage;
+    private EditTextCard pEditTextCardPage;
+    private EditTrueFalseCard pEditTrueFalseCardPage;
+    private EditMultipleChoiceCard pEditMultipleChoiceCardPage;
+    private EditImageTestCard pEditImageTestCardPage;
+    private EditAudioCard pEditAudioCardPage;
+    private EditImageDescriptionCard pEditImageDescriptionCardPage;
 
-    private Dropdown pDropdown;
-    private ListTextField pListTextField;
     private Card pOldCard, pNewCard;
     private RenderGUI pCanvas;
-    private TextField pTitlefield;
+    private TextField pTitlefield, pQuestionField;
 
     public EditCardPage()
     {
@@ -41,7 +35,6 @@ public class EditCardPage extends Page
         this.vSize = new ivec2(100,100);
         pOldCard = null;
         pNewCard = null;
-        pListTextField = new ListTextField();
         //oDropdown = new Dropdown(null, null, null, null, 0)
 
 
@@ -49,19 +42,22 @@ public class EditCardPage extends Page
 
         pCanvas = findChildByID("canvas");
         
-        pEditTextCardPage = new EditTextCardPage();
+        pEditTextCardPage = new EditTextCard();
         pCanvas.addGUI(pEditTextCardPage);
 
-        pEditTrueFalseCardPage = new EditTrueFalseCardPage();
+        pEditTrueFalseCardPage = new EditTrueFalseCard();
         pCanvas.addGUI(pEditTrueFalseCardPage);
 
-        pEditMultipleChoiceCardPage = new EditMultipleChoiceCardPage();
+        pEditMultipleChoiceCardPage = new EditMultipleChoiceCard();
         pCanvas.addGUI(pEditMultipleChoiceCardPage);
 
-        pEditImageTestCardPage = new EditImageTestCardPage();
+        pEditImageTestCardPage = new EditImageTestCard();
         pCanvas.addGUI(pEditImageTestCardPage);
 
-        pEditAudioCardPage = new EditAudioCardPage();
+        pEditImageDescriptionCardPage = new EditImageDescriptionCard();
+        pCanvas.addGUI(pEditImageDescriptionCardPage);
+
+        pEditAudioCardPage = new EditAudioCard();
         pCanvas.addGUI(pEditAudioCardPage);
 
         pTitlefield = (TextField)findChildByID("titlefield");
@@ -70,6 +66,20 @@ public class EditCardPage extends Page
             public void enter(String complete) 
             {
                 pNewCard.setTitle(complete); 
+            }
+
+            @Override
+            public void input(String input, String complete) 
+            {
+            } 
+        });
+
+        pQuestionField = (TextField)findChildByID("questionfield");
+        pQuestionField.setCallback(new TextFieldInputCallback() { 
+            @Override
+            public void enter(String complete) 
+            {
+                pNewCard.setQuestion(complete); 
             }
 
             @Override
@@ -88,9 +98,9 @@ public class EditCardPage extends Page
 
 
         TagList tagList = (TagList)findChildByID("tagslist");
-        tagList.addTag("Tag1");
-        tagList.addTag("Testing");
-        tagList.addTag("AnotherTag");
+        tagList.addTag("ket");
+        tagList.addTag("orange");
+        tagList.addTag("important");
 
 
         this.setSizeInPercent(true, true);
@@ -108,15 +118,19 @@ public class EditCardPage extends Page
         pNewCard = Card.copyCard(card); //TODO: lieber keine Kopie sondern Hibernate update Methode verwenden?
 
         pTitlefield.setString(pNewCard.getTitle());
+        pQuestionField.setString(pNewCard.getQuestion());
 
         switch(pNewCard.getType())
         {
-            case TRUEFALSE:      setPage(pEditTrueFalseCardPage); break;
-            case IMAGETEST:      setPage(pEditImageTestCardPage); break;
-            case IMAGEDESC:      setPage(pEditTextCardPage); break;
-            case MULITPLECHOICE: setPage(pEditMultipleChoiceCardPage); break;
-            case TEXT:           setPage(pEditTextCardPage); break;
-            case AUDIO:          setPage(pEditAudioCardPage); break;
+            case TRUEFALSE:      setPage(pEditTrueFalseCardPage);        break;
+            case IMAGETEST:      setPage(pEditImageTestCardPage);        break;
+            case IMAGEDESC:      
+                setPage(pEditImageDescriptionCardPage); 
+                pEditImageDescriptionCardPage.setCard((ImageDescriptionCard)pNewCard); 
+                break;
+            case MULITPLECHOICE: setPage(pEditMultipleChoiceCardPage);   break;
+            case TEXT:           setPage(pEditTextCardPage);             break;
+            case AUDIO:          setPage(pEditAudioCardPage);            break;
         }
     }
 

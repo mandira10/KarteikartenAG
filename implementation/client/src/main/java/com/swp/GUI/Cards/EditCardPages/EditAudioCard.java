@@ -11,11 +11,11 @@ import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 
 import java.io.InputStream;
 
-public class EditAudioCardPage extends RenderGUI
+public class EditAudioCard extends RenderGUI
 {
     private Button pUploadButton;
 
-    public EditAudioCardPage()
+    public EditAudioCard()
     {
         this.vSize = new ivec2(100,100);
 
@@ -23,7 +23,7 @@ public class EditAudioCardPage extends RenderGUI
 
         RenderGUI audioGUIContainer = findChildByID("audio");
 
-        InputStream stream = EditAudioCardPage.class.getClassLoader().getResourceAsStream("audios/thud.wav");
+        InputStream stream = EditAudioCard.class.getClassLoader().getResourceAsStream("audios/thud.wav");
         AudioGUI audioGUI = new AudioGUI(new ivec2(0, 0), new ivec2(100, 100), stream);
         audioGUI.setSizeInPercent(true, true);
         audioGUIContainer.addGUI(audioGUI);
