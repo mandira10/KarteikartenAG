@@ -2,6 +2,16 @@ package com.swp;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL11;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALC10;
+import org.lwjgl.openal.ALC11;
+import org.lwjgl.openal.ALCCapabilities;
+
 import com.gumse.basics.Globals;
 import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.TextBox;
@@ -25,17 +35,38 @@ import com.swp.GUI.KarteikartenAGGUI;
 //   - Notification GUI    -- done
 //   - Confirmation GUI
 //   - Rate Card GUI       -- done
-//   - Tag Textfield GUI
+//   - Radiobutton GUI     -- done
+//   - Tag Textfield GUI   -- done
+//   - Audio GUI           -- done
+//   - Finalize Decktests
+//       - TextCard        -- done
+//       - MultiCard       -- done
+//       - TrueFalseCard   -- done
+//       - ImageTestCard   -- done
+//       - ImageDescCard
+//       - AudioCard
+//   - Finalize Viewpages
+//       - TextCard        
+//       - MultiCard       
+//       - TrueFalseCard   
+//       - ImageTestCard   
+//       - ImageDescCard
+//       - AudioCard
+//   - Export Cards Page
+//   - Add icons to edit options
+//   - Finalize Editpages
+//       - TextCard        -- done
+//       - MultiCard       -- done
+//       - TrueFalseCard   -- done
+//       - ImageTestCard   -- done
+//       - ImageDescCard
+//       - AudioCard       -- done
+//   - Fix Scroller class
 //   - Category GUIs
 //       - Category List
 //       - Single Category View
 //       - Category Tree
-//   - Finalize Decktests
-//   - Export Cards GUI
-//   - Add icons to edit options
-//   - Finalize Editpages
-//   - Fix Scroller class
-//   - 
+//   - Language Class
 ////////////////////////////////////////////////////
 
 
@@ -61,9 +92,26 @@ public class KarteikartenAG
         //
         // Hollow symbols
         //
-        String usedRegularCharacters = "";
+        String usedRegularCharacters = "";
 		Font pFontAwesomeRegular = Font.loadFontFromResource("fonts/font-awesome6-free-regular-400.otf", usedRegularCharacters);
         FontManager.getInstance().addFont(pFontAwesomeRegular, "FontAwesomeRegular");
+
+
+        //
+        //Init OpenAL Context
+        //
+        long device = ALC11.alcOpenDevice((ByteBuffer)null);
+        ALCCapabilities deviceCaps = ALC.createCapabilities(device);
+        long context = ALC10.alcCreateContext(device, (IntBuffer)null);
+        ALC11.alcMakeContextCurrent(context);
+        AL.createCapabilities(deviceCaps);
+
+        //Init Listener
+        AL11.alListener3f(AL11.AL_POSITION, 0, 0, 0);
+        AL11.alListener3f(AL11.AL_VELOCITY, 0, 0, 0);
+
+
+        //System.setProperty("java.awt.headless", "false"); //for iCrap support
 
         pMainGUI = new GUI(pMainWindow);
 		pMainWindow.onResized(new WindowResizePosCallback() {

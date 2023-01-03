@@ -1,9 +1,12 @@
 package com.swp.GUI.Decks;
 
+import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
+import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
+import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
@@ -100,6 +103,17 @@ public class DeckOverviewPage extends Page
 
             canvas.addGUI(container);
         }
+        
+        RenderGUI optionsMenu = findChildByID("menu");
+        Button newButton = (Button)optionsMenu.findChildByID("adddeckbutton");
+        newButton.setCallbackFunction(new ButtonCallback() {
+            @Override public void run() 
+            {
+                EditDeckPage page = (EditDeckPage)PageManager.getPage(PAGES.DECK_EDIT);
+                page.editDeck(new Deck());
+                PageManager.viewPage(PAGES.DECK_EDIT);
+            }
+        });
 
         this.setSizeInPercent(true, true);
         reposition();

@@ -12,6 +12,7 @@ import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
+import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.PageManager.PAGES;
 
 public class CardOverviewPage extends Page 
@@ -70,19 +71,10 @@ public class CardOverviewPage extends Page
 
 
         RenderGUI canvas = findChildByID("canvas");
-        Scroller canvasScroller = new Scroller(new ivec2(0, 0), new ivec2(100, 100));
-        canvasScroller.setSizeInPercent(true, true);
-        canvas.addGUI(canvasScroller);
-        
-        int entryHeight = 40;
-        int gapSize = 5;
-        int numentries = 0;
-        for(Card card : CardController.getCardsToShow(0, 100))
-        {
-            CardOverviewEntry entry = new CardOverviewEntry(card, new ivec2(0, numentries++ * (entryHeight + gapSize)), new ivec2(100, entryHeight));
-            entry.setSizeInPercent(true, false);
-            canvasScroller.addGUI(entry);
-        }
+
+        CardList cardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), CardController.getCardsToShow(0, 100));
+        cardList.setSizeInPercent(true, true);
+        canvas.addGUI(cardList);
 
         this.setSizeInPercent(true, true);
         reposition();

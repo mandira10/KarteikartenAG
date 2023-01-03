@@ -56,7 +56,8 @@ public class ViewSingleCardPage extends Page
             backButton.setCallbackFunction(new ButtonCallback() {
                 @Override public void run()
                 {
-                    PageManager.viewPage(PAGES.CARD_OVERVIEW);
+                    //PageManager.viewPage(PAGES.CARD_OVERVIEW);
+                    PageManager.viewLastPage();
                 }
             });
         }

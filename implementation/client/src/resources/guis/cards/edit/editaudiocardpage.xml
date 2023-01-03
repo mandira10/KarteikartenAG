@@ -7,5 +7,6 @@
     <textfield pos="150, 60" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint=""></textfield>
 
     <text pos="10, 110" fontsize="30">Audio:</text>
-    <textbox pos="150, 110" size="200, 100" border-radius="1" color="#282A36" fontsize="24">Click to open</textbox>
+    <gui id="audio" pos="150, 110" size="60, 60"></gui>
+    <button title="Click to upload audio" id="audioupload" pos="220, 110" size="100%, 60" margin="-220, 0" fontsize="30"></button>
 </gui-root>

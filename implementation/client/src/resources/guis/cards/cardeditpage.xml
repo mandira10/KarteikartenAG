@@ -7,6 +7,9 @@
         <gui id="canvas" size="100%, 80%" pos="0, 50">
 
         </gui>
+
+        <text pos="10, 350" fontsize="30">Tags:</text>
+        <tag-list id="tagslist" pos="150, 350" size="100%, 30" margin="-150, 0"></tag-list>
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
         <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Cancel" color="#9C88FF" />

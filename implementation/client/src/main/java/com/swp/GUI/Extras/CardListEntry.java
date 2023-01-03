@@ -1,27 +1,32 @@
-package com.swp.GUI.Cards;
+package com.swp.GUI.Extras;
 
 import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextBox;
+import com.gumse.gui.Basics.Switch.OnSwitchTicked;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
+import com.gumse.tools.Debug;
 import com.swp.DataModel.Card;
 import com.swp.GUI.PageManager;
+import com.swp.GUI.Cards.ViewSingleCardPage;
 import com.swp.GUI.PageManager.PAGES;
 
-public class CardOverviewEntry extends RenderGUI
+public class CardListEntry extends RenderGUI
 {
     private Card pCard;
     private TextBox pCardNameBox;
     private Switch pSelectSwitch;
+    private CardList pParentList;
 
-    public CardOverviewEntry(Card card, ivec2 pos, ivec2 size)
+    public CardListEntry(Card card, ivec2 pos, ivec2 size, CardList list)
     {
         this.vSize = size;
         this.vPos = pos;
         this.pCard = card;
+        this.pParentList = list;
         FontManager fonts = FontManager.getInstance();
 
         this.pCardNameBox = new TextBox(card.getSTitle(), fonts.getDefaultFont(), new ivec2(0, 0), new ivec2(100, 100));
@@ -35,6 +40,11 @@ public class CardOverviewEntry extends RenderGUI
         pSelectSwitch = new Switch(new ivec2(100, 10), new ivec2(20, 20), 0.0f);
         pSelectSwitch.setPositionInPercent(true, false);
         pSelectSwitch.setOrigin(new ivec2(30, 0));
+        pSelectSwitch.onTick(new OnSwitchTicked() {
+            @Override public void run(boolean ticked) {
+                pParentList.updateSelectmode();
+            }
+        });
         addElement(pSelectSwitch);
 
         reposition();
@@ -47,7 +57,18 @@ public class CardOverviewEntry extends RenderGUI
         if(bIsHidden)
             return;
 
-        if(isMouseInside())
+        updatechildren();
+
+        //Debug.info(pParentList.isInSelectmode());
+
+        if(pSelectSwitch.isMouseInside())
+        {
+            if(pSelectSwitch.isTicked())
+            {
+                pParentList.updateSelectmode();
+            }
+        }
+        else if(isMouseInside())
         {
             Mouse.setActiveHovering(true);
             Mouse mouse = Window.CurrentlyBoundWindow.getMouse();
@@ -55,12 +76,23 @@ public class CardOverviewEntry extends RenderGUI
 
             if(isClicked())
             {
-                ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
-                page.setCard(pCard);
-                PageManager.viewPage(PAGES.CARD_SINGLEVIEW);
+                if(pParentList.isInSelectmode())
+                {
+                    pSelectSwitch.tick(!pSelectSwitch.isTicked());
+                    pParentList.updateSelectmode();
+                }
+                else
+                {
+                    ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
+                    page.setCard(pCard);
+                    PageManager.viewPage(PAGES.CARD_SINGLEVIEW);
+                }
             }
         }
+    }
 
-        updatechildren();
+    public boolean isSelected()
+    {
+        return pSelectSwitch.isTicked();
     }
 };

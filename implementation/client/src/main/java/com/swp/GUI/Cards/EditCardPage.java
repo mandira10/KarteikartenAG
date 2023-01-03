@@ -4,8 +4,9 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.Button.ButtonCallback;
-import com.gumse.gui.Basics.TextField.TextFieldFinishedInputCallback;
+import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Primitives.RenderGUI;
+import com.gumse.gui.TagList.TagList;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Debug;
@@ -64,7 +65,19 @@ public class EditCardPage extends Page
         pCanvas.addGUI(pEditAudioCardPage);
 
         pTitlefield = (TextField)findChildByID("titlefield");
-        pTitlefield.setReturnCallback(new TextFieldFinishedInputCallback() { @Override public void run(String str) { pNewCard.setSTitle(str); } });
+        pTitlefield.setCallback(new TextFieldInputCallback() { 
+            @Override
+            public void enter(String complete) 
+            {
+                pNewCard.setSTitle(complete); 
+                
+            }
+
+            @Override
+            public void input(String input, String complete) 
+            {
+            } 
+        });
 
         Button applyButton = (Button)findChildByID("applybutton");
         if(applyButton != null)
@@ -73,6 +86,12 @@ public class EditCardPage extends Page
         Button cancelButton = (Button)findChildByID("cancelbutton");
         if(cancelButton != null)
             cancelButton.setCallbackFunction(new ButtonCallback() { @Override public void run() { PageManager.viewLastPage(); } });
+
+
+        TagList tagList = (TagList)findChildByID("tagslist");
+        tagList.addTag("Tag1");
+        tagList.addTag("Testing");
+        tagList.addTag("AnotherTag");
 
 
         this.setSizeInPercent(true, true);

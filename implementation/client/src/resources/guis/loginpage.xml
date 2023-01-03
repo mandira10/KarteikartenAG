@@ -5,7 +5,7 @@
         <textfield pos="0, 80" size="100%, 60" border-radius="7" fontsize="40" hint="Password"></textfield>
 
         <text pos="0, 150" fontsize="20">Remember Me</text>
-        <switch pos="100%, 150" origin="20, 0" size="20, 20" border-radius="12" />
+        <switch pos="100%, 150" origin="20, 0" size="20, 20" border-radius="0" />
 
         <!--<button id="registerbutton" pos="0, 300"   size="48%, 60" border-radius="7" fontsize="40" title="Register" color="#FF0000" />
         <button id="loginbutton"    pos="100%, 300" origin="100%, 0" size="45%, 60" border-radius="7" fontsize="40" title="Login" color="#00FF00" />-->

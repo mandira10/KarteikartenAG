@@ -3,6 +3,7 @@ package com.swp.GUI.Cards;
 import org.hibernate.engine.spi.CascadeStyles.MultipleCascadeStyle;
 
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Basics.Radiobutton;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
@@ -38,9 +39,9 @@ public class TestCardGUI extends RenderGUI
 
         Font defaultFont = FontManager.getInstance().getDefaultFont();
 
-        pQuestionScroller = new Scroller(new ivec2(5, 10), new ivec2(90, 100));
+        pQuestionScroller = new Scroller(new ivec2(5, 40), new ivec2(90, 100));
         pQuestionScroller.setSizeInPercent(true, false);
-        pQuestionScroller.setPositionInPercent(true, true);
+        pQuestionScroller.setPositionInPercent(true, false);
         addGUI(pQuestionScroller);
 
         pQuestionBox = new TextBox(card.getSQuestion(), defaultFont, new ivec2(0, 0), new ivec2(100, 100));
@@ -143,7 +144,15 @@ public class TestCardGUI extends RenderGUI
         Font defaultFont = FontManager.getInstance().getDefaultFont();
         MultipleChoiceCard card = (MultipleChoiceCard)pCard;
 
-        //Create radio GUI
+        Scroller answerScroller = new Scroller(new ivec2(5, 180), new ivec2(90, 100));
+        answerScroller.setSizeInPercent(true, true);
+        answerScroller.setPositionInPercent(true, false);
+        answerScroller.setMargin(new ivec2(0, -200));
+        addGUI(answerScroller);
+
+        Radiobutton radiobutton = new Radiobutton(new ivec2(0, 0), 30, 100, defaultFont, card.getSaAnswers());
+        radiobutton.setSizeInPercent(true, false);
+        answerScroller.addGUI(radiobutton);
     }
 
     private void createTrueFalseCardTest()

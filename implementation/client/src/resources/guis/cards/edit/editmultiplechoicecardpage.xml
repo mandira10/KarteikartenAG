@@ -4,5 +4,5 @@
     <textfield pos="150, 10" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint=""></textfield>
 
     <text pos="10, 60" fontsize="30">Answers:</text>
-    <!--<switch pos="150, 65" size="20, 20" border-radius="1" />-->
+    <scroller id="scroller" pos="150, 60" size="100%, 200" margin="-150, 0"></scroller>
 </gui-root>

@@ -4,8 +4,9 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.*;
 import com.gumse.system.Window;
 import com.gumse.system.io.Keyboard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
-import com.swp.GUI.Cards.ViewSingleCardPage;
+import com.swp.DataModel.CardTypes.AudioCard;
+import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import com.swp.GUI.Cards.EditCardPage;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
@@ -21,9 +22,10 @@ public class KarteikartenAGGUI extends RenderGUI
     {
         PageManager.init(this);
 
-        ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
-        page.setCard(new TrueFalseCard());
-        PageManager.viewPage(PAGES.LOGIN);
+        EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
+        //page.setCard(new TrueFalseCard());
+        page.editCard(new MultipleChoiceCard());
+        PageManager.viewPage(PAGES.CARD_EDIT);
 
         pNotifications = NotificationGUI.getInstance();
         addElement(pNotifications);
@@ -56,10 +58,5 @@ public class KarteikartenAGGUI extends RenderGUI
         pNotifications.update();
         pSidebar.update();
         PageManager.update();
-
-        if(Window.CurrentlyBoundWindow.getKeyboard().checkKeyPressed(Keyboard.GUM_KEY_A))
-        {
-            NotificationGUI.addNotification("sTitle", NotificationType.INFO, 3);
-        }
     }
 }

@@ -55,7 +55,8 @@ public class Deck
      */
     public Deck()
     {
-        this.sUUID = UUID.randomUUID().toString();
+        this("", null, CardOrder.ALPHABETICAL, false);
+        //this.sUUID = UUID.randomUUID().toString();
     }
 
     /**

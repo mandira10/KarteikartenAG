@@ -7,5 +7,5 @@
     <textfield pos="150, 60" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint=""></textfield>
 
     <text pos="10, 110" fontsize="30">Image:</text>
-    <textbox pos="150, 110" size="200, 200" border-radius="1" color="#282A36" fontsize="24">Click to open</textbox>
+    <textbox id="imagebox" pos="150, 110" size="120, 120" border-radius="1" color="#282A36" fontsize="24">Click to open</textbox>
 </gui-root>
