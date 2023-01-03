@@ -41,7 +41,7 @@ public class CardToDeck implements Serializable
     private final Deck deck;
 
     @Id
-    @GeneratedValue
+    //@GeneratedValue
     /**
      * Identifier und Primärschlüssel für
      * Karte-zu-Deck Verbindung

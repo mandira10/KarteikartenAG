@@ -172,8 +172,8 @@ public class CardController {
 
     //TO DISCUSS
 
-    public static boolean createTag(String value) { //TODO:auch einzeln aufgerufen? wo? ansonsten nur über Logik bei CardCreate?
-        return CardLogic.createTag(value);
+    public static boolean createTag(Tag tag) { //TODO:auch einzeln aufgerufen? wo? ansonsten nur über Logik bei CardCreate?
+        return CardLogic.createTag(tag);
     }
 
 

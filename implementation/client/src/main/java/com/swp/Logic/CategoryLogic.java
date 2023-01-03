@@ -100,14 +100,15 @@ public class CategoryLogic {
             final Optional<Category> optionalCategory = CategoryRepository.find(name);
             if (optionalCategory.isPresent()) {
                 final Category category = optionalCategory.get();
-                if(!createCardToCategory(card,category));
+                if(!createCardToCategory(card,category))
+                    ret = false;
             }
             else{
                 Category category = new Category(name);
                 CategoryRepository.saveCategory(category);
-                if(!createCardToCategory(card,category));
+                if(!createCardToCategory(card,category))
+                    ret = false;
             }
-            {ret = false;}
         }
         return ret;
     }

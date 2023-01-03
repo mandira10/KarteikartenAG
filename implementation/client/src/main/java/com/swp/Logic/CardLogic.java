@@ -134,9 +134,9 @@ public class CardLogic
     }
 
 
-    public static boolean createTag(String value)
+    public static boolean createTag(Tag tag)
     {
-        return CardRepository.saveTag(value);
+        return CardRepository.saveTag(tag);
     }
 
     /**
@@ -207,7 +207,7 @@ public class CardLogic
                 }
                 return true;
             } else {
-                throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
+                throw new IllegalArgumentException("Probleme beim Speichern der Karte"); //TODO: genauer aufschlüsseln
             }
         } else {
             if (CardRepository.updateCard(card)) {
@@ -219,9 +219,9 @@ public class CardLogic
                     log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getUuid());
                     CategoryLogic.createCardToCategory(card, categories);
                 }
-                return false;
+                return true;
             } else {
-                throw new IllegalArgumentException("Probleme"); //TODO: genauer aufschlüsseln
+                throw new IllegalArgumentException("Probleme beim Updaten der Karte"); //TODO: genauer aufschlüsseln
             }
 
 
@@ -235,14 +235,15 @@ public class CardLogic
             final Optional<Tag> optionalTag = CardRepository.find(name);
             if (optionalTag.isPresent()) {
                 final Tag tag = optionalTag.get();
-                if(!createCardToTag(card,tag));
+                if(!createCardToTag(card,tag))
+                ret = false;
             }
             else{
                 Tag tag = new Tag(name);
-                CardRepository.saveTag(name);
-                if(!createCardToTag(card,tag));
+                CardRepository.saveTag(tag);
+                if(!createCardToTag(card,tag))
+                ret = false;
             }
-            {ret = false;}
         }
         return ret;
     }
