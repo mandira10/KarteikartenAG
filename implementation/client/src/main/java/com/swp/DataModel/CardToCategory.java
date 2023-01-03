@@ -21,7 +21,7 @@ public class CardToCategory implements Serializable
      * Karte-zu-Kategorie Verbindung.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+   // @GeneratedValue(strategy = GenerationType.UUID)
     protected final String id;
 
     /**

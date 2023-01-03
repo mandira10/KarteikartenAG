@@ -37,7 +37,7 @@ public class MultipleChoiceCard extends Card
      */
     public MultipleChoiceCard()
     {
-        this("",null,null,"",false);
+        this(null,null,null,null,false);
     }
 
     /**

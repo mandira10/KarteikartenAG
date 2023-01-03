@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -81,7 +82,7 @@ public abstract class Card implements Serializable
      * Erstellzeitpunkt der Karte.
      */
     @Column
-    protected long creationDate;
+    protected Timestamp creationDate;
 
 
     /**
@@ -101,7 +102,7 @@ public abstract class Card implements Serializable
         this.rating = 0;
         this.title = "";
         this.content = "";
-        this.creationDate = System.currentTimeMillis();
+        this.creationDate = new Timestamp(System.currentTimeMillis());
     }
 
     /**
@@ -111,7 +112,7 @@ public abstract class Card implements Serializable
     {
         uuid = UUID.randomUUID().toString();
         this.type = null;
-        this.creationDate = System.currentTimeMillis();
+        this.creationDate = new Timestamp(System.currentTimeMillis());
     }
 
 

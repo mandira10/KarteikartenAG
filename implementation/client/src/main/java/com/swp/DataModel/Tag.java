@@ -35,7 +35,7 @@ public class Tag implements Serializable
      * UUID des Tags
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     @Setter(AccessLevel.NONE)
     private final String uuid;

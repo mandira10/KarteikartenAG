@@ -1,9 +1,6 @@
 package com.swp.Persistence;
 
-import com.swp.DataModel.Card;
-import com.swp.DataModel.CardToTag;
-import com.swp.DataModel.Category;
-import com.swp.DataModel.Tag;
+import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
@@ -15,6 +12,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,11 +52,15 @@ public class CardRepository
         return cards;
 
         //////////////////////////////////////
-        // For Implemenation we need a view because we need card and cardtodeck
+        // For Implementation we need a view because we need card and cardtodeck
         //////////////////////////////////////
         /*
-        SELECT * FROM CARDS WHERE...
-        LEFT JOIN CARDTODECK ON ...
+           EntityManager em = pm.getEntityManager();
+          em.getTransaction().begin();
+          List <CardOverview> co = em.createQuery("SELECT c FROM CardOverview c", CardOverview.class).getResultList();
+          em.getTransaction().commit();
+          em.close();
+          }
          */
     }
 
@@ -218,11 +220,19 @@ public class CardRepository
     //
     // Tags
     //
-    public static boolean saveTag(String value)
+    public static boolean saveTag(Tag tag)
     {
-        // prüfen, ob Tag bereits existiert.
-        // falls ja -> return true
-        // falls nein -> neuen Tag persisten
+       // try{
+            final EntityManager em = pm.getEntityManager();
+            em.getTransaction().begin();
+            em.persist(tag);
+            em.getTransaction().commit();
+       // }
+        //catch (Exception e) {
+        //    log.warn(String.format("Karte \"%s\" konnte nicht gespeichert werden", tag.getUuid()));
+         //   return false;
+        //}
+        log.info(String.format("Tag \"%s\" wurde erfolgreich gespeichert", tag.getUuid()));
         return true;
     }
 
@@ -232,7 +242,7 @@ public class CardRepository
 
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            tags = (Set<Tag>) em.createQuery("SELECT Tag FROM Tag").getResultStream().collect(Collectors.toSet());
+            tags = (Set<Tag>) em.createQuery("SELECT t FROM Tag t").getResultStream().collect(Collectors.toSet());
             em.getTransaction().commit();
         } catch (final Exception e) {
             log.warn("Beim abrufen der Tags ist einer Fehler aufgetreten: " + e);
@@ -263,22 +273,28 @@ public class CardRepository
     }
 
     public static boolean createCardToTag(Card card, Tag tag) {
-        try (final EntityManager em = pm.getEntityManager()) {
+        //try (
+                final EntityManager em = pm.getEntityManager();//) {
             em.getTransaction().begin();
             em.persist(new CardToTag(card, tag));
             em.getTransaction().commit();
-        } catch (final Exception e) {
-            log.warn(String.format("Beim Speichern von `CardToTag` zwischen Karte \"%s\" und Tag \"%s\" ist ein Fehler aufgetreten: %s",
-                    card.getUuid(), tag.getVal(), e));
-            return false;
-        }
+       // } catch (final Exception e) {
+       //     log.warn(String.format("Beim Speichern von `CardToTag` zwischen Karte \"%s\" und Tag \"%s\" ist ein Fehler aufgetreten: %s",
+        //            card.getUuid(), tag.getVal(), e));
+//
+//        }
         log.info(String.format("Verbindung zwischen der Karte \"%s\" und dem Tag \"%s\" hergestellt",
                 card.getUuid(), tag.getVal()));
         return true;
     }
 
     public static boolean updateCard(Card card) {
-        return false;
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            em.merge(card);
+            em.getTransaction().commit();
+            return true;
+        }
     }
 
     public static Optional<Tag> find(String name) {
@@ -297,7 +313,6 @@ public class CardRepository
 
         return tag;
     }
-
 
 
 

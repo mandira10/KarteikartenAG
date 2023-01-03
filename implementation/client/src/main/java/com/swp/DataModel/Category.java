@@ -30,7 +30,7 @@ public class Category implements Serializable
      * UUID der Kategorie
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    //@GeneratedValue(strategy = GenerationType.UUID)
     @Column
     @Setter(AccessLevel.NONE)
     private final String uuid;
@@ -45,7 +45,9 @@ public class Category implements Serializable
     /**
      * Zugehörige UUIDs der Parents der Kategorie
      */
+    //TODO: Solltet ihr euch anschauen, brauchen wir das überhaupt?
     private Set<String> parentUUIDs;
+
 
     /**
      * Children der Kategorie, kann mehrere haben
