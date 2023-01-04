@@ -1,7 +1,10 @@
 package com.swp.GUI.Cards;
 
+import java.io.InputStream;
+
 import org.hibernate.engine.spi.CascadeStyles.MultipleCascadeStyle;
 
+import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Radiobutton;
 import com.gumse.gui.Basics.Scroller;
@@ -16,14 +19,17 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
+import com.gumse.textures.Texture;
 import com.gumse.tools.Debug;
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
+import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
+import com.swp.GUI.Extras.AudioGUI;
 
 public class TestCardGUI extends RenderGUI
 {
@@ -90,8 +96,15 @@ public class TestCardGUI extends RenderGUI
 
     private void createAudioCardTest()
     {
-        Font defaultFont = FontManager.getInstance().getDefaultFont();
         AudioCard card = (AudioCard)pCard;
+
+        InputStream stream = TestCardGUI.class.getClassLoader().getResourceAsStream(card.getAudio());
+        AudioGUI audioGUI = new AudioGUI(new ivec2(5, 180), new ivec2(80, 80), stream);
+        audioGUI.setPositionInPercent(true, false);
+        audioGUI.setSizeInPercent(false, false);
+        addGUI(audioGUI);
+
+        addAnswerTextField();
     }
 
     private void createImageTestCardTest()
@@ -106,7 +119,10 @@ public class TestCardGUI extends RenderGUI
         Box cardImage = new Box(new ivec2(55, 5), new ivec2(40, 60));
         cardImage.setPositionInPercent(true, true);
         cardImage.setSizeInPercent(true, true);
-        //cardImage.setTexture(card.getImage());
+        Texture tex = new Texture();
+        tex.load(card.getImage(), getClass());
+        cardImage.setColor(new vec4(1, 1, 1, 1));
+        cardImage.setTexture(tex);
         cardImage.invertTexcoordY(true);
         addGUI(cardImage);
 
@@ -125,11 +141,38 @@ public class TestCardGUI extends RenderGUI
         Box cardImage = new Box(new ivec2(55, 5), new ivec2(40, 60));
         cardImage.setPositionInPercent(true, true);
         cardImage.setSizeInPercent(true, true);
-        //cardImage.setTexture(card.getImage());
+
+        Texture tex = new Texture();
+        tex.load(card.getImage(), getClass());
+        cardImage.setColor(new vec4(1, 1, 1, 1));
+        cardImage.setTexture(tex);
         cardImage.invertTexcoordY(true);
         addGUI(cardImage);
 
-        addAnswerTextField();
+        Scroller scroller = new Scroller(new ivec2(5, 70), new ivec2(90, 35));
+        scroller.setSizeInPercent(true, true);
+        scroller.setPositionInPercent(true, true);
+
+        int i = 1;
+        int ypos = 0;
+        for(ImageDescriptionCardAnswer answer : card.getAnswers())
+        {
+            TextBox imageIndexBox = new TextBox(String.valueOf(i), defaultFont, new ivec2(answer.xpos, answer.ypos), new ivec2(20));
+            imageIndexBox.setPositionInPercent(true, true);
+            cardImage.addGUI(imageIndexBox);
+
+            TextBox answerIndexBox = new TextBox(String.valueOf(i++), defaultFont, new ivec2(0, ypos), new ivec2(30));
+            scroller.addGUI(answerIndexBox);
+
+            TextField answerField = new TextField("", defaultFont, new ivec2(40, ypos), new ivec2(100, 30));
+            answerField.setSizeInPercent(true, false);
+            answerField.setMargin(new ivec2(-40, 0));
+            scroller.addGUI(answerField);
+
+            ypos += 40;
+        }
+        addGUI(scroller);
+        scroller.resize();
     }
 
     private void createTextCardTest()
@@ -172,13 +215,13 @@ public class TestCardGUI extends RenderGUI
         trueButton.setCallbackFunction(new ButtonCallback() {
             @Override public void run() {
                 falseButton.setColor(new vec4(0.2f, 0.2f, 0.2f, 1.0f));
-                trueButton.setColor(new vec4(0.12f, 0.12f, 0.12f, 1.0f));
+                trueButton.setColor(GUI.getTheme().accentColor);
             }
         });
         falseButton.setCallbackFunction(new ButtonCallback() {
             @Override public void run() {
                 trueButton.setColor(new vec4(0.2f, 0.2f, 0.2f, 1.0f));
-                falseButton.setColor(new vec4(0.12f, 0.12f, 0.12f, 1.0f));
+                falseButton.setColor(GUI.getTheme().accentColor);
             }
         });
         addGUI(falseButton);

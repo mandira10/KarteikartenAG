@@ -38,28 +38,28 @@ import com.swp.GUI.KarteikartenAGGUI;
 //   - Radiobutton GUI     -- done
 //   - Tag Textfield GUI   -- done
 //   - Audio GUI           -- done
-//   - Finalize Decktests
+//   - Finalize Decktests  -- done
 //       - TextCard        -- done
 //       - MultiCard       -- done
 //       - TrueFalseCard   -- done
 //       - ImageTestCard   -- done
-//       - ImageDescCard
-//       - AudioCard
+//       - ImageDescCard   -- done
+//       - AudioCard       -- done
 //   - Finalize Viewpages
-//       - TextCard        
-//       - MultiCard       
-//       - TrueFalseCard   
-//       - ImageTestCard   
-//       - ImageDescCard
+//       - TextCard        -- done
+//       - MultiCard       -- done
+//       - TrueFalseCard   -- done
+//       - ImageTestCard   -- done
+//       - ImageDescCard   -- done
 //       - AudioCard
 //   - Export Cards Page
 //   - Add icons to edit options
-//   - Finalize Editpages
+//   - Finalize Editpages  -- done
 //       - TextCard        -- done
 //       - MultiCard       -- done
 //       - TrueFalseCard   -- done
 //       - ImageTestCard   -- done
-//       - ImageDescCard
+//       - ImageDescCard   -- done
 //       - AudioCard       -- done
 //   - Fix Scroller class
 //   - Category GUIs

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import org.lwjgl.openal.AL11;
 import org.lwjgl.opengl.GL11;
 
+import com.gumse.PostProcessing.Framebuffer;
 import com.gumse.gui.GUI;
 import com.gumse.gui.GUIShader;
 import com.gumse.gui.Primitives.Box;
@@ -19,6 +20,7 @@ import com.gumse.model.VertexArrayObject;
 import com.gumse.model.VertexBufferObject;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
+import com.gumse.tools.Debug;
 
 public class AudioGUI extends RenderGUI
 {
@@ -80,6 +82,7 @@ public class AudioGUI extends RenderGUI
         this.vPos.set(pos);
         this.vSize.set(size);
         this.bIsPlaying = false;
+        this.v4Color = GUI.getTheme().accentColor;
 
         initVAO();
 
@@ -88,6 +91,12 @@ public class AudioGUI extends RenderGUI
         pBackground.setColor(GUI.getTheme().primaryColor);
         //pBackground.setCornerRadius(new vec4(10));
         addElement(pBackground);
+
+        if(audio == null)
+        {
+            Debug.error("AudioGUI: Given audiostream is null");
+            return;
+        }
 
         //Data buffer
         int audiobuffer = AL11.alGenBuffers();
@@ -101,10 +110,6 @@ public class AudioGUI extends RenderGUI
         AL11.alSourcef(iSourceID, AL11.AL_PITCH, 1);
         AL11.alSource3f(iSourceID, AL11.AL_POSITION, 0, 0, 0);
         AL11.alSourcei(iSourceID, AL11.AL_BUFFER, audiobuffer);
-
-        this.v4Color = GUI.getTheme().accentColor;
-
-
 
         resize();
         reposition();
@@ -159,7 +164,7 @@ public class AudioGUI extends RenderGUI
     private void renderPlayPause()
     {
         GUIShader.getShaderProgram().use();
-        GUIShader.getShaderProgram().loadUniform("orthomat", Window.CurrentlyBoundWindow.getScreenMatrix());
+        GUIShader.getShaderProgram().loadUniform("orthomat", Framebuffer.CurrentlyBoundFramebuffer.getScreenMatrix());
         GUIShader.getShaderProgram().loadUniform("transmat", m4PlayPauseMatrix);
         GUIShader.getShaderProgram().loadUniform("Uppercolor", v4Color);
         GUIShader.getShaderProgram().loadUniform("borderThickness", 0.0f);

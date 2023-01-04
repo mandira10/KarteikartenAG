@@ -15,7 +15,6 @@ import com.gumse.shader.Shader;
 import com.gumse.shader.ShaderProgram;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
-import com.gumse.tools.Debug;
 import com.gumse.tools.FPS;
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
@@ -28,7 +27,6 @@ public class CardRenderer extends RenderGUI
     private static ShaderProgram pCardShader = null;
     private static Camera pCamera = null;
     private static Framebuffer pFrontFramebuffer = null, pBackFramebuffer;
-    private static mat4 m4FramebufferMatrix;
     private Card pCard;
     private ivec2 viewportsize;
     private ivec2 viewportpos;
@@ -58,17 +56,13 @@ public class CardRenderer extends RenderGUI
             pCardModel = new Model3D(pCardShader);
             pCardModel.load("models/card.obj", CardRenderer.class);
             pCardModel.setPosition(new vec3(0,1,0));
-            pCardModel.setScale(new vec3(2.2f));
-            //pCardModel.setColor(new vec4(0.26f, 0.26f, 0.31f, 1.0f));
+            pCardModel.setScale(new vec3(2.0f));
             pCardModel.setColor(new vec4(1.0f));
 
             pCamera = new Camera(90.0f);
             pCamera.setPosition(new vec3(0.0f, 0.0f, 10.0f));
-            //pCamera.setProjectionMatrix(Window.CurrentlyBoundWindow.getScreenMatrix());
 
-            ivec2 resolution = new ivec2(500, 600);
-            m4FramebufferMatrix = mat4.ortho((float)resolution.y, (float)resolution.x, 0.0f, 0.0f, -100.0f, 100.0f);
-
+            ivec2 resolution = new ivec2(980, 800);
             pFrontFramebuffer = new Framebuffer(resolution);
             pFrontFramebuffer.addTextureAttachment();
             pBackFramebuffer = new Framebuffer(resolution);
@@ -110,8 +104,6 @@ public class CardRenderer extends RenderGUI
 
     public void renderToTexture()
     {
-        mat4 windowMat = Window.CurrentlyBoundWindow.getScreenMatrix();
-        Window.CurrentlyBoundWindow.setScreenMatrix(m4FramebufferMatrix);
         pFrontFramebuffer.bind();
         CardTypesRenderer.renderFront(pCard, pFrontFramebuffer.getSize());
         pFrontFramebuffer.unbind();
@@ -119,13 +111,12 @@ public class CardRenderer extends RenderGUI
         pBackFramebuffer.bind();
         CardTypesRenderer.renderBack(pCard, pBackFramebuffer.getSize());
         pBackFramebuffer.unbind();
-        Window.CurrentlyBoundWindow.setScreenMatrix(windowMat);
     }
 
     @Override
     public void updateOnSizeChange()
     {
-        float aspect = Window.CurrentlyBoundWindow.getAspectRatio();
+        float aspect = Framebuffer.CurrentlyBoundFramebuffer.getAspectRatio();
         aspect = 1.0f;
         float distance = 1.0f;
         pCamera.setProjectionMatrix(mat4.ortho(aspect * distance / 2, distance * 0.5f, -aspect * distance / 2, -distance * 0.5f, 0.1f, 1000.0f));
@@ -135,12 +126,12 @@ public class CardRenderer extends RenderGUI
 
         if(viewportsize.y < viewportsize.x)
         {
-            viewportsize.x = (int)(viewportsize.x * Window.CurrentlyBoundWindow.getAspectRatio());
+            viewportsize.x = (int)(viewportsize.x * Framebuffer.CurrentlyBoundFramebuffer.getAspectRatio());
             viewportpos.x += (vActualSize.x - viewportsize.x) / 2;
         }
         else
         {
-            viewportsize.y = (int)(viewportsize.y * Window.CurrentlyBoundWindow.getAspectRatioWidthToHeight());
+            viewportsize.y = (int)(viewportsize.y * Framebuffer.CurrentlyBoundFramebuffer.getAspectRatioWidthToHeight());
             viewportpos.y += (vActualSize.y - viewportsize.y) / 2;
         }
     }

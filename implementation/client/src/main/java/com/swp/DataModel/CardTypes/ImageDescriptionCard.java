@@ -67,4 +67,17 @@ public class ImageDescriptionCard extends Card
         for(ImageDescriptionCardAnswer answer : answers)
             content += "\n" + answer.answertext;
     }
+
+    @Override
+    public String getAnswerString() 
+    {
+        int i = 1;
+        String retstr = "";
+        for(ImageDescriptionCardAnswer answer : answers)
+        {
+            retstr += String.valueOf(i++) + " " + answer.answertext + "\n";
+        }
+
+        return retstr;
+    }
 }

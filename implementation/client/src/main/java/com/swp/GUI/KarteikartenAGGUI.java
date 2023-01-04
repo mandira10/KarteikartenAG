@@ -5,6 +5,7 @@ import com.gumse.maths.*;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.GUI.Cards.EditCardPage;
+import com.swp.GUI.Cards.ViewSingleCardPage;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.PageManager.PAGES;
 
@@ -19,9 +20,6 @@ public class KarteikartenAGGUI extends RenderGUI
     {
         PageManager.init(this);
 
-        EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
-        //page.setCard(new TrueFalseCard());
-        
         ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
             new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),
             new ImageDescriptionCardAnswer("Orange",       61, 26),
@@ -29,9 +27,17 @@ public class KarteikartenAGGUI extends RenderGUI
             new ImageDescriptionCardAnswer("Hand",         82, 58),
             new ImageDescriptionCardAnswer("Fuß",          62, 89),
         };
+        ImageDescriptionCard card = new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", "textures/orange-ket.png", true);
 
-        page.editCard(new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", "textures/orange-ket.png", true));
-        PageManager.viewPage(PAGES.CARD_EDIT);
+        //EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
+        //page.editCard(card);
+        //PageManager.viewPage(PAGES.CARD_EDIT);
+
+        ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
+        page.setCard(card);
+        PageManager.viewPage(PAGES.CARD_SINGLEVIEW);
+
+
 
         pNotifications = NotificationGUI.getInstance();
         addElement(pNotifications);

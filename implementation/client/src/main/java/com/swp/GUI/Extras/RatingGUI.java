@@ -1,5 +1,6 @@
 package com.swp.GUI.Extras;
 
+import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
@@ -60,7 +61,7 @@ public class RatingGUI extends RenderGUI
             for(RenderGUI child : pBackground.getChildren())
             {
                 Text star = (Text)child;
-                star.setColor(new vec4(0.9f, 0.9f, 0.9f, 1.0f));
+                star.setColor(GUI.getTheme().textColor);
                 star.setFont(FontManager.getInstance().getFont("FontAwesomeRegular"));
             }
 
@@ -70,7 +71,7 @@ public class RatingGUI extends RenderGUI
             for(int i = 0; i < starID + 1; i++)
             {
                 Text star = (Text)pBackground.getChild(i);
-                star.setColor(new vec4(1, 1, 0, 1));
+                star.setColor(GUI.getTheme().accentColor);
                 star.setFont(FontManager.getInstance().getFont("FontAwesome"));
             }
 
@@ -90,12 +91,12 @@ public class RatingGUI extends RenderGUI
                 Text star = (Text)pBackground.getChild(i);
                 if(i < iActualRating)
                 {
-                    star.setColor(new vec4(1, 1, 0, 1));
+                    star.setColor(GUI.getTheme().accentColor);
                     star.setFont(FontManager.getInstance().getFont("FontAwesome"));
                 }
                 else
                 {
-                    star.setColor(new vec4(0.9f, 0.9f, 0.9f, 1.0f));
+                    star.setColor(GUI.getTheme().textColor);
                     star.setFont(FontManager.getInstance().getFont("FontAwesomeRegular"));
                 }
             }

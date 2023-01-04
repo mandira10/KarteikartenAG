@@ -23,8 +23,8 @@ public class EditAudioCard extends RenderGUI
 
         RenderGUI audioGUIContainer = findChildByID("audio");
 
-        InputStream stream = EditAudioCard.class.getClassLoader().getResourceAsStream("audios/thud.wav");
-        AudioGUI audioGUI = new AudioGUI(new ivec2(0, 0), new ivec2(100, 100), stream);
+        //InputStream stream = EditAudioCard.class.getClassLoader().getResourceAsStream("audios/thud.wav");
+        AudioGUI audioGUI = new AudioGUI(new ivec2(0, 0), new ivec2(100, 100), null);
         audioGUI.setSizeInPercent(true, true);
         audioGUIContainer.addGUI(audioGUI);
 

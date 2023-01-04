@@ -76,4 +76,10 @@ public class ImageTestCard extends Card
     public void setContent(){
         content =  title + "\n" + question + "\n" + answer;
     }
+
+    @Override
+    public String getAnswerString() 
+    {
+        return answer;
+    }
 }

@@ -54,4 +54,10 @@ public class TrueFalseCard extends Card
     public void setContent(){
         content =  title + "\n" + question;
     }
+
+    @Override
+    public String getAnswerString() 
+    {
+        return answer ? "True" : "False";
+    }
 }

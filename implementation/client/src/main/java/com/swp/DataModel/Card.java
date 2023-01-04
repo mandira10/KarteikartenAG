@@ -147,4 +147,5 @@ public abstract class Card implements Serializable
     }
 
     public void setContent(){}
+    public String getAnswerString() { return ""; }
 }

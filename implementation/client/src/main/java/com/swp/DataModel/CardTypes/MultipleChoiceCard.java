@@ -1,5 +1,9 @@
 package com.swp.DataModel.CardTypes;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -62,5 +66,23 @@ public class MultipleChoiceCard extends Card
     @Override
     public void setContent(){
         content = title + "\n" +  question; //TODO incorporate answers?
+    }
+
+    @Override
+    public String getAnswerString() 
+    {
+        String correctstr = "Correct:\n";
+        String incorrectstr = "Incorrect:\n";
+        int i = 0;
+        List<Integer> correctList = Arrays.stream(correctAnswers).boxed().toList();
+        for(String answer : answers)
+        {
+            if(correctList.contains(i++))
+                correctstr += "  " + answer + "\n";
+            else
+                incorrectstr += "  " + answer + "\n";
+        }
+
+        return correctstr + "\n" + incorrectstr;
     }
 }

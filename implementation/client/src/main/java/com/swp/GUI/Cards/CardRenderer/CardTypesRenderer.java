@@ -1,22 +1,21 @@
 package com.swp.GUI.Cards.CardRenderer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
+import com.gumse.gui.Basics.TextBox;
+import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
+import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
-import com.gumse.tools.Debug;
+import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
+import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
 
 public class CardTypesRenderer 
 {
@@ -26,21 +25,42 @@ public class CardTypesRenderer
 
         Box background = new Box(new ivec2(0,0), resolution);
         background.setColor(new vec4(0.26f, 0.26f, 0.31f, 1.0f));
-        background.render();
 
-        new Text(card.getTitle(), defaultFont, new ivec2(10, 10), 0).render();
+        Text titleText = new Text(card.getTitle(), defaultFont, new ivec2(5, 10), 0);
+        titleText.setPositionInPercent(true, false);
+        float factor = ((float)resolution.x * 0.8f) / (float)titleText.getSize().x;
+        titleText.setCharacterHeight(Math.min(titleText.getSize().y * factor, 80));
+        background.addGUI(titleText);
 
+        TextBox questionTextbox = new TextBox(card.getQuestion(), defaultFont, new ivec2(5, 10), new ivec2(85, 30));
+        questionTextbox.setSizeInPercent(true, true);
+        questionTextbox.setPositionInPercent(true, true);
+        questionTextbox.setTextSize(50);
+        questionTextbox.setAlignment(Alignment.LEFT);
+        questionTextbox.getBox().hide(true);
+        questionTextbox.setAutoInsertLinebreaks(true);
+        background.addGUI(questionTextbox);
+
+        RenderGUI canvas = new RenderGUI();
+        canvas.setPosition(new ivec2(5, 45));
+        canvas.setSize(new ivec2(90, 50));
+        canvas.setSizeInPercent(true, true);
+        canvas.setPositionInPercent(true, true);
+        background.addGUI(canvas);
+
+        background.resize();
+        background.reposition();
 
         switch(card.getType())
         {
-            case AUDIO:          renderAudioCard((AudioCard) card);                       break;
-            case IMAGEDESC:      renderImageDescriptionCard((ImageDescriptionCard) card); break;
-            case IMAGETEST:      renderImageTestCard((ImageTestCard) card);               break;
-            case MULITPLECHOICE: renderMultipleChoiceCard((MultipleChoiceCard) card);     break;
-            case TEXT:           renderTextCard((TextCard) card);                         break;
-            case TRUEFALSE:      renderTrueFalseCard((TrueFalseCard) card);               break;
-            default:             Debug.error("CardTypesRenderer: Unknown card type");     break;
+            case AUDIO:          renderAudioCard(canvas, (AudioCard)card);                       break;
+            case IMAGEDESC:      renderImageDescriptionCard(canvas, (ImageDescriptionCard)card); break;
+            case IMAGETEST:      renderImageTestCard(canvas, (ImageTestCard)card);               break;
+            case MULITPLECHOICE: renderMultipleChoiceCard(canvas, (MultipleChoiceCard)card);     break;
+            default:             break;
         }
+
+        background.render();
     }
 
     public static void renderBack(Card card, ivec2 resolution)
@@ -49,59 +69,92 @@ public class CardTypesRenderer
 
         Box background = new Box(new ivec2(0,0), resolution);
         background.setColor(new vec4(0.26f, 0.26f, 0.31f, 1.0f));
+
+        Text titleText = new Text("Answer", defaultFont, new ivec2(5, 10), 0);
+        titleText.setPositionInPercent(true, false);
+        float factor = ((float)resolution.x * 0.8f) / (float)titleText.getSize().x;
+        titleText.setCharacterHeight(Math.min(titleText.getSize().y * factor, 80));
+        background.addGUI(titleText);
+
+
+        TextBox answerTextbox = new TextBox(card.getAnswerString(), defaultFont, new ivec2(10, 2), new ivec2(80, 80));
+        answerTextbox.setSizeInPercent(true, true);
+        answerTextbox.setPositionInPercent(true, true);
+        answerTextbox.setTextSize(50);
+        answerTextbox.setAlignment(Alignment.LEFT);
+        answerTextbox.getBox().hide(true);
+        answerTextbox.setAutoInsertLinebreaks(true);
+        background.addGUI(answerTextbox);
+
+        background.resize();
+        background.reposition();
         background.render();
+    }
 
-        ArrayList<String> strs = new ArrayList<>();
-
-        switch(card.getType())
+    private static void renderMultipleChoiceCard(RenderGUI canvas, MultipleChoiceCard card)
+    {
+        int maxheight = 0;
+        int i = 1;
+        for(String answer : card.getAnswers())
         {
-            case AUDIO:          strs.add(((AudioCard) card).getAnswer());                             break;
-            //case IMAGEDESC:      strs.add(((ImageDescriptionCard) card).getAnswer());                  break;
-            case IMAGETEST:      strs.add(((ImageTestCard) card).getAnswer());                         break;
-            case MULITPLECHOICE: strs.addAll(Arrays.asList(((MultipleChoiceCard) card).getAnswers())); break;
-            case TEXT:           strs.add(((TextCard) card).getAnswer());                              break;
-            case TRUEFALSE:      strs.add(((TrueFalseCard) card).isAnswer() ? "True" : "False");       break;
-            default:             Debug.error("CardTypesRenderer: Unknown card type");                  break;
+            TextBox indexBox = new TextBox(
+                String.valueOf(i++) + " " + answer, 
+                FontManager.getInstance().getDefaultFont(), 
+                new ivec2(0, 0), 
+                new ivec2(100, 50)
+            );
+            indexBox.setAlignment(Alignment.LEFT);
+            indexBox.setSizeInPercent(true, false);
+            indexBox.setAutoInsertLinebreaks(true);
+            indexBox.resize();
+            indexBox.setPosition(new ivec2(0, maxheight));
+            indexBox.getBox().hide(true);
+            maxheight += indexBox.getSize().y + 5;
+            canvas.addGUI(indexBox);
         }
+    }
 
-        Text answertext = new Text("EEHH", defaultFont, new ivec2(0, 0), 0);
-        answertext.setCharacterHeight(100);
+    private static void renderImageTestCard(RenderGUI canvas, ImageTestCard card)
+    {
+        Box imageBox = new Box(new ivec2(0, 0), new ivec2(0, 100));
+        imageBox.setSizeInPercent(false, true);
 
-        for(int i = 0; i < strs.size(); i++)
+        Texture tex = new Texture();
+        tex.load(card.getImage(), CardTypesRenderer.class);
+        imageBox.setTexture(tex);
+        imageBox.setColor(new vec4(1, 1, 1, 1));
+        imageBox.invertTexcoordY(true);
+        canvas.addGUI(imageBox);
+        imageBox.resize();
+        imageBox.setSize(new ivec2(imageBox.getSize().y, 100));
+        imageBox.setPosition(new ivec2((canvas.getSize().x - imageBox.getSize().x) / 2, 0));
+    }
+
+    private static void renderImageDescriptionCard(RenderGUI canvas, ImageDescriptionCard card)
+    {
+        Box imageBox = new Box(new ivec2(0, 0), new ivec2(0, 100));
+        imageBox.setSizeInPercent(false, true);
+
+        Texture tex = new Texture();
+        tex.load(card.getImage(), CardTypesRenderer.class);
+        imageBox.setTexture(tex);
+        imageBox.setColor(new vec4(1, 1, 1, 1));
+        imageBox.invertTexcoordY(true);
+        canvas.addGUI(imageBox);
+        imageBox.resize();
+        imageBox.setSize(new ivec2(imageBox.getSize().y, 100));
+        imageBox.setPosition(new ivec2((canvas.getSize().x - imageBox.getSize().x) / 2, 0));
+
+        int i = 1;
+        for(ImageDescriptionCardAnswer answer : card.getAnswers())
         {
-            Debug.debug(strs.get(i));
-            answertext.setString(strs.get(i));
-            answertext.setPosition(new ivec2(20, i * 20));
-            answertext.render();
+            TextBox indexBox = new TextBox(String.valueOf(i++), FontManager.getInstance().getDefaultFont(), new ivec2(answer.xpos, answer.ypos), new ivec2(50));
+            indexBox.setPositionInPercent(true, true);
+            imageBox.addGUI(indexBox);
         }
     }
 
-    private static void renderTrueFalseCard(TrueFalseCard card)
-    {
-        
-    }
-
-    private static void renderTextCard(TextCard card)
-    {
-        
-    }
-
-    private static void renderMultipleChoiceCard(MultipleChoiceCard card)
-    {
-        
-    }
-
-    private static void renderImageTestCard(ImageTestCard card)
-    {
-        
-    }
-
-    private static void renderImageDescriptionCard(ImageDescriptionCard card)
-    {
-        
-    }
-
-    private static void renderAudioCard(AudioCard card)
+    private static void renderAudioCard(RenderGUI canvas, AudioCard card)
     {
         
     }
