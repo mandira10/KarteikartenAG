@@ -5,8 +5,10 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
+import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.Persistence.CardRepository;
+import com.swp.Persistence.CategoryRepository;
 import com.swp.Persistence.PersistenceManager;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
@@ -98,7 +100,7 @@ public class AddCardTest {
             {
                 put("answer", "Testantwort");
                 put("question", "Testfrage");
-                put("title", "Testtitel");
+                put("title", "Testtitel3");
                 put("visibility", false);
             }
         };
@@ -120,6 +122,37 @@ public class AddCardTest {
         assertEquals(1,CardsToTag2.size());
         Card card1 = CardsToTag1.iterator().next();
         Card card2 = CardsToTag2.iterator().next();
+        assertEquals(card1.getUuid(),card2.getUuid());
+    }
+
+    @Test
+    public void testCardCreateAndUpdateWithCategories() {
+        HashMap<String, Object> txmap = new HashMap<>() {
+            {
+                put("answer", "Testantwort");
+                put("question", "Testfrage");
+                put("title", "Testtitel2");
+                put("visibility", false);
+            }
+        };
+        Set<String> categoriesToAdd = new HashSet<>() {
+            {
+                add("categorie1");
+                add("categorie2");
+            }
+        };
+
+        assertTrue(CardController.updateCardData(null, "TEXT", txmap, null, categoriesToAdd));
+        Set<Category> categories = CategoryRepository.getCategories();
+        assertEquals(2,categories.size());
+        Category c1 = categories.iterator().next();
+        Category c2 = categories.iterator().next();
+        Set<Card> CardsToC1 = CategoryRepository.getCardsByCategory(c1);
+        Set<Card> CardsToC2 = CategoryRepository.getCardsByCategory(c2);
+        assertEquals(1,CardsToC1.size());
+        assertEquals(1,CardsToC2.size());
+        Card card1 = CardsToC1.iterator().next();
+        Card card2 = CardsToC2.iterator().next();
         assertEquals(card1.getUuid(),card2.getUuid());
     }
 

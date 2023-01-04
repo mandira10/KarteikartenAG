@@ -39,7 +39,7 @@ public class CategoryController
     public static Set<Card> getCardsInCategory(Category category) {
 
         try {
-            Set cardsForCategory = CategoryLogic.getCardsForCategory(category);
+            Set cardsForCategory = CategoryLogic.getCardsByCategory(category);
 
             if (cardsForCategory.isEmpty()) {
                 NotificationGUI.addNotification("Es gibt keine Karten für diese Kategorie", Notification.NotificationType.INFO, 5);

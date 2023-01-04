@@ -18,6 +18,8 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table
+@NamedQuery(name = "Category.findByName",
+        query = "SELECT c FROM Category c WHERE c.name = :name")
 public class Category implements Serializable
 {
     /**
@@ -45,7 +47,9 @@ public class Category implements Serializable
     /**
      * Zugehörige UUIDs der Parents der Kategorie
      */
-    //TODO: Solltet ihr euch anschauen, brauchen wir das überhaupt?
+    @ElementCollection
+    @CollectionTable(name = "parent_uuids", joinColumns = @JoinColumn(name = "uuid"))
+    @Column(name = "parents")
     private Set<String> parentUUIDs;
 
 
