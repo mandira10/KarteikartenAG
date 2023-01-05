@@ -7,6 +7,7 @@ import com.swp.DataModel.Tag;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CardLogic;
+import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.Exporter.ExportFileType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtilsBean;
@@ -28,11 +29,10 @@ public class CardController {
      * @param end: Seitenauswahl Endwert
      * @return anzuzeigende Karten
      */
-    public static Set<Card> getCardsToShow(long begin, long end) {
-
-            return CardLogic.getCardsToShow(begin, end);
-
-    //TODO EXCEPTIONS? Interrupted, begin, end?
+    public static void getCardsToShow(long begin, long end, DataCallback<Card> callback) 
+    {
+        CardLogic.getCardsToShow(begin, end, callback);
+        //TODO EXCEPTIONS? Interrupted, begin, end?
     }
 
     /**

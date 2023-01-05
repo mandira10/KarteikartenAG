@@ -118,7 +118,7 @@ public class DeckOverviewPage extends Page
         });
 
         Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Deck", new SearchbarCallback() {
-            @Override public void run() 
+            @Override public void run(String query) 
             {
                 //TODO search
             }

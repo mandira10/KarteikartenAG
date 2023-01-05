@@ -32,6 +32,7 @@ import com.swp.GUI.KarteikartenAGGUI;
 // TODO-List
 // 
 // GUIs
+//   - Create GUI inside thread
 //   - Notification GUI          -- done
 //   - Confirmation GUI
 //   - Rate Card GUI             -- done

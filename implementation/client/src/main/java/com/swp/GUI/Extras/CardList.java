@@ -1,13 +1,11 @@
 package com.swp.GUI.Extras;
 
-import java.util.List;
 import java.util.Set;
 
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Debug;
-import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
 
 public class CardList extends RenderGUI
@@ -15,25 +13,19 @@ public class CardList extends RenderGUI
     private Scroller pScroller;
     private boolean bIsInSelectmode;
 
-    public CardList(ivec2 pos, ivec2 size, Set<Card> cards)
+    private static final int ENTRY_HEIGHT = 40;
+    private static final int GAP_SIZE = 5;
+
+    public CardList(ivec2 pos, ivec2 size)
     {
         vPos.set(pos);
         vSize.set(size);
-        int entryHeight = 40;
-        int gapSize = 5;
-        int numentries = 0;
         this.bIsInSelectmode = false;
 
         pScroller = new Scroller(new ivec2(0, 0), new ivec2(100, 100));
         pScroller.setSizeInPercent(true, true);
         addElement(pScroller);
 
-        for(Card card : cards)
-        {
-            CardListEntry entry = new CardListEntry(card, new ivec2(0, numentries++ * (entryHeight + gapSize)), new ivec2(100, entryHeight), this);
-            entry.setSizeInPercent(true, false);
-            pScroller.addGUI(entry);
-        }
 
         resize();
         reposition();
@@ -55,6 +47,24 @@ public class CardList extends RenderGUI
             }
         }
         bIsInSelectmode = false;
+    }
+
+    public void addCard(Card card)
+    {
+        CardListEntry entry = new CardListEntry(card, new ivec2(0, pScroller.numChildren() * (ENTRY_HEIGHT + GAP_SIZE)), new ivec2(100, ENTRY_HEIGHT), this);
+        entry.setSizeInPercent(true, false);
+        pScroller.addGUI(entry);
+    }
+
+    public void addCards(Set<Card> cards)
+    {
+        for(Card card : cards)
+            addCard(card);
+    }
+
+    public void reset()
+    {
+        pScroller.destroyChildren();
     }
 
 

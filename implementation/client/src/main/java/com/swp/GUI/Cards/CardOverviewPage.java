@@ -1,8 +1,10 @@
 package com.swp.GUI.Cards;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Scroller;
-import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -13,21 +15,18 @@ import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.CardList;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Searchbar;
+import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.Persistence.DataCallback;
 
 public class CardOverviewPage extends Page 
 {
-    public void getCardsToShowInitially()
-    {
-        long begin = 0;
-        long end = 0;
-        CardController.getCardsToShow(begin,end);
-    }
-
-
-    private TextField pSearchField; //TODO
+    private Searchbar pSearchbar;
+    private CardList pCardList;
 
     public CardOverviewPage()
     {
@@ -63,32 +62,52 @@ public class CardOverviewPage extends Page
 
         RenderGUI canvas = findChildByID("canvas");
 
-        CardList cardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), CardController.getCardsToShow(0, 100));
-        cardList.setSizeInPercent(true, true);
-        canvas.addGUI(cardList);
+        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100));
+        pCardList.setSizeInPercent(true, true);
+        canvas.addGUI(pCardList);
 
-        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Card", new SearchbarCallback() {
-            @Override public void run() 
+        pSearchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Card", new SearchbarCallback() {
+            @Override public void run(String query) 
             {
-                //TODO search
+                loadCards(query);
             }
         });
-        searchbar.setPositionInPercent(false, true);
-        searchbar.setSizeInPercent(true, false);
-        searchbar.setOrigin(new ivec2(0, 50));
-        addGUI(searchbar);
+        pSearchbar.setPositionInPercent(false, true);
+        pSearchbar.setSizeInPercent(true, false);
+        pSearchbar.setOrigin(new ivec2(0, 50));
+        addGUI(pSearchbar);
 
         this.setSizeInPercent(true, true);
         reposition();
     }
 
-    public void deleteCards(){
-        CardController.deleteCards(null);
+    public void loadCards(int from, int to)
+    {
+        if(from == 0)
+            pCardList.reset();
+        CardController.getCardsToShow(from, to, new DataCallback<Card>() {
+            @Override public void onSuccess(List<Card> data) 
+            {
+                pCardList.addCards(data.stream().collect(Collectors.toSet()));
+            }
+
+            @Override public void onFailure(String msg) 
+            {
+                NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);     
+            }
+            
+        });
     }
 
-    private void deleteCard()
+    public void loadCards(String str)
     {
-        CardController.deleteCard(null);
+        pCardList.reset();
+        pCardList.addCards(CardController.getCardsBySearchterms(str));
+    }
+
+    public void deleteCards()
+    {
+        CardController.deleteCards(null);
     }
 
     private void exportCards()

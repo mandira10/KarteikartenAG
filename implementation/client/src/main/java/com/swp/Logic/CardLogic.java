@@ -6,6 +6,7 @@ import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Tag;
 import com.swp.Persistence.Cache;
 import com.swp.Persistence.CardRepository;
+import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.Exporter;
 import com.swp.Persistence.Exporter.ExportFileType;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +30,9 @@ public class CardLogic
      * @param end: Seitenauswahl Endwert
      * @return anzuzeigende Karten
      */
-    public static Set<Card> getCardsToShow(long begin, long end){
-        return CardRepository.getCards(begin, end);
+    public static void getCardsToShow(long begin, long end, DataCallback<Card> callback)
+    {
+        CardRepository.getCards(begin, end, callback);
     }
 
     /**

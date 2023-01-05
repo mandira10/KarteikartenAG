@@ -16,6 +16,7 @@ public class ViewSingleCategoryPage extends Page
 {
     private Category pCategory;
     private RenderGUI pCanvas;
+    private CardList pCardList;
 
     public ViewSingleCategoryPage()
     {
@@ -24,6 +25,10 @@ public class ViewSingleCategoryPage extends Page
 
         addGUI(XMLGUI.loadFile("guis/categories/categoryviewpage.xml"));
         pCanvas = findChildByID("canvas");
+
+        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100));
+        pCardList.setSizeInPercent(true, true);
+        pCanvas.addGUI(pCardList);
 
         RenderGUI optionsMenu = findChildByID("menu");
         Button editButton = (Button)optionsMenu.findChildByID("editcategorybutton");
@@ -42,11 +47,9 @@ public class ViewSingleCategoryPage extends Page
     public void setCategory(Category category)
     {
         this.pCategory = category;
-        pCanvas.destroyChildren();
 
-        CardList cardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), CategoryController.getCardsInCategory(this.pCategory));
-        cardList.setSizeInPercent(true, true);
-        pCanvas.addGUI(cardList);
+        pCardList.reset();
+        pCardList.addCards(CategoryController.getCardsInCategory(this.pCategory));
 
         resize();
         reposition();

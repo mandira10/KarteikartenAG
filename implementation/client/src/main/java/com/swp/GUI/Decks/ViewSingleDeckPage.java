@@ -16,6 +16,7 @@ public class ViewSingleDeckPage extends Page
 {
     private Deck pDeck;
     private RenderGUI pCanvas;
+    private CardList pCardList;
 
     public ViewSingleDeckPage()
     {
@@ -24,6 +25,10 @@ public class ViewSingleDeckPage extends Page
 
         addGUI(XMLGUI.loadFile("guis/decks/deckviewpage.xml"));
         pCanvas = findChildByID("canvas");
+
+        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100));
+        pCardList.setSizeInPercent(true, true);
+        pCanvas.addGUI(pCardList);
 
         RenderGUI optionsMenu = findChildByID("menu");
         Button startButton = (Button)optionsMenu.findChildByID("starttestbutton");
@@ -50,11 +55,8 @@ public class ViewSingleDeckPage extends Page
     public void setDeck(Deck deck)
     {
         this.pDeck = deck;
-        pCanvas.destroyChildren();
-
-        CardList cardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), DeckController.getCardsInDeck(this.pDeck));
-        cardList.setSizeInPercent(true, true);
-        pCanvas.addGUI(cardList);
+        pCardList.reset();
+        pCardList.addCards(DeckController.getCardsInDeck(this.pDeck));
 
         resize();
         reposition();

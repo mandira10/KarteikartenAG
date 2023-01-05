@@ -13,7 +13,7 @@ public class Searchbar extends RenderGUI
 {
     public interface SearchbarCallback
     {
-        public void run();
+        public void run(String query);
     }
 
     private TextField pInputField;
@@ -36,7 +36,7 @@ public class Searchbar extends RenderGUI
         pInputField.setCallback(new TextFieldInputCallback() {
             @Override public void enter(String complete) 
             {
-                pCallback.run();
+                pCallback.run(complete);
             }
 
             @Override public void input(String input, String complete) 
@@ -53,7 +53,7 @@ public class Searchbar extends RenderGUI
         pSubmitButton.setCallbackFunction(new ButtonCallback() {
             @Override public void run() 
             {
-                pCallback.run();
+                pCallback.run(pInputField.getBox().getString());
             }
         });
         pSubmitButton.setPositionInPercent(true, false);

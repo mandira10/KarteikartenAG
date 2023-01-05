@@ -11,6 +11,8 @@ import com.swp.DataModel.CardTypes.TrueFalseCard;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +23,16 @@ import java.util.stream.Collectors;
 public class CardRepository
 {
     private static final PersistenceManager pm = new PersistenceManager();
-    public static Set<Card> getCards(long from, long to)
+    public static void getCards(long from, long to, DataCallback<Card> callback)
     {
+        //
+        //Kann jetzt in einen thread verpackt werden
+        //
+
         //////////////////////////////////////
         // For Testing 
         //////////////////////////////////////
-        Set<Card> cards = new HashSet<>();
+        List<Card> cards = new ArrayList<>();
        // Texture ketTexture = new Texture("ket");
        // ketTexture.load("textures/orange-ket.png", CardRepository.class); //TODO: byte[] nutzen
         for(int i = 0; i < to - from; i += 6)
@@ -38,18 +44,19 @@ public class CardRepository
             cards.add(new TextCard("Some Text Question", "Correct Text Answer", "TextCardTitle", false));
             cards.add(new TrueFalseCard("TrueFalse Question", true, "TrueFalseCardTitle", false));
         }
+        callback.onSuccess(cards); //temporary
 
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            cards = (Set<Card>) em.createQuery("SELECT Card FROM Card").getResultStream().collect(Collectors.toSet());
+            cards = (List<Card>) em.createQuery("SELECT Card FROM Card").getResultStream().collect(Collectors.toList());
             em.getTransaction().commit();
-            return cards;
-        } catch (final Exception e) {
+            callback.onSuccess(cards);
+        } 
+        catch (final Exception e) 
+        {
             // wie soll die Fehlermeldung zur GUI gelangen?
-            log.warn("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
+            callback.onFailure("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
         }
-
-        return cards;
 
         //////////////////////////////////////
         // For Implementation we need a view because we need card and cardtodeck
