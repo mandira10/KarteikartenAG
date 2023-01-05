@@ -20,7 +20,8 @@ public class CategoryLogic {
      * @return true, wenn erfolgreich oder bereits enthalten
      */
     public static boolean createCardToCategory(Card card, Category category) {
-        if (getCategoriesByCard(card).contains(category)){
+        Set<Category> categories = getCategoriesByCard(card);
+        if (categories.contains(category)){
             log.info("Kategorie {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", category.getUuid(), card.getUuid());
             return true;
         }
@@ -44,13 +45,9 @@ public class CategoryLogic {
     }
 
     public static Set<Category> getCategoriesByCard(Card card) {
-        Set<Category> retArr = new HashSet<>();
-        for (CardToCategory c2c : CategoryRepository.getCardToCategories()) {
-            if (c2c.getCard() == card)
-                retArr.add(c2c.getCategory());
-        }
-        return retArr;
+        return CategoryRepository.getCategoriesToCard(card);
     }
+
 
 
 
@@ -85,12 +82,10 @@ public class CategoryLogic {
 
     public static Set<Card> getCardsInCategory(Category category) {
 
-        Set<Card> retArr = new HashSet<>();
-        for (CardToCategory c2c : CategoryRepository.getCardToCategories()) {
-            if (c2c.getCategory() == category)
-                retArr.add(c2c.getCard());
+        {
+            checkNotNullOrBlank(category, "Kategorie");
+            return CategoryRepository.getCardsByCategory(category);
         }
-        return retArr;
     }
 
     public static boolean createCardToCategory(Card card, Set<String> categories) {
@@ -98,7 +93,7 @@ public class CategoryLogic {
         for (String name : categories) {
             checkNotNullOrBlank(name, "Category Name");
             final Optional<Category> optionalCategory = CategoryRepository.find(name);
-            if (optionalCategory.isPresent()) {
+            if (optionalCategory != null) {
                 final Category category = optionalCategory.get();
                 if(!createCardToCategory(card,category))
                     ret = false;
@@ -114,21 +109,6 @@ public class CategoryLogic {
     }
 
 
-
-    //CARDOVERVIEW
-
-    /**
-     * Wird verwendet bei einer Filterung nach einer bestimmten Kategorie. Prüft zunächst, dass der übergebene Tag nicht
-     * null oder leer ist und gibt die Funktion dann an das Category Repository weiter.
-     * @param category: Die Kategorie, zu der die Karten gesucht werden sollen
-     * @return Set der Karten, die die Kategorie enthalten
-     */
-    public static Set getCardsForCategory(Category category) {
-        {
-            checkNotNullOrBlank(category, "Kategorie");
-            return CategoryRepository.getCardsForCategory(category);
-        }
-    }
 
     //CARDEDITPAGE, CATEGORY OVERVIEW
 
@@ -146,4 +126,11 @@ public class CategoryLogic {
     }
 
 
+    public static Set<Card> getCardsByCategory(Set<Category> categories) {
+        Set<Card> cardsOfAll = new HashSet<>();
+        for (Category c : categories){
+            cardsOfAll.addAll(getCardsInCategory(c));
+        }
+        return cardsOfAll;
+    }
 }

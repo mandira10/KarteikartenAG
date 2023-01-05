@@ -146,7 +146,7 @@ public class CardController {
      */
     public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories){
        
-
+        //TODO: how to get data from GUI and check not null
         return CardLogic.updateCardData(card, type, attributes, tags, categories);
 
     }

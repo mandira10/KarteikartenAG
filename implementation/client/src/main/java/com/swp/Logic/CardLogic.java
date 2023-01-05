@@ -170,11 +170,12 @@ public class CardLogic
                 case "AUDIO":
                     AudioCard cardAu = new AudioCard();
                     return updateCardContent(cardAu, attributes, tags, categories, true);
+                default:
+                  return false;
             }
         } else {
             return updateCardContent(card, attributes, tags, categories, false);
         }
-        return false;
         //TODO: Exceptions, Erfolgsmeldungen..
     }
 
