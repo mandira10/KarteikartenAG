@@ -38,7 +38,7 @@ public class ImageDescriptionCard extends Card
      */
     public ImageDescriptionCard()
     {
-        this("", null, "", null, false);
+        this("", new ImageDescriptionCardAnswer[] {}, "", "", false);
     }
 
     /**

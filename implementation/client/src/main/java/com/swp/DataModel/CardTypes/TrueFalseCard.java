@@ -30,7 +30,7 @@ public class TrueFalseCard extends Card
      */
     public TrueFalseCard()
     {
-       this("",false,"",false);
+       this("", false, "", false);
     }
 
     /**

@@ -45,8 +45,8 @@ public class TestCardGUI extends RenderGUI
 
         Font defaultFont = FontManager.getInstance().getDefaultFont();
 
-        pQuestionScroller = new Scroller(new ivec2(5, 40), new ivec2(90, 100));
-        pQuestionScroller.setSizeInPercent(true, false);
+        pQuestionScroller = new Scroller(new ivec2(5, 40), new ivec2(90, 50));
+        pQuestionScroller.setSizeInPercent(true, true);
         pQuestionScroller.setPositionInPercent(true, false);
         addGUI(pQuestionScroller);
 
@@ -99,9 +99,10 @@ public class TestCardGUI extends RenderGUI
         AudioCard card = (AudioCard)pCard;
 
         InputStream stream = TestCardGUI.class.getClassLoader().getResourceAsStream(card.getAudio());
-        AudioGUI audioGUI = new AudioGUI(new ivec2(5, 180), new ivec2(80, 80), stream);
-        audioGUI.setPositionInPercent(true, false);
+        AudioGUI audioGUI = new AudioGUI(new ivec2(5, 55), new ivec2(80, 80), stream);
+        audioGUI.setPositionInPercent(true, true);
         audioGUI.setSizeInPercent(false, false);
+        audioGUI.setOrigin(new ivec2(0, -50));
         addGUI(audioGUI);
 
         addAnswerTextField();
@@ -187,10 +188,11 @@ public class TestCardGUI extends RenderGUI
         Font defaultFont = FontManager.getInstance().getDefaultFont();
         MultipleChoiceCard card = (MultipleChoiceCard)pCard;
 
-        Scroller answerScroller = new Scroller(new ivec2(5, 180), new ivec2(90, 100));
+        Scroller answerScroller = new Scroller(new ivec2(5, 55), new ivec2(90, 100));
         answerScroller.setSizeInPercent(true, true);
-        answerScroller.setPositionInPercent(true, false);
+        answerScroller.setPositionInPercent(true, true);
         answerScroller.setMargin(new ivec2(0, -200));
+        answerScroller.setOrigin(new ivec2(0, -50));
         addGUI(answerScroller);
 
         Radiobutton radiobutton = new Radiobutton(new ivec2(0, 0), 30, 100, defaultFont, card.getAnswers());

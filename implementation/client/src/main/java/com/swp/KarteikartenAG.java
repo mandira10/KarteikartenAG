@@ -32,39 +32,47 @@ import com.swp.GUI.KarteikartenAGGUI;
 // TODO-List
 // 
 // GUIs
-//   - Notification GUI    -- done
+//   - Notification GUI          -- done
 //   - Confirmation GUI
-//   - Rate Card GUI       -- done
-//   - Radiobutton GUI     -- done
-//   - Tag Textfield GUI   -- done
-//   - Audio GUI           -- done
-//   - Finalize Decktests  -- done
-//       - TextCard        -- done
-//       - MultiCard       -- done
-//       - TrueFalseCard   -- done
-//       - ImageTestCard   -- done
-//       - ImageDescCard   -- done
-//       - AudioCard       -- done
+//   - Rate Card GUI             -- done
+//   - Radiobutton GUI           -- done
+//   - Tag Textfield GUI         -- done
+//   - Audio GUI                 -- done
+//   - Card creation             -- done
+//   - Edit card category        -- done
+//   - Finalize Decktests        -- done
+//       - TextCard              -- done
+//       - MultiCard             -- done
+//       - TrueFalseCard         -- done
+//       - ImageTestCard         -- done
+//       - ImageDescCard         -- done
+//       - AudioCard             -- done
+//   - Show deck progress
+//   - Final testpage
+//   - Test rating
+//   - Studysystem editpage
+//   - Studysystem dropdown
 //   - Finalize Viewpages
-//       - TextCard        -- done
-//       - MultiCard       -- done
-//       - TrueFalseCard   -- done
-//       - ImageTestCard   -- done
-//       - ImageDescCard   -- done
+//       - TextCard              -- done
+//       - MultiCard             -- done
+//       - TrueFalseCard         -- done
+//       - ImageTestCard         -- done
+//       - ImageDescCard         -- done
 //       - AudioCard
 //   - Export Cards Page
 //   - Add icons to edit options
-//   - Finalize Editpages  -- done
-//       - TextCard        -- done
-//       - MultiCard       -- done
-//       - TrueFalseCard   -- done
-//       - ImageTestCard   -- done
-//       - ImageDescCard   -- done
-//       - AudioCard       -- done
+//   - Finalize Editpages        -- done
+//       - TextCard              -- done
+//       - MultiCard             -- done
+//       - TrueFalseCard         -- done
+//       - ImageTestCard         -- done
+//       - ImageDescCard         -- done
+//       - AudioCard             -- done
 //   - Fix Scroller class
+//   - Searchbar                 -- done
 //   - Category GUIs
-//       - Category List
-//       - Single Category View
+//       - Category List         -- done
+//       - Single Category View  -- done
 //       - Category Tree
 //   - Language Class
 ////////////////////////////////////////////////////
@@ -72,7 +80,10 @@ import com.swp.GUI.KarteikartenAGGUI;
 
 public class KarteikartenAG 
 {
-    static GUI pMainGUI;
+    private static GUI pMainGUI;
+    private static final ivec2 iWindowSize = new ivec2(1000, 800);
+
+
     public static void main(String[] args)
     {
         Globals.DEBUG_BUILD = true;
@@ -80,14 +91,15 @@ public class KarteikartenAG
 
         Debug.init();
         Display.init();
-        Window pMainWindow = new Window("KarteikartenAG", new ivec2(800, 600), Window.GUM_WINDOW_RESIZABLE, null);
+        Window pMainWindow = new Window("KarteikartenAG", iWindowSize, Window.GUM_WINDOW_RESIZABLE, null);
         pMainWindow.setClearColor(new vec4(0.09f, 0.1f, 0.11f, 1.0f)); // Set the clear color);
         pMainWindow.setVerticalSync(true);
-        pMainWindow.setMinimumSize(new ivec2(800, 600));
+        pMainWindow.setMinimumSize(iWindowSize);
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
+
 
         //
         // Hollow symbols
@@ -109,9 +121,6 @@ public class KarteikartenAG
         //Init Listener
         AL11.alListener3f(AL11.AL_POSITION, 0, 0, 0);
         AL11.alListener3f(AL11.AL_VELOCITY, 0, 0, 0);
-
-
-        //System.setProperty("java.awt.headless", "false"); //for iCrap support
 
         pMainGUI = new GUI(pMainWindow);
 		pMainWindow.onResized(new WindowResizePosCallback() {

@@ -55,7 +55,7 @@ public class CategoryLogic {
 
 
     public static int numCardsInCategory(Category category) {
-        return getCardsByCategory(category).size();
+        return getCardsInCategory(category).size();
     }
 
     public static boolean updateCategoryData(Category oldcategory, Category newcategory) {
@@ -83,7 +83,7 @@ public class CategoryLogic {
         return false;
     }
 
-    public static Set<Card> getCardsByCategory(Category category) {
+    public static Set<Card> getCardsInCategory(Category category) {
 
         Set<Card> retArr = new HashSet<>();
         for (CardToCategory c2c : CategoryRepository.getCardToCategories()) {

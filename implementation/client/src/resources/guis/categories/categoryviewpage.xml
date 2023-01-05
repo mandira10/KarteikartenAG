@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui-root pos="0, 0" size="100%, 100%">
+    <gui id="canvas" size="95%, 80%" pos="2.5%, 10%">
+    </gui>
+    <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
+        <button id="treeviewbutton"       pos="2.5%,  0" origin="  0, 0" size="100, 30" border-radius="7" fontsize="20" title="View Tree"   color="#73C991" />
+        <button id="editcategorybutton"   pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Edit Cat."   color="#9C88FF" />
+        <button id="deletecategorybutton" pos="97.5%, 0" origin="220, 0" size="100, 30" border-radius="7" fontsize="20" title="Delete Cat." color="#EB4D4B" />
+    </gui>
+</gui-root>

@@ -18,6 +18,8 @@ import com.swp.DataModel.Deck;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardExportPage;
+import com.swp.GUI.Extras.Searchbar;
+import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 public class DeckOverviewPage extends Page
@@ -115,9 +117,19 @@ public class DeckOverviewPage extends Page
             }
         });
 
+        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Deck", new SearchbarCallback() {
+            @Override public void run() 
+            {
+                //TODO search
+            }
+        });
+        searchbar.setPositionInPercent(false, true);
+        searchbar.setSizeInPercent(true, false);
+        searchbar.setOrigin(new ivec2(0, 50));
+        addGUI(searchbar);
+
         this.setSizeInPercent(true, true);
         reposition();
-        resize();
     }
     
 

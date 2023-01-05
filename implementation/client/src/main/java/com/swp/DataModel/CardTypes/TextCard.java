@@ -30,7 +30,7 @@ public class TextCard extends Card
      */
     public TextCard()
     {
-       this("","",null,false);
+       this("", "", "", false);
     }
 
     /**

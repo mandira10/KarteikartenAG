@@ -1,6 +1,5 @@
 package com.swp.DataModel.CardTypes;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class MultipleChoiceCard extends Card
      */
     public MultipleChoiceCard()
     {
-        this(null,null,null,null,false);
+        this("", new String[] {}, new int[] {}, "", false);
     }
 
     /**

@@ -13,6 +13,8 @@ import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.CardList;
+import com.swp.GUI.Extras.Searchbar;
+import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 public class CardOverviewPage extends Page 
@@ -42,18 +44,7 @@ public class CardOverviewPage extends Page
             addCardButton.setCallbackFunction(new ButtonCallback() {
                 @Override public void run()
                 {
-                    Debug.info("Add Card Button");
-                }
-            });
-        }
-
-        Button editCardButton = (Button)findChildByID("editcardbutton");
-        if(editCardButton != null)
-        {
-            editCardButton.setCallbackFunction(new ButtonCallback() {
-                @Override public void run()
-                {
-                    Debug.info("Edit Card Button");
+                    PageManager.viewPage(PAGES.CARD_CREATE);
                 }
             });
         }
@@ -76,9 +67,19 @@ public class CardOverviewPage extends Page
         cardList.setSizeInPercent(true, true);
         canvas.addGUI(cardList);
 
+        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Card", new SearchbarCallback() {
+            @Override public void run() 
+            {
+                //TODO search
+            }
+        });
+        searchbar.setPositionInPercent(false, true);
+        searchbar.setSizeInPercent(true, false);
+        searchbar.setOrigin(new ivec2(0, 50));
+        addGUI(searchbar);
+
         this.setSizeInPercent(true, true);
         reposition();
-        resize();
     }
 
     public void deleteCards(){

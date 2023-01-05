@@ -236,13 +236,13 @@ public class CardLogic
             if (optionalTag.isPresent()) {
                 final Tag tag = optionalTag.get();
                 if(!createCardToTag(card,tag))
-                ret = false;
+                    ret = false;
             }
             else{
                 Tag tag = new Tag(name);
                 CardRepository.saveTag(tag);
                 if(!createCardToTag(card,tag))
-                ret = false;
+                    ret = false;
             }
         }
         return ret;

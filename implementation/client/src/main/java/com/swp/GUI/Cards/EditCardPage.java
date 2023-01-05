@@ -1,20 +1,33 @@
 package com.swp.GUI.Cards;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.Button.ButtonCallback;
+import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
+import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.TagList.TagList;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Debug;
 import com.swp.Controller.CardController;
+import com.swp.Controller.CategoryController;
+import com.swp.Controller.DeckController;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.Category;
+import com.swp.DataModel.Tag;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.EditCardPages.*;
+import com.swp.GUI.Category.CategorySelectPage;
+import com.swp.GUI.PageManager.PAGES;
 
 public class EditCardPage extends Page
 {
@@ -26,8 +39,12 @@ public class EditCardPage extends Page
     private EditImageDescriptionCard pEditImageDescriptionCardPage;
 
     private Card pOldCard, pNewCard;
+    private List<Category> aCategories;
+    private List<Tag> aTags;
     private RenderGUI pCanvas;
     private TextField pTitlefield, pQuestionField;
+    private TagList pTagList;
+    private TextBox pCategoriesBox;
 
     public EditCardPage()
     {
@@ -97,15 +114,23 @@ public class EditCardPage extends Page
             cancelButton.setCallbackFunction(new ButtonCallback() { @Override public void run() { PageManager.viewLastPage(); } });
 
 
-        TagList tagList = (TagList)findChildByID("tagslist");
-        tagList.addTag("ket");
-        tagList.addTag("orange");
-        tagList.addTag("important");
+        pTagList = (TagList)findChildByID("tagslist");
+        pCategoriesBox = (TextBox)findChildByID("categorylist");
+        pCategoriesBox.setAlignment(Alignment.LEFT);
+        pCategoriesBox.setAutoInsertLinebreaks(true);
 
+
+        Button categoryButton = (Button)findChildByID("editcategoriesbutton");
+        categoryButton.setCallbackFunction(new ButtonCallback() { 
+            @Override public void run() 
+            { 
+                ((CategorySelectPage)PageManager.viewPage(PAGES.CATEGORY_SELECTION)).reset(); 
+            } 
+        });
+        
 
         this.setSizeInPercent(true, true);
         reposition();
-        resize();
     }
 
     public void editCard(String uuid) { editCard(CardController.getCardByUUID(uuid)); }
@@ -117,8 +142,11 @@ public class EditCardPage extends Page
         pOldCard = card;
         pNewCard = Card.copyCard(card); //TODO: lieber keine Kopie sondern Hibernate update Methode verwenden?
 
+        //Set data
         pTitlefield.setString(pNewCard.getTitle());
         pQuestionField.setString(pNewCard.getQuestion());
+        //updateCategories(); //TODO
+        //updateTags();
 
         switch(pNewCard.getType())
         {
@@ -141,6 +169,27 @@ public class EditCardPage extends Page
         page.hide(false);
     }
 
+    public void updateCategories(List<Category> categories)
+    {
+        this.aCategories = categories;
+        String catString = "";
+        for(Category category : categories)
+        {
+            catString += category.getName() + ", ";
+        }
+        catString = catString.substring(0, catString.length() - 2);
+        Debug.info(catString + "eeh");
+        pCategoriesBox.setString(catString);
+    }
+
+    public void updateTags(List<Tag> tags)
+    {
+        //TODO
+        pTagList.addTag("ket");
+        pTagList.addTag("orange");
+        pTagList.addTag("important");
+    }
+
     private void deleteCard()
     {
         CardController.deleteCard(pOldCard);
@@ -148,7 +197,9 @@ public class EditCardPage extends Page
 
     private void applyChanges()
     {
-        Debug.info("Applying changes");
-      //  CardController.updateCardData(pOldCard, pNewCard);
+        //Change to callback function
+        CardController.addTagsToCard(pNewCard, pTagList.getTags().stream().collect(Collectors.toSet()));
+        //Set Card to Tags
+        //Set Card to Categories
     }
 }

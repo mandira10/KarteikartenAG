@@ -39,19 +39,21 @@ public class CategoryController
     public static Set<Card> getCardsInCategory(Category category) {
 
         try {
-            Set cardsForCategory = CategoryLogic.getCardsForCategory(category);
+            Set<Card> cards = CategoryLogic.getCardsInCategory(category);
 
-            if (cardsForCategory.isEmpty()) {
+            if (cards.isEmpty()) {
                 NotificationGUI.addNotification("Es gibt keine Karten für diese Kategorie", Notification.NotificationType.INFO, 5);
             }
 
-            return cardsForCategory; //TODO Verknüpfung mit GUI und Darstellung im Overview
+            return cards; //TODO Verknüpfung mit GUI und Darstellung im Overview
 
-        } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
+        } 
+        catch (IllegalArgumentException ex) //übergebener Wert ist leer
+        {
             NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return null;
         }
 
+        return null;
         //TODO zusätzlich findCategoryByString? wie soll Filterfunktion aussehen?
     }
 

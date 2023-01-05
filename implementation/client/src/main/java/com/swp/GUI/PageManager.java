@@ -8,6 +8,9 @@ import com.gumse.maths.ivec2;
 import com.swp.GUI.Cards.*;
 import com.swp.GUI.Cards.EditCardPages.EditImageDescriptionCardAnswersPage;
 import com.swp.GUI.Category.CategoryOverviewPage;
+import com.swp.GUI.Category.CategorySelectPage;
+import com.swp.GUI.Category.EditCategoryPage;
+import com.swp.GUI.Category.ViewSingleCategoryPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.Decks.EditDeckPage;
 import com.swp.GUI.Decks.TestDeckPage;
@@ -21,11 +24,15 @@ public class PageManager
         LOGIN,
         CARD_OVERVIEW,
         CARD_SINGLEVIEW,
+        CARD_CREATE,
         CARD_EDIT,
         CARD_TEST,
         CARD_EXPORT,
         CARD_IMAGE_ANSWERS,
         CATEGORY_OVERVIEW,
+        CATEGORY_SINGLEVIEW,
+        CATEGORY_EDIT,
+        CATEGORY_SELECTION,
         DECK_OVERVIEW,
         DECK_SINGLEVIEW,
         DECK_EDIT,
@@ -61,18 +68,22 @@ public class PageManager
 
     private static void initPages()
     {
-        addPage(PAGES.CARD_OVERVIEW,      new CardOverviewPage());
-        addPage(PAGES.CARD_SINGLEVIEW,    new ViewSingleCardPage());
-        addPage(PAGES.CARD_EDIT,          new EditCardPage());
-        addPage(PAGES.CARD_EXPORT,        new CardExportPage());
-        addPage(PAGES.CATEGORY_OVERVIEW,  new CategoryOverviewPage());
-        addPage(PAGES.DECK_OVERVIEW,      new DeckOverviewPage());
-        addPage(PAGES.DECK_SINGLEVIEW,    new ViewSingleDeckPage());
-        addPage(PAGES.DECK_EDIT,          new EditDeckPage());
-        addPage(PAGES.DECK_TEST,          new TestDeckPage());
-        addPage(PAGES.LOGIN,              new LoginPage());
-        addPage(PAGES.SETTINGS,           new SettingsPage());
-        addPage(PAGES.CARD_IMAGE_ANSWERS, new EditImageDescriptionCardAnswersPage());
+        addPage(PAGES.CARD_OVERVIEW,       new CardOverviewPage());
+        addPage(PAGES.CARD_SINGLEVIEW,     new ViewSingleCardPage());
+        addPage(PAGES.CARD_EDIT,           new EditCardPage());
+        addPage(PAGES.CARD_CREATE,         new CreateCardPage());
+        addPage(PAGES.CARD_EXPORT,         new CardExportPage());
+        addPage(PAGES.CATEGORY_OVERVIEW,   new CategoryOverviewPage());
+        addPage(PAGES.CATEGORY_SINGLEVIEW, new ViewSingleCategoryPage());
+        addPage(PAGES.CATEGORY_EDIT,       new EditCategoryPage());
+        addPage(PAGES.CATEGORY_SELECTION,  new CategorySelectPage());
+        addPage(PAGES.DECK_OVERVIEW,       new DeckOverviewPage());
+        addPage(PAGES.DECK_SINGLEVIEW,     new ViewSingleDeckPage());
+        addPage(PAGES.DECK_EDIT,           new EditDeckPage());
+        addPage(PAGES.DECK_TEST,           new TestDeckPage());
+        addPage(PAGES.LOGIN,               new LoginPage());
+        addPage(PAGES.SETTINGS,            new SettingsPage());
+        addPage(PAGES.CARD_IMAGE_ANSWERS,  new EditImageDescriptionCardAnswersPage());
     }
 
 
