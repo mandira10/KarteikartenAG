@@ -93,7 +93,6 @@ public class KarteikartenAG
         Debug.init();
         Display.init();
         Window pMainWindow = new Window("KarteikartenAG", iWindowSize, Window.GUM_WINDOW_RESIZABLE, null);
-        pMainWindow.setClearColor(new vec4(0.09f, 0.1f, 0.11f, 1.0f)); // Set the clear color);
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(iWindowSize);
 
@@ -124,6 +123,7 @@ public class KarteikartenAG
         AL11.alListener3f(AL11.AL_VELOCITY, 0, 0, 0);
 
         pMainGUI = new GUI(pMainWindow);
+        pMainWindow.setClearColor(GUI.getTheme().backgroundColor); // Set the clear color);
 		pMainWindow.onResized(new WindowResizePosCallback() {
             @Override public void run(ivec2 val) {
                 pMainGUI.setSize(val);
@@ -134,6 +134,7 @@ public class KarteikartenAG
         pKarteikartenAGGUI.setSize(new ivec2(100, 100));
         pKarteikartenAGGUI.setSizeInPercent(true, true);
         pMainGUI.addGUI(pKarteikartenAGGUI);
+        
 
         //Debugging
         TextBox fpsTextBox = null;

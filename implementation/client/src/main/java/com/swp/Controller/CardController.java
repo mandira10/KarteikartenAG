@@ -15,6 +15,7 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import javax.sound.sampled.AudioFileFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -100,7 +101,7 @@ public class CardController {
      * @param cards Die zu löschenden Karten
      * @return true, wenn ausgeführt, ansonsten false
      */
-    public static boolean deleteCards(Card[] cards) {
+    public static boolean deleteCards(List<Card> cards) {
         try {
             return CardLogic.deleteCards(cards);
         } catch (IllegalStateException ex) {

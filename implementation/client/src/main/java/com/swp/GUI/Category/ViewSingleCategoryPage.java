@@ -10,6 +10,7 @@ import com.swp.DataModel.Category;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.CardList;
+import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 public class ViewSingleCategoryPage extends Page
@@ -26,7 +27,14 @@ public class ViewSingleCategoryPage extends Page
         addGUI(XMLGUI.loadFile("guis/categories/categoryviewpage.xml"));
         pCanvas = findChildByID("canvas");
 
-        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100));
+        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), new CardListSelectmodeCallback() {
+            @Override public void enterSelectmod() 
+            {    
+            }
+            @Override public void exitSelectmod() 
+            {   
+            }
+        });
         pCardList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCardList);
 

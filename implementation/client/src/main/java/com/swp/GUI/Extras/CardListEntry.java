@@ -91,8 +91,9 @@ public class CardListEntry extends RenderGUI
         }
     }
 
-    public boolean isSelected()
-    {
-        return pSelectSwitch.isTicked();
-    }
+    //
+    // Getter
+    //
+    public boolean isSelected() { return this.pSelectSwitch.isTicked(); }
+    public Card getCard()       { return this.pCard; }
 };

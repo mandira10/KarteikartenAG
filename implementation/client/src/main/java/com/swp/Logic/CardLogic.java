@@ -81,7 +81,7 @@ public class CardLogic
      * @param cards zu läschende Karten
      * @return wahr, wenn alle Karten erfolgreich gelöscht wurden
      */
-    public static boolean deleteCards(Card[] cards)
+    public static boolean deleteCards(List<Card> cards)
     {
         boolean ret = true;
         for(Card c : cards)

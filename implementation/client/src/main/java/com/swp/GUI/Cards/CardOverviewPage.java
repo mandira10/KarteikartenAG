@@ -15,9 +15,12 @@ import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.CardList;
+import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Searchbar;
+import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
+import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
@@ -38,31 +41,38 @@ public class CardOverviewPage extends Page
         RenderGUI optionsMenu = findChildByID("menu");
 
         Button addCardButton = (Button)findChildByID("addcardbutton");
-        if(addCardButton != null)
-        {
-            addCardButton.setCallbackFunction(new ButtonCallback() {
-                @Override public void run()
-                {
-                    PageManager.viewPage(PAGES.CARD_CREATE);
-                }
-            });
-        }
+        addCardButton.setCallbackFunction(new ButtonCallback() {
+            @Override public void run()
+            {
+                PageManager.viewPage(PAGES.CARD_CREATE);
+            }
+        });
 
         Button deleteCardButton = (Button)findChildByID("deletecardbutton");
-        if(deleteCardButton != null)
-        {
-            deleteCardButton.setCallbackFunction(new ButtonCallback() {
-                @Override public void run()
-                {
-                    Debug.info("Delete Card Button");
-                }
-            });
-        }
+        deleteCardButton.setCallbackFunction(new ButtonCallback() {
+            @Override public void run()
+            {
+                int numCards = pCardList.getSelection().size();
+                ConfirmationGUI.openDialog("Are you sure that you want to delete " + String.valueOf(numCards) + " cards?", new ConfirmationCallback() {
+                    @Override public void onConfirm() 
+                    {  
+                        deleteCards();
+                    }
+                    @Override public void onCancel() 
+                    {
+                    }
+                });
+            }
+        });
+        deleteCardButton.hide(true);
 
 
         RenderGUI canvas = findChildByID("canvas");
 
-        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100));
+        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), new CardListSelectmodeCallback() {
+            @Override public void enterSelectmod() { deleteCardButton.hide(false); }
+            @Override public void exitSelectmod()  { deleteCardButton.hide(true); }
+        });
         pCardList.setSizeInPercent(true, true);
         canvas.addGUI(pCardList);
 
@@ -107,7 +117,7 @@ public class CardOverviewPage extends Page
 
     public void deleteCards()
     {
-        CardController.deleteCards(null);
+        CardController.deleteCards(pCardList.getSelection());
     }
 
     private void exportCards()

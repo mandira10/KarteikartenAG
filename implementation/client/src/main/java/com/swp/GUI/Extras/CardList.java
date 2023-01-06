@@ -1,5 +1,7 @@
 package com.swp.GUI.Extras;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.gumse.gui.Basics.Scroller;
@@ -10,17 +12,25 @@ import com.swp.DataModel.Card;
 
 public class CardList extends RenderGUI
 {
+    public interface CardListSelectmodeCallback
+    {
+        public void enterSelectmod();
+        public void exitSelectmod();
+    }
+
     private Scroller pScroller;
     private boolean bIsInSelectmode;
+    private CardListSelectmodeCallback pCallback;
 
     private static final int ENTRY_HEIGHT = 40;
     private static final int GAP_SIZE = 5;
 
-    public CardList(ivec2 pos, ivec2 size)
+    public CardList(ivec2 pos, ivec2 size, CardListSelectmodeCallback callback)
     {
         vPos.set(pos);
         vSize.set(size);
         this.bIsInSelectmode = false;
+        this.pCallback = callback;
 
         pScroller = new Scroller(new ivec2(0, 0), new ivec2(100, 100));
         pScroller.setSizeInPercent(true, true);
@@ -33,19 +43,19 @@ public class CardList extends RenderGUI
 
     public void updateSelectmode()
     {
-        Debug.info("Updating");
-        int i = 0;
         for(RenderGUI entry : pScroller.getChildren())
         {
-            Debug.info(i++);
             CardListEntry cardEntry = (CardListEntry)entry;
-            Debug.info(cardEntry.isSelected());
             if(cardEntry.isSelected())
             {
+                if(!bIsInSelectmode)
+                    pCallback.enterSelectmod();
                 bIsInSelectmode = true;
                 return;
             }
         }
+        if(bIsInSelectmode)
+            pCallback.exitSelectmod();
         bIsInSelectmode = false;
     }
 
@@ -72,4 +82,16 @@ public class CardList extends RenderGUI
     // Getter
     //
     public boolean isInSelectmode() { return bIsInSelectmode; }
+    public List<Card> getSelection() 
+    {
+        List<Card> retList = new ArrayList<>();
+        for(RenderGUI child : pScroller.getChildren())
+        {
+            CardListEntry entry = (CardListEntry)child;
+            if(entry.isSelected())
+                retList.add(entry.getCard());
+        }
+
+        return retList;
+    }
 }

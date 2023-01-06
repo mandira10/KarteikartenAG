@@ -4,15 +4,17 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.*;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
-import com.swp.GUI.Cards.EditCardPage;
 import com.swp.GUI.Cards.ViewSingleCardPage;
+import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 public class KarteikartenAGGUI extends RenderGUI
 {
     private Sidebar pSidebar;
     private NotificationGUI pNotifications;
+    private ConfirmationGUI pConfirmations;
 
     private CategoryPage pCategoryPage;
 
@@ -37,8 +39,9 @@ public class KarteikartenAGGUI extends RenderGUI
         page.setCard(card);
         PageManager.viewPage(PAGES.CARD_SINGLEVIEW);
 
-
-
+        pConfirmations = ConfirmationGUI.getInstance();
+        addElement(pConfirmations);
+        
         pNotifications = NotificationGUI.getInstance();
         addElement(pNotifications);
 
@@ -61,14 +64,19 @@ public class KarteikartenAGGUI extends RenderGUI
     {
         PageManager.render();
         pSidebar.render();
+        pConfirmations.render();
         pNotifications.render();
     }
 
     @Override
     public void update()
     {
-        pNotifications.update();
-        pSidebar.update();
-        PageManager.update();
+        pConfirmations.update();
+        if(pConfirmations.isHidden())
+        {
+            pNotifications.update();
+            pSidebar.update();
+            PageManager.update();
+        }
     }
 }
