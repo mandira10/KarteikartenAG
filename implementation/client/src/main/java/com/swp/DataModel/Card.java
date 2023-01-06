@@ -125,24 +125,6 @@ public abstract class Card implements Serializable
     public static Card copyCard(Card card)
     {
         Card retCard = card;
-        /*switch(card.iType)
-        {
-            case AUDIO: retCard = new AudioCard((AudioCard)card); break;
-            case IMAGEDESC:
-                break;
-            case IMAGETEST:
-                break;
-            case MULITPLECHOICE:
-                break;
-            case TEXT:
-                break;
-            case TRUEFALSE:
-                break;
-            default:
-                break;
-
-        }*/
-
         return retCard;
     }
 

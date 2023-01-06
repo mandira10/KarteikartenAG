@@ -169,27 +169,22 @@ public class CardController {
         return CardLogic.getTags();
     }
 
-    /**
-     * Methode zum Erstellen und Aktualisieren von Karten. Wird an die Logik weitergegeben.
-     * @param card Karte zum Aktualisieren, wenn null, dann muss eine neue Karte erstellt werden
-     * @param type Der Kartentyp als String von der GUI übergeben
-     * @param attributes Die HashMap mit den Attributen
-     * @param tags Zugehörige Tags als String Set für die Karte
-     * @param categories Zugehörige Categories als String Set für die Karte
-     * @return true, wenn erfolgreich erstellt
-     */
-    public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories){
-       
-        //TODO: how to get data from GUI and check not null
-        return CardLogic.updateCardData(card, type, attributes, tags, categories);
 
-    }
 
     public static boolean addTagsToCard(Card card, Set<String> tags) {
         return CardLogic.createCardToTags(card, tags);
     }
 
-
+    public static boolean updateCardData(Card cardToChange, boolean neu){
+        //TODO: Kann die GUI in editCard noch den boolean übergeben? Dann müssen wir nicht über die Datenbank prüfen, was vorliegt
+        try {
+            return CardLogic.updateCardData(cardToChange, neu);
+        }
+        catch (Exception e) {
+            log.warn(String.format("Karte \"%s\" konnte nicht gespeichert oder geupdatet werden", cardToChange.getUuid()));
+            return false;
+        }
+    }
 
     //ZUSATZ
 
@@ -204,10 +199,21 @@ public class CardController {
     }
 
 
-    //TO DISCUSS
 
-    public static boolean createTag(Tag tag) { //TODO:auch einzeln aufgerufen? wo? ansonsten nur über Logik bei CardCreate?
-        return CardLogic.createTag(tag);
+    //KEEP FOR TESTING AS FOR NOW
+    /**
+     * Methode zum Erstellen und Aktualisieren von Karten. Wird an die Logik weitergegeben.
+     * @param card Karte zum Aktualisieren, wenn null, dann muss eine neue Karte erstellt werden
+     * @param type Der Kartentyp als String von der GUI übergeben
+     * @param attributes Die HashMap mit den Attributen
+     * @param tags Zugehörige Tags als String Set für die Karte
+     * @param categories Zugehörige Categories als String Set für die Karte
+     * @return true, wenn erfolgreich erstellt
+     */
+    public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories){
+
+        return CardLogic.updateCardData(card, type, attributes, tags, categories);
+
     }
 
 

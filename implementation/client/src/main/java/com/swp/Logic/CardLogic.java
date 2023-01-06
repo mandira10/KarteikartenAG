@@ -116,7 +116,6 @@ public class CardLogic
     public static Set<Tag> getTags()
     {
         return CardRepository.getTags();
-        //TODO: was ist mit Cache
     }
 
 
@@ -147,93 +146,22 @@ public class CardLogic
         return CardRepository.saveTag(tag);
     }
 
-    /**
-     * Teilmethode zum Erstellen/Aktualisieren von Karten. Wird über den Controller aufgerufen und prüft zunächst, ob eine
-     * neue Karte erstellt werden muss. Das Setzen der Attribute erfolgt über die Methode updateCardContent.
-     * @param card Karte zum Aktualisieren, wenn null, dann muss eine neue Karte erstellt werden
-     * @param type Der Kartentyp als String von der GUI übergeben
-     * @param attributes Die HashMap mit den Attributen
-     * @param tags Zugehörige Tags als String Set für die Karte
-     * @param categories Zugehörige Categories als String Set für die Karte
-     * @return true, wenn erfolgreich erstellt
-     */
-    public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories) {
-        if (card == null) {
-            switch (type) {
-                case "TRUEFALSE":
-                    TrueFalseCard cardTF = new TrueFalseCard();
-                    return updateCardContent(cardTF, attributes, tags, categories, true);
-                case "IMAGETEST":
-                    ImageTestCard cardIT = new ImageTestCard();
-                    return updateCardContent(cardIT, attributes, tags, categories, true);
-                case "IMAGEDESC":
-                    ImageDescriptionCard cardID = new ImageDescriptionCard();
-                    return updateCardContent(cardID, attributes, tags, categories, true);
-                case "MULTIPLECHOICE":
-                    MultipleChoiceCard cardMC = new MultipleChoiceCard();
-                    return updateCardContent(cardMC, attributes, tags, categories, true);
-                case "TEXT":
-                    TextCard cardT = new TextCard();
-                    return updateCardContent(cardT, attributes, tags, categories, true);
-                case "AUDIO":
-                    AudioCard cardAu = new AudioCard();
-                    return updateCardContent(cardAu, attributes, tags, categories, true);
-                default:
-                  return false;
-            }
-        } else {
-            return updateCardContent(card, attributes, tags, categories, false);
-        }
-        //TODO: Exceptions, Erfolgsmeldungen..
-    }
 
     /**
-     * Teilmethode zum Erstellen/Aktualisieren von Karten. Wird verwendet, um die einzelnen Attribute der neuen Karten oder bestehenden Karten anzupassen.
-     * @param card Die zu bearbeitende Karte
-     * @param attributes Attribute der Karte
-     * @param tags Tags, die angepasst werden
-     * @param categories Kategorien, die angepasst werden
-     * @param neu wenn true, dann ist die Karte neu erstellt worden
-     * @return ob erfolgreich
+     * Wird aufgerufen, wenn eine neue Karte erstellt wird oder eine bestehende angepasst.
+     * @param cardToChange Die Karte die neu erstellt werden soll oder die Kopie der Karte mit den Änderungen
+     * @param neu gibt an, ob es sich um eine komplett neue Karte handelt
+     * @return
      */
-    private static boolean updateCardContent(Card card, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories, boolean neu) {
-        try {
-            log.info("Versuche die Attribute der Karte {} zu aktualisieren", card.getUuid());
-            BeanUtils.populate(card, attributes);
-            card.setContent();
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            //TODO + weitere Exceptions, Prüfung mit Validator? in Constructor einnbauen
-        }
-        if (neu) {
-            if (CardRepository.saveCard(card)) {
-                return createTagsCategoriesForCard(card, tags, categories);
-            } else {
-                throw new IllegalArgumentException("Probleme beim Speichern der Karte"); //TODO: genauer aufschlüsseln
-            }
-        } else {
-            if (CardRepository.updateCard(card)) {
-                return createTagsCategoriesForCard(card, tags, categories);
-            } else {
-                throw new IllegalArgumentException("Probleme beim Updaten der Karte"); //TODO: genauer aufschlüsseln
-            }
-
-
-        }
+    public static boolean updateCardData(Card cardToChange, boolean neu) {
+        cardToChange.setContent();
+        if (neu)
+            return CardRepository.saveCard(cardToChange);
+        else
+            return CardRepository.updateCard(cardToChange);
     }
 
-    private static boolean createTagsCategoriesForCard(Card card, Set<String> tags, Set<String> categories) {
-        if (tags != null) {
-            log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getUuid());
-             if(!createCardToTags(card, tags))
-                 return false;
-        }
-        if (categories != null) {
-            log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getUuid());
-            if(!CategoryLogic.createCardToCategories(card, categories))
-                return false;
-        }
-        return true;
-    }
+
 
     public static boolean createCardToTags(Card card, Set<String> tags) {
         boolean ret = true;
@@ -274,6 +202,93 @@ public class CardLogic
 
 
 
+    //KEEP FOR TEST REASONS AS FOR NOW
+    /**
+     * Teilmethode zum Erstellen/Aktualisieren von Karten. Wird über den Controller aufgerufen und prüft zunächst, ob eine
+     * neue Karte erstellt werden muss. Das Setzen der Attribute erfolgt über die Methode updateCardContent.
+     * @param card Karte zum Aktualisieren, wenn null, dann muss eine neue Karte erstellt werden
+     * @param type Der Kartentyp als String von der GUI übergeben
+     * @param attributes Die HashMap mit den Attributen
+     * @param tags Zugehörige Tags als String Set für die Karte
+     * @param categories Zugehörige Categories als String Set für die Karte
+     * @return true, wenn erfolgreich erstellt
+     */
+    public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories) {
+        if (card == null) {
+            switch (type) {
+                case "TRUEFALSE":
+                    TrueFalseCard cardTF = new TrueFalseCard();
+                    return updateCardContent(cardTF, attributes, tags, categories, true);
+                case "IMAGETEST":
+                    ImageTestCard cardIT = new ImageTestCard();
+                    return updateCardContent(cardIT, attributes, tags, categories, true);
+                case "IMAGEDESC":
+                    ImageDescriptionCard cardID = new ImageDescriptionCard();
+                    return updateCardContent(cardID, attributes, tags, categories, true);
+                case "MULTIPLECHOICE":
+                    MultipleChoiceCard cardMC = new MultipleChoiceCard();
+                    return updateCardContent(cardMC, attributes, tags, categories, true);
+                case "TEXT":
+                    TextCard cardT = new TextCard();
+                    return updateCardContent(cardT, attributes, tags, categories, true);
+                case "AUDIO":
+                    AudioCard cardAu = new AudioCard();
+                    return updateCardContent(cardAu, attributes, tags, categories, true);
+                default:
+                    return false;
+            }
+        } else {
+            return updateCardContent(card, attributes, tags, categories, false);
+        }
+    }
+
+    /**
+     * Teilmethode zum Erstellen/Aktualisieren von Karten. Wird verwendet, um die einzelnen Attribute der neuen Karten oder bestehenden Karten anzupassen.
+     * @param card Die zu bearbeitende Karte
+     * @param attributes Attribute der Karte
+     * @param tags Tags, die angepasst werden
+     * @param categories Kategorien, die angepasst werden
+     * @param neu wenn true, dann ist die Karte neu erstellt worden
+     * @return ob erfolgreich
+     */
+    private static boolean updateCardContent(Card card, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories, boolean neu) {
+        try {
+            log.info("Versuche die Attribute der Karte {} zu aktualisieren", card.getUuid());
+            BeanUtils.populate(card, attributes);
+            card.setContent();
+        } catch (IllegalAccessException | InvocationTargetException ex) {
+            //TODO + weitere Exceptions, Prüfung mit Validator? in Constructor einnbauen
+        }
+        if (neu) {
+            if (CardRepository.saveCard(card)) {
+                return createTagsCategoriesForCard(card, tags, categories);
+            } else {
+                throw new IllegalArgumentException("Probleme beim Speichern der Karte"); //TODO: genauer aufschlüsseln
+            }
+        } else {
+            if (CardRepository.updateCard(card)) {
+                return createTagsCategoriesForCard(card, tags, categories);
+            } else {
+                throw new IllegalArgumentException("Probleme beim Updaten der Karte"); //TODO: genauer aufschlüsseln
+            }
+
+
+        }
+    }
+
+    private static boolean createTagsCategoriesForCard(Card card, Set<String> tags, Set<String> categories) {
+        if (tags != null) {
+            log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getUuid());
+            if(!createCardToTags(card, tags))
+                return false;
+        }
+        if (categories != null) {
+            log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getUuid());
+            if(!CategoryLogic.createCardToCategories(card, categories))
+                return false;
+        }
+        return true;
+    }
 
     //private void changeCard() {}
 

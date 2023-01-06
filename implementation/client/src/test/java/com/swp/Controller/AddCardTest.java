@@ -3,6 +3,7 @@ package com.swp.Controller;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.Category;
@@ -20,6 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 
+import static com.swp.DataModel.Card.copyCard;
 import static org.junit.Assert.*;
 
 @Slf4j
@@ -81,17 +83,7 @@ public class AddCardTest {
         Assert.assertArrayEquals(correctAnswers, mcCard.getCorrectAnswers());
         assertEquals(false, mcCard.isVisibility());
         assertEquals(mcCard.getTitle() + "\n" + mcCard.getQuestion(), mcCard.getContent());
-
-        //Update CARD
-        HashMap popMap = new HashMap<>() {
-            {
-                put("answers", null);
-                put("correctAnswers", null);
-                put("title", null);
-                put("visibility", null);
-            }
-        };
-        assertTrue(CardController.updateCardData(mcCard, null, popMap, null, null)); //TODO Check directly after entering on nulls
+        
     }
 
     @Test
@@ -179,6 +171,45 @@ public class AddCardTest {
         assertTrue(co.stream().filter(c -> c.getTitelToShow().equals("TitelCard1")).findAny().isPresent());
         assertTrue(co.stream().filter(c -> c.getTitelToShow().equals("FrageCard2")).findAny().isPresent());
 
+    }
+
+    /**
+     * Testet die Kopierfunktion einer Kartenkopie in Hibernate.
+     */
+    @Test
+    public void testCopyCard(){
+        String[] answers = {"Testantwort 1", "Testantwort2", "Testantwort 3"};
+        int[] correctAnswers = {1, 3};
+        Card text1 = new TextCard("F1","nein doch","Titel für die Karte 1",false);
+        Card text2 = new MultipleChoiceCard("F2",answers,correctAnswers,"Titel für die Karte 2",true);
+        assertTrue(CardController.updateCardData(text1,true));
+        assertTrue(CardController.updateCardData(text2,true));
+        Optional<Card> optMcCard1 = CardRepository.findCardByTitle("Titel für die Karte 1");
+        Optional<Card> optMcCard2 = CardRepository.findCardByTitle("Titel für die Karte 2");
+        assertNotNull(optMcCard1);
+        Card card1 = optMcCard1.get();
+        assertNotNull(optMcCard2);
+        Card card2 = optMcCard2.get();
+        Card copy1 = copyCard(card1);
+        Card copy2 = copyCard(card2);
+        assertTrue(card1.getUuid().equals(copy1.getUuid()));
+        assertTrue(card2.getUuid().equals(copy2.getUuid()));
+        text1.setTitle("Titel234");
+        text2.setRating(5);
+        assertTrue(CardController.updateCardData(text1,false));
+        assertTrue(CardController.updateCardData(text2,false));
+        optMcCard1 = CardRepository.findCardByTitle("Titel für die Karte 1");
+        optMcCard2 = CardRepository.findCardByTitle("Titel für die Karte 2");
+        assertTrue(optMcCard1.isEmpty());
+        assertFalse(optMcCard2.isEmpty());
+        card2 = optMcCard2.get();
+
+        optMcCard1 = CardRepository.findCardByTitle("Titel234");
+        assertFalse(optMcCard2.isEmpty());
+        card1 = optMcCard1.get();
+
+        MultipleChoiceCard cardMC = (MultipleChoiceCard) card2;
+        assertEquals(cardMC.getRating(),5);
     }
 }
 

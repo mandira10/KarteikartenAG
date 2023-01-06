@@ -11,6 +11,9 @@ import org.hibernate.query.named.NamedObjectRepository;
 
 import java.sql.Timestamp;
 
+/**
+ * Zeigt die einzelnen Karten mitsamt ihrem Erstellzeitpunkt und in wievielen Desks sie derzeit sind.
+ */
 @Entity
 @Immutable
 @Subselect(value = "SELECT c.UUID as uUUID," +
@@ -18,7 +21,8 @@ import java.sql.Timestamp;
        "CASE WHEN c.TITLE = '' THEN c.QUESTION ELSE c.TITLE END AS titelToShow," +
        "COUNT(SELECT cd.ID FROM CARDTODECK cd WHERE cd.CARD_UUID = c.UUID) AS countDecks " +
        "FROM CARD c " +
-       "GROUP BY c.UUID")
+       "GROUP BY c.UUID " +
+       "ORDER BY c.TITLE")
 @Synchronize({"CARD", "CARDTODECK"})
 @Getter
 public class CardOverview  {
