@@ -4,8 +4,8 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToDeck;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Deck;
-import com.swp.DataModel.StudySystem;
-import com.swp.DataModel.StudySystemType;
+import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.StudySystemType;
 import com.swp.Persistence.DeckRepository;
 import lombok.extern.slf4j.Slf4j;
 

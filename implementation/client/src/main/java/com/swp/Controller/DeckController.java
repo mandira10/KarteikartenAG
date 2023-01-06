@@ -1,9 +1,12 @@
 package com.swp.Controller;
 
 import com.swp.DataModel.*;
+import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.StudySystemType;
 import com.swp.Logic.DeckLogic;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Set;
 @Slf4j
 public class DeckController
@@ -19,6 +22,11 @@ public class DeckController
     public static boolean createCardToDeck(Card card, Deck deck)                    { return DeckLogic.createCardToDeck(card, deck); }
     public static boolean createCardToDeckForCategory(Category category, Deck deck) { return DeckLogic.createCardToDeckForCategory(category, deck); }
     public static Set<Deck> getDecks()                                              { return DeckLogic.getDecks(); }
+
+    //TO IMPLEMENT
+    public static Set<Deck> getDecksBySearchterm(String searchterm)                 { return DeckLogic.getDecks(); }
+    public static void removeCardsFromDeck(List<Card> cards, Deck deck)             {}
+
     public static Deck getDeckByUUID(String uuid)                                   { return DeckLogic.getDeckByUUID(uuid); }
     public static Set<Card> getCardsInDeck(Deck deck)                               { return DeckLogic.getCardsByDeck(deck); }
     public static int numCardsInDeck(Deck deck)                                     { return DeckLogic.numCardsInDeck(deck); }

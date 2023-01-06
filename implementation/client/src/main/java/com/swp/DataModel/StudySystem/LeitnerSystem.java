@@ -1,10 +1,8 @@
-package com.swp.DataModel.StudySystemTypes;
+package com.swp.DataModel.StudySystem;
 
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
-import com.swp.DataModel.StudySystem;
-import com.swp.DataModel.StudySystemType;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 

@@ -7,6 +7,8 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.UUID;
 
+import com.swp.DataModel.StudySystem.StudySystem;
+
 /**
  * Klasse für einen Karteikasten.
  */
@@ -70,6 +72,18 @@ public class Deck implements Serializable
     }
 
     /**
+     * Copy Konstruktor
+     */
+    public Deck(Deck other)
+    {
+        this.uuid        = other.getUuid();
+        this.name        = other.getName();
+        this.studySystem = other.getStudySystem();
+        this.cardOrder   = other.getCardOrder();
+        this.visibility  = other.isVisibility();
+    }
+
+    /**
      * Kontruktor der Klasse Deck
      * @param name: Name des Decks
      * @param studySystem: StudySystem des Decks
@@ -84,5 +98,4 @@ public class Deck implements Serializable
         this.cardOrder = cardOrder;
         this.visibility = visibile;
     }
-
 }

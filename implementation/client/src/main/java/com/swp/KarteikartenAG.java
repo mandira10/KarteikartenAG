@@ -34,7 +34,7 @@ import com.swp.GUI.KarteikartenAGGUI;
 // GUIs
 //   - Create GUI inside thread
 //   - Notification GUI          -- done
-//   - Confirmation GUI
+//   - Confirmation GUI          -- done
 //   - Rate Card GUI             -- done
 //   - Radiobutton GUI           -- done
 //   - Tag Textfield GUI         -- done
@@ -48,11 +48,12 @@ import com.swp.GUI.KarteikartenAGGUI;
 //       - ImageTestCard         -- done
 //       - ImageDescCard         -- done
 //       - AudioCard             -- done
-//   - Show deck progress
-//   - Final testpage
-//   - Test rating
-//   - Studysystem editpage
-//   - Studysystem dropdown
+//   - Deck editpage
+//   - Show deck progress        -- done
+//   - Final testpage            -- done
+//   - Test rating               -- done
+//   - Studysystem editpage      -- done
+//   - Studysystem dropdown      -- done
 //   - Finalize Viewpages
 //       - TextCard              -- done
 //       - MultiCard             -- done

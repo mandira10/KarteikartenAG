@@ -4,7 +4,7 @@
     <switch pos="100%, 10%" size="30, 30" origin="60, 0" />
 
     <text pos="30, 10%" origin="0,    -50" fontsize="30">Language</text>
-    <dropdown id="languagedropdown" pos="100%, 10%" size="150, 30" origin="180, -50" fontsize="30" title="Language">
+    <dropdown id="languagedropdown" pos="100%, 10%" size="150, 30" origin="180, -50" fontsize="25" title="Language">
         <item id="englishlang" active="true">English</item>
         <item id="germanlang">German</item>
     </dropdown>

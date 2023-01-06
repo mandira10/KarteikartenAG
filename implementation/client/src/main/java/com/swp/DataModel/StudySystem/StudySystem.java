@@ -1,4 +1,4 @@
-package com.swp.DataModel;
+package com.swp.DataModel.StudySystem;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import com.swp.Controller.DeckController;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.Deck;
 
 /**
  * Abstrakte Superklasse für das StudySystem von der die einzelnen
@@ -91,6 +93,18 @@ public abstract class StudySystem implements Serializable
      */
     public void giveAnswer(boolean answer) { }
 
+    //TO IMPLEMENT
+    public void giveRating(int rating) { };
+
+    //TO IMPLEMENT
+    public void giveTime(float seconds) { };
+
+    //TO IMPLEMENT (is also called when the test has been canceled)
+    public void finishTest() {}
+
+    //TO IMPLEMENT (returns final score calculated in finishTest)
+    public int getResult() { return 0; }
+
     /**
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
@@ -110,5 +124,11 @@ public abstract class StudySystem implements Serializable
         it = null;
         return null;
         /////////////////////////////////////////////////////////////////
+    }
+
+    //NEEDS TO BE IMPLEMENTED
+    public float getProgress()
+    {
+        return (float)Math.random();  //Should return percentage as: 0.0 ... 1.0
     }
 }

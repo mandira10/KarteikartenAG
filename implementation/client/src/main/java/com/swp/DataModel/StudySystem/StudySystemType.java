@@ -1,4 +1,4 @@
-package com.swp.DataModel;
+package com.swp.DataModel.StudySystem;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,9 +24,9 @@ public class StudySystemType
     }
 
     /**
-     * Name des Systems. Kann bei neu angelegten Systemen hinzugefügt werden
+     * Typ des Systems. Kann bei neu angelegten Systemen hinzugefügt werden
      */
-    private String typeName;
+    private KNOWN_TYPES type;
 
     /**
      * Konstruktor der Klasse StudySystemType ohne Angabe eines Namens
@@ -41,14 +41,18 @@ public class StudySystemType
      */
     public StudySystemType(KNOWN_TYPES type, String name)
     {
-        switch(type)
-        {
-            case LEITNER: this.typeName = "Leitner";
-            case TIMING:  this.typeName = "Timing";
-            case VOTE:    this.typeName = "Vote";
-            case CUSTOM:
-            default:      this.typeName = name;
-        }
+        this.type = type;
     }
 
+    public String getTypeName()
+    {
+        switch(type)
+        {
+            case LEITNER: return "Leitner";
+            case TIMING:  return "Timing";
+            case VOTE:    return "Vote";
+            case CUSTOM:  return "Custom";
+            default:      return "Unknown";
+        }
+    }
 }

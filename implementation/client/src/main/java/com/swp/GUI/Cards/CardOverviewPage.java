@@ -52,16 +52,7 @@ public class CardOverviewPage extends Page
         deleteCardButton.setCallbackFunction(new ButtonCallback() {
             @Override public void run()
             {
-                int numCards = pCardList.getSelection().size();
-                ConfirmationGUI.openDialog("Are you sure that you want to delete " + String.valueOf(numCards) + " cards?", new ConfirmationCallback() {
-                    @Override public void onConfirm() 
-                    {  
-                        deleteCards();
-                    }
-                    @Override public void onCancel() 
-                    {
-                    }
-                });
+                deleteCards();
             }
         });
         deleteCardButton.hide(true);
@@ -117,7 +108,16 @@ public class CardOverviewPage extends Page
 
     public void deleteCards()
     {
-        CardController.deleteCards(pCardList.getSelection());
+        int numCards = pCardList.getSelection().size();
+        ConfirmationGUI.openDialog("Are you sure that you want to delete " + String.valueOf(numCards) + " cards?", new ConfirmationCallback() {
+            @Override public void onConfirm() 
+            {  
+                CardController.deleteCards(pCardList.getSelection());
+            }
+            @Override public void onCancel() 
+            {
+            }
+        });
     }
 
     private void exportCards()

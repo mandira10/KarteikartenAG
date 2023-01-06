@@ -13,6 +13,7 @@ import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
+import com.gumse.tools.Debug;
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Deck;
 import com.swp.GUI.Page;
@@ -35,13 +36,19 @@ public class DeckOverviewPage extends Page
 
             Font defaultFont = FontManager.getInstance().getDefaultFont();
             Font fontAwesome = FontManager.getInstance().getFont("FontAwesome");
-
-            Text deckName = new Text(deck.getName(), defaultFont, new ivec2(10,10), 0);
+            
+            Text deckName = new Text(deck.getName() + " - " + deck.getStudySystem().getType().getTypeName(), defaultFont, new ivec2(10,10), 0);
             deckName.setCharacterHeight(35);  
             addElement(deckName);
 
             Text numcardsText = new Text("", defaultFont, new ivec2(10, 50), 0);
             numcardsText.setCharacterHeight(35);
+
+            int percentage = (int)(deck.getStudySystem().getProgress() * 100.0f);
+            Text progressText = new Text("Progress: " + percentage + "%", defaultFont, new ivec2(100, 10), 0);
+            progressText.setPositionInPercent(true, false);
+            progressText.setCharacterHeight(35);
+            progressText.setOrigin(new ivec2(200, 0));
 
             Text iconText = new Text("", fontAwesome, new ivec2(100, 100), 0);
             iconText.setPositionInPercent(true, true);
@@ -61,6 +68,7 @@ public class DeckOverviewPage extends Page
                 iconText.setString("");
                 iconText.setOrigin(new ivec2(50, 40));
             }
+            addElement(progressText);
             addElement(numcardsText);
             addElement(iconText);
         }
@@ -83,6 +91,8 @@ public class DeckOverviewPage extends Page
         }
     };
 
+    private Scroller pCanvas;
+
     public DeckOverviewPage()
     {
         super("Decks");
@@ -90,21 +100,7 @@ public class DeckOverviewPage extends Page
 
         addGUI(XMLGUI.loadFile("guis/decks/deckoverviewpage.xml"));
 
-        Scroller canvas = (Scroller)findChildByID("canvas");
-
-        int y = 0;
-        for(Deck deck : DeckController.getDecks())
-        {
-            DeckContainer container = new DeckContainer(deck);
-            container.setPosition(new ivec2(5, y++ * 110));
-            container.setSize(new ivec2(90, 100));
-            container.setColor(new vec4(0.18f, 0.19f, 0.2f, 1.0f));
-            container.setSizeInPercent(true, false);
-            container.setPositionInPercent(true, false);
-            container.setCornerRadius(new vec4(7.0f));
-
-            canvas.addGUI(container);
-        }
+        pCanvas = (Scroller)findChildByID("canvas");
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button newButton = (Button)optionsMenu.findChildByID("adddeckbutton");
@@ -120,7 +116,7 @@ public class DeckOverviewPage extends Page
         Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Deck", new SearchbarCallback() {
             @Override public void run(String query) 
             {
-                //TODO search
+                loadDecks(query);
             }
         });
         searchbar.setPositionInPercent(false, true);
@@ -132,6 +128,41 @@ public class DeckOverviewPage extends Page
         reposition();
     }
     
+    public void loadDecks()
+    {
+        pCanvas.destroyChildren();
+        int y = 0;
+        for(Deck deck : DeckController.getDecks())
+        {
+            DeckContainer container = new DeckContainer(deck);
+            container.setPosition(new ivec2(5, y++ * 110));
+            container.setSize(new ivec2(90, 100));
+            container.setColor(new vec4(0.18f, 0.19f, 0.2f, 1.0f));
+            container.setSizeInPercent(true, false);
+            container.setPositionInPercent(true, false);
+            container.setCornerRadius(new vec4(7.0f));
+
+            pCanvas.addGUI(container);
+        }
+    }
+    
+    public void loadDecks(String searchterm)
+    {
+        pCanvas.destroyChildren();
+        int y = 0;
+        for(Deck deck : DeckController.getDecksBySearchterm(searchterm))
+        {
+            DeckContainer container = new DeckContainer(deck);
+            container.setPosition(new ivec2(5, y++ * 110));
+            container.setSize(new ivec2(90, 100));
+            container.setColor(new vec4(0.18f, 0.19f, 0.2f, 1.0f));
+            container.setSizeInPercent(true, false);
+            container.setPositionInPercent(true, false);
+            container.setCornerRadius(new vec4(7.0f));
+
+            pCanvas.addGUI(container);
+        }
+    }
 
     private void exportCards()
     {

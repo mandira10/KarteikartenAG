@@ -13,6 +13,7 @@ import com.gumse.maths.*;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 import com.swp.GUI.Cards.CardOverviewPage;
+import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.PageManager.PAGES;
 
 public class Sidebar extends RenderGUI
@@ -124,13 +125,13 @@ public class Sidebar extends RenderGUI
         pBackground.addGUI(new SidebarItem('', "Cards",      new ivec2(0,120), new SidebarCallbackFunction() {
             @Override public void run() 
             {
-                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);;
+                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
             }
         }));
         pBackground.addGUI(new SidebarItem('', "Decks",      new ivec2(0,230), new SidebarCallbackFunction() {
             @Override public void run() 
             {
-                PageManager.viewPage(PAGES.DECK_OVERVIEW);
+                ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
             }
         }));
         pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,340), new SidebarCallbackFunction() {

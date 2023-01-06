@@ -3,13 +3,9 @@ package com.swp.Persistence;
 import java.util.ArrayList;
 import java.util.Set;
 
-import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToDeck;
 import com.swp.DataModel.Deck;
-import com.swp.DataModel.StudySystem;
-import com.swp.DataModel.StudySystemType;
-import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
@@ -18,9 +14,9 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Deck.CardOrder;
-import com.swp.DataModel.StudySystemTypes.LeitnerSystem;
-import com.swp.DataModel.StudySystemTypes.TimingSystem;
-import com.swp.DataModel.StudySystemTypes.VoteSystem;
+import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.StudySystemType;
+import com.swp.DataModel.StudySystem.*;
 
 public class DeckRepository
 {

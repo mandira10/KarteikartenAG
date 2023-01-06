@@ -3,7 +3,7 @@ package com.swp.GUI.Decks;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.swp.Controller.DeckController;
-import com.swp.DataModel.StudySystemType;
+import com.swp.DataModel.StudySystem.StudySystemType;
 
 public class EditStudySystemPage extends RenderGUI
 {
