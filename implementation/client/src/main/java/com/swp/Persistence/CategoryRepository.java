@@ -53,6 +53,14 @@ public class CategoryRepository {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.remove(category);
+            // Alle CardToCategory entfernen, die die zu löschende Kategorie enthalten.
+            Set<CardToCategory> c2cWithDeletedCategory;
+            c2cWithDeletedCategory = (Set<CardToCategory>) em.createNamedQuery("CardToCategory.allC2CByCategory")
+                            .setParameter("category", category)
+                            .getResultStream().collect(Collectors.toSet());
+            for (CardToCategory c2c : c2cWithDeletedCategory) {
+                em.remove(c2c);
+            }
             em.getTransaction().commit();
         }
         return true;

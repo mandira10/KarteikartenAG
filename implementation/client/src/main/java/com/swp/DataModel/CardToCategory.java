@@ -13,7 +13,9 @@ import java.util.UUID;
 @NamedQuery(name = "CardToCategory.allCategoriesOfCard",
             query = "SELECT category FROM CardToCategory WHERE card = :card")
 @NamedQuery(name = "CardToCategory.allC2CByCard",
-            query = "SELECT c FROM CardToCategory c WHERE c.card =: card")
+            query = "SELECT c FROM CardToCategory c WHERE c.card = :card")
+@NamedQuery(name = "CardToCategory.allC2CByCategory",
+            query = "SELECT c FROM CardToCategory c WHERE c.category = :category")
 public class CardToCategory implements Serializable
 {
     /**
