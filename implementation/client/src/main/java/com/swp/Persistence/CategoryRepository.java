@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
@@ -16,19 +15,21 @@ import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
-
-import com.swp.DataModel.Tag;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CategoryRepository {
-
-
+public class CategoryRepository
+{
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
+    /**
+     * Die Funktion `saveCategory` persistiert die übergebene Kategorie.
+     * @param category eine Kategorie
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
+     */
     public static boolean saveCategory(Category category) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
@@ -39,6 +40,13 @@ public class CategoryRepository {
         return true;
     }
 
+    /**
+     * Die Funktion `saveCardToCategory` erstellt eine neue Verbindung zwischen einer Karte und einer Kategorie.
+     * Dafür wird ein neues `CardToCategory`-Objekt erzeugt und persistiert.
+     * @param card eine Karte
+     * @param category eine Kategorie
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
+     */
     public static boolean saveCardToCategory(Card card, Category category) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
@@ -49,6 +57,12 @@ public class CategoryRepository {
         return true;
     }
 
+    /**
+     * Die Funktion `deleteCategory` löscht die angegebene Kategorie und alle Verbindungen,
+     * die als `CardToCategory`-Objekte vorliegen.
+     * @param category die zu löschende Kategorie.
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
+     */
     public static boolean deleteCategory(Category category) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
@@ -66,9 +80,13 @@ public class CategoryRepository {
         return true;
     }
 
+    /**
+     * Die Funktion `getCategories` liefert alle gespeicherten `Category`-Objekte zurück.
+     * @return Set<Category> eine Menge mit allen `Category`
+     */
     public static Set<Category> getCategories() {
         Set<Category> categories = Cache.getInstance().getCategories();
-        if (!categories.isEmpty())
+        if (!categories.isEmpty()) {
             return categories;
         }
         try (final EntityManager em = emf.createEntityManager()) {
@@ -79,6 +97,10 @@ public class CategoryRepository {
         return categories;
     }
 
+    /**
+     * Die Funktion `getCardToCategories` liefert alle gespeicherten `CardToCategory`-Objekte zurück.
+     * @return Set<CardToCategory> eine Menge mit allen `CardToCategory`
+     */
     public static Set<CardToCategory> getCardToCategories() {
         Set<CardToCategory> card2categories = Cache.getInstance().getCardToCategories();
         if (!card2categories.isEmpty()) {
@@ -119,6 +141,13 @@ public class CategoryRepository {
         //return null;
     }
 
+    /**
+     * Der Funktion `find` wird ein Name einer Kategorie übergeben.
+     * Falls eine Kategorie mit entsprechendem Namen existiert, wird diese `Category` zurückgegeben.
+     * Gibt es keine Kategorie mit diesem Namen, wird ein leeres `Optional` zurückgegeben.
+     * @param name einer Kategorie als String.
+     * @return Optional<Category>
+     */
     public static Optional<Category> find(final String name) {
         log.info(String.format("Rufe Kategorie für Namen %s ab", name));
         try (final EntityManager em = emf.createEntityManager()) {
@@ -131,7 +160,12 @@ public class CategoryRepository {
         }
     }
 
-
+    /**
+     * Der Funktion `getCardsByCategory` wird eine Kategorie übergeben.
+     * Es werden alle Karten zurückgegeben, die dieser Kategorie zugeordnet sind.
+     * @param category eine Kategorie
+     * @return Set<Card> eine Menge von Karten, die der Kategorie zugeordnet sind.
+     */
     public static  Set<Card> getCardsByCategory(Category category) {
         Set<Card> cards;
         try (final EntityManager em = emf.createEntityManager()) {
@@ -144,7 +178,12 @@ public class CategoryRepository {
         return cards;
     }
 
-
+    /**
+     * Der Funktion `getCategoriesToCard` wird eine Karte übergeben.
+     * Es werden alle Kategorien zurückgegeben, die dieser Karte zugeordnet sind.
+     * @param card eine Karte
+     * @return Set<Category> eine Menge von Kategorien, die der Karte zugeordnet sind.
+     */
     public static Set<Category> getCategoriesToCard(Card card) {
         Set<Category> categories;
         try (final EntityManager em = emf.createEntityManager()) {

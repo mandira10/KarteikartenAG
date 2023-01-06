@@ -22,6 +22,13 @@ import java.util.stream.Collectors;
 public class CardRepository
 {
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;
+
+    /**
+     * Die Funktion `getCards` gibt über ein `DataCallback` Karten aus einem bestimmten Bereich zurück.
+     * @param from ein `long`, untere Schranke des angefragten Kartenbereichs
+     * @param to ein `long`, obere Schranke des angefragten Kartenbereichs
+     * @param callback DataCallBack<Card> das Objekt über welches die geforderten Karten zurückgegeben wird.
+     */
     public static void getCards(long from, long to, DataCallback<Card> callback) {
         //
         //Kann jetzt in einen thread verpackt werden
@@ -67,6 +74,11 @@ public class CardRepository
          */
     }
 
+    /**
+     * Die Funktion `findCardsByCategory` such nach allen Karten die einer bestimmten Kategorie zugeordnet sind.
+     * @param category eine Category
+     * @return Set<Card> eine Menge von Karten, die der Kategorie zugeordnet sind.
+     */
     public static Set<Card> findCardsByCategory(Category category) {
         Set<Card> cards = null;
         log.info(String.format("Rufe alle Karten für Kategorie %s ab", category.getName()));
@@ -86,6 +98,12 @@ public class CardRepository
         return cards;
     }
 
+    /**
+     * Die Funktion `findCardByTitle` durchsucht den Titel aller Karten nach einem String.
+     * Es optional die entsprechende Card zurückgegeben, oder ein leeres `Optional`.
+     * @param title ein String, der dem Titel einer Karte entsprechen soll.
+     * @return Optional<Card> eine Karte, falls keine mit angegebenen Titel existiert, empty.
+     */
     public static Optional<Card> findCardByTitle(String title) {
         log.info(String.format("Rufe Karte für Titel %s ab", title));
         try (final EntityManager em = emf.createEntityManager()) {
@@ -98,6 +116,11 @@ public class CardRepository
         }
     }
 
+    /**
+     * Die Funktion `findCardsByTag` sucht nach Karten, der ein bestimmter Tag zugeordnet ist und gibt diese zurück.
+     * @param tag ein Tag für den alle Karten gesucht werden sollen, die diesen haben.
+     * @return Set<Card> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
+     */
     public static Set<Card> findCardsByTag(Tag tag) {
         Set<Card> cards;
         log.info("Rufe alle Karten für Tag " + tag.getVal() + " ab");
@@ -112,6 +135,12 @@ public class CardRepository
         return cards;
     }
 
+    /**
+     * Die Funktion `findCardsContaining` durchsucht den Inhalt aller Karten.
+     * Es werden alle Karten zurückgegeben, die den übergebenen Suchtext als Teilstring enthalten.
+     * @param searchWords ein String nach dem im Inhalt aller Karten gesucht werden soll.
+     * @return Set<Card> eine Menge von Karten, welche `searchWords` als Teilstring im Inhalt hat.
+     */
     public static Set<Card> findCardsContaining(String searchWords) {
         Set<Card> cards;
         log.info("Rufe alle Karten mit folgendem Inhalt ab: " + searchWords);
@@ -126,6 +155,12 @@ public class CardRepository
         return cards;
     }
 
+    /**
+     * Die Funktion `getCardByUUID` sucht anhand einer UUID nach einer Karte und gibt diese zurück.
+     * Existiert keine Karte mit angegebener UUID, dann
+     * @param uuid eine UUID als String
+     * @return eine Card mit entsprechender UUID, oder `null` falls keine gefunden wurde.
+     */
     public static Card getCardByUUID(String uuid) {
         Card card = null;
         log.info("Suche Karte mit der UUID: " + uuid);
@@ -146,6 +181,11 @@ public class CardRepository
         return card;
     }
 
+    /**
+     * Die Funktion `saveCard` speichert eine übergebene Karte in der Datenbank.
+     * @param card eine Card die persistiert werden soll
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall `false`.
+     */
     public static boolean saveCard(Card card) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
@@ -160,6 +200,12 @@ public class CardRepository
         //TODO: create all CardTo..
     }
 
+    /**
+     * Die Funktion `deleteCard` löscht eine Karte und alle Verbindungen, in der sie existiert hat.
+     * Dazu zählen die Kategorien, Tags und Decks mit der die Karte eine Verbindung hatte.
+     * @param card die Card die gelöscht werden soll
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall `false`.
+     */
     public static boolean deleteCard(Card card) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
@@ -192,20 +238,25 @@ public class CardRepository
     //
     // Tags
     //
+    /**
+     * Die Funktion `saveTag` speichert einen übergebenen Tag in der Datenbank
+     * @param tag ein Tag der persistiert werden soll
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
+     */
     public static boolean saveTag(Tag tag) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.persist(tag);
             em.getTransaction().commit();
-        //catch (Exception e) {
-        //    log.warn(String.format("Karte \"%s\" konnte nicht gespeichert werden", tag.getUuid()));
-         //   return false;
-        //}
         }
         log.info(String.format("Tag \"%s\" wurde erfolgreich gespeichert", tag.getUuid()));
         return true;
     }
 
+    /**
+     * Die Funktion `getTags` liefer alle gespeicherten Tags zurück.
+     * @return Set<Tag> eine Menge mit allen Tags
+     */
     public static Set<Tag> getTags() {
         Set<Tag> tags = Cache.getInstance().getTags();
         try (final EntityManager em = emf.createEntityManager()) {
@@ -218,6 +269,11 @@ public class CardRepository
         return tags.isEmpty() ? null : tags;
     }
 
+    /**
+     * Die Funktion `getCardToTags` liefer alle `CardToTag`-Objekte zurück.
+     * Sie stellen die Verbindungen zwischen Karten und Tags dar.
+     * @return Set<CardToTag> eine Menge mit allen `CardToTag`-Objekten.
+     */
     public static Set<CardToTag> getCardToTags() {
         Set<CardToTag> cardToTags;
         try (final EntityManager em = emf.createEntityManager()) {
@@ -233,21 +289,30 @@ public class CardRepository
         return null;
     }
 
+    /**
+     * Die Funktion `createCardToTag` erstellt eine neues `CardToTag`, welches eine Karte mit einem Tag in
+     * Verbindung setzt und persistiert dieses in der Datenbank.
+     * @param card eine Karte, der ein Tag zugeordnet werden soll
+     * @param tag ein Tag, der der Karte zugeordnet werden soll
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
+     */
     public static boolean createCardToTag(Card card, Tag tag) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.persist(new CardToTag(card, tag));
             em.getTransaction().commit();
-       //     log.warn(String.format("Beim Speichern von `CardToTag` zwischen Karte \"%s\" und Tag \"%s\" ist ein Fehler aufgetreten: %s",
-        //            card.getUuid(), tag.getVal(), e));
-//
-//        }
        }
         log.info(String.format("Verbindung zwischen der Karte \"%s\" und dem Tag \"%s\" hergestellt",
                                card.getUuid(), tag.getVal()));
         return true;
     }
 
+    /**
+     * Die Funktion `updateCard` persistiert eine übergebene Karte, indem die Einträge in
+     * der Datenbank mit einem `merge` aktualisiert werden.
+     * @param card eine Karte
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
+     */
     public static boolean updateCard(Card card) {
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
@@ -257,6 +322,12 @@ public class CardRepository
         }
     }
 
+    /**
+     * Die Funktion `find` sucht nach einem Tag, der dem übergebenen Text entspricht.
+     * Existiert kein Tag mit so einem Inhalt, dann wird ein leeres `Optional` zurückgegeben.
+     * @param text ein String nach dem ein existierender Tag gesucht wird
+     * @return Optional<Tag> entweder der gefundene Tag mit entsprechendem Namen, oder ein leeres `Optional`.
+     */
     public static Optional<Tag> find(String text) {
         log.info("Suche nach Tag mit Namen {}",text);
         try (final EntityManager em = emf.createEntityManager()) {
@@ -270,7 +341,11 @@ public class CardRepository
         }
     }
 
-
+    /**
+     * Die Funktion `getTagsToCard` liefer alle Tags zurück, die einer Karte zugeordnet sind.
+     * @param card eine Karte
+     * @return Set<Tag> eine Menge von Tags, die der Karte zugeordnet sind.
+     */
     public static Set<Tag> getTagsToCard(Card card) {
         Set<Tag> tags = new HashSet<>();
         log.info("Rufe alle Tags für Card " + card.getUuid() + " ab");
