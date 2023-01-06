@@ -38,14 +38,16 @@ public class CardLogic
     /**
      * Wird verwendet bei einer Filterung nach einem bestimmten Tag. Prüft zunächst, dass der übergebene Tag nicht
      * null oder leer ist und gibt die Funktion dann an das Card Repository weiter.
-     * @param tag: Der Tag zu dem die Karten gesucht werden sollen
+     * @param tagName: Der textuelle Tag, zu dem die Karten gesucht werden sollen
      * @return Set der Karten, die Tag enthalten
      */
-    public static Set<Card> getCardsByTag(Tag tag)
-	{
-        checkNotNullOrBlank(tag, "Tag");
+    public static Set<Card> getCardsByTag(String tagName) {
+        checkNotNullOrBlank(tagName, "Tag");
+        Optional<Tag> tagOpt = CardRepository.find(tagName);
+        if(tagOpt.isEmpty())
+            throw new NullPointerException("Es gibt keinen Tag zu dem eingegebenen Wert" + tagName);
+        Tag tag = tagOpt.get();
         return CardRepository.findCardsByTag(tag);
-
     }
 
     /**
@@ -126,13 +128,17 @@ public class CardLogic
      * @return true, wenn erfolgreich oder bereits enthalten
      */
     public static boolean createCardToTag(Card card, Tag tag) {
-        if (getCardsByTag(tag).contains(card)) {
+        if (getTagsToCard(card).contains(tag)) {
             log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", tag.getUuid(), card.getUuid());
             return true;
         }
 
         log.info("Tag {} wird zu Karte {} hinzugefügt", tag.getUuid(), card.getUuid());
         return CardRepository.createCardToTag(card, tag);
+    }
+
+    public static Set<Tag> getTagsToCard(Card card) {
+        return CardRepository.getTagsToCard(card);
     }
 
 
@@ -200,35 +206,33 @@ public class CardLogic
         }
         if (neu) {
             if (CardRepository.saveCard(card)) {
-                if (tags != null) {
-                    log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getUuid());
-                    return createCardToTags(card, tags);
-                }
-                if (categories != null) {
-                    log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getUuid());
-                    return CategoryLogic.createCardToCategory(card, categories);
-                }
-                return true;
+                return createTagsCategoriesForCard(card, tags, categories);
             } else {
                 throw new IllegalArgumentException("Probleme beim Speichern der Karte"); //TODO: genauer aufschlüsseln
             }
         } else {
             if (CardRepository.updateCard(card)) {
-                if (tags != null) {
-                    log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getUuid());
-                    createCardToTags(card, tags);
-                }
-                if (categories != null) {
-                    log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getUuid());
-                    CategoryLogic.createCardToCategory(card, categories);
-                }
-                return true;
+                return createTagsCategoriesForCard(card, tags, categories);
             } else {
                 throw new IllegalArgumentException("Probleme beim Updaten der Karte"); //TODO: genauer aufschlüsseln
             }
 
 
         }
+    }
+
+    private static boolean createTagsCategoriesForCard(Card card, Set<String> tags, Set<String> categories) {
+        if (tags != null) {
+            log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getUuid());
+             if(!createCardToTags(card, tags))
+                 return false;
+        }
+        if (categories != null) {
+            log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getUuid());
+            if(!CategoryLogic.createCardToCategories(card, categories))
+                return false;
+        }
+        return true;
     }
 
     public static boolean createCardToTags(Card card, Set<String> tags) {

@@ -17,6 +17,7 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 
+import com.swp.DataModel.Tag;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
@@ -117,34 +118,25 @@ public class CategoryRepository {
     public static Optional<Category> find(final String name) {
         log.info(String.format("Rufe Kategorie für Namen %s ab", name));
         try (final EntityManager em = pm.getEntityManager()) {
-            final Category category = (Category) em.createNamedQuery("Category.findByName")
+            final Category ct = (Category) em.createNamedQuery("Category.findByName")
                     .setParameter("name", name)
                     .getSingleResult();
-            return Optional.of(category);
+            return Optional.of(ct);
         } catch (final NoResultException e) {
-            log.info("Keine Kategorie mit dem Namen {} gefunden", name);
-        } catch (final Exception e) {
-            log.warn("Beim Suchen nach Kategorien mit dem Namen {} ist ein Fehler {} aufgetreten",
-                    name, e);
+            return Optional.empty();
         }
-        return null;
     }
 
 
     public static  Set<Card> getCardsByCategory(Category category) {
         Set<Card> cards = new HashSet<>();
-
-
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             cards = (Set<Card>) em.createNamedQuery("CardToCategory.allCardsOfCategory")
                     .setParameter("category", category)
                     .getResultStream().collect(Collectors.toSet());
             em.getTransaction().commit();
-        } catch (final Exception e) {
-            log.warn("Beim abrufen der Categories ist einer Fehler aufgetreten: " + e);
         }
-
         return cards;
     }
 
@@ -156,10 +148,8 @@ public class CategoryRepository {
             em.getTransaction().begin();
             categories = (Set<Category>) em.createNamedQuery("CardToCategory.allCategoriesOfCard")
                             .setParameter("card", card)
-                                    .getResultStream().collect(Collectors.toList());
+                                    .getResultStream().collect(Collectors.toSet());
             em.getTransaction().commit();
-        } catch (final Exception e) {
-            log.warn("Beim abrufen der Categories ist einer Fehler aufgetreten: " + e);
         }
 
         return categories;

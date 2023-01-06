@@ -5,6 +5,8 @@ import java.util.*;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
+import com.swp.DataModel.Tag;
+import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import static com.swp.Validator.checkNotNullOrBlank;
@@ -14,7 +16,7 @@ public class CategoryLogic {
 
     /**
      * Methode zum Hinzufügen einzelner Kategorien zu Karten. Wird bei Erstellen und Aktualisieren aufgerufen, wenn Tags für die
-     * Karte mit übergeben worden sind. Prüft zunächst, ob der Tag bereit für die Karte in CardToCategory enthalten ist.
+     * Karte mit übergeben worden sind. Prüft zunächst, ob die Kategorie bereit für die Karte in CardToCategory enthalten ist.
      * @param card Übergebende Karte
      * @param category Übergebende Kategorie
      * @return true, wenn erfolgreich oder bereits enthalten
@@ -22,7 +24,7 @@ public class CategoryLogic {
     public static boolean createCardToCategory(Card card, Category category) {
         Set<Category> categories = getCategoriesByCard(card);
         if (categories.contains(category)){
-            log.info("Kategorie {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", category.getUuid(), card.getUuid());
+            log.info("Kategorie {} bereits für Karte {} in CardToCategory enthalten, kein erneutes Hinzufügen notwendig", category.getUuid(), card.getUuid());
             return true;
         }
 
@@ -80,20 +82,25 @@ public class CategoryLogic {
         return false;
     }
 
-    public static Set<Card> getCardsInCategory(Category category) {
-
-        {
-            checkNotNullOrBlank(category, "Kategorie");
-            return CategoryRepository.getCardsByCategory(category);
-        }
+    public static Set<Card> getCardsInCategory(String categoryName) {
+            checkNotNullOrBlank(categoryName, "Kategorie");
+            Optional<Category> catOpt = CategoryRepository.find(categoryName);
+            if(catOpt.isEmpty())
+                throw new NullPointerException("Es gibt keine Kategorie zu dem eingegebenen Wert: " + categoryName);
+            Category category = catOpt.get();
+            return getCardsInCategory(category);
     }
 
-    public static boolean createCardToCategory(Card card, Set<String> categories) {
+    public static Set<Card> getCardsInCategory(Category category) {
+        return CategoryRepository.getCardsByCategory(category);
+    }
+
+    public static boolean createCardToCategories(Card card, Set<String> categories) {
         boolean ret = true;
         for (String name : categories) {
             checkNotNullOrBlank(name, "Category Name");
             final Optional<Category> optionalCategory = CategoryRepository.find(name);
-            if (optionalCategory != null) {
+            if (optionalCategory.isPresent()) {
                 final Category category = optionalCategory.get();
                 if(!createCardToCategory(card,category))
                     ret = false;
@@ -133,4 +140,5 @@ public class CategoryLogic {
         }
         return cardsOfAll;
     }
+
 }

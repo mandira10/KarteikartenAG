@@ -92,26 +92,22 @@ public class CardRepository
         return cards;
     }
 
-    public static Optional<Card> findCardByTitle(String title)
-    {
+    public static Optional<Card> findCardByTitle(String title) {
         log.info(String.format("Rufe Karte für Titel %s ab", title));
         try (final EntityManager em = pm.getEntityManager()) {
-          final Card card = (Card) em.createNamedQuery("Card.findByTitle")
+            final Card card = (Card) em.createNamedQuery("Card.findByTitle")
                     .setParameter("title", title)
                     .getSingleResult();
-           return Optional.of(card);
+            return Optional.of(card);
         } catch (final NoResultException e) {
-            log.info(String.format("Keine Karten mit der Kategorie \"%s\" gefunden"), title);
-        } catch (final Exception e) {
-            log.warn(String.format("Beim Suchen nach Karten mit der Kategorie \"%s\" ist eine Fehler aufgetreten: \"%s\"",
-                    title, e));
+            return Optional.empty();
         }
-    return null;
     }
 
     public static Set<Card> findCardsByTag(Tag tag)
     {
-        Set<Card> cards = null;
+        Set<Card> cards = new HashSet<>();
+        log.info("Rufe alle Karten für Tag " + tag.getVal() + " ab");
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             cards = (Set<Card>) em.createNamedQuery("CardToTag.allCardsWithTag")
@@ -119,11 +115,7 @@ public class CardRepository
                     .getResultStream()
                     .collect(Collectors.toSet());
             em.getTransaction().commit();
-        } catch (final NoResultException e) {
-        } catch (final Exception e) {
         }
-
-        log.info("Rufe alle Karten für Tag " + tag.getVal() + " ab");
         return cards;
     }
 
@@ -273,12 +265,12 @@ public class CardRepository
     }
 
     public static boolean createCardToTag(Card card, Tag tag) {
-        //try (
-                final EntityManager em = pm.getEntityManager();//) {
+        try (
+                final EntityManager em = pm.getEntityManager();) {
             em.getTransaction().begin();
             em.persist(new CardToTag(card, tag));
             em.getTransaction().commit();
-       // } catch (final Exception e) {
+       } //catch (final Exception e) {
        //     log.warn(String.format("Beim Speichern von `CardToTag` zwischen Karte \"%s\" und Tag \"%s\" ist ein Fehler aufgetreten: %s",
         //            card.getUuid(), tag.getVal(), e));
 //
@@ -297,23 +289,32 @@ public class CardRepository
         }
     }
 
-    public static Optional<Tag> find(String name) {
-        Optional<Tag> tag = Optional.empty();
+    public static Optional<Tag> find(String text) {
+        log.info("Suche nach Tag mit Namen {}",text);
         try (final EntityManager em = pm.getEntityManager()) {
-            em.getTransaction().begin();
-            tag = (Optional<Tag>) em.createNamedQuery("Tag.findTagByName")
-                    .setParameter("text", name)
+            final Tag tag = (Tag) em.createNamedQuery("Tag.findTagByName")
+                    .setParameter("text", text)
                     .getSingleResult();
-            em.getTransaction().commit();
-        } catch (final NoResultException e) {
-            tag = Optional.empty();
-        } catch (final Exception e) {
-
+            return Optional.ofNullable(tag);
         }
-
-        return tag;
+        catch(NoResultException ex){
+            return Optional.empty();
+        }
     }
 
 
+    public static Set<Tag> getTagsToCard(Card card) {
+        Set<Tag> tags = new HashSet<>();
+        log.info("Rufe alle Tags für Card " + card.getUuid() + " ab");
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            tags = (Set<Tag>) em.createNamedQuery("CardToTag.allTagsWithCards")
+                    .setParameter("card", card)
+                    .getResultStream()
+                    .collect(Collectors.toSet());
+            em.getTransaction().commit();
+        }
 
+        return tags;
+    }
 }

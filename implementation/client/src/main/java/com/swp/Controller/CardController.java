@@ -38,28 +38,55 @@ public class CardController {
     }
 
     /**
-     * Nutzung für Display einzelner Karten in SingleCardViewPage(?), Filterfunktion in OverviewPage.
+     * Nutzung für Display einzelner Karten in Filterfunktion in OverviewPage verwendet.
      * Wird an die CardLogic weitergegeben.
      *
      * @param tag: Der Tag, zu dem die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischem Tag
      */
-    public static Set<Card> getCardsByTag(Tag tag) {
+    public static Set<Card> getCardsByTag(String tag) {
         try {
             Set cardsForTag = CardLogic.getCardsByTag(tag);
 
-            if (cardsForTag.isEmpty()) {
+            if (cardsForTag.isEmpty())
                 NotificationGUI.addNotification("Es gibt keine Karten für diesen Tag", Notification.NotificationType.INFO, 5);
-            }
 
-            return cardsForTag; //TODO Verknüpfung mit GUI und Darstellung im Overview
+            return cardsForTag;
 
         } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
             NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
             return null;
+        } catch (final NullPointerException ex) {
+            log.info(ex.getMessage());
+            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.INFO, 5);
+            return null;
+        } catch (final Exception ex) {
+            log.error("Beim Suchen nach Karten mit Tag {} ist ein Fehler {} aufgetreten", tag
+                    , ex);
+            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
+            return null;
         }
 
-        //TODO zusätzlich findTagByString? wie soll Filterfunktion aussehen?
+    }
+
+    /**
+     * Kann verwendet werden, um einzelne Tags zu Karten in der SingleCardOverviewPage oder im EditModus aufzurufen
+     * @param card Die Karte, zu der die Tags abgerufen werden sollen
+     * @return Gefundene Tags für die spezifische Karte
+     */
+    private static Set<Tag> getTagsToCard(Card card) {
+        try {
+            Set tagsForCard = CardLogic.getTagsToCard(card);
+
+            if (tagsForCard.isEmpty())
+                log.info("Keine Tags für diese Karte vorhanden");
+
+            return tagsForCard;
+
+        } catch (final Exception ex) {
+            log.error("Beim Suchen nach Tags mit Karten {} ist ein Fehler {} aufgetreten", card, ex);
+            return null;
+        }
     }
 
     /**
@@ -76,17 +103,12 @@ public class CardController {
                 NotificationGUI.addNotification("Es gibt keine Karten für dieses Suchwort", Notification.NotificationType.INFO, 5);
             }
 
-            return cardsForSearchTerms; //TODO Verknüpfung mit GUI und Darstellung im Overview
+            return cardsForSearchTerms;
         } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
             NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
             return null;
-        } catch (final NoResultException ex) {
-            // keine Karten mit entsprechendem Inhalt gefunden
-            log.info("Keine Karten mit dem Inhalt {} gefunden", searchterm);
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return null;
         } catch (final Exception ex) {
-            log.warn("Beim Suchen nach Karten mit Inhalt {} ist ein Fehler {} aufgetreten", searchterm
+            log.error("Beim Suchen nach Karten mit Inhalt {} ist ein Fehler {} aufgetreten", searchterm
                     , ex);
             NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
             return null;
