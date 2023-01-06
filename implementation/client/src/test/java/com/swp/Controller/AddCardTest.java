@@ -177,11 +177,7 @@ public class AddCardTest {
         em.close();
         assertNotNull(co);
         assertTrue(co.stream().filter(c -> c.getTitelToShow().equals("TitelCard1")).findAny().isPresent());
-
-        ///////////
-        // FAILS //
-        ///////////
-        //assertTrue(co.stream().filter(c -> c.getTitelToShow().equals("FrageCard2")).findAny().isPresent());
+        assertTrue(co.stream().filter(c -> c.getTitelToShow().equals("FrageCard2")).findAny().isPresent());
 
     }
 }

@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Immutable
 @Subselect(value = "SELECT c.UUID as uUUID," +
        "c.CREATIONDATE as cardCreated," +
-       "CASE WHEN c.TITLE IS null THEN c.QUESTION ELSE c.TITLE END AS titelToShow," +
+       "CASE WHEN c.TITLE = '' THEN c.QUESTION ELSE c.TITLE END AS titelToShow," +
        "COUNT(SELECT cd.ID FROM CARDTODECK cd WHERE cd.CARD_UUID = c.UUID) AS countDecks " +
        "FROM CARD c " +
        "GROUP BY c.UUID")
