@@ -19,6 +19,7 @@ import com.swp.DataModel.CardTypes.TrueFalseCard;
 
 import com.swp.DataModel.Tag;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,60 +27,55 @@ import lombok.extern.slf4j.Slf4j;
 public class CategoryRepository {
 
 
-    private static final PersistenceManager pm = new PersistenceManager();
+    private final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     public static boolean saveCategory(Category category) {
-        final EntityManager em = pm.getEntityManager();
-        em.getTransaction().begin();
-        em.persist(category);
-        em.getTransaction().commit();
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(category);
+            em.getTransaction().commit();
+        }
         log.info("Category {} wurde erfolgreich gespeichert", category.getUuid());
         return true;
     }
 
     public static boolean saveCardToCategory(Card card, Category category) {
-        final EntityManager em = pm.getEntityManager();//) {
-        em.getTransaction().begin();
-        em.persist(new CardToCategory(card, category));
-        em.getTransaction().commit();
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(new CardToCategory(card, category));
+            em.getTransaction().commit();
+        }
         log.info("CardToCategory für Karte {} und Kategorie {} wurde erfolgreich gespeichert", card.getUuid(), category.getUuid());
         return true;
     }
 
-    public static boolean deleteCategory(Category card) {
-        //server.send("/deletecategory", jsonString);
-        return false;
+    public static boolean deleteCategory(Category category) {
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.remove(category);
+            em.getTransaction().commit();
+        }
+        return true;
     }
 
-    public static Set<Category> getCategories() 
-    {
+    public static Set<Category> getCategories() {
         Set<Category> categories = Cache.getInstance().getCategories();
         if (!categories.isEmpty())
             return categories;
-
-
-        try (final EntityManager em = pm.getEntityManager()) 
-        {
+        }
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             categories = (Set<Category>) em.createQuery("SELECT c FROM Category c").getResultStream().collect(Collectors.toSet());
             em.getTransaction().commit();
-
-            return categories;
-        } 
-        catch (final Exception e) 
-        {
-            log.warn("Beim abrufen der Categories ist einer Fehler aufgetreten: " + e);
-            return null;
         }
-
-        //server.send("/getcategories", jsonString);
+        return categories;
     }
 
     public static Set<CardToCategory> getCardToCategories() {
         Set<CardToCategory> card2categories = Cache.getInstance().getCardToCategories();
-        if (!card2categories.isEmpty())
+        if (!card2categories.isEmpty()) {
             return card2categories;
-
+        }
         
         /////////////////////////////////////////////////////////////////
         //
@@ -117,7 +113,7 @@ public class CategoryRepository {
 
     public static Optional<Category> find(final String name) {
         log.info(String.format("Rufe Kategorie für Namen %s ab", name));
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             final Category ct = (Category) em.createNamedQuery("Category.findByName")
                     .setParameter("name", name)
                     .getSingleResult();
@@ -129,8 +125,8 @@ public class CategoryRepository {
 
 
     public static  Set<Card> getCardsByCategory(Category category) {
-        Set<Card> cards = new HashSet<>();
-        try (final EntityManager em = pm.getEntityManager()) {
+        Set<Card> cards;
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             cards = (Set<Card>) em.createNamedQuery("CardToCategory.allCardsOfCategory")
                     .setParameter("category", category)
@@ -142,18 +138,15 @@ public class CategoryRepository {
 
 
     public static Set<Category> getCategoriesToCard(Card card) {
-        Set<Category> categories = Cache.getInstance().getCategories();
-
-        try (final EntityManager em = pm.getEntityManager()) {
+        Set<Category> categories;
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             categories = (Set<Category>) em.createNamedQuery("CardToCategory.allCategoriesOfCard")
                             .setParameter("card", card)
                                     .getResultStream().collect(Collectors.toSet());
             em.getTransaction().commit();
         }
-
         return categories;
-
     }
 
     /**

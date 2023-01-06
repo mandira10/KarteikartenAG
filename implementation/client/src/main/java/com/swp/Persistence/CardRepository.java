@@ -1,5 +1,4 @@
 package com.swp.Persistence;
-
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
@@ -9,9 +8,9 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,9 +21,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CardRepository
 {
-    private static final PersistenceManager pm = new PersistenceManager();
-    public static void getCards(long from, long to, DataCallback<Card> callback)
-    {
+    private final static EntityManagerFactory emf = PersistenceManager.emFactory;
+    public static void getCards(long from, long to, DataCallback<Card> callback) {
         //
         //Kann jetzt in einen thread verpackt werden
         //
@@ -46,14 +44,12 @@ public class CardRepository
         }
         callback.onSuccess(cards); //temporary
 
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             cards = (List<Card>) em.createQuery("SELECT Card FROM Card").getResultStream().collect(Collectors.toList());
             em.getTransaction().commit();
             callback.onSuccess(cards);
-        } 
-        catch (final Exception e) 
-        {
+        } catch (final Exception e) {
             // wie soll die Fehlermeldung zur GUI gelangen?
             callback.onFailure("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
         }
@@ -71,11 +67,10 @@ public class CardRepository
          */
     }
 
-    public static Set<Card> findCardsByCategory(Category category)
-    {
+    public static Set<Card> findCardsByCategory(Category category) {
         Set<Card> cards = null;
         log.info(String.format("Rufe alle Karten für Kategorie %s ab", category.getName()));
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             cards = (Set<Card>) em.createNamedQuery("CardToCategory.allCardsOfCategory")
                     .setParameter("category", category)
@@ -86,15 +81,14 @@ public class CardRepository
             log.info(String.format("Keine Karten mit der Kategorie \"%s\" gefunden"), category.getName());
         } catch (final Exception e) {
             log.warn(String.format("Beim Suchen nach Karten mit der Kategorie \"%s\" ist eine Fehler aufgetreten: \"%s\"",
-                    category.getName(), e));
+                                   category.getName(), e));
         }
-
         return cards;
     }
 
     public static Optional<Card> findCardByTitle(String title) {
         log.info(String.format("Rufe Karte für Titel %s ab", title));
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             final Card card = (Card) em.createNamedQuery("Card.findByTitle")
                     .setParameter("title", title)
                     .getSingleResult();
@@ -104,11 +98,10 @@ public class CardRepository
         }
     }
 
-    public static Set<Card> findCardsByTag(Tag tag)
-    {
-        Set<Card> cards = new HashSet<>();
+    public static Set<Card> findCardsByTag(Tag tag) {
+        Set<Card> cards;
         log.info("Rufe alle Karten für Tag " + tag.getVal() + " ab");
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             cards = (Set<Card>) em.createNamedQuery("CardToTag.allCardsWithTag")
                     .setParameter("tag", tag)
@@ -119,11 +112,10 @@ public class CardRepository
         return cards;
     }
 
-    public static Set<Card> findCardsContaining(String searchWords)
-    {
-        Set<Card> cards = new HashSet<>();
+    public static Set<Card> findCardsContaining(String searchWords) {
+        Set<Card> cards;
         log.info("Rufe alle Karten mit folgendem Inhalt ab: " + searchWords);
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             cards = (Set<Card>) em.createNamedQuery("Card.findCardsByContent")
                     .setParameter("content", "%" + searchWords + "%")
@@ -134,13 +126,12 @@ public class CardRepository
         return cards;
     }
 
-    public static Card getCardByUUID(String uuid)
-    {
+    public static Card getCardByUUID(String uuid) {
         Card card = null;
         log.info("Suche Karte mit der UUID: " + uuid);
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.createNamedQuery("Card.findCardByUUID")
+            card = (Card) em.createNamedQuery("Card.findCardByUUID")
                 .setParameter("uuid", uuid)
                 .getSingleResult();
             em.getTransaction().commit();
@@ -149,26 +140,18 @@ public class CardRepository
             log.info(String.format("Keine Karte mit der UUID \"%s\" gefunden"), uuid);
         } catch (final Exception e) {
             // andere Fehler auch über GUI an KarteikartenUser melden
-            log.warn(String.format("Beim Suchen nach einer Karte mit der UUID \"%s\" ist einer Fehler aufgetreten: \"%s\""),
-                    uuid, e);
+            log.warn(String.format("Beim Suchen nach einer Karte mit der UUID \"%s\" ist einer Fehler aufgetreten: \"%s\"",
+                                   uuid, e));
         }
-
         return card;
     }
 
-
-
-
-    public static boolean saveCard(Card card)
-    {
-
-        try{
-        final EntityManager em = pm.getEntityManager();
-        em.getTransaction().begin();
-        em.persist(card);
-        em.getTransaction().commit();
-         }
-        catch (Exception e) {
+    public static boolean saveCard(Card card) {
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(card);
+            em.getTransaction().commit();
+        } catch (Exception e) {
             log.warn(String.format("Karte \"%s\" konnte nicht gespeichert werden", card.getUuid()));
             return false;
         }
@@ -177,9 +160,8 @@ public class CardRepository
         //TODO: create all CardTo..
     }
 
-    public static boolean deleteCard(Card card)
-    {
-        try (final EntityManager em = pm.getEntityManager()) {
+    public static boolean deleteCard(Card card) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.remove(card);
             // remove matching `CardToCategory`
@@ -207,81 +189,67 @@ public class CardRepository
     }
 
 
-
-
     //
     // Tags
     //
-    public static boolean saveTag(Tag tag)
-    {
-       // try{
-            final EntityManager em = pm.getEntityManager();
+    public static boolean saveTag(Tag tag) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.persist(tag);
             em.getTransaction().commit();
-       // }
         //catch (Exception e) {
         //    log.warn(String.format("Karte \"%s\" konnte nicht gespeichert werden", tag.getUuid()));
          //   return false;
         //}
+        }
         log.info(String.format("Tag \"%s\" wurde erfolgreich gespeichert", tag.getUuid()));
         return true;
     }
 
-    public static Set<Tag> getTags()
-    {
+    public static Set<Tag> getTags() {
         Set<Tag> tags = Cache.getInstance().getTags();
-
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             tags = (Set<Tag>) em.createQuery("SELECT t FROM Tag t").getResultStream().collect(Collectors.toSet());
             em.getTransaction().commit();
         } catch (final Exception e) {
             log.warn("Beim abrufen der Tags ist einer Fehler aufgetreten: " + e);
         }
-
-        if (!tags.isEmpty())
-            return tags;
-
-        return null;
+        return tags.isEmpty() ? null : tags;
     }
 
-    public static Set<CardToTag> getCardToTags()
-    {
-        Set<CardToTag> cardToTags = Cache.getInstance().getCardToTags();
-
-        try (final EntityManager em = pm.getEntityManager()) {
+    public static Set<CardToTag> getCardToTags() {
+        Set<CardToTag> cardToTags;
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             cardToTags = (Set<CardToTag>) em.createQuery("SELECT CardToTag FROM CardToTag")
                     .getResultStream()
                     .collect(Collectors.toSet());
             em.getTransaction().commit();
         }
-
-        if(!cardToTags.isEmpty())
+        if(!cardToTags.isEmpty()) {
             return cardToTags;
-
+        }
         return null;
     }
 
     public static boolean createCardToTag(Card card, Tag tag) {
-        try (
-                final EntityManager em = pm.getEntityManager();) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.persist(new CardToTag(card, tag));
             em.getTransaction().commit();
-       } //catch (final Exception e) {
        //     log.warn(String.format("Beim Speichern von `CardToTag` zwischen Karte \"%s\" und Tag \"%s\" ist ein Fehler aufgetreten: %s",
         //            card.getUuid(), tag.getVal(), e));
 //
 //        }
+       }
         log.info(String.format("Verbindung zwischen der Karte \"%s\" und dem Tag \"%s\" hergestellt",
-                card.getUuid(), tag.getVal()));
+                               card.getUuid(), tag.getVal()));
         return true;
     }
 
     public static boolean updateCard(Card card) {
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.merge(card);
             em.getTransaction().commit();
@@ -291,7 +259,7 @@ public class CardRepository
 
     public static Optional<Tag> find(String text) {
         log.info("Suche nach Tag mit Namen {}",text);
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             final Tag tag = (Tag) em.createNamedQuery("Tag.findTagByName")
                     .setParameter("text", text)
                     .getSingleResult();
@@ -306,7 +274,7 @@ public class CardRepository
     public static Set<Tag> getTagsToCard(Card card) {
         Set<Tag> tags = new HashSet<>();
         log.info("Rufe alle Tags für Card " + card.getUuid() + " ab");
-        try (final EntityManager em = pm.getEntityManager()) {
+        try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             tags = (Set<Tag>) em.createNamedQuery("CardToTag.allTagsWithCards")
                     .setParameter("card", card)
@@ -314,7 +282,6 @@ public class CardRepository
                     .collect(Collectors.toSet());
             em.getTransaction().commit();
         }
-
         return tags;
     }
 }

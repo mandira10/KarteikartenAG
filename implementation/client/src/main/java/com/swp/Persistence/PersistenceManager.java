@@ -6,7 +6,7 @@ import jakarta.persistence.Persistence;
 
 public class PersistenceManager {
     private static final String PU_NAME = "KarteikartenDB";
-    private static final EntityManagerFactory emFactory;
+    protected static final EntityManagerFactory emFactory;
 
     static {
         emFactory = Persistence.createEntityManagerFactory(PU_NAME);
