@@ -9,6 +9,7 @@ import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.Exporter.ExportFileType;
+import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtilsBean;
 
@@ -77,6 +78,16 @@ public class CardController {
 
             return cardsForSearchTerms; //TODO Verknüpfung mit GUI und Darstellung im Overview
         } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
+            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
+            return null;
+        } catch (final NoResultException ex) {
+            // keine Karten mit entsprechendem Inhalt gefunden
+            log.info("Keine Karten mit dem Inhalt {} gefunden", searchterm);
+            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
+            return null;
+        } catch (final Exception ex) {
+            log.warn("Beim Suchen nach Karten mit Inhalt {} ist ein Fehler {} aufgetreten", searchterm
+                    , ex);
             NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
             return null;
         }

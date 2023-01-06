@@ -21,7 +21,7 @@ import java.util.UUID;
 @NamedQuery(name = "Card.findCardByUUID",
             query = "SELECT c FROM Card c WHERE c.uuid = :uuid")
 @NamedQuery(name = "Card.findCardsByContent",
-            query = "SELECT c FROM Card c WHERE LOWER(c.content) LIKE '%LOWER(:content)%' ")
+            query = "SELECT c FROM Card c WHERE LOWER(c.content) LIKE LOWER(:content)")
 @NamedQuery(name = "Card.findByTitle",
         query = "SELECT c FROM Card c WHERE c.title = :title ")
 public abstract class Card implements Serializable

@@ -129,23 +129,16 @@ public class CardRepository
 
     public static Set<Card> findCardsContaining(String searchWords)
     {
-        Set<Card> cards = null;
+        Set<Card> cards = new HashSet<>();
         log.info("Rufe alle Karten mit folgendem Inhalt ab: " + searchWords);
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             cards = (Set<Card>) em.createNamedQuery("Card.findCardsByContent")
-                    .setParameter("content", searchWords)
+                    .setParameter("content", "%" + searchWords + "%")
                     .getResultStream()
                     .collect(Collectors.toSet());
             em.getTransaction().commit();
-        } catch (final NoResultException e) {
-            // keine Karten mit entsprechendem Inhalt gefunden
-            log.info(String.format("Keine Karten mit dem Inhalt \"%s\" gefunden"), searchWords);
-        } catch (final Exception e) {
-            log.warn(String.format("Beim Suchen nach Karten mit Inhalt \"%s\" ist ein Fehler aufgetreten: \"%s\"",
-                    searchWords, e));
         }
-
         return cards;
     }
 
