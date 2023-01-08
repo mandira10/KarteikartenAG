@@ -2,7 +2,6 @@ package com.swp.GUI.Decks;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -35,8 +34,8 @@ public class TestDeckFinishPage extends Page
 
         //Continue button
         Button continueButton = (Button)optionsMenu.findChildByID("continuebutton");
-        continueButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() { PageManager.viewPage(PAGES.DECK_SINGLEVIEW); }
+        continueButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) { PageManager.viewPage(PAGES.DECK_SINGLEVIEW); }
         });
 
 

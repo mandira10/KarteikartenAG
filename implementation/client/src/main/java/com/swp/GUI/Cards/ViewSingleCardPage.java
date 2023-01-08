@@ -1,7 +1,6 @@
 package com.swp.GUI.Cards;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
@@ -14,7 +13,9 @@ import com.swp.DataModel.Tag;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardRenderer.CardRenderer;
+import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.RatingGUI;
+import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.RatingGUI.RateCallback;
 import com.swp.GUI.PageManager.PAGES;
 
@@ -51,8 +52,8 @@ public class ViewSingleCardPage extends Page
         Button editButton = (Button)findChildByID("editbutton");
         if(editButton != null)
         {
-            editButton.setCallbackFunction(new ButtonCallback() {
-                @Override public void run()
+            editButton.onClick(new GUICallback() {
+                @Override public void run(RenderGUI gui) 
                 {
                     EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
                     page.editCard(pCard);
@@ -64,8 +65,8 @@ public class ViewSingleCardPage extends Page
         Button backButton = (Button)findChildByID("backbutton");
         if(backButton != null)
         {
-            backButton.setCallbackFunction(new ButtonCallback() {
-                @Override public void run()
+            backButton.onClick(new GUICallback() {
+                @Override public void run(RenderGUI gui) 
                 {
                     //PageManager.viewPage(PAGES.CARD_OVERVIEW);
                     PageManager.viewLastPage();
@@ -74,15 +75,20 @@ public class ViewSingleCardPage extends Page
         }
 
         Button flipButton = (Button)findChildByID("flipcardbutton");
-        if(flipButton != null)
-        {
-            flipButton.setCallbackFunction(new ButtonCallback() {
-                @Override public void run()
-                {
-                    pCardRenderer.flip();
-                }
-            });
-        }
+        flipButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                pCardRenderer.flip();
+            }
+        });
+
+        Button deleteButton = (Button)findChildByID("deletebutton");
+        deleteButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                deleteCard();
+            }
+        });
         
         this.setSizeInPercent(true, true);
         reposition();
@@ -108,5 +114,20 @@ public class ViewSingleCardPage extends Page
         if(categoriesStr.length() > 0)
             categoriesStr = categoriesStr.substring(0, categoriesStr.length() - 2);
         pTagsText.setString(categoriesStr);
+    }
+
+
+    private void deleteCard()
+    {
+        ConfirmationGUI.openDialog("Are you sure that you want to delete this card?", new ConfirmationCallback() {
+            @Override public void onConfirm() 
+            {  
+                if(CardController.deleteCard(pCard))
+                    ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
+            }
+            @Override public void onCancel() 
+            {
+            }
+        });
     }
 }

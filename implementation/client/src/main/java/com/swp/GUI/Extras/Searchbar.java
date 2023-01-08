@@ -2,7 +2,6 @@ package com.swp.GUI.Extras;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -53,8 +52,8 @@ public class Searchbar extends RenderGUI
         pOptionsButton.setOrigin(new ivec2(size.y * 3, 0));
         pOptionsButton.setPositionInPercent(true, false);
         pOptionsButton.getBox().setTextSize(20);
-        pOptionsButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        pOptionsButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 // Create pop-up GUI
             }
@@ -66,8 +65,8 @@ public class Searchbar extends RenderGUI
         pSubmitButton.setPositionInPercent(true, false);
         pSubmitButton.setCornerRadius(new vec4(0, corderradius, corderradius, 0));
         pSubmitButton.getBox().setTextSize(20);
-        pSubmitButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        pSubmitButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 pCallback.run(pInputField.getString());
             }

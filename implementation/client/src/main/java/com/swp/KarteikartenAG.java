@@ -110,7 +110,7 @@ public class KarteikartenAG
         //
         // Hollow symbols
         //
-        String usedRegularCharacters = "";
+        String usedRegularCharacters = "";
 		Font pFontAwesomeRegular = Font.loadFontFromResource("fonts/font-awesome6-free-regular-400.otf", usedRegularCharacters);
         FontManager.getInstance().addFont(pFontAwesomeRegular, "FontAwesomeRegular");
 

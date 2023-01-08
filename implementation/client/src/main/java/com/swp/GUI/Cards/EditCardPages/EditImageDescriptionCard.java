@@ -1,7 +1,6 @@
 package com.swp.GUI.Cards.EditCardPages;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
@@ -24,16 +23,16 @@ public class EditImageDescriptionCard extends RenderGUI
         pImageButton = (Button)findChildByID("imagebox");
 
         pImageButton.getBox().getBox().invertTexcoordY(true);
-        pImageButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        pImageButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 selectImageFile();
             }
         });
 
         pAnswersButton = (Button)findChildByID("answersbutton");
-        pAnswersButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        pAnswersButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 EditImageDescriptionCardAnswersPage page = (EditImageDescriptionCardAnswersPage)PageManager.getPage(PAGES.CARD_IMAGE_ANSWERS);
                 page.setCard(pCard);

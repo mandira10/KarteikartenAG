@@ -2,7 +2,6 @@ package com.swp.GUI.Decks;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
@@ -98,8 +97,8 @@ public class DeckOverviewPage extends Page
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button newButton = (Button)optionsMenu.findChildByID("adddeckbutton");
-        newButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        newButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 EditDeckPage page = (EditDeckPage)PageManager.getPage(PAGES.DECK_EDIT);
                 page.editDeck(new Deck());

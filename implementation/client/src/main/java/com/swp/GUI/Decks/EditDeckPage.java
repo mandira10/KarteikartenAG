@@ -3,7 +3,6 @@ package com.swp.GUI.Decks;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Basics.Dropdown.DropdownSelectionCallback;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -40,8 +39,8 @@ public class EditDeckPage extends Page
         RenderGUI optionsMenu = findChildByID("menu");
         //Cancel Button
         Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
-        cancelButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() { PageManager.viewLastPage(); }
+        cancelButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) { PageManager.viewLastPage(); }
         });
 
         //Titlefield

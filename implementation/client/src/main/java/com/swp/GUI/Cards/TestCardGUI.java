@@ -2,21 +2,17 @@ package com.swp.GUI.Cards;
 
 import java.io.InputStream;
 
-import org.hibernate.engine.spi.CascadeStyles.MultipleCascadeStyle;
-
 import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Radiobutton;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
-import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.textures.Texture;
@@ -27,8 +23,6 @@ import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.GUI.Extras.AudioGUI;
 
 public class TestCardGUI extends RenderGUI
@@ -110,7 +104,6 @@ public class TestCardGUI extends RenderGUI
 
     private void createImageTestCardTest()
     {
-        Font defaultFont = FontManager.getInstance().getDefaultFont();
         ImageTestCard card = (ImageTestCard)pCard;
 
         pQuestionScroller.setPosition(new ivec2(5, 5));
@@ -178,8 +171,6 @@ public class TestCardGUI extends RenderGUI
 
     private void createTextCardTest()
     {
-        Font defaultFont = FontManager.getInstance().getDefaultFont();
-        TextCard card = (TextCard)pCard;
         addAnswerTextField();
     }
 
@@ -203,7 +194,6 @@ public class TestCardGUI extends RenderGUI
     private void createTrueFalseCardTest()
     {
         Font defaultFont = FontManager.getInstance().getDefaultFont();
-        TrueFalseCard card = (TrueFalseCard)pCard;
 
         Button trueButton = new Button(new ivec2(50, 100), new ivec2(100, 50), "True", defaultFont);
         trueButton.setPositionInPercent(true, true);
@@ -214,14 +204,14 @@ public class TestCardGUI extends RenderGUI
         falseButton.setPositionInPercent(true, true);
         falseButton.setOrigin(new ivec2(-10, 70));
 
-        trueButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() {
+        trueButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  {
                 falseButton.setColor(new vec4(0.2f, 0.2f, 0.2f, 1.0f));
                 trueButton.setColor(GUI.getTheme().accentColor);
             }
         });
-        falseButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() {
+        falseButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  {
                 trueButton.setColor(new vec4(0.2f, 0.2f, 0.2f, 1.0f));
                 falseButton.setColor(GUI.getTheme().accentColor);
             }

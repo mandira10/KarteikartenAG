@@ -2,7 +2,6 @@ package com.swp.GUI.Category;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
@@ -11,7 +10,6 @@ import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
-import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Category;
@@ -93,8 +91,8 @@ public class CategoryOverviewPage extends Page
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button newButton = (Button)optionsMenu.findChildByID("addcategorybutton");
-        newButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        newButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  
             {
                 ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category());
             }

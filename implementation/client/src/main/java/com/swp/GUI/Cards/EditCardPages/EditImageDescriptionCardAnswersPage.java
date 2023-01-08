@@ -1,13 +1,7 @@
 package com.swp.GUI.Cards.EditCardPages;
 
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
-
-import java.nio.ByteBuffer;
-
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
-import com.gumse.gui.Basics.TextBox;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -43,10 +37,14 @@ public class EditImageDescriptionCardAnswersPage extends Page
         creatAddButton();
 
         Button applyButton = (Button)findChildByID("applybutton");
-        applyButton.setCallbackFunction(new ButtonCallback() { @Override public void run() { applyChanges(); } });
+        applyButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  { applyChanges(); } 
+        });
 
         Button cancelButton = (Button)findChildByID("cancelbutton");
-        cancelButton.setCallbackFunction(new ButtonCallback() { @Override public void run() { PageManager.viewPage(PAGES.CARD_EDIT); } });
+        cancelButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  { PageManager.viewPage(PAGES.CARD_EDIT); }
+        });
 
         
         this.setSizeInPercent(true, true);
@@ -100,8 +98,8 @@ public class EditImageDescriptionCardAnswersPage extends Page
         pAddEntryButton.setPositionInPercent(true, false);
         pAddEntryButton.getBox().setTextSize(28);
         pAddEntryButton.setOrigin(new ivec2(30, 0));
-        pAddEntryButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        pAddEntryButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 addEntry("", new ivec2(0, 0));
             }
