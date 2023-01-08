@@ -54,23 +54,16 @@ public class CategoryOverviewPage extends Page
             iconText.setString("");
             addElement(numcardsText);
             addElement(iconText);
-        }
 
-        @Override
-        public void update() 
-        {
-            if(isMouseInside())
-            {
-                Mouse.setActiveHovering(true);
-                Window.CurrentlyBoundWindow.getMouse().setCursor(Mouse.GUM_CURSOR_HAND);
-
-                if(isClicked())
+            onHover(null, Mouse.GUM_CURSOR_HAND);
+            onClick(new GUICallback() {
+                @Override public void run(RenderGUI gui) 
                 {
                     ViewSingleCategoryPage page = (ViewSingleCategoryPage)PageManager.getPage(PAGES.CATEGORY_SINGLEVIEW);
                     page.setCategory(pCategory);
                     PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW);
                 }
-            }
+            });
         }
     };
 

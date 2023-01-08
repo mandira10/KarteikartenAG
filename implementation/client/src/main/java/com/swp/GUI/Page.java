@@ -21,7 +21,7 @@ public class Page extends RenderGUI
     }
 
     @Override
-    public void render()
+    public void renderextra()
     {
         renderchildren();
         

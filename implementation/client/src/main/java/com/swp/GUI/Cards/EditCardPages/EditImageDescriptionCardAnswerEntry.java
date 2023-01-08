@@ -61,11 +61,8 @@ public class EditImageDescriptionCardAnswerEntry extends RenderGUI
     }
 
     @Override
-    public void update() 
+    public void updateextra() 
     {
-        if(bIsHidden)
-            return;
-
         Mouse mouse = Window.CurrentlyBoundWindow.getMouse();
         
         if(!Mouse.isBusy() && pMovingIndexBox.isMouseInside())
@@ -100,8 +97,6 @@ public class EditImageDescriptionCardAnswerEntry extends RenderGUI
                 mouse.hide(false);
             }
         }
-
-        updatechildren();
     }
 
 

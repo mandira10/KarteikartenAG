@@ -33,48 +33,53 @@ import com.swp.GUI.KarteikartenAGGUI;
 // 
 // GUIs
 //   - Create GUI inside thread
-//   - Notification GUI          -- done
-//   - Confirmation GUI          -- done
-//   - Rate Card GUI             -- done
-//   - Radiobutton GUI           -- done
-//   - Tag Textfield GUI         -- done
-//   - Audio GUI                 -- done
-//   - Card creation             -- done
-//   - Edit card category        -- done
-//   - Finalize Decktests        -- done
-//       - TextCard              -- done
-//       - MultiCard             -- done
-//       - TrueFalseCard         -- done
-//       - ImageTestCard         -- done
-//       - ImageDescCard         -- done
-//       - AudioCard             -- done
+//   - Card List columns            -- done
+//   - card references list (links) 
+//   - Show tags/categories in view -- done
+//   - Edit card new card switch    -- done
+//   - Notification GUI             -- done
+//   - Confirmation GUI             -- done
+//   - Rate Card GUI                -- done
+//   - Radiobutton GUI              -- done
+//   - Tag Textfield GUI            -- done
+//   - Audio GUI                    -- done
+//   - Card creation                -- done
+//   - Edit card category           -- done
+//   - Finalize Decktests           -- done
+//       - TextCard                 -- done
+//       - MultiCard                -- done
+//       - TrueFalseCard            -- done
+//       - ImageTestCard            -- done
+//       - ImageDescCard            -- done
+//       - AudioCard                -- done
 //   - Deck editpage
-//   - Show deck progress        -- done
-//   - Final testpage            -- done
-//   - Test rating               -- done
-//   - Studysystem editpage      -- done
-//   - Studysystem dropdown      -- done
+//   - Show deck progress           -- done
+//   - Final testpage               -- done
+//   - Test rating                  -- done
+//   - Studysystem editpage         -- done
+//   - Studysystem dropdown         -- done
 //   - Finalize Viewpages
-//       - TextCard              -- done
-//       - MultiCard             -- done
-//       - TrueFalseCard         -- done
-//       - ImageTestCard         -- done
-//       - ImageDescCard         -- done
+//       - TextCard                 -- done
+//       - MultiCard                -- done
+//       - TrueFalseCard            -- done
+//       - ImageTestCard            -- done
+//       - ImageDescCard            -- done
 //       - AudioCard
 //   - Export Cards Page
 //   - Add icons to edit options
-//   - Finalize Editpages        -- done
-//       - TextCard              -- done
-//       - MultiCard             -- done
-//       - TrueFalseCard         -- done
-//       - ImageTestCard         -- done
-//       - ImageDescCard         -- done
-//       - AudioCard             -- done
-//   - Fix Scroller class
-//   - Searchbar                 -- done
+//   - Finalize Editpages           -- done
+//       - TextCard                 -- done
+//       - MultiCard                -- done
+//       - TrueFalseCard            -- done
+//       - ImageTestCard            -- done
+//       - ImageDescCard            -- done
+//       - AudioCard                -- done
+//   - Fix Scroller class           -- done
+//   - Searchbar                    -- done
+//   - Searchbar filter
 //   - Category GUIs
-//       - Category List         -- done
-//       - Single Category View  -- done
+//       - Category List            -- done
+//       - Single Category View     -- done
 //       - Category Tree
 //   - Language Class
 ////////////////////////////////////////////////////
@@ -97,7 +102,7 @@ public class KarteikartenAG
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(iWindowSize);
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
 

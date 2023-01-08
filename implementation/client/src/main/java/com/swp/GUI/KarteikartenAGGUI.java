@@ -60,7 +60,7 @@ public class KarteikartenAGGUI extends RenderGUI
     }
 
     @Override
-    public void render()
+    public void renderextra()
     {
         PageManager.render();
         pSidebar.render();
@@ -69,7 +69,7 @@ public class KarteikartenAGGUI extends RenderGUI
     }
 
     @Override
-    public void update()
+    public void updateextra()
     {
         pConfirmations.update();
         if(pConfirmations.isHidden())

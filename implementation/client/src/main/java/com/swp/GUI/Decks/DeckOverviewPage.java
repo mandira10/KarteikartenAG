@@ -71,23 +71,17 @@ public class DeckOverviewPage extends Page
             addElement(progressText);
             addElement(numcardsText);
             addElement(iconText);
-        }
 
-        @Override
-        public void update() 
-        {
-            if(isMouseInside())
-            {
-                Mouse.setActiveHovering(true);
-                Window.CurrentlyBoundWindow.getMouse().setCursor(Mouse.GUM_CURSOR_HAND);
+            onHover(null, Mouse.GUM_CURSOR_HAND);
 
-                if(isClicked())
+            onClick(new GUICallback() {
+                @Override public void run(RenderGUI gui) 
                 {
                     ViewSingleDeckPage page = (ViewSingleDeckPage)PageManager.getPage(PAGES.DECK_SINGLEVIEW);
                     page.setDeck(pDeck);
                     PageManager.viewPage(PAGES.DECK_SINGLEVIEW);
                 }
-            }
+            });
         }
     };
 

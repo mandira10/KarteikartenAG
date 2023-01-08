@@ -1,14 +1,23 @@
 package com.swp.GUI.Extras;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 
-import com.gumse.gui.Basics.Scroller;
+import com.gumse.gui.Basics.Switch;
+import com.gumse.gui.Basics.TextBox.Alignment;
+import com.gumse.gui.List.ColumnInfo;
+import com.gumse.gui.List.List;
+import com.gumse.gui.List.ListCell;
+import com.gumse.gui.List.ListEntry;
+import com.gumse.gui.List.ColumnInfo.ColumnType;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Debug;
+import com.gumse.system.io.Mouse;
 import com.swp.DataModel.Card;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.Cards.ViewSingleCardPage;
+import com.swp.GUI.PageManager.PAGES;
 
 public class CardList extends RenderGUI
 {
@@ -18,12 +27,11 @@ public class CardList extends RenderGUI
         public void exitSelectmod();
     }
 
-    private Scroller pScroller;
+    private List<Card> pList;
     private boolean bIsInSelectmode;
     private CardListSelectmodeCallback pCallback;
 
-    private static final int ENTRY_HEIGHT = 40;
-    private static final int GAP_SIZE = 5;
+    private static final int CHECK_COLUMN = 3;
 
     public CardList(ivec2 pos, ivec2 size, CardListSelectmodeCallback callback)
     {
@@ -32,9 +40,20 @@ public class CardList extends RenderGUI
         this.bIsInSelectmode = false;
         this.pCallback = callback;
 
-        pScroller = new Scroller(new ivec2(0, 0), new ivec2(100, 100));
-        pScroller.setSizeInPercent(true, true);
-        addElement(pScroller);
+        pList = new List<>(
+            new ivec2(0, 0), 
+            new ivec2(100, 100), 
+            new ColumnInfo[] {
+                new ColumnInfo("Title",        ColumnType.STRING,  65),
+                new ColumnInfo("Creationdate", ColumnType.DATE,    20),
+                new ColumnInfo("Decks",        ColumnType.INTEGER, 10),
+                new ColumnInfo("",             ColumnType.BOOLEAN, 5),
+            }
+        );
+        pList.setSizeInPercent(true, true);
+        addElement(pList);
+
+        onHover(null, Mouse.GUM_CURSOR_HAND);
 
 
         resize();
@@ -43,17 +62,23 @@ public class CardList extends RenderGUI
 
     public void updateSelectmode()
     {
-        for(RenderGUI entry : pScroller.getChildren())
-        {
-            CardListEntry cardEntry = (CardListEntry)entry;
-            if(cardEntry.isSelected())
+        ArrayList<Boolean> foundEntries = pList.getColumnWhere(CHECK_COLUMN, new Predicate<ListEntry<Card>>() {
+            @Override public boolean test(ListEntry<Card> arg0) 
             {
-                if(!bIsInSelectmode)
-                    pCallback.enterSelectmod();
-                bIsInSelectmode = true;
-                return;
+                Switch switchgui = (Switch)arg0.getChild(CHECK_COLUMN).getChild(0);
+                return switchgui.isTicked();
             }
+        });
+
+        if(foundEntries.size() > 0)
+        {
+            if(!bIsInSelectmode)
+                pCallback.enterSelectmod();
+            bIsInSelectmode = true;
+
+            return;
         }
+
         if(bIsInSelectmode)
             pCallback.exitSelectmod();
         bIsInSelectmode = false;
@@ -61,9 +86,46 @@ public class CardList extends RenderGUI
 
     public void addCard(Card card)
     {
-        CardListEntry entry = new CardListEntry(card, new ivec2(0, pScroller.numChildren() * (ENTRY_HEIGHT + GAP_SIZE)), new ivec2(100, ENTRY_HEIGHT), this);
-        entry.setSizeInPercent(true, false);
-        pScroller.addGUI(entry);
+
+        GUICallback commoncallback = new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                if(bIsInSelectmode)
+                {
+                    Switch switchgui = (Switch)gui.getParent().getChild(CHECK_COLUMN).getChild(0);
+                    switchgui.tick(!switchgui.isTicked());
+                }
+                else
+                {
+                    ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(card);
+                }
+            }
+        };
+
+        ListCell titlecell = new ListCell(card.getTitle());
+        titlecell.alignment = Alignment.LEFT;
+        titlecell.onclickcallback = commoncallback;
+
+        ListCell creationcell = new ListCell(card.getCreationDate());
+        creationcell.alignment = Alignment.LEFT;
+        creationcell.onclickcallback = commoncallback;
+
+        ListCell numdeckscell = new ListCell(42);
+        numdeckscell.alignment = Alignment.LEFT;
+        numdeckscell.onclickcallback = commoncallback;
+
+        ListCell checkcell = new ListCell(false);
+        checkcell.onclickcallback = new GUICallback() {
+            @Override
+            public void run(RenderGUI gui) 
+            {
+                Switch switchgui = (Switch)gui.getChild(0);
+                switchgui.tick(!switchgui.isTicked());
+                updateSelectmode();
+            }
+        };
+
+        pList.addEntry(new ListCell[] { titlecell, creationcell, numdeckscell, checkcell }, card);
     }
 
     public void addCards(Set<Card> cards)
@@ -74,7 +136,8 @@ public class CardList extends RenderGUI
 
     public void reset()
     {
-        pScroller.destroyChildren();
+        pList.reset();
+        updateSelectmode();
     }
 
 
@@ -82,16 +145,16 @@ public class CardList extends RenderGUI
     // Getter
     //
     public boolean isInSelectmode() { return bIsInSelectmode; }
-    public List<Card> getSelection() 
+    public ArrayList<Card> getSelection() 
     {
-        List<Card> retList = new ArrayList<>();
-        for(RenderGUI child : pScroller.getChildren())
-        {
-            CardListEntry entry = (CardListEntry)child;
-            if(entry.isSelected())
-                retList.add(entry.getCard());
-        }
+        ArrayList<Card> foundEntries = pList.getUserdataWhere(new Predicate<ListEntry<Card>>() {
+            @Override public boolean test(ListEntry<Card> arg0) 
+            {
+                Switch switchgui = (Switch)arg0.getChild(CHECK_COLUMN).getChild(0);
+                return switchgui.isTicked();
+            }
+        });
 
-        return retList;
+        return foundEntries;
     }
 }

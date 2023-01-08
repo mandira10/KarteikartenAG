@@ -74,7 +74,7 @@ public class CardController {
      * @param card Die Karte, zu der die Tags abgerufen werden sollen
      * @return Gefundene Tags für die spezifische Karte
      */
-    private static Set<Tag> getTagsToCard(Card card) {
+    public static Set<Tag> getTagsToCard(Card card) {
         try {
             Set tagsForCard = CardLogic.getTagsToCard(card);
 
@@ -100,7 +100,7 @@ public class CardController {
 
 
             if (cardsForSearchTerms.isEmpty()) {
-                NotificationGUI.addNotification("Es gibt keine Karten für dieses Suchwort", Notification.NotificationType.INFO, 5);
+                NotificationGUI.addNotification("Es gibt keine Karten für dieses\nSuchwort", Notification.NotificationType.INFO, 5);
             }
 
             return cardsForSearchTerms;

@@ -18,6 +18,7 @@ public class Searchbar extends RenderGUI
 
     private TextField pInputField;
     private Button pSubmitButton;
+    private Button pOptionsButton;
     private SearchbarCallback pCallback;
 
     public Searchbar(ivec2 pos, ivec2 size, String hint, SearchbarCallback callback)
@@ -32,7 +33,7 @@ public class Searchbar extends RenderGUI
         FontManager fonts = FontManager.getInstance();
         pInputField = new TextField("", fonts.getDefaultFont(), new ivec2(0, 0), new ivec2(100, 100));
         pInputField.setSizeInPercent(true, true);
-        pInputField.setMargin(new ivec2(-size.y, 0));
+        pInputField.setMargin(new ivec2(-size.y * 3, 0));
         pInputField.setCallback(new TextFieldInputCallback() {
             @Override public void enter(String complete) 
             {
@@ -42,23 +43,35 @@ public class Searchbar extends RenderGUI
             @Override public void input(String input, String complete) 
             {
             }
-            
         });
         pInputField.setCornerRadius(new vec4(corderradius, 0, 0, corderradius));
         pInputField.setHint(hint);
         addElement(pInputField);
 
-        pSubmitButton = new Button(new ivec2(100, 0), new ivec2(size.y, size.y), "", fonts.getFont("FontAwesome"));
-        pSubmitButton.setOrigin(new ivec2(size.y, 0));
-        pSubmitButton.setCallbackFunction(new ButtonCallback() {
+        
+        pOptionsButton = new Button(new ivec2(100, 0), new ivec2(size.y, size.y), "", fonts.getFont("FontAwesome"));
+        pOptionsButton.setOrigin(new ivec2(size.y * 3, 0));
+        pOptionsButton.setPositionInPercent(true, false);
+        pOptionsButton.getBox().setTextSize(20);
+        pOptionsButton.setCallbackFunction(new ButtonCallback() {
             @Override public void run() 
             {
-                pCallback.run(pInputField.getBox().getString());
+                // Create pop-up GUI
             }
         });
+        addElement(pOptionsButton);
+
+        pSubmitButton = new Button(new ivec2(100, 0), new ivec2(size.y * 2, size.y), "", fonts.getFont("FontAwesome"));
+        pSubmitButton.setOrigin(new ivec2(size.y * 2, 0));
         pSubmitButton.setPositionInPercent(true, false);
         pSubmitButton.setCornerRadius(new vec4(0, corderradius, corderradius, 0));
         pSubmitButton.getBox().setTextSize(20);
+        pSubmitButton.setCallbackFunction(new ButtonCallback() {
+            @Override public void run() 
+            {
+                pCallback.run(pInputField.getString());
+            }
+        });
         addElement(pSubmitButton);
 
         resize();

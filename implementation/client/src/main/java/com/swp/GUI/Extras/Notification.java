@@ -103,10 +103,26 @@ public class Notification extends RenderGUI
 
         notificationIcon.setColor(color);
         notificationTextbox.setTextColor(color);
+
+        onHover(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                overrideAlpha(1.0f);
+                fProgress = 1.0f;
+    
+                if(!RenderGUI.somethingHasBeenClicked() && isClicked())
+                {
+                    bCanBeRemoved = true;
+                }
+            }
+        }, iHoverCursorShape);
+
+        resize();
+        reposition();
     }
 
     @Override
-    public void update() 
+    public void updateextra() 
     {
         fProgress -= FPS.getFrametime() * fSpeed;
 
@@ -117,20 +133,8 @@ public class Notification extends RenderGUI
                 bCanBeRemoved = true;
         }
 
-        if(isMouseInside())
-        {
-            overrideAlpha(1.0f);
-            fProgress = 1.0f;
-
-            if(!RenderGUI.somethingHasBeenClicked() && isClicked())
-            {
-                bCanBeRemoved = true;
-            }
-        }
-
         pProgressBar.setSize(new ivec2((int)(100 * fProgress), 1));
         pProgressBar.setColor(vec4.mix(new vec4(1, 0, 0, 1), new vec4(0, 1, 0, 1), fProgress));
-        super.update();
     }
 
     boolean canBeRemoved() { return bCanBeRemoved; }

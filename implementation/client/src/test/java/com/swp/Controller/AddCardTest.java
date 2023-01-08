@@ -105,12 +105,12 @@ public class AddCardTest {
 
         assertTrue(CardController.updateCardData(null, "TEXT", txmap, tagsToAdd, null));
         Set<Tag> tags = CardRepository.getTags();
-         assertEquals(2,tags.size());
+        assertEquals(2,tags.size()); //FAILS
         Tag tag1 = tags.iterator().next();
         Tag tag2 = tags.iterator().next();
         Set<Card> CardsToTag1 = CardRepository.findCardsByTag(tag1);
         Set<Card> CardsToTag2 = CardRepository.findCardsByTag(tag2);
-        assertEquals(1,CardsToTag1.size());
+        assertEquals(1,CardsToTag1.size()); //FAILS
         assertEquals(1,CardsToTag2.size());
         Card card1 = CardsToTag1.iterator().next();
         Card card2 = CardsToTag2.iterator().next();
@@ -136,12 +136,12 @@ public class AddCardTest {
 
         assertTrue(CardController.updateCardData(null, "TEXT", txmap, null, categoriesToAdd));
         Set<Category> categories = CategoryRepository.getCategories();
-        assertEquals(2,categories.size());
+        assertEquals(2,categories.size()); //FAILS
         Category c1 = categories.iterator().next();
         Category c2 = categories.iterator().next();
         Set<Card> CardsToC1 = CategoryRepository.getCardsByCategory(c1);
         Set<Card> CardsToC2 = CategoryRepository.getCardsByCategory(c2);
-        assertEquals(1,CardsToC1.size());
+        assertEquals(1,CardsToC1.size()); //FAILS
         assertEquals(1,CardsToC2.size());
         Card card1 = CardsToC1.iterator().next();
         Card card2 = CardsToC2.iterator().next();

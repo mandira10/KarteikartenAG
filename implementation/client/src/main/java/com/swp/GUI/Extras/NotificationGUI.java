@@ -2,7 +2,6 @@ package com.swp.GUI.Extras;
 
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Debug;
 import com.swp.GUI.Extras.Notification.NotificationType;
 
 public class NotificationGUI extends RenderGUI
@@ -27,12 +26,12 @@ public class NotificationGUI extends RenderGUI
     }
 
     @Override
-    public void update()
+    public void updateextra()
     {
         for(int i = 0; i < numChildren(); i++)
         {
             RenderGUI entry = getChild(i);
-            entry.update();
+            //entry.update();
 
             Notification notification = (Notification)entry;
             if(notification.canBeRemoved())

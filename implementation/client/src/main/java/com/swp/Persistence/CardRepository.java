@@ -43,8 +43,8 @@ public class CardRepository
         for(int i = 0; i < to - from; i += 6)
         {
             cards.add(new AudioCard(null, "AudioCardTitle", "Some Audio Related Question", "The Correct Audio Answer", false, true));
-            cards.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[] {}, "ImageDescriptionTitle", null, false));
-            cards.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", null, "ImageTestCardTitle", false, true));
+            cards.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[] {}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
+            cards.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle", false, true));
             cards.add(new MultipleChoiceCard("MultipleChoice Question", new String[]{"Correct Answer1", "Answer2", "Answer3", "Correct Answer4"}, new int[]{0, 3}, "MultipleChoiceCardTitle", false));
             cards.add(new TextCard("Some Text Question", "Correct Text Answer", "TextCardTitle", false));
             cards.add(new TrueFalseCard("TrueFalse Question", true, "TrueFalseCardTitle", false));

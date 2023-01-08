@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.UUID;
 
+import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 
 /**
@@ -69,6 +70,7 @@ public class Deck implements Serializable
     public Deck()
     {
         this("", null, CardOrder.ALPHABETICAL, false);
+        studySystem = new LeitnerSystem(this);
     }
 
     /**

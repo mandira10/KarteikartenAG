@@ -137,11 +137,8 @@ public class CardRenderer extends RenderGUI
     }
     
     @Override
-    public void render()
+    public void renderextra()
     {
-        if(bIsHidden)
-            return;
-
         renderchildren();
 
         GL30.glViewport(viewportpos.x, viewportpos.y, viewportsize.x, viewportsize.y);
@@ -160,10 +157,8 @@ public class CardRenderer extends RenderGUI
     }
 
     @Override
-    public void update()
+    public void updateextra()
     {
-        if(bIsHidden)
-            return;
         if(!Mouse.isActiveHovering() && isMouseInside())
         {
             Mouse.setActiveHovering(true);
@@ -205,7 +200,5 @@ public class CardRenderer extends RenderGUI
         {
             bDoneRotating = true;
         }
-
-        updatechildren();
     }
 }

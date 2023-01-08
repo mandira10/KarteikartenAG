@@ -62,6 +62,7 @@ public class PageManager
         pPageCanvas.setSize(new ivec2(100, 100));
         pPageCanvas.setMargin(new ivec2(-100, 0));
         pPageCanvas.setSizeInPercent(true, true);
+        pPageCanvas.hideChildren(true);
 
         parent.addGUI(pPageCanvas);
 

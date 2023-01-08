@@ -51,7 +51,7 @@ public class RatingGUI extends RenderGUI
     }
 
     @Override
-    public void update() 
+    public void updateextra() 
     {
         if(pBackground.isMouseInside())
         {

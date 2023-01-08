@@ -111,6 +111,26 @@ public class AudioGUI extends RenderGUI
         AL11.alSource3f(iSourceID, AL11.AL_POSITION, 0, 0, 0);
         AL11.alSourcei(iSourceID, AL11.AL_BUFFER, audiobuffer);
 
+        onHover(null, Mouse.GUM_CURSOR_HAND);
+        onEnter(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                v4Color = vec4.sub(GUI.getTheme().accentColor, 0.02f);
+            }
+        });
+        onLeave(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                v4Color = GUI.getTheme().accentColor;
+            }
+        });
+        onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                toggle();
+            }
+        });
+
         resize();
         reposition();
     }
@@ -135,30 +155,10 @@ public class AudioGUI extends RenderGUI
     }
 
     @Override
-    public void render() 
+    public void renderextra() 
     {
         pBackground.render();
         renderPlayPause();
-    }
-
-    @Override
-    public void update() 
-    {
-        if(pBackground.isMouseInside())
-        {
-            Mouse.setActiveHovering(true);
-            Window.CurrentlyBoundWindow.getMouse().setCursor(Mouse.GUM_CURSOR_HAND);
-            v4Color = vec4.sub(GUI.getTheme().accentColor, 0.02f);
-
-            if(pBackground.isClicked())
-            {
-                toggle();
-            }
-        }
-        else
-        {
-            v4Color = GUI.getTheme().accentColor;
-        }
     }
 
     private void renderPlayPause()

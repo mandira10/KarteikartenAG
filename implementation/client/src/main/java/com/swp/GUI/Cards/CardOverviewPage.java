@@ -70,7 +70,11 @@ public class CardOverviewPage extends Page
         pSearchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Card", new SearchbarCallback() {
             @Override public void run(String query) 
             {
-                loadCards(query);
+                Debug.info(query);
+                if(query.equals(""))
+                    loadCards(0, 30);
+                else
+                    loadCards(query);
             }
         });
         pSearchbar.setPositionInPercent(false, true);

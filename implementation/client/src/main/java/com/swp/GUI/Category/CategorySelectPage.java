@@ -12,7 +12,6 @@ import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Category;
@@ -49,39 +48,24 @@ public class CategorySelectPage extends Page
             pSelectSwitch.setOrigin(new ivec2(30, 0));
             addElement(pSelectSwitch);
 
+            onHover(null, Mouse.GUM_CURSOR_HAND);
+            onClick(new GUICallback() {
+                @Override public void run(RenderGUI gui) 
+                {
+                    pSelectSwitch.tick(!pSelectSwitch.isTicked());
+                }
+            });
+
             setSizeInPercent(true, false);
             reposition();
         }
 
-        @Override
-        public void update()
-        {
-            if(bIsHidden)
-                return;
 
-            updatechildren();
-            if(isMouseInside())
-            {
-                Mouse.setActiveHovering(true);
-                Mouse mouse = Window.CurrentlyBoundWindow.getMouse();
-                mouse.setCursor(Mouse.GUM_CURSOR_HAND);
-
-                if(isClicked())
-                {
-                    pSelectSwitch.tick(!pSelectSwitch.isTicked());
-                }
-            }
-        }
-
-        public boolean isSelected()
-        {
-            return pSelectSwitch.isTicked();
-        }
-
-        public Category getCategory()
-        {
-            return pCategory;
-        }
+        //
+        // Getter
+        //
+        public boolean isSelected()   { return pSelectSwitch.isTicked(); }
+        public Category getCategory() { return pCategory; }
     };
 
     private Scroller pCanvas;

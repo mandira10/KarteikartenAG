@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui-root pos="0, 0" size="100%, 100%">
+    <text pos="20, 20" fontsize="30">Tags:</text>
+    <text id="tagstext" pos="150, 20" fontsize="30"></text>
+    <text pos="20, 50" fontsize="30">Categories:</text>
+    <text id="categoriestext" pos="150, 50" fontsize="30"></text>
+
     <gui id="canvas" size="95%, 80%" pos="2.5%, 5%">
 
     </gui>

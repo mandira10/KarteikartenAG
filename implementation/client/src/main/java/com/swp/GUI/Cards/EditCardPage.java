@@ -1,24 +1,21 @@
 package com.swp.GUI.Cards;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
-import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.TagList.TagList;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Debug;
 import com.swp.Controller.CardController;
-import com.swp.Controller.CategoryController;
-import com.swp.Controller.DeckController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
@@ -45,6 +42,7 @@ public class EditCardPage extends Page
     private TextField pTitlefield, pQuestionField;
     private TagList pTagList;
     private TextBox pCategoriesBox;
+    private Switch pIsNewCardSwitch;
 
     public EditCardPage()
     {
@@ -119,6 +117,8 @@ public class EditCardPage extends Page
         pCategoriesBox.setAlignment(Alignment.LEFT);
         pCategoriesBox.setAutoInsertLinebreaks(true);
 
+        pIsNewCardSwitch = (Switch)findChildByID("newcardswitch");
+
 
         Button categoryButton = (Button)findChildByID("editcategoriesbutton");
         categoryButton.setCallbackFunction(new ButtonCallback() { 
@@ -145,6 +145,7 @@ public class EditCardPage extends Page
         //Set data
         pTitlefield.setString(pNewCard.getTitle());
         pQuestionField.setString(pNewCard.getQuestion());
+        pIsNewCardSwitch.tick(pNewCard.isVisibility());
         //updateCategories(); //TODO
         //updateTags();
 
@@ -177,7 +178,8 @@ public class EditCardPage extends Page
         {
             catString += category.getName() + ", ";
         }
-        catString = catString.substring(0, catString.length() - 2);
+        if(catString.length() > 0)
+            catString = catString.substring(0, catString.length() - 2);
         Debug.info(catString + "eeh");
         pCategoriesBox.setString(catString);
     }

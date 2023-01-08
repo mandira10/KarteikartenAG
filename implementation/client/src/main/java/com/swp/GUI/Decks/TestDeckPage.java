@@ -1,6 +1,5 @@
 package com.swp.GUI.Decks;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import com.gumse.gui.Basics.Button;
@@ -10,9 +9,9 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Debug;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
-import com.swp.DataModel.StudySystem.StudySystemType;
 import com.swp.DataModel.StudySystem.StudySystemType.KNOWN_TYPES;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
@@ -162,17 +161,12 @@ public class TestDeckPage extends Page
     }
 
     @Override
-    public void update()
+    public void updateextra()
     {
-        if(bIsHidden)
-            return;
-
         if(!bStopTime)
         {
             long convert = TimeUnit.SECONDS.convert(System.nanoTime() - lStartTime, TimeUnit.NANOSECONDS);
             pTimeText.setString(String.valueOf(convert));
         }
-
-        updatechildren();
     }
 }

@@ -18,25 +18,18 @@ import com.swp.GUI.PageManager.PAGES;
 
 public class Sidebar extends RenderGUI
 {
-    public interface SidebarCallbackFunction 
-    {
-        void run();
-    }
-
     private class SidebarItem extends RenderGUI
     {
         private TextBox pSymbol;
         private Text pTitle;
         private SmoothFloat pColorSmoothFloat;
-        private SidebarCallbackFunction pCallback;
 
-        public SidebarItem(char symbol, String title, ivec2 pos, SidebarCallbackFunction callback)
+        public SidebarItem(char symbol, String title, ivec2 pos, GUICallback callback)
         {
             this.sType = "SidebarItem";
             this.vPos.set(pos);
             this.vSize.set(new ivec2(100, 100));
             this.setSizeInPercent(true, false);
-            this.pCallback = callback;
 
             Font pFontAwesome = FontManager.getInstance().getFont("FontAwesome");
             pSymbol = new TextBox(Character.toString(symbol), pFontAwesome, new ivec2(0, 0), new ivec2(100, 100));
@@ -48,19 +41,34 @@ public class Sidebar extends RenderGUI
             pTitle = new Text(title, FontManager.getInstance().getDefaultFont(), new ivec2(120, 50 - 15), 0);
             pTitle.setCharacterHeight(30);
             pTitle.setColor(new vec4(0.9f, 0.9f, 0.9f, 1.0f));
+            pTitle.hide(true);
             addElement(pTitle);
 
             pColorSmoothFloat = new SmoothFloat(0, 30, 0);
 
+            onClick(callback);
+
+            onHover(new GUICallback() {
+                @Override public void run(RenderGUI gui) 
+                {
+                    pColorSmoothFloat.setTarget(1.0f);
+                }
+            }, Mouse.GUM_CURSOR_HAND);
+
+            onLeave(new GUICallback() {
+                @Override public void run(RenderGUI gui) 
+                {
+                    pColorSmoothFloat.setTarget(0.0f);
+                }
+            });
+
             reposition();
+            resize();
         }
 
         @Override
-        public void update()
+        public void updateextra()
         {
-            if(bIsHidden)
-                return;
-            
             if(pColorSmoothFloat.update())
             {
                 vec4 color = vec4.mix(new vec4(0.9f, 0.9f, 0.9f, 1.0f), new vec4(0.19f, 0.2f, 0.42f, 1.0f), pColorSmoothFloat.get());
@@ -68,24 +76,6 @@ public class Sidebar extends RenderGUI
                 pSymbol.setTextColor(color);
                 pTitle.setColor(color);
             }
-
-            if(isClicked())
-            {
-                pCallback.run();
-            }
-
-            if(isMouseInside())
-            {
-                pColorSmoothFloat.setTarget(1.0f);
-                Mouse.setActiveHovering(true);
-                Window.CurrentlyBoundWindow.getMouse().setCursor(Mouse.GUM_CURSOR_HAND);
-            }
-            else
-            {
-                pColorSmoothFloat.setTarget(0.0f);
-            }
-
-            updatechildren();
         }
 
         public void setVisibility(float v, int boxsize)
@@ -116,34 +106,34 @@ public class Sidebar extends RenderGUI
 
         pSmoothFloat = new SmoothFloat(0, 10, 0);
 
-        pBackground.addGUI(new SidebarItem('', "Home",       new ivec2(0,10), new SidebarCallbackFunction() {
-            @Override public void run() 
+        pBackground.addGUI(new SidebarItem('', "Home", new ivec2(0,10), new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 PageManager.viewPage(PAGES.LOGIN);
             }
         }));
-        pBackground.addGUI(new SidebarItem('', "Cards",      new ivec2(0,120), new SidebarCallbackFunction() {
-            @Override public void run() 
+        pBackground.addGUI(new SidebarItem('', "Cards", new ivec2(0,120), new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
             }
         }));
-        pBackground.addGUI(new SidebarItem('', "Decks",      new ivec2(0,230), new SidebarCallbackFunction() {
-            @Override public void run() 
+        pBackground.addGUI(new SidebarItem('', "Decks", new ivec2(0,230), new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
             }
         }));
-        pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,340), new SidebarCallbackFunction() {
-            @Override public void run() 
+        pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,340), new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 PageManager.viewPage(PAGES.CATEGORY_OVERVIEW);
             }
         }));
 
 
-        SidebarItem settingsItem = new SidebarItem('', "Settings", new ivec2(0, 100), new SidebarCallbackFunction() {
-            @Override public void run() 
+        SidebarItem settingsItem = new SidebarItem('', "Settings", new ivec2(0, 100), new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 PageManager.viewPage(PAGES.SETTINGS);
             }
@@ -152,29 +142,37 @@ public class Sidebar extends RenderGUI
         settingsItem.setOrigin(new ivec2(0, 100));
         pBackground.addGUI(settingsItem);
 
+
+        pBackground.onEnter(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                if(!Mouse.isBusy())
+                {
+                    pSmoothFloat.setTarget(1.0f);
+                    Mouse.setBusiness(true);
+                }
+            }
+        });
+
+        pBackground.onLeave(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                if(pSmoothFloat.getTarget() == 1.0f)
+                    Mouse.setBusiness(false);
+
+                pSmoothFloat.setTarget(0.0f);
+            }
+        });
+
+
         resize();
         reposition();
     }
     
 
     @Override
-    public void update()
+    public void updateextra()
     {
-        if(bIsHidden)
-            return;
-
-        if(pBackground.isMouseInside())
-        {
-            pSmoothFloat.setTarget(1);
-            Mouse.setBusiness(true);
-        }
-        else
-        {
-            pSmoothFloat.setTarget(0);
-            if(Mouse.isBusy())
-                Mouse.setBusiness(false);
-        }
-
         if(pSmoothFloat.update())
         {
             //System.out.println(v);
@@ -185,8 +183,5 @@ public class Sidebar extends RenderGUI
                 ((SidebarItem)pBackground.getChild(i)).setVisibility(pSmoothFloat.get(), boxSize);
             }
         }
-
-        
-        updatechildren();
     }
 }
