@@ -3,13 +3,11 @@ package com.swp.GUI.Decks;
 import java.util.concurrent.TimeUnit;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Debug;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem.StudySystemType.KNOWN_TYPES;
@@ -65,16 +63,16 @@ public class TestDeckPage extends Page
         optionsMenu.addGUI(ratingGUI);
 
         Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
-        cancelButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        cancelButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 cancelTest();
             }
         });
 
         Button checkButton = (Button)optionsMenu.findChildByID("checkbutton");
-        checkButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        checkButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 if(!bAnswerChecked)
                 {

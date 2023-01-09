@@ -1,7 +1,6 @@
 package com.swp.GUI.Category;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
@@ -40,8 +39,8 @@ public class ViewSingleCategoryPage extends Page
 
         RenderGUI optionsMenu = findChildByID("menu");
         Button editButton = (Button)optionsMenu.findChildByID("editcategorybutton");
-        editButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        editButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(pCategory);
             }

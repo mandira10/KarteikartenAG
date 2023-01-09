@@ -1,15 +1,12 @@
 package com.swp.GUI.Cards.EditCardPages;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.GUI.Extras.AudioGUI;
 
 import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
-
-import java.io.InputStream;
 
 public class EditAudioCard extends RenderGUI
 {
@@ -29,8 +26,8 @@ public class EditAudioCard extends RenderGUI
         audioGUIContainer.addGUI(audioGUI);
 
         pUploadButton = (Button)findChildByID("audioupload");
-        pUploadButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        pUploadButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 selectAudioFile();
             } 

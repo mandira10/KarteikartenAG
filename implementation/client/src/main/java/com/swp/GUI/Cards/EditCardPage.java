@@ -4,18 +4,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.TagList.TagList;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Debug;
 import com.swp.Controller.CardController;
+import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
@@ -35,22 +33,20 @@ public class EditCardPage extends Page
     private EditAudioCard pEditAudioCardPage;
     private EditImageDescriptionCard pEditImageDescriptionCardPage;
 
-    private Card pOldCard, pNewCard;
+    private Card pNewCard;
     private List<Category> aCategories;
     private List<Tag> aTags;
     private RenderGUI pCanvas;
     private TextField pTitlefield, pQuestionField;
     private TagList pTagList;
     private TextBox pCategoriesBox;
-    private Switch pIsNewCardSwitch;
+    private boolean bIsNewCard;
 
     public EditCardPage()
     {
         super("Edit Card");
         this.vSize = new ivec2(100,100);
-        pOldCard = null;
         pNewCard = null;
-        //oDropdown = new Dropdown(null, null, null, null, 0)
 
 
         addGUI(XMLGUI.loadFile("guis/cards/cardeditpage.xml"));
@@ -104,12 +100,14 @@ public class EditCardPage extends Page
         });
 
         Button applyButton = (Button)findChildByID("applybutton");
-        if(applyButton != null)
-            applyButton.setCallbackFunction(new ButtonCallback() { @Override public void run() { applyChanges(); } });
+        applyButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  { applyChanges(); } 
+        });
 
         Button cancelButton = (Button)findChildByID("cancelbutton");
-        if(cancelButton != null)
-            cancelButton.setCallbackFunction(new ButtonCallback() { @Override public void run() { PageManager.viewLastPage(); } });
+        cancelButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  { PageManager.viewLastPage(); } 
+        });
 
 
         pTagList = (TagList)findChildByID("tagslist");
@@ -117,12 +115,10 @@ public class EditCardPage extends Page
         pCategoriesBox.setAlignment(Alignment.LEFT);
         pCategoriesBox.setAutoInsertLinebreaks(true);
 
-        pIsNewCardSwitch = (Switch)findChildByID("newcardswitch");
-
 
         Button categoryButton = (Button)findChildByID("editcategoriesbutton");
-        categoryButton.setCallbackFunction(new ButtonCallback() { 
-            @Override public void run() 
+        categoryButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  
             { 
                 ((CategorySelectPage)PageManager.viewPage(PAGES.CATEGORY_SELECTION)).reset(); 
             } 
@@ -133,21 +129,20 @@ public class EditCardPage extends Page
         reposition();
     }
 
-    public void editCard(String uuid) { editCard(CardController.getCardByUUID(uuid)); }
-    public void editCard(Card card)
+    public void editCard(String uuid) { editCard(CardController.getCardByUUID(uuid), false); }
+    public void editCard(Card card, boolean newcard)
     {
         if(card == null)
             return;
-        
-        pOldCard = card;
+
+        bIsNewCard = newcard;
         pNewCard = Card.copyCard(card);
 
         //Set data
         pTitlefield.setString(pNewCard.getTitle());
         pQuestionField.setString(pNewCard.getQuestion());
-        pIsNewCardSwitch.tick(pNewCard.isVisibility());
         //updateCategories(); //TODO
-        //updateTags();
+        updateTags(CardController.getTagsToCard(pNewCard).stream().toList());
 
         switch(pNewCard.getType())
         {
@@ -175,26 +170,17 @@ public class EditCardPage extends Page
         this.aCategories = categories;
         String catString = "";
         for(Category category : categories)
-        {
             catString += category.getName() + ", ";
-        }
         if(catString.length() > 0)
             catString = catString.substring(0, catString.length() - 2);
-        Debug.info(catString + "eeh");
         pCategoriesBox.setString(catString);
     }
 
     public void updateTags(List<Tag> tags)
     {
-        //TODO
-        pTagList.addTag("ket");
-        pTagList.addTag("orange");
-        pTagList.addTag("important");
-    }
-
-    private void deleteCard()
-    {
-        CardController.deleteCard(pOldCard);
+        this.aTags = tags;
+        for(Tag tag : tags)
+            pTagList.addTag(tag.getVal());
     }
 
     private void applyChanges()
@@ -202,5 +188,8 @@ public class EditCardPage extends Page
         //Change to callback function
         //Set Card to Tags
         //Set Card to Categories
+        CardController.updateCardData(pNewCard, bIsNewCard);
+        //CardController.setTagsToCard(pNewCard, pTagList.getTags().stream().collect(Collectors.toSet()));
+        //CategoryController.addCategoriesToCard(pNewCard, aCategories.stream().collect(Collectors.toSet()));
     }
 }

@@ -1,7 +1,5 @@
 package com.swp.GUI;
 
-import java.util.ArrayList;
-
 import com.gumse.basics.SmoothFloat;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Font.Font;
@@ -10,7 +8,6 @@ import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.*;
-import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 import com.swp.GUI.Cards.CardOverviewPage;
 import com.swp.GUI.Decks.DeckOverviewPage;

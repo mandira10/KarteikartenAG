@@ -3,7 +3,6 @@ package com.swp.GUI.Cards.EditCardPages;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
@@ -39,8 +38,9 @@ public class EditMultipleChoiceCardAnswerEntry extends RenderGUI
         pTrashButton.setPositionInPercent(true, false);
         pTrashButton.setOrigin(new ivec2(30, 0));
         EditMultipleChoiceCardAnswerEntry parentPtr = this;
-        this.pTrashButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() {
+        this.pTrashButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)
+            {
                 callback.run(parentPtr);
             }
             

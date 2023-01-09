@@ -3,23 +3,21 @@ package com.swp.GUI.Decks;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Basics.Dropdown.DropdownSelectionCallback;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Deck;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.Extras.ConfirmationGUI;
-import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 
 public class EditDeckPage extends Page
 {
     private Dropdown pStudySystemDropdown;
+    private Dropdown pCardOrderDropdown;
     private Button pApplyButton;
     private Deck pOldDeck, pNewDeck;
     private TextField pTitleField;
@@ -40,8 +38,8 @@ public class EditDeckPage extends Page
         RenderGUI optionsMenu = findChildByID("menu");
         //Cancel Button
         Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
-        cancelButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() { PageManager.viewLastPage(); }
+        cancelButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) { PageManager.viewLastPage(); }
         });
 
         //Titlefield
@@ -49,6 +47,14 @@ public class EditDeckPage extends Page
         pTitleField.setCallback(new TextFieldInputCallback() {
             @Override public void enter(String complete)                {}
             @Override public void input(String input, String complete)  { pNewDeck.setName(complete); }
+        });
+
+        //CardOrder dropdown
+        pCardOrderDropdown = (Dropdown)findChildByID("cardorderdd");
+        pCardOrderDropdown.onSelection(new DropdownSelectionCallback() {
+            @Override public void run(String str) 
+            {
+            }
         });
 
         //Studysystem dropdown
@@ -74,7 +80,7 @@ public class EditDeckPage extends Page
     {
         if(deck == null)
         {
-            Debug.error("EditDeckPage: Cannot edit deck: is null");
+            Output.error("EditDeckPage: Cannot edit deck: is null");
             return;
         }
 
@@ -89,7 +95,15 @@ public class EditDeckPage extends Page
             case TIMING:  pStudySystemDropdown.setTitle("Timing");  break;
             case VOTE:    pStudySystemDropdown.setTitle("Voting");  break;
             case CUSTOM:  pStudySystemDropdown.setTitle("Custom"); pCanvas.hide(false);  break;
-            default:      Debug.error("Unknown Studysystem type!"); break;
+            default:      Output.error("Unknown Studysystem type!"); break;
+        }
+
+        switch(pNewDeck.getCardOrder())
+        {
+            case ALPHABETICAL:           pCardOrderDropdown.setTitle("Alphabetical"); break;
+            case REVERSED_ALPHABETICAL:  pCardOrderDropdown.setTitle("Reversed Alphabetical");  break;
+            case RANDOM:                 pCardOrderDropdown.setTitle("Random");  break;
+            default:                     Output.error("Unknown CardOrder type!"); break;
         }
     }
 

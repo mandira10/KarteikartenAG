@@ -7,7 +7,6 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextBox;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -81,8 +80,8 @@ public class CategorySelectPage extends Page
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button doneButton = (Button)optionsMenu.findChildByID("donebutton");
-        doneButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        doneButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).updateCategories(getSelection());
             }

@@ -1,7 +1,6 @@
 package com.swp.GUI.Category;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
@@ -28,8 +27,8 @@ public class EditCategoryPage extends Page
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
-        cancelButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        cancelButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 PageManager.viewLastPage();
             }

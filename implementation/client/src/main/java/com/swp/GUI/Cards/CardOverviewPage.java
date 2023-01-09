@@ -1,22 +1,19 @@
 package com.swp.GUI.Cards;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.Extras.ConfirmationGUI;
-import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
@@ -41,16 +38,16 @@ public class CardOverviewPage extends Page
         RenderGUI optionsMenu = findChildByID("menu");
 
         Button addCardButton = (Button)findChildByID("addcardbutton");
-        addCardButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run()
+        addCardButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 PageManager.viewPage(PAGES.CARD_CREATE);
             }
         });
 
         Button deleteCardButton = (Button)findChildByID("deletecardbutton");
-        deleteCardButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run()
+        deleteCardButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 deleteCards();
             }
@@ -67,10 +64,13 @@ public class CardOverviewPage extends Page
         pCardList.setSizeInPercent(true, true);
         canvas.addGUI(pCardList);
 
-        pSearchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Card", new SearchbarCallback() {
-            @Override public void run(String query) 
+        pSearchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Card", new String[] {
+            "By Content",
+            "By Tag",
+            "By Category"
+        }, new SearchbarCallback() {
+            @Override public void run(String query, int option)
             {
-                Debug.info(query);
                 if(query.equals(""))
                     loadCards(0, 30);
                 else

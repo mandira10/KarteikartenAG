@@ -3,7 +3,7 @@ package com.swp.GUI.Extras;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryStack;
 
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 
 import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 
@@ -21,7 +21,7 @@ public class FileDialog
             filters.put(stack.UTF8("*." + type));
         filters.flip();
 
-        Debug.info(filters.get(0));
+        Output.info(filters.get(0));
 
         File defaultPath = new File(".");
         defaultPath = defaultPath.getAbsoluteFile();

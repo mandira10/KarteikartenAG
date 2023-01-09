@@ -2,7 +2,6 @@ package com.swp.GUI.Decks;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
@@ -13,7 +12,7 @@ import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Deck;
 import com.swp.GUI.Page;
@@ -98,8 +97,8 @@ public class DeckOverviewPage extends Page
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button newButton = (Button)optionsMenu.findChildByID("adddeckbutton");
-        newButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        newButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 EditDeckPage page = (EditDeckPage)PageManager.getPage(PAGES.DECK_EDIT);
                 page.editDeck(new Deck());
@@ -107,8 +106,10 @@ public class DeckOverviewPage extends Page
             }
         });
 
-        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Deck", new SearchbarCallback() {
-            @Override public void run(String query) 
+        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Deck", new String[] {
+            "By Content",
+        }, new SearchbarCallback() {
+            @Override public void run(String query, int option) 
             {
                 loadDecks(query);
             }

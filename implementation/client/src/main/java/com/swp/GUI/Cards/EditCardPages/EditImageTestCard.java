@@ -3,7 +3,6 @@ package com.swp.GUI.Cards.EditCardPages;
 import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
@@ -20,8 +19,8 @@ public class EditImageTestCard extends RenderGUI
         addGUI(XMLGUI.loadFile("guis/cards/edit/editimagetestcardpage.xml"));
 
         pImageButton = (Button)findChildByID("imagebox");
-        pImageButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        pImageButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 selectImageFile();
             }

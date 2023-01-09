@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextBox.Alignment;
+import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.List.ColumnInfo;
 import com.gumse.gui.List.List;
 import com.gumse.gui.List.ListCell;
@@ -40,6 +41,34 @@ public class CardList extends RenderGUI
         this.bIsInSelectmode = false;
         this.pCallback = callback;
 
+        ColumnInfo checkcolumn = new ColumnInfo("", ColumnType.BOOLEAN, 5);
+        checkcolumn.font = FontManager.getInstance().getFont("FontAwesomeRegular");
+        checkcolumn.alignment = Alignment.CENTER;
+        checkcolumn.onclickcallback = new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                ArrayList<Card> list = pList.getUserdataWhere(new Predicate<ListEntry<Card>>() {
+                    @Override public boolean test(ListEntry<Card> arg0) 
+                    {
+                        Switch switchgui = (Switch)arg0.getChild(CHECK_COLUMN).getChild(0);
+                        return switchgui.isTicked();
+                    }
+                });
+
+                final boolean tickall = list.size() != pList.numEntries();
+                pList.getUserdataWhere(new Predicate<ListEntry<Card>>() {
+                    @Override public boolean test(ListEntry<Card> arg0) 
+                    {
+                        Switch switchgui = (Switch)arg0.getChild(CHECK_COLUMN).getChild(0);
+                        switchgui.tick(tickall);
+                        return false;
+                    }
+                });
+
+                updateSelectmode();
+            }
+        };
+
         pList = new List<>(
             new ivec2(0, 0), 
             new ivec2(100, 100), 
@@ -47,7 +76,7 @@ public class CardList extends RenderGUI
                 new ColumnInfo("Title",        ColumnType.STRING,  65),
                 new ColumnInfo("Creationdate", ColumnType.DATE,    20),
                 new ColumnInfo("Decks",        ColumnType.INTEGER, 10),
-                new ColumnInfo("",             ColumnType.BOOLEAN, 5),
+                checkcolumn
             }
         );
         pList.setSizeInPercent(true, true);

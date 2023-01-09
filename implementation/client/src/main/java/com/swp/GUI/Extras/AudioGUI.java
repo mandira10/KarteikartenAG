@@ -20,7 +20,7 @@ import com.gumse.model.VertexArrayObject;
 import com.gumse.model.VertexBufferObject;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 
 public class AudioGUI extends RenderGUI
 {
@@ -94,7 +94,7 @@ public class AudioGUI extends RenderGUI
 
         if(audio == null)
         {
-            Debug.error("AudioGUI: Given audiostream is null");
+            Output.error("AudioGUI: Given audiostream is null");
             return;
         }
 

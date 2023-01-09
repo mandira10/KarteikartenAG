@@ -3,11 +3,11 @@ package com.swp.GUI.Extras;
 import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
+import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 
@@ -51,8 +51,8 @@ public class ConfirmationGUI extends Box
         confirmButton.setOrigin(new ivec2(140, 60));
         confirmButton.setColor(GUI.getTheme().accentColor);
         confirmButton.setCornerRadius(new vec4(10));
-        confirmButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        confirmButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 pCallback.onConfirm();
                 pInstance.hide(true);
@@ -66,8 +66,8 @@ public class ConfirmationGUI extends Box
         cancelButton.setColor(GUI.getTheme().primaryColor);
         cancelButton.setCornerRadius(new vec4(10));
         cancelButton.getBox().getBox().setBorderThickness(3);
-        cancelButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        cancelButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 pCallback.onCancel();
                 pInstance.hide(true);

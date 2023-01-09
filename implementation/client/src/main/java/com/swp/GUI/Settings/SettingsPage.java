@@ -2,7 +2,6 @@ package com.swp.GUI.Settings;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -26,8 +25,8 @@ public class SettingsPage extends Page
 
         subsettingBox.addGUI(generalSettings);
         Button generalSettingsButton = (Button)findChildByID("generalbutton");
-        generalSettingsButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        generalSettingsButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 generalSettings.hide(false);
                 //languageSettings.hide(true);
@@ -57,8 +56,8 @@ public class SettingsPage extends Page
         subsettingBox.addGUI(serverSettings);
         serverSettings.hide(true);
         Button serverSettingsButton = (Button)findChildByID("serverbutton");
-        serverSettingsButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        serverSettingsButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
             {
                 generalSettings.hide(true);
                 //languageSettings.hide(true);

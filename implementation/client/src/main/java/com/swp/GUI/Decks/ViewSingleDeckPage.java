@@ -1,7 +1,6 @@
 package com.swp.GUI.Decks;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Button.ButtonCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
@@ -32,26 +31,26 @@ public class ViewSingleDeckPage extends Page
         RenderGUI optionsMenu = findChildByID("menu");
         //Start test button
         Button startButton = (Button)optionsMenu.findChildByID("starttestbutton");
-        startButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() { ((TestDeckPage)PageManager.viewPage(PAGES.DECK_TEST)).startTests(pDeck); }
+        startButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  { ((TestDeckPage)PageManager.viewPage(PAGES.DECK_TEST)).startTests(pDeck); }
         });
 
         //Edit button
         Button editButton = (Button)optionsMenu.findChildByID("editdeckbutton");
-        editButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() { ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(pDeck); }
+        editButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  { ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(pDeck); }
         });
 
         //Delete button
         Button deleteDeckButton = (Button)findChildByID("deletedeckbutton");
-        deleteDeckButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() { deleteDeck();}
+        deleteDeckButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  { deleteDeck();}
         });
 
         //Remove cards button
         Button removeCardsButton = (Button)findChildByID("removecardbutton");
-        removeCardsButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() { removeCards();}
+        removeCardsButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)  { removeCards();}
         });
         removeCardsButton.hide(true);
 

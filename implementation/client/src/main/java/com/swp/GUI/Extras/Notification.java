@@ -8,7 +8,7 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.gumse.tools.FPS;
 
 public class Notification extends RenderGUI
@@ -97,7 +97,7 @@ public class Notification extends RenderGUI
                 notificationIcon.setCharacterHeight(boxSize.y - 5);
                 color = new vec4(0.18f, 0.8f, 0.44f, 1);
                 break;
-            default: Debug.error("Unknown Notification type"); break;
+            default: Output.error("Unknown Notification type"); break;
 
         };
 
