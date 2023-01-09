@@ -13,18 +13,49 @@ import java.util.Set;
 @Slf4j
 public class CategoryController
 {
-    private CategoryController() {}
-
-    public static boolean updateCategoryData(Category oldcategory, Category newcategory) { return CategoryLogic.updateCategoryData(oldcategory, newcategory); }
-    public static boolean deleteCategory(Category category)                              { return CategoryLogic.deleteCategory(category); }
-    public static boolean deleteCardToCategory(CardToCategory c2d)                       { return CategoryLogic.deleteCardToCategory(c2d); }
+    private CategoryController() {
+    }
 
 
-    public static Category getCategoryByUUID(String uuid)                                { return CategoryLogic.getCategoryByUUID(uuid); }
 
-    public static int numCardsInCategory(Category category)                              { return CategoryLogic.numCardsInCategory(category); }
-    public static boolean addCategoriesToCard(Card card, Set<String> categories){
-        return CategoryLogic.createCardToCategories(card, categories);
+    public static boolean updateCategoryData(Category category, boolean neu) {
+
+        return CategoryLogic.updateCategoryData(category, neu);
+        //TODO: Exceptions a la Data Callback, user
+    }
+
+    public static boolean editCategoryHierarchy(Category category, Set<String> parents, Set<String> children) {
+        return CategoryLogic.editCategoryHierarchy(category, parents, children);
+        //TODO: Exceptions a la Data Callback ,user
+    }
+
+    public static boolean deleteCategory(Category category) {
+        return CategoryLogic.deleteCategory(category);
+        //TODO: test how multicategory works???
+        //TODO: Exception a la Data Callback, non user
+    }
+
+    public static boolean deleteCardToCategory(CardToCategory c2d) {
+        return CategoryLogic.deleteCardToCategory(c2d);
+        //TODO: test how multicategory works???
+        //TODO: Exception a la Data Callback, non user
+    }
+
+
+    public static Category getCategoryByUUID(String uuid) {
+        return CategoryLogic.getCategoryByUUID(uuid);
+        //TODO: Exceptions a la Data Callback, non user
+    }
+
+    //TODO: where to use???
+    public static int numCardsInCategory(Category category) {
+        return CategoryLogic.numCardsInCategory(category);
+    }
+
+
+    public static boolean setCategoriesToCard(Card card, Set<Category> categories) {
+        return CategoryLogic.setCardToCategories(card, categories);
+        //TODO: Exceptions // data callback, non user
     }
 
     //OVERVIEW
@@ -116,5 +147,10 @@ public class CategoryController
      */
     public static Set<Category> getCategories(){
         return CategoryLogic.getCategories();
+    }
+
+    //OLD?!
+    public static boolean updateCategoryData(Category oldcategory, Category newcategory) {
+        return false;
     }
 }

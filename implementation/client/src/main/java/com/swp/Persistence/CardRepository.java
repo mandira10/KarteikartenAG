@@ -357,6 +357,22 @@ public class CardRepository
                     .collect(Collectors.toSet());
             em.getTransaction().commit();
         }
-        return tags;
+        if(!tags.isEmpty()) {
+            return tags;
+        }
+        return null;
+    }
+
+    public static boolean deleteCardToTag(Card c, Tag t) {
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            CardToTag C2T = (CardToTag) em.createNamedQuery("CardToTag.findSpecificC2T")
+                    .setParameter("card", c)
+                    .setParameter("tag", t)
+                    .getSingleResult();
+            em.remove(C2T);
+            em.getTransaction().commit();
+            return true;
+        }
     }
 }

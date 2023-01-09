@@ -20,6 +20,8 @@ import java.util.UUID;
 @Table
 @NamedQuery(name = "Category.findByName",
         query = "SELECT c FROM Category c WHERE c.name = :name")
+@NamedQuery(name = "Category.getParents",
+        query = "SELECT c.parents FROM Category c WHERE c = :category")
 public class Category implements Serializable
 {
     /**
@@ -40,25 +42,27 @@ public class Category implements Serializable
     /**
      * Parents der Kategorie, kann mehrere haben
      */
-    @Column
-    @OneToMany
-    private Set<Category> parents;
 
-    /**
-     * Zugehörige UUIDs der Parents der Kategorie
-     */
-    @ElementCollection
-    @CollectionTable(name = "parent_uuids", joinColumns = @JoinColumn(name = "uuid"))
-    @Column(name = "parents")
-    private Set<String> parentUUIDs;
-
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "children")
+    private Set<Category> parents = new HashSet<>();
 
     /**
      * Children der Kategorie, kann mehrere haben
      */
-    @Column
-    @OneToMany
-    private Set<Category> children;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Category> children = new HashSet<>();
+
+//    /**
+//     * Zugehörige UUIDs der Parents der Kategorie
+//     */
+//    @ElementCollection
+//    @CollectionTable(name = "parent_uuids", joinColumns = @JoinColumn(name = "uuid"))
+//    @Column(name = "parents_uuid")
+//    private Set<String> parentUUIDs;
+// TODO: needed?
+
+
 
     /**
      * Konstruktor der Klasse Category
@@ -105,6 +109,21 @@ public class Category implements Serializable
         this.children = null;
     }
 
+    public void setChildren(Set<Category> children){
+        this.getChildren().stream().forEach(children::remove);
+        for(Category c : children){
+            this.addChild(c);
+            //TODO: was ist bei Dopplungen?
+        }
+    }
+
+    public void setParents(Set<Category> parents){
+        this.getChildren().stream().forEach(parents::remove);
+        for(Category c : parents){
+            c.addChild(c);
+        }
+    }
+
 
     /**
      * Gibt die Anzahl der Parents zurück
@@ -128,6 +147,7 @@ public class Category implements Serializable
     public void addChild(Category child)
     {
         this.children.add(child);
+        child.getParents().add(this);
     }
 
 }

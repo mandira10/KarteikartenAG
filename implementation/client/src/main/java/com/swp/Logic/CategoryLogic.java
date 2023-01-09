@@ -9,28 +9,14 @@ import com.swp.DataModel.Tag;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.swing.text.html.Option;
+
 import static com.swp.Validator.checkNotNullOrBlank;
 
 @Slf4j
 public class CategoryLogic {
 
-    /**
-     * Methode zum Hinzufügen einzelner Kategorien zu Karten. Wird bei Erstellen und Aktualisieren aufgerufen, wenn Tags für die
-     * Karte mit übergeben worden sind. Prüft zunächst, ob die Kategorie bereit für die Karte in CardToCategory enthalten ist.
-     * @param card Übergebende Karte
-     * @param category Übergebende Kategorie
-     * @return true, wenn erfolgreich oder bereits enthalten
-     */
-    public static boolean createCardToCategory(Card card, Category category) {
-        Set<Category> categories = getCategoriesByCard(card);
-        if (categories.contains(category)){
-            log.info("Kategorie {} bereits für Karte {} in CardToCategory enthalten, kein erneutes Hinzufügen notwendig", category.getUuid(), card.getUuid());
-            return true;
-        }
-
-        log.info("Kategorie {} wird zu Karte {} hinzugefügt", category.getUuid(), card.getUuid());
-        return CategoryRepository.saveCardToCategory(card, category);
-    }
 
 
     public static Category getCategory(String uuid) {
@@ -57,11 +43,11 @@ public class CategoryLogic {
         return getCardsInCategory(category).size();
     }
 
-    public static boolean updateCategoryData(Category oldcategory, Category newcategory) {
-        if (newcategory.getUuid().isEmpty())
-            return CategoryRepository.saveCategory(newcategory);
+    public static boolean updateCategoryData(Category category, boolean neu) {
+        if (neu)
+            return CategoryRepository.saveCategory(category);
         else
-            return CategoryRepository.updateCategory(oldcategory, newcategory);
+            return CategoryRepository.updateCategory(category);
     }
 
     public static boolean deleteCategory(Category category) {
@@ -95,27 +81,67 @@ public class CategoryLogic {
         return CategoryRepository.getCardsByCategory(category);
     }
 
-    public static boolean createCardToCategories(Card card, Set<String> categories) {
+    public static boolean setCardToCategories(Card card, Set<Category> catNew) {
         boolean ret = true;
-        for (String name : categories) {
-            checkNotNullOrBlank(name, "Category Name");
-            final Optional<Category> optionalCategory = CategoryRepository.find(name);
-            if (optionalCategory.isPresent()) {
-                final Category category = optionalCategory.get();
-                if(!createCardToCategory(card,category))
+        Set<Category> catOld = getCategoriesByCard(card); //check Old Tags to remove unused tags
+
+        if(catOld == null){
+            if(!checkAndCreateCategories(card,catNew,catOld))
+                ret = false;
+        }
+
+        else if(catOld.containsAll(catNew) && catOld.size() == catNew.size()) //no changes
+            return true;
+
+
+
+        else if(catOld.containsAll(catNew) || catOld.size() > catNew.size()) { //es wurden nur tags gelöscht
+            if(!checkAndRemoveCategories(card,catNew,catOld))
+                ret = false;
+        }
+        else if(catNew.containsAll(catOld)) {  // nur neue hinzufügen
+            if(checkAndCreateCategories(card,catNew,catOld))
+                ret = false;
+
+        }
+        else { //neue und alte
+             if(!checkAndCreateCategories(card,catNew,catOld))
+                 ret = false;
+            if(!checkAndRemoveCategories(card,catNew,catOld))
+                ret = false;
+        }
+        return ret;
+    }
+
+    private static boolean checkAndRemoveCategories(Card card, Set<Category> catNew, Set<Category> catOld) {
+        boolean ret = true;
+        for (Category c : catOld) {
+            if (!catNew.contains(c))
+                if (!CategoryRepository.deleteCardToCategory(card, c))
                     ret = false;
-            }
-            else{
-                Category category = new Category(name);
-                CategoryRepository.saveCategory(category);
-                if(!createCardToCategory(card,category))
-                    ret = false;
-            }
         }
         return ret;
     }
 
 
+    private static boolean checkAndCreateCategories(Card card, Set<Category> catNew, Set<Category> catOld) {
+       boolean ret = true;
+       Set<Category> catExi = CategoryRepository.getCategories();
+        for (Category c : catNew) {
+            if (catOld != null && catOld.contains(c))
+                log.info("Kategorie {} bereits für Karte {} in CardToCategory enthalten, kein erneutes Hinzufügen notwendig", c.getUuid(), card.getUuid());
+            else{
+                if (catExi == null || catExi.stream().filter(cat -> cat.getUuid().equals(c.getUuid())).findFirst().isEmpty()){
+                    if(!CategoryRepository.saveCategory(c)){
+                        ret = false;}
+                }
+                log.info("Kategorie {} wird zu Karte {} hinzugefügt", c.getUuid(), card.getUuid());
+                if(!CategoryRepository.saveCardToCategory(card, c))
+                    ret = false;
+        }
+        }
+        return ret;
+    }
 
     //CARDEDITPAGE, CATEGORY OVERVIEW
 
@@ -132,6 +158,17 @@ public class CategoryLogic {
         return catList;
     }
 
+    /**
+     * Lädt alle Category Parents for specific category
+     */
+    public static Set<Category> getCategoryHierarchy(Category c) {
+        Set<Category> catList = CategoryRepository.getParentsForCategory(c);
+
+        //TODO: Convert parentuuid entries to actual category references, two methods?
+
+        return catList;
+    }
+
 
     public static Set<Card> getCardsByCategory(Set<Category> categories) {
         Set<Card> cardsOfAll = new HashSet<>();
@@ -141,4 +178,28 @@ public class CategoryLogic {
         return cardsOfAll;
     }
 
+    public static boolean editCategoryHierarchy(Category category, Set<String> parents, Set<String> children) {
+        Set<Category> p = checkCategoryAndSave(category,parents);
+        Set<Category> c = checkCategoryAndSave(category,children);
+        category.setChildren(c);
+        category.setParents(p);
+        return CategoryRepository.updateCategory(category); //TODO: Testing -- works for all combinations???
+    }
+
+    private static Set<Category> checkCategoryAndSave(Category category, Set<String> multiHierarchyCategories){
+        Set<Category> categoriesToReturn = new HashSet<>();
+        for (String s : multiHierarchyCategories){
+            Optional<Category> cOpt = CategoryRepository.find(s);
+            if(cOpt.isEmpty()){
+                Category c = new Category(s);
+                CategoryRepository.saveCategory(c);
+                categoriesToReturn.add(c);
+            }
+            else{
+                Category c = cOpt.get();
+                categoriesToReturn.add(c);
+            }
+        }
+        return categoriesToReturn;
+    }
 }

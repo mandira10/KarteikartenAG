@@ -200,7 +200,6 @@ public class EditCardPage extends Page
     private void applyChanges()
     {
         //Change to callback function
-        CardController.addTagsToCard(pNewCard, pTagList.getTags().stream().collect(Collectors.toSet()));
         //Set Card to Tags
         //Set Card to Categories
     }

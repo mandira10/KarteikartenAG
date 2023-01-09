@@ -2,19 +2,14 @@ package com.swp.Controller;
 
 
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardTypes.AudioCard;
+import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.Exporter.ExportFileType;
-import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtilsBean;
-
-import javax.sound.sampled.AudioFileFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +29,9 @@ public class CardController {
     public static void getCardsToShow(long begin, long end, DataCallback<Card> callback) 
     {
         CardLogic.getCardsToShow(begin, end, callback);
-        //TODO EXCEPTIONS? Interrupted, begin, end?
+
+        //TODO: andere Exceptions dann trotzdem hierüber auffangen?
+
     }
 
     /**
@@ -48,7 +45,7 @@ public class CardController {
         try {
             Set cardsForTag = CardLogic.getCardsByTag(tag);
 
-            if (cardsForTag.isEmpty())
+            if (cardsForTag == null)
                 NotificationGUI.addNotification("Es gibt keine Karten für diesen Tag", Notification.NotificationType.INFO, 5);
 
             return cardsForTag;
@@ -60,11 +57,13 @@ public class CardController {
             log.info(ex.getMessage());
             NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.INFO, 5);
             return null;
+            //klären, wie wir das dann machen wollen, doppelter Callback quasi.
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit Tag {} ist ein Fehler {} aufgetreten", tag
                     , ex);
             NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
             return null;
+            //Callback
         }
 
     }
@@ -78,7 +77,7 @@ public class CardController {
         try {
             Set tagsForCard = CardLogic.getTagsToCard(card);
 
-            if (tagsForCard.isEmpty())
+            if (tagsForCard == null)
                 log.info("Keine Tags für diese Karte vorhanden");
 
             return tagsForCard;
@@ -99,8 +98,9 @@ public class CardController {
             Set cardsForSearchTerms = CardLogic.getCardsBySearchterms(searchterm);
 
 
-            if (cardsForSearchTerms.isEmpty()) {
-                NotificationGUI.addNotification("Es gibt keine Karten für dieses\nSuchwort", Notification.NotificationType.INFO, 5);
+            if (cardsForSearchTerms == null) {
+                NotificationGUI.addNotification("Es gibt keine Karten für dieses Suchwort", Notification.NotificationType.INFO, 5);
+
             }
 
             return cardsForSearchTerms;
@@ -162,8 +162,9 @@ public class CardController {
     }
 
     /**
-     * Lädt alle Tags als Set. Werden in der CardEditPage als Dropdown angezeigt. Wird weitergegeben an die CardLogic.
+     * Lädt alle Tags als Set. Wird weitergegeben an die CardLogic.
      * @return Set mit bestehenden Tags.
+     * //TODO: Löschen? Wo benutzt?
      */
     public static Set<Tag> getTags() {
         return CardLogic.getTags();
@@ -171,8 +172,10 @@ public class CardController {
 
 
 
-    public static boolean addTagsToCard(Card card, Set<String> tags) {
-        return CardLogic.createCardToTags(card, tags);
+    public static boolean setTagsToCard(Card card, Set<Tag> tags) {
+        return CardLogic.setTagsToCard(card, tags);
+
+        //TODO Fehlermeldungen
     }
 
     public static boolean updateCardData(Card cardToChange, boolean neu){
@@ -210,7 +213,7 @@ public class CardController {
      * @param categories Zugehörige Categories als String Set für die Karte
      * @return true, wenn erfolgreich erstellt
      */
-    public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<String> tags, Set<String> categories){
+    public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<Tag> tags, Set<Category> categories){
 
         return CardLogic.updateCardData(card, type, attributes, tags, categories);
 

@@ -1,6 +1,8 @@
 package com.swp.Controller;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.Category;
+import com.swp.DataModel.Tag;
 import com.swp.Persistence.CardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -43,16 +45,16 @@ public class FilterSearchTest {
                 put("visibility", true);
             }
         };
-        Set<String> tagsToAdd = new HashSet<>() {
+        Set<Tag> tagsToAdd = new HashSet<>() {
             {
-                add("tagTest1");
-                add("tagTest2");
+                add(new Tag("tagTest1"));
+                add(new Tag("tagTest2"));
             }
         };
-        Set<String> categoriesToAdd = new HashSet<>() {
+        Set<Category> categoriesToAdd = new HashSet<>() {
             {
-                add("categorietest1");
-                add("categorietest2");
+                add(new Category("categorietest1"));
+                add(new Category("categorietest2"));
             }
         };
 
