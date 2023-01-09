@@ -9,6 +9,7 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.*;
 import com.gumse.system.io.Mouse;
+import com.swp.DataModel.Deck;
 import com.swp.GUI.Cards.CardOverviewPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.PageManager.PAGES;
@@ -112,7 +113,7 @@ public class Sidebar extends RenderGUI
         pBackground.addGUI(new SidebarItem('', "Cards", new ivec2(0,120), new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
+                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30, Deck.CardOrder.ALPHABETICAL);
             }
         }));
         pBackground.addGUI(new SidebarItem('', "Decks", new ivec2(0,230), new GUICallback() {

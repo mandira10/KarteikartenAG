@@ -29,7 +29,7 @@ public class CardRepository
      * @param to ein `long`, obere Schranke des angefragten Kartenbereichs
      * @param callback DataCallBack<Card> das Objekt über welches die geforderten Karten zurückgegeben wird.
      */
-    public static void getCards(long from, long to, DataCallback<Card> callback) {
+    public static void getCards(int from, int to, DataCallback<Card> callback, Deck.CardOrder order) {
         //
         //Kann jetzt in einen thread verpackt werden
         //
@@ -51,9 +51,26 @@ public class CardRepository
         }
         callback.onSuccess(cards); //temporary
 
+        assert from <= to : "invalid range: `from` has to be smaller or equal to `to`";
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            cards = (List<Card>) em.createQuery("SELECT Card FROM Card").getResultStream().collect(Collectors.toList());
+            cards = switch (order) {
+                case ALPHABETICAL ->
+                        em.createQuery("SELECT Card FROM Card ORDER BY title")
+                                .setFirstResult(from)
+                                .setMaxResults(to-from)
+                                .getResultList();
+                case REVERSED_ALPHABETICAL ->
+                        em.createQuery("SELECT Card FROM Card ORDER BY title DESC")
+                                .setFirstResult(from)
+                                .setMaxResults(to-from)
+                                .getResultList();
+                default ->
+                        em.createQuery("SELECT Card FROM Card")
+                                .setFirstResult(from)
+                                .setMaxResults(to-from)
+                                .getResultList();
+            };
             em.getTransaction().commit();
             callback.onSuccess(cards);
         } catch (final Exception e) {

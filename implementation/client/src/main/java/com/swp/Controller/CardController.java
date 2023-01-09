@@ -3,6 +3,7 @@ package com.swp.Controller;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
+import com.swp.DataModel.Deck;
 import com.swp.DataModel.Tag;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -26,9 +27,9 @@ public class CardController {
      * @param end: Seitenauswahl Endwert
      * @return anzuzeigende Karten
      */
-    public static void getCardsToShow(long begin, long end, DataCallback<Card> callback) 
+    public static void getCardsToShow(int begin, int end, DataCallback<Card> callback, Deck.CardOrder order)
     {
-        CardLogic.getCardsToShow(begin, end, callback);
+        CardLogic.getCardsToShow(begin, end, callback, order);
 
         //TODO: andere Exceptions dann trotzdem hierüber auffangen?
 

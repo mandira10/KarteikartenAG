@@ -28,9 +28,9 @@ public class CardLogic
      * @param end: Seitenauswahl Endwert
      * @return anzuzeigende Karten
      */
-    public static void getCardsToShow(long begin, long end, DataCallback<Card> callback)
+    public static void getCardsToShow(int begin, int end, DataCallback<Card> callback, Deck.CardOrder order)
     {
-        CardRepository.getCards(begin, end, callback);
+        CardRepository.getCards(begin, end, callback, order);
     }
 
     /**

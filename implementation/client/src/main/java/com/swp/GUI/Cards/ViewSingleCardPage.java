@@ -7,6 +7,7 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.Deck;
 import com.swp.DataModel.Tag;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
@@ -121,7 +122,7 @@ public class ViewSingleCardPage extends Page
             @Override public void onConfirm() 
             {  
                 if(CardController.deleteCard(pCard))
-                    ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
+                    ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30, Deck.CardOrder.ALPHABETICAL);
             }
             @Override public void onCancel() 
             {
