@@ -36,12 +36,12 @@ public class CreateCardPage extends Page
                 Debug.info(typeDropdown.getTitle());
                 switch(typeDropdown.getTitle())
                 {
-                    case "Audio":             ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new AudioCard());            break;
-                    case "Text":              ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new TextCard());             break;
-                    case "Image Description": ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new ImageDescriptionCard()); break;
-                    case "Image Test":        ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new ImageTestCard());        break;
-                    case "Multiplechoice":    ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new MultipleChoiceCard());   break;
-                    case "True/False":        ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new TrueFalseCard());        break;
+                    case "Audio":             ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new AudioCard(), true);            break;
+                    case "Text":              ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new TextCard(), true);             break;
+                    case "Image Description": ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new ImageDescriptionCard(), true); break;
+                    case "Image Test":        ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new ImageTestCard(), true);        break;
+                    case "Multiplechoice":    ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new MultipleChoiceCard(), true);   break;
+                    case "True/False":        ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new TrueFalseCard(), true);        break;
                     default:                  NotificationGUI.addNotification("Please specify a cardtype", NotificationType.INFO, 5);     break;
                 }
             }

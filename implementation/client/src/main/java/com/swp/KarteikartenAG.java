@@ -76,7 +76,7 @@ import com.swp.GUI.KarteikartenAGGUI;
 //       - AudioCard                -- done
 //   - Fix Scroller class           -- done
 //   - Searchbar                    -- done
-//   - Searchbar filter
+//   - Searchbar filter             -- done
 //   - Category GUIs
 //       - Category List            -- done
 //       - Single Category View     -- done

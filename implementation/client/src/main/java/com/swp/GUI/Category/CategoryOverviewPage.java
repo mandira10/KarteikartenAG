@@ -98,8 +98,10 @@ public class CategoryOverviewPage extends Page
             }
         });
 
-        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Category", new SearchbarCallback() {
-            @Override public void run(String query) 
+        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Category", new String[] {
+            "By Content",
+        }, new SearchbarCallback() {
+            @Override public void run(String query, int option) 
             {
                 //TODO search
             }

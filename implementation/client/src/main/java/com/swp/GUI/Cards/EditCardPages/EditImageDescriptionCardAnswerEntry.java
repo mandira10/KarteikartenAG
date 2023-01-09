@@ -95,6 +95,7 @@ public class EditImageDescriptionCardAnswerEntry extends RenderGUI
             {
                 bSnapped = false;
                 mouse.hide(false);
+                Mouse.setBusiness(false);
             }
         }
     }

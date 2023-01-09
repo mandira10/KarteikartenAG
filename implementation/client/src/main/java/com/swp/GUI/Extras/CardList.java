@@ -47,7 +47,25 @@ public class CardList extends RenderGUI
         checkcolumn.onclickcallback = new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                //Select all 
+                ArrayList<Card> list = pList.getUserdataWhere(new Predicate<ListEntry<Card>>() {
+                    @Override public boolean test(ListEntry<Card> arg0) 
+                    {
+                        Switch switchgui = (Switch)arg0.getChild(CHECK_COLUMN).getChild(0);
+                        return switchgui.isTicked();
+                    }
+                });
+
+                final boolean tickall = list.size() != pList.numEntries();
+                pList.getUserdataWhere(new Predicate<ListEntry<Card>>() {
+                    @Override public boolean test(ListEntry<Card> arg0) 
+                    {
+                        Switch switchgui = (Switch)arg0.getChild(CHECK_COLUMN).getChild(0);
+                        switchgui.tick(tickall);
+                        return false;
+                    }
+                });
+
+                updateSelectmode();
             }
         };
 

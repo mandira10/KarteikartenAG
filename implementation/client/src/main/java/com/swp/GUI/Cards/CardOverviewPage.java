@@ -64,10 +64,13 @@ public class CardOverviewPage extends Page
         pCardList.setSizeInPercent(true, true);
         canvas.addGUI(pCardList);
 
-        pSearchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Card", new SearchbarCallback() {
-            @Override public void run(String query) 
+        pSearchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Card", new String[] {
+            "By Content",
+            "By Tag",
+            "By Category"
+        }, new SearchbarCallback() {
+            @Override public void run(String query, int option)
             {
-                Debug.info(query);
                 if(query.equals(""))
                     loadCards(0, 30);
                 else

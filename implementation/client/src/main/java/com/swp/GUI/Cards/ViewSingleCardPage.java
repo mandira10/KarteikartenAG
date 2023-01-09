@@ -6,9 +6,7 @@ import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
-import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
@@ -56,7 +54,7 @@ public class ViewSingleCardPage extends Page
                 @Override public void run(RenderGUI gui) 
                 {
                     EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
-                    page.editCard(pCard);
+                    page.editCard(pCard, false);
                     PageManager.viewPage(PAGES.CARD_EDIT);
                 }
             });

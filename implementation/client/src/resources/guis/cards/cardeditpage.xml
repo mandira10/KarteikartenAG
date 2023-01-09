@@ -17,9 +17,6 @@
         <text pos="10, 500" fontsize="30">Categories:</text>
         <textbox id="categorylist" fontsize="20" pos="150, 500" size="100%, 30" margin="-190, 0"></textbox>
         <button title="" font="FontAwesome" fontsize="20" id="editcategoriesbutton" pos="100%, 500" size="30, 30" origin="30, 0"></button>
-
-        <text pos="10, 550" fontsize="30">Is new:</text>
-        <switch id="newcardswitch" pos="150, 555" size="20, 20" border-radius="1" />
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
         <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Cancel" color="#9C88FF" />
