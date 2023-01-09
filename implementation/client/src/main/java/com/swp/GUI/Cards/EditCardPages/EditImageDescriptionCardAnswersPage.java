@@ -9,7 +9,7 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.textures.Texture;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.GUI.Page;
@@ -130,7 +130,7 @@ public class EditImageDescriptionCardAnswersPage extends Page
             if(child.getType().equals("EditImageDescriptionCardAnswerEntry"))
             {
                 EditImageDescriptionCardAnswerEntry entry = (EditImageDescriptionCardAnswerEntry)child;
-                Debug.info(entry.getAnswerString() + " " + entry.getIndexBox().getUserDefinedPosition().toString());
+                Output.info(entry.getAnswerString() + " " + entry.getIndexBox().getUserDefinedPosition().toString());
             }
         }
     }

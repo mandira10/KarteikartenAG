@@ -22,10 +22,13 @@ import com.gumse.maths.vec4;
 import com.gumse.system.Display;
 import com.gumse.system.Window;
 import com.gumse.system.Window.WindowResizePosCallback;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
+import com.gumse.tools.Output.OutputCallback;
 import com.gumse.tools.FPS;
 import com.swp.DataModel.Category;
 import com.swp.GUI.KarteikartenAGGUI;
+
+import lombok.extern.slf4j.Slf4j;
 
 ////////////////////////////////////////////////////
 //
@@ -84,7 +87,7 @@ import com.swp.GUI.KarteikartenAGGUI;
 //   - Language Class
 ////////////////////////////////////////////////////
 
-
+@Slf4j
 public class KarteikartenAG 
 {
     private static GUI pMainGUI;
@@ -96,7 +99,34 @@ public class KarteikartenAG
         Globals.DEBUG_BUILD = true;
         System.setProperty("java.awt.headless", "true"); //for iCrap support
 
-        Debug.init();
+        Output.init();
+        Output.setCallback(new OutputCallback() {
+            @Override public void onInfo(String msg) 
+            {
+                log.info(msg);
+            }
+
+            @Override public void onWarn(String msg) 
+            {
+                log.warn(msg);
+            }
+
+            @Override public void onError(String msg) 
+            { 
+                log.error(msg);
+            }
+
+            @Override public void onFatal(String msg, int ret) 
+            {
+                log.error("Fatal: " + msg);
+                System.exit(ret);
+            }
+
+            @Override public void onDebug(String msg) 
+            {
+                log.debug(msg);
+            }
+        });
         Display.init();
         Window pMainWindow = new Window("KarteikartenAG", iWindowSize, Window.GUM_WINDOW_RESIZABLE, null);
         pMainWindow.setVerticalSync(true);

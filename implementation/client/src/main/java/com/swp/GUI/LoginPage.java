@@ -8,7 +8,7 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.*;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.swp.GUI.Extras.RatingGUI;
 
 public class LoginPage extends Page
@@ -26,7 +26,7 @@ public class LoginPage extends Page
             loginButton.onClick(new GUICallback() {
                 @Override public void run(RenderGUI gui) 
                 {
-                    Debug.info("Login Button");
+                    Output.info("Login Button");
                 }
             });
         }
@@ -37,7 +37,7 @@ public class LoginPage extends Page
             registerButton.onClick(new GUICallback() {
                 @Override public void run(RenderGUI gui) 
                 {
-                    Debug.info("Register Button");
+                    Output.info("Register Button");
                 }
             });
         }

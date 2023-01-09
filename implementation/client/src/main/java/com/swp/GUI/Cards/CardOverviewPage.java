@@ -7,7 +7,7 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Page;

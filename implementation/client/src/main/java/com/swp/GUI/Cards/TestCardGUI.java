@@ -16,7 +16,7 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.textures.Texture;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
@@ -70,7 +70,7 @@ public class TestCardGUI extends RenderGUI
             case MULITPLECHOICE: createMultipleChoiceCardTest();               break;
             case TEXT:           createTextCardTest();                         break;
             case TRUEFALSE:      createTrueFalseCardTest();                    break;
-            default:             Debug.error("TestCardGUI: Unknown Cardtype"); break;
+            default:             Output.error("TestCardGUI: Unknown Cardtype"); break;
         }
 
         setSizeInPercent(true, true);

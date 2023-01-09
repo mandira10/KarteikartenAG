@@ -12,7 +12,7 @@ import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Deck;
 import com.swp.GUI.Page;

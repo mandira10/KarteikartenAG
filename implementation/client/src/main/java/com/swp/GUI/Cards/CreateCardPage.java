@@ -5,7 +5,7 @@ import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Debug;
+import com.gumse.tools.Output;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageTestCard;
@@ -33,7 +33,7 @@ public class CreateCardPage extends Page
         submitButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                Debug.info(typeDropdown.getTitle());
+                Output.info(typeDropdown.getTitle());
                 switch(typeDropdown.getTitle())
                 {
                     case "Audio":             ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new AudioCard(), true);            break;
