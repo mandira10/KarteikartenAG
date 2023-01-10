@@ -52,7 +52,9 @@ public class DeckRepository
 
     public static List<Deck> getDecks()
     {
-        List<Deck> decks = Cache.getInstance().getDecks().stream().toList();
+
+        List<Deck> decks = new ArrayList<>();
+        //Cache.getInstance().getDecks().stream().toList(); THROWS ERROR
         if(!decks.isEmpty())
             return decks;
 
@@ -81,22 +83,22 @@ public class DeckRepository
         //server.send("/getdecks", jsonString);
         //return null;
 
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            decks = em.createQuery("SELECT Deck FROM Deck ORDER BY name").getResultList();
-            em.getTransaction().commit();
-            //callback.onSuccess(decks);
-        } catch (final Exception e) {
-            // wie soll die Fehlermeldung zur GUI gelangen?
-            //callback.onFailure("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
-        }
+//        try (final EntityManager em = emf.createEntityManager()) {
+//            em.getTransaction().begin();
+//            decks = em.createQuery("SELECT Deck FROM Deck ORDER BY name").getResultList();
+//            em.getTransaction().commit();
+//            //callback.onSuccess(decks);
+//        } catch (final Exception e) {
+//            // wie soll die Fehlermeldung zur GUI gelangen?
+//            //callback.onFailure("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
+//        }
         Cache.getInstance().setDecks(new HashSet<>(decks));
         return decks;
     }
 
     public static List<CardToDeck> getCardToDecks()
     {
-        List<CardToDeck> card2decks = Cache.getInstance().getCardToDecks().stream().toList();
+        List<CardToDeck> card2decks = new ArrayList<>();//Cache.getInstance().getCardToDecks().stream().toList(); //THROWS ERROR
         if(!card2decks.isEmpty())
             return card2decks;
 
@@ -126,17 +128,18 @@ public class DeckRepository
                 card2decks.add(cardtodeck);
             }
         }
+        return card2decks;
         /////////////////////////////////////////////////////////////////
 
         //server.send("/getcardtodecks", jsonString);
         //return null;
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            card2decks = em.createQuery("SELECT CardToDeck FROM CardToDeck").getResultList();
-            em.getTransaction().commit();
-        }
-        Cache.getInstance().setCardToDecks(new HashSet<>(card2decks));
-        return card2decks;
+//        try (final EntityManager em = emf.createEntityManager()) {
+//            em.getTransaction().begin();
+//            card2decks = em.createQuery("SELECT CardToDeck FROM CardToDeck").getResultList();
+//            em.getTransaction().commit();
+//        }
+//        Cache.getInstance().setCardToDecks(new HashSet<>(card2decks));
+//        return card2decks;
     }
 
     /* TODO

@@ -293,6 +293,10 @@ public class AddCardTest {
 
         }, Deck.CardOrder.ALPHABETICAL);
     }
+    @Test
+     public void getDecks(){
+        DeckController.getDecks();
+    }
 
 }
 
