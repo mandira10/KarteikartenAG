@@ -283,7 +283,7 @@ public class CardRepository
         } catch (final Exception e) {
             log.warn("Beim abrufen der Tags ist einer Fehler aufgetreten: " + e);
         }
-        return tags.isEmpty() ? null : tags;
+        return tags;
     }
 
     /**
@@ -300,10 +300,8 @@ public class CardRepository
                     .collect(Collectors.toSet());
             em.getTransaction().commit();
         }
-        if(!cardToTags.isEmpty()) {
             return cardToTags;
-        }
-        return null;
+
     }
 
     /**
@@ -374,10 +372,7 @@ public class CardRepository
                     .collect(Collectors.toSet());
             em.getTransaction().commit();
         }
-        if(!tags.isEmpty()) {
             return tags;
-        }
-        return null;
     }
 
     public static boolean deleteCardToTag(Card c, Tag t) {

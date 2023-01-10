@@ -12,6 +12,7 @@ import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.Exporter.ExportFileType;
 import lombok.extern.slf4j.Slf4j;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -46,7 +47,7 @@ public class CardController {
         try {
             Set cardsForTag = CardLogic.getCardsByTag(tag);
 
-            if (cardsForTag == null)
+            if (cardsForTag.isEmpty())
                 NotificationGUI.addNotification("Es gibt keine Karten für diesen Tag", Notification.NotificationType.INFO, 5);
 
             return cardsForTag;
@@ -78,7 +79,7 @@ public class CardController {
         try {
             Set tagsForCard = CardLogic.getTagsToCard(card);
 
-            if (tagsForCard == null)
+            if (tagsForCard.isEmpty())
                 log.info("Keine Tags für diese Karte vorhanden");
 
             return tagsForCard;
@@ -99,7 +100,7 @@ public class CardController {
             Set cardsForSearchTerms = CardLogic.getCardsBySearchterms(searchterm);
 
 
-            if (cardsForSearchTerms == null) {
+            if (cardsForSearchTerms.isEmpty()) {
                 NotificationGUI.addNotification("Es gibt keine Karten für dieses Suchwort", Notification.NotificationType.INFO, 5);
 
             }
