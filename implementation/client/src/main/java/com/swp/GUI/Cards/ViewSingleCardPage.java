@@ -143,7 +143,7 @@ public class ViewSingleCardPage extends Page
         //    categoriesStr += tag.getVal() + ", ";
         if(categoriesStr.length() > 0)
             categoriesStr = categoriesStr.substring(0, categoriesStr.length() - 2);
-        pTagsText.setString(categoriesStr);
+        pCategoriesText.setString(categoriesStr);
 
         updateReferences();
     }

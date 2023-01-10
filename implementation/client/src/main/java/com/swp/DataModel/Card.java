@@ -147,12 +147,16 @@ public abstract class Card implements Serializable
      * Manueller Setter, der prüft, ob der übergebene Wert im GUI leer ist
      * @param question: Frage der Karte
      */
-    public void setQuestion(String question) {
-        this.question = checkNotNullOrBlank("Frage", question);
+    public void setQuestion(String question) 
+    {
+        if(question != null)
+            this.question = question;
     }
 
-    public void setTitle(String title) {
-        this.title = checkNotNullOrBlank("Titel", title);
+    public void setTitle(String title) 
+    {
+        if(title != null)
+            this.title = title;
     }
 
     public String getAnswerString() { return ""; }

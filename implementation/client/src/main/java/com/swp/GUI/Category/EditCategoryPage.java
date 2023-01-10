@@ -1,6 +1,10 @@
 package com.swp.GUI.Category;
 
+import java.io.ObjectOutputStream.PutField;
+
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Basics.TextField;
+import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
@@ -14,6 +18,7 @@ public class EditCategoryPage extends Page
     private Button pApplyButton;
     private RenderGUI pCanvas;
     private Category pOldCategory, pNewCategory;
+    private TextField pTitleField;
 
     public EditCategoryPage()
     {
@@ -23,6 +28,15 @@ public class EditCategoryPage extends Page
         addGUI(XMLGUI.loadFile("guis/categories/categoryeditpage.xml"));
 
         pCanvas = findChildByID("canvas");
+
+        pTitleField = (TextField)findChildByID("titlefield");
+        pTitleField.setCallback(new TextFieldInputCallback() {
+            @Override public void enter(String complete) 
+            {
+                pNewCategory.setName(complete);
+            }
+            @Override public void input(String input, String complete) {}
+        });
 
         
         RenderGUI optionsMenu = findChildByID("menu");
@@ -34,6 +48,14 @@ public class EditCategoryPage extends Page
             }
         });
 
+        Button applyButton = (Button)optionsMenu.findChildByID("applybutton");
+        applyButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                applyChanges();
+            }
+        });
+
         this.setSizeInPercent(true, true);
         reposition();
         resize();
@@ -42,21 +64,9 @@ public class EditCategoryPage extends Page
     public void editCategory(String uuid) { editCategory(CategoryController.getCategoryByUUID(uuid)); }
     public void editCategory(Category category)
     {
-        if(category == null)
-        {
+        pNewCategory = new Category(category);
 
-        }
-        else
-        {
-
-        }
-        pOldCategory = category;
-        //pNewCategory = Category.copyCategory(category);
-    }
-
-    private void deleteCategory()
-    {
-        CategoryController.deleteCategory(pOldCategory);
+        pTitleField.setString(pNewCategory.getName());
     }
 
     private void applyChanges()

@@ -89,7 +89,7 @@ public class DeckRepository
 //            // wie soll die Fehlermeldung zur GUI gelangen?
 //            //callback.onFailure("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
 //        }
-        Cache.getInstance().setDecks(new HashSet<>(decks));
+        Cache.getInstance().setDecks(new ArrayList<>(decks));
         return decks;
     }
 

@@ -9,7 +9,9 @@ import com.swp.DataModel.Category;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.CardList;
+import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
+import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 public class ViewSingleCategoryPage extends Page
@@ -46,6 +48,14 @@ public class ViewSingleCategoryPage extends Page
             }
         });
 
+        Button deleteButton = (Button)optionsMenu.findChildByID("deletecategorybutton");
+        deleteButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                deleteCategory();
+            }
+        });
+
 
         this.setSizeInPercent(true, true);
         reposition();
@@ -60,5 +70,17 @@ public class ViewSingleCategoryPage extends Page
 
         resize();
         reposition();
+    }
+
+    private void deleteCategory()
+    {
+        ConfirmationGUI.openDialog("Are you sure that you want to delete this category?", new ConfirmationCallback() {
+            @Override public void onCancel() {}
+            @Override public void onConfirm() 
+            {  
+                CategoryController.deleteCategory(pCategory);
+                ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
+            }
+        });
     }
 }

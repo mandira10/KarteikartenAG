@@ -2,7 +2,9 @@ package com.swp.DataModel.CardTypes;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
+import com.gumse.tools.Output;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;

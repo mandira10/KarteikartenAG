@@ -174,8 +174,8 @@ public class CardController {
 
 
 
-    public static boolean setTagsToCard(Card card, Set<Tag> tags) {
-        return CardLogic.setTagsToCard(card, tags);
+    public static boolean setTagsToCard(Card card, Set<Tag> set) {
+        return CardLogic.setTagsToCard(card, set);
 
         //TODO Fehlermeldungen
     }

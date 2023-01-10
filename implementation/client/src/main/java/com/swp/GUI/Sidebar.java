@@ -11,12 +11,10 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.*;
 import com.gumse.system.io.Mouse;
-<<<<<<< HEAD
 import com.gumse.tools.Output;
-=======
 import com.swp.DataModel.Deck;
->>>>>>> a8300206b84a02f75eafd1831712da08fdc10066
 import com.swp.GUI.Cards.CardOverviewPage;
+import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.PageManager.PAGES;
 
@@ -131,7 +129,7 @@ public class Sidebar extends RenderGUI
         pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,340), new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                PageManager.viewPage(PAGES.CATEGORY_OVERVIEW);
+                ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
             }
         }));
 

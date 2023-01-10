@@ -18,6 +18,7 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
+import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.EditCardPages.*;
@@ -38,7 +39,7 @@ public class EditCardPage extends Page
     private List<Tag> aTags;
     private RenderGUI pCanvas;
     private TextField pTitlefield, pQuestionField;
-    private TagList pTagList;
+    private TagList<Tag> pTagList;
     private TextBox pCategoriesBox;
     private boolean bIsNewCard;
 
@@ -110,7 +111,7 @@ public class EditCardPage extends Page
         });
 
 
-        pTagList = (TagList)findChildByID("tagslist");
+        pTagList = (TagList<Tag>)findChildByID("tagslist");
         pCategoriesBox = (TextBox)findChildByID("categorylist");
         pCategoriesBox.setAlignment(Alignment.LEFT);
         pCategoriesBox.setAutoInsertLinebreaks(true);
@@ -141,7 +142,7 @@ public class EditCardPage extends Page
         //Set data
         pTitlefield.setString(pNewCard.getTitle());
         pQuestionField.setString(pNewCard.getQuestion());
-        //updateCategories(); //TODO
+        //updateCategories();
         updateTags(CardController.getTagsToCard(pNewCard).stream().toList());
 
         switch(pNewCard.getType())
@@ -152,7 +153,10 @@ public class EditCardPage extends Page
                 setPage(pEditImageDescriptionCardPage); 
                 pEditImageDescriptionCardPage.setCard((ImageDescriptionCard)pNewCard); 
                 break;
-            case MULITPLECHOICE: setPage(pEditMultipleChoiceCardPage);   break;
+            case MULITPLECHOICE: 
+                setPage(pEditMultipleChoiceCardPage);   
+                pEditMultipleChoiceCardPage.setCard((MultipleChoiceCard)pNewCard);
+                break;
             case TEXT:           setPage(pEditTextCardPage);             break;
             case AUDIO:          setPage(pEditAudioCardPage);            break;
         }
@@ -180,16 +184,14 @@ public class EditCardPage extends Page
     {
         this.aTags = tags;
         for(Tag tag : tags)
-            pTagList.addTag(tag.getVal());
+            pTagList.addTag(tag.getVal(), tag);
     }
 
     private void applyChanges()
     {
         //Change to callback function
-        //Set Card to Tags
-        //Set Card to Categories
         CardController.updateCardData(pNewCard, bIsNewCard);
-        //CardController.setTagsToCard(pNewCard, pTagList.getTags().stream().collect(Collectors.toSet()));
-        //CategoryController.addCategoriesToCard(pNewCard, aCategories.stream().collect(Collectors.toSet()));
+        CardController.setTagsToCard(pNewCard, pTagList.getTagUserptrs().stream().collect(Collectors.toSet()));
+        CategoryController.setCategoriesToCard(pNewCard, aCategories.stream().collect(Collectors.toSet()));
     }
 }

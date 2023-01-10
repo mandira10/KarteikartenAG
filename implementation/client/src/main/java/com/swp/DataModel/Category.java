@@ -65,6 +65,17 @@ public class Category implements Serializable
 
 
     /**
+     * Copy Konstruktor
+     */
+    public Category(Category other)
+    {
+        this.uuid     = other.getUuid();
+        this.name     = other.getName();
+        this.parents  = other.getParents();
+        this.children = other.getChildren();
+    }
+
+    /**
      * Konstruktor der Klasse Category
      * @param name: Name der Kategorie
      */

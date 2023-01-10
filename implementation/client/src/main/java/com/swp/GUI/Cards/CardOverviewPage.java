@@ -65,9 +65,6 @@ public class CardOverviewPage extends Page
         });
         addToDeckButton.hide(true);
 
-        
-
-
         RenderGUI canvas = findChildByID("canvas");
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), new CardListSelectmodeCallback() {
@@ -115,12 +112,18 @@ public class CardOverviewPage extends Page
             }
             
         }, order);
+
+        reposition();
+        resize();
     }
 
     public void loadCards(String str)
     {
         pCardList.reset();
         pCardList.addCards(CardController.getCardsBySearchterms(str));
+
+        reposition();
+        resize();
     }
 
     public void deleteCards()
