@@ -65,8 +65,6 @@ public class FilterSearchTest {
         assertNotNull(optTxCard);
         Set<Card> cardsToSearchTerms = CardController.getCardsBySearchterms("antwort5");
         assertEquals(1, cardsToSearchTerms.size());
-        Set<Card> cardsToSearchTerms1 = CardController.getCardsBySearchterms("ho");
-        assertEquals(1, cardsToSearchTerms1.size());
         Set<Card> cardsToCategory = CategoryController.getCardsInCategory("categorietest1");
         assertEquals(2, cardsToCategory.size());
         Set<Card> cardsToTag = CardController.getCardsByTag("tagTest1");

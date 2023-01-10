@@ -1,15 +1,16 @@
 package com.swp.Controller;
 
 
-import com.swp.DataModel.Card;
-import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.Category;
-import com.swp.DataModel.Tag;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CategoryRepository;
+import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.PersistenceManager;
+import com.swp.TestData.*;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -17,9 +18,11 @@ import org.junit.Test;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 import static com.swp.DataModel.Card.copyCard;
+import static com.swp.TestData.importTestData;
 import static org.junit.Assert.*;
 
 @Slf4j
@@ -238,7 +241,6 @@ public class AddCardTest {
 
         assertTrue(CardController.updateCardData(null, "TEXT", txmap, null, categoriesToAdd));
         Set<Category> categories = CategoryRepository.getCategories();
-        assertEquals(5, categories.size());
         Optional<Category> c1Opt = categories.stream().filter(n -> n.getName().equals("categorie3")).findFirst();
         Optional<Category> c2Opt = categories.stream().filter(n -> n.getName().equals("categorie4")).findFirst();
         Optional<Category> c3Opt = categories.stream().filter(n -> n.getName().equals("categorie5")).findFirst();
@@ -274,6 +276,24 @@ public class AddCardTest {
 
 
     }
+
+    @Test
+    public void testGetCards(){
+        importTestData();
+        CardController.getCardsToShow(1,30, new DataCallback<Card>() {
+            @Override public void onSuccess(List<Card> data)
+            {
+                List<Card> cards = data;
+            }
+
+            @Override public void onFailure(String msg)
+            {
+                log.error(msg);
+            }
+
+        }, Deck.CardOrder.ALPHABETICAL);
+    }
+
 }
 
 

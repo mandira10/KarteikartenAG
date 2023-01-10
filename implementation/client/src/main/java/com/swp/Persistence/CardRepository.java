@@ -34,39 +34,39 @@ public class CardRepository
         //Kann jetzt in einen thread verpackt werden
         //
 
-        //////////////////////////////////////
-        // For Testing 
-        //////////////////////////////////////
-        List<Card> cards = new ArrayList<>();
-       // Texture ketTexture = new Texture("ket");
-       // ketTexture.load("textures/orange-ket.png", CardRepository.class); //TODO: byte[] nutzen
-        for(int i = 0; i < to - from; i += 6)
-        {
-            cards.add(new AudioCard(null, "AudioCardTitle", "Some Audio Related Question", "The Correct Audio Answer", false, true));
-            cards.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[] {}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
-            cards.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle", false, true));
-            cards.add(new MultipleChoiceCard("MultipleChoice Question", new String[]{"Correct Answer1", "Answer2", "Answer3", "Correct Answer4"}, new int[]{0, 3}, "MultipleChoiceCardTitle", false));
-            cards.add(new TextCard("Some Text Question", "Correct Text Answer", "TextCardTitle", false));
-            cards.add(new TrueFalseCard("TrueFalse Question", true, "TrueFalseCardTitle", false));
-        }
-        callback.onSuccess(cards); //temporary
+//        //////////////////////////////////////
+//        // For Testing
+//        //////////////////////////////////////
+         List<Card> cards = new ArrayList<>();
+//       // Texture ketTexture = new Texture("ket");
+//       // ketTexture.load("textures/orange-ket.png", CardRepository.class); //TODO: byte[] nutzen
+//        for(int i = 0; i < to - from; i += 6)
+//        {
+//            cards.add(new AudioCard(null, "AudioCardTitle", "Some Audio Related Question", "The Correct Audio Answer", false, true));
+//            cards.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[] {}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
+//            cards.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle", false, true));
+//            cards.add(new MultipleChoiceCard("MultipleChoice Question", new String[]{"Correct Answer1", "Answer2", "Answer3", "Correct Answer4"}, new int[]{0, 3}, "MultipleChoiceCardTitle", false));
+//            cards.add(new TextCard("Some Text Question", "Correct Text Answer", "TextCardTitle", false));
+//            cards.add(new TrueFalseCard("TrueFalse Question", true, "TrueFalseCardTitle", false));
+//        }
+//        callback.onSuccess(cards); //temporary
 
         assert from <= to : "invalid range: `from` has to be smaller or equal to `to`";
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             cards = switch (order) {
                 case ALPHABETICAL ->
-                        em.createQuery("SELECT Card FROM Card ORDER BY title")
+                  em.createQuery("SELECT c FROM Card c ORDER BY c.title")
                                 .setFirstResult(from)
                                 .setMaxResults(to-from)
                                 .getResultList();
                 case REVERSED_ALPHABETICAL ->
-                        em.createQuery("SELECT Card FROM Card ORDER BY title DESC")
+                        em.createQuery("SELECT c FROM Card c ORDER BY c.title DESC")
                                 .setFirstResult(from)
                                 .setMaxResults(to-from)
                                 .getResultList();
                 default ->
-                        em.createQuery("SELECT Card FROM Card")
+                                em.createQuery("SELECT c FROM Card c")
                                 .setFirstResult(from)
                                 .setMaxResults(to-from)
                                 .getResultList();
@@ -74,7 +74,6 @@ public class CardRepository
             em.getTransaction().commit();
             callback.onSuccess(cards);
         } catch (final Exception e) {
-            // wie soll die Fehlermeldung zur GUI gelangen?
             callback.onFailure("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
         }
 
@@ -208,12 +207,8 @@ public class CardRepository
             em.getTransaction().begin();
             em.persist(card);
             em.getTransaction().commit();
-        } catch (Exception e) {
-            log.warn(String.format("Karte \"%s\" konnte nicht gespeichert werden", card.getUuid()));
-            return false;
+            return true;
         }
-        log.info(String.format("Karte \"%s\" wurde erfolgreich gespeichert", card.getUuid()));
-        return true;
         //TODO: create all CardTo..
     }
 
