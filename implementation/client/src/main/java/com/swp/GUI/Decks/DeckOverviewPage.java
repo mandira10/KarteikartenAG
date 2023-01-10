@@ -70,13 +70,13 @@ public class DeckOverviewPage extends Page
     public void loadDecks()
     {
         pDeckList.reset();
-        pDeckList.addDecks(DeckController.getDecks().stream().toList());
+        pDeckList.addDecks(DeckController.getDecks());
     }
     
     public void loadDecks(String searchterm)
     {
         pDeckList.reset();
-        pDeckList.addDecks(DeckController.getDecksBySearchterm(searchterm).stream().toList());
+        pDeckList.addDecks(DeckController.getDecksBySearchterm(searchterm));
     }
 
     private void exportCards()

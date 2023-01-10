@@ -1,5 +1,7 @@
 package com.swp.GUI;
 
+import com.swp.DataModel.Deck;
+
 import com.gumse.basics.SmoothFloat;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Font.Font;
@@ -9,11 +11,6 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.*;
 import com.gumse.system.io.Mouse;
-<<<<<<< HEAD
-import com.gumse.tools.Output;
-=======
-import com.swp.DataModel.Deck;
->>>>>>> a8300206b84a02f75eafd1831712da08fdc10066
 import com.swp.GUI.Cards.CardOverviewPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.PageManager.PAGES;

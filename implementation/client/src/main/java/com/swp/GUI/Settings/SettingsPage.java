@@ -45,7 +45,7 @@ public class SettingsPage extends Page
         Settings settings = Settings.getInstance();
 
         Switch themeSwitch = (Switch)generalSettings.findChildByID("themeswitch");
-        themeSwitch.tick(settings.getSetting(Setting.DARK_THEME) == "true");
+        themeSwitch.tick(settings.getSetting(Setting.DARK_THEME).equals("true"));
         themeSwitch.onTick(new OnSwitchTicked() {
             @Override public void run(boolean ticked) 
             {

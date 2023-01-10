@@ -1,6 +1,8 @@
 package com.swp.Persistence;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.swp.DataModel.*;
@@ -9,20 +11,20 @@ import com.swp.DataModel.StudySystem.StudySystemType;
 public class Cache 
 {
     private static Cache pCacheInstance = null;
-    private Set<Deck> stDecks;
+    private List<Deck> alDecks;
     private Set<StudySystemType> stStudySystemTypes;
     private Set<Category> stCategories;
     private Set<Tag> stTags;
-    private Set<CardToDeck> stCardToDecks;
+    private List<CardToDeck> alCardToDecks;
     private Set<CardToCategory> stCardToCategories;
     private Set<CardToTag> stCardToTags;
 
     private Cache()
     {
-        stDecks = new HashSet<>();
+        alDecks = new ArrayList<>();
         stCategories = new HashSet<>();
         stTags = new HashSet<>();
-        stCardToDecks = new HashSet<>();
+        alCardToDecks = new ArrayList<>();
         stCardToCategories = new HashSet<>();
         stCardToTags = new HashSet<>();
         stStudySystemTypes = new HashSet<>();
@@ -40,10 +42,10 @@ public class Cache
     //
     // Setter
     //
-    public void setDecks(Set<Deck> stDecks)                                 { this.stDecks = stDecks; }
+    public void setDecks(List<Deck> decks)                                  { this.alDecks = decks; }
     public void setCategories(Set<Category> stCategories)                   { this.stCategories = stCategories; }
     public void setTags(Set<Tag> stTags)                                    { this.stTags = stTags; }
-    public void setCardToDecks(Set<CardToDeck> stCardToDecks)               { this.stCardToDecks = stCardToDecks; }
+    public void setCardToDecks(List<CardToDeck> cardToDecks)                { this.alCardToDecks = cardToDecks; }
     public void setCardToCategories(Set<CardToCategory> stCardToCategories) { this.stCardToCategories = stCardToCategories; }
     public void setCardToTags(Set<CardToTag> stCardToTags)                  { this.stCardToTags = stCardToTags; }
     public void setStudySystemTypes(Set<StudySystemType> stStudySystemTypes){ this.stStudySystemTypes = stStudySystemTypes; }
@@ -53,10 +55,10 @@ public class Cache
     // Getter
     //
     public Set<Tag> getTags()                        { return stTags; }
-    public Set<Deck> getDecks()                      { return stDecks; }
+    public List<Deck> getDecks()                     { return alDecks; }
     public Set<Category> getCategories()             { return stCategories; }
     public Set<CardToTag> getCardToTags()            { return stCardToTags; }
-    public Set<CardToDeck> getCardToDecks()          { return stCardToDecks; }
+    public List<CardToDeck> getCardToDecks()         { return alCardToDecks; }
     public Set<CardToCategory> getCardToCategories() { return stCardToCategories; }
     public Set<StudySystemType> getStudySystemTypes(){ return stStudySystemTypes; }
 
