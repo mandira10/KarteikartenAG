@@ -21,10 +21,10 @@ public class DeckController
     public static boolean deleteDecks(Deck[] decks)                                 { return DeckLogic.deleteDecks(decks); }
     public static boolean createCardToDeck(Card card, Deck deck)                    { return DeckLogic.createCardToDeck(card, deck); }
     public static boolean createCardToDeckForCategory(Category category, Deck deck) { return DeckLogic.createCardToDeckForCategory(category, deck); }
-    public static Set<Deck> getDecks()                                              { return DeckLogic.getDecks(); }
+    public static List<Deck> getDecks()                                              { return DeckLogic.getDecks(); }
 
     //TO IMPLEMENT
-    public static Set<Deck> getDecksBySearchterm(String searchterm)                 { return DeckLogic.getDecks(); }
+    public static List<Deck> getDecksBySearchterm(String searchterm)                 { return DeckLogic.getDecks(); }
     public static void removeCardsFromDeck(List<Card> cards, Deck deck)             {}
 
     public static Deck getDeckByUUID(String uuid)                                   { return DeckLogic.getDeckByUUID(uuid); }

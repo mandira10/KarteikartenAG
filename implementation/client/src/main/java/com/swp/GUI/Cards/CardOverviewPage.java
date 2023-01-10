@@ -10,6 +10,7 @@ import com.gumse.maths.ivec2;
 import com.gumse.tools.Output;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.Deck;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Decks.DeckSelectPage;
@@ -84,7 +85,7 @@ public class CardOverviewPage extends Page
             @Override public void run(String query, int option)
             {
                 if(query.equals(""))
-                    loadCards(0, 30);
+                    loadCards(0, 30, Deck.CardOrder.ALPHABETICAL);
                 else
                     loadCards(query);
             }
@@ -98,7 +99,7 @@ public class CardOverviewPage extends Page
         reposition();
     }
 
-    public void loadCards(int from, int to)
+    public void loadCards(int from, int to, Deck.CardOrder order)
     {
         if(from == 0)
             pCardList.reset();
@@ -113,7 +114,7 @@ public class CardOverviewPage extends Page
                 NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);     
             }
             
-        });
+        }, order);
     }
 
     public void loadCards(String str)

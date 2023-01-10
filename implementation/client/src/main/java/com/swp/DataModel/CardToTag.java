@@ -14,6 +14,8 @@ import java.util.UUID;
         query = "SELECT tag FROM CardToTag WHERE card = :card")
 @NamedQuery(name = "CardToTag.allC2TByCard",
             query = "SELECT ct FROM CardToTag ct WHERE ct.card = :card")
+@NamedQuery(name = "CardToTag.findSpecificC2T",
+        query = "SELECT ct FROM CardToTag ct WHERE ct.card = :card AND ct.tag = :tag")
 public class CardToTag implements Serializable
 {
     /**
