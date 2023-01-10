@@ -18,8 +18,6 @@ import com.swp.DataModel.Deck.CardOrder;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemType;
 import com.swp.DataModel.StudySystem.*;
-import com.swp.Logic.DeckLogic;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 public class DeckRepository
@@ -34,10 +32,9 @@ public class DeckRepository
 
     /**
      *
-     * @param olddeck
-     * @param newdeck
+     * @param deck
      */
-    public static boolean updateDeck(Deck olddeck, Deck newdeck)
+    public static boolean updateDeck(Deck deck)
     {
 
         //server.send("/updatedeckdata", jsonString);
@@ -46,7 +43,7 @@ public class DeckRepository
 
     public static boolean deleteDeck(Deck deck)
     {
-        //server.send("/deletedeck", jsonString);
+        //CARDTODECK ebenso löschen, wenn hier
         return false;
     }
 
@@ -188,5 +185,25 @@ public class DeckRepository
 
         //server.send("/getstudysystemtypes", jsonString);
         return null;
+    }
+
+    public static List<Card> getCardsInDeck(Deck deck) {
+        //TODO
+        return null;
+    }
+
+    public static boolean createCardToDeck(Card card, Deck deck) {
+        //TODO
+        return false;
+    }
+
+    public static List<Deck> getDecksWithSearchterm(String searchterm) {
+        //TODO
+        return null;
+    }
+
+    public static void removeCardToDeck(Card c, Deck deck) {
+        //TODO
+
     }
 }

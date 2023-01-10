@@ -6,6 +6,7 @@ import com.swp.DataModel.Category;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemType;
+import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.DeckRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,9 +23,10 @@ public class DeckLogic
 
     public static boolean createCardToDeck(Card card, Deck deck)
     {
-        return false;
+        return DeckRepository.createCardToDeck(card,deck);
     }
 
+    //Wofür?
     public static boolean createCardToDeckForCategory(Category category, Deck deck)
     {
         return false;
@@ -46,12 +48,36 @@ public class DeckLogic
         return retArr;
     }
 
-    public static boolean updateDeckData(Deck olddeck, Deck newdeck)
+    public static boolean updateDeckData(Deck olddeck, Deck newdeck, boolean neu)
     {
-        if(newdeck.getUuid().isEmpty())
-            return DeckRepository.saveDeck(newdeck);
-        else
-            return DeckRepository.updateDeck(olddeck, newdeck);
+        if(neu) {
+            //TODO: klären was mit der initialen Kartenvergabe ans StudySystem ist
+            //TODO: vorher updateStudySystem aufrufen?
+             if(!DeckRepository.saveDeck(newdeck))
+             {
+                 //nach Saven müssen alle CardToDecks erstellt werden, Handling tbd.
+                 for(Card c : newdeck.getStudySystem().getAllCardsInStudySystem()){
+                     DeckRepository.createCardToDeck(c,newdeck);
+                 }
+             }
+        }
+
+        if(!neu && newdeck.getStudySystem().equals(olddeck.getStudySystem()))
+            resetStudySystem(olddeck,newdeck.getStudySystem());
+
+        //TODO: vorher updateStudySystem aufrufen?
+            return DeckRepository.updateDeck(newdeck);
+    }
+
+    /**
+     * Wird aufgerufen, wenn ein StudySystem im EditModus geändert wurde und setzt das gesamte Deck zurück,
+     * d.h. alle Karten werden wieder in Box 1 gepackt.
+     */
+    private static void resetStudySystem(Deck deck, StudySystem newStudyS) {
+        //first get all Cards for specific deck
+        List<Card> cardsToDeck = DeckRepository.getCardsInDeck(deck);
+        //then move them to the other StudySystem
+        newStudyS.moveAllCardsForDeckToFirstBox(cardsToDeck);
     }
 
     public static boolean updateStudySystem(Deck deck, StudySystem system)
@@ -115,5 +141,26 @@ public class DeckLogic
     public static Set<StudySystemType> getStudySystemTypes()
     {
         return DeckRepository.getStudySystemTypes();
+    }
+
+    public static List<Deck> getDecksBySearchterm(String searchterm) {
+        return DeckRepository.getDecksWithSearchterm(searchterm);
+        //analog wie bei Card
+    }
+
+    public static void removeCardsFromDeck(List<Card> cards, Deck deck) {
+        //TODO: removeCardsAusStudySystemBoxes
+        //UpdateDeck
+        for(Card c : cards) {
+            DeckRepository.removeCardToDeck(c, deck);
+        }
+    }
+
+    public static void addCardsTodeck(List<Card> cards, Deck deck) {
+        deck.getStudySystem().moveAllCardsForDeckToFirstBox(cards);
+        //UpdateDeck?
+        for(Card c : cards){
+            DeckRepository.createCardToDeck(c,deck);
+        }
     }
 }

@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import static com.swp.Validator.checkNotNullOrBlank;
+
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs TextCard
@@ -55,6 +57,10 @@ public class TextCard extends Card
     @Override
     public void setContent(){
         content =  title + "\n" + question + "\n" + answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = checkNotNullOrBlank("Antwort", answer);
     }
 
     @Override

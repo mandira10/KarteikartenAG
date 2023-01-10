@@ -118,6 +118,14 @@ public class AddCardTest {
         Card card1 = CardsToTag1.iterator().next();
         Card card2 = CardsToTag2.iterator().next();
         assertEquals(card1.getUuid(), card2.getUuid());
+        Set<Tag> tagToCard1 = CardRepository.getTagsToCard(card1);
+        Set<Tag> tagToCard2 = CardRepository.getTagsToCard(card2);
+        assertTrue(!tagToCard1.isEmpty());
+        Optional<Tag> tagOptional1 = tagToCard1.stream().filter(t -> t.getVal().equals("tag1")).findAny();
+        assertTrue(tagOptional1.isPresent());
+        assertTrue(!tagToCard2.isEmpty());
+        Optional<Tag> tagOptional2 = tagToCard2.stream().filter(t -> t.getVal().equals("tag2")).findAny();
+        assertTrue(tagOptional2.isPresent());
     }
 
     @Test
@@ -297,6 +305,7 @@ public class AddCardTest {
      public void getDecks(){
         DeckController.getDecks();
     }
+
 
 }
 

@@ -26,7 +26,7 @@ public class MultipleChoiceCard extends Card
      */
     @SuppressWarnings("JpaAttributeTypeInspection")
     @Column
-    private String[] answers;
+    private String[] answers; //TODO: implement Validator in GUI??
 
     /**
      * Array mit den korrekten Antworten

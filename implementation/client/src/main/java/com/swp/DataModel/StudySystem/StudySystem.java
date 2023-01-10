@@ -3,10 +3,8 @@ package com.swp.DataModel.StudySystem;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
+
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
@@ -84,6 +82,19 @@ public abstract class StudySystem implements Serializable
         }
 
         boxes.get(boxindex).add(card);
+    }
+
+    public void moveAllCardsForDeckToFirstBox(List<Card> cards){
+        boxes.get(0).addAll(cards);
+    }
+
+    public Set<Card> getAllCardsInStudySystem(){
+        Set<Card> cardsInStudyS = new HashSet<>();
+
+        for(Set<Card> set : boxes){
+            cardsInStudyS.addAll(set);
+        }
+        return cardsInStudyS;
     }
 
     /**
