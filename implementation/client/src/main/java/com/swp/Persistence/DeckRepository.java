@@ -20,7 +20,7 @@ import com.swp.DataModel.StudySystem.StudySystemType;
 import com.swp.DataModel.StudySystem.*;
 import jakarta.persistence.EntityManagerFactory;
 
-public class DeckRepository
+public class DeckRepository extends BaseRepository<Deck>
 {
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;
 

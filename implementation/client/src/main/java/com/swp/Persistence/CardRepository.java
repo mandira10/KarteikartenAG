@@ -10,6 +10,9 @@ import com.swp.DataModel.CardTypes.TrueFalseCard;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.metamodel.SingularAttribute;
 import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,7 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class CardRepository
+public class CardRepository extends BaseRepository<Card>
 {
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
