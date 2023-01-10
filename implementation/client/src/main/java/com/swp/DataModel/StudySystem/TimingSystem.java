@@ -15,129 +15,75 @@ import java.util.ArrayList;
 /**
  * Klasse für das TimingSystem. Erbt alle Attribute vom StudySystem
  */
-public class TimingSystem extends StudySystem implements MouseListener {
+public class TimingSystem extends StudySystem{
+    private float timeLimit = 0;
+    private float answerTime = 0;
+    private int questionCount = 0;
+    private int trueCount = 0;
+    private int pointQuestion = 100;
+    private int resultPoint = 0;
 
-
-    static Timer timer = new Timer();
-    static int seconds = 0;
-    int timeLimit;
-    int questionCount = 0;
-    int trueAnswerCount = 0;
-    int falseAnswerCount = 0;
-    ArrayList<Card> cards = new ArrayList<>();
-    ArrayList<String> answers = new ArrayList<>(); // getting answers for cards just example
-    JLabel answer;
         /**
          * Konstruktor der Klasse TimingSystem.
          * @param deck: Das Deck für das Lernsystem
          */
     public TimingSystem(Deck deck,int timeLimit) {
         super(deck, new StudySystemType(StudySystemType.KNOWN_TYPES.TIMING), 5);
-        // Deck to card;
         this.timeLimit = timeLimit;
 
-        //MyTimer();
-
-
-        // Just for Pseudo Code
-        answer = new JLabel();
-        answer.setVisible(false);
-        // Just for Pseudo Code
-
-        answer.addMouseListener(this);
-
     }
 
-    public void checkTimer(){
-        if(seconds == timeLimit){
-            NotificationGUI.addNotification("Time is done!", Notification.NotificationType.ERROR, 5);
-            questionCount++;
-            falseAnswerCount++;
-            getNextCard(questionCount);
+    @Override
+    public void giveAnswer(boolean answer) {
+        if(answer && (answerTime <= timeLimit)){
+            trueCount++;
         }
     }
 
-        @Override
-        public void mouseClicked (MouseEvent e){
-            String answer = "";
-            if (answer.length() == 0) {
-                NotificationGUI.addNotification("Answer can't be empty!", Notification.NotificationType.WARNING, 5);
+    @Override
+    public void giveTime(float seconds) {
+        answerTime = seconds;
+    }
+
+    @Override
+    public void finishTest() {
+        if(questionCount++ == getAllCardsInStudySystem().size()) {
+            if (trueCount == 0) {
+                resultPoint = 0;
             } else {
-                if (checkAnswer(answer,questionCount)) {
-                    NotificationGUI.addNotification("Answer is true!", Notification.NotificationType.INFO, 3);
-                    questionCount++;
-                    trueAnswerCount++;
-                    getNextCard(questionCount);
-                }
-                else{
-                    NotificationGUI.addNotification("Answer is wrong!", Notification.NotificationType.INFO, 3);
-                    questionCount++;
-                    falseAnswerCount++;
-                    if(questionCount == cards.size()){
-                        // Change GUI and show results
-                    }
-                    else {
-                        getNextCard(questionCount);
-                    }
-                }
+                pointQuestion = pointQuestion / getAllCardsInStudySystem().size();
+                resultPoint = pointQuestion * trueCount;
             }
         }
+    }
 
-        public boolean checkAnswer (String answer,int questionCount){
-            String trueAnswer = answers.get(questionCount); // getting real answer from database or server
-            return trueAnswer == answer;
+    @Override
+    public int getResult() {
+        return resultPoint;
+    }
+
+    @Override
+    public Card getNextCard(int index) {
+        if(questionCount++ == getAllCardsInStudySystem().size()){
+            return null;
+        }
+        else{
+            questionCount++;
+            answerTime = 0;
+            return getAllCardsInStudySystem().get(questionCount);
         }
 
-
-
-
-
-
-
-
-
-
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-
+    public float getProgress() {
+        if(getAllCardsInStudySystem().size() == 0){
+            return 0;
+        }
+        else{
+            return trueCount / getAllCardsInStudySystem().size();
+        }
     }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-/*
-    public static void MyTimer() {
-
-        TimerTask task;
-
-        task = new TimerTask() {
-            @Override
-            public void run() {
-                if (seconds < timeLimit) {
-                    seconds++;
-                } else {
-                    timer.cancel();
-                }
-            }
-        };
-
-    }
-
- */
-
 }
 
 

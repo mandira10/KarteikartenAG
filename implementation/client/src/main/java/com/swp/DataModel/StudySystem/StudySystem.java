@@ -1,5 +1,6 @@
 package com.swp.DataModel.StudySystem;
 
+import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
@@ -88,8 +89,8 @@ public abstract class StudySystem implements Serializable
         boxes.get(0).addAll(cards);
     }
 
-    public Set<Card> getAllCardsInStudySystem(){
-        Set<Card> cardsInStudyS = new HashSet<>();
+    public ArrayList<Card> getAllCardsInStudySystem(){
+        ArrayList<Card> cardsInStudyS = new ArrayList<>();
 
         for(Set<Card> set : boxes){
             cardsInStudyS.addAll(set);

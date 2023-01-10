@@ -8,21 +8,20 @@ import com.swp.GUI.Extras.NotificationGUI;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
  * Klasse für das VoteSystem. Erbt alle Attribute vom StudySystem
  */
-public class VoteSystem extends StudySystem implements MouseListener {
+public class VoteSystem extends StudySystem{
     int questionCount = 0;
     int trueAnswerCount = 0;
-    int falseAnswerCount = 0;
-    ArrayList<Card> cards = new ArrayList<>();
-    ArrayList<String> answers = new ArrayList<>(); // getting answers for cards just example
-    HashMap<String, Integer> unsortedCards = new HashMap<>();
-    LinkedHashMap<String, Integer> sortedCards = new LinkedHashMap<>();
-    ArrayList<Integer> list = new ArrayList<>();
-    JLabel answer;
+    int pointQuestion = 100;
+    int resultPoint = 0;
+    HashMap<Card, Integer> unsortedCards = new HashMap<>();
+    ArrayList<Card> sortedCards = new ArrayList<>();
+
     /**
      * Konstruktor der Klasse VoteSystem.
      * @param deck: Das Deck für das Lernsystem
@@ -30,98 +29,74 @@ public class VoteSystem extends StudySystem implements MouseListener {
     public VoteSystem(Deck deck)
     {
         super(deck, new StudySystemType(StudySystemType.KNOWN_TYPES.VOTE), 5);
-        // Deck to card;
 
-        // Just for Pseudo Code
-        answer = new JLabel();
-        answer.setVisible(false);
-        // Just for Pseudo Code
-
-        answer.addMouseListener(this);
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        String answer = "";
-        if(answer.length()  == 0){
-            NotificationGUI.addNotification("Answer can't be empty!", Notification.NotificationType.WARNING, 5);
+    public void giveAnswer(boolean answer) {
+        if(answer) {
+            trueAnswerCount++;
         }
-        else{
-            if(checkAnswer(answer,questionCount)){
-                NotificationGUI.addNotification("Answer is true!", Notification.NotificationType.INFO, 3);
-                int vote = 5; // will get from gui
-                unsortedCards.put(cards.get(questionCount).getQuestion(),vote);
-                questionCount++;
-                trueAnswerCount++;
-                if(questionCount == cards.size()){
-                    for (Map.Entry<String, Integer> entry : unsortedCards.entrySet()) {
-                        list.add(entry.getValue());
-                    }
-                    Collections.sort(list);
-                    for (int num : list) {
-                        for (Map.Entry<String, Integer> entry : unsortedCards.entrySet()) {
-                            if (entry.getValue().equals(num)) {
-                                sortedCards.put(entry.getKey(), num);
-                            }
-                        }
-                    }
-                    // Update Deck nach sortedCards
-                    // Change GUI and show results
-                }
-                else {
-                    getNextCard(questionCount);
-                }
+    }
+
+    @Override
+    public void giveRating(int rating) {
+        unsortedCards.put(getAllCardsInStudySystem().get(questionCount),rating);
+    }
+
+    @Override
+    public void finishTest() {
+        if(questionCount++ == getAllCardsInStudySystem().size()){
+            sortByValue(unsortedCards);
+            // Deck Update by rating answers
+            if(trueAnswerCount == 0){
+                resultPoint = 0;
             }
             else{
-                NotificationGUI.addNotification("Answer is wrong!", Notification.NotificationType.INFO, 3);
-                int vote = 5; // will get from gui
-                unsortedCards.put(cards.get(questionCount).getQuestion(),vote);
-                questionCount++;
-                falseAnswerCount++;
-                if(questionCount == cards.size()){
-                    for (Map.Entry<String, Integer> entry : unsortedCards.entrySet()) {
-                        list.add(entry.getValue());
-                    }
-                    Collections.sort(list);
-                    for (int num : list) {
-                        for (Map.Entry<String, Integer> entry : unsortedCards.entrySet()) {
-                            if (entry.getValue().equals(num)) {
-                                sortedCards.put(entry.getKey(), num);
-                            }
-                        }
-                    }
-                    // Update Deck nach sortedCards
-                    // Change GUI and show results
-                }
-                else {
-                    getNextCard(questionCount);
-                }
+                pointQuestion = pointQuestion / getAllCardsInStudySystem().size();
+                resultPoint = pointQuestion * trueAnswerCount;
             }
         }
     }
 
-    public boolean checkAnswer(String answer,int questionCount){
-        String trueAnswer = answers.get(questionCount); // getting real answer from database or server
-        return trueAnswer == answer;
-    }
+    public  void sortByValue(HashMap<Card, Integer> hm)
+    {
 
-    @Override
-    public void mousePressed(MouseEvent e) {
+        List<Map.Entry<Card, Integer> > list = new LinkedList<Map.Entry<Card, Integer> >(hm.entrySet());
 
-    }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
+        Collections.sort(list, Map.Entry.comparingByValue());
 
-    }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+        for (Map.Entry<Card, Integer> aa : list) {
+            sortedCards.add(aa.getKey());
+        }
 
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public int getResult() {
+        return resultPoint;
+    }
 
+    @Override
+    public Card getNextCard(int index) {
+        if(questionCount++ == getAllCardsInStudySystem().size()){
+            return null;
+        }
+        else{
+            questionCount++;
+            return getNextCard(questionCount);
+        }
+    }
+
+    @Override
+    public float getProgress() {
+        if(getAllCardsInStudySystem().size() == 0){
+            return 0;
+        }
+        else{
+            return trueAnswerCount / getAllCardsInStudySystem().size();
+        }
     }
 }
