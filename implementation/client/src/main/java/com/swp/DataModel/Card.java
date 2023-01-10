@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import static com.swp.Validator.checkNotNullOrBlank;
+
 /**
  * Abstrakte Superklasse für die Karten. Enthält die einzelnen Kartentypen sowie
  * weitere generische Eigenschaften jeder Karte, die alle Untertypen erben.
@@ -25,9 +27,9 @@ import java.util.UUID;
 @NamedQuery(name  = "Card.findByTitle",
             query = "SELECT c FROM Card c WHERE c.title = :title ")
 @NamedQuery(name  = "Card.findCategoriesOfCard",
-            query = "SELECT c2c.category FROM CardToCategory c2c WHERE c2c.card = :card")
+            query = "SELECT c2c.category FROM CardToCategory c2c WHERE c2c.card = :card") //doppelt?
 @NamedQuery(name  = "Card.findTagsOfCard",
-            query = "SELECT c2t.tag FROM CardToTag c2t WHERE c2t.card = :card")
+            query = "SELECT c2t.tag FROM CardToTag c2t WHERE c2t.card = :card") //doppelt?
 @NamedQuery(name  = "Card.findDecksOfCard",
             query = "SELECT c2d.deck FROM CardToDeck c2d WHERE c2d.card = :card")
 public abstract class Card implements Serializable
@@ -140,5 +142,20 @@ public abstract class Card implements Serializable
     }
 
     public void setContent(){}
+
+    /**
+     * Manueller Setter, der prüft, ob der übergebene Wert im GUI leer ist
+     * @param question: Frage der Karte
+     */
+    public void setQuestion(String question) {
+        this.question = checkNotNullOrBlank("Frage", question);
+    }
+
+    public void setTitle(String title) {
+        this.title = checkNotNullOrBlank("Titel", title);
+    }
+
     public String getAnswerString() { return ""; }
+
+
 }

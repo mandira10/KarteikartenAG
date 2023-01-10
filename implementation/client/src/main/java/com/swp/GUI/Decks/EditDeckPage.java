@@ -109,6 +109,7 @@ public class EditDeckPage extends Page
 
     private void applyChanges()
     {
-        DeckController.updateDeckData(pOldDeck, pNewDeck);
+        //TODO TBD: fügst du die ausgewählten Karten bei einem neuen Deck bereits in das neue StudySystem vom neuen Deck ein?
+        //DeckController.updateDeckData(pOldDeck, pNewDeck, boolean if new // CardSet wenn die von uns eingefügt werden sollen );
     }
 }

@@ -1,12 +1,13 @@
 package com.swp.DataModel.CardTypes;
 
-import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
+
+import static com.swp.Validator.checkNotNullOrBlank;
 
 
 /**
@@ -75,6 +76,10 @@ public class ImageTestCard extends Card
     @Override
     public void setContent(){
         content =  title + "\n" + question + "\n" + answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = checkNotNullOrBlank("Antwort", answer);
     }
 
     @Override

@@ -18,8 +18,6 @@ import com.swp.DataModel.Deck.CardOrder;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemType;
 import com.swp.DataModel.StudySystem.*;
-import com.swp.Logic.DeckLogic;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
 public class DeckRepository
@@ -34,10 +32,9 @@ public class DeckRepository
 
     /**
      *
-     * @param olddeck
-     * @param newdeck
+     * @param deck
      */
-    public static boolean updateDeck(Deck olddeck, Deck newdeck)
+    public static boolean updateDeck(Deck deck)
     {
 
         //server.send("/updatedeckdata", jsonString);
@@ -46,13 +43,15 @@ public class DeckRepository
 
     public static boolean deleteDeck(Deck deck)
     {
-        //server.send("/deletedeck", jsonString);
+        //CARDTODECK ebenso löschen, wenn hier
         return false;
     }
 
     public static List<Deck> getDecks()
     {
-        List<Deck> decks = Cache.getInstance().getDecks().stream().toList();
+
+        List<Deck> decks = new ArrayList<>();
+        //Cache.getInstance().getDecks().stream().toList(); THROWS ERROR
         if(!decks.isEmpty())
             return decks;
 
@@ -81,22 +80,22 @@ public class DeckRepository
         //server.send("/getdecks", jsonString);
         //return null;
 
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            decks = em.createQuery("SELECT Deck FROM Deck ORDER BY name").getResultList();
-            em.getTransaction().commit();
-            //callback.onSuccess(decks);
-        } catch (final Exception e) {
-            // wie soll die Fehlermeldung zur GUI gelangen?
-            //callback.onFailure("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
-        }
+//        try (final EntityManager em = emf.createEntityManager()) {
+//            em.getTransaction().begin();
+//            decks = em.createQuery("SELECT Deck FROM Deck ORDER BY name").getResultList();
+//            em.getTransaction().commit();
+//            //callback.onSuccess(decks);
+//        } catch (final Exception e) {
+//            // wie soll die Fehlermeldung zur GUI gelangen?
+//            //callback.onFailure("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
+//        }
         Cache.getInstance().setDecks(new HashSet<>(decks));
         return decks;
     }
 
     public static List<CardToDeck> getCardToDecks()
     {
-        List<CardToDeck> card2decks = Cache.getInstance().getCardToDecks().stream().toList();
+        List<CardToDeck> card2decks = new ArrayList<>();//Cache.getInstance().getCardToDecks().stream().toList(); //THROWS ERROR
         if(!card2decks.isEmpty())
             return card2decks;
 
@@ -126,17 +125,18 @@ public class DeckRepository
                 card2decks.add(cardtodeck);
             }
         }
+        return card2decks;
         /////////////////////////////////////////////////////////////////
 
         //server.send("/getcardtodecks", jsonString);
         //return null;
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            card2decks = em.createQuery("SELECT CardToDeck FROM CardToDeck").getResultList();
-            em.getTransaction().commit();
-        }
-        Cache.getInstance().setCardToDecks(new HashSet<>(card2decks));
-        return card2decks;
+//        try (final EntityManager em = emf.createEntityManager()) {
+//            em.getTransaction().begin();
+//            card2decks = em.createQuery("SELECT CardToDeck FROM CardToDeck").getResultList();
+//            em.getTransaction().commit();
+//        }
+//        Cache.getInstance().setCardToDecks(new HashSet<>(card2decks));
+//        return card2decks;
     }
 
     /* TODO
@@ -185,5 +185,25 @@ public class DeckRepository
 
         //server.send("/getstudysystemtypes", jsonString);
         return null;
+    }
+
+    public static List<Card> getCardsInDeck(Deck deck) {
+        //TODO
+        return null;
+    }
+
+    public static boolean createCardToDeck(Card card, Deck deck) {
+        //TODO
+        return false;
+    }
+
+    public static List<Deck> getDecksWithSearchterm(String searchterm) {
+        //TODO
+        return null;
+    }
+
+    public static void removeCardToDeck(Card c, Deck deck) {
+        //TODO
+
     }
 }

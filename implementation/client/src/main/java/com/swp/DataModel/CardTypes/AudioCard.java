@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import javax.sound.sampled.AudioFileFormat;
 
+import static com.swp.Validator.checkNotNullOrBlank;
+
 /**
  * Klasse zum Erstellen von Karteikarten des Typs AudioCard.
  * Erbt die Grundeigenschaften der Klasse Card
@@ -70,6 +72,10 @@ public class AudioCard extends Card
     @Override
     public void setContent(){
         content =  title + "\n" +  question + "\n" + answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = checkNotNullOrBlank("Antwort", answer);
     }
 
     @Override

@@ -44,7 +44,6 @@ public class ImageDescriptionCard extends Card
     /**
      * Konstruktor der Klasse ImageDescriptionCard
      * @param question Textuelle Frage zum Bild
-     * @param answer: Antwort
      * @param image: Bild für die Karte
      * @param title Optionaler Titel der Karte
      * @param visible Sichtbarkeit der Karte
