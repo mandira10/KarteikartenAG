@@ -21,6 +21,7 @@ public class KarteikartenAGGUI extends RenderGUI
     public KarteikartenAGGUI()
     {
         PageManager.init(this);
+        hideChildren(true); //Manually render
 
         ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
             new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),

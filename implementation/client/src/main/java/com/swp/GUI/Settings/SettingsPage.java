@@ -2,10 +2,18 @@ package com.swp.GUI.Settings;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
+import com.gumse.gui.Basics.Switch;
+import com.gumse.gui.Basics.TextField;
+import com.gumse.gui.Basics.Dropdown.DropdownSelectionCallback;
+import com.gumse.gui.Basics.Switch.OnSwitchTicked;
+import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.swp.DataModel.Settings;
+import com.swp.DataModel.Language.Language;
+import com.swp.DataModel.Settings.Setting;
 import com.swp.GUI.Page;
 
 
@@ -34,23 +42,31 @@ public class SettingsPage extends Page
             }
         });
 
-        String currentLanguage = "TODO";
-        Dropdown languageDropdown = (Dropdown)findChildByID("languagedropdown");
-        languageDropdown.setTitle(currentLanguage);
+        Settings settings = Settings.getInstance();
 
-
-
-        /*subsettingBox.addGUI(languageSettings);
-        languageSettings.hide(true);
-        Button languageSettingsButton = (Button)findChildByID("languagebutton");
-        languageSettingsButton.setCallbackFunction(new ButtonCallback() {
-            @Override public void run() 
+        Switch themeSwitch = (Switch)generalSettings.findChildByID("themeswitch");
+        themeSwitch.tick(settings.getSetting(Setting.DARK_THEME) == "true");
+        themeSwitch.onTick(new OnSwitchTicked() {
+            @Override public void run(boolean ticked) 
             {
-                generalSettings.hide(true);
-                languageSettings.hide(false);
-                serverSettings.hide(true);
+                settings.setSetting(Setting.DARK_THEME, ticked ? "true" : "false");
             }
-        });*/
+        });
+
+        Dropdown languageDropdown = (Dropdown)generalSettings.findChildByID("languagedropdown");
+        Language lang = settings.getLanguage();
+        languageDropdown.setTitle(lang.getName());
+
+        languageDropdown.onSelection(new DropdownSelectionCallback() {
+            @Override public void run(String str) 
+            {
+                switch(str)
+                {
+                    case "German":  settings.setSetting(Setting.LANGUAGE, "de");
+                    case "English": settings.setSetting(Setting.LANGUAGE, "en");
+                }
+            }
+        });
 
 
         subsettingBox.addGUI(serverSettings);
@@ -65,11 +81,33 @@ public class SettingsPage extends Page
             }
         });
 
+        TextField serveraddressField = (TextField)serverSettings.findChildByID("serveraddressfield");
+        serveraddressField.setString(settings.getSetting(Setting.SERVER_ADDRESS));
+        serveraddressField.setCallback(new TextFieldInputCallback() {
+            @Override public void enter(String complete) 
+            {
+                settings.setSetting(Setting.SERVER_ADDRESS, complete);
+            }
 
+            @Override public void input(String input, String complete) 
+            {
+            }
+        });
 
+        TextField serverportField = (TextField)serverSettings.findChildByID("serverportfield");
+        serverportField.setString(settings.getSetting(Setting.SERVER_PORT));
+        serverportField.setCallback(new TextFieldInputCallback() {
+            @Override public void enter(String complete) 
+            {
+                settings.setSetting(Setting.SERVER_PORT, complete);
+            }
+
+            @Override public void input(String input, String complete) 
+            {
+            }
+        });
 
         this.setSizeInPercent(true, true);
         reposition();
-        resize();
     }
 }

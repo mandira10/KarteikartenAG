@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui-root pos="0, 0" size="100%, 100%">
     <text      pos="30, 10%"   origin="0, 0"  fontsize="30">Address</text>
-    <textfield pos="100%, 10%" size="150, 30" fontsize="30" origin="180, 0">127.0.0.1</textfield>
+    <textfield id="serveraddressfield" pos="100%, 10%" size="150, 30" fontsize="30" origin="180, 0">127.0.0.1</textfield>
 
     <text      pos="30, 10%"   origin="0, -50" fontsize="30">Port</text>
-    <textfield pos="100%, 10%" size="150, 30"  fontsize="30" origin="180, -50">1234</textfield>
+    <textfield id="serverportfield" pos="100%, 10%" size="150, 30"  fontsize="30" origin="180, -50">1234</textfield>
 </gui-root>

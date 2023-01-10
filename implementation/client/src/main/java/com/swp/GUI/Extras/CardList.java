@@ -149,7 +149,6 @@ public class CardList extends RenderGUI
             public void run(RenderGUI gui) 
             {
                 Switch switchgui = (Switch)gui.getChild(0);
-                switchgui.tick(!switchgui.isTicked());
                 updateSelectmode();
             }
         };

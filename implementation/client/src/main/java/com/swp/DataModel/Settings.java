@@ -1,25 +1,34 @@
 package com.swp.DataModel;
 
-import lombok.Getter;
-import lombok.Setter;
-import java.io.Serializable;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.ini4j.Ini;
+import org.ini4j.InvalidFileFormatException;
+
+import com.gumse.tools.Output;
+import com.swp.DataModel.Language.English;
+import com.swp.DataModel.Language.German;
+import com.swp.DataModel.Language.Language;
+
 
 /**
  * Die Klasse repräsentiert die Einstellungen des Nutzers.
  */
-
-@Getter
-@Setter
-public class Settings implements Serializable
+public class Settings
 {
-    /**
-     * Enum für die verfügbaren Sprachen.
-     */
-    public enum Language
+    public enum Setting
     {
-        ENGLISH,
-        GERMAN,
-    }
+        DARK_THEME,
+        LANGUAGE,
+        SERVER_ADDRESS,
+        SERVER_PORT
+    };
+
+    private Map<Setting, String> mSettings;
+    private Ini pIni;
 
     /**
      * Hilfsattribut, um sicherzustellen, dass Setttings nur einmal
@@ -27,32 +36,26 @@ public class Settings implements Serializable
      */
     private static Settings settingsInstance = null;
 
-    /**
-     * Language des Users
-     */
-    private Language language;
-
-    /**
-     * Serveradresse
-     */
-    private String serverAddress;
-
-    /**
-     * DarkTheme Einstellung des Nutzers
-     */
-    private boolean darkTheme;
-
-    /**
-     * ServerPort
-     */
-    private int serverPort;
 
     /**
      * Konstruktor der Settings Klasse
      */
     private Settings()
     {
-        //Toolbox.loadFile();
+        mSettings = new HashMap<>();
+        File file = new File("settings.ini");
+        Output.info("Loading settingsfile (" + file.getName() + ")");
+        try                   { file.createNewFile(); } 
+        catch (IOException e) { Output.fatal("Couldnt create settings file", 1); }
+
+        try                                  { pIni = new Ini(file); } 
+        catch(InvalidFileFormatException e)  { Output.fatal("Failed to read " + file.getName() + ": invalid fileformat!", 2); return; } 
+        catch(IOException e)                 { Output.fatal("Failed to read " + file.getName() + ": " + e.getMessage() + "!", 3); return; }
+
+        mSettings.put(Setting.DARK_THEME,     loadSetting("general", "darktheme", "true"));
+        mSettings.put(Setting.LANGUAGE,       loadSetting("general", "language",  "en"));
+        mSettings.put(Setting.SERVER_ADDRESS, loadSetting("server",  "address",   "127.0.0.1"));
+        mSettings.put(Setting.SERVER_PORT,    loadSetting("server",  "port",      "1234"));
     }
 
     /**
@@ -66,20 +69,47 @@ public class Settings implements Serializable
         return settingsInstance;
     }
 
-    /**
-     * Wandelt die Sprache in einen String um
-     * @return Spracheinstellung
-     */
-
-    public String languageToString()
+    private String loadSetting(String category, String name, String defaultvalue)
     {
-        switch(language)
-        {
-            case ENGLISH: return "English";
-            case GERMAN:  return "German";
-        }
-        return "Unknown";
+        String value = pIni.get(category, name);
+        if(value == null || value.equals(""))
+            value = defaultvalue;
+
+        return value;
+    }
+    
+    public String getSetting(Setting setting)
+    {
+        String retvalue = mSettings.get(setting);
+        if(retvalue == null)
+            return "";
+        return retvalue;
     }
 
+    public Language getLanguage()
+    {
+        switch(getSetting(Setting.LANGUAGE))
+        {
+            case "de": return German.getInstance();
+            case "en": return English.getInstance();
+        }
 
+        return English.getInstance();
+    }
+
+    public void setSetting(Setting setting, String value)
+    {
+        mSettings.put(setting, value);
+        saveSettings();
+    }
+
+    public void saveSettings()
+    {
+        pIni.put("general", "darktheme", getSetting(Setting.DARK_THEME));
+        pIni.put("general", "language",  getSetting(Setting.LANGUAGE));
+        pIni.put("server",  "address",   getSetting(Setting.SERVER_ADDRESS));
+        pIni.put("server",  "port",      getSetting(Setting.SERVER_PORT));
+        try                   { pIni.store(); } 
+        catch (IOException e) { Output.error("Failed to save settings"); }
+    }
 }

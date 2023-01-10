@@ -9,6 +9,7 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.*;
 import com.gumse.system.io.Mouse;
+import com.gumse.tools.Output;
 import com.swp.GUI.Cards.CardOverviewPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.PageManager.PAGES;
@@ -143,24 +144,16 @@ public class Sidebar extends RenderGUI
         pBackground.onEnter(new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                if(!Mouse.isBusy())
-                {
-                    pSmoothFloat.setTarget(1.0f);
-                    Mouse.setBusiness(true);
-                }
+                pSmoothFloat.setTarget(1.0f);
             }
         });
 
         pBackground.onLeave(new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                if(pSmoothFloat.getTarget() == 1.0f)
-                    Mouse.setBusiness(false);
-
                 pSmoothFloat.setTarget(0.0f);
             }
         });
-
 
         resize();
         reposition();
@@ -172,7 +165,6 @@ public class Sidebar extends RenderGUI
     {
         if(pSmoothFloat.update())
         {
-            //System.out.println(v);
             int boxSize = (int)(150 * pSmoothFloat.get());
             pBackground.setSize(new ivec2(100 + boxSize, 100));
             for(int i = 0; i < pBackground.numChildren(); i++)

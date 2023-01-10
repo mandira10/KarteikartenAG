@@ -72,6 +72,10 @@ public abstract class Card implements Serializable
     @Column
     protected String content;
 
+    //NEU
+    @Column
+    protected String references;
+
     /**
      * Titel der Karte. Ist optional, wird verwendet im Glossar, wenn befüllt
      */
@@ -102,6 +106,7 @@ public abstract class Card implements Serializable
         this.rating = 0;
         this.title = "";
         this.content = "";
+        this.references = "";
         this.creationDate = new Timestamp(System.currentTimeMillis());
     }
 

@@ -55,7 +55,7 @@ import lombok.extern.slf4j.Slf4j;
 //       - ImageTestCard            -- done
 //       - ImageDescCard            -- done
 //       - AudioCard                -- done
-//   - Deck editpage
+//   - Deck editpage                -- done
 //   - Show deck progress           -- done
 //   - Final testpage               -- done
 //   - Test rating                  -- done
@@ -69,6 +69,8 @@ import lombok.extern.slf4j.Slf4j;
 //       - ImageDescCard            -- done
 //       - AudioCard
 //   - Export Cards Page
+//   - Add Single Cards to Deck     -- done
+//   - Add Cards to Deck by category
 //   - Add icons to edit options
 //   - Finalize Editpages           -- done
 //       - TextCard                 -- done
@@ -85,6 +87,7 @@ import lombok.extern.slf4j.Slf4j;
 //       - Single Category View     -- done
 //       - Category Tree
 //   - Language Class
+//   - Settings file                -- done
 ////////////////////////////////////////////////////
 
 @Slf4j
@@ -184,7 +187,7 @@ public class KarteikartenAG
             pMainGUI.addGUI(fpsTextBox);
         }
 
-        pMainGUI.updateCanvas();
+        pMainGUI.setSize(iWindowSize);
 
         Category rootCategory = new Category("Root"); //For now
 

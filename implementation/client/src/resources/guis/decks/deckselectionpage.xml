@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gui-root pos="0, 0" size="100%, 100%">
+    <gui id="canvas" size="95%, 80%" pos="2.5%, 10%">
+    </gui>
+    
+    <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
+        <button id="cancelbutton"    pos="2.5%, 0" origin="0, 0" size="100, 30" border-radius="7" fontsize="20" title="Cancel"    color="#9C88FF" />
+    </gui>
+</gui-root>

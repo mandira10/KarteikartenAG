@@ -1,6 +1,10 @@
 package com.swp.GUI.Cards;
 
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Basics.TextBox;
+import com.gumse.gui.Basics.TextBox.Alignment;
+import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
@@ -24,6 +28,8 @@ public class ViewSingleCardPage extends Page
     RenderGUI pCanvas;
     CardRenderer pCardRenderer;
     Text pTagsText, pCategoriesText;
+    Box pReferencesBox;
+    TextBox pReferencesText;
 
     public ViewSingleCardPage()
     {
@@ -37,7 +43,23 @@ public class ViewSingleCardPage extends Page
 
         pCanvas = findChildByID("canvas");
         pCardRenderer = new CardRenderer();
+        pCardRenderer.setPositionInPercent(true, false);
         pCanvas.addGUI(pCardRenderer);
+
+        pReferencesBox = new Box(new ivec2(10, 20), new ivec2(80, 70));
+        pReferencesBox.setPositionInPercent(true, true);
+        pReferencesBox.setSizeInPercent(true, true);
+        pReferencesBox.hide(true);
+        pCanvas.addGUI(pReferencesBox);
+
+        pReferencesText = new TextBox("References", FontManager.getInstance().getDefaultFont(), new ivec2(15, 15), new ivec2(70, 70));
+        pReferencesText.setPositionInPercent(true, true);
+        pReferencesText.setSizeInPercent(true, true);
+        pReferencesText.setTextSize(50);
+        pReferencesText.setAlignment(Alignment.LEFT);
+        pReferencesText.setAutoInsertLinebreaks(true);
+        pReferencesText.getBox().hide(true);
+        pReferencesBox.addGUI(pReferencesText);
 
         pRatingGUI = new RatingGUI(new ivec2(100, 70), 30, 5);
         pRatingGUI.setPositionInPercent(true, false);
@@ -80,6 +102,15 @@ public class ViewSingleCardPage extends Page
             }
         });
 
+        Button referencesButton = (Button)findChildByID("referencesbutton");
+        referencesButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                pReferencesBox.hide(!pReferencesBox.isHidden());
+                pCardRenderer.hide(!pReferencesBox.isHidden());
+            }
+        });
+
         Button deleteButton = (Button)findChildByID("deletebutton");
         deleteButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) 
@@ -112,6 +143,27 @@ public class ViewSingleCardPage extends Page
         if(categoriesStr.length() > 0)
             categoriesStr = categoriesStr.substring(0, categoriesStr.length() - 2);
         pTagsText.setString(categoriesStr);
+
+        updateReferences();
+    }
+
+    private void updateReferences()
+    {
+        String referencesStr = "";
+        for(String line : pCard.getReferences().split("\n"))
+        {
+            String[] args = line.split(";");
+            if(args.length < 2)
+                continue;
+            String type = args[0];
+            String uuid = args[1];
+            String desc = "";
+            for(int i = 2; i < args.length; i++)
+                desc += args[i];
+            
+            referencesStr += desc + "\n";
+        }
+        pReferencesText.setString(referencesStr);
     }
 
 

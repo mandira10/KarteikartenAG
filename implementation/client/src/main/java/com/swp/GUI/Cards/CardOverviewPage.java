@@ -12,6 +12,7 @@ import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
+import com.swp.GUI.Decks.DeckSelectPage;
 import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -54,12 +55,23 @@ public class CardOverviewPage extends Page
         });
         deleteCardButton.hide(true);
 
+        Button addToDeckButton = (Button)findChildByID("addtodeckbutton");
+        addToDeckButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(pCardList.getSelection());
+            }
+        });
+        addToDeckButton.hide(true);
+
+        
+
 
         RenderGUI canvas = findChildByID("canvas");
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod() { deleteCardButton.hide(false); }
-            @Override public void exitSelectmod()  { deleteCardButton.hide(true); }
+            @Override public void enterSelectmod() { deleteCardButton.hide(false); addToDeckButton.hide(false); }
+            @Override public void exitSelectmod()  { deleteCardButton.hide(true); addToDeckButton.hide(true); }
         });
         pCardList.setSizeInPercent(true, true);
         canvas.addGUI(pCardList);

@@ -16,6 +16,7 @@ import com.gumse.shader.ShaderProgram;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 import com.gumse.tools.FPS;
+import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 
@@ -75,7 +76,6 @@ public class CardRenderer extends RenderGUI
         
         this.setSizeInPercent(true, true);
         reposition();
-        resize();
     }
 
     public void setCard(Card card)
@@ -200,5 +200,12 @@ public class CardRenderer extends RenderGUI
         {
             bDoneRotating = true;
         }
+    }
+
+    @Override
+    protected void updateOnPosChange() 
+    {
+        //Output.info(String.valueOf(vPos.x));
+        //pCardModel.setPosition(new vec3((float)vPos.x / 10.0f, 1, 0));
     }
 }
