@@ -22,6 +22,10 @@ import jakarta.persistence.EntityManagerFactory;
 
 public class DeckRepository extends BaseRepository<Deck>
 {
+    public DeckRepository() {
+        super(Deck.class);
+    }
+
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     public static boolean saveDeck(Deck deck)

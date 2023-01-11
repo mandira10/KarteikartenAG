@@ -24,6 +24,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CardRepository extends BaseRepository<Card>
 {
+    public CardRepository() {
+        super(Card.class);
+    }
+
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     /**

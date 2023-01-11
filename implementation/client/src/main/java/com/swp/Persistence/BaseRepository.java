@@ -26,6 +26,12 @@ public abstract class BaseRepository<T> {
     @Getter(AccessLevel.PROTECTED)
     private static CriteriaBuilder criteriaBuilder;
 
+    private final Class<T> repoType;
+
+    public BaseRepository(Class<T> repoType) {
+        this.repoType = repoType;
+    }
+
     /**
      * Funktion um eine Transaktion zu beginnen.
      * Dabei wird bereits auf bestimmte Fehler geprüft.
@@ -88,11 +94,8 @@ public abstract class BaseRepository<T> {
      * @param attribute
      */
     public List<T> findListBy(final Object value, final SingularAttribute<T, ?> attribute) {
-        // TODO siehe `uebung6.pdf` Seite 13 & 14
-        // Irgendwas ist hier noch falsch, kann nicht kompilieren.
-        // Folgender Fehler: `inference variable T has incompatible equality constraints`
-        final CriteriaQuery<T> criteriaQuery = null; //criteriaBuilder.createQuery(getClass());
-        final Root<T> queryRoot = null; //criteriaQuery.from(getClass());
+        final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(repoType);
+        final Root<T> queryRoot = criteriaQuery.from(repoType);
 
         criteriaQuery.where(
                 criteriaBuilder.equal(
