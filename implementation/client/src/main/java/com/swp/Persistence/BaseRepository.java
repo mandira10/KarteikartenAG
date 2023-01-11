@@ -103,4 +103,62 @@ public abstract class BaseRepository<T> {
 
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
+
+    /**
+     * Funktion um alle gespeicherten Objekte des Repository-Typs aus der Datenbank zu holen.
+     * @return List<T> eine Liste mit allen persistierten Objekten aus der Datenbank.
+     */
+    public List<T> getAll() {
+        final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(repoType);
+        final Root<T> queryRoot = criteriaQuery.from(repoType);
+        criteriaQuery.select(queryRoot);
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    /**
+     * Funktion um die Anzahl der persistierten Objekte des entsprechenden Repository-Typs zu bekommen.
+     * @return int Anzahl der gespeicherten Objekte im Repository.
+     */
+    public int countAll(){
+        return getAll().size();
+    }
+
+    /*
+     * Funktion um einen bestimmten Abschnitt der persistierten Objekte aus der Datenbank zu holen
+     * @param from     int: gibt an wie viele Zeilen des Ergebnisses übersprungen werden.
+     * @param to       int: gibt an bis zu welcher Zeile die Ergebnisse geholt werden sollen.
+     * @param callback DataCallback<T>: Callback-Instanz, über die die gefundenen Daten an die GUI gegeben werden.
+     * @param order    CardOrder: in welcher Reihenfolge die Ergebnisse sortiert sein sollen.
+    public List<T> getRange(final int from, final int to, final DataCallback<T> callback, Deck.CardOrder order) {
+        assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
+        final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(repoType);
+        final Root<T> queryRoot = criteriaQuery.from(repoType);
+        criteriaQuery.select(queryRoot).orderBy(criteriaBuilder.asc('repoType_.columnName')).setFirstResult(from).setMaxResults(to-from);
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+     //*/
+
+    /**
+     * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu persistieren.
+     * @param object das zu speichernde Objekt.
+     */
+    public void save(T object) {
+        entityManager.persist(object);
+    }
+
+    /**
+     * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu aktualisieren.
+     * @param object das zu aktualisierende Objekt.
+     */
+    public void update(T object) {
+        entityManager.merge(object);
+    }
+
+    /**
+     * Funktion um ein Objekt des Repository-Typs aus dem entsprechenden Repository zu entfernen.
+     * @param object das zu löschende Objekt.
+     */
+    public void delete(T object) {
+        entityManager.remove(object);
+    }
 }
