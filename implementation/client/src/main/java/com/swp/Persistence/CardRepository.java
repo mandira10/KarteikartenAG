@@ -1,12 +1,5 @@
 package com.swp.Persistence;
 import com.swp.DataModel.*;
-import com.swp.DataModel.CardTypes.AudioCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
-import com.swp.DataModel.CardTypes.ImageTestCard;
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
@@ -19,8 +12,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class CardRepository
+public class CardRepository extends BaseRepository<Card>
 {
+    public CardRepository() {
+        super(Card.class);
+    }
+
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     /**

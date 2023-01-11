@@ -2,10 +2,7 @@ package com.swp.Logic;
 
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.*;
-import com.swp.Persistence.CardRepository;
-import com.swp.Persistence.CategoryRepository;
-import com.swp.Persistence.DataCallback;
-import com.swp.Persistence.Exporter;
+import com.swp.Persistence.*;
 import com.swp.Persistence.Exporter.ExportFileType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
@@ -16,8 +13,14 @@ import java.util.*;
 import static com.swp.Validator.checkNotNullOrBlank;
 
 @Slf4j
-public class CardLogic
+public class CardLogic extends BaseLogic<Card>
 {
+    /**
+     * Konstruktor für eine CardLogic-Instanz.
+     */
+    public CardLogic() {
+        super(new CardRepository());
+    }
 
     //OVERVIEW
 
@@ -26,11 +29,16 @@ public class CardLogic
      * Anzahl der Decks und ihrem Erstellzeitpunkt anzuzeigen. Gibt die Methode an das CardRepository weiter.
      * @param begin: Seitenauswahl Anfangswert
      * @param end: Seitenauswahl Endwert
+     * @param callback: DataCallback-Objekt über welches die Daten an die GUI gehen
+     * @param order: Reihenfolge der zu holenden Karten als ein enum Deck.CardOrder
      * @return anzuzeigende Karten
      */
     public static void getCardsToShow(int begin, int end, DataCallback<Card> callback, Deck.CardOrder order)
     {
-        CardRepository.getCards(begin, end, callback, order);
+        execTransactional(() -> {
+            CardRepository.getCards(begin, end, callback, order);
+            return null;
+        });
     }
 
     /**

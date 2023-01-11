@@ -16,3 +16,4 @@ swp-abgabe*.pdf
 .*
 !.gitignore
 !.gitlab-ci.yml
+implementation/client/dependency-reduced-pom.xml
