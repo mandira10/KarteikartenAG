@@ -162,14 +162,13 @@ public class KarteikartenAG
         AL11.alListener3f(AL11.AL_VELOCITY, 0, 0, 0);
 
         pMainGUI = new GUI(pMainWindow);
-        pMainWindow.setClearColor(GUI.getTheme().backgroundColor); // Set the clear color);
 		pMainWindow.onResized(new WindowResizePosCallback() {
             @Override public void run(ivec2 val) {
                 pMainGUI.setSize(val);
             }
         });
 
-        KarteikartenAGGUI pKarteikartenAGGUI = new KarteikartenAGGUI();
+        KarteikartenAGGUI pKarteikartenAGGUI = KarteikartenAGGUI.getInstance();
         pKarteikartenAGGUI.setSize(new ivec2(100, 100));
         pKarteikartenAGGUI.setSizeInPercent(true, true);
         pMainGUI.addGUI(pKarteikartenAGGUI);
@@ -196,6 +195,7 @@ public class KarteikartenAG
         while(pMainWindow.isOpen())
         {
             Display.pollEvents();
+            pMainWindow.setClearColor(GUI.getTheme().backgroundColor);
             pMainWindow.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             pMainGUI.render();
             pMainGUI.update();

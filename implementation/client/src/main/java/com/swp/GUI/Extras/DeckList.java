@@ -2,6 +2,7 @@ package com.swp.GUI.Extras;
 
 import java.util.List;
 
+import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
@@ -26,6 +27,7 @@ public class DeckList extends RenderGUI
         public DeckContainer(Deck deck)
         {
             super(new ivec2(), new ivec2());
+            setColor(GUI.getTheme().secondaryColor);
 
             Font defaultFont = FontManager.getInstance().getDefaultFont();
             Font fontAwesome = FontManager.getInstance().getFont("FontAwesome");
@@ -75,6 +77,12 @@ public class DeckList extends RenderGUI
                 }
             });
         }
+
+        @Override
+        protected void updateOnThemeChange() 
+        {
+            setColor(GUI.getTheme().secondaryColor);
+        }
     };
 
     private Scroller pScroller;
@@ -108,7 +116,6 @@ public class DeckList extends RenderGUI
             DeckContainer container = new DeckContainer(deck);
             container.setPosition(new ivec2(5, y++ * 110));
             container.setSize(new ivec2(90, 100));
-            container.setColor(new vec4(0.18f, 0.19f, 0.2f, 1.0f));
             container.setSizeInPercent(true, false);
             container.setPositionInPercent(true, false);
             container.setCornerRadius(new vec4(7.0f));

@@ -19,7 +19,7 @@
         <button title="" font="FontAwesome" fontsize="20" id="editcategoriesbutton" pos="100%, 500" size="30, 30" origin="30, 0"></button>
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Cancel" color="#9C88FF" />
-        <button id="applybutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Apply"  color="#9C88FF" />
+        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Cancel"  />
+        <button id="applybutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Apply"   />
     </gui>
 </gui-root>

@@ -4,7 +4,7 @@
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
         <button id="starttestbutton"  pos="2.5%,  0" origin="  0, 0" size="100, 30" border-radius="7" fontsize="20" title="Start Test"  color="#73C991" />
-        <button id="editdeckbutton"   pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Edit Deck"   color="#9C88FF" />
+        <button id="editdeckbutton"   pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Edit Deck"    />
         <button id="deletedeckbutton" pos="97.5%, 0" origin="220, 0" size="100, 30" border-radius="7" fontsize="20" title="Delete Deck" color="#EB4D4B" />
         <button id="removecardbutton" pos="97.5%, 0" origin="360, 0" size="120, 30" border-radius="7" fontsize="20" title="Remove Card(s)" color="#EB4D4B" />
     </gui>

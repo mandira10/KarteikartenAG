@@ -7,12 +7,12 @@
         <text pos="0, 150" fontsize="20">Remember Me</text>
         <switch pos="100%, 150" origin="20, 0" size="20, 20" border-radius="0" />
 
-        <!--<button id="registerbutton" pos="0, 300"   size="48%, 60" border-radius="7" fontsize="40" title="Register" color="#FF0000" />
-        <button id="loginbutton"    pos="100%, 300" origin="100%, 0" size="45%, 60" border-radius="7" fontsize="40" title="Login" color="#00FF00" />-->
+        <!--<button id="registerbutton" pos="0, 300"   size="48%, 60" border-radius="7" fontsize="40" title="Register"  />
+        <button id="loginbutton"    pos="100%, 300" origin="100%, 0" size="45%, 60" border-radius="7" fontsize="40" title="Login"  />-->
 
         <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-            <button id="registerbutton"   pos="97.5%, 0" origin="220, 0" size="100, 30" border-radius="7" fontsize="20" title="Register"   color="#9C88FF" />
-            <button id="loginbutton" pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Login" color="#9C88FF" />
+            <button id="registerbutton"   pos="97.5%, 0" origin="220, 0" size="100, 30" border-radius="7" fontsize="20" title="Register"    />
+            <button id="loginbutton" pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Login"  />
         </gui>
     </gui>
 </gui-root>

@@ -3,6 +3,7 @@ package com.swp.GUI;
 import com.swp.DataModel.Deck;
 
 import com.gumse.basics.SmoothFloat;
+import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
@@ -11,8 +12,6 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.*;
 import com.gumse.system.io.Mouse;
-import com.gumse.tools.Output;
-import com.swp.DataModel.Deck;
 import com.swp.GUI.Cards.CardOverviewPage;
 import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
@@ -42,7 +41,6 @@ public class Sidebar extends RenderGUI
 
             pTitle = new Text(title, FontManager.getInstance().getDefaultFont(), new ivec2(120, 50 - 15), 0);
             pTitle.setCharacterHeight(30);
-            pTitle.setColor(new vec4(0.9f, 0.9f, 0.9f, 1.0f));
             pTitle.hide(true);
             addElement(pTitle);
 
@@ -73,7 +71,7 @@ public class Sidebar extends RenderGUI
         {
             if(pColorSmoothFloat.update())
             {
-                vec4 color = vec4.mix(new vec4(0.9f, 0.9f, 0.9f, 1.0f), new vec4(0.19f, 0.2f, 0.42f, 1.0f), pColorSmoothFloat.get());
+                vec4 color = vec4.mix(GUI.getTheme().textColor, GUI.getTheme().accentColor, pColorSmoothFloat.get());
 
                 pSymbol.setTextColor(color);
                 pTitle.setColor(color);
@@ -92,6 +90,13 @@ public class Sidebar extends RenderGUI
                 pTitle.hide(true);
             }
         }
+
+        @Override
+        protected void updateOnThemeChange() 
+        {
+            pSymbol.setTextColor(GUI.getTheme().textColor);
+            pTitle.setColor(GUI.getTheme().textColor);
+        }
     }
 
 
@@ -103,10 +108,10 @@ public class Sidebar extends RenderGUI
     {
         pBackground = new Box(new ivec2(0,0), new ivec2(100, 100));
         pBackground.setSizeInPercent(false, true);
-        pBackground.setColor(new vec4(0.3f, 0.3f, 0.3f, 1.0f));
+        pBackground.setColor(GUI.getTheme().primaryColor);
         addElement(pBackground);
 
-        pSmoothFloat = new SmoothFloat(0, 10, 0);
+        pSmoothFloat = new SmoothFloat(0, 5, 0);
 
         pBackground.addGUI(new SidebarItem('', "Home", new ivec2(0,10), new GUICallback() {
             @Override public void run(RenderGUI gui) 
@@ -176,5 +181,11 @@ public class Sidebar extends RenderGUI
                 ((SidebarItem)pBackground.getChild(i)).setVisibility(pSmoothFloat.get(), boxSize);
             }
         }
+    }
+
+    @Override
+    protected void updateOnThemeChange() 
+    {
+        pBackground.setColor(GUI.getTheme().primaryColor);
     }
 }

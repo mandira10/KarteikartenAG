@@ -8,12 +8,12 @@
     <gui id="canvas" size="95%, 80%" pos="2.5%, 5%">
 
     </gui>
-    <button id="flipcardbutton" pos="50%, 80%"  origin="310, 0"   size="300, 50" border-radius="7" fontsize="30" title="Flip Card"        color="#9C88FF" />
-    <button id="referencesbutton" pos="50%, 80%"  origin="-10, 0"   size="300, 50" border-radius="7" fontsize="30" title="Show References"        color="#9C88FF" />
+    <button id="flipcardbutton" pos="50%, 80%"  origin="310, 0"   size="300, 50" border-radius="7" fontsize="30" title="Flip Card"         />
+    <button id="referencesbutton" pos="50%, 80%"  origin="-10, 0"   size="300, 50" border-radius="7" fontsize="30" title="Show References"         />
     
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="backbutton"   pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Back"        color="#9C88FF" />
+        <button id="backbutton"   pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Back"         />
         <button id="deletebutton" pos="97.5%, 0" origin="220, 0" size="100, 30" border-radius="7" fontsize="20" title="Delete Card" color="#EB4D4B" />
-        <button id="editbutton"   pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Edit Card"   color="#9C88FF" />
+        <button id="editbutton"   pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Edit Card"    />
     </gui>
 </gui-root>

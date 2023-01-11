@@ -3,6 +3,6 @@
     <textbox id="finishtext" size="70%, 50%" pos="15%, 10%" fontsize="40"></textbox>
     
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="continuebutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Continue"  color="#9C88FF" />
+        <button id="continuebutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Continue"   />
     </gui>
 </gui-root>
