@@ -14,7 +14,7 @@ abstract class BaseLogic<T> {
      * Das entsprechende `BaseRepository`, welches die Objekte vom Typ `T` enthält.
      */
     @Getter(AccessLevel.PROTECTED)
-    private BaseRepository<T> baseRepository;
+    private final BaseRepository<T> baseRepository;
 
     /**
      * Konstruktor für eine Logic, die BaseLogic erweitert.

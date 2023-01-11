@@ -8,7 +8,6 @@ import jakarta.persistence.criteria.Root;
 import jakarta.persistence.metamodel.SingularAttribute;
 import lombok.AccessLevel;
 import lombok.Getter;
-
 import java.util.List;
 
 /**
