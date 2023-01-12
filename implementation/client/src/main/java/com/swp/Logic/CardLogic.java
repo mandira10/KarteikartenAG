@@ -19,7 +19,7 @@ public class CardLogic extends BaseLogic<Card>
      * Konstruktor für eine CardLogic-Instanz.
      */
     public CardLogic() {
-        super(new CardRepository());
+        super(CardRepository.getInstance());
     }
 
     //OVERVIEW

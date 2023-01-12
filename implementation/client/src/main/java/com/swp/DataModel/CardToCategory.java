@@ -31,14 +31,14 @@ public class CardToCategory implements Serializable
     /**
      * Zugehörige Karte
      */
-    @OneToOne
+    @ManyToOne
     //@ForeignKey
     private final Card card;
 
     /**
      * Zugehörige Kategorie
      */
-    @OneToOne
+    @ManyToOne
     private final Category category;
 
     /**

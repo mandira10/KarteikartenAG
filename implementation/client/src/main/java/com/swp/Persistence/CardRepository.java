@@ -14,8 +14,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CardRepository extends BaseRepository<Card>
 {
-    public CardRepository() {
+    private CardRepository() {
         super(Card.class);
+    }
+
+    // Singleton
+    private static CardRepository cardRepository = null;
+    public static CardRepository getInstance()
+    {
+        if(cardRepository == null)
+            cardRepository = new CardRepository();
+        return cardRepository;
     }
 
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;

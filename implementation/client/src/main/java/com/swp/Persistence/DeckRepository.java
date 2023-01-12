@@ -22,8 +22,17 @@ import jakarta.persistence.EntityManagerFactory;
 
 public class DeckRepository extends BaseRepository<Deck>
 {
-    public DeckRepository() {
+    private DeckRepository() {
         super(Deck.class);
+    }
+
+    // Singleton
+    private static DeckRepository deckRepository = null;
+    public static DeckRepository getInstance()
+    {
+        if(deckRepository == null)
+            deckRepository = new DeckRepository();
+        return deckRepository;
     }
 
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;

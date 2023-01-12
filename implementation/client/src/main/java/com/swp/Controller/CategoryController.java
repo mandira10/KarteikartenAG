@@ -123,7 +123,7 @@ public class CategoryController
      * @param card Die Karte, zu der die Kategorien abgerufen werden sollen
      * @return Gefundene Kategorien für die spezifische Karte
      */
-    private static Set<Category> geCategoriesToCard(Card card) {
+    public static Set<Category> getCategoriesToCard(Card card) {
         try {
             Set categoriesForCard = CategoryLogic.getCategoriesByCard(card);
 

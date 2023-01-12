@@ -24,8 +24,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CategoryRepository extends BaseRepository<Category>
 {
-    public CategoryRepository() {
+    private CategoryRepository() {
         super(Category.class);
+    }
+
+    // Singleton
+    private static CategoryRepository categoryRepository = null;
+    public static CategoryRepository getInstance()
+    {
+        if(categoryRepository == null)
+            categoryRepository = new CategoryRepository();
+        return categoryRepository;
     }
 
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;
