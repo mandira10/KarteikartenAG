@@ -1,15 +1,8 @@
 package com.swp.Persistence;
 import com.swp.DataModel.*;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class CardRepository extends BaseRepository<Card>
@@ -27,8 +20,6 @@ public class CardRepository extends BaseRepository<Card>
         return cardRepository;
     }
 
-    private final static EntityManagerFactory emf = PersistenceManager.emFactory;
-
     /**
      * Funktion um einen bestimmten Abschnitt der persistierten Objekte aus der Datenbank zu holen
      *
@@ -41,59 +32,37 @@ public class CardRepository extends BaseRepository<Card>
                 .setFirstResult(from).setMaxResults(to-from).getResultList();
     }
 
-        //////////////////////////////////////
-        // For Implementation we need a view because we need card and cardtodeck
-        //////////////////////////////////////
-        /*
-           EntityManager em = pm.getEntityManager();
-          em.getTransaction().begin();
-          List <CardOverview> co = em.createQuery("SELECT c FROM CardOverview c", CardOverview.class).getResultList();
-          em.getTransaction().commit();
-          em.close();
-          }
-         */
+    /**
+     *
+     * @return List<CardOverview> eine Übersicht
+     */
+    public static List<CardOverview> getCardOverview() {
+        return getEntityManager().createQuery("SELECT c FROM CardOverview c", CardOverview.class).getResultList();
     }
 
     /**
      * Die Funktion `findCardsByCategory` such nach allen Karten die einer bestimmten Kategorie zugeordnet sind.
+     *
      * @param category eine Category
-     * @return Set<Card> eine Menge von Karten, die der Kategorie zugeordnet sind.
+     * @return List<Card> eine Liste von Karten, die der Kategorie zugeordnet sind.
      */
-    public static Set<Card> findCardsByCategory(Category category) {
-        Set<Card> cards = null;
-        log.info(String.format("Rufe alle Karten für Kategorie %s ab", category.getName()));
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            cards = (Set<Card>) em.createNamedQuery("CardToCategory.allCardsOfCategory")
-                    .setParameter("category", category)
-                    .getResultStream()
-                    .collect(Collectors.toSet());
-            em.getTransaction().commit();
-        } catch (final NoResultException e) {
-            log.info(String.format("Keine Karten mit der Kategorie \"%s\" gefunden"), category.getName());
-        } catch (final Exception e) {
-            log.warn(String.format("Beim Suchen nach Karten mit der Kategorie \"%s\" ist eine Fehler aufgetreten: \"%s\"",
-                                   category.getName(), e));
-        }
-        return cards;
+    public static List<Card> findCardsByCategory(Category category) {
+        return getEntityManager().createNamedQuery("CardToCategory.allCardsOfCategory")
+                .setParameter("category", category)
+                .getResultList();
     }
 
     /**
      * Die Funktion `findCardByTitle` durchsucht den Titel aller Karten nach einem String.
      * Es optional die entsprechende Card zurückgegeben, oder ein leeres `Optional`.
      * @param title ein String, der dem Titel einer Karte entsprechen soll.
-     * @return Optional<Card> eine Karte, falls keine mit angegebenen Titel existiert, empty.
+     * @return Card eine Karte, mit entsprechendem Titel.
+     * @throws NoResultException falls keine Karte mit diesem Titel existiert.
      */
-    public static Optional<Card> findCardByTitle(String title) {
-        log.info(String.format("Rufe Karte für Titel %s ab", title));
-        try (final EntityManager em = emf.createEntityManager()) {
-            final Card card = (Card) em.createNamedQuery("Card.findByTitle")
-                    .setParameter("title", title)
-                    .getSingleResult();
-            return Optional.of(card);
-        } catch (final NoResultException e) {
-            return Optional.empty();
-        }
+    public static Card findCardByTitle(String title) {
+        return (Card) getEntityManager().createNamedQuery("Card.findByTitle")
+                .setParameter("title", title)
+                .getSingleResult();
     }
 
     /**
@@ -112,18 +81,10 @@ public class CardRepository extends BaseRepository<Card>
      * @param searchWords ein String nach dem im Inhalt aller Karten gesucht werden soll.
      * @return Set<Card> eine Menge von Karten, welche `searchWords` als Teilstring im Inhalt hat.
      */
-    public static Set<Card> findCardsContaining(String searchWords) {
-        Set<Card> cards;
-        log.info("Rufe alle Karten mit folgendem Inhalt ab: " + searchWords);
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            cards = (Set<Card>) em.createNamedQuery("Card.findCardsByContent")
-                    .setParameter("content", "%" + searchWords + "%")
-                    .getResultStream()
-                    .collect(Collectors.toSet());
-            em.getTransaction().commit();
-        }
-        return cards;
+    public static List<Card> findCardsContaining(String searchWords) {
+        return getEntityManager().createNamedQuery("Card.findCardsByContent")
+                .setParameter("content", "%" + searchWords + "%")
+                .getResultList();
     }
 
     /**
@@ -133,38 +94,9 @@ public class CardRepository extends BaseRepository<Card>
      * @return eine Card mit entsprechender UUID, oder `null` falls keine gefunden wurde.
      */
     public static Card getCardByUUID(String uuid) {
-        Card card = null;
-        log.info("Suche Karte mit der UUID: " + uuid);
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            card = (Card) em.createNamedQuery("Card.findCardByUUID")
+        return (Card) getEntityManager().createNamedQuery("Card.findCardByUUID")
                 .setParameter("uuid", uuid)
                 .getSingleResult();
-            em.getTransaction().commit();
-        } catch (final NoResultException e) {
-            // Keine Karte mit entsprechender UUID gefunden
-            log.info(String.format("Keine Karte mit der UUID \"%s\" gefunden"), uuid);
-        } catch (final Exception e) {
-            // andere Fehler auch über GUI an KarteikartenUser melden
-            log.warn(String.format("Beim Suchen nach einer Karte mit der UUID \"%s\" ist einer Fehler aufgetreten: \"%s\"",
-                                   uuid, e));
-        }
-        return card;
-    }
-
-    /**
-     * Die Funktion `saveCard` speichert eine übergebene Karte in der Datenbank.
-     * @param card eine Card die persistiert werden soll
-     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall `false`.
-     */
-    public static boolean saveCard(Card card) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.persist(card);
-            em.getTransaction().commit();
-            return true;
-        }
-        //TODO: create all CardTo..
     }
 
     /**
@@ -174,31 +106,31 @@ public class CardRepository extends BaseRepository<Card>
      * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall `false`.
      */
     public static boolean deleteCard(Card card) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.remove(card);
-            // remove matching `CardToCategory`
-            em.createNamedQuery("CardToCategory.allC2CByCard")
+        getInstance().delete(card); // kann von der Logic auch direkt verwendet werden
+        // wäre äquivalent zu folgendem
+        // getEntityManager().remove(card);
+
+
+        /*
+        // remove matching `CardToCategory`
+        em.createNamedQuery("CardToCategory.allC2CByCard")
+                .setParameter("card", card)
+                .getResultStream()
+                .forEach(c2c -> em.remove(c2c));
+        // remove matching `CardToTag`
+        em.createNamedQuery("CardToTag.allC2TByCard")
+                .setParameter("card", card)
+                .getResultStream()
+                .forEach(c2t -> em.remove(c2t));
+        // remove matching `CardToDeck`
+        em.createNamedQuery("CardToDeck.allC2DByCard")
                     .setParameter("card", card)
                     .getResultStream()
-                    .forEach(c2c -> em.remove(c2c));
-            // remove matching `CardToTag`
-            em.createNamedQuery("CardToTag.allC2TByCard")
-                    .setParameter("card", card)
-                    .getResultStream()
-                    .forEach(c2t -> em.remove(c2t));
-            // remove matching `CardToDeck`
-            em.createNamedQuery("CardToDeck.allC2DByCard")
-                        .setParameter("card", card)
-                        .getResultStream()
-                        .forEach(c2d -> em.remove(c2d));
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            log.warn(String.format("Karte \"%s\" konnte nicht gelöscht werden", card.getUuid()));
-            return false;
-        }
-        log.info(String.format("Karte \"%s\" wurde erfolgreich gelöscht", card.getUuid()));
-        return true;
+                    .forEach(c2d -> em.remove(c2d));
+        em.getTransaction().commit();
+         */
+        return true; // boolean Rückgabewert macht eigentlich keinen Sinn mehr,
+                     // weil bei Fehlern Exceptions geworfen werden.
     }
 
 
@@ -211,12 +143,7 @@ public class CardRepository extends BaseRepository<Card>
      * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
      */
     public static boolean saveTag(Tag tag) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.persist(tag);
-            em.getTransaction().commit();
-        }
-        log.info(String.format("Tag \"%s\" wurde erfolgreich gespeichert", tag.getUuid()));
+        getEntityManager().persist(tag);
         return true;
     }
 
@@ -224,34 +151,21 @@ public class CardRepository extends BaseRepository<Card>
      * Die Funktion `getTags` liefer alle gespeicherten Tags zurück.
      * @return Set<Tag> eine Menge mit allen Tags
      */
-    public static Set<Tag> getTags() {
-        Set<Tag> tags = Cache.getInstance().getTags();
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            tags = (Set<Tag>) em.createQuery("SELECT t FROM Tag t").getResultStream().collect(Collectors.toSet());
-            em.getTransaction().commit();
-        } catch (final Exception e) {
-            log.warn("Beim abrufen der Tags ist einer Fehler aufgetreten: " + e);
-        }
-        return tags;
+    public static List<Tag> getTags() {
+        return (List<Tag>) getEntityManager()
+                .createQuery("SELECT t FROM Tag t")
+                .getResultList();
     }
 
     /**
      * Die Funktion `getCardToTags` liefer alle `CardToTag`-Objekte zurück.
      * Sie stellen die Verbindungen zwischen Karten und Tags dar.
-     * @return Set<CardToTag> eine Menge mit allen `CardToTag`-Objekten.
+     * @return List<CardToTag> eine Menge mit allen `CardToTag`-Objekten.
      */
-    public static Set<CardToTag> getCardToTags() {
-        Set<CardToTag> cardToTags;
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            cardToTags = (Set<CardToTag>) em.createQuery("SELECT CardToTag FROM CardToTag")
-                    .getResultStream()
-                    .collect(Collectors.toSet());
-            em.getTransaction().commit();
-        }
-            return cardToTags;
-
+    public static List<CardToTag> getCardToTags() {
+        return (List<CardToTag>) getEntityManager()
+                .createQuery("SELECT CardToTag FROM CardToTag")
+                .getResultList();
     }
 
     /**
@@ -262,29 +176,8 @@ public class CardRepository extends BaseRepository<Card>
      * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
      */
     public static boolean createCardToTag(Card card, Tag tag) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.persist(new CardToTag(card, tag));
-            em.getTransaction().commit();
-       }
-        log.info(String.format("Verbindung zwischen der Karte \"%s\" und dem Tag \"%s\" hergestellt",
-                               card.getUuid(), tag.getVal()));
+        getEntityManager().persist(new CardToTag(card, tag));
         return true;
-    }
-
-    /**
-     * Die Funktion `updateCard` persistiert eine übergebene Karte, indem die Einträge in
-     * der Datenbank mit einem `merge` aktualisiert werden.
-     * @param card eine Karte
-     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
-     */
-    public static boolean updateCard(Card card) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.merge(card);
-            em.getTransaction().commit();
-            return true;
-        }
     }
 
     /**
@@ -292,18 +185,12 @@ public class CardRepository extends BaseRepository<Card>
      * Existiert kein Tag mit so einem Inhalt, dann wird ein leeres `Optional` zurückgegeben.
      * @param text ein String nach dem ein existierender Tag gesucht wird
      * @return Optional<Tag> entweder der gefundene Tag mit entsprechendem Namen, oder ein leeres `Optional`.
+     * @throws NoResultException wenn kein entsprechender Tag gefunden wurde.
      */
-    public static Optional<Tag> find(String text) {
-        log.info("Suche nach Tag mit Namen {}",text);
-        try (final EntityManager em = emf.createEntityManager()) {
-            final Tag tag = (Tag) em.createNamedQuery("Tag.findTagByName")
-                    .setParameter("text", text)
-                    .getSingleResult();
-            return Optional.ofNullable(tag);
-        }
-        catch(NoResultException ex){
-            return Optional.empty();
-        }
+    public static Tag findTag(String text) {
+        return (Tag) getEntityManager().createNamedQuery("Tag.findTagByName")
+                .setParameter("text", text)
+                .getSingleResult();
     }
 
     /**
@@ -311,30 +198,25 @@ public class CardRepository extends BaseRepository<Card>
      * @param card eine Karte
      * @return Set<Tag> eine Menge von Tags, die der Karte zugeordnet sind.
      */
-    public static Set<Tag> getTagsToCard(Card card) {
-        Set<Tag> tags = new HashSet<>();
-        log.info("Rufe alle Tags für Card " + card.getUuid() + " ab");
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            tags = (Set<Tag>) em.createNamedQuery("CardToTag.allTagsWithCards")
-                    .setParameter("card", card)
-                    .getResultStream()
-                    .collect(Collectors.toSet());
-            em.getTransaction().commit();
-        }
-            return tags;
+    public static List<Tag> getTagsToCard(Card card) {
+        return  (List<Tag>) getEntityManager()
+                .createNamedQuery("CardToTag.allTagsWithCards")
+                .setParameter("card", card)
+                .getResultList();
+    }
+
+    public static CardToTag findSpecificCardToTag(Card c, Tag t) {
+        return (CardToTag) getEntityManager().createNamedQuery("CardToTag.findSpecificC2T")
+                .setParameter("card", c)
+                .setParameter("tag", t)
+                .getSingleResult();
     }
 
     public static boolean deleteCardToTag(Card c, Tag t) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            CardToTag C2T = (CardToTag) em.createNamedQuery("CardToTag.findSpecificC2T")
-                    .setParameter("card", c)
-                    .setParameter("tag", t)
-                    .getSingleResult();
-            em.remove(C2T);
-            em.getTransaction().commit();
+        getEntityManager().createNamedQuery("CardToTag.findSpecificC2T")
+                .setParameter("card", c)
+                .setParameter("tag", t)
+                .getSingleResult();
             return true;
-        }
     }
 }

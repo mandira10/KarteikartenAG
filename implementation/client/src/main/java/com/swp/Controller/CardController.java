@@ -3,7 +3,6 @@ package com.swp.Controller;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
-import com.swp.DataModel.Deck;
 import com.swp.DataModel.Tag;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -11,10 +10,7 @@ import com.swp.Logic.CardLogic;
 import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.Exporter.ExportFileType;
 import lombok.extern.slf4j.Slf4j;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 public class CardController {
@@ -75,9 +71,9 @@ public class CardController {
      * @param card Die Karte, zu der die Tags abgerufen werden sollen
      * @return Gefundene Tags für die spezifische Karte
      */
-    public static Set<Tag> getTagsToCard(Card card) {
+    public static List<Tag> getTagsToCard(Card card) {
         try {
-            Set tagsForCard = CardLogic.getTagsToCard(card);
+            List<Tag> tagsForCard = CardLogic.getTagsToCard(card);
 
             if (tagsForCard.isEmpty())
                 log.info("Keine Tags für diese Karte vorhanden");
@@ -95,9 +91,9 @@ public class CardController {
      * @param searchterm Übergebener String mit dem Suchwort
      * @return Sets an Karten, die das Suchwort enthalten
      */
-    public static Set<Card> getCardsBySearchterms(String searchterm) {
+    public static List<Card> getCardsBySearchterms(String searchterm) {
         try {
-            Set cardsForSearchTerms = CardLogic.getCardsBySearchterms(searchterm);
+            List<Card> cardsForSearchTerms = CardLogic.getCardsBySearchterms(searchterm);
 
 
             if (cardsForSearchTerms.isEmpty()) {
@@ -168,7 +164,7 @@ public class CardController {
      * @return Set mit bestehenden Tags.
      * //TODO: Löschen? Wo benutzt?
      */
-    public static Set<Tag> getTags() {
+    public static List<Tag> getTags() {
         return CardLogic.getTags();
     }
 
@@ -220,6 +216,4 @@ public class CardController {
         return CardLogic.updateCardData(card, type, attributes, tags, categories);
 
     }
-
-
 }

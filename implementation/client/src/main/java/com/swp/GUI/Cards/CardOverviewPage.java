@@ -120,7 +120,7 @@ public class CardOverviewPage extends Page
     public void loadCards(String str)
     {
         pCardList.reset();
-        pCardList.addCards(CardController.getCardsBySearchterms(str));
+        pCardList.addCards(CardController.getCardsBySearchterms(str).stream().collect(Collectors.toSet()));
 
         reposition();
         resize();

@@ -9,9 +9,9 @@ import java.util.UUID;
 @Table
 @Getter
 @NamedQuery(name = "CardToCategory.allCardsOfCategory",
-            query = "SELECT card FROM CardToCategory WHERE category = :category")
+            query = "SELECT c2c.card FROM CardToCategory c2c WHERE category = :category")
 @NamedQuery(name = "CardToCategory.allCategoriesOfCard",
-            query = "SELECT category FROM CardToCategory WHERE card = :card")
+            query = "SELECT c2c.category FROM CardToCategory c2c WHERE card = :card")
 @NamedQuery(name = "CardToCategory.allC2CByCard",
             query = "SELECT c FROM CardToCategory c WHERE c.card = :card")
 @NamedQuery(name = "CardToCategory.allC2CByCategory",

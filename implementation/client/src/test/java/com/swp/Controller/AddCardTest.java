@@ -47,9 +47,7 @@ public class AddCardTest {
         };
 
         assertTrue(CardController.updateCardData(null, "TEXT", txmap, null, null));
-        Optional<Card> optTxCard = CardRepository.findCardByTitle("Testtitel");
-        assertNotNull(optTxCard);
-        final Card txcard = optTxCard.get();
+        Card txcard = CardRepository.findCardByTitle("Testtitel");
         TextCard textCard = (TextCard) txcard;
         assertNotNull(textCard);
         assertEquals("Testtitel", textCard.getTitle());
@@ -73,9 +71,8 @@ public class AddCardTest {
         };
 
         assertTrue(CardController.updateCardData(null, "MULTIPLECHOICE", mcmap, null, null));
-        Optional<Card> optMcCard = CardRepository.findCardByTitle("Testtitel1");
-        assertNotNull(optMcCard);
-        final Card card = optMcCard.get();
+        Card card = CardRepository.findCardByTitle("Testtitel1");
+        assertNotNull(card);
         MultipleChoiceCard mcCard = (MultipleChoiceCard) card;
         assertNotNull(mcCard);
         assertEquals("Testtitel1", mcCard.getTitle());
@@ -105,21 +102,21 @@ public class AddCardTest {
         };
 
         assertTrue(CardController.updateCardData(null, "TEXT", txmap, tagsToAdd, null));
-        Set<Tag> tags = CardRepository.getTags();
+        List<Tag> tags = CardRepository.getTags();
         assertTrue(tags.size()>=2); //in case more than one
         Optional<Tag> tagOpt1 = tags.stream().filter( t -> t.getVal().equals("tag1")).findFirst();
         Optional<Tag>  tagOpt2 = tags.stream().filter( t -> t.getVal().equals("tag2")).findFirst();
         Tag tag1 = tagOpt1.get();
         Tag tag2 = tagOpt2.get();
-        Set<Card> CardsToTag1 = CardRepository.findCardsByTag(tag1);
-        Set<Card> CardsToTag2 = CardRepository.findCardsByTag(tag2);
+        List<Card> CardsToTag1 = CardRepository.findCardsByTag(tag1);
+        List<Card> CardsToTag2 = CardRepository.findCardsByTag(tag2);
         assertEquals(1,CardsToTag1.size()); //FAILS
         assertEquals(1,CardsToTag2.size());
         Card card1 = CardsToTag1.iterator().next();
         Card card2 = CardsToTag2.iterator().next();
         assertEquals(card1.getUuid(), card2.getUuid());
-        Set<Tag> tagToCard1 = CardRepository.getTagsToCard(card1);
-        Set<Tag> tagToCard2 = CardRepository.getTagsToCard(card2);
+        List<Tag> tagToCard1 = CardRepository.getTagsToCard(card1);
+        List<Tag> tagToCard2 = CardRepository.getTagsToCard(card2);
         assertTrue(!tagToCard1.isEmpty());
         Optional<Tag> tagOptional1 = tagToCard1.stream().filter(t -> t.getVal().equals("tag1")).findAny();
         assertTrue(tagOptional1.isPresent());
@@ -199,12 +196,10 @@ public class AddCardTest {
         Card text2 = new MultipleChoiceCard("F2", answers, correctAnswers, "Titel für die Karte 2", true);
         assertTrue(CardController.updateCardData(text1, true));
         assertTrue(CardController.updateCardData(text2, true));
-        Optional<Card> optMcCard1 = CardRepository.findCardByTitle("Titel für die Karte 1");
-        Optional<Card> optMcCard2 = CardRepository.findCardByTitle("Titel für die Karte 2");
-        assertNotNull(optMcCard1);
-        Card card1 = optMcCard1.get();
-        assertNotNull(optMcCard2);
-        Card card2 = optMcCard2.get();
+        Card card1 = CardRepository.findCardByTitle("Titel für die Karte 1");
+        Card card2 = CardRepository.findCardByTitle("Titel für die Karte 2");
+        assertNotNull(card1);
+        assertNotNull(card2);
         Card copy1 = copyCard(card1);
         Card copy2 = copyCard(card2);
         assertTrue(card1.getUuid().equals(copy1.getUuid()));
@@ -213,15 +208,13 @@ public class AddCardTest {
         text2.setRating(5);
         assertTrue(CardController.updateCardData(text1, false));
         assertTrue(CardController.updateCardData(text2, false));
-        optMcCard1 = CardRepository.findCardByTitle("Titel für die Karte 1");
-        optMcCard2 = CardRepository.findCardByTitle("Titel für die Karte 2");
-        assertTrue(optMcCard1.isEmpty());
-        assertFalse(optMcCard2.isEmpty());
-        card2 = optMcCard2.get();
+        card1 = CardRepository.findCardByTitle("Titel für die Karte 1");
+        card2 = CardRepository.findCardByTitle("Titel für die Karte 2");
+        assertTrue(card1 == null);
+        assertFalse(card2 != null);
 
-        optMcCard1 = CardRepository.findCardByTitle("Titel234");
-        assertFalse(optMcCard2.isEmpty());
-        card1 = optMcCard1.get();
+        card1 = CardRepository.findCardByTitle("Titel234");
+        assertFalse(card2 != null);
 
         MultipleChoiceCard cardMC = (MultipleChoiceCard) card2;
         assertEquals(cardMC.getRating(), 5);

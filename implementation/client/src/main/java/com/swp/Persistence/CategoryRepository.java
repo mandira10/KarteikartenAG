@@ -37,7 +37,12 @@ public class CategoryRepository extends BaseRepository<Category>
         return categoryRepository;
     }
 
-    private final static EntityManagerFactory emf = PersistenceManager.emFactory;
+    public static Category findByUUID(String uuid) {
+        return (Category) getEntityManager().createNamedQuery("Category.findByUUID")
+                .setParameter("uuid", uuid)
+                .getSingleResult();
+    }
+    private final static EntityManagerFactory emf = PersistenceManager.emFactory; // TODO: muss entfernt werden.
 
     /**
      * Die Funktion `saveCategory` persistiert die übergebene Kategorie.

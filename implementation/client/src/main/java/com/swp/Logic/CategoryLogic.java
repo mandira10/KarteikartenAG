@@ -8,6 +8,7 @@ import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CategoryRepository;
+import com.swp.Persistence.DeckRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.text.html.Option;
@@ -15,17 +16,23 @@ import javax.swing.text.html.Option;
 import static com.swp.Validator.checkNotNullOrBlank;
 
 @Slf4j
-public class CategoryLogic {
+public class CategoryLogic extends BaseLogic<Category>
+{
+    /**
+     * Konstruktor für eine DeckLogic-Instanz.
+     */
+    public CategoryLogic() {
+        super(CategoryRepository.getInstance());
+    }
 
-
-
+    /**
+     *
+     * @param uuid
+     * @return
+     * @throws NoResultException
+     */
     public static Category getCategory(String uuid) {
-        Set<Category> cats = CategoryRepository.getCategories();
-        for (Category c : cats) {
-            if (c.getUuid().equals(uuid))
-                return c;
-        }
-        return null;
+        return execTransactional(() -> CategoryRepository.findByUUID(uuid));
     }
 
     public static Category getCategoryByUUID(String uuid) {

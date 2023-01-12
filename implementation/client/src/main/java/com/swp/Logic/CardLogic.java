@@ -4,6 +4,7 @@ import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.Persistence.*;
 import com.swp.Persistence.Exporter.ExportFileType;
+import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import java.lang.reflect.InvocationTargetException;
@@ -40,18 +41,19 @@ public class CardLogic extends BaseLogic<Card>
      * null oder leer ist und gibt die Funktion dann an das Card Repository weiter.
      * @param tagName: Der textuelle Tag, zu dem die Karten gesucht werden sollen
      * @return Set der Karten, die Tag enthalten
+     * @throws NoResultException falls es keinen Tag, oder Karte mit entsprechendem Tag gibt.
      */
     public static List<Card> getCardsByTag(String tagName) {
         checkNotNullOrBlank(tagName, "Tag");
-        return execTransactional(() -> {
-            Optional<Tag> tagOpt = CardRepository.find(tagName);
-            if(tagOpt.isEmpty()) {
-                throw new NullPointerException("Es gibt keinen Tag zu dem eingegebenen Wert" + tagName);
-            }
-            return CardRepository.findCardsByTag(tagOpt.get());
-        });
+        return execTransactional(() -> CardRepository.findCardsByTag(
+                CardRepository.findTag(tagName)));
     }
 
+    public static Card getCardByTitle(String title) {
+        // nicht Optional, sondern gibt immer eine Card zurück, oder wirft eine Exception
+        // also im 'nicht findbar' Fall die NoResultException.
+        return execTransactional(() -> CardRepository.findCardByTitle(title) );
+    }
 
     /**
      * Methode wird verwendet, um passende Karten für die angegebenen Suchwörter zu identifizieren. Prüft zunächst,
@@ -59,10 +61,10 @@ public class CardLogic extends BaseLogic<Card>
      * @param terms Suchwörter, die durch ein Leerzeichen voneinander getrennt sind
      * @return Set der Karten, die Suchwörter enthalten.
      */
-    public static Set<Card> getCardsBySearchterms(String terms)
+    public static List<Card> getCardsBySearchterms(String terms)
     {
         checkNotNullOrBlank(terms, "Suchbegriffe");
-        return CardRepository.findCardsContaining(terms);
+        return execTransactional(() -> CardRepository.findCardsContaining(terms));
     }
 
     /**
@@ -77,7 +79,11 @@ public class CardLogic extends BaseLogic<Card>
             throw new IllegalStateException("Karte existiert nicht");
 
         }
-        return CardRepository.deleteCard(card);
+        execTransactional(() -> {
+            CardRepository.getInstance().delete(card);
+            return null; // Lambda braucht immer einen return
+        });
+        return true;
     }
 
     /**
@@ -109,21 +115,21 @@ public class CardLogic extends BaseLogic<Card>
     public static Card getCardByUUID(String uuid)
     {
         checkNotNullOrBlank(uuid, "UUID");
-        return CardRepository.getCardByUUID(uuid);
+        return execTransactional(() -> CardRepository.getCardByUUID(uuid));
     }
 
     /**
      * Lädt alle Tags als Set. Werden in der CardEditPage als Dropdown angezeigt. Wird weitergegeben an das CardRepository.
      * @return Set mit bestehenden Tags.
      */
-    public static Set<Tag> getTags()
+    public static List<Tag> getTags()
     {
-        return CardRepository.getTags();
+        return execTransactional(CardRepository::getTags);
     }
 
 
-    public static Set<Tag> getTagsToCard(Card card) {
-        return CardRepository.getTagsToCard(card);
+    public static List<Tag> getTagsToCard(Card card) {
+        return execTransactional(() -> CardRepository.getTagsToCard(card));
     }
 
     /**
@@ -133,20 +139,25 @@ public class CardLogic extends BaseLogic<Card>
      * @return
      */
     public static boolean updateCardData(Card cardToChange, boolean neu) {
+        // muss eigentlich nicht `boolean` als Rückgabewert haben,
+        // weil im Fehlerfall über `execTransactional` bereits eine Exception hochgeworfen wird.
         cardToChange.setContent();
-        if (neu)
-            return CardRepository.saveCard(cardToChange);
-        else
-            return CardRepository.updateCard(cardToChange);
+        return execTransactional(() -> {
+            if (neu)
+                CardRepository.getInstance().save(cardToChange);
+            else
+                CardRepository.getInstance().update(cardToChange);
+            return true;
+        });
     }
 
 
     public static boolean setTagsToCard(Card card, Set<Tag> tagNew) {
         boolean ret = true;
-        Set<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
+        List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
         if(tagOld == null){
-            if(!checkAndCreateTags(card,tagNew,tagOld))
-                ret = false;
+            //if(!checkAndCreateTags(card,tagNew,tagOld))
+            //    ret = false;
         }
 
         else if(tagOld.containsAll(tagNew) && tagOld.size() == tagNew.size()) //no changes
@@ -154,18 +165,18 @@ public class CardLogic extends BaseLogic<Card>
 
 
         else if(tagOld.containsAll(tagNew) || tagOld.size() > tagNew.size()) { //es wurden nur tags gelöscht
-            if(!checkAndRemoveTags(card,tagNew,tagOld))
-                ret = false;
+            //if(!checkAndRemoveTags(card,tagNew,tagOld))
+            //    ret = false;
         }
         else if(tagNew.containsAll(tagOld)){
-            if(!checkAndCreateTags(card,tagNew,tagOld))
-                ret = false;
+            //if(!checkAndCreateTags(card,tagNew,tagOld))
+            //   ret = false;
         }
         else { //neue und alte
-            if(!checkAndCreateTags(card,tagNew,tagOld))
-                ret = false;
-            if(!checkAndRemoveTags(card,tagNew,tagOld))
-                ret = false;
+            //if(!checkAndCreateTags(card,tagNew,tagOld))
+            //    ret = false;
+            //if(!checkAndRemoveTags(card,tagNew,tagOld))
+            //    ret = false;
         }
         return ret;
     }
@@ -183,7 +194,7 @@ public class CardLogic extends BaseLogic<Card>
 
     private static boolean checkAndCreateTags(Card card, Set<Tag> tagNew, Set<Tag> tagOld) {
         boolean ret = true;
-        Set<Tag> tagExi = CardRepository.getTags();
+        List<Tag> tagExi = CardRepository.getTags();
         for (Tag t : tagNew) {
             if (tagOld != null && tagOld.contains(t))
                 log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
@@ -275,21 +286,17 @@ public class CardLogic extends BaseLogic<Card>
         } catch (IllegalAccessException | InvocationTargetException ex) {
             //TODO + weitere Exceptions, Prüfung mit Validator? in Constructor einnbauen
         }
-        if (neu) {
-            if (CardRepository.saveCard(card)) {
-                return createTagsCategoriesForCard(card, tags, categories);
+        return execTransactional(() -> {
+            if (neu) {
+                CardRepository.getInstance().save(card);
             } else {
-                throw new IllegalArgumentException("Probleme beim Speichern der Karte"); //TODO: genauer aufschlüsseln
+                CardRepository.getInstance().update(card);
             }
-        } else {
-            if (CardRepository.updateCard(card)) {
-                return createTagsCategoriesForCard(card, tags, categories);
-            } else {
-                throw new IllegalArgumentException("Probleme beim Updaten der Karte"); //TODO: genauer aufschlüsseln
-            }
+            createTagsCategoriesForCard(card, tags, categories);
+            return true;
+        });
 
-
-        }
+        //TODO: Fehler genauer aufschlüsseln
     }
 
     private static boolean createTagsCategoriesForCard(Card card, Set<Tag> tags, Set<Category> categories) {
@@ -319,5 +326,10 @@ public class CardLogic extends BaseLogic<Card>
 
     private static void removeCardToTag(Card c, Tag t) {
         CardRepository.deleteCardToTag(c,t);
+        execTransactional(() -> {
+            CardToTagRepository.getInstance().delete(
+                    CardRepository.findSpecificCardToTag(c,t));
+            return null; // Lambda braucht einen return
+        });
     }
     }

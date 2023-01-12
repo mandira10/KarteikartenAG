@@ -57,9 +57,9 @@ public class FilterSearchTest {
         assertTrue(CardController.updateCardData(null, "TEXT", map1, tagsToAdd, categoriesToAdd));
         assertTrue(CardController.updateCardData(null, "TEXT", map2, tagsToAdd, null));
         assertTrue(CardController.updateCardData(null, "TEXT", map3, null, categoriesToAdd));
-        Optional<Card> optTxCard = CardRepository.findCardByTitle("Testtitel5");
-        assertNotNull(optTxCard);
-        Set<Card> cardsToSearchTerms = CardController.getCardsBySearchterms("antwort5");
+        Card txCard = CardRepository.findCardByTitle("Testtitel5");
+        assertNotNull(txCard);
+        List<Card> cardsToSearchTerms = CardController.getCardsBySearchterms("antwort5");
         assertEquals(1, cardsToSearchTerms.size());
         Set<Card> cardsToCategory = CategoryController.getCardsInCategory("categorietest1");
         assertEquals(2, cardsToCategory.size());
