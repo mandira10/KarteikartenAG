@@ -122,7 +122,7 @@ public class Sidebar extends RenderGUI
         pBackground.addGUI(new SidebarItem('', "Cards", new ivec2(0,120), new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30, Deck.CardOrder.ALPHABETICAL);
+                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
             }
         }));
         pBackground.addGUI(new SidebarItem('', "Decks", new ivec2(0,230), new GUICallback() {

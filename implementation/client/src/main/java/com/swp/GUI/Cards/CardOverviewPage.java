@@ -82,7 +82,7 @@ public class CardOverviewPage extends Page
             @Override public void run(String query, int option)
             {
                 if(query.equals(""))
-                    loadCards(0, 30, Deck.CardOrder.ALPHABETICAL);
+                    loadCards(0, 30);
                 else
                     loadCards(query);
             }
@@ -96,7 +96,7 @@ public class CardOverviewPage extends Page
         reposition();
     }
 
-    public void loadCards(int from, int to, Deck.CardOrder order)
+    public void loadCards(int from, int to)
     {
         if(from == 0)
             pCardList.reset();
@@ -111,7 +111,7 @@ public class CardOverviewPage extends Page
                 NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);     
             }
             
-        }, order);
+        });
 
         reposition();
         resize();

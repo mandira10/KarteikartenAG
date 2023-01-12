@@ -174,7 +174,7 @@ public class ViewSingleCardPage extends Page
             @Override public void onConfirm() 
             {  
                 if(CardController.deleteCard(pCard))
-                    ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30, Deck.CardOrder.ALPHABETICAL);
+                    ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
             }
             @Override public void onCancel() 
             {

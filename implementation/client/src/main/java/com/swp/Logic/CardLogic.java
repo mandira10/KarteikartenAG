@@ -29,16 +29,11 @@ public class CardLogic extends BaseLogic<Card>
      * Anzahl der Decks und ihrem Erstellzeitpunkt anzuzeigen. Gibt die Methode an das CardRepository weiter.
      * @param begin: Seitenauswahl Anfangswert
      * @param end: Seitenauswahl Endwert
-     * @param callback: DataCallback-Objekt über welches die Daten an die GUI gehen
-     * @param order: Reihenfolge der zu holenden Karten als ein enum Deck.CardOrder
      * @return anzuzeigende Karten
      */
-    public static void getCardsToShow(int begin, int end, DataCallback<Card> callback, Deck.CardOrder order)
+    public static List<Card> getCardsToShow(int begin, int end)
     {
-        execTransactional(() -> {
-            CardRepository.getCards(begin, end, callback, order);
-            return null;
-        });
+        return execTransactional(() -> CardRepository.getInstance().getCardRange(begin, end));
     }
 
     /**

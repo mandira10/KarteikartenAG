@@ -30,58 +30,16 @@ public class CardRepository extends BaseRepository<Card>
     private final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     /**
-     * Die Funktion `getCards` gibt über ein `DataCallback` Karten aus einem bestimmten Bereich zurück.
-     * @param from ein `long`, untere Schranke des angefragten Kartenbereichs
-     * @param to ein `long`, obere Schranke des angefragten Kartenbereichs
-     * @param callback DataCallBack<Card> das Objekt über welches die geforderten Karten zurückgegeben wird.
+     * Funktion um einen bestimmten Abschnitt der persistierten Objekte aus der Datenbank zu holen
+     *
+     * @param from     int: gibt an wie viele Zeilen des Ergebnisses übersprungen werden.
+     * @param to       int: gibt an bis zu welcher Zeile die Ergebnisse geholt werden sollen.
      */
-    public static void getCards(int from, int to, DataCallback<Card> callback, Deck.CardOrder order) {
-        //
-        //Kann jetzt in einen thread verpackt werden
-        //
-
-//        //////////////////////////////////////
-//        // For Testing
-//        //////////////////////////////////////
-         List<Card> cards = new ArrayList<>();
-//       // Texture ketTexture = new Texture("ket");
-//       // ketTexture.load("textures/orange-ket.png", CardRepository.class); //TODO: byte[] nutzen
-//        for(int i = 0; i < to - from; i += 6)
-//        {
-//            cards.add(new AudioCard(null, "AudioCardTitle", "Some Audio Related Question", "The Correct Audio Answer", false, true));
-//            cards.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[] {}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
-//            cards.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle", false, true));
-//            cards.add(new MultipleChoiceCard("MultipleChoice Question", new String[]{"Correct Answer1", "Answer2", "Answer3", "Correct Answer4"}, new int[]{0, 3}, "MultipleChoiceCardTitle", false));
-//            cards.add(new TextCard("Some Text Question", "Correct Text Answer", "TextCardTitle", false));
-//            cards.add(new TrueFalseCard("TrueFalse Question", true, "TrueFalseCardTitle", false));
-//        }
-//        callback.onSuccess(cards); //temporary
-
-        assert from <= to : "invalid range: `from` has to be smaller or equal to `to`";
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            cards = switch (order) {
-                case ALPHABETICAL ->
-                  em.createQuery("SELECT c FROM Card c ORDER BY c.title")
-                                .setFirstResult(from)
-                                .setMaxResults(to-from)
-                                .getResultList();
-                case REVERSED_ALPHABETICAL ->
-                        em.createQuery("SELECT c FROM Card c ORDER BY c.title DESC")
-                                .setFirstResult(from)
-                                .setMaxResults(to-from)
-                                .getResultList();
-                default ->
-                                em.createQuery("SELECT c FROM Card c")
-                                .setFirstResult(from)
-                                .setMaxResults(to-from)
-                                .getResultList();
-            };
-            em.getTransaction().commit();
-            callback.onSuccess(cards);
-        } catch (final Exception e) {
-            callback.onFailure("Beim Abrufen aller Karten ist einer Fehler aufgetreten: " + e);
-        }
+    public List<Card> getCardRange(final int from, final int to) {
+        assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
+        return getEntityManager().createQuery("SELECT c FROM Card c ORDER BY title", Card.class)
+                .setFirstResult(from).setMaxResults(to-from).getResultList();
+    }
 
         //////////////////////////////////////
         // For Implementation we need a view because we need card and cardtodeck

@@ -28,9 +28,9 @@ public class CardController {
      * @param end: Seitenauswahl Endwert
      * @return anzuzeigende Karten
      */
-    public static void getCardsToShow(int begin, int end, DataCallback<Card> callback, Deck.CardOrder order)
+    public static void getCardsToShow(int begin, int end, DataCallback<Card> callback)
     {
-        CardLogic.getCardsToShow(begin, end, callback, order);
+        callback.onSuccess(CardLogic.getCardsToShow(begin, end));
 
         //TODO: andere Exceptions dann trotzdem hierüber auffangen?
 

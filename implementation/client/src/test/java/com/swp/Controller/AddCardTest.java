@@ -299,7 +299,7 @@ public class AddCardTest {
                 log.error(msg);
             }
 
-        }, Deck.CardOrder.ALPHABETICAL);
+        });
     }
     @Test
      public void getDecks(){
