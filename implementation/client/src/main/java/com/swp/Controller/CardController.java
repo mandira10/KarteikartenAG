@@ -43,9 +43,9 @@ public class CardController {
      * @param tag: Der Tag, zu dem die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischem Tag
      */
-    public static Set<Card> getCardsByTag(String tag) {
+    public static List<Card> getCardsByTag(String tag) {
         try {
-            Set cardsForTag = CardLogic.getCardsByTag(tag);
+            List<Card> cardsForTag = CardLogic.getCardsByTag(tag);
 
             if (cardsForTag.isEmpty())
                 NotificationGUI.addNotification("Es gibt keine Karten für diesen Tag", Notification.NotificationType.INFO, 5);

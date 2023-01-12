@@ -6,7 +6,6 @@ import com.swp.Persistence.*;
 import com.swp.Persistence.Exporter.ExportFileType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
@@ -42,13 +41,15 @@ public class CardLogic extends BaseLogic<Card>
      * @param tagName: Der textuelle Tag, zu dem die Karten gesucht werden sollen
      * @return Set der Karten, die Tag enthalten
      */
-    public static Set<Card> getCardsByTag(String tagName) {
+    public static List<Card> getCardsByTag(String tagName) {
         checkNotNullOrBlank(tagName, "Tag");
-        Optional<Tag> tagOpt = CardRepository.find(tagName);
-        if(tagOpt.isEmpty())
-            throw new NullPointerException("Es gibt keinen Tag zu dem eingegebenen Wert" + tagName);
-        Tag tag = tagOpt.get();
-        return CardRepository.findCardsByTag(tag);
+        return execTransactional(() -> {
+            Optional<Tag> tagOpt = CardRepository.find(tagName);
+            if(tagOpt.isEmpty()) {
+                throw new NullPointerException("Es gibt keinen Tag zu dem eingegebenen Wert" + tagName);
+            }
+            return CardRepository.findCardsByTag(tagOpt.get());
+        });
     }
 
 

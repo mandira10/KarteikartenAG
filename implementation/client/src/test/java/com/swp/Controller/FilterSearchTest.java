@@ -6,11 +6,7 @@ import com.swp.DataModel.Tag;
 import com.swp.Persistence.CardRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -67,12 +63,12 @@ public class FilterSearchTest {
         assertEquals(1, cardsToSearchTerms.size());
         Set<Card> cardsToCategory = CategoryController.getCardsInCategory("categorietest1");
         assertEquals(2, cardsToCategory.size());
-        Set<Card> cardsToTag = CardController.getCardsByTag("tagTest1");
+        List<Card> cardsToTag = CardController.getCardsByTag("tagTest1");
         assertEquals(2, cardsToTag.size());
-        assertTrue(cardsToTag.stream().filter(c -> c.getTitle().equals("vielleicht")).findAny().isPresent());
-        assertTrue(cardsToTag.stream().filter(c -> c.getTitle().equals("Testtitel5")).findAny().isPresent());
-        assertTrue(cardsToCategory.stream().filter(c -> c.getTitle().equals("Testtitel5")).findAny().isPresent());
-        assertTrue(cardsToCategory.stream().filter(c -> c.getTitle().equals("ho")).findAny().isPresent());
+        assertTrue(cardsToTag.stream().anyMatch(c -> c.getTitle().equals("vielleicht")));
+        assertTrue(cardsToTag.stream().anyMatch(c -> c.getTitle().equals("Testtitel5")));
+        assertTrue(cardsToCategory.stream().anyMatch(c -> c.getTitle().equals("Testtitel5")));
+        assertTrue(cardsToCategory.stream().anyMatch(c -> c.getTitle().equals("ho")));
         //cards = CardController.getCardsBySearchterms("antwrt"); //TODO: Wie hier testen? GUINotification kann nicht ausgespielt werden
         //assertTrue(cards.isEmpty());
 

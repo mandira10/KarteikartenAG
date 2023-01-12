@@ -101,18 +101,9 @@ public class CardRepository extends BaseRepository<Card>
      * @param tag ein Tag für den alle Karten gesucht werden sollen, die diesen haben.
      * @return Set<Card> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
      */
-    public static Set<Card> findCardsByTag(Tag tag) {
-        Set<Card> cards;
-        log.info("Rufe alle Karten für Tag " + tag.getVal() + " ab");
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            cards = (Set<Card>) em.createNamedQuery("CardToTag.allCardsWithTag")
-                    .setParameter("tag", tag)
-                    .getResultStream()
-                    .collect(Collectors.toSet());
-            em.getTransaction().commit();
-        }
-        return cards;
+    public static List<Card> findCardsByTag(Tag tag) {
+        return getEntityManager().createNamedQuery("CardToTag.allCardsWithTag")
+                .setParameter("tag", tag).getResultList();
     }
 
     /**
