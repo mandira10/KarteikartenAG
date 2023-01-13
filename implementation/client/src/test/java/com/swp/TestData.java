@@ -1,11 +1,11 @@
 package com.swp;
 
-import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
+import com.swp.Logic.CardLogic;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -106,23 +106,23 @@ public class TestData {
         };
 
         for (Card c : randomL) {
-            assertTrue(CardController.updateCardData(c, true));
-            assertTrue(CardController.setTagsToCard(c, tagsRandom));
+            assertTrue(CardLogic.updateCardData(c, true));
+            assertTrue(CardLogic.setTagsToCard(c, tagsRandom));
             assertTrue(CategoryController.setCategoriesToCard(c, randomC));
         }
         for (Card c : erdkundeL) {
-            assertTrue(CardController.updateCardData(c, true));
-            assertTrue(CardController.setTagsToCard(c, erdkundeTags));
+            assertTrue(CardLogic.updateCardData(c, true));
+            assertTrue(CardLogic.setTagsToCard(c, erdkundeTags));
             assertTrue(CategoryController.setCategoriesToCard(c, erdkundeC));
         }
         for (Card c : spanischL) {
-            assertTrue(CardController.updateCardData(c, true));
-            assertTrue(CardController.setTagsToCard(c, spanischTags));
+            assertTrue(CardLogic.updateCardData(c, true));
+            assertTrue(CardLogic.setTagsToCard(c, spanischTags));
             assertTrue(CategoryController.setCategoriesToCard(c, spanischC));
         }
         for (Card c : technikL) {
-            assertTrue(CardController.updateCardData(c, true));
-            assertTrue(CardController.setTagsToCard(c, technikTags));
+            assertTrue(CardLogic.updateCardData(c, true));
+            assertTrue(CardLogic.setTagsToCard(c, technikTags));
             assertTrue(CategoryController.setCategoriesToCard(c, technikC));
         }
 

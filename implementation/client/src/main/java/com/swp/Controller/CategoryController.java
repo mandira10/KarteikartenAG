@@ -3,12 +3,11 @@ package com.swp.Controller;
 import com.swp.DataModel.*;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
+import com.swp.Persistence.SingleDataCallback;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.Set;
 @Slf4j
 public class CategoryController
@@ -18,15 +17,24 @@ public class CategoryController
 
 
 
-    public static boolean updateCategoryData(Category category, boolean neu) {
-
-        return CategoryLogic.updateCategoryData(category, neu);
-        //TODO: Exceptions a la Data Callback, user
+    public static void updateCategoryData(Category category, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
+    try {
+        if (!CategoryLogic.updateCategoryData(category, neu))
+            singleDataCallback.onFailure("Probleme");
+    }
+    catch(Exception ex){
+        singleDataCallback.onFailure(ex.getMessage());
+        }
     }
 
-    public static boolean editCategoryHierarchy(Category category, Set<String> parents, Set<String> children) {
-        return CategoryLogic.editCategoryHierarchy(category, parents, children);
-        //TODO: Exceptions a la Data Callback ,user
+    public static void editCategoryHierarchy(Category category, Set<String> parents, Set<String> children, SingleDataCallback<Boolean> singleDataCallback) {
+         try {
+             if (!CategoryLogic.editCategoryHierarchy(category, parents, children))
+                 singleDataCallback.onFailure("Probleme");
+         }
+         catch(Exception ex){
+             singleDataCallback.onFailure(ex.getMessage());
+         }
     }
 
     public static boolean deleteCategory(Category category) {
@@ -47,7 +55,6 @@ public class CategoryController
         //TODO: Exceptions a la Data Callback, non user
     }
 
-    //TODO: where to use???
     public static int numCardsInCategory(Category category) {
         return CategoryLogic.numCardsInCategory(category);
     }

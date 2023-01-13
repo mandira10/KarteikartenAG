@@ -1,11 +1,17 @@
 package com.swp.Controller;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
+import com.swp.Logic.CardLogic;
+import com.swp.Logic.CategoryLogic;
 import com.swp.Persistence.CardRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Test;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -14,33 +20,14 @@ import static org.junit.Assert.assertEquals;
 @Slf4j
 public class FilterSearchTest {
 
+
     @Test
     public void testFilterAll3() {
 
-        HashMap<String, Object> map1 = new HashMap<>() {
-            {
-                put("answer", "Testantwort5");
-                put("question", "Testfrage5");
-                put("title", "Testtitel5");
-                put("visibility", true);
-            }
-        };
-        HashMap<String, Object> map2 = new HashMap<>() {
-            {
-                put("answer", "nein");
-                put("question", "ja");
-                put("title", "vielleicht");
-                put("visibility", true);
-            }
-        };
-        HashMap<String, Object> map3 = new HashMap<>() {
-            {
-                put("answer", "ho");
-                put("question", "ho");
-                put("title", "ho");
-                put("visibility", true);
-            }
-        };
+        Card card1  = new TextCard("Testfrage5","Testantwort5","Testtitel5",true);
+        Card card2  = new TextCard("ja","nein","vielleicht",true);
+        Card card3  = new TextCard("ho","ho","ho",true);
+
         Set<Tag> tagsToAdd = new HashSet<>() {
             {
                 add(new Tag("tagTest1"));
@@ -54,16 +41,20 @@ public class FilterSearchTest {
             }
         };
 
-        assertTrue(CardController.updateCardData(null, "TEXT", map1, tagsToAdd, categoriesToAdd));
-        assertTrue(CardController.updateCardData(null, "TEXT", map2, tagsToAdd, null));
-        assertTrue(CardController.updateCardData(null, "TEXT", map3, null, categoriesToAdd));
-        Card txCard = CardRepository.findCardByTitle("Testtitel5");
+        assertTrue(CardLogic.updateCardData(card1,true));
+        assertTrue(CardLogic.updateCardData(card2,true));
+        assertTrue(CardLogic.updateCardData(card2,true));
+        assertTrue(CardLogic.setTagsToCard(card1,tagsToAdd));
+        assertTrue(CategoryLogic.setCardToCategories(card1,categoriesToAdd));
+        assertTrue(CardLogic.setTagsToCard(card2,tagsToAdd));
+        assertTrue(CategoryLogic.setCardToCategories(card3,categoriesToAdd));
+        Card txCard = CardRepository.getCardByUUID(card1.getUuid());
         assertNotNull(txCard);
-        List<Card> cardsToSearchTerms = CardController.getCardsBySearchterms("antwort5");
+        List<Card> cardsToSearchTerms = CardLogic.getCardsBySearchterms("antwort5");
         assertEquals(1, cardsToSearchTerms.size());
-        Set<Card> cardsToCategory = CategoryController.getCardsInCategory("categorietest1");
+        Set<Card> cardsToCategory = CategoryLogic.getCardsInCategory("categorietest1");
         assertEquals(2, cardsToCategory.size());
-        List<Card> cardsToTag = CardController.getCardsByTag("tagTest1");
+        List<Card> cardsToTag = CardLogic.getCardsByTag("tagTest1");
         assertEquals(2, cardsToTag.size());
         assertTrue(cardsToTag.stream().anyMatch(c -> c.getTitle().equals("vielleicht")));
         assertTrue(cardsToTag.stream().anyMatch(c -> c.getTitle().equals("Testtitel5")));

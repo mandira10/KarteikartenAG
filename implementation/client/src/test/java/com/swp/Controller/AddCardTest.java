@@ -1,24 +1,25 @@
 package com.swp.Controller;
 
 
+
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.Logic.CardLogic;
+import com.swp.Logic.CategoryLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CategoryRepository;
 import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.PersistenceManager;
-import com.swp.TestData.*;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 import static com.swp.DataModel.Card.copyCard;
@@ -35,25 +36,17 @@ public class AddCardTest {
      * //TODO: incorporate image and audiofile as soon as incorporated
      */
     @Test
-    public void testCardCreateAndUpdateNoTagsNoCategories() {
+    public void testCardCreateAndUpdateNoTagsNoCategories()  {
         //TEXT
-        HashMap<String, Object> txmap = new HashMap<>() {
-            {
-                put("answer", "Testantwort");
-                put("question", "Testfrage");
-                put("title", "Testtitel");
-                put("visibility", true);
-            }
-        };
-
-        assertTrue(CardController.updateCardData(null, "TEXT", txmap, null, null));
-        Card txcard = CardRepository.findCardByTitle("Testtitel");
+        Card card1 = new TextCard("Testfrage","Testantwort","Testtitel",true);
+        assertTrue(CardLogic.updateCardData(card1,true));
+        Card txcard = CardRepository.getCardByUUID(card1.getUuid());
         TextCard textCard = (TextCard) txcard;
         assertNotNull(textCard);
         assertEquals("Testtitel", textCard.getTitle());
         assertEquals("Testfrage", textCard.getQuestion());
         assertEquals("Testantwort", textCard.getAnswer());
-        assertEquals(true, textCard.isVisibility());
+        assertTrue(textCard.isVisibility());
         assertEquals(textCard.getTitle() + "\n" + textCard.getQuestion() + "\n" + textCard.getAnswer(), textCard.getContent());
 
         //MULTIPLE CHOICE
@@ -69,9 +62,9 @@ public class AddCardTest {
                 put("correctAnswers", correctAnswers);
             }
         };
-
-        assertTrue(CardController.updateCardData(null, "MULTIPLECHOICE", mcmap, null, null));
-        Card card = CardRepository.findCardByTitle("Testtitel1");
+        Card card2 = new MultipleChoiceCard("Testfrage",answers,correctAnswers,"Testtitel1",false);
+        assertTrue(CardLogic.updateCardData(card2, true));
+        Card card = CardRepository.getCardByUUID(card2.getUuid());
         assertNotNull(card);
         MultipleChoiceCard mcCard = (MultipleChoiceCard) card;
         assertNotNull(mcCard);
@@ -79,13 +72,13 @@ public class AddCardTest {
         assertEquals("Testfrage", mcCard.getQuestion());
         Assert.assertArrayEquals(answers, mcCard.getAnswers());
         Assert.assertArrayEquals(correctAnswers, mcCard.getCorrectAnswers());
-        assertEquals(false, mcCard.isVisibility());
+        assertFalse(mcCard.isVisibility());
         assertEquals(mcCard.getTitle() + "\n" + mcCard.getQuestion(), mcCard.getContent());
 
     }
 
     @Test
-    public void testCardCreateAndUpdateWithTags() {
+    public void testCardCreateAndUpdateWithTags() throws InvocationTargetException, IllegalAccessException {
         HashMap<String, Object> txmap = new HashMap<>() {
             {
                 put("answer", "Testantwort");
@@ -100,53 +93,52 @@ public class AddCardTest {
                 add(new Tag("tag2"));
             }
         };
-
-        assertTrue(CardController.updateCardData(null, "TEXT", txmap, tagsToAdd, null));
+        Card card1 = new TextCard();
+        BeanUtils.populate(card1,txmap);
+        assertTrue(CardLogic.updateCardData(card1,true));
+        assertTrue(CardLogic.setTagsToCard(card1,tagsToAdd));
         List<Tag> tags = CardRepository.getTags();
         assertTrue(tags.size()>=2); //in case more than one
         Optional<Tag> tagOpt1 = tags.stream().filter( t -> t.getVal().equals("tag1")).findFirst();
         Optional<Tag>  tagOpt2 = tags.stream().filter( t -> t.getVal().equals("tag2")).findFirst();
+        assertTrue(tagOpt2.isPresent());
+        assertTrue(tagOpt1.isPresent());
         Tag tag1 = tagOpt1.get();
         Tag tag2 = tagOpt2.get();
         List<Card> CardsToTag1 = CardRepository.findCardsByTag(tag1);
         List<Card> CardsToTag2 = CardRepository.findCardsByTag(tag2);
         assertEquals(1,CardsToTag1.size()); //FAILS
         assertEquals(1,CardsToTag2.size());
-        Card card1 = CardsToTag1.iterator().next();
+        card1 = CardsToTag1.iterator().next();
         Card card2 = CardsToTag2.iterator().next();
         assertEquals(card1.getUuid(), card2.getUuid());
         List<Tag> tagToCard1 = CardRepository.getTagsToCard(card1);
         List<Tag> tagToCard2 = CardRepository.getTagsToCard(card2);
-        assertTrue(!tagToCard1.isEmpty());
+        assertFalse(tagToCard1.isEmpty());
         Optional<Tag> tagOptional1 = tagToCard1.stream().filter(t -> t.getVal().equals("tag1")).findAny();
         assertTrue(tagOptional1.isPresent());
-        assertTrue(!tagToCard2.isEmpty());
+        assertFalse(tagToCard2.isEmpty());
         Optional<Tag> tagOptional2 = tagToCard2.stream().filter(t -> t.getVal().equals("tag2")).findAny();
         assertTrue(tagOptional2.isPresent());
     }
 
     @Test
-    public void testCardCreateAndUpdateWithCategories() {
-        HashMap<String, Object> txmap = new HashMap<>() {
-            {
-                put("answer", "Testantwort");
-                put("question", "Testfrage");
-                put("title", "Testtitel2");
-                put("visibility", false);
-            }
-        };
+    public void testCardCreateAndUpdateWithCategories(){
         Set<Category> categoriesToAdd = new HashSet<>() {
             {
                 add(new Category("categorie1"));
                 add(new Category("categorie2"));
             }
         };
-
-        assertTrue(CardController.updateCardData(null, "TEXT", txmap, null, categoriesToAdd));
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
+        assertTrue(CardLogic.updateCardData(card1,true));
+        assertTrue(CategoryLogic.setCardToCategories(card1,categoriesToAdd));
         Set<Category> categories = CategoryRepository.getCategories();
         assertTrue(categories.size()>=2); //FAILS
         Optional<Category> c1Opt = categories.stream().filter(n -> n.getName().equals("categorie1")).findFirst();
         Optional<Category> c2Opt = categories.stream().filter(n -> n.getName().equals("categorie2")).findFirst();
+        assertTrue(c1Opt.isPresent());
+        assertTrue(c2Opt.isPresent());
         Category c1 = c1Opt.get();
         Category c2 = c2Opt.get();
         Set<Card> CardsToC1 = CategoryRepository.getCardsByCategory(c1);
@@ -155,23 +147,19 @@ public class AddCardTest {
         assertEquals(1,CardsToC2.size());
          Optional<Card> card1Opt = CardsToC1.stream().filter(n -> n.getTitle().equals("Testtitel2")).findFirst();
         Optional<Card> card2Opt = CardsToC2.stream().filter(n -> n.getTitle().equals("Testtitel2")).findFirst();
-         Card card1 = card1Opt.get();
+        assertTrue(card1Opt.isPresent());
+        assertTrue(card2Opt.isPresent());
+          card1 = card1Opt.get();
          Card card2 = card2Opt.get();
-         assertTrue(card1.getUuid().equals(card2.getUuid()));
+        assertEquals(card1.getUuid(), card2.getUuid());
     }
 
     @Test
-    public void testCardOverview() {
-        HashMap<String, Object> mapCard1 = new HashMap<>() {{
-            put("title", "TitelCard1");
-            put("answer", "AntwortCard1");
-        }};
-        HashMap<String, Object> mapCard2 = new HashMap<>() {{
-            put("question", "FrageCard2");
-            put("answer", "AntwortCard2");
-        }};
-        assertTrue(CardController.updateCardData(null, "MULTIPLECHOICE", mapCard1, null, null));
-        assertTrue(CardController.updateCardData(null, "MULTIPLECHOICE", mapCard2, null, null));
+    public void testCardOverview()  {
+        Card card1 = new TextCard("","AntwortCard1","TitelCard1",false);
+        Card card2 = new TextCard("FrageCard2","AntwortCard2","",false);
+        assertTrue(CardLogic.updateCardData(card1,true));
+        assertTrue(CardLogic.updateCardData(card2,true));
 
         //TEST CARDOVERVIEW CONTAINS CARDS:
         EntityManager em = pm.getEntityManager();
@@ -180,8 +168,8 @@ public class AddCardTest {
         em.getTransaction().commit();
         em.close();
         assertNotNull(co);
-        assertTrue(co.stream().filter(c -> c.getTitelToShow().equals("TitelCard1")).findAny().isPresent());
-        assertTrue(co.stream().filter(c -> c.getTitelToShow().equals("FrageCard2")).findAny().isPresent());
+        assertTrue(co.stream().anyMatch(c -> c.getTitelToShow().equals("TitelCard1")));
+        assertTrue(co.stream().anyMatch(c -> c.getTitelToShow().equals("FrageCard2")));
 
     }
 
@@ -194,42 +182,28 @@ public class AddCardTest {
         int[] correctAnswers = {1, 3};
         Card text1 = new TextCard("F1", "nein doch", "Titel für die Karte 1", false);
         Card text2 = new MultipleChoiceCard("F2", answers, correctAnswers, "Titel für die Karte 2", true);
-        assertTrue(CardController.updateCardData(text1, true));
-        assertTrue(CardController.updateCardData(text2, true));
-        Card card1 = CardRepository.findCardByTitle("Titel für die Karte 1");
-        Card card2 = CardRepository.findCardByTitle("Titel für die Karte 2");
+        assertTrue(CardLogic.updateCardData(text1, true));
+        assertTrue(CardLogic.updateCardData(text2, true));
+        Card card1 = CardRepository.getCardByUUID(text1.getUuid());
+        Card card2 = CardRepository.getCardByUUID(text2.getUuid());
         assertNotNull(card1);
         assertNotNull(card2);
         Card copy1 = copyCard(card1);
         Card copy2 = copyCard(card2);
-        assertTrue(card1.getUuid().equals(copy1.getUuid()));
-        assertTrue(card2.getUuid().equals(copy2.getUuid()));
+        assertEquals(card1.getUuid(), copy1.getUuid());
+        assertEquals(card2.getUuid(), copy2.getUuid());
         text1.setTitle("Titel234");
         text2.setRating(5);
-        assertTrue(CardController.updateCardData(text1, false));
-        assertTrue(CardController.updateCardData(text2, false));
-        card1 = CardRepository.findCardByTitle("Titel für die Karte 1");
-        card2 = CardRepository.findCardByTitle("Titel für die Karte 2");
-        assertTrue(card1 == null);
-        assertFalse(card2 != null);
-
-        card1 = CardRepository.findCardByTitle("Titel234");
-        assertFalse(card2 != null);
-
-        MultipleChoiceCard cardMC = (MultipleChoiceCard) card2;
-        assertEquals(cardMC.getRating(), 5);
+        assertTrue(CardLogic.updateCardData(text1, false));
+        assertTrue(CardLogic.updateCardData(text2, false));
+        card1 = CardRepository.getCardByUUID(text1.getUuid());
+        card2 = CardRepository.getCardByUUID(text2.getUuid());
+        assertTrue(card1.getTitle().equals(text1.getTitle()));
+        assertEquals(card2.getRating(),text2.getRating());
     }
 
     @Test
     public void testCategoryMultiHierarchy() {
-        HashMap<String, Object> txmap = new HashMap<>() {
-            {
-                put("answer", "Testantwort für die Kategorien Hierachie");
-                put("question", "Testfrage für die Kategorien Hierachie");
-                put("title", "Testtitel für die Kategorien Hierarchie");
-                put("visibility", false);
-            }
-        };
         Set<Category> categoriesToAdd = new HashSet<>() {
             {
                 add(new Category("categorie3"));
@@ -239,14 +213,20 @@ public class AddCardTest {
                 add(new Category("categorie7"));
             }
         };
-
-        assertTrue(CardController.updateCardData(null, "TEXT", txmap, null, categoriesToAdd));
+        Card card1 = new TextCard("Testfrage für die Kategorien Hierachie","Testantwort für die Kategorien Hierachie","Testtitel für die Kategorien Hierarchie",false);
+        assertTrue(CardLogic.updateCardData(card1,true));
+        assertTrue(CategoryLogic.setCardToCategories(card1,categoriesToAdd));
         Set<Category> categories = CategoryRepository.getCategories();
         Optional<Category> c1Opt = categories.stream().filter(n -> n.getName().equals("categorie3")).findFirst();
         Optional<Category> c2Opt = categories.stream().filter(n -> n.getName().equals("categorie4")).findFirst();
         Optional<Category> c3Opt = categories.stream().filter(n -> n.getName().equals("categorie5")).findFirst();
         Optional<Category> c4Opt = categories.stream().filter(n -> n.getName().equals("categorie6")).findFirst();
         Optional<Category> c5Opt = categories.stream().filter(n -> n.getName().equals("categorie7")).findFirst();
+        assertTrue(c1Opt.isPresent());
+        assertTrue(c2Opt.isPresent());
+        assertTrue(c3Opt.isPresent());
+        assertTrue(c4Opt.isPresent());
+        assertTrue(c5Opt.isPresent());
         Category c1 = c1Opt.get();
         Category c2 = c2Opt.get();
         Category c3 = c3Opt.get();
@@ -265,8 +245,8 @@ public class AddCardTest {
         assertEquals(2, c2.getParents().size());
         Set<Category> categoryParents = CategoryRepository.getParentsForCategory(c2);
         assertEquals(2, categoryParents.size());
-        categoryParents.stream().filter(c -> c.getName().equals("categorie3")).findFirst();
-        categoryParents.stream().filter(c -> c.getName().equals("categorie5")).findFirst();
+        //categoryParents.stream().filter(c -> c.getName().equals("categorie3")).findFirst();
+        //categoryParents.stream().filter(c -> c.getName().equals("categorie5")).findFirst();
 
         //check what happens if not every parent and child gets updated, DOESNT WORK
         c1.addChild(c4);
@@ -281,15 +261,20 @@ public class AddCardTest {
     @Test
     public void testGetCards(){
         importTestData();
-        CardController.getCardsToShow(1,30, new DataCallback<Card>() {
-            @Override public void onSuccess(List<Card> data)
-            {
-                List<Card> cards = data;
+        CardController.getCardsToShow(1,30, new DataCallback<>() {
+            @Override
+            public void onSuccess(List<Card> data) {
+
             }
 
-            @Override public void onFailure(String msg)
-            {
+            @Override
+            public void onFailure(String msg) {
                 log.error(msg);
+            }
+
+            @Override
+            public void onInfo(String msg) {
+                //nada
             }
 
         });

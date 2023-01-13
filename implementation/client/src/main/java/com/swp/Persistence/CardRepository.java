@@ -52,18 +52,6 @@ public class CardRepository extends BaseRepository<Card>
                 .getResultList();
     }
 
-    /**
-     * Die Funktion `findCardByTitle` durchsucht den Titel aller Karten nach einem String.
-     * Es optional die entsprechende Card zurückgegeben, oder ein leeres `Optional`.
-     * @param title ein String, der dem Titel einer Karte entsprechen soll.
-     * @return Card eine Karte, mit entsprechendem Titel.
-     * @throws NoResultException falls keine Karte mit diesem Titel existiert.
-     */
-    public static Card findCardByTitle(String title) {
-        return (Card) getEntityManager().createNamedQuery("Card.findByTitle")
-                .setParameter("title", title)
-                .getSingleResult();
-    }
 
     /**
      * Die Funktion `findCardsByTag` sucht nach Karten, der ein bestimmter Tag zugeordnet ist und gibt diese zurück.

@@ -1,6 +1,7 @@
 package com.swp.GUI.Category;
 
 import java.io.ObjectOutputStream.PutField;
+import java.util.List;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextField;
@@ -10,8 +11,12 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Category;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
+import com.swp.Persistence.DataCallback;
+import com.swp.Persistence.SingleDataCallback;
 
 public class EditCategoryPage extends Page
 {
@@ -71,6 +76,17 @@ public class EditCategoryPage extends Page
 
     private void applyChanges()
     {
-        CategoryController.updateCategoryData(pOldCategory, pNewCategory);
+        boolean neu = true;
+        CategoryController.updateCategoryData(pNewCategory,neu, new SingleDataCallback<>() {
+            @Override
+            public void onSuccess(Boolean data) {
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+
+        });
     }
 }

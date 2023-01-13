@@ -196,23 +196,23 @@ public class KarteikartenAGGUI extends RenderGUI
         };
 
         for (Card c : randomL) {
-            CardController.updateCardData(c, true);
-            CardController.setTagsToCard(c, tagsRandom);
+            CardController.updateCardData(c, true,null);
+            CardController.setTagsToCard(c, tagsRandom,null);
             CategoryController.setCategoriesToCard(c, randomC);
         }
         for (Card c : erdkundeL) {
-            CardController.updateCardData(c, true);
-            CardController.setTagsToCard(c, erdkundeTags);
+            CardController.updateCardData(c, true,null);
+            CardController.setTagsToCard(c, erdkundeTags,null);
             CategoryController.setCategoriesToCard(c, erdkundeC);
         }
         for (Card c : spanischL) {
-            CardController.updateCardData(c, true);
-            CardController.setTagsToCard(c, spanischTags);
+            CardController.updateCardData(c, true,null);
+            CardController.setTagsToCard(c, spanischTags,null);
             CategoryController.setCategoriesToCard(c, spanischC);
         }
         for (Card c : technikL) {
-            CardController.updateCardData(c, true);
-            CardController.setTagsToCard(c, technikTags);
+            CardController.updateCardData(c, true,null);
+            CardController.setTagsToCard(c, technikTags,null);
             CategoryController.setCategoriesToCard(c, technikC);
         }
 
