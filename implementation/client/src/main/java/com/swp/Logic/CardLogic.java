@@ -147,10 +147,10 @@ public class CardLogic extends BaseLogic<Card>
 
     public static boolean setTagsToCard(Card card, Set<Tag> tagNew) {
         boolean ret = true;
-        List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
+        Set<Tag> tagOld = new HashSet<>(getTagsToCard(card)); //check Old Tags to remove unused tags
         if(tagOld == null){
-            //if(!checkAndCreateTags(card,tagNew,tagOld))
-            //    ret = false;
+            if(!checkAndCreateTags(card,tagNew,tagOld))
+                ret = false;
         }
 
         else if(tagOld.containsAll(tagNew) && tagOld.size() == tagNew.size()) //no changes
@@ -158,18 +158,18 @@ public class CardLogic extends BaseLogic<Card>
 
 
         else if(tagOld.containsAll(tagNew) || tagOld.size() > tagNew.size()) { //es wurden nur tags gelöscht
-            //if(!checkAndRemoveTags(card,tagNew,tagOld))
-            //    ret = false;
+            if(!checkAndRemoveTags(card,tagNew,tagOld))
+                ret = false;
         }
         else if(tagNew.containsAll(tagOld)){
-            //if(!checkAndCreateTags(card,tagNew,tagOld))
-            //   ret = false;
+            if(!checkAndCreateTags(card,tagNew,tagOld))
+               ret = false;
         }
         else { //neue und alte
-            //if(!checkAndCreateTags(card,tagNew,tagOld))
-            //    ret = false;
-            //if(!checkAndRemoveTags(card,tagNew,tagOld))
-            //    ret = false;
+            if(!checkAndCreateTags(card,tagNew,tagOld))
+                ret = false;
+            if(!checkAndRemoveTags(card,tagNew,tagOld))
+                ret = false;
         }
         return ret;
     }
