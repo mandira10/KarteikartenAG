@@ -46,9 +46,8 @@ public class CardLogic extends BaseLogic<Card>
     public static List<Card> getCardsByTag(String tagName) {
         checkNotNullOrBlank(tagName, "Tag",true);
         return execTransactional(() -> CardRepository.findCardsByTag(
-                CardRepository.findTag(tagName)));
+                TagRepository.findTag(tagName)));
     }
-
 
     /**
      * Methode wird verwendet, um passende Karten für die angegebenen Suchwörter zu identifizieren. Prüft zunächst,
@@ -119,7 +118,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public static List<Tag> getTags()
     {
-        return execTransactional(CardRepository::getTags);
+        return execTransactional(() -> TagRepository.getInstance().getAll());
     }
 
 
@@ -178,30 +177,39 @@ public class CardLogic extends BaseLogic<Card>
         boolean ret = true;
         for (Tag t : tagOld) {
             if (!tagNew.contains(t))
-                if (!CardRepository.deleteCardToTag(card, t))
-                    ret = false;
+                // wirft im Fehlerfall eine Exception, return-value könnte void sein
+                execTransactional(() -> {
+                    CardToTag c2t = CardToTagRepository.findSpecificCardToTag(card, t);
+                    CardToTagRepository.getInstance().delete(c2t);
+                    return null;
+                });
         }
         return ret;
     }
 
 
     private static boolean checkAndCreateTags(Card card, Set<Tag> tagNew, Set<Tag> tagOld) {
-        boolean ret = true;
-        List<Tag> tagExi = CardRepository.getTags();
-        for (Tag t : tagNew) {
-            if (tagOld != null && tagOld.contains(t))
-                log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
-           else{
-                if (tagExi == null || tagExi.stream().filter(tag -> tag.getUuid().equals(t.getUuid())).findFirst().isEmpty()){
-                    if(!CardRepository.saveTag(t)){
-                        ret = false;}
+        return execTransactional(() -> {
+            boolean ret = true;
+            List<Tag> tagExi = CardRepository.getTags();
+            for (Tag t : tagNew) {
+                if (tagOld != null && tagOld.contains(t)) {
+                    log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
+                } else {
+                    if (tagExi == null || tagExi.stream().filter(tag -> tag.getUuid().equals(t.getUuid())).findFirst().isEmpty()) {
+                        TagRepository.getInstance().save(t);
+                    }
+                    log.info("Tag {} wird zu Karte {} hinzugefügt", t.getUuid(), card.getUuid());
+                    if (!CardRepository.createCardToTag(card, t)) {
+                        // Bei `createCardToTag` macht boolean eigentlich keinen Sinn mehr.
+                        // Entweder es wird angelegt, oder es wird eine Exception geworfen.
+                        // Durch `execTransactional` wird diese Exception auch weiter hoch gegeben.
+                        ret = false;
+                    }
                 }
-                log.info("Tag {} wird zu Karte {} hinzugefügt", t.getUuid(), card.getUuid());
-                if(!CardRepository.createCardToTag(card, t))
-                ret = false;
-        }
-        }
-        return ret;
+            }
+            return ret;
+        });
     }
 
 
@@ -226,11 +234,10 @@ public class CardLogic extends BaseLogic<Card>
 
 
     private static void removeCardToTag(Card c, Tag t) {
-        CardRepository.deleteCardToTag(c,t);
         execTransactional(() -> {
             CardToTagRepository.getInstance().delete(
-                    CardRepository.findSpecificCardToTag(c,t));
+                    CardToTagRepository.findSpecificCardToTag(c,t));
             return null; // Lambda braucht einen return
         });
     }
-    }
+}

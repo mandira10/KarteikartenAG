@@ -13,8 +13,7 @@ public class CardRepository extends BaseRepository<Card>
 
     // Singleton
     private static CardRepository cardRepository = null;
-    public static CardRepository getInstance()
-    {
+    public static CardRepository getInstance() {
         if(cardRepository == null)
             cardRepository = new CardRepository();
         return cardRepository;
@@ -37,7 +36,9 @@ public class CardRepository extends BaseRepository<Card>
      * @return List<CardOverview> eine Übersicht
      */
     public static List<CardOverview> getCardOverview() {
-        return getEntityManager().createQuery("SELECT c FROM CardOverview c", CardOverview.class).getResultList();
+        return getEntityManager()
+                .createQuery("SELECT c FROM CardOverview c", CardOverview.class)
+                .getResultList();
     }
 
     /**
@@ -47,7 +48,8 @@ public class CardRepository extends BaseRepository<Card>
      * @return List<Card> eine Liste von Karten, die der Kategorie zugeordnet sind.
      */
     public static List<Card> findCardsByCategory(Category category) {
-        return getEntityManager().createNamedQuery("CardToCategory.allCardsOfCategory")
+        return getEntityManager()
+                .createNamedQuery("CardToCategory.allCardsOfCategory", Card.class)
                 .setParameter("category", category)
                 .getResultList();
     }
@@ -59,7 +61,8 @@ public class CardRepository extends BaseRepository<Card>
      * @return Set<Card> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
      */
     public static List<Card> findCardsByTag(Tag tag) {
-        return getEntityManager().createNamedQuery("CardToTag.allCardsWithTag")
+        return getEntityManager()
+                .createNamedQuery("CardToTag.allCardsWithTag", Card.class)
                 .setParameter("tag", tag).getResultList();
     }
 
@@ -70,7 +73,8 @@ public class CardRepository extends BaseRepository<Card>
      * @return Set<Card> eine Menge von Karten, welche `searchWords` als Teilstring im Inhalt hat.
      */
     public static List<Card> findCardsContaining(String searchWords) {
-        return getEntityManager().createNamedQuery("Card.findCardsByContent")
+        return getEntityManager()
+                .createNamedQuery("Card.findCardsByContent", Card.class)
                 .setParameter("content", "%" + searchWords + "%")
                 .getResultList();
     }
@@ -82,7 +86,8 @@ public class CardRepository extends BaseRepository<Card>
      * @return eine Card mit entsprechender UUID, oder `null` falls keine gefunden wurde.
      */
     public static Card getCardByUUID(String uuid) {
-        return (Card) getEntityManager().createNamedQuery("Card.findCardByUUID")
+        return getEntityManager()
+                .createNamedQuery("Card.findCardByUUID", Card.class)
                 .setParameter("uuid", uuid)
                 .getSingleResult();
     }
@@ -98,25 +103,6 @@ public class CardRepository extends BaseRepository<Card>
         // wäre äquivalent zu folgendem
         // getEntityManager().remove(card);
 
-
-        /*
-        // remove matching `CardToCategory`
-        em.createNamedQuery("CardToCategory.allC2CByCard")
-                .setParameter("card", card)
-                .getResultStream()
-                .forEach(c2c -> em.remove(c2c));
-        // remove matching `CardToTag`
-        em.createNamedQuery("CardToTag.allC2TByCard")
-                .setParameter("card", card)
-                .getResultStream()
-                .forEach(c2t -> em.remove(c2t));
-        // remove matching `CardToDeck`
-        em.createNamedQuery("CardToDeck.allC2DByCard")
-                    .setParameter("card", card)
-                    .getResultStream()
-                    .forEach(c2d -> em.remove(c2d));
-        em.getTransaction().commit();
-         */
         return true; // boolean Rückgabewert macht eigentlich keinen Sinn mehr,
                      // weil bei Fehlern Exceptions geworfen werden.
     }
@@ -126,22 +112,12 @@ public class CardRepository extends BaseRepository<Card>
     // Tags
     //
     /**
-     * Die Funktion `saveTag` speichert einen übergebenen Tag in der Datenbank
-     * @param tag ein Tag der persistiert werden soll
-     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
-     */
-    public static boolean saveTag(Tag tag) {
-        getEntityManager().persist(tag);
-        return true;
-    }
-
-    /**
      * Die Funktion `getTags` liefer alle gespeicherten Tags zurück.
      * @return Set<Tag> eine Menge mit allen Tags
      */
     public static List<Tag> getTags() {
-        return (List<Tag>) getEntityManager()
-                .createQuery("SELECT t FROM Tag t")
+        return getEntityManager()
+                .createQuery("SELECT t FROM Tag t", Tag.class)
                 .getResultList();
     }
 
@@ -151,8 +127,8 @@ public class CardRepository extends BaseRepository<Card>
      * @return List<CardToTag> eine Menge mit allen `CardToTag`-Objekten.
      */
     public static List<CardToTag> getCardToTags() {
-        return (List<CardToTag>) getEntityManager()
-                .createQuery("SELECT CardToTag FROM CardToTag")
+        return getEntityManager()
+                .createQuery("SELECT CardToTag FROM CardToTag", CardToTag.class)
                 .getResultList();
     }
 
@@ -169,42 +145,15 @@ public class CardRepository extends BaseRepository<Card>
     }
 
     /**
-     * Die Funktion `find` sucht nach einem Tag, der dem übergebenen Text entspricht.
-     * Existiert kein Tag mit so einem Inhalt, dann wird ein leeres `Optional` zurückgegeben.
-     * @param text ein String nach dem ein existierender Tag gesucht wird
-     * @return Optional<Tag> entweder der gefundene Tag mit entsprechendem Namen, oder ein leeres `Optional`.
-     * @throws NoResultException wenn kein entsprechender Tag gefunden wurde.
-     */
-    public static Tag findTag(String text) {
-        return (Tag) getEntityManager().createNamedQuery("Tag.findTagByName")
-                .setParameter("text", text)
-                .getSingleResult();
-    }
-
-    /**
      * Die Funktion `getTagsToCard` liefer alle Tags zurück, die einer Karte zugeordnet sind.
      * @param card eine Karte
-     * @return Set<Tag> eine Menge von Tags, die der Karte zugeordnet sind.
+     * @return List<Tag> eine Liste von Tags, die der Karte zugeordnet sind.
      */
     public static List<Tag> getTagsToCard(Card card) {
-        return  (List<Tag>) getEntityManager()
-                .createNamedQuery("CardToTag.allTagsWithCards")
+        return  getEntityManager()
+                .createNamedQuery("CardToTag.allTagsWithCards", Tag.class)
                 .setParameter("card", card)
                 .getResultList();
     }
 
-    public static CardToTag findSpecificCardToTag(Card c, Tag t) {
-        return (CardToTag) getEntityManager().createNamedQuery("CardToTag.findSpecificC2T")
-                .setParameter("card", c)
-                .setParameter("tag", t)
-                .getSingleResult();
-    }
-
-    public static boolean deleteCardToTag(Card c, Tag t) {
-        getEntityManager().createNamedQuery("CardToTag.findSpecificC2T")
-                .setParameter("card", c)
-                .setParameter("tag", t)
-                .getSingleResult();
-            return true;
-    }
 }

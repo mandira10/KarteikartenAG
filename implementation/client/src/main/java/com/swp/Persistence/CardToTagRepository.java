@@ -1,6 +1,8 @@
 package com.swp.Persistence;
 
+import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToTag;
+import com.swp.DataModel.Tag;
 
 public class CardToTagRepository extends BaseRepository<CardToTag> {
     private CardToTagRepository() {
@@ -14,5 +16,13 @@ public class CardToTagRepository extends BaseRepository<CardToTag> {
         if(cardToTagRepository == null)
             cardToTagRepository = new CardToTagRepository();
         return cardToTagRepository;
+    }
+
+    public static CardToTag findSpecificCardToTag(Card c, Tag t) {
+        return getEntityManager()
+                .createNamedQuery("CardToTag.findSpecificC2T", CardToTag.class)
+                .setParameter("card", c)
+                .setParameter("tag", t)
+                .getSingleResult();
     }
 }
