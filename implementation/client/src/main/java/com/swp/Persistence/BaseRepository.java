@@ -17,7 +17,7 @@ public abstract class BaseRepository<T> {
     // Objekt zur Synchronisation von mehreren potenziell parallelen Transaktionen
     public static final Object transaction = new Object();
 
-    private static EntityManagerFactory emf = PersistenceManager.emFactory;
+    public static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     @Getter(AccessLevel.PROTECTED)
     private static EntityManager entityManager;

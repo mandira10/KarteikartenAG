@@ -81,8 +81,7 @@ public class Category implements Serializable
      */
     public Category(String name)
     {
-        this.name = name;
-        this.uuid = UUID.randomUUID().toString();
+        this(name, new HashSet<Category>(), new HashSet<Category>());
     }
     /**
      * Konstruktor der Klasse Category
@@ -91,9 +90,7 @@ public class Category implements Serializable
      */
     public Category(String name, Set<Category> parents)
     {
-        this.name = name;
-        this.uuid = UUID.randomUUID().toString();
-        this.parents = parents;
+        this(name, parents, new HashSet<Category>());
     }
 
     /**
@@ -113,11 +110,9 @@ public class Category implements Serializable
     /**
      * no-arg constructor needed for hibernates `@Entity` tag
      */
-    public Category() {
-        this.name = null;
-        this.uuid = UUID.randomUUID().toString();
-        this.parents = null;
-        this.children = null;
+    public Category() 
+    {
+        this("", new HashSet<Category>(), new HashSet<Category>());
     }
 
     public void setChildren(Set<Category> children){

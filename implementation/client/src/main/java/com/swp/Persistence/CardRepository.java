@@ -18,7 +18,7 @@ public class CardRepository extends BaseRepository<Card>
         super(Card.class);
     }
 
-    private final static EntityManagerFactory emf = PersistenceManager.emFactory;
+    public final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     /**
      * Die Funktion `getCards` gibt über ein `DataCallback` Karten aus einem bestimmten Bereich zurück.

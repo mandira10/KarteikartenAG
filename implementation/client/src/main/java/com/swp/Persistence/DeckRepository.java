@@ -26,7 +26,7 @@ public class DeckRepository extends BaseRepository<Deck>
         super(Deck.class);
     }
 
-    private final static EntityManagerFactory emf = PersistenceManager.emFactory;
+    public final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     public static boolean saveDeck(Deck deck)
     {

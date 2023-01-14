@@ -28,7 +28,7 @@ public class CategoryRepository extends BaseRepository<Category>
         super(Category.class);
     }
 
-    private final static EntityManagerFactory emf = PersistenceManager.emFactory;
+    public final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     /**
      * Die Funktion `saveCategory` persistiert die übergebene Kategorie.

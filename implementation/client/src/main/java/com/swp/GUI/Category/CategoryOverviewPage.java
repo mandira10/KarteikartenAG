@@ -53,7 +53,7 @@ public class CategoryOverviewPage extends Page
         }, new SearchbarCallback() {
             @Override public void run(String query, int option) 
             {
-                //TODO search
+                loadCategories(query);
             }
         });
         searchbar.setPositionInPercent(false, true);

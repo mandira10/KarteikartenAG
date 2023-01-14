@@ -6,6 +6,8 @@ import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.HierarchyList.HierarchyList;
+import com.gumse.gui.HierarchyList.HierarchyListEntry;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
@@ -15,6 +17,10 @@ import com.gumse.system.io.Mouse;
 import com.gumse.tools.Output;
 import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Category;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.Category.ViewSingleCategoryPage;
+import com.swp.GUI.Extras.Notification.NotificationType;
+import com.swp.GUI.PageManager.PAGES;
 
 public class CategoryList extends RenderGUI
 {
@@ -68,7 +74,7 @@ public class CategoryList extends RenderGUI
         }
     };
 
-    private Scroller pScroller;
+    private HierarchyList pList;
     private CategoryListCallback pCallback;
 
     public CategoryList(ivec2 pos, ivec2 size, CategoryListCallback onclick)
@@ -77,9 +83,10 @@ public class CategoryList extends RenderGUI
         this.vSize.set(size);
         this.pCallback = onclick;
 
-        pScroller = new Scroller(new ivec2(0, 0), new ivec2(100, 100));
-        pScroller.setSizeInPercent(true, true);
-        addElement(pScroller);
+        pList = new HierarchyList(new ivec2(0, 0), new ivec2(100, 100), "Categories", "Root", false);
+        pList.setSizeInPercent(true, true);
+
+        addElement(pList);
 
         resize();
         reposition();
@@ -88,22 +95,20 @@ public class CategoryList extends RenderGUI
     
     public void reset()
     {
-        pScroller.destroyChildren();
+        pList.reset();
     }
 
     public void addCategories(List<Category> categories)
     {
-        int y = 0;
         for(Category category : categories)
         {
-            CategoryContainer container = new CategoryContainer(category);
-            container.setPosition(new ivec2(5, y++ * 110));
-            container.setSize(new ivec2(90, 100));
-            container.setSizeInPercent(true, false);
-            container.setPositionInPercent(true, false);
-            container.setCornerRadius(new vec4(7.0f));
-
-            pScroller.addGUI(container);
+            Output.info(category.getName());
+            HierarchyListEntry entry = new HierarchyListEntry(category.getName(), pList, (RenderGUI gui) -> {
+                ((ViewSingleCategoryPage)PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW)).setCategory(category);
+                pList.selectEntry(null);
+            });
+            entry.onHover(null, Mouse.GUM_CURSOR_HAND);
+            pList.addEntry(entry);
         }
     }
 }
