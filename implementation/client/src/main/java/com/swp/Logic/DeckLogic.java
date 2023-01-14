@@ -9,6 +9,7 @@ import com.swp.DataModel.StudySystem.StudySystemType;
 import com.swp.Persistence.DeckRepository;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,7 +41,7 @@ public class DeckLogic extends BaseLogic<Deck>
 
     public static Deck getDeckByUUID(String uuid)
     {
-        return null;
+        return execTransactional(() -> DeckRepository.getDeckByUUID(uuid));
     }
 
     public static Set<Card> getCardsByDeck(Deck deck)
@@ -178,5 +179,18 @@ public class DeckLogic extends BaseLogic<Deck>
             }
             return null; // Lambda braucht immer einen return
         });
+    }
+
+    public static void updateDeckCards(List<Card> cards,Deck deck){
+            execTransactional(() -> {
+                List<Card> oldCards = new ArrayList<>();
+                oldCards.addAll(DeckLogic.getCardsInDeck(deck));
+                DeckLogic.removeCardsFromDeck(oldCards, deck);
+                DeckLogic.addCardsTodeck(cards, deck);
+                DeckRepository.updateDeckCards(deck);
+                return null;
+            });
+
+
     }
 }

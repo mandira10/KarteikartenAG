@@ -219,4 +219,14 @@ public class DeckRepository extends BaseRepository<Deck>
         //TODO
 
     }
+
+    public static Deck getDeckByUUID(String uuid) {
+        //TODO
+        return null;
+    }
+
+    public static boolean updateDeckCards(Deck deck){
+        //TODO
+        return false;
+    }
 }
