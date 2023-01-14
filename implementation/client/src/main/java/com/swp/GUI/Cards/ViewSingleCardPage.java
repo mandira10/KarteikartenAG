@@ -13,6 +13,8 @@ import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.Tag;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardRenderer.CardRenderer;
@@ -21,6 +23,12 @@ import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.RatingGUI.RateCallback;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.Persistence.DataCallback;
+import com.swp.Persistence.SingleDataCallback;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ViewSingleCardPage extends Page
 {
@@ -130,12 +138,22 @@ public class ViewSingleCardPage extends Page
         pCardRenderer.setCard(card);
         pRatingGUI.setRating(card.getRating());
         String tagStr = "";
-        for(Tag tag : CardController.getTagsToCard(card))
-            tagStr += tag.getVal() + ", ";
+        List<Tag> tags = new ArrayList<>();
+         CardController.getTagsToCard(card,new DataCallback<Tag>() {
+        @Override
+        public void onSuccess(List<Tag> data) {
+            tags.addAll(data);
+        }
 
-        if(tagStr.length() > 0)
-            tagStr = tagStr.substring(0, tagStr.length() - 2);
-        pTagsText.setString(tagStr);
+        @Override
+        public void onFailure(String msg) {
+            //GUI logger
+        }
+
+        @Override
+        public void onInfo(String msg) {}
+     });
+
 
         String categoriesStr = "TODO Categories";
         //TODO
@@ -173,8 +191,19 @@ public class ViewSingleCardPage extends Page
         ConfirmationGUI.openDialog("Are you sure that you want to delete this card?", new ConfirmationCallback() {
             @Override public void onConfirm() 
             {  
-                if(CardController.deleteCard(pCard))
-                    ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30, Deck.CardOrder.ALPHABETICAL);
+                CardController.deleteCard(pCard, new SingleDataCallback<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean data) {
+                        ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                        ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
+                    }
+                });
+
             }
             @Override public void onCancel() 
             {

@@ -75,7 +75,7 @@ public class AudioCard extends Card
     }
 
     public void setAnswer(String answer) {
-        this.answer = checkNotNullOrBlank("Antwort", answer);
+        this.answer = checkNotNullOrBlank("Antwort", answer,false);
     }
 
     @Override

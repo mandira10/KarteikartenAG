@@ -30,7 +30,7 @@ abstract class BaseLogic<T> {
      * @param function Eine Funktion die transactional ausgeführt werden soll.
      * @return ein Objekt mit dem Ergebnis der Transaktion
      */
-    protected static Object execTransactional(final Supplier<Object> function) {
+    protected static <RV> RV execTransactional(final Supplier<RV> function) {
         // Locking um mögliche Nebenläufigkeitsprobleme zu vermeiden.
         // Falls sequentielle DB-Zugriffe nicht schnell genug sind, muss hier etwas umgebaut werden.
         // Siehe z.B. https://en.wikibooks.org/wiki/Java_Persistence/Locking#Optimistic_Locking

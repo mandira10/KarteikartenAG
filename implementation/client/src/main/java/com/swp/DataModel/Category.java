@@ -20,6 +20,8 @@ import java.util.UUID;
 @Table
 @NamedQuery(name = "Category.findByName",
         query = "SELECT c FROM Category c WHERE c.name = :name")
+@NamedQuery(name = "Category.findByUUID",
+        query = "SELECT c FROM Category c WHERE c.uuid = :uuid")
 @NamedQuery(name = "Category.getParents",
         query = "SELECT c.parents FROM Category c WHERE c = :category")
 public class Category implements Serializable

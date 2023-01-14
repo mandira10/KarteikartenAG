@@ -5,27 +5,29 @@ import java.util.*;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
-import com.swp.DataModel.Tag;
-import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.swing.text.html.Option;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 
 @Slf4j
-public class CategoryLogic {
+public class CategoryLogic extends BaseLogic<Category>
+{
+    /**
+     * Konstruktor für eine DeckLogic-Instanz.
+     */
+    public CategoryLogic() {
+        super(CategoryRepository.getInstance());
+    }
 
-
-
+    /**
+     *
+     * @param uuid
+     * @return
+     */
     public static Category getCategory(String uuid) {
-        Set<Category> cats = CategoryRepository.getCategories();
-        for (Category c : cats) {
-            if (c.getUuid().equals(uuid))
-                return c;
-        }
-        return null;
+        return execTransactional(() -> CategoryRepository.findByUUID(uuid));
     }
 
     public static Category getCategoryByUUID(String uuid) {
@@ -69,7 +71,7 @@ public class CategoryLogic {
     }
 
     public static Set<Card> getCardsInCategory(String categoryName) {
-            checkNotNullOrBlank(categoryName, "Kategorie");
+            checkNotNullOrBlank(categoryName, "Kategorie",true);
             Optional<Category> catOpt = CategoryRepository.find(categoryName);
             if(catOpt.isEmpty())
                 throw new NullPointerException("Es gibt keine Kategorie zu dem eingegebenen Wert: " + categoryName);

@@ -1,7 +1,5 @@
 package com.swp.GUI;
 
-import com.swp.DataModel.Deck;
-
 import com.gumse.basics.SmoothFloat;
 import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.TextBox;
@@ -128,7 +126,7 @@ public class Sidebar extends RenderGUI
         pBackground.addGUI(new SidebarItem('', "Cards", new ivec2(0,230), new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30, Deck.CardOrder.ALPHABETICAL);
+                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
             }
         }));
         pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,340), new GUICallback() {

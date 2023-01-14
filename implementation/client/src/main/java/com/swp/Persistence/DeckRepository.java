@@ -22,11 +22,20 @@ import jakarta.persistence.EntityManagerFactory;
 
 public class DeckRepository extends BaseRepository<Deck>
 {
-    public DeckRepository() {
+    private DeckRepository() {
         super(Deck.class);
     }
 
-    public final static EntityManagerFactory emf = PersistenceManager.emFactory;
+    // Singleton
+    private static DeckRepository deckRepository = null;
+    public static DeckRepository getInstance()
+    {
+        if(deckRepository == null)
+            deckRepository = new DeckRepository();
+        return deckRepository;
+    }
+
+    private final static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     public static boolean saveDeck(Deck deck)
     {
@@ -209,5 +218,15 @@ public class DeckRepository extends BaseRepository<Deck>
     public static void removeCardToDeck(Card c, Deck deck) {
         //TODO
 
+    }
+
+    public static Deck getDeckByUUID(String uuid) {
+        //TODO
+        return null;
+    }
+
+    public static boolean updateDeckCards(Deck deck){
+        //TODO
+        return false;
     }
 }
