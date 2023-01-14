@@ -31,7 +31,7 @@ public class CategoryLogic extends BaseLogic<Category>
     }
 
     public static Category getCategoryByUUID(String uuid) {
-        return null;
+        return execTransactional(() -> CategoryRepository.findByUUID(uuid));
     }
 
     public static Set<Category> getCategoriesByCard(Card card) {
