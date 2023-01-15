@@ -1,14 +1,12 @@
 package com.swp.Persistence;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.swp.DataModel.Card;
-import com.swp.DataModel.CardToCategory;
-import com.swp.DataModel.CardToTag;
-import com.swp.DataModel.Category;
+import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
@@ -93,7 +91,7 @@ public class CategoryRepository extends BaseRepository<Category>
             Set<CardToCategory> c2cWithDeletedCategory;
             c2cWithDeletedCategory = (Set<CardToCategory>) em.createNamedQuery("CardToCategory.allC2CByCategory")
                     .setParameter("category", category)
-                    .getResultStream().collect(Collectors.toSet());
+                    .getResultStream().collect(Collectors.toList());
             for (CardToCategory c2c : c2cWithDeletedCategory) {
                 em.remove(c2c);
             }
@@ -107,14 +105,14 @@ public class CategoryRepository extends BaseRepository<Category>
      *
      * @return Set<Category> eine Menge mit allen `Category`
      */
-    public static Set<Category> getCategories() {
-        Set<Category> categories = Cache.getInstance().getCategories();
+    public static List<Category> getCategories() {
+        List<Category> categories = new ArrayList<>();//Cache.getInstance().getCategories();
         if (!categories.isEmpty()) {
             return categories;
         }
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            categories = (Set<Category>) em.createQuery("SELECT c FROM Category c").getResultStream().collect(Collectors.toSet());
+            categories = (List<Category>) em.createQuery("SELECT c FROM Category c").getResultStream().collect(Collectors.toList());
             em.getTransaction().commit();
         }
         return categories;
@@ -125,11 +123,11 @@ public class CategoryRepository extends BaseRepository<Category>
      *
      * @return Set<CardToCategory> eine Menge mit allen `CardToCategory`
      */
-    public static Set<CardToCategory> getCardToCategories() {
-        Set<CardToCategory> card2categories = Cache.getInstance().getCardToCategories();
-        if (!card2categories.isEmpty()) {
-            return card2categories;
-        }
+    public static List<CardToCategory> getCardToCategories() {
+            List<CardToCategory> card2categories = new ArrayList<>();
+//        if (!card2categories.isEmpty()) {
+//            return card2categories;
+//        }
 
         /////////////////////////////////////////////////////////////////
         //
@@ -152,10 +150,10 @@ public class CategoryRepository extends BaseRepository<Category>
         for (Category category : getCategories()) {
             for (Card card : cards) {
                 CardToCategory cardtocategory = new CardToCategory(card, category);
-                card2categories.add(cardtocategory);
+              card2categories.add(cardtocategory);
             }
         }
-        Cache.getInstance().setCardToCategories(card2categories);
+        //Cache.getInstance().setCardToCategories(card2categories);
         return card2categories;
         /////////////////////////////////////////////////////////////////
 
@@ -190,13 +188,13 @@ public class CategoryRepository extends BaseRepository<Category>
      * @param category eine Kategorie
      * @return Set<Card> eine Menge von Karten, die der Kategorie zugeordnet sind.
      */
-    public static Set<Card> getCardsByCategory(Category category) {
-        Set<Card> cards;
+    public static List<Card> getCardsByCategory(Category category) {
+        List<Card> cards;
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            cards = (Set<Card>) em.createNamedQuery("CardToCategory.allCardsOfCategory")
+            cards = (List<Card>) em.createNamedQuery("CardToCategory.allCardsOfCategory")
                     .setParameter("category", category)
-                    .getResultStream().collect(Collectors.toSet());
+                    .getResultStream().collect(Collectors.toList());
             em.getTransaction().commit();
         }
         return cards;
@@ -209,13 +207,13 @@ public class CategoryRepository extends BaseRepository<Category>
      * @param card eine Karte
      * @return Set<Category> eine Menge von Kategorien, die der Karte zugeordnet sind.
      */
-    public static Set<Category> getCategoriesToCard(Card card) {
-        Set<Category> categories;
+    public static List<Category> getCategoriesToCard(Card card) {
+        List<Category> categories;
         try (final EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            categories = (Set<Category>) em.createNamedQuery("CardToCategory.allCategoriesOfCard")
+            categories = (List<Category>) em.createNamedQuery("CardToCategory.allCategoriesOfCard")
                     .setParameter("card", card)
-                    .getResultStream().collect(Collectors.toSet());
+                    .getResultStream().collect(Collectors.toList());
             em.getTransaction().commit();
         }
         if(!categories.isEmpty()) {
@@ -237,17 +235,7 @@ public class CategoryRepository extends BaseRepository<Category>
         }
     }
 
-    public static Set<Category> getParentsForCategory(Category c) {
-        Set<Category> categories;
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            categories = (Set<Category>) em.createNamedQuery("Category.getParents")
-                    .setParameter("category", c)
-                    .getResultStream().collect(Collectors.toSet());
-            em.getTransaction().commit();
-        }
-        return categories;
-    }
+
 
     public static boolean deleteCardToCategory(Card card, Category c) {
         try (final EntityManager em = emf.createEntityManager()) {
@@ -261,4 +249,51 @@ public class CategoryRepository extends BaseRepository<Category>
             return true;
         }
     }
+
+    public static boolean saveCategoryHierarchy(Category child, Category parent) {
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(new CategoryHierarchy(child, parent));
+            em.getTransaction().commit();
+        }
+        log.info("Kategorie {} wurde erfolgreich als Child von Parent {} gespeichert", child.getUuid(), parent.getUuid());
+        return true;
+    }
+
+    public static boolean deleteCategoryHierarchy(Category child, Category parent) {
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            CategoryHierarchy C2C = (CategoryHierarchy) em.createNamedQuery("CategoryH.findSpecificCH")
+                    .setParameter("child", child)
+                    .setParameter("parent", parent)
+                    .getSingleResult();
+            em.remove(C2C);
+            em.getTransaction().commit();
+            return true;
+    }
 }
+
+    public static List<Category> getChildrenForCategory(Category parent) {
+        List<Category> categories;
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            categories = (List<Category>) em.createNamedQuery("CategoryH.getChildren")
+                    .setParameter("parent", parent)
+                    .getResultStream().collect(Collectors.toList());
+            em.getTransaction().commit();
+        }
+        return categories;
+    }
+
+    public static List<Category> getParentsForCategory(Category child) {
+        List<Category> categories;
+        try (final EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            categories = (List<Category>) em.createNamedQuery("CategoryH.getParents")
+                    .setParameter("child", child)
+                    .getResultStream().collect(Collectors.toList());
+            em.getTransaction().commit();
+        }
+        return categories;
+    }
+    }

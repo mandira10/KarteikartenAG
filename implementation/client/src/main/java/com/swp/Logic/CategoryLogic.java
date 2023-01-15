@@ -34,7 +34,7 @@ public class CategoryLogic extends BaseLogic<Category>
         return execTransactional(() -> CategoryRepository.findByUUID(uuid));
     }
 
-    public static Set<Category> getCategoriesByCard(Card card) {
+    public static List<Category> getCategoriesByCard(Card card) {
         return CategoryRepository.getCategoriesToCard(card);
     }
 
@@ -70,7 +70,7 @@ public class CategoryLogic extends BaseLogic<Category>
         return false;
     }
 
-    public static Set<Card> getCardsInCategory(String categoryName) {
+    public static List<Card> getCardsInCategory(String categoryName) {
             checkNotNullOrBlank(categoryName, "Kategorie",true);
             Optional<Category> catOpt = CategoryRepository.find(categoryName);
             if(catOpt.isEmpty())
@@ -79,16 +79,22 @@ public class CategoryLogic extends BaseLogic<Category>
             return getCardsInCategory(category);
     }
 
-    public static Set<Card> getCardsInCategory(Category category) {
+    public static List<Card> getCardsInCategory(Category category) {
         return CategoryRepository.getCardsByCategory(category);
     }
 
-    public static boolean setCardToCategories(Card card, Set<Category> catNew) {
+    public static <T> boolean setC2COrCH(T cardOrCategory, List<Category> catNew, boolean child) {
         boolean ret = true;
-        Set<Category> catOld = getCategoriesByCard(card); //check Old Tags to remove unused tags
+        List<Category> catOld = new ArrayList<>();
+        if(cardOrCategory instanceof Card card)
+             catOld = getCategoriesByCard(card); //check Old Tags to remove unused tags
+        else if(cardOrCategory instanceof Category category && child == false)
+            catOld = getChildrenForCategory(category);
+        else if(cardOrCategory instanceof Category category && child == true)
+            catOld = getParentsForCategory(category);
 
         if(catOld == null){
-            if(!checkAndCreateCategories(card,catNew,catOld))
+            if(!checkAndCreateCategories(cardOrCategory,catNew,catOld,child))
                 ret = false;
         }
 
@@ -97,50 +103,78 @@ public class CategoryLogic extends BaseLogic<Category>
 
 
 
-        else if(catOld.containsAll(catNew) || catOld.size() > catNew.size()) { //es wurden nur tags gelöscht
-            if(!checkAndRemoveCategories(card,catNew,catOld))
+        else if(catOld.containsAll(catNew) && catOld.size() > catNew.size()) { //es wurden nur tags gelöscht
+            if(!checkAndRemoveCategories(cardOrCategory,catNew,catOld,child))
                 ret = false;
         }
         else if(catNew.containsAll(catOld)) {  // nur neue hinzufügen
-            if(checkAndCreateCategories(card,catNew,catOld))
+            if(!checkAndCreateCategories(cardOrCategory,catNew,catOld,child))
                 ret = false;
 
         }
         else { //neue und alte
-             if(!checkAndCreateCategories(card,catNew,catOld))
+             if(!checkAndCreateCategories(cardOrCategory,catNew,catOld,child))
                  ret = false;
-            if(!checkAndRemoveCategories(card,catNew,catOld))
+            if(!checkAndRemoveCategories(cardOrCategory,catNew,catOld,child))
                 ret = false;
         }
         return ret;
     }
 
-    private static boolean checkAndRemoveCategories(Card card, Set<Category> catNew, Set<Category> catOld) {
+
+    private static <T> boolean checkAndRemoveCategories(final T cardOrCategory, List<Category> catNew, List<Category> catOld, boolean child) {
         boolean ret = true;
         for (Category c : catOld) {
             if (!catNew.contains(c))
-                if (!CategoryRepository.deleteCardToCategory(card, c))
+                if(cardOrCategory instanceof Card card) {
+                    if (!CategoryRepository.deleteCardToCategory(card, c))
+                        ret = false;
+                }
+                else if(cardOrCategory instanceof Category category && child == false){
+                    if(!CategoryRepository.deleteCategoryHierarchy(c,category));
                     ret = false;
+                }
+                else if(cardOrCategory instanceof Category category && child == true){
+                    if(!CategoryRepository.deleteCategoryHierarchy(category,c));
+                    ret = false;
+                }
         }
         return ret;
     }
 
 
-    private static boolean checkAndCreateCategories(Card card, Set<Category> catNew, Set<Category> catOld) {
-       boolean ret = true;
-       Set<Category> catExi = CategoryRepository.getCategories();
+    private static <T> boolean checkAndCreateCategories(final T cardOrCategory, List<Category> catNew, List<Category> catOld, boolean child) {
+        boolean ret = true;
         for (Category c : catNew) {
             if (catOld != null && catOld.contains(c))
-                log.info("Kategorie {} bereits für Karte {} in CardToCategory enthalten, kein erneutes Hinzufügen notwendig", c.getUuid(), card.getUuid());
-            else{
-                if (catExi == null || catExi.stream().filter(cat -> cat.getUuid().equals(c.getUuid())).findFirst().isEmpty()){
-                    if(!CategoryRepository.saveCategory(c)){
-                        ret = false;}
+                log.info("Kategorie {} bereits in CardToCategory/ CategorieHierarchy enthalten, kein erneutes Hinzufügen notwendig", c.getUuid());
+            else {
+                Optional<Category> catOptional = CategoryRepository.find(c.getName());
+                if (catOptional.isPresent()) {
+                    c = catOptional.get();
+                    log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", c.getName());
+                } else {
+                    if (!CategoryRepository.saveCategory(c))
+                        ret = false;
                 }
-                log.info("Kategorie {} wird zu Karte {} hinzugefügt", c.getUuid(), card.getUuid());
-                if(!CategoryRepository.saveCardToCategory(card, c))
-                    ret = false;
-        }
+                if (cardOrCategory instanceof Card card) {
+                    log.info("Kategorie {} wird zu Karte {} hinzugefügt", c.getUuid(), card.getUuid());
+                    if (!CategoryRepository.saveCardToCategory(card, c))
+                        ret = false;
+                    else if (cardOrCategory instanceof Category category && child == false) {
+                        log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
+                        if (!CategoryRepository.saveCategoryHierarchy(c, category)) ;
+                        ret = false;
+                    }
+                    else if (cardOrCategory instanceof Category category && child == true) {
+                        log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
+                        if (!CategoryRepository.saveCategoryHierarchy(category, c)) ;
+                        ret = false;
+                    }
+                }
+
+            }
+
         }
         return ret;
     }
@@ -152,8 +186,8 @@ public class CategoryLogic extends BaseLogic<Category>
      * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
      * @return Set mit bestehenden Categories
      */
-    public static Set<Category> getCategories() {
-        Set<Category> catList = CategoryRepository.getCategories();
+    public static List<Category> getCategories() {
+        List<Category> catList = CategoryRepository.getCategories();
 
         //TODO: Convert parentuuid entries to actual category references, two methods?
 
@@ -163,8 +197,8 @@ public class CategoryLogic extends BaseLogic<Category>
     /**
      * Lädt alle Category Parents for specific category
      */
-    public static Set<Category> getCategoryHierarchy(Category c) {
-        Set<Category> catList = CategoryRepository.getParentsForCategory(c);
+    public static List<Category> getCategoryHierarchy(Category c) {
+        List<Category> catList = CategoryRepository.getParentsForCategory(c);
 
         //TODO: Convert parentuuid entries to actual category references, two methods?
 
@@ -172,36 +206,31 @@ public class CategoryLogic extends BaseLogic<Category>
     }
 
 
-    public static Set<Card> getCardsByCategory(Set<Category> categories) {
-        Set<Card> cardsOfAll = new HashSet<>();
+    public static List<Card> getCardsByCategory(Set<Category> categories) {
+        List<Card> cardsOfAll = new ArrayList<>();
         for (Category c : categories){
             cardsOfAll.addAll(getCardsInCategory(c));
         }
         return cardsOfAll;
     }
 
-    public static boolean editCategoryHierarchy(Category category, Set<String> parents, Set<String> children) {
-        Set<Category> p = checkCategoryAndSave(category,parents);
-        Set<Category> c = checkCategoryAndSave(category,children);
-        category.setChildren(c);
-        category.setParents(p);
-        return CategoryRepository.updateCategory(category); //TODO: Testing -- works for all combinations???
+    public static boolean editCategoryHierarchy(Category category, List<Category> parents, List<Category> children) {
+        boolean ret = true;
+         if(!setC2COrCH(category,parents,true))
+             ret = false;
+         if(!setC2COrCH(category,children,false))
+             ret = false;
+
+         return ret;
     }
 
-    private static Set<Category> checkCategoryAndSave(Category category, Set<String> multiHierarchyCategories){
-        Set<Category> categoriesToReturn = new HashSet<>();
-        for (String s : multiHierarchyCategories){
-            Optional<Category> cOpt = CategoryRepository.find(s);
-            if(cOpt.isEmpty()){
-                Category c = new Category(s);
-                CategoryRepository.saveCategory(c);
-                categoriesToReturn.add(c);
-            }
-            else{
-                Category c = cOpt.get();
-                categoriesToReturn.add(c);
-            }
-        }
-        return categoriesToReturn;
+
+    private static List<Category> getChildrenForCategory(Category parents) {
+       return CategoryRepository.getChildrenForCategory(parents);
     }
+
+    private static List<Category> getParentsForCategory(Category child) {
+       return CategoryRepository.getParentsForCategory(child);
+    }
+
 }
