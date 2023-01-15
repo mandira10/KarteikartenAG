@@ -6,12 +6,12 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table//(uniqueConstraints = @UniqueConstraint(name = "uniqueCardCategory",columnNames = {"card_uuid","category_uuid"}))
 @Getter
 @NamedQuery(name = "CardToCategory.allCardsOfCategory",
-            query = "SELECT c2c.card FROM CardToCategory c2c WHERE category = :category")
+            query = "SELECT c2c.card FROM CardToCategory c2c WHERE c2c.category = :category")
 @NamedQuery(name = "CardToCategory.allCategoriesOfCard",
-            query = "SELECT c2c.category FROM CardToCategory c2c WHERE card = :card")
+            query = "SELECT c2c.category FROM CardToCategory c2c WHERE c2c.card = :card")
 @NamedQuery(name = "CardToCategory.allC2CByCard",
             query = "SELECT c FROM CardToCategory c WHERE c.card = :card")
 @NamedQuery(name = "CardToCategory.allC2CByCategory",
@@ -32,13 +32,14 @@ public class CardToCategory implements Serializable
      * Zugehörige Karte
      */
     @ManyToOne
-    //@ForeignKey
+    @JoinColumn(name="card_uuid")
     private final Card card;
 
     /**
      * Zugehörige Kategorie
      */
     @ManyToOne
+    @JoinColumn(name="category_uuid")
     private final Category category;
 
     /**

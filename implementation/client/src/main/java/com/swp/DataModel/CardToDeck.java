@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table
+@Table(uniqueConstraints = @UniqueConstraint(name = "uniqueCardDeck",columnNames = {"card_uuid","deck_uuid"}))
 @Entity
 @Getter
 @Setter
@@ -29,15 +29,17 @@ public class CardToDeck implements Serializable
     /**
      * Zugehörige Karte
      */
-    @OneToOne
+    @ManyToOne
     @Setter(AccessLevel.NONE)
+    @JoinColumn(name = "card_uuid")
     private final Card card;
 
     /**
      * Zugehöriges Deck
      */
-    @OneToOne
+    @ManyToOne
     @Setter(AccessLevel.NONE)
+    @JoinColumn(name = "deck_uuid")
     private final Deck deck;
 
     @Id

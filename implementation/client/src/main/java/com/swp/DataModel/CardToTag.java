@@ -6,12 +6,12 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(uniqueConstraints = @UniqueConstraint(name = "uniqueCardTag",columnNames = {"tag_uuid","card_uuid"}))
 @Getter
 @NamedQuery(name = "CardToTag.allCardsWithTag",
-            query = "SELECT ct.card FROM CardToTag ct WHERE tag = :tag")
+            query = "SELECT ct.card FROM CardToTag ct WHERE ct.tag = :tag")
 @NamedQuery(name = "CardToTag.allTagsWithCards",
-        query = "SELECT ct.tag FROM CardToTag ct WHERE card = :card")
+        query = "SELECT ct.tag FROM CardToTag ct WHERE ct.card = :card")
 @NamedQuery(name = "CardToTag.allC2TByCard",
             query = "SELECT ct FROM CardToTag ct WHERE ct.card = :card")
 @NamedQuery(name = "CardToTag.findSpecificC2T",
@@ -21,13 +21,15 @@ public class CardToTag implements Serializable
     /**
      * Zugehörige Karte
      */
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "card_uuid")
     private final Card card;
 
     /**
      * Zugehöriger Tag
      */
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "tag_uuid")
     private final Tag tag;
 
     /**
