@@ -21,6 +21,7 @@ public class ViewSingleCategoryPage extends Page
     private Category pCategory;
     private RenderGUI pCanvas;
     private CardList pCardList;
+    private final CategoryController categoryController = CategoryController.getInstance();
 
     public ViewSingleCategoryPage()
     {
@@ -68,7 +69,7 @@ public class ViewSingleCategoryPage extends Page
         this.pCategory = category;
 
         pCardList.reset();
-        pCardList.addCards(CategoryController.getCardsInCategory(this.pCategory).stream().collect(Collectors.toSet()));
+        pCardList.addCards(categoryController.getCardsInCategory(this.pCategory).stream().collect(Collectors.toSet()));
 
         resize();
         reposition();
@@ -80,7 +81,7 @@ public class ViewSingleCategoryPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                CategoryController.deleteCategory(pCategory);
+                categoryController.deleteCategory(pCategory);
                 ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
             }
         });

@@ -7,10 +7,8 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Output;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Deck;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Decks.DeckSelectPage;
@@ -23,8 +21,8 @@ import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
-import com.swp.Persistence.DataCallback;
-import com.swp.Persistence.SingleDataCallback;
+import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
 
 public class CardOverviewPage extends Page 
 {

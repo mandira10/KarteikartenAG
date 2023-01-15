@@ -25,8 +25,8 @@ import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.RatingGUI.RateCallback;
 import com.swp.GUI.PageManager.PAGES;
-import com.swp.Persistence.DataCallback;
-import com.swp.Persistence.SingleDataCallback;
+import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
 
 import java.util.List;
 
@@ -138,7 +138,7 @@ public class ViewSingleCardPage extends Page
         pCard = card;
         pCardRenderer.setCard(card);
         pRatingGUI.setRating(card.getRating());
-        CardController.getTagsToCard(card, new DataCallback<Tag>() {
+        CardController.getInstance().getTagsToCard(card, new DataCallback<Tag>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Tag> tags)
             {
@@ -158,7 +158,7 @@ public class ViewSingleCardPage extends Page
 
 
         String categoriesStr = "";
-        for(Category category : CategoryController.getCategoriesToCard(card))
+        for(Category category : CategoryController.getInstance().getCategoriesToCard(card))
             categoriesStr += category.getName() + ", ";
         if(categoriesStr.length() > 0)
             categoriesStr = categoriesStr.substring(0, categoriesStr.length() - 2);
@@ -192,7 +192,7 @@ public class ViewSingleCardPage extends Page
         ConfirmationGUI.openDialog("Are you sure that you want to delete this card?", new ConfirmationCallback() {
             @Override public void onConfirm() 
             {  
-                CardController.deleteCard(pCard, new SingleDataCallback<Boolean>() {
+                CardController.getInstance().deleteCard(pCard, new SingleDataCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean data) {
                         ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);

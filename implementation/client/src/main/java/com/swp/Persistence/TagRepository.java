@@ -23,7 +23,7 @@ public class TagRepository extends BaseRepository<Tag> {
      * @return Tag der gefundene Tag mit entsprechendem Namen.
      * @throws NoResultException wenn kein entsprechender Tag gefunden wurde.
      */
-    public static Tag findTag(String text) {
+    public Tag findTag(String text) {
         return getEntityManager().createNamedQuery("Tag.findTagByName", Tag.class)
                 .setParameter("text", text)
                 .getSingleResult();

@@ -17,7 +17,7 @@ public abstract class BaseRepository<T> {
     // Objekt zur Synchronisation von mehreren potenziell parallelen Transaktionen
     public static final Object transaction = new Object();
 
-    public static EntityManagerFactory emf = PersistenceManager.emFactory;
+    private static EntityManagerFactory emf = PersistenceManager.emFactory;
 
     @Getter(AccessLevel.PROTECTED)
     private static EntityManager entityManager;
@@ -147,6 +147,16 @@ public abstract class BaseRepository<T> {
     }
 
     /**
+     * Funktion um eine Liste von Objekten im Repository zu persistieren.
+     * @param objects Liste der zu speichernden Objekte.
+     */
+    public void save(List<T> objects) {
+        for (T object : objects) {
+            save(object);
+        }
+    }
+
+    /**
      * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu aktualisieren.
      * @param object das zu aktualisierende Objekt.
      */
@@ -160,5 +170,15 @@ public abstract class BaseRepository<T> {
      */
     public void delete(T object) {
         entityManager.remove(object);
+    }
+
+    /**
+     * Funktion um eine Liste von Objekten im Repository zu entfernen.
+     * @param objects Liste der zu löschenden Objekte.
+     */
+    public void delete(List<T> objects) {
+        for (T object : objects) {
+            delete(object);
+        }
     }
 }

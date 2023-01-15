@@ -20,27 +20,26 @@ import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CategoryRepository extends BaseRepository<Category>
-{
+public class CategoryRepository extends BaseRepository<Category> {
     private CategoryRepository() {
         super(Category.class);
     }
 
     // Singleton
     private static CategoryRepository categoryRepository = null;
-    public static CategoryRepository getInstance()
-    {
-        if(categoryRepository == null)
+
+    public static CategoryRepository getInstance() {
+        if (categoryRepository == null)
             categoryRepository = new CategoryRepository();
         return categoryRepository;
     }
 
     public static Category findByUUID(String uuid) {
-        return (Category) getEntityManager().createNamedQuery("Category.findByUUID")
+        return getEntityManager()
+                .createNamedQuery("Category.findByUUID", Category.class)
                 .setParameter("uuid", uuid)
                 .getSingleResult();
     }
-    private final static EntityManagerFactory emf = PersistenceManager.emFactory; // TODO: muss entfernt werden.
 
     /**
      * Die Funktion `saveCategory` persistiert die übergebene Kategorie.
@@ -49,12 +48,7 @@ public class CategoryRepository extends BaseRepository<Category>
      * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
      */
     public static boolean saveCategory(Category category) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.persist(category);
-            em.getTransaction().commit();
-        }
-        log.info("Category {} wurde erfolgreich gespeichert", category.getUuid());
+        getInstance().save(category);
         return true;
     }
 
@@ -67,12 +61,8 @@ public class CategoryRepository extends BaseRepository<Category>
      * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
      */
     public static boolean saveCardToCategory(Card card, Category category) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.persist(new CardToCategory(card, category));
-            em.getTransaction().commit();
-        }
-        log.info("CardToCategory für Karte {} und Kategorie {} wurde erfolgreich gespeichert", card.getUuid(), category.getUuid());
+        // die Funktion sollte wahrscheinlich nur im CardToCategoryRepository existieren.
+        CardToCategoryRepository.getInstance().save(new CardToCategory(card, category));
         return true;
     }
 
@@ -84,38 +74,8 @@ public class CategoryRepository extends BaseRepository<Category>
      * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
      */
     public static boolean deleteCategory(Category category) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.remove(category); //TODO: was ist mit Referenzen auf andere Categories???
-            // Alle CardToCategory entfernen, die die zu löschende Kategorie enthalten.
-            Set<CardToCategory> c2cWithDeletedCategory;
-            c2cWithDeletedCategory = (Set<CardToCategory>) em.createNamedQuery("CardToCategory.allC2CByCategory")
-                    .setParameter("category", category)
-                    .getResultStream().collect(Collectors.toList());
-            for (CardToCategory c2c : c2cWithDeletedCategory) {
-                em.remove(c2c);
-            }
-            em.getTransaction().commit();
-        }
+        getInstance().delete(category);
         return true;
-    }
-
-    /**
-     * Die Funktion `getCategories` liefert alle gespeicherten `Category`-Objekte zurück.
-     *
-     * @return Set<Category> eine Menge mit allen `Category`
-     */
-    public static List<Category> getCategories() {
-        List<Category> categories = new ArrayList<>();//Cache.getInstance().getCategories();
-        if (!categories.isEmpty()) {
-            return categories;
-        }
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            categories = (List<Category>) em.createQuery("SELECT c FROM Category c").getResultStream().collect(Collectors.toList());
-            em.getTransaction().commit();
-        }
-        return categories;
     }
 
     /**
@@ -124,7 +84,10 @@ public class CategoryRepository extends BaseRepository<Category>
      * @return Set<CardToCategory> eine Menge mit allen `CardToCategory`
      */
     public static List<CardToCategory> getCardToCategories() {
-            List<CardToCategory> card2categories = new ArrayList<>();
+        // TODO: diese Funktion sollte nicht verwendet werden, sondern folgendes:
+        // CardToCategoryRepository.getInstance().getAll();
+
+        List<CardToCategory> card2categories = new ArrayList<>();
 //        if (!card2categories.isEmpty()) {
 //            return card2categories;
 //        }
@@ -146,11 +109,11 @@ public class CategoryRepository extends BaseRepository<Category>
         cards.add(new TextCard("Text Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "text answer", "TextCard", false));
         cards.add(new ImageDescriptionCard("Image Desc Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", answers, "ImageDescriptionCard", "textures/orange-ket.png", false));
         cards.add(new ImageTestCard("Image Test Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "image answer", "textures/orange-ket.png", "ImageTestCard", false, false));
-        cards.add(new AudioCard("audios/thud.wav", "AudioCard", "Audio Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "audio answer", false, false));
-        for (Category category : getCategories()) {
+        //cards.add(new AudioCard("audios/thud.wav", "AudioCard", "Audio Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "audio answer", false, false));
+        for (Category category : CategoryRepository.getInstance().getAll()) {
             for (Card card : cards) {
                 CardToCategory cardtocategory = new CardToCategory(card, category);
-              card2categories.add(cardtocategory);
+                card2categories.add(cardtocategory);
             }
         }
         //Cache.getInstance().setCardToCategories(card2categories);
@@ -164,40 +127,16 @@ public class CategoryRepository extends BaseRepository<Category>
     /**
      * Der Funktion `find` wird ein Name einer Kategorie übergeben.
      * Falls eine Kategorie mit entsprechendem Namen existiert, wird diese `Category` zurückgegeben.
-     * Gibt es keine Kategorie mit diesem Namen, wird ein leeres `Optional` zurückgegeben.
      *
      * @param name einer Kategorie als String.
-     * @return Optional<Category>
+     * @return Category die gefundene Kategorie
+     * @throws NoResultException falls keine Kategorie mit entsprechendem Namen existiert
      */
-    public static Optional<Category> find(final String name) {
-        log.info(String.format("Rufe Kategorie für Namen %s ab", name));
-        try (final EntityManager em = emf.createEntityManager()) {
-            final Category ct = (Category) em.createNamedQuery("Category.findByName")
-                    .setParameter("name", name)
-                    .getSingleResult();
-            return Optional.of(ct);
-        } catch (final NoResultException e) {
-            return Optional.empty();
-        }
-    }
-
-    /**
-     * Der Funktion `getCardsByCategory` wird eine Kategorie übergeben.
-     * Es werden alle Karten zurückgegeben, die dieser Kategorie zugeordnet sind.
-     *
-     * @param category eine Kategorie
-     * @return Set<Card> eine Menge von Karten, die der Kategorie zugeordnet sind.
-     */
-    public static List<Card> getCardsByCategory(Category category) {
-        List<Card> cards;
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            cards = (List<Card>) em.createNamedQuery("CardToCategory.allCardsOfCategory")
-                    .setParameter("category", category)
-                    .getResultStream().collect(Collectors.toList());
-            em.getTransaction().commit();
-        }
-        return cards;
+    public static Category find(final String name) throws NoResultException {
+        return getEntityManager()
+                .createNamedQuery("Category.findByName", Category.class)
+                .setParameter("name", name)
+                .getSingleResult();
     }
 
     /**
@@ -208,92 +147,38 @@ public class CategoryRepository extends BaseRepository<Category>
      * @return Set<Category> eine Menge von Kategorien, die der Karte zugeordnet sind.
      */
     public static List<Category> getCategoriesToCard(Card card) {
-        List<Category> categories;
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            categories = (List<Category>) em.createNamedQuery("CardToCategory.allCategoriesOfCard")
-                    .setParameter("card", card)
-                    .getResultStream().collect(Collectors.toList());
-            em.getTransaction().commit();
-        }
-        if(!categories.isEmpty()) {
-            return categories;
-        }
-        return null;
+        return getEntityManager()
+                .createNamedQuery("CardToCategory.allCategoriesOfCard", Category.class)
+                .setParameter("card", card)
+                .getResultList();
     }
 
-
-    /**
-     * @param category: Die zu updatende Category
-     */
-    public static boolean updateCategory(Category category) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.merge(category);
-            em.getTransaction().commit();
-            return true;
-        }
-    }
-
-
-
-    public static boolean deleteCardToCategory(Card card, Category c) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            CardToCategory C2C = (CardToCategory) em.createNamedQuery("CardToCategory.findSpecificC2C")
-                    .setParameter("card", card)
-                    .setParameter("category", c)
-                    .getSingleResult();
-            em.remove(C2C);
-            em.getTransaction().commit();
-            return true;
-        }
-    }
-
-    public static boolean saveCategoryHierarchy(Category child, Category parent) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            em.persist(new CategoryHierarchy(child, parent));
-            em.getTransaction().commit();
-        }
-        log.info("Kategorie {} wurde erfolgreich als Child von Parent {} gespeichert", child.getUuid(), parent.getUuid());
+    public boolean saveCategoryHierarchy(Category child, Category parent) {
+        getEntityManager().persist(new CategoryHierarchy(child, parent));
         return true;
     }
 
     public static boolean deleteCategoryHierarchy(Category child, Category parent) {
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            CategoryHierarchy C2C = (CategoryHierarchy) em.createNamedQuery("CategoryH.findSpecificCH")
-                    .setParameter("child", child)
-                    .setParameter("parent", parent)
-                    .getSingleResult();
-            em.remove(C2C);
-            em.getTransaction().commit();
-            return true;
+        CategoryHierarchy ch = getEntityManager()
+                .createNamedQuery("CategoryH.findSpecificCH", CategoryHierarchy.class)
+                .setParameter("child", child)
+                .setParameter("parent", parent)
+                .getSingleResult();
+        getEntityManager().remove(ch);
+        return true;
     }
-}
 
     public static List<Category> getChildrenForCategory(Category parent) {
-        List<Category> categories;
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            categories = (List<Category>) em.createNamedQuery("CategoryH.getChildren")
-                    .setParameter("parent", parent)
-                    .getResultStream().collect(Collectors.toList());
-            em.getTransaction().commit();
-        }
-        return categories;
+        return getEntityManager()
+                .createNamedQuery("CategoryH.getChildren", Category.class)
+                .setParameter("parent", parent)
+                .getResultList();
     }
 
     public static List<Category> getParentsForCategory(Category child) {
-        List<Category> categories;
-        try (final EntityManager em = emf.createEntityManager()) {
-            em.getTransaction().begin();
-            categories = (List<Category>) em.createNamedQuery("CategoryH.getParents")
-                    .setParameter("child", child)
-                    .getResultStream().collect(Collectors.toList());
-            em.getTransaction().commit();
-        }
-        return categories;
+        return getEntityManager()
+                .createNamedQuery("CategoryH.getParents", Category.class)
+                .setParameter("child", child)
+                .getResultList();
     }
-    }
+}

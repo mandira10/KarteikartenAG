@@ -16,12 +16,12 @@ import com.swp.DataModel.Deck;
 
 @Getter
 @Setter
+@Entity
+@DiscriminatorColumn(name = "StudySystemType")
 public abstract class StudySystem implements Serializable
 {
-    /**
-     *TODO: wofür?
-     */
-   // private String[] asProfiles; //TODO
+    // TODO: verschiedene StudySystem-Typen persistieren
+    //
 
     /**
      * Primärer Schlüssel für die persistierten `StudySysteme`
@@ -95,11 +95,11 @@ public abstract class StudySystem implements Serializable
         boxes.get(boxindex).add(card);
     }
 
-    public void moveAllCardsForDeckToFirstBox(List<Card> cards){
+    public void moveAllCardsForDeckToFirstBox(List<Card> cards) {
         boxes.get(0).add(cards);
     }
 
-    public Set<Card> getAllCardsInStudySystem(){
+    public Set<Card> getAllCardsInStudySystem() {
         Set<Card> cardsInStudyS = new HashSet<>();
 
         for(StudySystemBox box : boxes){

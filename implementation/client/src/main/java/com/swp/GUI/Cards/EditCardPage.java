@@ -26,8 +26,8 @@ import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.EditCardPages.*;
 import com.swp.GUI.Category.CategorySelectPage;
 import com.swp.GUI.PageManager.PAGES;
-import com.swp.Persistence.DataCallback;
-import com.swp.Persistence.SingleDataCallback;
+import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
 
 public class EditCardPage extends Page
 {

@@ -6,7 +6,7 @@ import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.Persistence.Exporter.ExportFileType;
-import com.swp.Persistence.SingleDataCallback;
+import com.swp.Controller.SingleDataCallback;
 
 public class CardExportPage extends Page
 {

@@ -37,7 +37,7 @@ import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.GUI.KarteikartenAGGUI;
-import com.swp.Persistence.SingleDataCallback;
+import com.swp.Controller.SingleDataCallback;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -109,9 +109,10 @@ public class KarteikartenAG
 {
     private static GUI pMainGUI;
     private static final ivec2 iWindowSize = new ivec2(1000, 800);
+    private final CategoryController categoryController = CategoryController.getInstance();
+    private final CardController cardController = CardController.getInstance();
 
-
-    public static void main(String[] args)
+    public void main(String[] args)
     {
         Globals.DEBUG_BUILD = true;
         System.setProperty("java.awt.headless", "true");
@@ -222,7 +223,7 @@ public class KarteikartenAG
     }
 
 
-    private static void importTestData() 
+    private void importTestData()
     {
         Category randomCategory   = new Category("Random");
         Category schuleCategory   = new Category("Schule");
@@ -230,7 +231,7 @@ public class KarteikartenAG
         Category spanischCategory = new Category("Spanisch");
         Category erdkundeCategory = new Category("Erdkunde");
 
-        CategoryController.editCategoryHierarchy(schuleCategory, new ArrayList<Category>(), new ArrayList<Category>() {
+        categoryController.editCategoryHierarchy(schuleCategory, new ArrayList<Category>(), new ArrayList<Category>() {
             {
                 add(spanischCategory);
                 add(erdkundeCategory);
@@ -242,7 +243,7 @@ public class KarteikartenAG
 
         for(Category category : new Category[] {randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory})
         {
-            CategoryController.updateCategoryData(category, true, new SingleDataCallback<Boolean>() {
+            categoryController.updateCategoryData(category, true, new SingleDataCallback<Boolean>() {
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
@@ -255,11 +256,11 @@ public class KarteikartenAG
 
         for (Card c : randomL) 
         {
-            CardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+            cardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CardController.setTagsToCard(c, new ArrayList<>() {
+            cardController.setTagsToCard(c, new ArrayList<>() {
                 {
                     add(new Tag("toll"));
                     add(new Tag("cool"));
@@ -269,7 +270,7 @@ public class KarteikartenAG
                 @Override public void onFailure(String msg) {}
             });
 
-            CategoryController.setCategoriesToCard(c, new ArrayList<Category>() {
+            categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 { add(randomCategory); }
             });
         }
@@ -285,11 +286,11 @@ public class KarteikartenAG
 
         for (Card c : erdkundeL) 
         {
-            CardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+            cardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CardController.setTagsToCard(c, new ArrayList<Tag>() {
+            cardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("Deutschland"));
                     add(new Tag("Australien"));
@@ -299,7 +300,7 @@ public class KarteikartenAG
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CategoryController.setCategoriesToCard(c, new ArrayList<Category>() {
+            categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(erdkundeCategory);
                     add(schuleCategory);
@@ -316,11 +317,11 @@ public class KarteikartenAG
 
         for (Card c : spanischL) 
         {
-            CardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+            cardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CardController.setTagsToCard(c, new ArrayList<Tag>() {
+            cardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("Essen"));
                     add(new Tag("Anderes"));
@@ -330,7 +331,7 @@ public class KarteikartenAG
                 @Override public void onFailure(String msg) {}
             });
 
-            CategoryController.setCategoriesToCard(c, new ArrayList<Category>() {
+            categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(spanischCategory);
                     add(schuleCategory);
@@ -348,11 +349,11 @@ public class KarteikartenAG
 
         for (Card c : technikL) 
         {
-            CardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+            cardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CardController.setTagsToCard(c, new ArrayList<Tag>() {
+            cardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("Google Earth"));
                     add(new Tag("Technikmarken"));
@@ -362,7 +363,7 @@ public class KarteikartenAG
                 @Override public void onFailure(String msg) {}
             });
 
-            CategoryController.setCategoriesToCard(c, new ArrayList<Category>() {
+            categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(technikCategory);
                     add(schuleCategory);

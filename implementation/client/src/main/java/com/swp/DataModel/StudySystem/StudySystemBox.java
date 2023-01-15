@@ -11,7 +11,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-public class StudySystemBox {
+public class StudySystemBox
+{
     @Id
     private long id;
 
@@ -21,7 +22,7 @@ public class StudySystemBox {
     private Set<Card> boxContent;
 
     /**
-     * Konstruktor um eine neue interene Box für ein Lernsystem anzulegen.
+     * Konstruktor um eine neue interne Box für ein Lernsystem anzulegen.
      *
      */
     public StudySystemBox(Set<Card> cards) {

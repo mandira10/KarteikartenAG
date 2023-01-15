@@ -4,6 +4,8 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -13,6 +15,8 @@ import java.util.*;
 /**
  * Klasse für das VoteSystem. Erbt alle Attribute vom StudySystem
  */
+@Entity
+@DiscriminatorValue("Vote")
 public class VoteSystem extends StudySystem implements MouseListener {
     int questionCount = 0;
     int trueAnswerCount = 0;

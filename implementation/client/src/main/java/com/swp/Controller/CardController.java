@@ -4,15 +4,23 @@ package com.swp.Controller;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
-import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.Exporter.ExportFileType;
-import com.swp.Persistence.SingleDataCallback;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
 @Slf4j
 public class CardController {
+
+    private final CardLogic cardLogic = CardLogic.getInstance();
+
+    private static CardController cardController;
+    public static CardController getInstance() {
+        if (cardController == null)
+            cardController = CardController.getInstance();
+        return cardController;
+    }
+
 
     //CARDOVERVIEW
 
@@ -23,9 +31,9 @@ public class CardController {
      * @param end: Seitenauswahl Endwert
      * @return anzuzeigende Karten
      */
-    public static void getCardsToShow(int begin, int end, DataCallback<Card> callback){
+    public void getCardsToShow(int begin, int end, DataCallback<Card> callback){
      try{
-         List<Card> cardsToShow = CardLogic.getCardsToShow(begin, end);
+         List<Card> cardsToShow = cardLogic.getCardsToShow(begin, end);
 
          if(cardsToShow.isEmpty())
              callback.onInfo("Es gibt bisher noch keine Karten");
@@ -48,9 +56,9 @@ public class CardController {
      * @param tag: Der Tag, zu dem die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischem Tag
      */
-    public static void getCardsByTag(String tag, DataCallback<Card> callback) {
+    public void getCardsByTag(String tag, DataCallback<Card> callback) {
         try {
-            List<Card> cardsForTag = CardLogic.getCardsByTag(tag);
+            List<Card> cardsForTag = cardLogic.getCardsByTag(tag);
 
             if (cardsForTag.isEmpty())
               callback.onInfo("Es gibt keine Karten für diesen Tag");
@@ -74,9 +82,9 @@ public class CardController {
      * @param card Die Karte, zu der die Tags abgerufen werden sollen
      * @return Gefundene Tags für die spezifische Karte
      */
-    public static void getTagsToCard(Card card, DataCallback<Tag> callback) {
+    public void getTagsToCard(Card card, DataCallback<Tag> callback) {
         try {
-            List<Tag> tagsForCard = CardLogic.getTagsToCard(card);
+            List<Tag> tagsForCard = cardLogic.getTagsToCard(card);
 
             if (tagsForCard.isEmpty())
             callback.onInfo("Keine Tags für diese Karten vorhanden"); // log.info("Keine Tags für diese Karte vorhanden");
@@ -92,9 +100,9 @@ public class CardController {
      * @param searchterm Übergebener String mit dem Suchwort
      * @return Sets an Karten, die das Suchwort enthalten
      */
-    public static void getCardsBySearchterms(String searchterm, DataCallback <Card> callback) {
+    public void getCardsBySearchterms(String searchterm, DataCallback <Card> callback) {
         try {
-            List<Card> cardsForSearchTerms = CardLogic.getCardsBySearchterms(searchterm);
+            List<Card> cardsForSearchTerms = cardLogic.getCardsBySearchterms(searchterm);
 
             if (cardsForSearchTerms.isEmpty()) {
                 callback.onInfo("Es gibt keine Karten für dieses Suchwort");
@@ -114,9 +122,9 @@ public class CardController {
      * @param card Die zu löschende Karte
      * @return true, wenn ausgeführt, ansonsten false
      */
-    public static void deleteCard(Card card, SingleDataCallback<Boolean> singleDataCallback) {
+    public void deleteCard(Card card, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            if(CardLogic.deleteCard(card))
+            if(cardLogic.deleteCard(card))
                 singleDataCallback.onSuccess(true);
             else
                 singleDataCallback.onFailure("Es gab Probleme bei der Umsetzung"); //TODO:needed
@@ -130,9 +138,9 @@ public class CardController {
      * @param cards Die zu löschenden Karten
      * @return true, wenn ausgeführt, ansonsten false
      */
-    public static void deleteCards(List<Card> cards,SingleDataCallback<Boolean> singleDataCallback) {
+    public void deleteCards(List<Card> cards,SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            if (CardLogic.deleteCards(cards))
+            if (cardLogic.deleteCards(cards))
                 singleDataCallback.onSuccess(true);
             else
                 singleDataCallback.onFailure("Es gab Probleme bei der Umsetzung"); //TODO:needed
@@ -149,9 +157,9 @@ public class CardController {
      * @param uuid: UUID der abzurufenden Karte
      * @return Zugehörige Karte
      */
-    public static void getCardByUUID(String uuid, SingleDataCallback singleDataCallback) {
+    public void getCardByUUID(String uuid, SingleDataCallback singleDataCallback) {
         try {
-           singleDataCallback.onSuccess(CardLogic.getCardByUUID(uuid));
+           singleDataCallback.onSuccess(cardLogic.getCardByUUID(uuid));
         } catch (IllegalArgumentException ex) {//überrgebener Wert ist leer
             singleDataCallback.onFailure(ex.getMessage());
         }
@@ -162,9 +170,9 @@ public class CardController {
 
 
 
-    public static void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) {
+    public void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            if (!CardLogic.setTagsToCard(card, set))
+            if (!cardLogic.setTagsToCard(card, set))
                 singleDataCallback.onFailure("Es gab Probleme beim Setzen der Tags");
         }
         catch(Exception ex){
@@ -172,9 +180,9 @@ public class CardController {
         }
     }
 
-    public static void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback){
+    public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback){
         try {
-            if(!CardLogic.updateCardData(cardToChange, neu))
+            if(!cardLogic.updateCardData(cardToChange, neu))
                 singleDataCallback.onFailure("Probleme");
         }
         catch (Exception e) {
@@ -190,8 +198,8 @@ public class CardController {
      * @param filetype Exporttyp der Karten
      * @return Exportierte Datei
      */
-    public static void exportCards(Card[] cards, ExportFileType filetype,SingleDataCallback<Boolean> singleDataCallback) {
-        if(!CardLogic.exportCards(cards, filetype))
+    public void exportCards(Card[] cards, ExportFileType filetype,SingleDataCallback<Boolean> singleDataCallback) {
+        if(!cardLogic.exportCards(cards, filetype))
             singleDataCallback.onFailure("Probleme");
     }
 
