@@ -256,7 +256,7 @@ public class KarteikartenAG
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CardController.setTagsToCard(c, new HashSet<Tag>() {
+            CardController.setTagsToCard(c, new ArrayList<>() {
                 {
                     add(new Tag("toll"));
                     add(new Tag("cool"));
@@ -266,7 +266,7 @@ public class KarteikartenAG
                 @Override public void onFailure(String msg) {}
             });
 
-            CategoryController.setCategoriesToCard(c, new HashSet<Category>() {
+            CategoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 { add(randomCategory); }
             });
         }
@@ -286,7 +286,7 @@ public class KarteikartenAG
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CardController.setTagsToCard(c, new HashSet<Tag>() {
+            CardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("Deutschland"));
                     add(new Tag("Australien"));
@@ -296,7 +296,7 @@ public class KarteikartenAG
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CategoryController.setCategoriesToCard(c, new HashSet<Category>() {
+            CategoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(erdkundeCategory);
                     add(schuleCategory);
@@ -317,7 +317,7 @@ public class KarteikartenAG
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CardController.setTagsToCard(c, new HashSet<Tag>() {
+            CardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("Essen"));
                     add(new Tag("Anderes"));
@@ -327,7 +327,7 @@ public class KarteikartenAG
                 @Override public void onFailure(String msg) {}
             });
 
-            CategoryController.setCategoriesToCard(c, new HashSet<Category>() {
+            CategoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(spanischCategory);
                     add(schuleCategory);
@@ -349,7 +349,7 @@ public class KarteikartenAG
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
-            CardController.setTagsToCard(c, new HashSet<Tag>() {
+            CardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("Google Earth"));
                     add(new Tag("Technikmarken"));
@@ -359,7 +359,7 @@ public class KarteikartenAG
                 @Override public void onFailure(String msg) {}
             });
 
-            CategoryController.setCategoriesToCard(c, new HashSet<Category>() {
+            CategoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(technikCategory);
                     add(schuleCategory);

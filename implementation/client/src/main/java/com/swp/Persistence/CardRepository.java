@@ -27,7 +27,7 @@ public class CardRepository extends BaseRepository<Card>
      */
     public List<Card> getCardRange(final int from, final int to) {
         assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
-        return getEntityManager().createQuery("SELECT c FROM Card c ORDER BY title", Card.class)
+        return getEntityManager().createQuery("SELECT c FROM Card c ORDER BY c.title", Card.class)
                 .setFirstResult(from).setMaxResults(to-from).getResultList();
     }
 

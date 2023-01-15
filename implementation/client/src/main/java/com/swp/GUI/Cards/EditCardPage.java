@@ -229,7 +229,7 @@ public class EditCardPage extends Page
             }
         });
 
-        CardController.setTagsToCard(pNewCard, pTagList.getTagUserptrs().stream().collect(Collectors.toSet()), new SingleDataCallback<Boolean>() {
+        CardController.setTagsToCard(pNewCard, pTagList.getTagUserptrs().stream().collect(Collectors.toList()), new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {}
 
@@ -239,6 +239,6 @@ public class EditCardPage extends Page
             }
         });
 
-        CategoryController.setCategoriesToCard(pNewCard, aCategories.stream().collect(Collectors.toSet()));
+        CategoryController.setCategoriesToCard(pNewCard, aCategories.stream().collect(Collectors.toList()));
     }
 }

@@ -144,9 +144,9 @@ public class CardLogic extends BaseLogic<Card>
     }
 
 
-    public static boolean setTagsToCard(Card card, Set<Tag> tagNew) {
+    public static boolean setTagsToCard(Card card, List<Tag> tagNew) {
         boolean ret = true;
-        Set<Tag> tagOld = new HashSet<>(getTagsToCard(card)); //check Old Tags to remove unused tags
+        List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
         if(tagOld == null){
             if(!checkAndCreateTags(card,tagNew,tagOld))
                 ret = false;
@@ -173,7 +173,7 @@ public class CardLogic extends BaseLogic<Card>
         return ret;
     }
 
-    private static boolean checkAndRemoveTags(Card card, Set<Tag> tagNew, Set<Tag> tagOld) {
+    private static boolean checkAndRemoveTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
         boolean ret = true;
         for (Tag t : tagOld) {
             if (!tagNew.contains(t))
@@ -188,15 +188,18 @@ public class CardLogic extends BaseLogic<Card>
     }
 
 
-    private static boolean checkAndCreateTags(Card card, Set<Tag> tagNew, Set<Tag> tagOld) {
+    private static boolean checkAndCreateTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
         return execTransactional(() -> {
             boolean ret = true;
-            List<Tag> tagExi = CardRepository.getTags();
             for (Tag t : tagNew) {
                 if (tagOld != null && tagOld.contains(t)) {
                     log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
                 } else {
-                    if (tagExi == null || tagExi.stream().filter(tag -> tag.getUuid().equals(t.getUuid())).findFirst().isEmpty()) {
+                    try {
+                        Tag tag = TagRepository.getInstance().findTag(t.getVal());
+                        t = tag;
+                        log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", t.getVal());
+                    } catch (NoResultException ex) {
                         TagRepository.getInstance().save(t);
                     }
                     log.info("Tag {} wird zu Karte {} hinzugefügt", t.getUuid(), card.getUuid());
