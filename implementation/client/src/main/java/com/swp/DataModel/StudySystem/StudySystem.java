@@ -37,62 +37,27 @@ public abstract class StudySystem implements Serializable
     protected Deck deck;
 
     /**
-     * Einzelne Boxen des Systems, die Karten enthalten
+     * Maximale Anzahl an Karteikarten-Boxen, die das Lernsystem haben darf.
      */
-    @OneToMany//(mappedBy = "studySystem")
-    protected ArrayList<StudySystemBox> boxes;
-
-    /**
-     * Zugehöriger Typ des Systems
-     */
-    protected StudySystemType type;
+    protected int maxBoxes;
 
     /**
      * Konstruktor der Klasse StudySystem
      * @param deck: Deck des StudySystems
-     * @param type: Typ des StudySystems
      * @param nboxes: Anzahl der Boxen für das StudySystem
      */
-    public StudySystem(Deck deck, StudySystemType type, int nboxes)
+    public StudySystem(final Deck deck, final int nboxes)
     {
         this.deck = deck;
-        this.type = type;
-        //this.boxes = initArray(nboxes);
-        this.boxes = new ArrayList<StudySystemBox>(nboxes);
+        this.maxBoxes = nboxes;
         this.id = UUID.randomUUID().toString();
     }
 
     /**
-     * Initiiert die Boxen des StudySystems
-     * @param size: Übergebene Anzahl der Boxen für das StudySystem
-     * @return Boxliste des StudySystems
+     * No-Arg Konstruktor
      */
-    private ArrayList<Set<Card> > initArray(int size)
-    {
-        ArrayList<Set<Card> > retArr = new ArrayList<>();
-        for(int i = 0; i < size; i++)
-            retArr.add(new HashSet<Card>());
-
-        return retArr;
-    }
-
-    /**
-     * Verschiebt spezifische Karte in eine Box des StudySystems
-     * @param card: Zu verschiebene Karte
-     * @param boxindex: Index der Box, in den die Karte verschoben werden soll
-     */
-    public void moveCardToBox(Card card, int boxindex)
-    {
-        if(boxindex >= boxes.size() || boxindex < 0)
-            return;
-
-        for(StudySystemBox box : boxes)
-        {
-            if(box.getBoxContent().contains(card))
-                box.remove(card);
-        }
-
-        boxes.get(boxindex).add(card);
+    public StudySystem() {
+        this(null,0);
     }
 
     public void moveAllCardsForDeckToFirstBox(List<Card> cards) {

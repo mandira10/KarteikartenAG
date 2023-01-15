@@ -1,5 +1,6 @@
 package com.swp.Persistence;
 import com.swp.DataModel.*;
+import com.swp.DataModel.StudySystem.StudySystem;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
@@ -104,6 +105,21 @@ public class CardRepository extends BaseRepository<Card>
         return getEntityManager()
                 .createNamedQuery("CardToCategory.allCardsOfCategory", Card.class)
                 .setParameter("category", category)
+                .getResultList();
+    }
+
+    public List<Card> getCardsInStudySystemBox(final StudySystem studySystem, final int boxNr) {
+        return getEntityManager()
+                .createNamedQuery("CardToStudySystem.getCardsFromSpecificStudySystemBox", Card.class)
+                .setParameter("studySystem", studySystem)
+                .setParameter("boxNr", boxNr)
+                .getResultList();
+    }
+
+    public List<Card> getAllCardsInStudySystem(final StudySystem studySystem) {
+        return getEntityManager()
+                .createNamedQuery("CardToStudySystem.getAllCardsFromSpecificStudySystem", Card.class)
+                .setParameter("studySystem", studySystem)
                 .getResultList();
     }
 
