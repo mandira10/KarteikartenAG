@@ -55,6 +55,12 @@ public class CategoryController
         //TODO: Exception a la Data Callback, non user
     }
 
+    public List<Category> getParentsForCategory(Category child){
+        return categoryLogic.getParentsForCategory(child);
+    }
+    public List<Category> getChildrenForCategory(Category parent){
+        return categoryLogic.getChildrenForCategory(parent);
+    }
 
     public Category getCategoryByUUID(String uuid) {
         return categoryLogic.getCategoryByUUID(uuid);

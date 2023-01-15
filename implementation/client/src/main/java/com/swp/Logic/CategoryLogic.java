@@ -260,11 +260,11 @@ public class CategoryLogic extends BaseLogic<Category>
     }
 
 
-    private List<Category> getChildrenForCategory(Category parents) {
+    public List<Category> getChildrenForCategory(Category parents) {
        return CategoryRepository.getChildrenForCategory(parents);
     }
 
-    private List<Category> getParentsForCategory(Category child) {
+    public List<Category> getParentsForCategory(Category child) {
        return CategoryRepository.getParentsForCategory(child);
     }
 
