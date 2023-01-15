@@ -4,20 +4,10 @@ import com.gumse.gui.GUI;
 import com.gumse.gui.Theme;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.*;
-import com.swp.Controller.CardController;
-import com.swp.Controller.CategoryController;
-import com.swp.DataModel.Card;
-import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Settings.Setting;
-import com.swp.DataModel.Category;
 import com.swp.DataModel.Settings;
-import com.swp.DataModel.Tag;
-import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.GUI.PageManager.PAGES;
-
-import java.util.*;
 
 public class KarteikartenAGGUI extends RenderGUI
 {
@@ -52,7 +42,7 @@ public class KarteikartenAGGUI extends RenderGUI
             GUI.setTheme(pLightTheme);
         updateTheme();
 
-        ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
+        /*ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
             new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),
             new ImageDescriptionCardAnswer("Orange",       61, 26),
             new ImageDescriptionCardAnswer("Nase",         40, 67),
@@ -67,7 +57,7 @@ public class KarteikartenAGGUI extends RenderGUI
 
         //ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
         //page.setCard(card);
-        ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
+        ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();*/
 
 
         pConfirmations = ConfirmationGUI.getInstance();

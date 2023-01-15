@@ -10,8 +10,9 @@ import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
+import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Deck;
+import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -21,12 +22,12 @@ import com.swp.GUI.Cards.CardRenderer.CardRenderer;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.RatingGUI.RateCallback;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.SingleDataCallback;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -137,28 +138,28 @@ public class ViewSingleCardPage extends Page
         pCard = card;
         pCardRenderer.setCard(card);
         pRatingGUI.setRating(card.getRating());
-        String tagStr = "";
-        List<Tag> tags = new ArrayList<>();
-         CardController.getTagsToCard(card,new DataCallback<Tag>() {
-        @Override
-        public void onSuccess(List<Tag> data) {
-            tags.addAll(data);
-        }
+        CardController.getTagsToCard(card, new DataCallback<Tag>() {
+            @Override public void onInfo(String msg) {}
+            @Override public void onSuccess(List<Tag> tags)
+            {
+                String tagStr = "";
+                for(Tag tag : tags)
+                    tagStr += tag.getVal() + ", ";
+                if(tagStr.length() > 0)
+                    tagStr = tagStr.substring(0, tagStr.length() - 2);
+                pTagsText.setString(tagStr);
+            }
 
-        @Override
-        public void onFailure(String msg) {
-            //GUI logger
-        }
-
-        @Override
-        public void onInfo(String msg) {}
-     });
+            @Override public void onFailure(String msg) 
+            {
+                NotificationGUI.addNotification("Failed to get Tags: " + msg, NotificationType.WARNING, 5);
+            }
+        });
 
 
-        String categoriesStr = "TODO Categories";
-        //TODO
-        //for(Category tag : CategoryController.getCategoriesOfCard(card))
-        //    categoriesStr += tag.getVal() + ", ";
+        String categoriesStr = "";
+        for(Category category : CategoryController.getCategoriesToCard(card))
+            categoriesStr += category.getName() + ", ";
         if(categoriesStr.length() > 0)
             categoriesStr = categoriesStr.substring(0, categoriesStr.length() - 2);
         pCategoriesText.setString(categoriesStr);

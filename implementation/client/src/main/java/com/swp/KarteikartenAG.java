@@ -5,9 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL11;
@@ -39,9 +37,6 @@ import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.GUI.KarteikartenAGGUI;
-import com.swp.Persistence.CardRepository;
-import com.swp.Persistence.CategoryRepository;
-import com.swp.Persistence.DeckRepository;
 import com.swp.Persistence.SingleDataCallback;
 
 import lombok.extern.slf4j.Slf4j;
@@ -102,6 +97,7 @@ import lombok.extern.slf4j.Slf4j;
 //       - Category List            -- done
 //       - Single Category View     -- done
 //       - Category Tree
+//   - Fix Hierarchy List
 //   - Theming                      -- done
 //   - Language Class               -- done
 //   - Language enum
@@ -234,8 +230,15 @@ public class KarteikartenAG
         Category spanischCategory = new Category("Spanisch");
         Category erdkundeCategory = new Category("Erdkunde");
 
-        schuleCategory.addChild(spanischCategory); //Crashes
-        schuleCategory.addChild(erdkundeCategory); //Crashes
+        CategoryController.editCategoryHierarchy(schuleCategory, new ArrayList<Category>(), new ArrayList<Category>() {
+            {
+                add(spanischCategory);
+                add(erdkundeCategory);
+            }
+        }, new SingleDataCallback<Boolean>() {
+            @Override public void onFailure(String msg) {}
+            @Override public void onSuccess(Boolean data) {}
+        });
 
         for(Category category : new Category[] {randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory})
         {
