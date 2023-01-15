@@ -99,7 +99,7 @@ public class CardOverviewPage extends Page
     {
         if(from == 0)
             pCardList.reset();
-        CardController.getCardsToShow(from, to, new DataCallback<Card>() {
+        CardController.getInstance().getCardsToShow(from, to, new DataCallback<Card>() {
             @Override public void onSuccess(List<Card> data) 
             {
                 pCardList.addCards(data.stream().collect(Collectors.toSet()));
@@ -118,7 +118,7 @@ public class CardOverviewPage extends Page
     public void loadCards(String str)
     {
         pCardList.reset();
-        CardController.getCardsBySearchterms(str, new DataCallback<Card>() {
+        CardController.getInstance().getCardsBySearchterms(str, new DataCallback<Card>() {
             @Override
             public void onSuccess(List<Card> data) {
                 pCardList.addCards(data.stream().collect(Collectors.toSet()));
@@ -145,7 +145,7 @@ public class CardOverviewPage extends Page
         ConfirmationGUI.openDialog("Are you sure that you want to delete " + String.valueOf(numCards) + " cards?", new ConfirmationCallback() {
             @Override public void onConfirm() 
             {  
-                CardController.deleteCards(pCardList.getSelection(), new SingleDataCallback<Boolean>() {
+                CardController.getInstance().deleteCards(pCardList.getSelection(), new SingleDataCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean data) {}
 

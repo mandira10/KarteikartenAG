@@ -19,7 +19,7 @@ public class CategoryController
     private static CategoryController categoryController;
     public static CategoryController getInstance() {
         if (categoryController == null)
-            categoryController = CategoryController.getInstance();
+            categoryController = new CategoryController();
         return categoryController;
     }
 

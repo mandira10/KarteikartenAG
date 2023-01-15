@@ -173,7 +173,7 @@ public class AddCardTest {
     @Test
     public void testGetCards(){
         importTestData();
-        CardController.getCardsToShow(1,30, new DataCallback<>() {
+        CardController.getInstance().getCardsToShow(1,30, new DataCallback<>() {
             @Override
             public void onSuccess(List<Card> data) {
 

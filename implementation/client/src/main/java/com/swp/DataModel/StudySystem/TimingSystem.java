@@ -21,8 +21,6 @@ import java.util.ArrayList;
 @DiscriminatorValue("Timing")
 public class TimingSystem extends StudySystem implements MouseListener
 {
-
-
     static Timer timer = new Timer();
     static int seconds = 0;
     int timeLimit;
@@ -32,10 +30,12 @@ public class TimingSystem extends StudySystem implements MouseListener
     ArrayList<Card> cards = new ArrayList<>();
     ArrayList<String> answers = new ArrayList<>(); // getting answers for cards just example
     JLabel answer;
-        /**
-         * Konstruktor der Klasse TimingSystem.
-         * @param deck: Das Deck für das Lernsystem
-         */
+
+    
+    /**
+     * Konstruktor der Klasse TimingSystem.
+     * @param deck: Das Deck für das Lernsystem
+     */
     public TimingSystem(Deck deck,int timeLimit) {
         super(deck, new StudySystemType(StudySystemType.KNOWN_TYPES.TIMING), 5);
         // Deck to card;

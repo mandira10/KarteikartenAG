@@ -135,16 +135,17 @@ public class EditCardPage extends Page
     }
 
     public void editCard(String uuid) {
-        CardController.getCardByUUID(uuid, new SingleDataCallback() {
+        CardController.getInstance().getCardByUUID(uuid, new SingleDataCallback<Card>() {
             @Override
-            public void onSuccess(Object data) {
-                editCard((Card) data,false);
+            public void onSuccess(Card data) {
+                editCard(data, false);
             }
 
             @Override
             public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
+
         }); }
     public void editCard(Card card, boolean newcard)
     {
@@ -158,7 +159,7 @@ public class EditCardPage extends Page
         pTitlefield.setString(pNewCard.getTitle());
         pQuestionField.setString(pNewCard.getQuestion());
         //updateCategories();
-        CardController.getTagsToCard(pNewCard, new DataCallback<Tag>() {
+        CardController.getInstance().getTagsToCard(pNewCard, new DataCallback<Tag>() {
             @Override
             public void onSuccess(List<Tag> data) {
                 updateTags(data.stream().toList());
@@ -219,7 +220,7 @@ public class EditCardPage extends Page
 
     private void applyChanges()
     {
-        CardController.updateCardData(pNewCard, bIsNewCard, new SingleDataCallback<Boolean>() {
+        CardController.getInstance().updateCardData(pNewCard, bIsNewCard, new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {}
 
@@ -229,7 +230,7 @@ public class EditCardPage extends Page
             }
         });
 
-        CardController.setTagsToCard(pNewCard, pTagList.getTagUserptrs().stream().collect(Collectors.toList()), new SingleDataCallback<Boolean>() {
+        CardController.getInstance().setTagsToCard(pNewCard, pTagList.getTagUserptrs(), new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {}
 
@@ -239,6 +240,6 @@ public class EditCardPage extends Page
             }
         });
 
-        CategoryController.setCategoriesToCard(pNewCard, aCategories.stream().collect(Collectors.toList()));
+        CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories);
     }
 }

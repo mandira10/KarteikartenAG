@@ -25,7 +25,7 @@ public class CardExportPage extends Page
     private void doExport()
     {
         ExportFileType type = ExportFileType.EXPORT_XML;
-        CardController.exportCards(aCards, type, new SingleDataCallback<Boolean>() {
+        CardController.getInstance().exportCards(aCards, type, new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {
 

@@ -60,7 +60,7 @@ public class FilterSearchTest {
         assertTrue(cardsToTag.stream().anyMatch(c -> c.getTitle().equals("Testtitel5")));
         assertTrue(cardsToCategory.stream().anyMatch(c -> c.getTitle().equals("Testtitel5")));
         assertTrue(cardsToCategory.stream().anyMatch(c -> c.getTitle().equals("ho")));
-        //cards = CardController.getCardsBySearchterms("antwrt"); //TODO: Wie hier testen? GUINotification kann nicht ausgespielt werden
+        //cards = CardController.getInstance().getCardsBySearchterms("antwrt"); //TODO: Wie hier testen? GUINotification kann nicht ausgespielt werden
         //assertTrue(cards.isEmpty());
 
     }

@@ -17,7 +17,7 @@ public class CardController {
     private static CardController cardController;
     public static CardController getInstance() {
         if (cardController == null)
-            cardController = CardController.getInstance();
+            cardController = new CardController();
         return cardController;
     }
 
@@ -157,7 +157,7 @@ public class CardController {
      * @param uuid: UUID der abzurufenden Karte
      * @return Zugehörige Karte
      */
-    public void getCardByUUID(String uuid, SingleDataCallback singleDataCallback) {
+    public void getCardByUUID(String uuid, SingleDataCallback<Card> singleDataCallback) {
         try {
            singleDataCallback.onSuccess(cardLogic.getCardByUUID(uuid));
         } catch (IllegalArgumentException ex) {//überrgebener Wert ist leer

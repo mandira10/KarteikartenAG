@@ -109,10 +109,8 @@ public class KarteikartenAG
 {
     private static GUI pMainGUI;
     private static final ivec2 iWindowSize = new ivec2(1000, 800);
-    private final CategoryController categoryController = CategoryController.getInstance();
-    private final CardController cardController = CardController.getInstance();
 
-    public void main(String[] args)
+    public static void main(String[] args)
     {
         Globals.DEBUG_BUILD = true;
         System.setProperty("java.awt.headless", "true");
@@ -223,8 +221,11 @@ public class KarteikartenAG
     }
 
 
-    private void importTestData()
+    private static void importTestData()
     {
+        final CategoryController categoryController = CategoryController.getInstance();
+        final CardController cardController = CardController.getInstance();
+
         Category randomCategory   = new Category("Random");
         Category schuleCategory   = new Category("Schule");
         Category technikCategory  = new Category("Technik");
@@ -256,7 +257,7 @@ public class KarteikartenAG
 
         for (Card c : randomL) 
         {
-            cardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
@@ -286,7 +287,7 @@ public class KarteikartenAG
 
         for (Card c : erdkundeL) 
         {
-            cardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
@@ -317,7 +318,7 @@ public class KarteikartenAG
 
         for (Card c : spanischL) 
         {
-            cardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
@@ -349,7 +350,7 @@ public class KarteikartenAG
 
         for (Card c : technikL) 
         {
-            cardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override public void onSuccess(Boolean data) {}
                 @Override public void onFailure(String msg) {}
             });
