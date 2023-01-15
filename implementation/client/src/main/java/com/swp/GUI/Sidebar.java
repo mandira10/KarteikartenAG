@@ -107,6 +107,7 @@ public class Sidebar extends RenderGUI
         pBackground = new Box(new ivec2(0,0), new ivec2(100, 100));
         pBackground.setSizeInPercent(false, true);
         pBackground.setColor(GUI.getTheme().secondaryColor);
+        pBackground.setCornerRadius(new vec4(0,0,0,0));
         addElement(pBackground);
 
         pSmoothFloat = new SmoothFloat(0, 5, 0);
