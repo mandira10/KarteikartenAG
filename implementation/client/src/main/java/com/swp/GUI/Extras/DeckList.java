@@ -27,7 +27,9 @@ public class DeckList extends RenderGUI
         public DeckContainer(Deck deck)
         {
             super(new ivec2(), new ivec2());
-            setColor(GUI.getTheme().secondaryColor);
+            setColor(GUI.getTheme().primaryColor);
+            setBorderThickness(GUI.getTheme().borderThickness);
+            setCornerRadius(GUI.getTheme().cornerRadius);
 
             Font defaultFont = FontManager.getInstance().getDefaultFont();
             Font fontAwesome = FontManager.getInstance().getFont("FontAwesome");
@@ -81,7 +83,9 @@ public class DeckList extends RenderGUI
         @Override
         protected void updateOnThemeChange() 
         {
-            setColor(GUI.getTheme().secondaryColor);
+            setColor(GUI.getTheme().primaryColor);
+            setBorderThickness(GUI.getTheme().borderThickness);
+            setCornerRadius(GUI.getTheme().cornerRadius);
         }
     };
 
@@ -118,7 +122,6 @@ public class DeckList extends RenderGUI
             container.setSize(new ivec2(90, 100));
             container.setSizeInPercent(true, false);
             container.setPositionInPercent(true, false);
-            container.setCornerRadius(new vec4(7.0f));
 
             pScroller.addGUI(container);
         }

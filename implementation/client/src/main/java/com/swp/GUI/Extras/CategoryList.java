@@ -102,7 +102,6 @@ public class CategoryList extends RenderGUI
     {
         for(Category category : categories)
         {
-            Output.info(category.getName());
             HierarchyListEntry entry = new HierarchyListEntry(category.getName(), pList, (RenderGUI gui) -> {
                 ((ViewSingleCategoryPage)PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW)).setCategory(category);
                 pList.selectEntry(null);

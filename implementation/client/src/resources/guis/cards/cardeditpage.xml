@@ -2,10 +2,10 @@
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="form" size="95%, 80%" pos="2.5%, 10%">
         <text pos="10, 10" fontsize="30">Title:</text>
-        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint="(Optional)"></textfield>
+        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" fontsize="30" hint="(Optional)"></textfield>
 
         <text pos="10, 60" fontsize="30">Question:</text>
-        <textfield id="questionfield" pos="150, 60" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint=""></textfield>
+        <textfield id="questionfield" pos="150, 60" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
 
         <gui id="canvas" size="100%, 100%" pos="0, 110" margin="0, -130">
 
@@ -19,7 +19,7 @@
         <button title="" font="FontAwesome" fontsize="20" id="editcategoriesbutton" pos="100%, 500" size="30, 30" origin="30, 0"></button>
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Cancel"  />
-        <button id="applybutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Apply"   />
+        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" fontsize="20" title="Cancel"  />
+        <button id="applybutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" title="Apply"   />
     </gui>
 </gui-root>

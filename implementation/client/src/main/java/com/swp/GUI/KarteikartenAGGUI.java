@@ -34,19 +34,23 @@ public class KarteikartenAGGUI extends RenderGUI
         PageManager.init(this);
         hideChildren(true); //Manually render
 
-
+        
+        GUI.getDefaultTheme().cornerRadius = new vec4(7,7,7,7);
         pLightTheme = new Theme();
         pLightTheme.backgroundColor   = vec4.div(Color.HEXToRGBA("#FFFFFF"), 255.0f);
         pLightTheme.primaryColor      = vec4.div(Color.HEXToRGBA("#FFFFFF"), 255.0f);
+        pLightTheme.primaryColorShade = vec4.div(Color.HEXToRGBA("#CCCCCC"), 255.0f);
         pLightTheme.secondaryColor    = vec4.div(Color.HEXToRGBA("#A6C7E5"), 255.0f);
         pLightTheme.accentColor       = vec4.div(Color.HEXToRGBA("#0F79D9"), 255.0f);
         pLightTheme.accentColorShade1 = vec4.div(Color.HEXToRGBA("#A6C7E5"), 255.0f);
         pLightTheme.textColor         = vec4.div(Color.HEXToRGBA("#121416"), 255.0f);
+        pLightTheme.cornerRadius      = new vec4(0,0,0,0);
         pLightTheme.borderThickness   = 1;
 
 
         if(!Settings.getInstance().getSetting(Setting.DARK_THEME).equals("true")) 
             GUI.setTheme(pLightTheme);
+        updateTheme();
 
         ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
             new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),

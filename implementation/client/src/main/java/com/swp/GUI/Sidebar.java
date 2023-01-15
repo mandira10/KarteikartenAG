@@ -106,7 +106,7 @@ public class Sidebar extends RenderGUI
     {
         pBackground = new Box(new ivec2(0,0), new ivec2(100, 100));
         pBackground.setSizeInPercent(false, true);
-        pBackground.setColor(GUI.getTheme().primaryColor);
+        pBackground.setColor(GUI.getTheme().secondaryColor);
         addElement(pBackground);
 
         pSmoothFloat = new SmoothFloat(0, 5, 0);
@@ -184,6 +184,6 @@ public class Sidebar extends RenderGUI
     @Override
     protected void updateOnThemeChange() 
     {
-        pBackground.setColor(GUI.getTheme().primaryColor);
+        pBackground.setColor(GUI.getTheme().secondaryColor);
     }
 }

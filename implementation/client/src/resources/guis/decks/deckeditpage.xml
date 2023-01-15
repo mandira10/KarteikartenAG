@@ -2,12 +2,12 @@
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="form" size="95%, 80%" pos="2.5%, 10%">
         <text pos="10, 10" fontsize="30">Title:</text>
-        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint="(Optional)"></textfield>
+        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" fontsize="30" hint="(Optional)"></textfield>
 
         <gui id="canvas" size="100%, 70%" pos="0, 160">
             <text pos="10, 10" fontsize="40">Custom Studysystem settings</text>
             <text pos="10, 80" fontsize="30">Name:</text>
-            <textfield id="titlefield" pos="150, 80" size="100%, 30" margin="-150, 0" border-radius="1" fontsize="30" hint=""></textfield>
+            <textfield id="titlefield" pos="150, 80" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
         </gui>
 
         <!-- In order to render it after everything else -->
@@ -28,7 +28,7 @@
         </dropdown>
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Cancel"  />
-        <button id="applybutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Apply"   />
+        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" fontsize="20" title="Cancel"  />
+        <button id="applybutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" title="Apply"   />
     </gui>
 </gui-root>

@@ -42,6 +42,7 @@ import com.swp.GUI.KarteikartenAGGUI;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CategoryRepository;
 import com.swp.Persistence.DeckRepository;
+import com.swp.Persistence.SingleDataCallback;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -101,7 +102,9 @@ import lombok.extern.slf4j.Slf4j;
 //       - Category List            -- done
 //       - Single Category View     -- done
 //       - Category Tree
-//   - Language Class
+//   - Theming                      -- done
+//   - Language Class               -- done
+//   - Language enum
 //   - Settings file                -- done
 ////////////////////////////////////////////////////
 
@@ -234,12 +237,13 @@ public class KarteikartenAG
         //schuleCategory.addChild(spanischCategory); //Crashes
         //schuleCategory.addChild(erdkundeCategory); //Crashes
 
-        CategoryController.updateCategoryData(randomCategory, true);
-        CategoryController.updateCategoryData(schuleCategory, true);
-        CategoryController.updateCategoryData(technikCategory, true);
-        CategoryController.updateCategoryData(spanischCategory, true);
-        CategoryController.updateCategoryData(erdkundeCategory, true);
-
+        for(Category category : new Category[] {randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory})
+        {
+            CategoryController.updateCategoryData(category, true, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
+            });
+        }
 
 
         List<Card> randomL = new ArrayList<>();
@@ -248,12 +252,18 @@ public class KarteikartenAG
 
         for (Card c : randomL) 
         {
-            CardController.updateCardData(c, true);
+            CardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
+            });
             CardController.setTagsToCard(c, new HashSet<Tag>() {
                 {
                     add(new Tag("toll"));
                     add(new Tag("cool"));
                 }
+            }, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
             });
 
             CategoryController.setCategoriesToCard(c, new HashSet<Category>() {
@@ -272,13 +282,19 @@ public class KarteikartenAG
 
         for (Card c : erdkundeL) 
         {
-            CardController.updateCardData(c, true);
+            CardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
+            });
             CardController.setTagsToCard(c, new HashSet<Tag>() {
                 {
                     add(new Tag("Deutschland"));
                     add(new Tag("Australien"));
                     add(new Tag("Länder"));
                 }
+            }, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
             });
             CategoryController.setCategoriesToCard(c, new HashSet<Category>() {
                 {
@@ -297,12 +313,18 @@ public class KarteikartenAG
 
         for (Card c : spanischL) 
         {
-            CardController.updateCardData(c, true);
+            CardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
+            });
             CardController.setTagsToCard(c, new HashSet<Tag>() {
                 {
                     add(new Tag("Essen"));
                     add(new Tag("Anderes"));
                 }
+            }, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
             });
 
             CategoryController.setCategoriesToCard(c, new HashSet<Category>() {
@@ -323,12 +345,18 @@ public class KarteikartenAG
 
         for (Card c : technikL) 
         {
-            CardController.updateCardData(c, true);
+            CardController.updateCardData(c, true, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
+            });
             CardController.setTagsToCard(c, new HashSet<Tag>() {
                 {
                     add(new Tag("Google Earth"));
                     add(new Tag("Technikmarken"));
                 }
+            }, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
             });
 
             CategoryController.setCategoriesToCard(c, new HashSet<Category>() {
