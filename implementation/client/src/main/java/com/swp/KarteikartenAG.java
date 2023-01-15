@@ -97,6 +97,7 @@ import lombok.extern.slf4j.Slf4j;
 //       - Category List            -- done
 //       - Single Category View     -- done
 //       - Category Tree
+//   - Fix Hierarchy List
 //   - Theming                      -- done
 //   - Language Class               -- done
 //   - Language enum
@@ -230,8 +231,15 @@ public class KarteikartenAG
         Category spanischCategory = new Category("Spanisch");
         Category erdkundeCategory = new Category("Erdkunde");
 
-        //schuleCategory.addChild(spanischCategory); //Crashes
-        //schuleCategory.addChild(erdkundeCategory); //Crashes
+        categoryController.editCategoryHierarchy(schuleCategory, new ArrayList<Category>(), new ArrayList<Category>() {
+            {
+                add(spanischCategory);
+                add(erdkundeCategory);
+            }
+        }, new SingleDataCallback<Boolean>() {
+            @Override public void onFailure(String msg) {}
+            @Override public void onSuccess(Boolean data) {}
+        });
 
         for(Category category : new Category[] {randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory})
         {

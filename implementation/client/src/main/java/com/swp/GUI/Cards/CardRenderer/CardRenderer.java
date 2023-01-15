@@ -16,7 +16,6 @@ import com.gumse.shader.ShaderProgram;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 import com.gumse.tools.FPS;
-import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 
