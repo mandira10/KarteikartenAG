@@ -10,9 +10,9 @@ import java.util.UUID;
 @Table(uniqueConstraints = @UniqueConstraint(name = "uniqueParentChild",columnNames = {"parent","child"}))
 @Getter
 @NamedQuery(name = "CategoryH.getParents",
-        query = "SELECT c.parent FROM CategoryHierarchy c WHERE c.child = :category")
+        query = "SELECT c.parent FROM CategoryHierarchy c WHERE c.child = :child")
 @NamedQuery(name = "CategoryH.getChildren",
-        query = "SELECT c.child FROM CategoryHierarchy c WHERE c.parent = :category")
+        query = "SELECT c.child FROM CategoryHierarchy c WHERE c.parent = :parent")
 @NamedQuery(name = "CategoryH.findSpecificCH",
         query = "SELECT ch FROM CategoryHierarchy ch WHERE ch.parent = :parent AND ch.child = :child")
 public class CategoryHierarchy implements Serializable {

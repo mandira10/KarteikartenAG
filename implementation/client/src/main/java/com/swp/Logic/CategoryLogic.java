@@ -93,7 +93,7 @@ public class CategoryLogic extends BaseLogic<Category>
         else if(cardOrCategory instanceof Category category && child == true)
             catOld = getParentsForCategory(category);
 
-        if(catOld == null){
+        if(catOld == null || catOld.isEmpty()){ //TODO:  vereinheitlichung rückgabewert
             if(!checkAndCreateCategories(cardOrCategory,catNew,catOld,child))
                 ret = false;
         }
@@ -161,21 +161,21 @@ public class CategoryLogic extends BaseLogic<Category>
                     log.info("Kategorie {} wird zu Karte {} hinzugefügt", c.getUuid(), card.getUuid());
                     if (!CategoryRepository.saveCardToCategory(card, c))
                         ret = false;
+                }
                     else if (cardOrCategory instanceof Category category && child == false) {
                         log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
-                        if (!CategoryRepository.saveCategoryHierarchy(c, category)) ;
+                        if (!CategoryRepository.saveCategoryHierarchy(c, category))
                         ret = false;
                     }
                     else if (cardOrCategory instanceof Category category && child == true) {
                         log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
-                        if (!CategoryRepository.saveCategoryHierarchy(category, c)) ;
+                        if (!CategoryRepository.saveCategoryHierarchy(category, c))
                         ret = false;
                     }
                 }
 
             }
 
-        }
         return ret;
     }
 
