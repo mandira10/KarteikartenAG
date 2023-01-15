@@ -8,10 +8,8 @@ import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Persistence.CardRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Test;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -43,12 +41,12 @@ public class FilterSearchTest {
 
         assertTrue(CardLogic.updateCardData(card1,true));
         assertTrue(CardLogic.updateCardData(card2,true));
-        assertTrue(CardLogic.updateCardData(card2,true));
+        assertTrue(CardLogic.updateCardData(card3,true));
         assertTrue(CardLogic.setTagsToCard(card1,tagsToAdd));
         assertTrue(CategoryLogic.setCardToCategories(card1,categoriesToAdd));
         assertTrue(CardLogic.setTagsToCard(card2,tagsToAdd));
         assertTrue(CategoryLogic.setCardToCategories(card3,categoriesToAdd));
-        Card txCard = CardRepository.getCardByUUID(card1.getUuid());
+        Card txCard = CardLogic.getCardByUUID(card1.getUuid());
         assertNotNull(txCard);
         List<Card> cardsToSearchTerms = CardLogic.getCardsBySearchterms("antwort5");
         assertEquals(1, cardsToSearchTerms.size());
