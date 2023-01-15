@@ -36,15 +36,6 @@ public class CategoryLogic extends BaseLogic<Category>
         return categoryLogic;
     }
 
-    /**
-     *
-     * @param uuid
-     * @return
-     */
-    public Category getCategory(String uuid) {
-        return execTransactional(() -> CategoryRepository.findByUUID(uuid));
-    }
-
     public Category getCategoryByUUID(String uuid) {
         return execTransactional(() -> CategoryRepository.findByUUID(uuid));
     }
@@ -60,22 +51,22 @@ public class CategoryLogic extends BaseLogic<Category>
         return getCardsInCategory(category).size();
     }
 
-    public boolean updateCategoryData(Category category, boolean neu) {
+    public void updateCategoryData(Category category, boolean neu) {
         if (neu) {
-            return execTransactional(() -> {
+            execTransactional(() -> {
                 categoryRepository.save(category);
                 return true;
             });
         } else {
-            return execTransactional(() -> {
+            execTransactional(() -> {
                 categoryRepository.update(category);
                 return true;
             });
         }
     }
 
-    public boolean deleteCategory(Category category) {
-        return execTransactional(() -> {
+    public void deleteCategory(Category category) {
+         execTransactional(() -> {
             CategoryRepository.getInstance().delete(category);
             CardToCategoryRepository.getInstance()
                     .delete(CardToCategoryRepository.getAllC2CForCategory(category));
@@ -84,18 +75,14 @@ public class CategoryLogic extends BaseLogic<Category>
         });
     }
 
-    public boolean deleteCategories(Category[] categories) {
-        boolean ret = true;
+    public void deleteCategories(Category[] categories) {
         for (Category c : categories) {
-            if (!CategoryRepository.deleteCategory(c))
-                ret = false;
+            deleteCategory(c);
         }
-
-        return ret;
     }
 
-    public boolean deleteCardToCategory(CardToCategory c2d) {
-        return false;
+    public void deleteCardToCategory(CardToCategory c2d) {
+       //TODO
     }
 
     public List<Card> getCardsInCategory(String categoryName) {
@@ -121,8 +108,7 @@ public class CategoryLogic extends BaseLogic<Category>
         return cardRepository.getCardsByCategory(category);
     }
 
-    public <T> boolean setC2COrCH(T cardOrCategory, List<Category> catNew, boolean child) {
-        boolean ret = true;
+    public <T> void setC2COrCH(T cardOrCategory, List<Category> catNew, boolean child) {
         List<Category> catOld = new ArrayList<>();
         if(cardOrCategory instanceof Card card)
              catOld = getCategoriesByCard(card); //check Old Tags to remove unused tags
@@ -132,56 +118,44 @@ public class CategoryLogic extends BaseLogic<Category>
             catOld = getParentsForCategory(category);
 
         if(catOld == null || catOld.isEmpty()){ //TODO:  vereinheitlichung rückgabewert
-            if(!checkAndCreateCategories(cardOrCategory,catNew,catOld,child))
-                ret = false;
-        }
+            checkAndCreateCategories(cardOrCategory,catNew,catOld,child);}
 
-        else if(catOld.containsAll(catNew) && catOld.size() == catNew.size()) //no changes
-            return true;
-
-
+        else if(catOld.containsAll(catNew) && catOld.size() == catNew.size()){
+            return;}//no changes}
 
         else if(catOld.containsAll(catNew) && catOld.size() > catNew.size()) { //es wurden nur tags gelöscht
-            if(!checkAndRemoveCategories(cardOrCategory,catNew,catOld,child))
-                ret = false;
-        }
-        else if(catNew.containsAll(catOld)) {  // nur neue hinzufügen
-            if(!checkAndCreateCategories(cardOrCategory,catNew,catOld,child))
-                ret = false;
+            checkAndRemoveCategories(cardOrCategory,catNew,catOld,child);}
 
-        }
+
+        else if(catNew.containsAll(catOld)) {  // nur neue hinzufügen
+            checkAndCreateCategories(cardOrCategory,catNew,catOld,child);}
+
         else { //neue und alte
-             if(!checkAndCreateCategories(cardOrCategory,catNew,catOld,child))
-                 ret = false;
-            if(!checkAndRemoveCategories(cardOrCategory,catNew,catOld,child))
-                ret = false;
+             checkAndCreateCategories(cardOrCategory,catNew,catOld,child);
+             checkAndRemoveCategories(cardOrCategory,catNew,catOld,child);
         }
-        return ret;
     }
 
 
-    private <T> boolean checkAndRemoveCategories(final T cardOrCategory, List<Category> catNew, List<Category> catOld, boolean child) {
-        boolean ret = true;
+    private <T> void checkAndRemoveCategories(final T cardOrCategory, List<Category> catNew, List<Category> catOld, boolean child) {
+        execTransactional(() -> {
         for (Category c : catOld) {
             if (!catNew.contains(c))
-                if(cardOrCategory instanceof Card card) {
+                if (cardOrCategory instanceof Card card) {
                     CardToCategoryRepository.getInstance().delete(CardToCategoryRepository.getSpecific(card, c));
-                }
-                else if(cardOrCategory instanceof Category category && !child){
-                    if(!CategoryRepository.deleteCategoryHierarchy(c,category));
-                    ret = false;
-                }
-                else if(cardOrCategory instanceof Category category && child){
-                    if(!CategoryRepository.deleteCategoryHierarchy(category,c));
-                    ret = false;
+                } else if (cardOrCategory instanceof Category category && !child) {
+                    CategoryRepository.deleteCategoryHierarchy(c, category);
+                } else if (cardOrCategory instanceof Category category && child) {
+                    CategoryRepository.deleteCategoryHierarchy(category, c);
                 }
         }
-        return ret;
+            return null;
+        });
     }
 
 
-    private <T> boolean checkAndCreateCategories(final T cardOrCategory, List<Category> catNew, List<Category> catOld, boolean child) {
-        boolean ret = true;
+    private <T> void checkAndCreateCategories(final T cardOrCategory, List<Category> catNew, List<Category> catOld, boolean child) {
+        execTransactional(() -> {
         for (Category c : catNew) {
             if (catOld != null && catOld.contains(c))
                 log.info("Kategorie {} bereits in CardToCategory/ CategorieHierarchy enthalten, kein erneutes Hinzufügen notwendig", c.getUuid());
@@ -191,27 +165,23 @@ public class CategoryLogic extends BaseLogic<Category>
                     c = catOptional.get();
                     log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", c.getName());
                 } else {
-                    ret = CategoryRepository.saveCategory(c);
+                     CategoryRepository.saveCategory(c);
                 }
                 if (cardOrCategory instanceof Card card) {
                     log.info("Kategorie {} wird zu Karte {} hinzugefügt", c.getUuid(), card.getUuid());
-                    if (!CategoryRepository.saveCardToCategory(card, c)) {
                         cardToCategoryRepository.save(new CardToCategory(card, c));
-                        ret = false;
                     } else if (cardOrCategory instanceof Category category && child == false) {
                         log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
-                        if (!categoryRepository.saveCategoryHierarchy(c, category)) ;
-                        ret = false;
+                        categoryRepository.saveCategoryHierarchy(c, category);
                     } else if (cardOrCategory instanceof Category category && child == true) {
                         log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
-                        if (!categoryRepository.saveCategoryHierarchy(category, c)) ;
-                        ret = false;
+                        categoryRepository.saveCategoryHierarchy(category, c);
                     }
                 }
 
             }
-        }
-        return ret;
+            return null; });
+
     }
 
     //CARDEDITPAGE, CATEGORY OVERVIEW
@@ -222,50 +192,30 @@ public class CategoryLogic extends BaseLogic<Category>
      * @return Set mit bestehenden Categories
      */
     public List<Category> getCategories() {
-        List<Category> catList = categoryRepository.getAll();
-
-        //TODO: Convert parentuuid entries to actual category references, two methods?
-
-        return catList;
+        return execTransactional(() -> categoryRepository.getAll());
     }
 
     /**
      * Lädt alle Category Parents for specific category
      */
     public List<Category> getCategoryHierarchy(Category c) {
-        List<Category> catList = CategoryRepository.getParentsForCategory(c);
-
-        //TODO: Convert parentuuid entries to actual category references, two methods?
-
-        return catList;
+        return execTransactional(() -> categoryRepository.getParentsForCategory(c));
     }
 
 
-    public List<Card> getCardsByCategory(Set<Category> categories) {
-        List<Card> cardsOfAll = new ArrayList<>();
-        for (Category c : categories){
-            cardsOfAll.addAll(getCardsInCategory(c));
-        }
-        return cardsOfAll;
-    }
+    public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children) {
 
-    public boolean editCategoryHierarchy(Category category, List<Category> parents, List<Category> children) {
-        boolean ret = true;
-        if(!setC2COrCH(category,parents,true))
-            ret = false;
-        if(!setC2COrCH(category,children,false))
-            ret = false;
-
-        return ret;
+       setC2COrCH(category,parents,true);
+        setC2COrCH(category,children,false);
     }
 
 
     public List<Category> getChildrenForCategory(Category parents) {
-       return CategoryRepository.getChildrenForCategory(parents);
+        return execTransactional(() -> categoryRepository.getChildrenForCategory(parents));
     }
 
     public List<Category> getParentsForCategory(Category child) {
-       return CategoryRepository.getParentsForCategory(child);
+        return execTransactional(() -> categoryRepository.getParentsForCategory(child));
     }
 
 }

@@ -64,7 +64,19 @@ public class EditCategoryPage extends Page
         resize();
     }
 
-    public void editCategory(String uuid) { editCategory(categoryController.getCategoryByUUID(uuid)); }
+    public void editCategory(String uuid) {
+        categoryController.getCategoryByUUID(uuid, new SingleDataCallback<Category>() {
+            @Override
+            public void onSuccess(Category data) {
+                editCategory(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+        });
+        }
     public void editCategory(Category category)
     {
         pNewCategory = new Category(category);

@@ -6,12 +6,12 @@ import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
-import com.swp.Persistence.CategoryRepository;
+import com.swp.Logic.CategoryLogic;
+
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 import static org.junit.Assert.*;
 
@@ -20,6 +20,8 @@ import static org.junit.Assert.*;
  */
 public class TestData {
 
+     static CategoryLogic categoryLogic = CategoryLogic.getInstance();
+     static CardLogic cardLogic = CardLogic.getInstance();
 
     public static void importTestData() {
         //Karten 1: random types
@@ -107,24 +109,24 @@ public class TestData {
         };
 
         for (Card c : randomL) {
-            assertTrue(CardLogic.updateCardData(c, true));
-            assertTrue(CardLogic.setTagsToCard(c, tagsRandom));
-            assertTrue(CategoryController.setCategoriesToCard(c, randomC));
+            cardLogic.updateCardData(c, true);
+            cardLogic.setTagsToCard(c, tagsRandom);
+            categoryLogic.setC2COrCH(c, randomC,false);
         }
         for (Card c : erdkundeL) {
-            assertTrue(CardLogic.updateCardData(c, true));
-            assertTrue(CardLogic.setTagsToCard(c, erdkundeTags));
-            assertTrue(CategoryController.setCategoriesToCard(c, erdkundeC));
+            cardLogic.updateCardData(c, true);
+            cardLogic.setTagsToCard(c, erdkundeTags);
+            categoryLogic.setC2COrCH(c, erdkundeC,false);
         }
         for (Card c : spanischL) {
-            assertTrue(CardLogic.updateCardData(c, true));
-            assertTrue(CardLogic.setTagsToCard(c, spanischTags));
-            assertTrue(CategoryController.setCategoriesToCard(c, spanischC));
+            cardLogic.updateCardData(c, true);
+            cardLogic.setTagsToCard(c, spanischTags);
+            categoryLogic.setC2COrCH(c, spanischC,false);
         }
         for (Card c : technikL) {
-            assertTrue(CardLogic.updateCardData(c, true));
-            assertTrue(CardLogic.setTagsToCard(c, technikTags));
-            assertTrue(CategoryController.setCategoriesToCard(c, technikC));
+            cardLogic.updateCardData(c, true);
+            cardLogic.setTagsToCard(c, technikTags);
+            categoryLogic.setC2COrCH(c, technikC,false);
         }
 
     }

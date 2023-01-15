@@ -5,7 +5,12 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
+import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.CardList;
@@ -14,6 +19,7 @@ import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.PageManager.PAGES;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ViewSingleCategoryPage extends Page
@@ -69,7 +75,21 @@ public class ViewSingleCategoryPage extends Page
         this.pCategory = category;
 
         pCardList.reset();
-        pCardList.addCards(categoryController.getCardsInCategory(this.pCategory).stream().collect(Collectors.toSet()));
+        categoryController.getCardsInCategory(this.pCategory, new DataCallback<Card>() {
+            @Override
+            public void onSuccess(List<Card> data) {
+                pCardList.addCards(data.stream().collect(Collectors.toSet()));
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+
+            @Override
+            public void onInfo(String msg) {
+            }
+        });
 
         resize();
         reposition();
@@ -81,7 +101,17 @@ public class ViewSingleCategoryPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                categoryController.deleteCategory(pCategory);
+                categoryController.deleteCategory(pCategory, new SingleDataCallback<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean data) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                    }
+                });
                 ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
             }
         });

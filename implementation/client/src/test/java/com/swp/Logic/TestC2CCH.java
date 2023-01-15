@@ -41,9 +41,9 @@ public void setup() {
         };
         Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
         //add card to database
-        assertTrue(cardLogic.updateCardData(card1,true));
+        cardLogic.updateCardData(card1,true);
         //add cardTocategory for own category
-        assertTrue(categoryLogic.setC2COrCH(card1,categoryToAdd,false));
+        categoryLogic.setC2COrCH(card1,categoryToAdd,false);
         //check if C2C was added successfully
         List<Category> cat = categoryLogic.getCategoriesByCard(card1);
         assertFalse(cat.isEmpty());
@@ -59,9 +59,9 @@ public void setup() {
         };
         Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel2",false);
         //add card to database
-        assertTrue(cardLogic.updateCardData(card2,true));
+        cardLogic.updateCardData(card2,true);
         //add cardTocategory for own category
-        assertTrue(categoryLogic.setC2COrCH(card2,categoriesToAdd,false));
+        categoryLogic.setC2COrCH(card2,categoriesToAdd,false);
         //check if C2C was added successfully
         List<Category> cat = categoryLogic.getCategoriesByCard(card2);
         assertFalse(cat.isEmpty());
@@ -79,9 +79,9 @@ public void setup() {
         };
         Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel2",false);
         //add card to database
-        assertTrue(cardLogic.updateCardData(card2,true));
+        cardLogic.updateCardData(card2,true);
         //add cardTocategory for own category
-        assertTrue(categoryLogic.setC2COrCH(card2,categoriesToAdd,false));
+        categoryLogic.setC2COrCH(card2,categoriesToAdd,false);
         //check if C2C was added successfully
         List<Category> cat = categoryLogic.getCategoriesByCard(card2);
         assertFalse(cat.isEmpty());
@@ -222,7 +222,7 @@ public void setup() {
             }
         };
         for(Category c : categories){
-            assertTrue(categoryLogic.updateCategoryData(c,true));
+            categoryLogic.updateCategoryData(c,true);
         }
         List<Category> childTechnik = new ArrayList<>() {
             {

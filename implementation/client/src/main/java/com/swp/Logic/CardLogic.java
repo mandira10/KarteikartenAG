@@ -74,36 +74,28 @@ public class CardLogic extends BaseLogic<Card>
      * Wird aufgerufen, wenn eine spezifische Karte gelöscht werden soll. Gibt die Karte weiter
      * an das CardRepository und erhält ein positives Ergebnis, wenn die Aktion erfolgreich war.
      * @param card zu löschende Karte
-     * @return wahr, wenn Karte gelöscht wurde
      */
-    public boolean deleteCard(Card card)
+    public void deleteCard(Card card)
     {
         if(card == null){
             throw new IllegalStateException("Karte existiert nicht");
-
         }
         execTransactional(() -> {
             CardRepository.getInstance().delete(card);
             return null; // Lambda braucht immer einen return
         });
-        return true;
+
     }
 
     /**
      * Wird aufgerufen, wenn mehrere Karten gelöscht werden sollen. Gibt die Karten einzeln weiter
      * an das CardRepository und erhält ein positives Ergebnis, wenn alle Karten erfolgreich gelöscht wurden.
-     * @param cards zu läschende Karten
-     * @return wahr, wenn alle Karten erfolgreich gelöscht wurden
+     * @param cards zu löschende Karten
      */
-    public boolean deleteCards(List<Card> cards)
+    public void deleteCards(List<Card> cards)
     {
-        boolean ret = true;
         for(Card c : cards)
-        {
-            if(!deleteCard(c))
-                ret = false;
-        }
-        return ret;
+        deleteCard(c);
     }
 
 
@@ -141,9 +133,9 @@ public class CardLogic extends BaseLogic<Card>
      * @param neu gibt an, ob es sich um eine komplett neue Karte handelt
      * @return
      */
-    public boolean updateCardData(Card cardToChange, boolean neu) {
+    public void updateCardData(Card cardToChange, boolean neu) {
         cardToChange.setContent();
-        return execTransactional(() -> {
+        execTransactional(() -> {
             if (neu)
                 CardRepository.getInstance().save(cardToChange);
             else
@@ -153,53 +145,43 @@ public class CardLogic extends BaseLogic<Card>
     }
 
 
-    public boolean setTagsToCard(Card card, List<Tag> tagNew) {
-        boolean ret = true;
+    public void setTagsToCard(Card card, List<Tag> tagNew) {
         List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
-        if(tagOld == null){
-            if(!checkAndCreateTags(card,tagNew,tagOld))
-                ret = false;
-        }
+            if(tagOld == null){
+                checkAndCreateTags(card,tagNew,tagOld);
+            }
 
-        else if(tagOld.containsAll(tagNew) && tagOld.size() == tagNew.size()) //no changes
-            return true;
+            else if(tagOld.containsAll(tagNew) && tagOld.size() == tagNew.size()) //no changes
+                return;
 
+            else if(tagOld.containsAll(tagNew) || tagOld.size() > tagNew.size()) { //es wurden nur tags gelöscht
+                checkAndRemoveTags(card,tagNew,tagOld);
 
-        else if(tagOld.containsAll(tagNew) || tagOld.size() > tagNew.size()) { //es wurden nur tags gelöscht
-            if(!checkAndRemoveTags(card,tagNew,tagOld))
-                ret = false;
-        }
-        else if(tagNew.containsAll(tagOld)){
-            if(!checkAndCreateTags(card,tagNew,tagOld))
-               ret = false;
-        }
-        else { //neue und alte
-            if(!checkAndCreateTags(card,tagNew,tagOld))
-                ret = false;
-            if(!checkAndRemoveTags(card,tagNew,tagOld))
-                ret = false;
-        }
-        return ret;
+            }
+            else if(tagNew.containsAll(tagOld)){
+                checkAndCreateTags(card,tagNew,tagOld);
+            }
+            else { //neue und alte
+                checkAndCreateTags(card,tagNew,tagOld);
+                checkAndRemoveTags(card,tagNew,tagOld);
+            }
+
     }
 
-    private boolean checkAndRemoveTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
-        boolean ret = true;
+    private void checkAndRemoveTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
         for (Tag t : tagOld) {
             if (!tagNew.contains(t))
-                // wirft im Fehlerfall eine Exception, return-value könnte void sein
                 execTransactional(() -> {
                     CardToTag c2t = CardToTagRepository.findSpecificCardToTag(card, t);
                     CardToTagRepository.getInstance().delete(c2t);
                     return null;
                 });
         }
-        return ret;
     }
 
 
-    private boolean checkAndCreateTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
-        return execTransactional(() -> {
-            boolean ret = true;
+    private void checkAndCreateTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
+         execTransactional(() -> {
             for (Tag t : tagNew) {
                 if (tagOld != null && tagOld.contains(t)) {
                     log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
@@ -215,7 +197,7 @@ public class CardLogic extends BaseLogic<Card>
                     cardRepository.createCardToTag(card, t);
                 }
             }
-            return ret;
+            return null;
         });
     }
 
@@ -229,10 +211,9 @@ public class CardLogic extends BaseLogic<Card>
      * @param filetype Exporttyp der Karten
      * @return Exportierte Datei
      */
-    public boolean exportCards(Card[] cards, ExportFileType filetype)
+    public void exportCards(Card[] cards, ExportFileType filetype)
     {
-        return (new Exporter(filetype)).export(cards);
-        //TODO:Exceptions?
+         new Exporter(filetype).export(cards);
     }
 
 

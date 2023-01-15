@@ -272,7 +272,12 @@ public class KarteikartenAG
             });
 
             categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
-                { add(randomCategory); }
+                {
+                    add(randomCategory);
+                }
+            }, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
             });
         }
 
@@ -306,6 +311,9 @@ public class KarteikartenAG
                     add(erdkundeCategory);
                     add(schuleCategory);
                 }
+            }, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
             });
         }
 
@@ -337,6 +345,9 @@ public class KarteikartenAG
                     add(spanischCategory);
                     add(schuleCategory);
                 }
+            }, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
             });
         }
 
@@ -369,6 +380,9 @@ public class KarteikartenAG
                     add(technikCategory);
                     add(schuleCategory);
                 }
+            }, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
             });
         }
 

@@ -15,6 +15,7 @@ public class CardController {
     private final CardLogic cardLogic = CardLogic.getInstance();
 
     private static CardController cardController;
+
     public static CardController getInstance() {
         if (cardController == null)
             cardController = new CardController();
@@ -27,23 +28,22 @@ public class CardController {
     /**
      * Wird in der CardOverviewPage verwendet, um die einzelnen Karten für die Seitenauswahl mitsamt Titel (wenn nicht vorhanden dann die Frage), Typ,
      * Anzahl der Decks und ihrem Erstellzeitpunkt anzuzeigen. Gibt die Methode an die CardLogic weiter.
+     *
      * @param begin: Seitenauswahl Anfangswert
      * @param end: Seitenauswahl Endwert
-     * @return anzuzeigende Karten
      */
-    public void getCardsToShow(int begin, int end, DataCallback<Card> callback){
-     try{
-         List<Card> cardsToShow = cardLogic.getCardsToShow(begin, end);
+    public void getCardsToShow(int begin, int end, DataCallback<Card> callback) {
+        try {
+            List<Card> cardsToShow = cardLogic.getCardsToShow(begin, end);
 
-         if(cardsToShow.isEmpty())
-             callback.onInfo("Es gibt bisher noch keine Karten");
-         else
-         callback.onSuccess(cardsToShow);
+            if (cardsToShow.isEmpty())
+                callback.onInfo("Es gibt bisher noch keine Karten");
+            else
+                callback.onSuccess(cardsToShow);
 
-     }
-        catch (final Exception ex) {
+        } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten ist ein Fehler aufgetreten"
-                    ,ex);
+                    , ex);
             callback.onFailure(ex.getMessage());
         }
 
@@ -61,9 +61,9 @@ public class CardController {
             List<Card> cardsForTag = cardLogic.getCardsByTag(tag);
 
             if (cardsForTag.isEmpty())
-              callback.onInfo("Es gibt keine Karten für diesen Tag");
+                callback.onInfo("Es gibt keine Karten für diesen Tag");
             else
-            callback.onSuccess(cardsForTag);
+                callback.onSuccess(cardsForTag);
 
         } catch (IllegalArgumentException ex) {
             callback.onFailure(ex.getMessage()); //übergebener wert ist leer
@@ -79,6 +79,7 @@ public class CardController {
 
     /**
      * Kann verwendet werden, um einzelne Tags zu Karten in der SingleCardOverviewPage oder im EditModus aufzurufen
+     *
      * @param card Die Karte, zu der die Tags abgerufen werden sollen
      * @return Gefundene Tags für die spezifische Karte
      */
@@ -87,31 +88,30 @@ public class CardController {
             List<Tag> tagsForCard = cardLogic.getTagsToCard(card);
 
             if (tagsForCard.isEmpty())
-            callback.onInfo("Keine Tags für diese Karten vorhanden"); // log.info("Keine Tags für diese Karte vorhanden");
+                callback.onInfo("Keine Tags für diese Karten vorhanden"); // log.info("Keine Tags für diese Karte vorhanden");
             else
-            callback.onSuccess(tagsForCard);
+                callback.onSuccess(tagsForCard);
         } catch (final Exception ex) {
-           callback.onFailure(ex.getMessage()); //log.error("Beim Suchen nach Tags mit Karten {} ist ein Fehler {} aufgetreten", card, ex);
+            callback.onFailure(ex.getMessage()); //log.error("Beim Suchen nach Tags mit Karten {} ist ein Fehler {} aufgetreten", card, ex);
         }
     }
 
     /**
      * Nutzung für Display bestimmter Karten bei CardOverviewPage. Wird an die CardLogic weitergegeben.
+     *
      * @param searchterm Übergebener String mit dem Suchwort
      * @return Sets an Karten, die das Suchwort enthalten
      */
-    public void getCardsBySearchterms(String searchterm, DataCallback <Card> callback) {
+    public void getCardsBySearchterms(String searchterm, DataCallback<Card> callback) {
         try {
             List<Card> cardsForSearchTerms = cardLogic.getCardsBySearchterms(searchterm);
 
             if (cardsForSearchTerms.isEmpty()) {
                 callback.onInfo("Es gibt keine Karten für dieses Suchwort");
-            }
-
-            else
-            callback.onSuccess(cardsForSearchTerms);
+            } else
+                callback.onSuccess(cardsForSearchTerms);
         } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
-           callback.onFailure(ex.getMessage()); //log.error
+            callback.onFailure(ex.getMessage()); //log.error
         } catch (final Exception ex) {
             callback.onFailure(ex.getMessage()); //log.error
         }
@@ -119,33 +119,29 @@ public class CardController {
 
     /**
      * Dient dem Löschen einzelner Karten. Wird an die CardLogic weitergegeben.
+     *
      * @param card Die zu löschende Karte
      * @return true, wenn ausgeführt, ansonsten false
      */
     public void deleteCard(Card card, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            if(cardLogic.deleteCard(card))
-                singleDataCallback.onSuccess(true);
-            else
-                singleDataCallback.onFailure("Es gab Probleme bei der Umsetzung"); //TODO:needed
+            cardLogic.deleteCard(card);
         } catch (IllegalStateException ex) {
-           singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure(ex.getMessage());
         }
     }
 
     /**
      * Dient dem Löschen mehrerer Karten. Wird an die CardLogic weitergegeben.
+     *
      * @param cards Die zu löschenden Karten
      * @return true, wenn ausgeführt, ansonsten false
      */
-    public void deleteCards(List<Card> cards,SingleDataCallback<Boolean> singleDataCallback) {
+    public void deleteCards(List<Card> cards, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            if (cardLogic.deleteCards(cards))
-                singleDataCallback.onSuccess(true);
-            else
-                singleDataCallback.onFailure("Es gab Probleme bei der Umsetzung"); //TODO:needed
+            cardLogic.deleteCards(cards);
         } catch (IllegalStateException ex) {
-           singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure(ex.getMessage());
         }
     }
 
@@ -154,38 +150,33 @@ public class CardController {
 
     /**
      * Wird verwendet, um einzelne Karteninformationen über ihre UUID abzurufen. Wird an die CardLogic weitergegeben.
+     *
      * @param uuid: UUID der abzurufenden Karte
      * @return Zugehörige Karte
      */
     public void getCardByUUID(String uuid, SingleDataCallback<Card> singleDataCallback) {
         try {
-           singleDataCallback.onSuccess(cardLogic.getCardByUUID(uuid));
+            singleDataCallback.onSuccess(cardLogic.getCardByUUID(uuid));
         } catch (IllegalArgumentException ex) {//überrgebener Wert ist leer
             singleDataCallback.onFailure(ex.getMessage());
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             singleDataCallback.onFailure(ex.getMessage());
         }
     }
-
 
 
     public void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            if (!cardLogic.setTagsToCard(card, set))
-                singleDataCallback.onFailure("Es gab Probleme beim Setzen der Tags");
-        }
-        catch(Exception ex){
+            cardLogic.setTagsToCard(card, set);
+        } catch (Exception ex) {
             singleDataCallback.onFailure(ex.getMessage());
         }
     }
 
-    public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback){
+    public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            if(!cardLogic.updateCardData(cardToChange, neu))
-                singleDataCallback.onFailure("Probleme");
-        }
-        catch (Exception e) {
+            cardLogic.updateCardData(cardToChange, neu);
+        } catch (Exception e) {
             singleDataCallback.onFailure(String.format("Karte \"%s\" konnte nicht gespeichert oder geupdatet werden", cardToChange.getUuid()));
         }
     }
@@ -194,25 +185,18 @@ public class CardController {
 
     /**
      * Wird aufgerufen, um ausgewählte Karten zu exportieren. Wird an die CardLogic weitergereicht.
-     * @param cards Set an Karten, die exportiert werden sollen
+     *
+     * @param cards    Set an Karten, die exportiert werden sollen
      * @param filetype Exporttyp der Karten
      * @return Exportierte Datei
      */
-    public void exportCards(Card[] cards, ExportFileType filetype,SingleDataCallback<Boolean> singleDataCallback) {
-        if(!cardLogic.exportCards(cards, filetype))
+    public void exportCards(Card[] cards, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) {
+        try {
+            cardLogic.exportCards(cards, filetype);
+        } catch (Exception ex) {
             singleDataCallback.onFailure("Probleme");
+        }
     }
-
-
-
-
-    /**
-     * Lädt alle Tags als Set. Wird weitergegeben an die CardLogic.
-     * @return Set mit bestehenden Tags.
-     * //TODO: Löschen? Wo benutzt?
-     *//*
-    public static void getTags(DataCallback<Tag> dataCallback) {
-        dataCallback.onSuccess(CardLogic.getTags());
-        //TODO:if needed error handling
-    }*/
 }
+
+
