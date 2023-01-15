@@ -8,6 +8,7 @@ import com.swp.Persistence.SingleDataCallback;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Set;
 @Slf4j
 public class CategoryController
@@ -27,7 +28,7 @@ public class CategoryController
         }
     }
 
-    public static void editCategoryHierarchy(Category category, Set<String> parents, Set<String> children, SingleDataCallback<Boolean> singleDataCallback) {
+    public static void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<Boolean> singleDataCallback) {
          try {
              if (!CategoryLogic.editCategoryHierarchy(category, parents, children))
                  singleDataCallback.onFailure("Probleme");
@@ -60,8 +61,8 @@ public class CategoryController
     }
 
 
-    public static boolean setCategoriesToCard(Card card, Set<Category> categories) {
-        return CategoryLogic.setCardToCategories(card, categories);
+    public static boolean setCategoriesToCard(Card card, List<Category> categories) {
+        return CategoryLogic.setC2COrCH(card, categories,false);
         //TODO: Exceptions // data callback, non user
     }
 
@@ -73,9 +74,9 @@ public class CategoryController
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischer Kategorie
      */
-    public static Set<Card> getCardsInCategory(Category category) {
+    public static List<Card> getCardsInCategory(Category category) {
         try {
-            Set<Card> cards = CategoryLogic.getCardsInCategory(category);
+            List<Card> cards = CategoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
                log.info("Es gibt keine Karten zu dieser Kategorie");
@@ -100,10 +101,10 @@ public class CategoryController
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischer Kategorie
      */
-    public static Set<Card> getCardsInCategory(String category) {
+    public static List<Card> getCardsInCategory(String category) {
 
         try {
-            Set<Card> cards = CategoryLogic.getCardsInCategory(category);
+            List<Card> cards = CategoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
                 NotificationGUI.addNotification("Es gibt keine Karten für diese Kategorie", Notification.NotificationType.INFO, 5);
@@ -130,9 +131,9 @@ public class CategoryController
      * @param card Die Karte, zu der die Kategorien abgerufen werden sollen
      * @return Gefundene Kategorien für die spezifische Karte
      */
-    public static Set<Category> getCategoriesToCard(Card card) {
+    public static List<Category> getCategoriesToCard(Card card) {
         try {
-            Set categoriesForCard = CategoryLogic.getCategoriesByCard(card);
+            List categoriesForCard = CategoryLogic.getCategoriesByCard(card);
 
             if (categoriesForCard.isEmpty())
                 log.info("Keine Kategorien für diese Karte vorhanden");
@@ -152,7 +153,7 @@ public class CategoryController
      * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
      * @return Set mit bestehenden Categories
      */
-    public static Set<Category> getCategories(){
+    public static List<Category> getCategories(){
         return CategoryLogic.getCategories();
     }
 

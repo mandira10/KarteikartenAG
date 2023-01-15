@@ -162,7 +162,7 @@ public class CardController {
 
 
 
-    public static void setTagsToCard(Card card, Set<Tag> set, SingleDataCallback<Boolean> singleDataCallback) {
+    public static void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             if (!CardLogic.setTagsToCard(card, set))
                 singleDataCallback.onFailure("Es gab Probleme beim Setzen der Tags");

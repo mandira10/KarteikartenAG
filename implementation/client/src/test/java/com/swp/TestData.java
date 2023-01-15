@@ -6,6 +6,7 @@ import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
+import com.swp.Persistence.CategoryRepository;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,14 +26,14 @@ public class TestData {
         List<Card> randomL = new ArrayList<>();
         //randomL.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[]{}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
         randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle", false, true));
-        Set<Tag> tagsRandom = new HashSet<>() {
+        List<Tag> tagsRandom = new ArrayList<>() {
             {
                 add(new Tag("toll"));
                 add(new Tag("cool"));
             }
         };
 
-        Set<Category> randomC = new HashSet<>() {
+        List<Category> randomC = new ArrayList<>() {
             {
                 add(new Category("random"));
             }
@@ -47,7 +48,7 @@ public class TestData {
         erdkundeL.add(new MultipleChoiceCard("Welche dieser Städte liegt am nördlichsten?", new String[]{"Adelaide", "Perth", "Melbourne", "Brisbane"}, new int[]{3}, "Nördlichste Stadt Australiens", false));
         //erdkundeL.add(new TrueFalseCard("Die USA hat insgesamt 50 Bundesstaaten", true, "USA Bundesstaaten", false));
 
-        Set<Tag> erdkundeTags = new HashSet<>() {
+        List<Tag> erdkundeTags = new ArrayList<>() {
             {
                 add(new Tag("Deutschland"));
                 add(new Tag("Australien"));
@@ -55,7 +56,7 @@ public class TestData {
             }
         };
 
-        Set<Category> erdkundeC = new HashSet<>() {
+        List<Category> erdkundeC = new ArrayList<>() {
             {
                 add(new Category("Erdkunde"));
                 add(new Category("Schule"));
@@ -69,14 +70,14 @@ public class TestData {
         spanischL.add(new AudioCard(null, "Taufen", "Taufen", "bautizar", false, true));
 
 
-        Set<Tag> spanischTags = new HashSet<>() {
+        List<Tag> spanischTags = new ArrayList<>() {
             {
                 add(new Tag("Essen"));
                 add(new Tag("Anderes"));
             }
         };
 
-        Set<Category> spanischC = new HashSet<>() {
+        List<Category> spanischC = new ArrayList<>() {
             {
                 add(new Category("Spanisch"));
                 add(new Category("Schule"));
@@ -91,14 +92,14 @@ public class TestData {
         //technikL.add(new TrueFalseCard("Logitech produzierte die erste echte Computer-Maus", false, "Produzent erster Computer-Maus", false));
         //technikL.add(new TrueFalseCard("http steht für Hypertext Transfer Protocol", false, "", false));
 
-        Set<Tag> technikTags = new HashSet<>() {
+        List<Tag> technikTags = new ArrayList<>() {
             {
                 add(new Tag("Google Earth"));
                 add(new Tag("Technikmarken"));
             }
         };
 
-        Set<Category> technikC = new HashSet<>() {
+        List<Category> technikC = new ArrayList<>() {
             {
                 add(new Category("Technik"));
                 add(new Category("Schule"));

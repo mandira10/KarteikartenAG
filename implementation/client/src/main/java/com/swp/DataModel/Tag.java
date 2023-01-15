@@ -28,14 +28,13 @@ public class Tag implements Serializable
     /**
      * Value des Tags
      */
-    @Column
+    @Column(unique = true)
     private String val;
 
     /**
      * UUID des Tags
      */
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     @Setter(AccessLevel.NONE)
     private final String uuid;
@@ -58,5 +57,12 @@ public class Tag implements Serializable
         this.uuid = null;
     }
 
+    @Override
+    public boolean equals(Object o){
+        if ( this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return val == tag.val;
+    }
 
 }

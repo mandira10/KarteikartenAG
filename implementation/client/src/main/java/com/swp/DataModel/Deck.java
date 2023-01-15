@@ -32,7 +32,7 @@ public class Deck implements Serializable
     /**
      * Bezeichnung des Decks
      */
-    @Column
+    @Column(unique = true)
     private String name;
 
     /**
@@ -99,5 +99,14 @@ public class Deck implements Serializable
         this.studySystem = studySystem;
         this.cardOrder = cardOrder;
         this.visibility = visibile;
+    }
+
+
+    @Override
+    public boolean equals(Object o){
+        if ( this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Deck deck = (Deck) o;
+        return name == deck.name;
     }
 }

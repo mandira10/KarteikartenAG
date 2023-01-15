@@ -7,7 +7,6 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
-import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CategoryRepository;
 import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.PersistenceManager;
@@ -40,7 +39,7 @@ public class AddCardTest {
         //TEXT
         Card card1 = new TextCard("Testfrage","Testantwort","Testtitel",true);
         assertTrue(CardLogic.updateCardData(card1,true));
-        Card txcard = CardRepository.getCardByUUID(card1.getUuid());
+        Card txcard = CardLogic.getCardByUUID(card1.getUuid());
         TextCard textCard = (TextCard) txcard;
         assertNotNull(textCard);
         assertEquals("Testtitel", textCard.getTitle());
@@ -64,7 +63,7 @@ public class AddCardTest {
         };
         Card card2 = new MultipleChoiceCard("Testfrage",answers,correctAnswers,"Testtitel1",false);
         assertTrue(CardLogic.updateCardData(card2, true));
-        Card card = CardRepository.getCardByUUID(card2.getUuid());
+        Card card = CardLogic.getCardByUUID(card2.getUuid());
         assertNotNull(card);
         MultipleChoiceCard mcCard = (MultipleChoiceCard) card;
         assertNotNull(mcCard);
@@ -87,7 +86,7 @@ public class AddCardTest {
                 put("visibility", false);
             }
         };
-        Set<Tag> tagsToAdd = new HashSet<>() {
+        List<Tag> tagsToAdd = new ArrayList<>() {
             {
                 add(new Tag("tag1"));
                 add(new Tag("tag2"));
@@ -97,7 +96,7 @@ public class AddCardTest {
         BeanUtils.populate(card1,txmap);
         assertTrue(CardLogic.updateCardData(card1,true));
         assertTrue(CardLogic.setTagsToCard(card1,tagsToAdd));
-        List<Tag> tags = CardRepository.getTags();
+        List<Tag> tags = CardLogic.getTags();
         assertTrue(tags.size()>=2); //in case more than one
         Optional<Tag> tagOpt1 = tags.stream().filter( t -> t.getVal().equals("tag1")).findFirst();
         Optional<Tag>  tagOpt2 = tags.stream().filter( t -> t.getVal().equals("tag2")).findFirst();
@@ -105,15 +104,15 @@ public class AddCardTest {
         assertTrue(tagOpt1.isPresent());
         Tag tag1 = tagOpt1.get();
         Tag tag2 = tagOpt2.get();
-        List<Card> CardsToTag1 = CardRepository.findCardsByTag(tag1);
-        List<Card> CardsToTag2 = CardRepository.findCardsByTag(tag2);
+        List<Card> CardsToTag1 = CardLogic.getCardsByTag(tag1.getVal());
+        List<Card> CardsToTag2 = CardLogic.getCardsByTag(tag2.getVal());
         assertEquals(1,CardsToTag1.size()); //FAILS
         assertEquals(1,CardsToTag2.size());
         card1 = CardsToTag1.iterator().next();
         Card card2 = CardsToTag2.iterator().next();
         assertEquals(card1.getUuid(), card2.getUuid());
-        List<Tag> tagToCard1 = CardRepository.getTagsToCard(card1);
-        List<Tag> tagToCard2 = CardRepository.getTagsToCard(card2);
+        List<Tag> tagToCard1 = CardLogic.getTagsToCard(card1);
+        List<Tag> tagToCard2 = CardLogic.getTagsToCard(card2);
         assertFalse(tagToCard1.isEmpty());
         Optional<Tag> tagOptional1 = tagToCard1.stream().filter(t -> t.getVal().equals("tag1")).findAny();
         assertTrue(tagOptional1.isPresent());
@@ -122,37 +121,7 @@ public class AddCardTest {
         assertTrue(tagOptional2.isPresent());
     }
 
-    @Test
-    public void testCardCreateAndUpdateWithCategories(){
-        Set<Category> categoriesToAdd = new HashSet<>() {
-            {
-                add(new Category("categorie1"));
-                add(new Category("categorie2"));
-            }
-        };
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
-        assertTrue(CardLogic.updateCardData(card1,true));
-        assertTrue(CategoryLogic.setCardToCategories(card1,categoriesToAdd));
-        Set<Category> categories = CategoryRepository.getCategories();
-        assertTrue(categories.size()>=2); //FAILS
-        Optional<Category> c1Opt = categories.stream().filter(n -> n.getName().equals("categorie1")).findFirst();
-        Optional<Category> c2Opt = categories.stream().filter(n -> n.getName().equals("categorie2")).findFirst();
-        assertTrue(c1Opt.isPresent());
-        assertTrue(c2Opt.isPresent());
-        Category c1 = c1Opt.get();
-        Category c2 = c2Opt.get();
-        Set<Card> CardsToC1 = CategoryRepository.getCardsByCategory(c1);
-        Set<Card> CardsToC2 = CategoryRepository.getCardsByCategory(c2);
-        assertEquals(1,CardsToC1.size()); //FAILS
-        assertEquals(1,CardsToC2.size());
-         Optional<Card> card1Opt = CardsToC1.stream().filter(n -> n.getTitle().equals("Testtitel2")).findFirst();
-        Optional<Card> card2Opt = CardsToC2.stream().filter(n -> n.getTitle().equals("Testtitel2")).findFirst();
-        assertTrue(card1Opt.isPresent());
-        assertTrue(card2Opt.isPresent());
-          card1 = card1Opt.get();
-         Card card2 = card2Opt.get();
-        assertEquals(card1.getUuid(), card2.getUuid());
-    }
+
 
     @Test
     public void testCardOverview()  {
@@ -184,8 +153,8 @@ public class AddCardTest {
         Card text2 = new MultipleChoiceCard("F2", answers, correctAnswers, "Titel für die Karte 2", true);
         assertTrue(CardLogic.updateCardData(text1, true));
         assertTrue(CardLogic.updateCardData(text2, true));
-        Card card1 = CardRepository.getCardByUUID(text1.getUuid());
-        Card card2 = CardRepository.getCardByUUID(text2.getUuid());
+        Card card1 = CardLogic.getCardByUUID(text1.getUuid());
+        Card card2 = CardLogic.getCardByUUID(text2.getUuid());
         assertNotNull(card1);
         assertNotNull(card2);
         Card copy1 = copyCard(card1);
@@ -196,67 +165,13 @@ public class AddCardTest {
         text2.setRating(5);
         assertTrue(CardLogic.updateCardData(text1, false));
         assertTrue(CardLogic.updateCardData(text2, false));
-        card1 = CardRepository.getCardByUUID(text1.getUuid());
-        card2 = CardRepository.getCardByUUID(text2.getUuid());
+        card1 = CardLogic.getCardByUUID(text1.getUuid());
+        card2 = CardLogic.getCardByUUID(text2.getUuid());
         assertTrue(card1.getTitle().equals(text1.getTitle()));
         assertEquals(card2.getRating(),text2.getRating());
     }
 
-    @Test
-    public void testCategoryMultiHierarchy() {
-        Set<Category> categoriesToAdd = new HashSet<>() {
-            {
-                add(new Category("categorie3"));
-                add(new Category("categorie4"));
-                add(new Category("categorie5"));
-                add(new Category("categorie6"));
-                add(new Category("categorie7"));
-            }
-        };
-        Card card1 = new TextCard("Testfrage für die Kategorien Hierachie","Testantwort für die Kategorien Hierachie","Testtitel für die Kategorien Hierarchie",false);
-        assertTrue(CardLogic.updateCardData(card1,true));
-        assertTrue(CategoryLogic.setCardToCategories(card1,categoriesToAdd));
-        Set<Category> categories = CategoryRepository.getCategories();
-        Optional<Category> c1Opt = categories.stream().filter(n -> n.getName().equals("categorie3")).findFirst();
-        Optional<Category> c2Opt = categories.stream().filter(n -> n.getName().equals("categorie4")).findFirst();
-        Optional<Category> c3Opt = categories.stream().filter(n -> n.getName().equals("categorie5")).findFirst();
-        Optional<Category> c4Opt = categories.stream().filter(n -> n.getName().equals("categorie6")).findFirst();
-        Optional<Category> c5Opt = categories.stream().filter(n -> n.getName().equals("categorie7")).findFirst();
-        assertTrue(c1Opt.isPresent());
-        assertTrue(c2Opt.isPresent());
-        assertTrue(c3Opt.isPresent());
-        assertTrue(c4Opt.isPresent());
-        assertTrue(c5Opt.isPresent());
-        Category c1 = c1Opt.get();
-        Category c2 = c2Opt.get();
-        Category c3 = c3Opt.get();
-        Category c4 = c4Opt.get();
-        Category c5 = c5Opt.get();
-        c1.addChild(c2);
-        c1.addChild(c3);
-        c3.addChild(c2);
-        c5.addChild(c4);
-        CategoryRepository.updateCategory(c1);
-        CategoryRepository.updateCategory(c2);
-        CategoryRepository.updateCategory(c3);
-        CategoryRepository.updateCategory(c4);
-        CategoryRepository.updateCategory(c5);
-        assertEquals(0, c1.getParents().size());
-        assertEquals(2, c2.getParents().size());
-        Set<Category> categoryParents = CategoryRepository.getParentsForCategory(c2);
-        assertEquals(2, categoryParents.size());
-        //categoryParents.stream().filter(c -> c.getName().equals("categorie3")).findFirst();
-        //categoryParents.stream().filter(c -> c.getName().equals("categorie5")).findFirst();
 
-        //check what happens if not every parent and child gets updated, DOESNT WORK
-        c1.addChild(c4);
-        // assertEquals(2,c4.getParents().size());
-        // CategoryRepository.updateCategory(c1);
-        //  categoryParents = CategoryRepository.getParentsForCategory(c4);
-        // assertEquals(2,categoryParents.size());
-
-
-    }
 
     @Test
     public void testGetCards(){

@@ -14,6 +14,8 @@ import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.PageManager.PAGES;
 
+import java.util.stream.Collectors;
+
 public class ViewSingleCategoryPage extends Page
 {
     private Category pCategory;
@@ -66,7 +68,7 @@ public class ViewSingleCategoryPage extends Page
         this.pCategory = category;
 
         pCardList.reset();
-        pCardList.addCards(CategoryController.getCardsInCategory(this.pCategory));
+        pCardList.addCards(CategoryController.getCardsInCategory(this.pCategory).stream().collect(Collectors.toSet()));
 
         resize();
         reposition();
