@@ -10,13 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 @Slf4j
-public class CategoryController
-{
+public class CategoryController {
     private CategoryController() {
     }
+
     CategoryLogic categoryLogic = CategoryLogic.getInstance();
 
     private static CategoryController categoryController;
+
     public static CategoryController getInstance() {
         if (categoryController == null)
             categoryController = new CategoryController();
@@ -24,60 +25,80 @@ public class CategoryController
     }
 
     public void updateCategoryData(Category category, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
-    try {
-        if (!categoryLogic.updateCategoryData(category, neu))
-            singleDataCallback.onFailure("Probleme");
-    }
-    catch(Exception ex){
-        singleDataCallback.onFailure(ex.getMessage());
+        try {
+            categoryLogic.updateCategoryData(category, neu);
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
         }
     }
 
     public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<Boolean> singleDataCallback) {
-         try {
-             if (!categoryLogic.getInstance().editCategoryHierarchy(category, parents, children))
-                 singleDataCallback.onFailure("Probleme");
-         }
-         catch(Exception ex){
-             singleDataCallback.onFailure(ex.getMessage());
-         }
+        try {
+            categoryLogic.editCategoryHierarchy(category, parents, children);
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
+        }
     }
 
-    public boolean deleteCategory(Category category) {
-        return categoryLogic.deleteCategory(category);
-        //TODO: test how multicategory works???
-        //TODO: Exception a la Data Callback, non user
+    public void deleteCategory(Category category, SingleDataCallback<Boolean> singleDataCallback) {
+        try {
+            categoryLogic.deleteCategory(category);
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
+        }
     }
 
-    public boolean deleteCardToCategory(CardToCategory c2d) {
-        return categoryLogic.deleteCardToCategory(c2d);
-        //TODO: test how multicategory works???
-        //TODO: Exception a la Data Callback, non user
+    public void deleteCardToCategory(CardToCategory c2d, SingleDataCallback singleDataCallback) {
+        try {
+            categoryLogic.deleteCardToCategory(c2d);
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
+        }
     }
 
-    public List<Category> getParentsForCategory(Category child){
-        return categoryLogic.getParentsForCategory(child);
-    }
-    public List<Category> getChildrenForCategory(Category parent){
-        return categoryLogic.getChildrenForCategory(parent);
-    }
-
-    public Category getCategoryByUUID(String uuid) {
-        return categoryLogic.getCategoryByUUID(uuid);
-        //TODO: Exceptions a la Data Callback, non user
+    public void getParentsForCategory(Category child, DataCallback<Category> dataCallback) {
+        try {
+            dataCallback.onSuccess(categoryLogic.getParentsForCategory(child));
+        } catch (Exception ex) {
+            dataCallback.onFailure(ex.getMessage());
+        }
     }
 
-    public int numCardsInCategory(Category category) {
-        return categoryLogic.numCardsInCategory(category);
+    public void getChildrenForCategory(Category parent, DataCallback<Category> dataCallback) {
+        try {
+            dataCallback.onSuccess(categoryLogic.getChildrenForCategory(parent));
+        } catch (Exception ex) {
+            dataCallback.onFailure(ex.getMessage());
+        }
+    }
+
+    public void getCategoryByUUID(String uuid, SingleDataCallback<Category> singleDataCallback) {
+        try {
+            singleDataCallback.onSuccess(categoryLogic.getCategoryByUUID(uuid));
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
+        }
+    }
+
+    public void numCardsInCategory(Category category, SingleDataCallback<Integer> singleDataCallback) {
+        try {
+            singleDataCallback.onSuccess(categoryLogic.numCardsInCategory(category));
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
+        }
     }
 
 
-    public boolean setCategoriesToCard(Card card, List<Category> categories) {
-        return categoryLogic.setC2COrCH(card, categories,false);
-        //TODO: Exceptions // data callback, non user
+    public void setCategoriesToCard(Card card, List<Category> categories, SingleDataCallback<Boolean> singleDataCallback) {
+        try {
+            categoryLogic.setC2COrCH(card, categories, false);
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
+        }
     }
 
-    //OVERVIEW
+//OVERVIEW
+
     /**
      * Nutzung für Display einzelner Karten im CardGUI
      * Wird an die CategoryLogic weitergegeben.
@@ -85,22 +106,22 @@ public class CategoryController
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischer Kategorie
      */
-    public List<Card> getCardsInCategory(Category category) {
+    public void getCardsInCategory(Category category, DataCallback<Card> dataCallback) {
         try {
             List<Card> cards = categoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
-               log.info("Es gibt keine Karten zu dieser Kategorie");
-            return cards;
+                log.info("Es gibt keine Karten zu dieser Kategorie");
+            dataCallback.onSuccess(cards);
 
         } catch (final NoResultException ex) {
             // keine Karten mit entsprechendem Inhalt gefunden
             log.info("Keine Karten mit der Kategorie {} gefunden", category);
-            return null;
+            dataCallback.onFailure(ex.getMessage());
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category
                     , ex);
-            return null;
+            dataCallback.onFailure(ex.getMessage());
         }
     }
 
@@ -112,7 +133,7 @@ public class CategoryController
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischer Kategorie
      */
-    public List<Card> getCardsInCategory(String category) {
+    public void getCardsInCategory(String category, DataCallback<Card> dataCallback) {
 
         try {
             List<Card> cards = categoryLogic.getCardsInCategory(category);
@@ -120,56 +141,58 @@ public class CategoryController
             if (cards.isEmpty())
                 NotificationGUI.addNotification("Es gibt keine Karten für diese Kategorie", Notification.NotificationType.INFO, 5);
 
-            return cards;
+            dataCallback.onSuccess(cards);
 
         } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return null;
+            dataCallback.onFailure(ex.getMessage());
         } catch (final NullPointerException ex) {
-            log.info(ex.getMessage());
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.INFO, 5);
-            return null;
+            dataCallback.onFailure(ex.getMessage());
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category
                     , ex);
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return null;
+            dataCallback.onFailure(ex.getMessage());
         }
     }
 
     /**
      * Kann verwendet werden, um einzelne Kategorien zu Karten in der SingleCardOverviewPage oder im EditModus aufzurufen
+     *
      * @param card Die Karte, zu der die Kategorien abgerufen werden sollen
      * @return Gefundene Kategorien für die spezifische Karte
      */
-    public List<Category> getCategoriesToCard(Card card) {
+    public void getCategoriesToCard(Card card, DataCallback<Category> dataCallback) {
         try {
             List categoriesForCard = categoryLogic.getCategoriesByCard(card);
 
             if (categoriesForCard.isEmpty())
                 log.info("Keine Kategorien für diese Karte vorhanden");
 
-            return categoriesForCard;
+            dataCallback.onSuccess(categoriesForCard);
 
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Kategorien mit Karten {} ist ein Fehler {} aufgetreten", card, ex);
-            return null;
+            dataCallback.onFailure(ex.getMessage());
         }
     }
 
-    //CARDEDITPAGE, CATEGORY OVERVIEW
+//CARDEDITPAGE, CATEGORY OVERVIEW
 
     /**
      * Lädt alle Categories als Set. Werden in der CardEditPage als Dropdown angezeigt. Wird weitergegeben an die CategoryLogic.
      * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
+     *
      * @return Set mit bestehenden Categories
      */
-    public List<Category> getCategories(){
-        return categoryLogic.getCategories();
-    }
+    public void getCategories(DataCallback<Category> dataCallback) {
+        try {
+            List categories = categoryLogic.getCategories();
 
-    //OLD?!
-    public boolean updateCategoryData(Category oldcategory, Category newcategory) {
-        return false;
+            if (categories.isEmpty())
+                log.info("Keine Kategorien vorhanden");
+
+            dataCallback.onSuccess(categories);
+        } catch (Exception ex) {
+            dataCallback.onFailure(ex.getMessage());
+        }
     }
 }

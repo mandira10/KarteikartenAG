@@ -221,8 +221,7 @@ public class EditCardPage extends Page
     private void applyChanges()
     {
         CardController.getInstance().updateCardData(pNewCard, bIsNewCard, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {}
+            @Override public void onSuccess(Boolean data) {}
 
             @Override
             public void onFailure(String msg) {
@@ -231,8 +230,7 @@ public class EditCardPage extends Page
         });
 
         CardController.getInstance().setTagsToCard(pNewCard, pTagList.getTagUserptrs(), new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {}
+            @Override public void onSuccess(Boolean data) {}
 
             @Override
             public void onFailure(String msg) {
@@ -240,6 +238,13 @@ public class EditCardPage extends Page
             }
         });
 
-        CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories);
+        CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories, new SingleDataCallback<Boolean>() {
+            @Override public void onSuccess(Boolean data) {}
+
+            @Override
+            public void onFailure(String msg) {
+            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+        });
     }
 }

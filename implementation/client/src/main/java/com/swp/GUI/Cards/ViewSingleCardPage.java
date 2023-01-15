@@ -155,14 +155,28 @@ public class ViewSingleCardPage extends Page
                 NotificationGUI.addNotification("Failed to get Tags: " + msg, NotificationType.WARNING, 5);
             }
         });
+        CategoryController.getInstance().getCategoriesToCard(card, new DataCallback<Category>() {
+            @Override
+            public void onSuccess(List<Category> data) {
+                String categoriesStr = "";
+                for(Category category : data)
+                    categoriesStr += category.getName() + ", ";
+                if(categoriesStr.length() > 0)
+                    categoriesStr = categoriesStr.substring(0, categoriesStr.length() - 2);
+                pCategoriesText.setString(categoriesStr);
 
+            }
 
-        String categoriesStr = "";
-        for(Category category : CategoryController.getInstance().getCategoriesToCard(card))
-            categoriesStr += category.getName() + ", ";
-        if(categoriesStr.length() > 0)
-            categoriesStr = categoriesStr.substring(0, categoriesStr.length() - 2);
-        pCategoriesText.setString(categoriesStr);
+            @Override
+            public void onFailure(String msg) {
+
+            }
+
+            @Override
+            public void onInfo(String msg) {
+
+            }
+        });
 
         updateReferences();
     }

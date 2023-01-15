@@ -13,7 +13,10 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.io.Mouse;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Category;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.EditCardPage;
@@ -98,11 +101,30 @@ public class CategorySelectPage extends Page
         pCanvas.destroyChildren();
 
         int y = 0;
-        for(Category category : categoryController.getCategories())
+
+        final List<Category> categories = new ArrayList<>();
+            categoryController.getCategories(new DataCallback<Category>() {
+            @Override
+            public void onSuccess(List<Category> data) {
+                categories.addAll(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+
+            @Override
+            public void onInfo(String msg) {}
+        });
+
+            for(Category category : categories)
         {
             CategoryListEntry container = new CategoryListEntry(category, new ivec2(0, y++ * 50), new ivec2(100, 40));
             pCanvas.addGUI(container);
         }
+
+
     }
 
     private List<Category> getSelection()
