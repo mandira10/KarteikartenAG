@@ -234,8 +234,8 @@ public class KarteikartenAG
         Category spanischCategory = new Category("Spanisch");
         Category erdkundeCategory = new Category("Erdkunde");
 
-        //schuleCategory.addChild(spanischCategory); //Crashes
-        //schuleCategory.addChild(erdkundeCategory); //Crashes
+        schuleCategory.addChild(spanischCategory); //Crashes
+        schuleCategory.addChild(erdkundeCategory); //Crashes
 
         for(Category category : new Category[] {randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory})
         {
