@@ -1,10 +1,10 @@
 package com.swp.DataModel.StudySystem;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.*;
-
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
@@ -24,14 +24,23 @@ public abstract class StudySystem implements Serializable
    // private String[] asProfiles; //TODO
 
     /**
+     * Primärer Schlüssel für die persistierten `StudySysteme`
+     */
+    @Id
+    //@GeneratedValue
+    private final String id;
+
+    /**
      * Zugehöriges Deck für das System
      */
+    @OneToOne
     protected Deck deck;
 
     /**
      * Einzelne Boxen des Systems, die Karten enthalten
      */
-    protected ArrayList<Set<Card> > boxes;
+    @OneToMany//(mappedBy = "studySystem")
+    protected ArrayList<StudySystemBox> boxes;
 
     /**
      * Zugehöriger Typ des Systems
@@ -48,7 +57,9 @@ public abstract class StudySystem implements Serializable
     {
         this.deck = deck;
         this.type = type;
-        this.boxes = initArray(nboxes);
+        //this.boxes = initArray(nboxes);
+        this.boxes = new ArrayList<StudySystemBox>(nboxes);
+        this.id = UUID.randomUUID().toString();
     }
 
     /**
@@ -75,24 +86,24 @@ public abstract class StudySystem implements Serializable
         if(boxindex >= boxes.size() || boxindex < 0)
             return;
 
-        for(Set<Card> set : boxes)
+        for(StudySystemBox box : boxes)
         {
-            if(set.contains(card))
-                set.remove(card);
+            if(box.getBoxContent().contains(card))
+                box.remove(card);
         }
 
         boxes.get(boxindex).add(card);
     }
 
     public void moveAllCardsForDeckToFirstBox(List<Card> cards){
-        boxes.get(0).addAll(cards);
+        boxes.get(0).add(cards);
     }
 
     public Set<Card> getAllCardsInStudySystem(){
         Set<Card> cardsInStudyS = new HashSet<>();
 
-        for(Set<Card> set : boxes){
-            cardsInStudyS.addAll(set);
+        for(StudySystemBox box : boxes){
+            cardsInStudyS.addAll(box.getBoxContent());
         }
         return cardsInStudyS;
     }
