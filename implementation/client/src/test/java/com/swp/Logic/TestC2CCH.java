@@ -6,6 +6,7 @@ import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.Category;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.*;
 
@@ -20,7 +21,15 @@ import static org.junit.Assert.assertEquals;
  */
 public class TestC2CCH {
 
+    CardLogic cardLogic;
+    CategoryLogic categoryLogic;
 
+
+@BeforeEach
+public void setup() {
+    cardLogic = CardLogic.getInstance();
+    categoryLogic = CategoryLogic.getInstance();
+}
 
     @Test
     public void testCreateOneCategoryForCardNoExistingCat(){
@@ -32,11 +41,11 @@ public class TestC2CCH {
         };
         Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
         //add card to database
-        assertTrue(CardLogic.updateCardData(card1,true));
+        assertTrue(cardLogic.updateCardData(card1,true));
         //add cardTocategory for own category
-        assertTrue(CategoryLogic.setC2COrCH(card1,categoryToAdd,false));
+        assertTrue(categoryLogic.setC2COrCH(card1,categoryToAdd,false));
         //check if C2C was added successfully
-        List<Category> cat = CategoryLogic.getCategoriesByCard(card1);
+        List<Category> cat = categoryLogic.getCategoriesByCard(card1);
         assertFalse(cat.isEmpty());
         assertEquals(cat.size(),1);
     }
@@ -50,11 +59,11 @@ public class TestC2CCH {
         };
         Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel2",false);
         //add card to database
-        assertTrue(CardLogic.updateCardData(card2,true));
+        assertTrue(cardLogic.updateCardData(card2,true));
         //add cardTocategory for own category
-        assertTrue(CategoryLogic.setC2COrCH(card2,categoriesToAdd,false));
+        assertTrue(categoryLogic.setC2COrCH(card2,categoriesToAdd,false));
         //check if C2C was added successfully
-        List<Category> cat = CategoryLogic.getCategoriesByCard(card2);
+        List<Category> cat = categoryLogic.getCategoriesByCard(card2);
         assertFalse(cat.isEmpty());
         assertEquals(cat.size(),2);
     }
@@ -70,11 +79,11 @@ public class TestC2CCH {
         };
         Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel2",false);
         //add card to database
-        assertTrue(CardLogic.updateCardData(card2,true));
+        assertTrue(cardLogic.updateCardData(card2,true));
         //add cardTocategory for own category
-        assertTrue(CategoryLogic.setC2COrCH(card2,categoriesToAdd,false));
+        assertTrue(categoryLogic.setC2COrCH(card2,categoriesToAdd,false));
         //check if C2C was added successfully
-        List<Category> cat = CategoryLogic.getCategoriesByCard(card2);
+        List<Category> cat = categoryLogic.getCategoriesByCard(card2);
         assertFalse(cat.isEmpty());
         assertEquals(cat.size(),2);
     }
@@ -82,10 +91,10 @@ public class TestC2CCH {
     @Test
     public void addSameCategoriesToExistingCard(){
         importTestData();
-        List<Card> cardsWithCategories = CategoryLogic.getCardsInCategory("Erdkunde");
+        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("Erdkunde");
         assertFalse(cardsWithCategories.isEmpty());
         Card card1 = cardsWithCategories.get(0);
-        List<Category> catOld = CategoryLogic.getCategoriesByCard(card1);
+        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
         assertFalse(catOld.isEmpty());
         assertEquals(2,catOld.size());
         //name of existing categories
@@ -99,9 +108,9 @@ public class TestC2CCH {
             }
         };
         //add cardTocategory for new categories
-        assertTrue(CategoryLogic.setC2COrCH(card1,categoriesToAdd,false));
+        assertTrue(categoryLogic.setC2COrCH(card1,categoriesToAdd,false));
         //check if C2C was added successfully
-        List<Category> catNew = CategoryLogic.getCategoriesByCard(card1);
+        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
         assertFalse(catNew.isEmpty());
         assertEquals(2,catNew.size());
     }
@@ -111,10 +120,10 @@ public class TestC2CCH {
     @Test
     public void addNewCategoriesToExistingCard(){
         importTestData();
-        List<Card> cardsWithCategories = CategoryLogic.getCardsInCategory("Spanisch");
+        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("Spanisch");
         assertFalse(cardsWithCategories.isEmpty());
         Card card1 = cardsWithCategories.get(0);
-        List<Category> catOld = CategoryLogic.getCategoriesByCard(card1);
+        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
         assertFalse(catOld.isEmpty());
         //name of existing categories
         String name1 = catOld.get(0).getName();
@@ -129,9 +138,9 @@ public class TestC2CCH {
             }
         };
         //add cardTocategory for new categories
-        assertTrue(CategoryLogic.setC2COrCH(card1,categoriesToAdd,false));
+        assertTrue(categoryLogic.setC2COrCH(card1,categoriesToAdd,false));
         //check if C2C was added successfully
-        List<Category> catNew = CategoryLogic.getCategoriesByCard(card1);
+        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
         assertFalse(catNew.isEmpty());
         assertEquals(4,catNew.size());
     }
@@ -139,10 +148,10 @@ public class TestC2CCH {
     @Test
     public void RemoveCategoriesFromExistingCard(){
         importTestData();
-        List<Card> cardsWithCategories = CategoryLogic.getCardsInCategory("Technik");
+        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("Technik");
         assertFalse(cardsWithCategories.isEmpty());
         Card card1 = cardsWithCategories.get(0);
-        List<Category> catOld = CategoryLogic.getCategoriesByCard(card1);
+        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
         assertFalse(catOld.isEmpty());
         assertEquals(2,catOld.size());
         //name of existing categories
@@ -155,9 +164,9 @@ public class TestC2CCH {
             }
         };
         //add cardTocategory for new categories
-        assertTrue(CategoryLogic.setC2COrCH(card1,categoriesToAdd,false));
+        assertTrue(categoryLogic.setC2COrCH(card1,categoriesToAdd,false));
         //check if C2C was added successfully
-        List<Category> catNew = CategoryLogic.getCategoriesByCard(card1);
+        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
         assertFalse(catNew.isEmpty());
         assertEquals(1,catNew.size());
     }
@@ -166,10 +175,10 @@ public class TestC2CCH {
     @Test
     public void RemoveAndAddCategoriesToExistingCard(){
         importTestData();
-        List<Card> cardsWithCategories = CategoryLogic.getCardsInCategory("random");
+        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("random");
         assertFalse(cardsWithCategories.isEmpty());
         Card card1 = cardsWithCategories.get(0);
-        List<Category> catOld = CategoryLogic.getCategoriesByCard(card1);
+        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
         assertFalse(catOld.isEmpty());
         assertEquals(1,catOld.size());
         //name of existing categories
@@ -182,9 +191,9 @@ public class TestC2CCH {
             }
         };
         //add cardTocategory for new categories
-        assertTrue(CategoryLogic.setC2COrCH(card1,categoriesToAdd,false));
+        assertTrue(categoryLogic.setC2COrCH(card1,categoriesToAdd,false));
         //check if C2C was added successfully
-        List<Category> catNew = CategoryLogic.getCategoriesByCard(card1);
+        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
         assertFalse(catNew.isEmpty());
         assertEquals(2,catNew.size());
     }
@@ -213,7 +222,7 @@ public class TestC2CCH {
             }
         };
         for(Category c : categories){
-            assertTrue(CategoryLogic.updateCategoryData(c,true));
+            assertTrue(categoryLogic.updateCategoryData(c,true));
         }
         List<Category> childTechnik = new ArrayList<>() {
             {
@@ -245,11 +254,11 @@ public class TestC2CCH {
                 add(oberschule);
             }
         };
-        assertTrue(CategoryLogic.setC2COrCH(technik,parentsTechnik,true));
-        assertTrue(CategoryLogic.setC2COrCH(technik,childTechnik,false));
-        assertTrue(CategoryLogic.setC2COrCH(biologie,parentsBiologie,true));
-        assertTrue(CategoryLogic.setC2COrCH(biologie,childsBiologie,false));
-        assertTrue(CategoryLogic.setC2COrCH(klasse11,childsklasse11,false));
+        assertTrue(categoryLogic.setC2COrCH(technik,parentsTechnik,true));
+        assertTrue(categoryLogic.setC2COrCH(technik,childTechnik,false));
+        assertTrue(categoryLogic.setC2COrCH(biologie,parentsBiologie,true));
+        assertTrue(categoryLogic.setC2COrCH(biologie,childsBiologie,false));
+        assertTrue(categoryLogic.setC2COrCH(klasse11,childsklasse11,false));
 
 
 

@@ -21,6 +21,9 @@ public class FilterSearchTest {
     @Test
     public void testFilterAll3() {
 
+        final CardLogic cardLogic = CardLogic.getInstance();
+        final CategoryLogic categoryLogic = CategoryLogic.getInstance();
+
         Card card1  = new TextCard("Testfrage5","Testantwort5","Testtitel5",true);
         Card card2  = new TextCard("ja","nein","vielleicht",true);
         Card card3  = new TextCard("ho","ho","ho",true);
@@ -38,20 +41,20 @@ public class FilterSearchTest {
             }
         };
 
-        assertTrue(CardLogic.updateCardData(card1,true));
-        assertTrue(CardLogic.updateCardData(card2,true));
-        assertTrue(CardLogic.updateCardData(card3,true));
-        assertTrue(CardLogic.setTagsToCard(card1,tagsToAdd));
-        assertTrue(CategoryLogic.setC2COrCH(card1,categoriesToAdd,false));
-        assertTrue(CardLogic.setTagsToCard(card2,tagsToAdd));
-        assertTrue(CategoryLogic.setC2COrCH(card3,categoriesToAdd,false));
-        Card txCard = CardLogic.getCardByUUID(card1.getUuid());
+        assertTrue(cardLogic.updateCardData(card1,true));
+        assertTrue(cardLogic.updateCardData(card2,true));
+        assertTrue(cardLogic.updateCardData(card3,true));
+        assertTrue(cardLogic.setTagsToCard(card1,tagsToAdd));
+        assertTrue(categoryLogic.getInstance().setC2COrCH(card1,categoriesToAdd,false));
+        assertTrue(cardLogic.setTagsToCard(card2,tagsToAdd));
+        assertTrue(categoryLogic.getInstance().setC2COrCH(card3,categoriesToAdd,false));
+        Card txCard = cardLogic.getCardByUUID(card1.getUuid());
         assertNotNull(txCard);
-        List<Card> cardsToSearchTerms = CardLogic.getCardsBySearchterms("antwort5");
+        List<Card> cardsToSearchTerms = cardLogic.getCardsBySearchterms("antwort5");
         assertEquals(1, cardsToSearchTerms.size());
-        List<Card> cardsToCategory = CategoryLogic.getCardsInCategory("categorietest1");
+        List<Card> cardsToCategory = categoryLogic.getCardsInCategory("categorietest1");
         assertEquals(2, cardsToCategory.size());
-        List<Card> cardsToTag = CardLogic.getCardsByTag("tagTest1");
+        List<Card> cardsToTag = cardLogic.getCardsByTag("tagTest1");
         assertEquals(2, cardsToTag.size());
         assertTrue(cardsToTag.stream().anyMatch(c -> c.getTitle().equals("vielleicht")));
         assertTrue(cardsToTag.stream().anyMatch(c -> c.getTitle().equals("Testtitel5")));

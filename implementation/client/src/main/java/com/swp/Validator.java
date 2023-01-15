@@ -1,12 +1,8 @@
 package com.swp;
 
-import com.swp.DataModel.Card;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.Persistence.DataCallback;
-import com.swp.Persistence.SingleDataCallback;
-
-import java.util.stream.Collectors;
+import com.swp.Controller.SingleDataCallback;
 
 /**
  * Eine Applikation zur Verwaltung von Kursen und Teilnehmer:innen in den Kursen.

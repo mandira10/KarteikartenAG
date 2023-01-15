@@ -21,6 +21,7 @@ import com.swp.GUI.PageManager.PAGES;
 
 public class CategorySelectPage extends Page 
 {
+    private final CategoryController categoryController = CategoryController.getInstance();
     private class CategoryListEntry extends RenderGUI
     {
         private Category pCategory;
@@ -97,7 +98,7 @@ public class CategorySelectPage extends Page
         pCanvas.destroyChildren();
 
         int y = 0;
-        for(Category category : CategoryController.getCategories())
+        for(Category category : categoryController.getCategories())
         {
             CategoryListEntry container = new CategoryListEntry(category, new ivec2(0, y++ * 50), new ivec2(100, 40));
             pCanvas.addGUI(container);

@@ -1,8 +1,5 @@
 package com.swp.GUI.Category;
 
-import java.io.ObjectOutputStream.PutField;
-import java.util.List;
-
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
@@ -15,8 +12,7 @@ import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.Persistence.DataCallback;
-import com.swp.Persistence.SingleDataCallback;
+import com.swp.Controller.SingleDataCallback;
 
 public class EditCategoryPage extends Page
 {
@@ -24,6 +20,8 @@ public class EditCategoryPage extends Page
     private RenderGUI pCanvas;
     private Category pOldCategory, pNewCategory;
     private TextField pTitleField;
+
+    private CategoryController categoryController = CategoryController.getInstance();
 
     public EditCategoryPage()
     {
@@ -66,7 +64,7 @@ public class EditCategoryPage extends Page
         resize();
     }
 
-    public void editCategory(String uuid) { editCategory(CategoryController.getCategoryByUUID(uuid)); }
+    public void editCategory(String uuid) { editCategory(categoryController.getCategoryByUUID(uuid)); }
     public void editCategory(Category category)
     {
         pNewCategory = new Category(category);
@@ -77,7 +75,7 @@ public class EditCategoryPage extends Page
     private void applyChanges()
     {
         boolean neu = true;
-        CategoryController.updateCategoryData(pNewCategory,neu, new SingleDataCallback<>() {
+        categoryController.updateCategoryData(pNewCategory,neu, new SingleDataCallback<>() {
             @Override
             public void onSuccess(Boolean data) {
             }

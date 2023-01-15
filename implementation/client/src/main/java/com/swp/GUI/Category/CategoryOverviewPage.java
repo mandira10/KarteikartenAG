@@ -19,6 +19,8 @@ public class CategoryOverviewPage extends Page
 {
     RenderGUI pCanvas;
     CategoryList pCategoryList;
+    
+    private static final CategoryController categoryController = CategoryController.getInstance();
    
     public CategoryOverviewPage()
     {
@@ -68,7 +70,7 @@ public class CategoryOverviewPage extends Page
     public void loadCategories()
     {
         pCategoryList.reset();
-        pCategoryList.addCategories(CategoryController.getCategories().stream().toList());
+        pCategoryList.addCategories(categoryController.getCategories().stream().toList());
     }
     
     public void loadCategories(String searchterm)

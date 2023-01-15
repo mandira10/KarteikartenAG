@@ -29,6 +29,8 @@ public class CategoryList extends RenderGUI
         void run(Category category);
     }
 
+    private static final CategoryController categoryController = CategoryController.getInstance();
+
     private class CategoryContainer extends Box
     {
         public CategoryContainer(Category category)
@@ -52,7 +54,7 @@ public class CategoryList extends RenderGUI
             iconText.setCharacterHeight(30);
             iconText.setColor(new vec4(0.13f, 0.13f, 0.14f, 1));
 
-            int numCards = CategoryController.numCardsInCategory(category);
+            int numCards = categoryController.numCardsInCategory(category);
             numcardsText.setString("Cards: " + numCards);
             iconText.setString("");
             addElement(numcardsText);

@@ -6,6 +6,8 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -15,7 +17,10 @@ import java.util.ArrayList;
 /**
  * Klasse für das TimingSystem. Erbt alle Attribute vom StudySystem
  */
-public class TimingSystem extends StudySystem implements MouseListener {
+@Entity
+@DiscriminatorValue("Timing")
+public class TimingSystem extends StudySystem implements MouseListener
+{
 
 
     static Timer timer = new Timer();

@@ -11,7 +11,6 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Deck;
 import com.swp.DataModel.Tag;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -23,8 +22,8 @@ import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.RatingGUI.RateCallback;
 import com.swp.GUI.PageManager.PAGES;
-import com.swp.Persistence.DataCallback;
-import com.swp.Persistence.SingleDataCallback;
+import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
 
 import java.util.ArrayList;
 import java.util.List;

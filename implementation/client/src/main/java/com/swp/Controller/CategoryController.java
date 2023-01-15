@@ -4,23 +4,28 @@ import com.swp.DataModel.*;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CategoryLogic;
-import com.swp.Persistence.SingleDataCallback;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.Set;
+
 @Slf4j
 public class CategoryController
 {
     private CategoryController() {
     }
+    CategoryLogic categoryLogic = CategoryLogic.getInstance();
 
+    private static CategoryController categoryController;
+    public static CategoryController getInstance() {
+        if (categoryController == null)
+            categoryController = CategoryController.getInstance();
+        return categoryController;
+    }
 
-
-    public static void updateCategoryData(Category category, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
+    public void updateCategoryData(Category category, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
     try {
-        if (!CategoryLogic.updateCategoryData(category, neu))
+        if (!categoryLogic.updateCategoryData(category, neu))
             singleDataCallback.onFailure("Probleme");
     }
     catch(Exception ex){
@@ -28,9 +33,9 @@ public class CategoryController
         }
     }
 
-    public static void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<Boolean> singleDataCallback) {
+    public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<Boolean> singleDataCallback) {
          try {
-             if (!CategoryLogic.editCategoryHierarchy(category, parents, children))
+             if (!categoryLogic.getInstance().editCategoryHierarchy(category, parents, children))
                  singleDataCallback.onFailure("Probleme");
          }
          catch(Exception ex){
@@ -38,31 +43,31 @@ public class CategoryController
          }
     }
 
-    public static boolean deleteCategory(Category category) {
-        return CategoryLogic.deleteCategory(category);
+    public boolean deleteCategory(Category category) {
+        return categoryLogic.deleteCategory(category);
         //TODO: test how multicategory works???
         //TODO: Exception a la Data Callback, non user
     }
 
-    public static boolean deleteCardToCategory(CardToCategory c2d) {
-        return CategoryLogic.deleteCardToCategory(c2d);
+    public boolean deleteCardToCategory(CardToCategory c2d) {
+        return categoryLogic.deleteCardToCategory(c2d);
         //TODO: test how multicategory works???
         //TODO: Exception a la Data Callback, non user
     }
 
 
-    public static Category getCategoryByUUID(String uuid) {
-        return CategoryLogic.getCategoryByUUID(uuid);
+    public Category getCategoryByUUID(String uuid) {
+        return categoryLogic.getCategoryByUUID(uuid);
         //TODO: Exceptions a la Data Callback, non user
     }
 
-    public static int numCardsInCategory(Category category) {
-        return CategoryLogic.numCardsInCategory(category);
+    public int numCardsInCategory(Category category) {
+        return categoryLogic.numCardsInCategory(category);
     }
 
 
-    public static boolean setCategoriesToCard(Card card, List<Category> categories) {
-        return CategoryLogic.setC2COrCH(card, categories,false);
+    public boolean setCategoriesToCard(Card card, List<Category> categories) {
+        return categoryLogic.setC2COrCH(card, categories,false);
         //TODO: Exceptions // data callback, non user
     }
 
@@ -74,9 +79,9 @@ public class CategoryController
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischer Kategorie
      */
-    public static List<Card> getCardsInCategory(Category category) {
+    public List<Card> getCardsInCategory(Category category) {
         try {
-            List<Card> cards = CategoryLogic.getCardsInCategory(category);
+            List<Card> cards = categoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
                log.info("Es gibt keine Karten zu dieser Kategorie");
@@ -101,10 +106,10 @@ public class CategoryController
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischer Kategorie
      */
-    public static List<Card> getCardsInCategory(String category) {
+    public List<Card> getCardsInCategory(String category) {
 
         try {
-            List<Card> cards = CategoryLogic.getCardsInCategory(category);
+            List<Card> cards = categoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
                 NotificationGUI.addNotification("Es gibt keine Karten für diese Kategorie", Notification.NotificationType.INFO, 5);
@@ -131,9 +136,9 @@ public class CategoryController
      * @param card Die Karte, zu der die Kategorien abgerufen werden sollen
      * @return Gefundene Kategorien für die spezifische Karte
      */
-    public static List<Category> getCategoriesToCard(Card card) {
+    public List<Category> getCategoriesToCard(Card card) {
         try {
-            List categoriesForCard = CategoryLogic.getCategoriesByCard(card);
+            List categoriesForCard = categoryLogic.getCategoriesByCard(card);
 
             if (categoriesForCard.isEmpty())
                 log.info("Keine Kategorien für diese Karte vorhanden");
@@ -153,12 +158,12 @@ public class CategoryController
      * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
      * @return Set mit bestehenden Categories
      */
-    public static List<Category> getCategories(){
-        return CategoryLogic.getCategories();
+    public List<Category> getCategories(){
+        return categoryLogic.getCategories();
     }
 
     //OLD?!
-    public static boolean updateCategoryData(Category oldcategory, Category newcategory) {
+    public boolean updateCategoryData(Category oldcategory, Category newcategory) {
         return false;
     }
 }
