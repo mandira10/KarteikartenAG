@@ -4,8 +4,8 @@
 case "$OSTYPE" in
   "linux-gnu"|"msys")
     java -jar ./client/target/client-1.0.0.jar # -Dorg.lwjgl.glfw.libname=libglfw_wayland.so
-  ;;
-  "darwin*")
+  ;; 
+  "darwin"*)
     java -XstartOnFirstThread -jar ./client/target/client-1.0.0.jar
   ;;
 esac
