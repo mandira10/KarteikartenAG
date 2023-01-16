@@ -30,12 +30,12 @@ public class StudySystemBox implements Serializable
     //@ElementCollection
     //@CollectionTable(name = "parent_uuids", joinColumns = @JoinColumn(name = "uuid"))
     //@Column(name = "content")
-    //@OneToMany
+    @OneToMany
     //@JoinColumn(name = "card_uuid")
     //@CollectionOfElements
-    @ElementCollection
-    @CollectionTable(name = "boxcontent", joinColumns = @JoinColumn(name = "uuid")) // 2
-    @Column(name = "contentlist") // 3
+    //@ElementCollection
+    //@CollectionTable(name = "boxcontent", joinColumns = @JoinColumn(name = "uuid")) // 2
+    //@Column(name = "contentlist") // 3
     private Set<Card> boxContent;
 
     /**
