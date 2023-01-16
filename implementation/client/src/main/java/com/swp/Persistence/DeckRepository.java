@@ -1,13 +1,11 @@
 package com.swp.Persistence;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToDeck;
 import com.swp.DataModel.Deck;
-import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.DataModel.CardTypes.ImageTestCard;
@@ -16,7 +14,6 @@ import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Deck.CardOrder;
 import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.StudySystemType;
 import com.swp.DataModel.StudySystem.*;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -35,9 +32,7 @@ public class DeckRepository extends BaseRepository<Deck>
         return deckRepository;
     }
 
-    private final static EntityManagerFactory emf = PersistenceManager.emFactory;
-
-    public static boolean saveDeck(Deck deck)
+    public boolean saveDeck(Deck deck)
     {
         //server.send("/createdeck", jsonString);
         return false;
@@ -47,20 +42,20 @@ public class DeckRepository extends BaseRepository<Deck>
      *
      * @param deck
      */
-    public static boolean updateDeck(Deck deck)
+    public boolean updateDeck(Deck deck)
     {
 
         //server.send("/updatedeckdata", jsonString);
         return false;
     }
 
-    public static boolean deleteDeck(Deck deck)
+    public boolean deleteDeck(Deck deck)
     {
         //CARDTODECK ebenso löschen, wenn hier
         return false;
     }
 
-    public static List<Deck> getDecks()
+    public List<Deck> getDecks()
     {
         List<Deck> decks = new ArrayList<>();
         //Cache.getInstance().getDecks().stream().toList(); THROWS ERROR
@@ -90,7 +85,7 @@ public class DeckRepository extends BaseRepository<Deck>
         return decks;
     }
 
-    public static List<CardToDeck> getCardToDecks()
+    public List<CardToDeck> getCardToDecks()
     {
         List<CardToDeck> card2decks = new ArrayList<>();//Cache.getInstance().getCardToDecks().stream().toList(); //THROWS ERROR
         if(!card2decks.isEmpty())
@@ -148,68 +143,58 @@ public class DeckRepository extends BaseRepository<Deck>
     //
     // StudySystem
     //
-    public static boolean updateStudySystem(Deck deck, StudySystem system)
+    public boolean updateStudySystem(Deck deck, StudySystem system)
     {
 
         //server.send("/updatestudysystem", jsonString);
         return false;
     }
 
-    public static boolean addStudySystemType(StudySystemType type)
+    public boolean addStudySystemType(StudySystem.StudySystemType type)
     {
         //True if successfully added to cache
         return false;
     }
 
-    public static boolean updateStudySystemTypes()
+    public boolean updateStudySystemTypes()
     {
 
         //server.send("/updatestudysystemtypes", jsonString);
         return false;
     }
     
-    public static StudySystem getStudySystem(Deck deck)
+    public StudySystem getStudySystem(Deck deck)
     {
         //server.send("/getstudysystem", jsonString);
         return null;
     }
-    
-    public static Set<StudySystemType> getStudySystemTypes()
-    {
-        Set<StudySystemType> types = Cache.getInstance().getStudySystemTypes();
-        if(!types.isEmpty())
-            return types;
 
-        //server.send("/getstudysystemtypes", jsonString);
-        return null;
-    }
-
-    public static List<Card> getCardsInDeck(Deck deck) {
+    public List<Card> getCardsInDeck(Deck deck) {
         //TODO
         return null;
     }
 
-    public static boolean createCardToDeck(Card card, Deck deck) {
+    public boolean createCardToDeck(Card card, Deck deck) {
         //TODO
         return false;
     }
 
-    public static List<Deck> getDecksWithSearchterm(String searchterm) {
+    public List<Deck> getDecksWithSearchterm(String searchterm) {
         //TODO
         return null;
     }
 
-    public static void removeCardToDeck(Card c, Deck deck) {
+    public void removeCardToDeck(Card c, Deck deck) {
         //TODO
 
     }
 
-    public static Deck getDeckByUUID(String uuid) {
+    public Deck getDeckByUUID(String uuid) {
         //TODO
         return null;
     }
 
-    public static boolean updateDeckCards(Deck deck){
+    public boolean updateDeckCards(Deck deck){
         //TODO
         return false;
     }

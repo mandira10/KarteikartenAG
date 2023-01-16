@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 @Entity
 @DiscriminatorValue("Timing")
-public class TimingSystem extends StudySystem implements MouseListener
+public class TimingSystem extends StudySystem
 {
     private float timeLimit = 0;
     private float answerTime = 0;
@@ -23,18 +23,18 @@ public class TimingSystem extends StudySystem implements MouseListener
     private int resultPoint = 0;
 
 
-    ArrayList<Card> cards = new ArrayList<>();
-    ArrayList<String> answers = new ArrayList<>(); // getting answers for cards just example
-    JLabel answer;
-
     /**
      * Konstruktor der Klasse TimingSystem.
      * @param deck: Das Deck für das Lernsystem
      */
     public TimingSystem(Deck deck,int timeLimit) {
-        super(deck, new StudySystemType(StudySystemType.KNOWN_TYPES.TIMING), 5);
+        super(deck, StudySystemType.TIMING, 5);
         this.timeLimit = timeLimit;
 
+    }
+
+    public TimingSystem() {
+        this(null,5);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class TimingSystem extends StudySystem implements MouseListener
         else{
             questionCount++;
             answerTime = 0;
-            return getAllCardsInStudySystem().get(questionCount);
+            return getAllCardsInStudySystem().stream().toList().get(questionCount);
         }
 
     }

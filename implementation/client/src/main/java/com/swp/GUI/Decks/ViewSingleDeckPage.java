@@ -76,7 +76,7 @@ public class ViewSingleDeckPage extends Page
     {
         this.pDeck = deck;
         pCardList.reset();
-        pCardList.addCards(DeckController.getCardsInDeck(this.pDeck));
+        pCardList.addCards(DeckController.getInstance().getCardsInDeck(this.pDeck));
 
         resize();
         reposition();
@@ -88,7 +88,7 @@ public class ViewSingleDeckPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                DeckController.deleteDeck(pDeck);
+                DeckController.getInstance().deleteDeck(pDeck);
             }
         });
     }
@@ -100,7 +100,7 @@ public class ViewSingleDeckPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                DeckController.removeCardsFromDeck(pCardList.getSelection(), pDeck);
+                DeckController.getInstance().removeCardsFromDeck(pCardList.getSelection(), pDeck);
             }
         });
     }

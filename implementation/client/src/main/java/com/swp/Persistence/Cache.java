@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Set;
 
 import com.swp.DataModel.*;
-import com.swp.DataModel.StudySystem.StudySystemType;
+import com.swp.DataModel.StudySystem.StudySystem;
 
 public class Cache 
 {
     private static Cache pCacheInstance = null;
     private List<Deck> alDecks;
-    private Set<StudySystemType> stStudySystemTypes;
+    private Set<StudySystem.StudySystemType> stStudySystemTypes;
     private Set<Category> stCategories;
     private Set<Tag> stTags;
     private List<CardToDeck> alCardToDecks;
@@ -48,7 +48,7 @@ public class Cache
     public void setCardToDecks(List<CardToDeck> cardToDecks)                { this.alCardToDecks = cardToDecks; }
     public void setCardToCategories(Set<CardToCategory> stCardToCategories) { this.stCardToCategories = stCardToCategories; }
     public void setCardToTags(Set<CardToTag> stCardToTags)                  { this.stCardToTags = stCardToTags; }
-    public void setStudySystemTypes(Set<StudySystemType> stStudySystemTypes){ this.stStudySystemTypes = stStudySystemTypes; }
+    public void setStudySystemTypes(Set<StudySystem.StudySystemType> stStudySystemTypes){ this.stStudySystemTypes = stStudySystemTypes; }
 
 
     //
@@ -60,7 +60,7 @@ public class Cache
     public Set<CardToTag> getCardToTags()            { return stCardToTags; }
     public List<CardToDeck> getCardToDecks()         { return alCardToDecks; }
     public Set<CardToCategory> getCardToCategories() { return stCardToCategories; }
-    public Set<StudySystemType> getStudySystemTypes(){ return stStudySystemTypes; }
+    public Set<StudySystem.StudySystemType> getStudySystemTypes(){ return stStudySystemTypes; }
 
 
 

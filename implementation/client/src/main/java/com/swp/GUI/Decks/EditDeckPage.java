@@ -11,6 +11,7 @@ import com.gumse.maths.ivec2;
 import com.gumse.tools.Output;
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Deck;
+import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 
@@ -75,7 +76,7 @@ public class EditDeckPage extends Page
         reposition();
     }
 
-    public void editDeck(String uuid) { editDeck(DeckController.getDeckByUUID(uuid)); }
+    public void editDeck(String uuid) { editDeck(DeckController.getInstance().getDeckByUUID(uuid)); }
     public void editDeck(Deck deck)
     {
         if(deck == null)
@@ -89,7 +90,7 @@ public class EditDeckPage extends Page
 
         pCanvas.hide(true);
         pTitleField.setString(pNewDeck.getName());
-        switch(pNewDeck.getStudySystem().getType().getType())
+        switch(pNewDeck.getStudySystem().getType())
         {
             case LEITNER: pStudySystemDropdown.setTitle("Leitner"); break;
             case TIMING:  pStudySystemDropdown.setTitle("Timing");  break;

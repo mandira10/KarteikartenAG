@@ -34,8 +34,8 @@ public class DeckList extends RenderGUI
             Font defaultFont = FontManager.getInstance().getDefaultFont();
             Font fontAwesome = FontManager.getInstance().getFont("FontAwesome");
             
-            Text deckName = new Text(deck.getName() + " - " + deck.getStudySystem().getType().getTypeName(), defaultFont, new ivec2(10,10), 0);
-            deckName.setCharacterHeight(35);  
+            Text deckName = new Text(deck.getName() + " - " + deck.getStudySystem().getType().name(), defaultFont, new ivec2(10,10), 0);
+            deckName.setCharacterHeight(35);
             addElement(deckName);
 
             Text numcardsText = new Text("", defaultFont, new ivec2(10, 50), 0);
@@ -53,7 +53,7 @@ public class DeckList extends RenderGUI
             iconText.setCharacterHeight(30);
             iconText.setColor(new vec4(0.13f, 0.13f, 0.14f, 1));
 
-            int numCards = DeckController.numCardsInDeck(deck);
+            int numCards = DeckController.getInstance().numCardsInDeck(deck);
             if(numCards > 0)
             {
                 numcardsText.setString("Cards: " + numCards);

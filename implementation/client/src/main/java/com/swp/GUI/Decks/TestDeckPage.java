@@ -10,7 +10,7 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
-import com.swp.DataModel.StudySystem.StudySystemType.KNOWN_TYPES;
+import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.TestCardGUI;
@@ -82,7 +82,7 @@ public class TestDeckPage extends Page
                     bStopTime = true;
 
                     pDeck.getStudySystem().giveAnswer(pTestGUI.checkAnswers());
-                    switch(pDeck.getStudySystem().getType().getType())
+                    switch(pDeck.getStudySystem().getType())
                     {
                         case VOTE:   
                             bNextCardAllowed = false; 
@@ -118,7 +118,7 @@ public class TestDeckPage extends Page
     public void startTests(Deck deck)
     {
         this.pDeck = deck;
-        pTimeText.hide(pDeck.getStudySystem().getType().getType() != KNOWN_TYPES.TIMING);
+        pTimeText.hide(pDeck.getStudySystem().getType() != StudySystem.StudySystemType.TIMING);
         nextCard();
     }
 

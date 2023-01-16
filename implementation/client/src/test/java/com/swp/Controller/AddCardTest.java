@@ -193,7 +193,7 @@ public class AddCardTest {
     }
     @Test
      public void getDecks(){
-        DeckController.getDecks();
+        DeckController.getInstance().getDecks();
     }
 
 

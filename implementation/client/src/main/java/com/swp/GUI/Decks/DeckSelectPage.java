@@ -58,7 +58,7 @@ public class DeckSelectPage extends Page
     {
         alCards = cards;
         pDeckList.reset();
-        pDeckList.addDecks(DeckController.getDecks().stream().toList());
+        pDeckList.addDecks(DeckController.getInstance().getDecks());
     }
     
     private void selectDeck(Deck deck)

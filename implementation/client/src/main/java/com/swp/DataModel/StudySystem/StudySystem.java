@@ -1,6 +1,7 @@
 package com.swp.DataModel.StudySystem;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
@@ -21,6 +22,10 @@ public abstract class StudySystem implements Serializable
 {
     // TODO: verschiedene StudySystem-Typen persistieren
     //
+    protected int questionCount = 0;
+    protected int trueAnswerCount = 0;
+    protected int pointQuestion = 100;
+    protected int resultPoint;
 
     /**
      * Primärer Schlüssel für die persistierten `StudySysteme`
@@ -44,7 +49,16 @@ public abstract class StudySystem implements Serializable
     /**
      * Zugehöriger Typ des Systems
      */
+    @Getter
     protected StudySystemType type;
+
+    public enum StudySystemType
+    {
+        LEITNER,
+        TIMING,
+        VOTE,
+        CUSTOM
+    }
 
     /**
      * Konstruktor der Klasse StudySystem

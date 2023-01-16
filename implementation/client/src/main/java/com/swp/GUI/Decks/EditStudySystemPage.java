@@ -3,16 +3,16 @@ package com.swp.GUI.Decks;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.swp.Controller.DeckController;
-import com.swp.DataModel.StudySystem.StudySystemType;
+import com.swp.DataModel.StudySystem.StudySystem;
 
 public class EditStudySystemPage extends RenderGUI
 {
     private Button pApplyButton;
-    private StudySystemType pCurrentType;
+    private StudySystem.StudySystemType pCurrentType;
 
     public EditStudySystemPage()
     {
-        DeckController.getStudySystemTypes();
+        StudySystem.StudySystemType.values();
     }
 
     private void deleteStudySystem()
@@ -22,6 +22,6 @@ public class EditStudySystemPage extends RenderGUI
 
     private void applyChanges()
     {
-        DeckController.addStudySystemTypeAndUpdate(pCurrentType);
+        DeckController.getInstance().addStudySystemTypeAndUpdate(pCurrentType);
     }
 }
