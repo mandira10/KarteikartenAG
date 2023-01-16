@@ -14,15 +14,15 @@ public class Validator {
     public static <T> T checkNotNullOrBlank(final T object, final String name, boolean internal) {
         if (object == null) {
             if(internal)
-                throw new IllegalArgumentException(String.format("%s must not be null!", name));
+                throw new IllegalArgumentException(String.format("%s darf nicht null sein!", name));
             else
-            getDataCallback().onFailure(String.format("%s must not be null!", name));
+            getDataCallback().onFailure(String.format("%s darf nicht null sein!", name));
         }
         if (object instanceof String string && string.isBlank()) {//TODO
             if(internal)
-                throw new IllegalArgumentException(String.format("%s must  not be empty or blank!", name));
+                throw new IllegalArgumentException(String.format("%s darf nicht leer sein!", name));
             else
-            getDataCallback().onFailure(String.format("%s must  not be empty or blank!", name));
+            getDataCallback().onFailure(String.format("%s darf nicht leer sein!", name));
         }
         return object;
     }

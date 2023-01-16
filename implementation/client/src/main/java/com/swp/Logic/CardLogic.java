@@ -1,13 +1,10 @@
 package com.swp.Logic;
 
 import com.swp.DataModel.*;
-import com.swp.DataModel.CardTypes.*;
 import com.swp.Persistence.*;
 import com.swp.Persistence.Exporter.ExportFileType;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static com.swp.Validator.checkNotNullOrBlank;
@@ -31,7 +28,6 @@ public class CardLogic extends BaseLogic<Card>
             cardLogic = new CardLogic();
         return cardLogic;
     }
-    //OVERVIEW
 
     /**
      * Wird in der CardOverviewPage verwendet, um die einzelnen Karten für die Seitenauswahl mitsamt Titel (wenn nicht vorhanden dann die Frage), Typ,
@@ -66,7 +62,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public List<Card> getCardsBySearchterms(String terms)
     {
-        checkNotNullOrBlank(terms, "Suchbegriffe",true);
+        checkNotNullOrBlank(terms, "Suchbegriff",true);
         return execTransactional(() -> cardRepository.findCardsContaining(terms));
     }
 
@@ -134,6 +130,9 @@ public class CardLogic extends BaseLogic<Card>
      * @return
      */
     public void updateCardData(Card cardToChange, boolean neu) {
+        if(cardToChange == null){
+            throw new IllegalStateException("Karte existiert nicht");
+        }
         cardToChange.setContent();
         execTransactional(() -> {
             if (neu)
@@ -146,26 +145,23 @@ public class CardLogic extends BaseLogic<Card>
 
 
     public void setTagsToCard(Card card, List<Tag> tagNew) {
-        List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
-            if(tagOld == null){
-                checkAndCreateTags(card,tagNew,tagOld);
-            }
-
-            else if(tagOld.containsAll(tagNew) && tagOld.size() == tagNew.size()) //no changes
+        if(!tagNew.isEmpty()) {
+            List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
+            if (tagOld == null) {
+                checkAndCreateTags(card, tagNew, tagOld);
+            } else if (tagOld.containsAll(tagNew) && tagOld.size() == tagNew.size()) //no changes
                 return;
 
-            else if(tagOld.containsAll(tagNew) || tagOld.size() > tagNew.size()) { //es wurden nur tags gelöscht
-                checkAndRemoveTags(card,tagNew,tagOld);
+            else if (tagOld.containsAll(tagNew) || tagOld.size() > tagNew.size()) { //es wurden nur tags gelöscht
+                checkAndRemoveTags(card, tagNew, tagOld);
 
+            } else if (tagNew.containsAll(tagOld)) {
+                checkAndCreateTags(card, tagNew, tagOld);
+            } else { //neue und alte
+                checkAndCreateTags(card, tagNew, tagOld);
+                checkAndRemoveTags(card, tagNew, tagOld);
             }
-            else if(tagNew.containsAll(tagOld)){
-                checkAndCreateTags(card,tagNew,tagOld);
-            }
-            else { //neue und alte
-                checkAndCreateTags(card,tagNew,tagOld);
-                checkAndRemoveTags(card,tagNew,tagOld);
-            }
-
+        }
     }
 
     private void checkAndRemoveTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
@@ -211,21 +207,16 @@ public class CardLogic extends BaseLogic<Card>
      * @param filetype Exporttyp der Karten
      * @return Exportierte Datei
      */
-    public void exportCards(Card[] cards, ExportFileType filetype)
-    {
-         new Exporter(filetype).export(cards);
+    public void exportCards(Card[] cards, ExportFileType filetype) {
+        new Exporter(filetype).export(cards);
     }
-
-
-
-    //private void changeCard() {}
-
 
     private void removeCardToTag(Card c, Tag t) {
         execTransactional(() -> {
             CardToTagRepository.getInstance().delete(
-                    CardToTagRepository.findSpecificCardToTag(c,t));
+                    CardToTagRepository.findSpecificCardToTag(c, t));
             return null; // Lambda braucht einen return
         });
     }
+
 }

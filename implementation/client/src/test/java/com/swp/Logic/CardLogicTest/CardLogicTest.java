@@ -1,4 +1,4 @@
-package com.swp;
+package com.swp.Logic.CardLogicTest;
 
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardToDeck;

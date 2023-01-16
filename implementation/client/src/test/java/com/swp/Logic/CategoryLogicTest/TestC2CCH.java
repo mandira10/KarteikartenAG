@@ -1,13 +1,14 @@
-package com.swp.Logic;
+package com.swp.Logic.CategoryLogicTest;
 
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.Category;
+import com.swp.Logic.CardLogic;
+import com.swp.Logic.CategoryLogic;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import java.util.*;
 
@@ -16,7 +17,6 @@ import static com.swp.TestData.importTestData;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
-@Slf4j
 /**
  * Testclass for updateFunction of Categories to CardToCategory and CategoryHierarchy
  */
