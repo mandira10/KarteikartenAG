@@ -3,23 +3,26 @@ package com.swp.DataModel.StudySystem;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.Logic.DeckLogic;
-
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import javax.swing.*;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 /**
  * Klasse für das LeitnerSystem. Erbt alle Attribute vom StudySystem
  */
-public class LeitnerSystem extends StudySystem {
+@Entity
+@DiscriminatorValue("Leitner")
+public class LeitnerSystem extends StudySystem implements MouseListener
+{
         private int questionCount = 0;
         private int trueAnswerCount = 0;
         private int pointQuestion = 100;
         private int resultPoint = 0;
+        ArrayList<Card> cards = new ArrayList<>();
+        ArrayList<String> answers = new ArrayList<>(); // getting answers for cards just example
+        JLabel answer;
 
         /**
          * Konstruktor der Klasse LeitnerSystem.

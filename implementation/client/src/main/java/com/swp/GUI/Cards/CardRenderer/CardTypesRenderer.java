@@ -1,5 +1,6 @@
 package com.swp.GUI.Cards.CardRenderer;
 
+import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Font.Font;
@@ -24,7 +25,7 @@ public class CardTypesRenderer
         Font defaultFont = FontManager.getInstance().getDefaultFont();
 
         Box background = new Box(new ivec2(0,0), resolution);
-        background.setColor(new vec4(0.26f, 0.26f, 0.31f, 1.0f));
+        background.setColor(GUI.getTheme().secondaryColor);
 
         Text titleText = new Text(card.getTitle(), defaultFont, new ivec2(5, 10), 0);
         titleText.setPositionInPercent(true, false);
@@ -68,7 +69,7 @@ public class CardTypesRenderer
         Font defaultFont = FontManager.getInstance().getDefaultFont();
 
         Box background = new Box(new ivec2(0,0), resolution);
-        background.setColor(new vec4(0.26f, 0.26f, 0.31f, 1.0f));
+        background.setColor(GUI.getTheme().secondaryColor);
 
         Text titleText = new Text("Answer", defaultFont, new ivec2(5, 10), 0);
         titleText.setPositionInPercent(true, false);

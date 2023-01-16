@@ -2,19 +2,18 @@ package com.swp.DataModel.StudySystem;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
-
-import javax.swing.*;
-import java.awt.event.MouseEvent;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import java.awt.event.MouseListener;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
  * Klasse für das VoteSystem. Erbt alle Attribute vom StudySystem
  */
-public class VoteSystem extends StudySystem{
+@Entity
+@DiscriminatorValue("Vote")
+public class VoteSystem extends StudySystem implements MouseListener
+{
     int questionCount = 0;
     int trueAnswerCount = 0;
     int pointQuestion = 100;

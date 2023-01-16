@@ -35,8 +35,6 @@ public class Searchbar extends RenderGUI
         this.pCallback = callback;
         this.iCurrentSearchOption = 0;
 
-        int corderradius = 7; 
-
         FontManager fonts = FontManager.getInstance();
         pInputField = new TextField("", fonts.getDefaultFont(), new ivec2(0, 0), new ivec2(100, 100));
         pInputField.setSizeInPercent(true, true);
@@ -51,7 +49,7 @@ public class Searchbar extends RenderGUI
             {
             }
         });
-        pInputField.setCornerRadius(new vec4(corderradius, 0, 0, corderradius));
+        pInputField.setCornerRadius(new vec4(GUI.getTheme().cornerRadius.x, 0, 0, GUI.getTheme().cornerRadius.w));
         pInputField.setHint(hint);
         addElement(pInputField);
 
@@ -60,6 +58,7 @@ public class Searchbar extends RenderGUI
         pOptionsButton.setOrigin(new ivec2(size.y * 3, 0));
         pOptionsButton.setPositionInPercent(true, false);
         pOptionsButton.getBox().setTextSize(20);
+        pOptionsButton.setCornerRadius(new vec4(0,0,0,0));
         pOptionsButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
@@ -95,7 +94,7 @@ public class Searchbar extends RenderGUI
         pSubmitButton = new Button(new ivec2(100, 0), new ivec2(size.y * 2, size.y), "", fonts.getFont("FontAwesome"));
         pSubmitButton.setOrigin(new ivec2(size.y * 2, 0));
         pSubmitButton.setPositionInPercent(true, false);
-        pSubmitButton.setCornerRadius(new vec4(0, corderradius, corderradius, 0));
+        pSubmitButton.setCornerRadius(new vec4(0, GUI.getTheme().cornerRadius.y, GUI.getTheme().cornerRadius.z, 0));
         pSubmitButton.getBox().setTextSize(20);
         pSubmitButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) 
@@ -107,5 +106,13 @@ public class Searchbar extends RenderGUI
 
         resize();
         reposition();
+    }
+
+    @Override
+    protected void updateOnThemeChange() 
+    {
+        pInputField.setCornerRadius(new vec4(GUI.getTheme().cornerRadius.x, 0, 0, GUI.getTheme().cornerRadius.w));
+        pSubmitButton.setCornerRadius(new vec4(0, GUI.getTheme().cornerRadius.y, GUI.getTheme().cornerRadius.z, 0));
+        pBubble.setColor(vec4.sub(GUI.getTheme().primaryColor, 0.06f));
     }
 }

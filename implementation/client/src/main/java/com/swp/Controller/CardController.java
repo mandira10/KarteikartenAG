@@ -2,37 +2,50 @@ package com.swp.Controller;
 
 
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Category;
-import com.swp.DataModel.Deck;
 import com.swp.DataModel.Tag;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CardLogic;
-import com.swp.Persistence.DataCallback;
 import com.swp.Persistence.Exporter.ExportFileType;
 import lombok.extern.slf4j.Slf4j;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 @Slf4j
 public class CardController {
+
+    private final CardLogic cardLogic = CardLogic.getInstance();
+
+    private static CardController cardController;
+
+    public static CardController getInstance() {
+        if (cardController == null)
+            cardController = new CardController();
+        return cardController;
+    }
+
 
     //CARDOVERVIEW
 
     /**
      * Wird in der CardOverviewPage verwendet, um die einzelnen Karten für die Seitenauswahl mitsamt Titel (wenn nicht vorhanden dann die Frage), Typ,
      * Anzahl der Decks und ihrem Erstellzeitpunkt anzuzeigen. Gibt die Methode an die CardLogic weiter.
+     *
      * @param begin: Seitenauswahl Anfangswert
      * @param end: Seitenauswahl Endwert
-     * @return anzuzeigende Karten
      */
-    public static void getCardsToShow(int begin, int end, DataCallback<Card> callback, Deck.CardOrder order)
-    {
-        CardLogic.getCardsToShow(begin, end, callback, order);
+    public void getCardsToShow(int begin, int end, DataCallback<Card> callback) {
+        try {
+            List<Card> cardsToShow = cardLogic.getCardsToShow(begin, end);
 
-        //TODO: andere Exceptions dann trotzdem hierüber auffangen?
+            if (cardsToShow.isEmpty())
+                callback.onInfo("Es gibt bisher noch keine Karten");
+            else
+                callback.onSuccess(cardsToShow);
+
+        } catch (final Exception ex) {
+            log.error("Beim Suchen nach Karten ist ein Fehler aufgetreten"
+                    , ex);
+            callback.onFailure(ex.getMessage());
+        }
 
     }
 
@@ -43,105 +56,92 @@ public class CardController {
      * @param tag: Der Tag, zu dem die Karten abgerufen werden sollen
      * @return Sets an Karten mit spezifischem Tag
      */
-    public static Set<Card> getCardsByTag(String tag) {
+    public void getCardsByTag(String tag, DataCallback<Card> callback) {
         try {
-            Set cardsForTag = CardLogic.getCardsByTag(tag);
+            List<Card> cardsForTag = cardLogic.getCardsByTag(tag);
 
             if (cardsForTag.isEmpty())
-                NotificationGUI.addNotification("Es gibt keine Karten für diesen Tag", Notification.NotificationType.INFO, 5);
+                callback.onInfo("Es gibt keine Karten für diesen Tag");
+            else
+                callback.onSuccess(cardsForTag);
 
-            return cardsForTag;
-
-        } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return null;
-        } catch (final NullPointerException ex) {
-            log.info(ex.getMessage());
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.INFO, 5);
-            return null;
-            //klären, wie wir das dann machen wollen, doppelter Callback quasi.
+        } catch (IllegalArgumentException ex) {
+            callback.onFailure(ex.getMessage()); //übergebener wert ist leer
+//        } catch (final NullPointerException ex) {
+//            callback.onFailure(ex.getMessage());
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit Tag {} ist ein Fehler {} aufgetreten", tag
                     , ex);
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return null;
-            //Callback
+            callback.onFailure(ex.getMessage());
         }
 
     }
 
     /**
      * Kann verwendet werden, um einzelne Tags zu Karten in der SingleCardOverviewPage oder im EditModus aufzurufen
+     *
      * @param card Die Karte, zu der die Tags abgerufen werden sollen
      * @return Gefundene Tags für die spezifische Karte
      */
-    public static Set<Tag> getTagsToCard(Card card) {
+    public void getTagsToCard(Card card, DataCallback<Tag> callback) {
         try {
-            Set tagsForCard = CardLogic.getTagsToCard(card);
+            List<Tag> tagsForCard = cardLogic.getTagsToCard(card);
 
             if (tagsForCard.isEmpty())
-                log.info("Keine Tags für diese Karte vorhanden");
-
-            return tagsForCard;
-
+                callback.onInfo("Keine Tags für diese Karten vorhanden"); // log.info("Keine Tags für diese Karte vorhanden");
+            else
+                callback.onSuccess(tagsForCard);
         } catch (final Exception ex) {
-            log.error("Beim Suchen nach Tags mit Karten {} ist ein Fehler {} aufgetreten", card, ex);
-            return null;
+            callback.onFailure(ex.getMessage()); //log.error("Beim Suchen nach Tags mit Karten {} ist ein Fehler {} aufgetreten", card, ex);
         }
     }
 
     /**
      * Nutzung für Display bestimmter Karten bei CardOverviewPage. Wird an die CardLogic weitergegeben.
+     *
      * @param searchterm Übergebener String mit dem Suchwort
      * @return Sets an Karten, die das Suchwort enthalten
      */
-    public static Set<Card> getCardsBySearchterms(String searchterm) {
+    public void getCardsBySearchterms(String searchterm, DataCallback<Card> callback) {
         try {
-            Set cardsForSearchTerms = CardLogic.getCardsBySearchterms(searchterm);
-
+            List<Card> cardsForSearchTerms = cardLogic.getCardsBySearchterms(searchterm);
 
             if (cardsForSearchTerms.isEmpty()) {
-                NotificationGUI.addNotification("Es gibt keine Karten für dieses Suchwort", Notification.NotificationType.INFO, 5);
-
-            }
-
-            return cardsForSearchTerms;
+                callback.onInfo("Es gibt keine Karten für dieses Suchwort");
+            } else
+                callback.onSuccess(cardsForSearchTerms);
         } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return null;
+            callback.onFailure(ex.getMessage()); //log.error
         } catch (final Exception ex) {
-            log.error("Beim Suchen nach Karten mit Inhalt {} ist ein Fehler {} aufgetreten", searchterm
-                    , ex);
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return null;
+            callback.onFailure(ex.getMessage()); //log.error
         }
     }
 
     /**
      * Dient dem Löschen einzelner Karten. Wird an die CardLogic weitergegeben.
+     *
      * @param card Die zu löschende Karte
      * @return true, wenn ausgeführt, ansonsten false
      */
-    public static boolean deleteCard(Card card) {
+    public void deleteCard(Card card, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            return CardLogic.deleteCard(card);
+            cardLogic.deleteCard(card);
         } catch (IllegalStateException ex) {
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return false;
+            singleDataCallback.onFailure(ex.getMessage());
         }
     }
 
     /**
      * Dient dem Löschen mehrerer Karten. Wird an die CardLogic weitergegeben.
+     *
      * @param cards Die zu löschenden Karten
      * @return true, wenn ausgeführt, ansonsten false
      */
-    public static boolean deleteCards(List<Card> cards) {
+    public void deleteCards(List<Card> cards, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            return CardLogic.deleteCards(cards);
+            cardLogic.deleteCards(cards);
         } catch (IllegalStateException ex) {
-            NotificationGUI.addNotification(ex.getMessage(), Notification.NotificationType.ERROR, 5);
-            return false;
+            singleDataCallback.onFailure(ex.getMessage());
         }
     }
 
@@ -150,44 +150,34 @@ public class CardController {
 
     /**
      * Wird verwendet, um einzelne Karteninformationen über ihre UUID abzurufen. Wird an die CardLogic weitergegeben.
+     *
      * @param uuid: UUID der abzurufenden Karte
      * @return Zugehörige Karte
      */
-    public static Card getCardByUUID(String uuid) {
+    public void getCardByUUID(String uuid, SingleDataCallback<Card> singleDataCallback) {
         try {
-            return CardLogic.getCardByUUID(uuid);
-        } catch (IllegalArgumentException ex) {
-            //TODO: nur internes Handling, da interner Fehler? UUID nicht richtig übergeben
-            NotificationGUI.addNotification("Karte konnte nicht gefunden werden", Notification.NotificationType.ERROR, 5);
-            return null;
+            singleDataCallback.onSuccess(cardLogic.getCardByUUID(uuid));
+        } catch (IllegalArgumentException ex) {//überrgebener Wert ist leer
+            singleDataCallback.onFailure(ex.getMessage());
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
         }
     }
 
-    /**
-     * Lädt alle Tags als Set. Wird weitergegeben an die CardLogic.
-     * @return Set mit bestehenden Tags.
-     * //TODO: Löschen? Wo benutzt?
-     */
-    public static Set<Tag> getTags() {
-        return CardLogic.getTags();
-    }
 
-
-
-    public static boolean setTagsToCard(Card card, Set<Tag> set) {
-        return CardLogic.setTagsToCard(card, set);
-
-        //TODO Fehlermeldungen
-    }
-
-    public static boolean updateCardData(Card cardToChange, boolean neu){
-        //TODO: Kann die GUI in editCard noch den boolean übergeben? Dann müssen wir nicht über die Datenbank prüfen, was vorliegt
+    public void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            return CardLogic.updateCardData(cardToChange, neu);
+            cardLogic.setTagsToCard(card, set);
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
         }
-        catch (Exception e) {
-            log.warn(String.format("Karte \"%s\" konnte nicht gespeichert oder geupdatet werden", cardToChange.getUuid()));
-            return false;
+    }
+
+    public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
+        try {
+            cardLogic.updateCardData(cardToChange, neu);
+        } catch (Exception e) {
+            singleDataCallback.onFailure(String.format("Karte \"%s\" konnte nicht gespeichert oder geupdatet werden", cardToChange.getUuid()));
         }
     }
 
@@ -195,31 +185,18 @@ public class CardController {
 
     /**
      * Wird aufgerufen, um ausgewählte Karten zu exportieren. Wird an die CardLogic weitergereicht.
-     * @param cards Set an Karten, die exportiert werden sollen
+     *
+     * @param cards    Set an Karten, die exportiert werden sollen
      * @param filetype Exporttyp der Karten
      * @return Exportierte Datei
      */
-    public static boolean exportCards(Card[] cards, ExportFileType filetype) {
-        return CardLogic.exportCards(cards, filetype);
+    public void exportCards(Card[] cards, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) {
+        try {
+            cardLogic.exportCards(cards, filetype);
+        } catch (Exception ex) {
+            singleDataCallback.onFailure("Probleme");
+        }
     }
-
-
-
-    //KEEP FOR TESTING AS FOR NOW
-    /**
-     * Methode zum Erstellen und Aktualisieren von Karten. Wird an die Logik weitergegeben.
-     * @param card Karte zum Aktualisieren, wenn null, dann muss eine neue Karte erstellt werden
-     * @param type Der Kartentyp als String von der GUI übergeben
-     * @param attributes Die HashMap mit den Attributen
-     * @param tags Zugehörige Tags als String Set für die Karte
-     * @param categories Zugehörige Categories als String Set für die Karte
-     * @return true, wenn erfolgreich erstellt
-     */
-    public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<Tag> tags, Set<Category> categories){
-
-        return CardLogic.updateCardData(card, type, attributes, tags, categories);
-
-    }
-
-
 }
+
+

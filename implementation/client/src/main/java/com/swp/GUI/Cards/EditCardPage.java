@@ -19,11 +19,15 @@ import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.EditCardPages.*;
 import com.swp.GUI.Category.CategorySelectPage;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
 
 public class EditCardPage extends Page
 {
@@ -130,7 +134,19 @@ public class EditCardPage extends Page
         reposition();
     }
 
-    public void editCard(String uuid) { editCard(CardController.getCardByUUID(uuid), false); }
+    public void editCard(String uuid) {
+        CardController.getInstance().getCardByUUID(uuid, new SingleDataCallback<Card>() {
+            @Override
+            public void onSuccess(Card data) {
+                editCard(data, false);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+
+        }); }
     public void editCard(Card card, boolean newcard)
     {
         if(card == null)
@@ -143,7 +159,22 @@ public class EditCardPage extends Page
         pTitlefield.setString(pNewCard.getTitle());
         pQuestionField.setString(pNewCard.getQuestion());
         //updateCategories();
-        updateTags(CardController.getTagsToCard(pNewCard).stream().toList());
+        CardController.getInstance().getTagsToCard(pNewCard, new DataCallback<Tag>() {
+            @Override
+            public void onSuccess(List<Tag> data) {
+                updateTags(data.stream().toList());
+            }
+
+            @Override
+            public void onFailure(String msg) {
+            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+
+            @Override
+            public void onInfo(String msg) {
+
+            }
+        });
 
         switch(pNewCard.getType())
         {
@@ -189,9 +220,31 @@ public class EditCardPage extends Page
 
     private void applyChanges()
     {
-        //Change to callback function
-        CardController.updateCardData(pNewCard, bIsNewCard);
-        CardController.setTagsToCard(pNewCard, pTagList.getTagUserptrs().stream().collect(Collectors.toSet()));
-        CategoryController.setCategoriesToCard(pNewCard, aCategories.stream().collect(Collectors.toSet()));
+        CardController.getInstance().updateCardData(pNewCard, bIsNewCard, new SingleDataCallback<Boolean>() {
+            @Override public void onSuccess(Boolean data) {}
+
+            @Override
+            public void onFailure(String msg) {
+            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+        });
+
+        CardController.getInstance().setTagsToCard(pNewCard, pTagList.getTagUserptrs(), new SingleDataCallback<Boolean>() {
+            @Override public void onSuccess(Boolean data) {}
+
+            @Override
+            public void onFailure(String msg) {
+            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+        });
+
+        CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories, new SingleDataCallback<Boolean>() {
+            @Override public void onSuccess(Boolean data) {}
+
+            @Override
+            public void onFailure(String msg) {
+            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+        });
     }
 }

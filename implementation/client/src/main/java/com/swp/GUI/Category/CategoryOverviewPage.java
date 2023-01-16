@@ -5,6 +5,7 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Category;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
@@ -15,10 +16,14 @@ import com.swp.GUI.Extras.CategoryList.CategoryListCallback;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
 
+import java.util.List;
+
 public class CategoryOverviewPage extends Page
 {
     RenderGUI pCanvas;
     CategoryList pCategoryList;
+    
+    private static final CategoryController categoryController = CategoryController.getInstance();
    
     public CategoryOverviewPage()
     {
@@ -53,7 +58,7 @@ public class CategoryOverviewPage extends Page
         }, new SearchbarCallback() {
             @Override public void run(String query, int option) 
             {
-                //TODO search
+                loadCategories(query);
             }
         });
         searchbar.setPositionInPercent(false, true);
@@ -68,7 +73,22 @@ public class CategoryOverviewPage extends Page
     public void loadCategories()
     {
         pCategoryList.reset();
-        pCategoryList.addCategories(CategoryController.getCategories().stream().toList());
+        categoryController.getCategories(new DataCallback() {
+            @Override
+            public void onSuccess(List data) {
+                pCategoryList.addCategories(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+
+            @Override
+            public void onInfo(String msg) {
+
+            }
+        });
     }
     
     public void loadCategories(String searchterm)

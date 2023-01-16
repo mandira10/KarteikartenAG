@@ -9,7 +9,7 @@
         <item>True/False</item>
     </dropdown>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" border-radius="7" fontsize="20" title="Cancel" color="#9C88FF" />
-        <button id="submitbutton" pos="97.5%, 0" origin="100, 0" size="100, 30" border-radius="7" fontsize="20" title="Create"  color="#9C88FF" />
+        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" fontsize="20" title="Cancel"  />
+        <button id="submitbutton" pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" title="Create"   />
     </gui>
 </gui-root>

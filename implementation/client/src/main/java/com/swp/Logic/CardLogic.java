@@ -2,23 +2,35 @@ package com.swp.Logic;
 
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.*;
-import com.swp.Persistence.CardRepository;
-import com.swp.Persistence.CategoryRepository;
-import com.swp.Persistence.DataCallback;
-import com.swp.Persistence.Exporter;
+import com.swp.Persistence.*;
 import com.swp.Persistence.Exporter.ExportFileType;
+import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 
 @Slf4j
-public class CardLogic
+public class CardLogic extends BaseLogic<Card>
 {
+    /**
+     * Konstruktor für eine CardLogic-Instanz.
+     */
+    public CardLogic() {
+        super(CardRepository.getInstance());
+    }
 
+    private final CardRepository cardRepository = CardRepository.getInstance();
+    private final TagRepository tagRepository = TagRepository.getInstance();
+
+    private static CardLogic cardLogic;
+    public static CardLogic getInstance() {
+        if (cardLogic == null)
+            cardLogic = new CardLogic();
+        return cardLogic;
+    }
     //OVERVIEW
 
     /**
@@ -28,9 +40,9 @@ public class CardLogic
      * @param end: Seitenauswahl Endwert
      * @return anzuzeigende Karten
      */
-    public static void getCardsToShow(int begin, int end, DataCallback<Card> callback, Deck.CardOrder order)
+    public List<Card> getCardsToShow(int begin, int end)
     {
-        CardRepository.getCards(begin, end, callback, order);
+        return execTransactional(() -> CardRepository.getInstance().getCardRange(begin, end));
     }
 
     /**
@@ -38,16 +50,13 @@ public class CardLogic
      * null oder leer ist und gibt die Funktion dann an das Card Repository weiter.
      * @param tagName: Der textuelle Tag, zu dem die Karten gesucht werden sollen
      * @return Set der Karten, die Tag enthalten
+     * @throws NoResultException falls es keinen Tag, oder Karte mit entsprechendem Tag gibt.
      */
-    public static Set<Card> getCardsByTag(String tagName) {
-        checkNotNullOrBlank(tagName, "Tag");
-        Optional<Tag> tagOpt = CardRepository.find(tagName);
-        if(tagOpt.isEmpty())
-            throw new NullPointerException("Es gibt keinen Tag zu dem eingegebenen Wert" + tagName);
-        Tag tag = tagOpt.get();
-        return CardRepository.findCardsByTag(tag);
+    public List<Card> getCardsByTag(String tagName) {
+        checkNotNullOrBlank(tagName, "Tag",true);
+        return execTransactional(() -> cardRepository.findCardsByTag(
+                tagRepository.findTag(tagName)));
     }
-
 
     /**
      * Methode wird verwendet, um passende Karten für die angegebenen Suchwörter zu identifizieren. Prüft zunächst,
@@ -55,42 +64,38 @@ public class CardLogic
      * @param terms Suchwörter, die durch ein Leerzeichen voneinander getrennt sind
      * @return Set der Karten, die Suchwörter enthalten.
      */
-    public static Set<Card> getCardsBySearchterms(String terms)
+    public List<Card> getCardsBySearchterms(String terms)
     {
-        checkNotNullOrBlank(terms, "Suchbegriffe");
-        return CardRepository.findCardsContaining(terms);
+        checkNotNullOrBlank(terms, "Suchbegriffe",true);
+        return execTransactional(() -> cardRepository.findCardsContaining(terms));
     }
 
     /**
      * Wird aufgerufen, wenn eine spezifische Karte gelöscht werden soll. Gibt die Karte weiter
      * an das CardRepository und erhält ein positives Ergebnis, wenn die Aktion erfolgreich war.
      * @param card zu löschende Karte
-     * @return wahr, wenn Karte gelöscht wurde
      */
-    public static boolean deleteCard(Card card)
+    public void deleteCard(Card card)
     {
         if(card == null){
             throw new IllegalStateException("Karte existiert nicht");
-
         }
-        return CardRepository.deleteCard(card);
+        execTransactional(() -> {
+            CardRepository.getInstance().delete(card);
+            return null; // Lambda braucht immer einen return
+        });
+
     }
 
     /**
      * Wird aufgerufen, wenn mehrere Karten gelöscht werden sollen. Gibt die Karten einzeln weiter
      * an das CardRepository und erhält ein positives Ergebnis, wenn alle Karten erfolgreich gelöscht wurden.
-     * @param cards zu läschende Karten
-     * @return wahr, wenn alle Karten erfolgreich gelöscht wurden
+     * @param cards zu löschende Karten
      */
-    public static boolean deleteCards(List<Card> cards)
+    public void deleteCards(List<Card> cards)
     {
-        boolean ret = true;
         for(Card c : cards)
-        {
-            if(!deleteCard(c))
-                ret = false;
-        }
-        return ret;
+        deleteCard(c);
     }
 
 
@@ -102,98 +107,98 @@ public class CardLogic
      * @param uuid: UUID der abzurufenden Karte
      * @return Zugehörige Karte
      */
-    public static Card getCardByUUID(String uuid)
+    public Card getCardByUUID(String uuid)
     {
-        checkNotNullOrBlank(uuid, "UUID");
-        return CardRepository.getCardByUUID(uuid);
+        checkNotNullOrBlank(uuid, "UUID",true);
+        return execTransactional(() -> cardRepository.getCardByUUID(uuid));
     }
 
     /**
      * Lädt alle Tags als Set. Werden in der CardEditPage als Dropdown angezeigt. Wird weitergegeben an das CardRepository.
      * @return Set mit bestehenden Tags.
      */
-    public static Set<Tag> getTags()
+    public List<Tag> getTags()
     {
-        return CardRepository.getTags();
+        return execTransactional(() -> tagRepository.getAll());
     }
 
 
-    public static Set<Tag> getTagsToCard(Card card) {
-        return CardRepository.getTagsToCard(card);
+    public List<Tag> getTagsToCard(Card card) {
+        return execTransactional(() -> cardRepository.getTagsToCard(card));
     }
 
     /**
      * Wird aufgerufen, wenn eine neue Karte erstellt wird oder eine bestehende angepasst.
-     * @param cardToChange Die Karte die neu erstellt werden soll oder die Kopie der Karte mit den Änderungen
+     * @param cardToChange Die Karte, die neu erstellt werden soll oder die Kopie der Karte mit den Änderungen
      * @param neu gibt an, ob es sich um eine komplett neue Karte handelt
      * @return
      */
-    public static boolean updateCardData(Card cardToChange, boolean neu) {
+    public void updateCardData(Card cardToChange, boolean neu) {
         cardToChange.setContent();
-        if (neu)
-            return CardRepository.saveCard(cardToChange);
-        else
-            return CardRepository.updateCard(cardToChange);
-    }
-
-
-    public static boolean setTagsToCard(Card card, Set<Tag> tagNew) {
-        boolean ret = true;
-        Set<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
-        if(tagOld == null){
-            if(!checkAndCreateTags(card,tagNew,tagOld))
-                ret = false;
-        }
-
-        else if(tagOld.containsAll(tagNew) && tagOld.size() == tagNew.size()) //no changes
+        execTransactional(() -> {
+            if (neu)
+                CardRepository.getInstance().save(cardToChange);
+            else
+                CardRepository.getInstance().update(cardToChange);
             return true;
-
-
-        else if(tagOld.containsAll(tagNew) || tagOld.size() > tagNew.size()) { //es wurden nur tags gelöscht
-            if(!checkAndRemoveTags(card,tagNew,tagOld))
-                ret = false;
-        }
-        else if(tagNew.containsAll(tagOld)){
-            if(!checkAndCreateTags(card,tagNew,tagOld))
-                ret = false;
-        }
-        else { //neue und alte
-            if(!checkAndCreateTags(card,tagNew,tagOld))
-                ret = false;
-            if(!checkAndRemoveTags(card,tagNew,tagOld))
-                ret = false;
-        }
-        return ret;
+        });
     }
 
-    private static boolean checkAndRemoveTags(Card card, Set<Tag> tagNew, Set<Tag> tagOld) {
-        boolean ret = true;
+
+    public void setTagsToCard(Card card, List<Tag> tagNew) {
+        List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
+            if(tagOld == null){
+                checkAndCreateTags(card,tagNew,tagOld);
+            }
+
+            else if(tagOld.containsAll(tagNew) && tagOld.size() == tagNew.size()) //no changes
+                return;
+
+            else if(tagOld.containsAll(tagNew) || tagOld.size() > tagNew.size()) { //es wurden nur tags gelöscht
+                checkAndRemoveTags(card,tagNew,tagOld);
+
+            }
+            else if(tagNew.containsAll(tagOld)){
+                checkAndCreateTags(card,tagNew,tagOld);
+            }
+            else { //neue und alte
+                checkAndCreateTags(card,tagNew,tagOld);
+                checkAndRemoveTags(card,tagNew,tagOld);
+            }
+
+    }
+
+    private void checkAndRemoveTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
         for (Tag t : tagOld) {
             if (!tagNew.contains(t))
-                if (!CardRepository.deleteCardToTag(card, t))
-                    ret = false;
+                execTransactional(() -> {
+                    CardToTag c2t = CardToTagRepository.findSpecificCardToTag(card, t);
+                    CardToTagRepository.getInstance().delete(c2t);
+                    return null;
+                });
         }
-        return ret;
     }
 
 
-    private static boolean checkAndCreateTags(Card card, Set<Tag> tagNew, Set<Tag> tagOld) {
-        boolean ret = true;
-        Set<Tag> tagExi = CardRepository.getTags();
-        for (Tag t : tagNew) {
-            if (tagOld != null && tagOld.contains(t))
-                log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
-           else{
-                if (tagExi == null || tagExi.stream().filter(tag -> tag.getUuid().equals(t.getUuid())).findFirst().isEmpty()){
-                    if(!CardRepository.saveTag(t)){
-                        ret = false;}
+    private void checkAndCreateTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
+         execTransactional(() -> {
+            for (Tag t : tagNew) {
+                if (tagOld != null && tagOld.contains(t)) {
+                    log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
+                } else {
+                    try {
+                        Tag tag = tagRepository.findTag(t.getVal());
+                        t = tag;
+                        log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", t.getVal());
+                    } catch (NoResultException ex) {
+                        TagRepository.getInstance().save(t);
+                    }
+                    log.info("Tag {} wird zu Karte {} hinzugefügt", t.getUuid(), card.getUuid());
+                    cardRepository.createCardToTag(card, t);
                 }
-                log.info("Tag {} wird zu Karte {} hinzugefügt", t.getUuid(), card.getUuid());
-                if(!CardRepository.createCardToTag(card, t))
-                ret = false;
-        }
-        }
-        return ret;
+            }
+            return null;
+        });
     }
 
 
@@ -206,114 +211,21 @@ public class CardLogic
      * @param filetype Exporttyp der Karten
      * @return Exportierte Datei
      */
-    public static boolean exportCards(Card[] cards, ExportFileType filetype)
+    public void exportCards(Card[] cards, ExportFileType filetype)
     {
-        return (new Exporter(filetype)).export(cards);
-        //TODO:Exceptions?
+         new Exporter(filetype).export(cards);
     }
 
-
-
-    //KEEP FOR TEST REASONS AS FOR NOW
-    /**
-     * Teilmethode zum Erstellen/Aktualisieren von Karten. Wird über den Controller aufgerufen und prüft zunächst, ob eine
-     * neue Karte erstellt werden muss. Das Setzen der Attribute erfolgt über die Methode updateCardContent.
-     * @param card Karte zum Aktualisieren, wenn null, dann muss eine neue Karte erstellt werden
-     * @param type Der Kartentyp als String von der GUI übergeben
-     * @param attributes Die HashMap mit den Attributen
-     * @param tags Zugehörige Tags als String Set für die Karte
-     * @param categories Zugehörige Categories als String Set für die Karte
-     * @return true, wenn erfolgreich erstellt
-     */
-    public static boolean updateCardData(Card card, String type, HashMap<String, Object> attributes, Set<Tag> tags, Set<Category> categories) {
-        if (card == null) {
-            switch (type) {
-                case "TRUEFALSE":
-                    TrueFalseCard cardTF = new TrueFalseCard();
-                    return updateCardContent(cardTF, attributes, tags, categories, true);
-                case "IMAGETEST":
-                    ImageTestCard cardIT = new ImageTestCard();
-                    return updateCardContent(cardIT, attributes, tags, categories, true);
-                case "IMAGEDESC":
-                    ImageDescriptionCard cardID = new ImageDescriptionCard();
-                    return updateCardContent(cardID, attributes, tags, categories, true);
-                case "MULTIPLECHOICE":
-                    MultipleChoiceCard cardMC = new MultipleChoiceCard();
-                    return updateCardContent(cardMC, attributes, tags, categories, true);
-                case "TEXT":
-                    TextCard cardT = new TextCard();
-                    return updateCardContent(cardT, attributes, tags, categories, true);
-                case "AUDIO":
-                    AudioCard cardAu = new AudioCard();
-                    return updateCardContent(cardAu, attributes, tags, categories, true);
-                default:
-                    return false;
-            }
-        } else {
-            return updateCardContent(card, attributes, tags, categories, false);
-        }
-    }
-
-    /**
-     * Teilmethode zum Erstellen/Aktualisieren von Karten. Wird verwendet, um die einzelnen Attribute der neuen Karten oder bestehenden Karten anzupassen.
-     * @param card Die zu bearbeitende Karte
-     * @param attributes Attribute der Karte
-     * @param tags Tags, die angepasst werden
-     * @param categories Kategorien, die angepasst werden
-     * @param neu wenn true, dann ist die Karte neu erstellt worden
-     * @return ob erfolgreich
-     */
-    private static boolean updateCardContent(Card card, HashMap<String, Object> attributes, Set<Tag> tags, Set<Category> categories, boolean neu) {
-        try {
-            log.info("Versuche die Attribute der Karte {} zu aktualisieren", card.getUuid());
-            BeanUtils.populate(card, attributes);
-            card.setContent();
-        } catch (IllegalAccessException | InvocationTargetException ex) {
-            //TODO + weitere Exceptions, Prüfung mit Validator? in Constructor einnbauen
-        }
-        if (neu) {
-            if (CardRepository.saveCard(card)) {
-                return createTagsCategoriesForCard(card, tags, categories);
-            } else {
-                throw new IllegalArgumentException("Probleme beim Speichern der Karte"); //TODO: genauer aufschlüsseln
-            }
-        } else {
-            if (CardRepository.updateCard(card)) {
-                return createTagsCategoriesForCard(card, tags, categories);
-            } else {
-                throw new IllegalArgumentException("Probleme beim Updaten der Karte"); //TODO: genauer aufschlüsseln
-            }
-
-
-        }
-    }
-
-    private static boolean createTagsCategoriesForCard(Card card, Set<Tag> tags, Set<Category> categories) {
-        if (tags != null) {
-            log.info("Versuche übergebene Tag(s) der Karte {} zuzuordnen", card.getUuid());
-            if(!setTagsToCard(card, tags))
-                return false;
-        }
-        if (categories != null) {
-            log.info("Versuche übergebene Kategorie(n) der Karte {} zuzuordnen", card.getUuid());
-            if(!CategoryLogic.setCardToCategories(card, categories))
-                return false;
-        }
-        return true;
-    }
-
-
-    //TODO: kann weg=?
-    public static boolean createTag(Tag tag)
-    {
-        return CardRepository.saveTag(tag);
-    }
 
 
     //private void changeCard() {}
 
 
-    private static void removeCardToTag(Card c, Tag t) {
-        CardRepository.deleteCardToTag(c,t);
+    private void removeCardToTag(Card c, Tag t) {
+        execTransactional(() -> {
+            CardToTagRepository.getInstance().delete(
+                    CardToTagRepository.findSpecificCardToTag(c,t));
+            return null; // Lambda braucht einen return
+        });
     }
-    }
+}

@@ -1,12 +1,10 @@
 package com.swp.DataModel.StudySystem;
 
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.*;
-
-import com.swp.Controller.DeckController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 
@@ -17,22 +15,31 @@ import com.swp.DataModel.Deck;
 
 @Getter
 @Setter
+@Entity
+@DiscriminatorColumn(name = "StudySystemType")
 public abstract class StudySystem implements Serializable
 {
+    // TODO: verschiedene StudySystem-Typen persistieren
+    //
+
     /**
-     *TODO: wofür?
+     * Primärer Schlüssel für die persistierten `StudySysteme`
      */
-   // private String[] asProfiles; //TODO
+    @Id
+    //@GeneratedValue
+    private final String id;
 
     /**
      * Zugehöriges Deck für das System
      */
+    @OneToOne
     protected Deck deck;
 
     /**
      * Einzelne Boxen des Systems, die Karten enthalten
      */
-    protected ArrayList<Set<Card> > boxes;
+    @OneToMany//(mappedBy = "studySystem")
+    protected ArrayList<StudySystemBox> boxes;
 
     /**
      * Zugehöriger Typ des Systems
@@ -49,7 +56,14 @@ public abstract class StudySystem implements Serializable
     {
         this.deck = deck;
         this.type = type;
-        this.boxes = initArray(nboxes);
+        //this.boxes = initArray(nboxes);
+        this.boxes = new ArrayList<StudySystemBox>(nboxes);
+        this.id = UUID.randomUUID().toString();
+    }
+
+    // No-Arg Konstruktor
+    public StudySystem() {
+        this(null, null, 0);
     }
 
     /**
@@ -76,24 +90,24 @@ public abstract class StudySystem implements Serializable
         if(boxindex >= boxes.size() || boxindex < 0)
             return;
 
-        for(Set<Card> set : boxes)
+        for(StudySystemBox box : boxes)
         {
-            if(set.contains(card))
-                set.remove(card);
+            if(box.getBoxContent().contains(card))
+                box.remove(card);
         }
 
         boxes.get(boxindex).add(card);
     }
 
-    public void moveAllCardsForDeckToFirstBox(List<Card> cards){
-        boxes.get(0).addAll(cards);
+    public void moveAllCardsForDeckToFirstBox(List<Card> cards) {
+        boxes.get(0).add(cards);
     }
 
-    public ArrayList<Card> getAllCardsInStudySystem(){
-        ArrayList<Card> cardsInStudyS = new ArrayList<>();
+    public Set<Card> getAllCardsInStudySystem() {
+        Set<Card> cardsInStudyS = new HashSet<>();
 
-        for(Set<Card> set : boxes){
-            cardsInStudyS.addAll(set);
+        for(StudySystemBox box : boxes){
+            cardsInStudyS.addAll(box.getBoxContent());
         }
         return cardsInStudyS;
     }
@@ -121,21 +135,14 @@ public abstract class StudySystem implements Serializable
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    Iterator<Card> it = null;
     public Card getNextCard(int index)
     {
-        /////////////////////////////////////////////////////////////////
-        //
-        // TEMPORARY
-        //
-        if(it == null)
-            it = DeckController.getCardsInDeck(deck).iterator();
-        if(it.hasNext())
-            return (Card)it.next();
-            
-        it = null;
-        return null;
-        /////////////////////////////////////////////////////////////////
+        for (StudySystemBox box : boxes) {
+            if (!box.getBoxContent().isEmpty()){
+                return box.getBoxContent().iterator().next();
+            }
+        }
+        throw new NoResultException("No Cards in StudySystem");
     }
 
     //NEEDS TO BE IMPLEMENTED

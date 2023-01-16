@@ -1,7 +1,5 @@
 package com.swp.GUI.Category;
 
-import java.io.ObjectOutputStream.PutField;
-
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
@@ -10,8 +8,11 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Category;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
+import com.swp.Controller.SingleDataCallback;
 
 public class EditCategoryPage extends Page
 {
@@ -19,6 +20,8 @@ public class EditCategoryPage extends Page
     private RenderGUI pCanvas;
     private Category pOldCategory, pNewCategory;
     private TextField pTitleField;
+
+    private CategoryController categoryController = CategoryController.getInstance();
 
     public EditCategoryPage()
     {
@@ -61,7 +64,19 @@ public class EditCategoryPage extends Page
         resize();
     }
 
-    public void editCategory(String uuid) { editCategory(CategoryController.getCategoryByUUID(uuid)); }
+    public void editCategory(String uuid) {
+        categoryController.getCategoryByUUID(uuid, new SingleDataCallback<Category>() {
+            @Override
+            public void onSuccess(Category data) {
+                editCategory(data);
+            }
+
+            @Override
+            public void onFailure(String msg) {
+            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+        });
+        }
     public void editCategory(Category category)
     {
         pNewCategory = new Category(category);
@@ -71,6 +86,17 @@ public class EditCategoryPage extends Page
 
     private void applyChanges()
     {
-        CategoryController.updateCategoryData(pOldCategory, pNewCategory);
+        boolean neu = true;
+        categoryController.updateCategoryData(pNewCategory,neu, new SingleDataCallback<>() {
+            @Override
+            public void onSuccess(Boolean data) {
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+
+        });
     }
 }

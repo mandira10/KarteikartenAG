@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import javax.sound.sampled.AudioFileFormat;
 
+import java.nio.ByteBuffer;
+
 import static com.swp.Validator.checkNotNullOrBlank;
 
 /**
@@ -25,7 +27,7 @@ public class AudioCard extends Card
      * Die AudioFile für die Karte
      */
     @Column
-    private String audio;
+    private byte[] audio;
 
     /**
      * Textuelle Beschreibung zur AudioKarte
@@ -57,7 +59,7 @@ public class AudioCard extends Card
      * @param swapQA Wechsel Frage/Antwort
      * @param visibility Sichtbarkeit der Karte
      */
-    public AudioCard(String audioFile, String title, String question, String answer, boolean swapQA, boolean visibility)
+    public AudioCard(byte[] audioFile, String title, String question, String answer, boolean swapQA, boolean visibility)
     {
         super(CardType.AUDIO);
         setTitle(title);
@@ -75,7 +77,7 @@ public class AudioCard extends Card
     }
 
     public void setAnswer(String answer) {
-        this.answer = checkNotNullOrBlank("Antwort", answer);
+        this.answer = checkNotNullOrBlank("Antwort", answer,false);
     }
 
     @Override

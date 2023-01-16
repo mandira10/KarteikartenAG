@@ -1,21 +1,20 @@
 package com.swp.DataModel.StudySystem;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
-
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 import javax.swing.*;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 /**
  * Klasse für das TimingSystem. Erbt alle Attribute vom StudySystem
  */
-public class TimingSystem extends StudySystem{
+@Entity
+@DiscriminatorValue("Timing")
+public class TimingSystem extends StudySystem implements MouseListener
+{
     private float timeLimit = 0;
     private float answerTime = 0;
     private int questionCount = 0;
@@ -23,10 +22,15 @@ public class TimingSystem extends StudySystem{
     private int pointQuestion = 100;
     private int resultPoint = 0;
 
-        /**
-         * Konstruktor der Klasse TimingSystem.
-         * @param deck: Das Deck für das Lernsystem
-         */
+
+    ArrayList<Card> cards = new ArrayList<>();
+    ArrayList<String> answers = new ArrayList<>(); // getting answers for cards just example
+    JLabel answer;
+
+    /**
+     * Konstruktor der Klasse TimingSystem.
+     * @param deck: Das Deck für das Lernsystem
+     */
     public TimingSystem(Deck deck,int timeLimit) {
         super(deck, new StudySystemType(StudySystemType.KNOWN_TYPES.TIMING), 5);
         this.timeLimit = timeLimit;

@@ -7,10 +7,8 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Output;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Deck;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Decks.DeckSelectPage;
@@ -23,7 +21,8 @@ import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
-import com.swp.Persistence.DataCallback;
+import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
 
 public class CardOverviewPage extends Page 
 {
@@ -82,7 +81,7 @@ public class CardOverviewPage extends Page
             @Override public void run(String query, int option)
             {
                 if(query.equals(""))
-                    loadCards(0, 30, Deck.CardOrder.ALPHABETICAL);
+                    loadCards(0, 30);
                 else
                     loadCards(query);
             }
@@ -96,11 +95,11 @@ public class CardOverviewPage extends Page
         reposition();
     }
 
-    public void loadCards(int from, int to, Deck.CardOrder order)
+    public void loadCards(int from, int to)
     {
         if(from == 0)
             pCardList.reset();
-        CardController.getCardsToShow(from, to, new DataCallback<Card>() {
+        CardController.getInstance().getCardsToShow(from, to, new DataCallback<Card>() {
             @Override public void onSuccess(List<Card> data) 
             {
                 pCardList.addCards(data.stream().collect(Collectors.toSet()));
@@ -110,9 +109,8 @@ public class CardOverviewPage extends Page
             {
                 NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);     
             }
-            
-        }, order);
-
+            @Override public void onInfo(String msg) {}
+        });
         reposition();
         resize();
     }
@@ -120,7 +118,22 @@ public class CardOverviewPage extends Page
     public void loadCards(String str)
     {
         pCardList.reset();
-        pCardList.addCards(CardController.getCardsBySearchterms(str));
+        CardController.getInstance().getCardsBySearchterms(str, new DataCallback<Card>() {
+            @Override
+            public void onSuccess(List<Card> data) {
+                pCardList.addCards(data.stream().collect(Collectors.toSet()));
+            }
+
+            @Override
+            public void onFailure(String msg) {
+            NotificationGUI.addNotification(msg,NotificationType.ERROR,5);
+            }
+
+            @Override
+            public void onInfo(String msg) {
+            NotificationGUI.addNotification(msg,NotificationType.INFO,5);
+            }
+        });
 
         reposition();
         resize();
@@ -132,7 +145,15 @@ public class CardOverviewPage extends Page
         ConfirmationGUI.openDialog("Are you sure that you want to delete " + String.valueOf(numCards) + " cards?", new ConfirmationCallback() {
             @Override public void onConfirm() 
             {  
-                CardController.deleteCards(pCardList.getSelection());
+                CardController.getInstance().deleteCards(pCardList.getSelection(), new SingleDataCallback<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean data) {}
+
+                    @Override
+                    public void onFailure(String msg) {
+                    NotificationGUI.addNotification("Beim Löschen der Karte ist ein Fehler aufgetreten",NotificationType.ERROR,5);
+                    }
+                });
             }
             @Override public void onCancel() 
             {

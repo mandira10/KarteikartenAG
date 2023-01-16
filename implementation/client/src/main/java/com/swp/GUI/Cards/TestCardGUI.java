@@ -92,7 +92,8 @@ public class TestCardGUI extends RenderGUI
     {
         AudioCard card = (AudioCard)pCard;
 
-        InputStream stream = TestCardGUI.class.getClassLoader().getResourceAsStream(card.getAudio());
+        //TODO
+        InputStream stream = null;// TestCardGUI.class.getClassLoader().getResourceAsStream(card.getAudio());
         AudioGUI audioGUI = new AudioGUI(new ivec2(5, 55), new ivec2(80, 80), stream);
         audioGUI.setPositionInPercent(true, true);
         audioGUI.setSizeInPercent(false, false);
