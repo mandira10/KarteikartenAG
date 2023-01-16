@@ -137,7 +137,6 @@ public class CardRepository extends BaseRepository<Card>
      * Verbindung setzt und persistiert dieses in der Datenbank.
      * @param card eine Karte, der ein Tag zugeordnet werden soll
      * @param tag ein Tag, der der Karte zugeordnet werden soll
-     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
      */
     public void createCardToTag(Card card, Tag tag) {
         getEntityManager().persist(new CardToTag(card, tag));
@@ -154,5 +153,7 @@ public class CardRepository extends BaseRepository<Card>
                 .setParameter("card", card)
                 .getResultList();
     }
+
+    //TODO: bräuchten noch eine Funktion die alle CategoryHierarchy Elemente einer Kategorie zurückgeben, damit die dann alle gelöscht werden können.
 
 }

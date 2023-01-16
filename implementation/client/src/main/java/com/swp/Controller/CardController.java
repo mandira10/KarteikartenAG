@@ -54,7 +54,6 @@ public class CardController {
      * Wird an die CardLogic weitergegeben.
      *
      * @param tag: Der Tag, zu dem die Karten abgerufen werden sollen
-     * @return Sets an Karten mit spezifischem Tag
      */
     public void getCardsByTag(String tag, DataCallback<Card> callback) {
         try {
@@ -67,8 +66,8 @@ public class CardController {
 
         } catch (IllegalArgumentException ex) {
             callback.onFailure(ex.getMessage()); //übergebener wert ist leer
-//        } catch (final NullPointerException ex) {
-//            callback.onFailure(ex.getMessage());
+        } catch (final NullPointerException ex) {
+            callback.onFailure(ex.getMessage());
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit Tag {} ist ein Fehler {} aufgetreten", tag
                     , ex);
@@ -81,7 +80,6 @@ public class CardController {
      * Kann verwendet werden, um einzelne Tags zu Karten in der SingleCardOverviewPage oder im EditModus aufzurufen
      *
      * @param card Die Karte, zu der die Tags abgerufen werden sollen
-     * @return Gefundene Tags für die spezifische Karte
      */
     public void getTagsToCard(Card card, DataCallback<Tag> callback) {
         try {
@@ -100,7 +98,6 @@ public class CardController {
      * Nutzung für Display bestimmter Karten bei CardOverviewPage. Wird an die CardLogic weitergegeben.
      *
      * @param searchterm Übergebener String mit dem Suchwort
-     * @return Sets an Karten, die das Suchwort enthalten
      */
     public void getCardsBySearchterms(String searchterm, DataCallback<Card> callback) {
         try {
@@ -121,7 +118,6 @@ public class CardController {
      * Dient dem Löschen einzelner Karten. Wird an die CardLogic weitergegeben.
      *
      * @param card Die zu löschende Karte
-     * @return true, wenn ausgeführt, ansonsten false
      */
     public void deleteCard(Card card, SingleDataCallback<Boolean> singleDataCallback) {
         try {
@@ -135,7 +131,6 @@ public class CardController {
      * Dient dem Löschen mehrerer Karten. Wird an die CardLogic weitergegeben.
      *
      * @param cards Die zu löschenden Karten
-     * @return true, wenn ausgeführt, ansonsten false
      */
     public void deleteCards(List<Card> cards, SingleDataCallback<Boolean> singleDataCallback) {
         try {
@@ -152,7 +147,6 @@ public class CardController {
      * Wird verwendet, um einzelne Karteninformationen über ihre UUID abzurufen. Wird an die CardLogic weitergegeben.
      *
      * @param uuid: UUID der abzurufenden Karte
-     * @return Zugehörige Karte
      */
     public void getCardByUUID(String uuid, SingleDataCallback<Card> singleDataCallback) {
         try {
@@ -188,7 +182,6 @@ public class CardController {
      *
      * @param cards    Set an Karten, die exportiert werden sollen
      * @param filetype Exporttyp der Karten
-     * @return Exportierte Datei
      */
     public void exportCards(Card[] cards, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) {
         try {

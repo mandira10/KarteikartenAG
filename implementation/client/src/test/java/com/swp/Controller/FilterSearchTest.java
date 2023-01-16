@@ -41,13 +41,13 @@ public class FilterSearchTest {
             }
         };
 
-        assertTrue(cardLogic.updateCardData(card1,true));
-        assertTrue(cardLogic.updateCardData(card2,true));
-        assertTrue(cardLogic.updateCardData(card3,true));
-        assertTrue(cardLogic.setTagsToCard(card1,tagsToAdd));
-        assertTrue(categoryLogic.getInstance().setC2COrCH(card1,categoriesToAdd,false));
-        assertTrue(cardLogic.setTagsToCard(card2,tagsToAdd));
-        assertTrue(categoryLogic.getInstance().setC2COrCH(card3,categoriesToAdd,false));
+        cardLogic.updateCardData(card1,true);
+        cardLogic.updateCardData(card2,true);
+        cardLogic.updateCardData(card3,true);
+        cardLogic.setTagsToCard(card1,tagsToAdd);
+        categoryLogic.getInstance().setC2COrCH(card1,categoriesToAdd,false);
+        cardLogic.setTagsToCard(card2,tagsToAdd);
+        categoryLogic.getInstance().setC2COrCH(card3,categoriesToAdd,false);
         Card txCard = cardLogic.getCardByUUID(card1.getUuid());
         assertNotNull(txCard);
         List<Card> cardsToSearchTerms = cardLogic.getCardsBySearchterms("antwort5");

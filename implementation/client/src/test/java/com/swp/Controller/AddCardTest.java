@@ -27,6 +27,8 @@ public class AddCardTest {
 
     private static final PersistenceManager pm = new PersistenceManager();
 
+    private CardLogic cardLogic = CardLogic.getInstance();
+
     /**
      * Testing the working of BeanUtils for different CardTypes
      * //TODO: incorporate image and audiofile as soon as incorporated
@@ -35,8 +37,8 @@ public class AddCardTest {
     public void testCardCreateAndUpdateNoTagsNoCategories()  {
         //TEXT
         Card card1 = new TextCard("Testfrage","Testantwort","Testtitel",true);
-        assertTrue(CardLogic.updateCardData(card1,true));
-        Card txcard = CardLogic.getCardByUUID(card1.getUuid());
+        cardLogic.updateCardData(card1,true);
+        Card txcard = cardLogic.getCardByUUID(card1.getUuid());
         TextCard textCard = (TextCard) txcard;
         assertNotNull(textCard);
         assertEquals("Testtitel", textCard.getTitle());
@@ -59,8 +61,8 @@ public class AddCardTest {
             }
         };
         Card card2 = new MultipleChoiceCard("Testfrage",answers,correctAnswers,"Testtitel1",false);
-        assertTrue(CardLogic.updateCardData(card2, true));
-        Card card = CardLogic.getCardByUUID(card2.getUuid());
+        cardLogic.updateCardData(card2, true);
+        Card card = cardLogic.getCardByUUID(card2.getUuid());
         assertNotNull(card);
         MultipleChoiceCard mcCard = (MultipleChoiceCard) card;
         assertNotNull(mcCard);
@@ -91,9 +93,9 @@ public class AddCardTest {
         };
         Card card1 = new TextCard();
         BeanUtils.populate(card1,txmap);
-        assertTrue(CardLogic.updateCardData(card1,true));
-        assertTrue(CardLogic.setTagsToCard(card1,tagsToAdd));
-        List<Tag> tags = CardLogic.getTags();
+        cardLogic.updateCardData(card1,true);
+        cardLogic.setTagsToCard(card1,tagsToAdd);
+        List<Tag> tags = cardLogic.getTags();
         assertTrue(tags.size()>=2); //in case more than one
         Optional<Tag> tagOpt1 = tags.stream().filter( t -> t.getVal().equals("tag1")).findFirst();
         Optional<Tag>  tagOpt2 = tags.stream().filter( t -> t.getVal().equals("tag2")).findFirst();
@@ -101,15 +103,15 @@ public class AddCardTest {
         assertTrue(tagOpt1.isPresent());
         Tag tag1 = tagOpt1.get();
         Tag tag2 = tagOpt2.get();
-        List<Card> CardsToTag1 = CardLogic.getCardsByTag(tag1.getVal());
-        List<Card> CardsToTag2 = CardLogic.getCardsByTag(tag2.getVal());
+        List<Card> CardsToTag1 = cardLogic.getCardsByTag(tag1.getVal());
+        List<Card> CardsToTag2 = cardLogic.getCardsByTag(tag2.getVal());
         assertEquals(1,CardsToTag1.size()); //FAILS
         assertEquals(1,CardsToTag2.size());
         card1 = CardsToTag1.iterator().next();
         Card card2 = CardsToTag2.iterator().next();
         assertEquals(card1.getUuid(), card2.getUuid());
-        List<Tag> tagToCard1 = CardLogic.getTagsToCard(card1);
-        List<Tag> tagToCard2 = CardLogic.getTagsToCard(card2);
+        List<Tag> tagToCard1 = cardLogic.getTagsToCard(card1);
+        List<Tag> tagToCard2 = cardLogic.getTagsToCard(card2);
         assertFalse(tagToCard1.isEmpty());
         Optional<Tag> tagOptional1 = tagToCard1.stream().filter(t -> t.getVal().equals("tag1")).findAny();
         assertTrue(tagOptional1.isPresent());
@@ -124,8 +126,8 @@ public class AddCardTest {
     public void testCardOverview()  {
         Card card1 = new TextCard("","AntwortCard1","TitelCard1",false);
         Card card2 = new TextCard("FrageCard2","AntwortCard2","",false);
-        assertTrue(CardLogic.updateCardData(card1,true));
-        assertTrue(CardLogic.updateCardData(card2,true));
+        cardLogic.updateCardData(card1,true);
+        cardLogic.updateCardData(card2,true);
 
         //TEST CARDOVERVIEW CONTAINS CARDS:
         EntityManager em = pm.getEntityManager();
@@ -148,10 +150,10 @@ public class AddCardTest {
         int[] correctAnswers = {1, 3};
         Card text1 = new TextCard("F1", "nein doch", "Titel für die Karte 1", false);
         Card text2 = new MultipleChoiceCard("F2", answers, correctAnswers, "Titel für die Karte 2", true);
-        assertTrue(CardLogic.updateCardData(text1, true));
-        assertTrue(CardLogic.updateCardData(text2, true));
-        Card card1 = CardLogic.getCardByUUID(text1.getUuid());
-        Card card2 = CardLogic.getCardByUUID(text2.getUuid());
+       cardLogic.updateCardData(text1, true);
+        cardLogic.updateCardData(text2, true);
+        Card card1 = cardLogic.getCardByUUID(text1.getUuid());
+        Card card2 = cardLogic.getCardByUUID(text2.getUuid());
         assertNotNull(card1);
         assertNotNull(card2);
         Card copy1 = copyCard(card1);
@@ -160,10 +162,10 @@ public class AddCardTest {
         assertEquals(card2.getUuid(), copy2.getUuid());
         text1.setTitle("Titel234");
         text2.setRating(5);
-        assertTrue(CardLogic.updateCardData(text1, false));
-        assertTrue(CardLogic.updateCardData(text2, false));
-        card1 = CardLogic.getCardByUUID(text1.getUuid());
-        card2 = CardLogic.getCardByUUID(text2.getUuid());
+        cardLogic.updateCardData(text1, false);
+        cardLogic.updateCardData(text2, false);
+        card1 = cardLogic.getCardByUUID(text1.getUuid());
+        card2 = cardLogic.getCardByUUID(text2.getUuid());
         assertTrue(card1.getTitle().equals(text1.getTitle()));
         assertEquals(card2.getRating(),text2.getRating());
     }

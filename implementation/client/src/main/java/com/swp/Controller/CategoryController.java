@@ -1,6 +1,8 @@
 package com.swp.Controller;
 
-import com.swp.DataModel.*;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.CardToCategory;
+import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CategoryLogic;
@@ -48,7 +50,15 @@ public class CategoryController {
         }
     }
 
-    public void deleteCardToCategory(CardToCategory c2d, SingleDataCallback singleDataCallback) {
+    public void deleteCategories(List<Category> categories, SingleDataCallback<Boolean> singleDataCallback){
+        try {
+            categoryLogic.deleteCategories(categories);
+        } catch (Exception ex) {
+            singleDataCallback.onFailure(ex.getMessage());
+        }
+    }
+
+    public void deleteCardToCategory(CardToCategory c2d, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.deleteCardToCategory(c2d);
         } catch (Exception ex) {
@@ -104,7 +114,6 @@ public class CategoryController {
      * Wird an die CategoryLogic weitergegeben.
      *
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
-     * @return Sets an Karten mit spezifischer Kategorie
      */
     public void getCardsInCategory(Category category, DataCallback<Card> dataCallback) {
         try {
@@ -131,7 +140,6 @@ public class CategoryController {
      * Wird an die CategoryLogic weitergegeben.
      *
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
-     * @return Sets an Karten mit spezifischer Kategorie
      */
     public void getCardsInCategory(String category, DataCallback<Card> dataCallback) {
 
@@ -145,8 +153,8 @@ public class CategoryController {
 
         } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
             dataCallback.onFailure(ex.getMessage());
-        } catch (final NullPointerException ex) {
-            dataCallback.onFailure(ex.getMessage());
+        } catch (final NoResultException ex) {
+            dataCallback.onInfo("Es gibt keine Kategorie zum angegebenen Namen");
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category
                     , ex);
@@ -158,11 +166,10 @@ public class CategoryController {
      * Kann verwendet werden, um einzelne Kategorien zu Karten in der SingleCardOverviewPage oder im EditModus aufzurufen
      *
      * @param card Die Karte, zu der die Kategorien abgerufen werden sollen
-     * @return Gefundene Kategorien für die spezifische Karte
      */
     public void getCategoriesToCard(Card card, DataCallback<Category> dataCallback) {
         try {
-            List categoriesForCard = categoryLogic.getCategoriesByCard(card);
+            List<Category> categoriesForCard = categoryLogic.getCategoriesByCard(card);
 
             if (categoriesForCard.isEmpty())
                 log.info("Keine Kategorien für diese Karte vorhanden");
@@ -181,11 +188,10 @@ public class CategoryController {
      * Lädt alle Categories als Set. Werden in der CardEditPage als Dropdown angezeigt. Wird weitergegeben an die CategoryLogic.
      * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
      *
-     * @return Set mit bestehenden Categories
      */
     public void getCategories(DataCallback<Category> dataCallback) {
         try {
-            List categories = categoryLogic.getCategories();
+            List<Category> categories = categoryLogic.getCategories();
 
             if (categories.isEmpty())
                 log.info("Keine Kategorien vorhanden");
