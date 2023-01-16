@@ -128,7 +128,7 @@ public class CategoryLogic extends BaseLogic<Category>
      */
     public List<Card> getCardsInCategory(String categoryName) {
         checkNotNullOrBlank(categoryName, "Kategorie",true);
-        return execTransactional(() -> getCardsInCategory(categoryRepository.find(categoryName)));
+        return execTransactional(() -> cardRepository.getCardsByCategory(categoryRepository.find(categoryName)));
     }
 
     /**
@@ -137,7 +137,7 @@ public class CategoryLogic extends BaseLogic<Category>
      * @return Liste an Karten mit Kategorie
      */
     public List<Card> getCardsInCategory(Category category) {
-        return cardRepository.getCardsByCategory(category);
+       return execTransactional(() -> cardRepository.getCardsByCategory(category));
     }
 
     /**
@@ -202,9 +202,9 @@ public class CategoryLogic extends BaseLogic<Category>
                 if (cardOrCategory instanceof Card card) {
                     CardToCategoryRepository.getInstance().delete(CardToCategoryRepository.getSpecific(card, c));
                 } else if (cardOrCategory instanceof Category category && !child) {
-                    CategoryRepository.deleteCategoryHierarchy(c, category);
+                    categoryRepository.deleteCategoryHierarchy(c, category);
                 } else if (cardOrCategory instanceof Category category) {
-                    CategoryRepository.deleteCategoryHierarchy(category, c);
+                    categoryRepository.deleteCategoryHierarchy(category, c);
                 }
         }
             return null;
