@@ -131,21 +131,14 @@ public abstract class StudySystem implements Serializable
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    Iterator<Card> it = null;
     public Card getNextCard(int index)
     {
-        /////////////////////////////////////////////////////////////////
-        //
-        // TEMPORARY
-        //
-        if(it == null)
-            it = DeckController.getCardsInDeck(deck).iterator();
-        if(it.hasNext())
-            return (Card)it.next();
-            
-        it = null;
-        return null;
-        /////////////////////////////////////////////////////////////////
+        for (StudySystemBox box : boxes) {
+            if (!box.getBoxContent().isEmpty()){
+                return box.getBoxContent().iterator().next();
+            }
+        }
+        throw new NoResultException("No Cards in StudySystem");
     }
 
     //NEEDS TO BE IMPLEMENTED
