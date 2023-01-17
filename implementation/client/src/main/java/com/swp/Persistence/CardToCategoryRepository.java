@@ -34,5 +34,10 @@ public class CardToCategoryRepository extends BaseRepository<CardToCategory> {
                 .getSingleResult();
     }
 
-    //TODO: getAllC2CForCard
+    public CardToCategory getAllC2CForCard(Card card) {
+        //TODO
+        return null;
+    }
+
+
 }

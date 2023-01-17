@@ -63,7 +63,7 @@ public class DeckLogic extends BaseLogic<Deck>
 
     public List<Card> getCardsByDeck(Deck deck)
     {
-        return execTransactional(() -> cardRepository.getCardsToDeck(deck));
+        return execTransactional(() -> cardRepository.findCardsByDeck(deck));
     }
 
     public void updateDeckData(Deck olddeck, Deck newdeck, boolean neu)
@@ -75,13 +75,11 @@ public class DeckLogic extends BaseLogic<Deck>
                  for(Card c : newdeck.getStudySystem().getAllCardsInStudySystem()){
                      cardToDeckRepository.createCardToDeck(c,newdeck);
                  }
-
         }
 
         else if(!neu && newdeck.getStudySystem().equals(olddeck.getStudySystem()))
             resetStudySystem(olddeck,newdeck.getStudySystem());
 
-        //TODO: vorher updateStudySystem aufrufen?
           else
               deckRepository.update(newdeck);
             return true;
@@ -95,20 +93,14 @@ public class DeckLogic extends BaseLogic<Deck>
     private void resetStudySystem(Deck deck, StudySystem newStudyS) {
         execTransactional(() -> {
             //first get all Cards for specific deck
-            List<Card> cardsToDeck = cardRepository.getCardsToDeck(deck);
+            List<Card> cardsToDeck = cardRepository.findCardsByDeck(deck);
             //then move them to the other StudySystem
             newStudyS.moveAllCardsForDeckToFirstBox(cardsToDeck);
         return true;
         });
     }
 
-    public void updateStudySystem(Deck deck, StudySystem system)
-    {
-        execTransactional(() -> {
-            deckRepository.updateStudySystem(deck, system);
-            return null;
-        });
-    }
+
 
     public void addStudySystemTypeAndUpdate(StudySystem.StudySystemType type)
     {
@@ -135,6 +127,8 @@ public class DeckLogic extends BaseLogic<Deck>
     public void deleteDecks(Deck[] decks)
     {
         for(Deck d : decks)
+            //TODO: delete all Card2Decks
+            //orphan removal für StudySystem
         deleteDeck(d);
     }
 
@@ -165,25 +159,37 @@ public class DeckLogic extends BaseLogic<Deck>
         });
     }
 
-    public void addCardsTodeck(List<Card> cards, Deck deck) {
-        execTransactional(() -> {
-            deck.getStudySystem().moveAllCardsForDeckToFirstBox(cards);
-            //UpdateDeck?
-            for(Card c : cards){
-                cardToDeckRepository.createCardToDeck(c,deck);
+    public void addCardsToDeck(List<Card> cards, Deck deck) {
+            if(deck == null){
+            throw new IllegalStateException("Karte existiert nicht");
             }
-            return null; // Lambda braucht immer einen return
-        });
-    }
+            execTransactional(() -> {
+                deck.getStudySystem().moveAllCardsForDeckToFirstBox(cards);
+                deckRepository.update(deck);
+                for (Card c : cards) {
+                    cardToDeckRepository.createCardToDeck(c, deck);
+                }
+                return null; // Lambda braucht immer einen return
+            });
+        }
+
 
     public void updateDeckCards(List<Card> cards,Deck deck){
-        execTransactional(() -> {
+        //execTransactional(() -> { not needed, da sehr viele aufgerufen werden
             List<Card> oldCards = new ArrayList<>();
-            oldCards.addAll(deckLogic.getCardsByDeck(deck));
+            oldCards.addAll(getCardsByDeck(deck));
             removeCardsFromDeck(oldCards, deck);
-            addCardsTodeck(cards, deck);
+            addCardsToDeck(cards, deck);
             deckRepository.updateDeckCards(deck);
-            return null;
-        });
+          //  return null;
+        //});
     }
+
+//    public void updateStudySystem(Deck deck, StudySystem system)
+//    {
+//        execTransactional(() -> {
+//            deckRepository.updateStudySystem(deck, system);
+//            return null;
+//        });
+//    }
 }

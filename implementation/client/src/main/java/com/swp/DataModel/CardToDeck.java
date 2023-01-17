@@ -14,6 +14,12 @@ import lombok.Setter;
 @Setter
 @NamedQuery(name = "CardToDeck.allC2DByCard",
             query = "SELECT cd FROM CardToDeck cd WHERE cd.card = :card")
+@NamedQuery(name = "CardToDeck.allC2DByDeck",
+        query = "SELECT cd FROM CardToDeck cd WHERE cd.deck = :deck")
+@NamedQuery(name = "CardToDeck.allCardsWithDeck",
+        query = "SELECT cd.card FROM CardToDeck cd WHERE cd.deck = :deck")
+@NamedQuery(name = "CardToDeck.allDecksWithCard",
+        query = "SELECT cd.deck FROM CardToDeck cd WHERE cd.card = :card")
 public class CardToDeck implements Serializable
 {
     /**
@@ -67,6 +73,7 @@ public class CardToDeck implements Serializable
         this.card = c;
         this.deck = d;
         this.id = UUID.randomUUID().toString();
+        this.status = CardStatus.NEW;
     }
 
     /**

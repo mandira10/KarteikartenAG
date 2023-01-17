@@ -99,7 +99,6 @@ public class Deck implements Serializable
         this.uuid = UUID.randomUUID().toString();
         this.name =  name;
         this.studySystem = studySystem;
-        studySystem.setDeck(this);
         this.cardOrder = cardOrder;
         this.visibility = visibile;
     }

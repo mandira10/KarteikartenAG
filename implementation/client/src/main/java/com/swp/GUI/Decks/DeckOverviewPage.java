@@ -75,7 +75,20 @@ public class DeckOverviewPage extends Page
     public void loadDecks()
     {
         pDeckList.reset();
-        pDeckList.addDecks(DeckController.getInstance().getDecks());
+        DeckController.getInstance().getDecks(new DataCallback<>() {
+            @Override
+            public void onSuccess(List<Deck> data) {
+                pDeckList.addDecks(data);
+            }
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+            @Override
+            public void onInfo(String msg) {
+                NotificationGUI.addNotification(msg,Notification.NotificationType.INFO,5);
+            }
+        });
     }
     
     public void loadDecks(String searchterm)

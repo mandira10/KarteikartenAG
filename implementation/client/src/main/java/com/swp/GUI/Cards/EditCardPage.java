@@ -229,6 +229,7 @@ public class EditCardPage extends Page
             }
         });
 
+        //TODO: bitte umändern, dass statt null leere Liste übergeben wird
         CardController.getInstance().setTagsToCard(pNewCard, pTagList.getTagUserptrs(), new SingleDataCallback<Boolean>() {
             @Override public void onSuccess(Boolean data) {}
 
@@ -238,6 +239,8 @@ public class EditCardPage extends Page
             }
         });
 
+        //TODO: bitte umändern, dass statt null leere Liste übergeben wird
+        //TODO: Categories werden auf Kartendetailseite nicht angezeigt?
         CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories, new SingleDataCallback<Boolean>() {
             @Override public void onSuccess(Boolean data) {}
 

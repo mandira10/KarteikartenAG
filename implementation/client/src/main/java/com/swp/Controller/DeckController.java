@@ -2,6 +2,7 @@ package com.swp.Controller;
 
 import com.swp.DataModel.*;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.DeckLogic;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +23,19 @@ public class DeckController
 
     private final DeckLogic deckLogic = DeckLogic.getInstance();
 
-    public List<Deck> getDecks() {
-        return deckLogic.getDecks();
+    public void getDecks(DataCallback<Deck> dataCallback) {
+
+       try {
+           List<Deck> decks = deckLogic.getDecks();
+           if (decks.isEmpty()) {
+               dataCallback.onInfo("Es gibt derzeit Decks");
+           }
+
+           dataCallback.onSuccess(decks);
+       }
+       catch(Exception ex){
+           dataCallback.onFailure(ex.getMessage());
+               }
     }
 
     /**
@@ -115,7 +127,7 @@ public class DeckController
      * @param deck
      */
   public void addCardsToDeck(List<Card> cards, Deck deck, SingleDataCallback<Boolean> singleDataCallback){
-        try{deckLogic.addCardsTodeck(cards,deck);}
+        try{deckLogic.addCardsToDeck(cards,deck);}
         catch(Exception ex){
             singleDataCallback.onFailure(ex.getMessage());
         }
@@ -161,12 +173,6 @@ public class DeckController
 
 
 
-    public void updateStudySystemData(Deck deck, StudySystem system, SingleDataCallback<Boolean> singleDataCallback) {
-       try{deckLogic.updateStudySystem(deck, system);}
-       catch(Exception ex){
-           singleDataCallback.onFailure(ex.getMessage());
-       }
-    } //TODO NEEDED? or directly in Deck Update?
 
     public void createCardToDeck(Card card, Deck deck,  SingleDataCallback<Boolean> singleDataCallback) {
         try{deckLogic.createCardToDeck(card, deck);}

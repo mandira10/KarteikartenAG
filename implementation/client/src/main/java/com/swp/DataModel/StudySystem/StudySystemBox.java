@@ -20,7 +20,7 @@ public class StudySystemBox implements Serializable
 
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Card> boxContent;
 
 

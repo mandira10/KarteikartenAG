@@ -30,6 +30,7 @@ public class DeckTest {
         StudySystem studySystem = new LeitnerSystem(deck);
         studySystem.moveAllCardsForDeckToFirstBox(cards);
         deckLogic.updateDeckData(null, deck, true);
+        List<Deck> decks = deckLogic.getDecks();
     }
 
 }

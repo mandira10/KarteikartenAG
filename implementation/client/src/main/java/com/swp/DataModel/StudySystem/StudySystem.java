@@ -37,7 +37,6 @@ public abstract class StudySystem implements Serializable
      * Zugehöriges Deck für das System
      */
     @OneToOne
-    @JoinColumn (name="deck")
     protected Deck deck;
 
     /**
@@ -68,8 +67,8 @@ public abstract class StudySystem implements Serializable
      */
     public StudySystem(Deck deck, StudySystemType type, int nboxes)
     {
-        this.deck = deck;
-        deck.setStudySystem(this);
+        if(deck!=null) this.deck = deck;
+        if(deck!=null) deck.setStudySystem(this);
         this.type = type;
         initStudySystemBoxes(nboxes);
         this.id = UUID.randomUUID().toString();

@@ -2,13 +2,17 @@ package com.swp.GUI.Decks;
 
 import java.util.List;
 
+import clojure.lang.IFn;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.swp.Controller.DataCallback;
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.ConfirmationGUI;
@@ -58,7 +62,20 @@ public class DeckSelectPage extends Page
     {
         alCards = cards;
         pDeckList.reset();
-        pDeckList.addDecks(DeckController.getInstance().getDecks());
+        DeckController.getInstance().getDecks(new DataCallback<>() {
+            @Override
+            public void onSuccess(List<Deck> data) {
+                pDeckList.addDecks(data);
+            }
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+            @Override
+            public void onInfo(String msg) {
+                NotificationGUI.addNotification(msg,Notification.NotificationType.INFO,5);
+            }
+        });
     }
     
     private void selectDeck(Deck deck)

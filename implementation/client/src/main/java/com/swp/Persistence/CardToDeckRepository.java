@@ -42,8 +42,10 @@ public class CardToDeckRepository extends BaseRepository<CardToDeck> {
     }
 
     public List<CardToDeck> getAllC2DForDeck(Deck deck) {
-      //TODO
-        return null;
+        return getEntityManager()
+                .createNamedQuery("CardToDeck.allC2DByDeck", CardToDeck.class)
+                .setParameter("deck", deck)
+                .getResultList();
     }
 
     public static CardToDeck getSpecific(Card card, Deck deck) {
