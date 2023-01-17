@@ -104,6 +104,18 @@ public class Deck implements Serializable
         this.visibility = visibile;
     }
 
+    /**
+     * Konstruktor, falls für Deck noch kein StudySystem vorliegt bei Anlage.
+     * @param name Name des Decks
+     */
+    public Deck(String name, CardOrder cardOrder, boolean visibility)
+    {
+        this.uuid = UUID.randomUUID().toString();
+        this.name =  name;
+        this.cardOrder = cardOrder;
+        this.visibility = visibility;
+    }
+
 
     @Override
     public boolean equals(Object o){

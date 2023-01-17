@@ -44,7 +44,7 @@ public abstract class StudySystem implements Serializable
      * Einzelne Boxen des Systems, die Karten enthalten
      */
     @OneToMany (mappedBy = "studySystem",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    protected List<StudySystemBox> boxes; //ArrayList funktioniet nicht, man muss generelle Typen nehmen
+    protected List<StudySystemBox> boxes = new ArrayList<>(); //ArrayList funktioniert nicht, man muss generelle Typen nehmen
 
     /**
      * Zugehöriger Typ des Systems
@@ -69,9 +69,9 @@ public abstract class StudySystem implements Serializable
     public StudySystem(Deck deck, StudySystemType type, int nboxes)
     {
         this.deck = deck;
+        deck.setStudySystem(this);
         this.type = type;
-        //this.boxes = initArray(nboxes);
-        this.boxes = new ArrayList<StudySystemBox>(nboxes);
+        initStudySystemBoxes(nboxes);
         this.id = UUID.randomUUID().toString();
     }
 
@@ -85,13 +85,9 @@ public abstract class StudySystem implements Serializable
      * @param size: Übergebene Anzahl der Boxen für das StudySystem
      * @return Boxliste des StudySystems
      */
-    private ArrayList<Set<Card> > initArray(int size)
-    {
-        ArrayList<Set<Card> > retArr = new ArrayList<>();
-        for(int i = 0; i < size; i++)
-            retArr.add(new HashSet<Card>());
-
-        return retArr;
+    private void  initStudySystemBoxes(int size) {
+        for (int i = 0; i < size; i++)
+          this.boxes.add(new StudySystemBox(this));
     }
 
     /**

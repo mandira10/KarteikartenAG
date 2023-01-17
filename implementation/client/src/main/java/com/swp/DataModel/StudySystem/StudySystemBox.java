@@ -8,10 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Setter
@@ -19,7 +16,7 @@ import java.util.Set;
 public class StudySystemBox implements Serializable
 {
     @Id
-    private long id;
+    private String id;
 
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
@@ -35,15 +32,21 @@ public class StudySystemBox implements Serializable
      * Konstruktor um eine neue interne Box für ein Lernsystem anzulegen.
      *
      */
-    public StudySystemBox(LinkedHashSet<Card> cards) {
+    public StudySystemBox(StudySystem studySystem, LinkedHashSet<Card> cards) {
         this.boxContent = cards;
+    }
+    public StudySystemBox(StudySystem studySystem) {
+        this.id = UUID.randomUUID().toString();
+        this.studySystem = studySystem;
+        this.boxContent = new HashSet<>();
     }
 
     /**
      * Konstruktor um eine neue leere Box zu erstellen
      */
     public StudySystemBox() {
-        this.boxContent = Collections.emptySet();
+        this.id = UUID.randomUUID().toString();
+        this.boxContent = new HashSet<>();
     }
 
     /**
