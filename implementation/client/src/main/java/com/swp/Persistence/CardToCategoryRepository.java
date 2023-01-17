@@ -33,4 +33,6 @@ public class CardToCategoryRepository extends BaseRepository<CardToCategory> {
                 .setParameter("category", cat)
                 .getSingleResult();
     }
+
+    //TODO: getAllC2CForCard
 }

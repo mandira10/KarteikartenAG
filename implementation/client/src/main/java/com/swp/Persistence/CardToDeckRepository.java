@@ -1,6 +1,8 @@
 package com.swp.Persistence;
 
-import com.swp.DataModel.CardToDeck;
+import com.swp.DataModel.*;
+
+import java.util.List;
 
 public class CardToDeckRepository extends BaseRepository<CardToDeck> {
     private CardToDeckRepository() {
@@ -15,4 +17,43 @@ public class CardToDeckRepository extends BaseRepository<CardToDeck> {
             cardToDeckRepository = new CardToDeckRepository();
         return cardToDeckRepository;
     }
+
+    /**
+     * Die Funktion `createCardToDeck` erstellt eine neues `CardToDecl`, welches eine Karte mit einem Tag in
+     * Verbindung setzt und persistiert dieses in der Datenbank.
+     * @param card eine Karte, der ein Tag zugeordnet werden soll
+     * @param deck ein Tag, der der Karte zugeordnet werden soll
+     */
+    public void createCardToDeck(Card card, Deck deck) {
+        getEntityManager().persist(new CardToDeck(card, deck));
+    }
+
+
+    public void removeCardToDeck(Card c, Deck deck) {
+        //TODO
+
+    }
+
+    public List<CardToDeck> getAllC2DForCard(Card card) {
+        return getEntityManager()
+                .createNamedQuery("CardToDeck.allC2DByCard", CardToDeck.class)
+                .setParameter("card", card)
+                .getResultList();
+    }
+
+    public List<CardToDeck> getAllC2DForDeck(Deck deck) {
+      //TODO
+        return null;
+    }
+
+    public static CardToDeck getSpecific(Card card, Deck deck) {
+//        return getEntityManager()
+//                .createNamedQuery("CardToDeck.findSpecificC2C", CardToDeck.class)
+//                .setParameter("card", card)
+//                .setParameter("deck", deck)
+//                .getSingleResult();
+        //TODO
+        return null;
+    }
+
 }

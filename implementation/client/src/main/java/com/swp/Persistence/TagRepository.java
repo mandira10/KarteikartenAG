@@ -1,7 +1,10 @@
 package com.swp.Persistence;
 
+import com.swp.DataModel.Card;
 import com.swp.DataModel.Tag;
 import jakarta.persistence.NoResultException;
+
+import java.util.List;
 
 public class TagRepository extends BaseRepository<Tag> {
     private TagRepository() {
@@ -27,5 +30,17 @@ public class TagRepository extends BaseRepository<Tag> {
         return getEntityManager().createNamedQuery("Tag.findTagByName", Tag.class)
                 .setParameter("text", text)
                 .getSingleResult();
+    }
+
+    /**
+     * Die Funktion `getTagsToCard` liefer alle Tags zurück, die einer Karte zugeordnet sind.
+     * @param card eine Karte
+     * @return List<Tag> eine Liste von Tags, die der Karte zugeordnet sind.
+     */
+    public List<Tag> getTagsToCard(Card card) {
+        return getEntityManager()
+                .createNamedQuery("CardToTag.allTagsWithCards", Tag.class)
+                .setParameter("card", card)
+                .getResultList();
     }
 }

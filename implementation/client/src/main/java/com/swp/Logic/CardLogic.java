@@ -21,6 +21,7 @@ public class CardLogic extends BaseLogic<Card>
 
     private final CardRepository cardRepository = CardRepository.getInstance();
     private final TagRepository tagRepository = TagRepository.getInstance();
+    private final CardToTagRepository cardToTagRepository = CardToTagRepository.getInstance();
 
     private static CardLogic cardLogic;
     public static CardLogic getInstance() {
@@ -38,7 +39,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public List<Card> getCardsToShow(int begin, int end)
     {
-        return execTransactional(() -> CardRepository.getInstance().getCardRange(begin, end));
+        return execTransactional(() -> cardRepository.getCardRange(begin, end));
     }
 
     /**
@@ -77,7 +78,10 @@ public class CardLogic extends BaseLogic<Card>
             throw new IllegalStateException("Karte existiert nicht");
         }
         execTransactional(() -> {
-            CardRepository.getInstance().delete(card);
+            cardRepository.delete(card);
+            //TODO: lösche alle Card2Tags
+            //TODO: lösche alle Card2Decks
+            //TODO: lösche alle Card2Categories
             return null; // Lambda braucht immer einen return
         });
 
@@ -120,7 +124,7 @@ public class CardLogic extends BaseLogic<Card>
 
 
     public List<Tag> getTagsToCard(Card card) {
-        return execTransactional(() -> cardRepository.getTagsToCard(card));
+        return execTransactional(() -> tagRepository.getTagsToCard(card));
     }
 
     /**
@@ -136,9 +140,9 @@ public class CardLogic extends BaseLogic<Card>
         cardToChange.setContent();
         execTransactional(() -> {
             if (neu)
-                CardRepository.getInstance().save(cardToChange);
+                cardRepository.save(cardToChange);
             else
-                CardRepository.getInstance().update(cardToChange);
+                cardRepository.update(cardToChange);
             return true;
         });
     }
@@ -168,8 +172,8 @@ public class CardLogic extends BaseLogic<Card>
         for (Tag t : tagOld) {
             if (!tagNew.contains(t))
                 execTransactional(() -> {
-                    CardToTag c2t = CardToTagRepository.findSpecificCardToTag(card, t);
-                    CardToTagRepository.getInstance().delete(c2t);
+                    CardToTag c2t = cardToTagRepository.findSpecificCardToTag(card, t);
+                    cardToTagRepository.delete(c2t);
                     return null;
                 });
         }
@@ -187,10 +191,10 @@ public class CardLogic extends BaseLogic<Card>
                         t = tag;
                         log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", t.getVal());
                     } catch (NoResultException ex) {
-                        TagRepository.getInstance().save(t);
+                        tagRepository.save(t);
                     }
                     log.info("Tag {} wird zu Karte {} hinzugefügt", t.getUuid(), card.getUuid());
-                    cardRepository.createCardToTag(card, t);
+                    cardToTagRepository.createCardToTag(card, t);
                 }
             }
             return null;
@@ -213,8 +217,8 @@ public class CardLogic extends BaseLogic<Card>
 
     private void removeCardToTag(Card c, Tag t) {
         execTransactional(() -> {
-            CardToTagRepository.getInstance().delete(
-                    CardToTagRepository.findSpecificCardToTag(c, t));
+            cardToTagRepository.delete(
+                    cardToTagRepository.findSpecificCardToTag(c, t));
             return null; // Lambda braucht einen return
         });
     }

@@ -4,8 +4,11 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.swp.Controller.DataCallback;
 import com.swp.Controller.DeckController;
 import com.swp.DataModel.Deck;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardExportPage;
@@ -14,6 +17,8 @@ import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.DeckList.DeckListCallback;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
+
+import java.util.List;
 
 public class DeckOverviewPage extends Page
 {
@@ -76,7 +81,23 @@ public class DeckOverviewPage extends Page
     public void loadDecks(String searchterm)
     {
         pDeckList.reset();
-        pDeckList.addDecks(DeckController.getInstance().getDecksBySearchterm(searchterm));
+
+                DeckController.getInstance().getDecksBySearchterm(searchterm, new DataCallback<Deck>() {
+                    @Override
+                    public void onSuccess(List<Deck> data) {
+                        pDeckList.addDecks(data);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                    }
+
+                    @Override
+                    public void onInfo(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.INFO, 5);
+                    }
+                });
     }
 
     private void exportCards()

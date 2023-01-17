@@ -3,7 +3,10 @@ package com.swp.GUI.Decks;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.swp.Controller.DeckController;
+import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 
 public class EditStudySystemPage extends RenderGUI
 {
@@ -22,6 +25,15 @@ public class EditStudySystemPage extends RenderGUI
 
     private void applyChanges()
     {
-        DeckController.getInstance().addStudySystemTypeAndUpdate(pCurrentType);
+        DeckController.getInstance().addStudySystemTypeAndUpdate(pCurrentType, new SingleDataCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean data) {
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+        });
     }
 }

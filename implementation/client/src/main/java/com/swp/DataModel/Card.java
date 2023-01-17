@@ -9,8 +9,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-import static com.swp.Validator.checkNotNullOrBlank;
-
 /**
  * Abstrakte Superklasse für die Karten. Enthält die einzelnen Kartentypen sowie
  * weitere generische Eigenschaften jeder Karte, die alle Untertypen erben.

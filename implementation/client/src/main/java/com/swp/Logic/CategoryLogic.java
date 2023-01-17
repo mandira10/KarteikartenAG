@@ -200,7 +200,7 @@ public class CategoryLogic extends BaseLogic<Category>
         for (Category c : catOld) {
             if (!catNew.contains(c))
                 if (cardOrCategory instanceof Card card) {
-                    CardToCategoryRepository.getInstance().delete(CardToCategoryRepository.getSpecific(card, c));
+                    cardToCategoryRepository.delete(cardToCategoryRepository.getSpecific(card, c));
                 } else if (cardOrCategory instanceof Category category && !child) {
                     categoryRepository.deleteCategoryHierarchy(c, category);
                 } else if (cardOrCategory instanceof Category category) {

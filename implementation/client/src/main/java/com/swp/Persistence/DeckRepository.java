@@ -32,28 +32,6 @@ public class DeckRepository extends BaseRepository<Deck>
         return deckRepository;
     }
 
-    public boolean saveDeck(Deck deck)
-    {
-        //server.send("/createdeck", jsonString);
-        return false;
-    }
-
-    /**
-     *
-     * @param deck
-     */
-    public boolean updateDeck(Deck deck)
-    {
-
-        //server.send("/updatedeckdata", jsonString);
-        return false;
-    }
-
-    public boolean deleteDeck(Deck deck)
-    {
-        //CARDTODECK ebenso löschen, wenn hier
-        return false;
-    }
 
     public List<Deck> getDecks()
     {
@@ -143,51 +121,27 @@ public class DeckRepository extends BaseRepository<Deck>
     //
     // StudySystem
     //
-    public boolean updateStudySystem(Deck deck, StudySystem system)
+    public void updateStudySystem(Deck deck, StudySystem system)
     {
-
-        //server.send("/updatestudysystem", jsonString);
-        return false;
+        //TODO needed?
     }
 
-    public boolean addStudySystemType(StudySystem.StudySystemType type)
-    {
-        //True if successfully added to cache
-        return false;
+
+    /**
+     * Die Funktion `findDecksContaining` durchsucht die Namen aller Decks.
+     * Es werden alle Decks zurückgegeben, die den übergebenen Suchtext als Teilstring im Namen enthalten.
+     * @param searchWords ein String nach dem in den Namen gesucht werden soll.
+     * @return Set<Deck> eine Menge von Deck, welche `searchWords` als Teilstring im Inhalt hat.
+     */
+    public List<Deck> findDecksContaining(String searchWords) {
+        return getEntityManager()
+                .createNamedQuery("Deck.findDecksByContent", Deck.class)
+                .setParameter("name", "%" + searchWords + "%")
+                .getResultList();
     }
 
-    public boolean updateStudySystemTypes()
-    {
 
-        //server.send("/updatestudysystemtypes", jsonString);
-        return false;
-    }
-    
-    public StudySystem getStudySystem(Deck deck)
-    {
-        //server.send("/getstudysystem", jsonString);
-        return null;
-    }
 
-    public List<Card> getCardsInDeck(Deck deck) {
-        //TODO
-        return null;
-    }
-
-    public boolean createCardToDeck(Card card, Deck deck) {
-        //TODO
-        return false;
-    }
-
-    public List<Deck> getDecksWithSearchterm(String searchterm) {
-        //TODO
-        return null;
-    }
-
-    public void removeCardToDeck(Card c, Deck deck) {
-        //TODO
-
-    }
 
     public Deck getDeckByUUID(String uuid) {
         //TODO
@@ -197,5 +151,9 @@ public class DeckRepository extends BaseRepository<Deck>
     public boolean updateDeckCards(Deck deck){
         //TODO
         return false;
+    }
+
+    public List<Deck> findDecksByCard(Card card) {
+        return new ArrayList<>();
     }
 }

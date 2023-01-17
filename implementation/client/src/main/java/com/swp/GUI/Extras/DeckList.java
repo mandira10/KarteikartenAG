@@ -13,6 +13,7 @@ import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.io.Mouse;
 import com.swp.Controller.DeckController;
+import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Deck;
 
 public class DeckList extends RenderGUI
@@ -53,10 +54,21 @@ public class DeckList extends RenderGUI
             iconText.setCharacterHeight(30);
             iconText.setColor(new vec4(0.13f, 0.13f, 0.14f, 1));
 
-            int numCards = DeckController.getInstance().numCardsInDeck(deck);
-            if(numCards > 0)
+            final int[] numCards = {0};
+                    DeckController.getInstance().numCardsInDeck(deck, new SingleDataCallback<Integer>() {
+                        @Override
+                        public void onSuccess(Integer data) {
+                            numCards[0] = data;
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+                        //do nothing
+                        }
+                    });
+            if(numCards[0] > 0)
             {
-                numcardsText.setString("Cards: " + numCards);
+                numcardsText.setString("Cards: " + numCards[0]);
                 iconText.setString("");
             }
             else

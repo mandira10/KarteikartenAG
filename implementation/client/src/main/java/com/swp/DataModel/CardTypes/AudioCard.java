@@ -7,10 +7,6 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.sound.sampled.AudioFileFormat;
-
-import java.nio.ByteBuffer;
-
 import static com.swp.Validator.checkNotNullOrBlank;
 
 /**

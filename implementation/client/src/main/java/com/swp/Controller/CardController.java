@@ -5,6 +5,7 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter.ExportFileType;
+import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -66,7 +67,7 @@ public class CardController {
 
         } catch (IllegalArgumentException ex) {
             callback.onFailure(ex.getMessage()); //übergebener wert ist leer
-        } catch (final NullPointerException ex) {
+        } catch (final NoResultException ex) {
             callback.onFailure(ex.getMessage());
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit Tag {} ist ein Fehler {} aufgetreten", tag
@@ -151,10 +152,14 @@ public class CardController {
     public void getCardByUUID(String uuid, SingleDataCallback<Card> singleDataCallback) {
         try {
             singleDataCallback.onSuccess(cardLogic.getCardByUUID(uuid));
-        } catch (IllegalArgumentException ex) {//überrgebener Wert ist leer
+        }  catch (IllegalArgumentException ex) {//übergebener Wert ist leer
             singleDataCallback.onFailure(ex.getMessage());
-        } catch (Exception ex) {
-            singleDataCallback.onFailure(ex.getMessage());
+        }
+        catch(NoResultException ex){
+            singleDataCallback.onFailure("Es konnte kein Deck zur UUID gefunden werden");
+        }
+        catch(Exception ex){
+            singleDataCallback.onFailure("Beim Abrufen des Decks ist ein Fehler aufgetreten");
         }
     }
 

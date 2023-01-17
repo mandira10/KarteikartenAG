@@ -2,6 +2,8 @@ package com.swp.Persistence;
 import com.swp.DataModel.*;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -132,28 +134,9 @@ public class CardRepository extends BaseRepository<Card>
                 .getResultList();
     }
 
-    /**
-     * Die Funktion `createCardToTag` erstellt eine neues `CardToTag`, welches eine Karte mit einem Tag in
-     * Verbindung setzt und persistiert dieses in der Datenbank.
-     * @param card eine Karte, der ein Tag zugeordnet werden soll
-     * @param tag ein Tag, der der Karte zugeordnet werden soll
-     */
-    public void createCardToTag(Card card, Tag tag) {
-        getEntityManager().persist(new CardToTag(card, tag));
+
+    public List<Card> getCardsToDeck(Deck deck) {
+        return new ArrayList<>();
+        //TODO
     }
-
-    /**
-     * Die Funktion `getTagsToCard` liefer alle Tags zurück, die einer Karte zugeordnet sind.
-     * @param card eine Karte
-     * @return List<Tag> eine Liste von Tags, die der Karte zugeordnet sind.
-     */
-    public List<Tag> getTagsToCard(Card card) {
-        return getEntityManager()
-                .createNamedQuery("CardToTag.allTagsWithCards", Tag.class)
-                .setParameter("card", card)
-                .getResultList();
-    }
-
-    //TODO: bräuchten noch eine Funktion die alle CategoryHierarchy Elemente einer Kategorie zurückgeben, damit die dann alle gelöscht werden können.
-
 }

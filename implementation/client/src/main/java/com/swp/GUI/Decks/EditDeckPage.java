@@ -10,8 +10,11 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Output;
 import com.swp.Controller.DeckController;
+import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 
@@ -76,7 +79,19 @@ public class EditDeckPage extends Page
         reposition();
     }
 
-    public void editDeck(String uuid) { editDeck(DeckController.getInstance().getDeckByUUID(uuid)); }
+    public void editDeck(String uuid) {
+
+            DeckController.getInstance().getDeckByUUID(uuid, new SingleDataCallback<Deck>() {
+                @Override
+                public void onSuccess(Deck data) {
+                    editDeck(data);
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                }
+            }); }
     public void editDeck(Deck deck)
     {
         if(deck == null)
