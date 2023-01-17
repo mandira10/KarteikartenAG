@@ -34,9 +34,18 @@ public class CardToCategoryRepository extends BaseRepository<CardToCategory> {
                 .getSingleResult();
     }
 
-    public CardToCategory getAllC2CForCard(Card card) {
-        //TODO
-        return null;
+    public List<CardToCategory> getAllC2CForCard(Card card) {
+        return getEntityManager()
+                .createNamedQuery("CardToCategory.allC2CByCard", CardToCategory.class)
+                .setParameter("card", card)
+                .getResultList();
+
+        //final SingularAttribute<CardToCategory,Card> attribute =
+        //        getEntityManager()
+        //        .getMetamodel()
+        //        .entity(CardToCategory.class)
+        //        .getSingularAttribute("card", Card.class);
+        //return findListBy(card, attribute);
     }
 
 

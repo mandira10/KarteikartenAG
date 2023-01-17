@@ -39,14 +39,32 @@ public class DeckRepository extends BaseRepository<Deck>
                 "ORDER BY d.name",Deck.class).getResultList();
     }
 
-    /* TODO
-    List<Deck> getDecksBySearchterm(String searchterm)
-    void removeCardsFromDeck(List<Card> cards, Deck deck)
-    Deck getDeckByUUID(String uuid)
-    Set<Card> getCardsInDeck(Deck deck)
-    int numCardsInDeck(Deck deck)
-    Set<StudySystemType> getStudySystemTypes()
-     */
+    //Todo Methode ggf löschen
+    public List<Deck> getDecksBySearchterm(String searchterm) {
+        // in einem Deck gibt es für searchterm eigentlich nur
+        // NAME und ggf. der Titel vom STUDYSYSTEM
+        // wäre äquivalent zu
+        return findDecksContaining(searchterm);
+    }
+
+    public Deck getDeckByUUID(String uuid) {
+        return getEntityManager()
+                .createNamedQuery("Deck.getDeckByUUID", Deck.class)
+                .setParameter("uuid", uuid)
+                .getSingleResult();
+        //final SingularAttribute<Deck,String> attribute =
+        //        getEntityManager()
+        //        .getMetamodel()
+        //        .entity(Deck.class)
+        //        .getSingularAttribute("uuid", String.class);
+        //return findListBy(uuid, attribute);
+    }
+
+    //Todo Methode ggf. löschen
+    public List<Card> getCardsInDeck(Deck deck) { return CardRepository.getInstance().findCardsByDeck(deck); }
+
+    // wahrscheinlich über ein Enum?
+    //public Set<StudySystemType> getStudySystemTypes() { }
 
     /**
      * Die Funktion `findDecksContaining` durchsucht die Namen aller Decks.
@@ -61,17 +79,11 @@ public class DeckRepository extends BaseRepository<Deck>
                 .getResultList();
     }
 
-
-
-
-    public Deck getDeckByUUID(String uuid) {
-        //TODO
-        return null;
-    }
-
-    public boolean updateDeckCards(Deck deck){
-        //TODO
-        return false;
+    public void updateDeckCards(Deck deck) {
+        //es gibt bereits im deckRepository.save(deck)
+        //wenn hier Karten zugefügt/gelöscht werden sollen, müssen die als Parameter übergeben werden
+        //CardToDeckRepository.getInstance().removeCardsFromDeck(cardList, deck);
+        //CardToDeckRepository.getInstance().createCardToDeck(card, deck);
     }
 
     public List<Deck> findDecksByCard(Card card) {

@@ -20,17 +20,28 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
 
     public void addStudySystemType(StudySystem.StudySystemType type)
     {
-        //TODO
+        //TODO klären ob Enum, oder DiscriminatorColumn, Column mit String, etc.
     }
 
     public void updateStudySystemTypes()
     {
-        //TODO
+        //TODO (siehe Todo in `addStudySystemType()`)
     }
 
     public StudySystem getStudySystem(Deck deck)
     {
-        //TODO
-        return null;
+        //wenn man schon das Deck hat, könnte man auch über den @Getter an `studySystem` Attribut kommen
+        return deck.getStudySystem();
+
+        //oder falls man nur die ID von dem Deck hat
+        //return getEntityManager()
+        //        .createNamedQuery("Deck.getStudySystemByUUID", StudySystem.class)
+        //        .setParameter("uuid", deck.getUuid())
+        //        .getSingleResult();
+
+        //return getEntityManager()
+        //        .createNamedQuery("Deck.getStudySystemForDeck", StudySystem.class)
+        //        .setParameter("deck", deck)
+        //        .getSingleResult();
     }
 }

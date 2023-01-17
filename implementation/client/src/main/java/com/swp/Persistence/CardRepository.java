@@ -68,10 +68,11 @@ public class CardRepository extends BaseRepository<Card>
                 .setParameter("tag", tag).getResultList();
     }
 
-    public List<Card> findCardsByDeck(Deck deck){
+    public List<Card> findCardsByDeck(Deck deck) {
         return getEntityManager()
                 .createNamedQuery("CardToDeck.allCardsWithDeck", Card.class)
-                .setParameter("deck", deck).getResultList();
+                .setParameter("deck", deck)
+                .getResultList();
     }
 
     /**

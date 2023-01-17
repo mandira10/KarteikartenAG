@@ -18,7 +18,9 @@ import com.swp.DataModel.StudySystem.StudySystem;
 @Getter
 @Setter
 @NamedQuery(name  = "Deck.findDecksByContent",
-        query = "SELECT d FROM Deck d WHERE LOWER(d.name) LIKE LOWER(:name)")
+            query = "SELECT d FROM Deck d WHERE LOWER(d.name) LIKE LOWER(:name)")
+@NamedQuery(name  = "Deck.getDeckByUUID",
+            query = "SELECT d FROM Deck d WHERE uuid = :uuid")
 public class Deck implements Serializable
 {
     /**

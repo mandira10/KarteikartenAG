@@ -12,14 +12,18 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NamedQuery(name = "CardToDeck.allC2DByCard",
+@NamedQuery(name  = "CardToDeck.allC2DByCard",
             query = "SELECT cd FROM CardToDeck cd WHERE cd.card = :card")
-@NamedQuery(name = "CardToDeck.allC2DByDeck",
-        query = "SELECT cd FROM CardToDeck cd WHERE cd.deck = :deck")
-@NamedQuery(name = "CardToDeck.allCardsWithDeck",
-        query = "SELECT cd.card FROM CardToDeck cd WHERE cd.deck = :deck")
-@NamedQuery(name = "CardToDeck.allDecksWithCard",
-        query = "SELECT cd.deck FROM CardToDeck cd WHERE cd.card = :card")
+@NamedQuery(name  = "CardToDeck.allC2DByDeck",
+            query = "SELECT cd FROM CardToDeck cd WHERE cd.deck = :deck")
+@NamedQuery(name  = "CardToDeck.allCardsWithDeck",
+            query = "SELECT cd.card FROM CardToDeck cd WHERE cd.deck = :deck")
+@NamedQuery(name  = "CardToDeck.allDecksWithCard",
+            query = "SELECT cd.deck FROM CardToDeck cd WHERE cd.card = :card")
+@NamedQuery(name  = "CardToDeck.findSpecificC2C",
+            query = "SELECT cd FROM CardToDeck cd WHERE cd.card = :card AND cd.deck = :deck")
+@NamedQuery(name  = "CardToDeck.numCardsInDeck",
+            query = "SELECT count(*) FROM CardToDeck cd WHERE cd.deck =: deck")
 public class CardToDeck implements Serializable
 {
     /**

@@ -28,10 +28,25 @@ public class CardToDeckRepository extends BaseRepository<CardToDeck> {
         getEntityManager().persist(new CardToDeck(card, deck));
     }
 
+    public int numCardsInDeck(Deck deck) {
+        return getEntityManager()
+                .createNamedQuery("CardToDeck.numCardsInDeck", int.class)
+                .setParameter("deck", deck)
+                .getSingleResult();
+    }
 
-    public void removeCardToDeck(Card c, Deck deck) {
-        //TODO
+    public void removeCardsFromDeck(List<Card> cards, Deck deck) {
+        //Todo gucken ob es so etwas in der Art gibt "WHERE ANY :cards = card"
+        //ansonsten erstmal sowas (sollte aber auch eher in die Logic)
+        for (final Card card : cards) {
+            removeCardToDeck(card, deck);
+        }
+    }
 
+    public void removeCardToDeck(Card card, Deck deck) {
+        // darf man sowas machen, oder dann eher im execTransactional von der Logic
+        // oder lieber über eigene Query für so einen Fall?
+        cardToDeckRepository.delete(cardToDeckRepository.getSpecific(card, deck));
     }
 
     public List<CardToDeck> getAllC2DForCard(Card card) {
@@ -48,14 +63,12 @@ public class CardToDeckRepository extends BaseRepository<CardToDeck> {
                 .getResultList();
     }
 
-    public static CardToDeck getSpecific(Card card, Deck deck) {
-//        return getEntityManager()
-//                .createNamedQuery("CardToDeck.findSpecificC2C", CardToDeck.class)
-//                .setParameter("card", card)
-//                .setParameter("deck", deck)
-//                .getSingleResult();
-        //TODO
-        return null;
+    public CardToDeck getSpecific(Card card, Deck deck) {
+        return getEntityManager()
+                .createNamedQuery("CardToDeck.findSpecificC2C", CardToDeck.class)
+                .setParameter("card", card)
+                .setParameter("deck", deck)
+                .getSingleResult();
     }
 
 }
