@@ -1,7 +1,9 @@
 package com.swp.DataModel.CardTypes;
 
+import com.swp.DataModel.BooleanConverter;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -23,6 +25,7 @@ public class TrueFalseCard extends Card
      * Antwort der Karte
      */
     @Column
+    @Convert(converter = BooleanConverter.class)
     private boolean answer;
 
     /**
