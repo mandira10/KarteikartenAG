@@ -2,13 +2,7 @@ package com.swp.DataModel.StudySystem;
 
 import com.swp.DataModel.Card;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Setter
+@Getter
 public class StudySystemBox implements Serializable
 {
     @Id
@@ -27,16 +23,13 @@ public class StudySystemBox implements Serializable
 
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
-    //@ElementCollection
-    //@CollectionTable(name = "parent_uuids", joinColumns = @JoinColumn(name = "uuid"))
-    //@Column(name = "content")
     @OneToMany
-    //@JoinColumn(name = "card_uuid")
-    //@CollectionOfElements
-    //@ElementCollection
-    //@CollectionTable(name = "boxcontent", joinColumns = @JoinColumn(name = "uuid")) // 2
-    //@Column(name = "contentlist") // 3
     private Set<Card> boxContent;
+
+
+    @ManyToOne
+    @JoinColumn(name = "studySystem")
+    private StudySystem studySystem;
 
     /**
      * Konstruktor um eine neue interne Box für ein Lernsystem anzulegen.

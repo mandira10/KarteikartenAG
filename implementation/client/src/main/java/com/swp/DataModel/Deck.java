@@ -17,6 +17,8 @@ import com.swp.DataModel.StudySystem.StudySystem;
 @Table
 @Getter
 @Setter
+@NamedQuery(name  = "Deck.findDecksByContent",
+        query = "SELECT d FROM Deck d WHERE LOWER(d.name) LIKE LOWER(:name)")
 public class Deck implements Serializable
 {
     /**
@@ -39,15 +41,15 @@ public class Deck implements Serializable
      * UUID des Decks
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column
     @Setter(AccessLevel.NONE)
     private final String uuid;
 
     /**
      * Gewähltes StudySystem für das spezifische Deck
+     * Alle Aktionen vom Deck werden an das StudySystem weitergegeben.
      */
-    @Column
+    @OneToOne (mappedBy = "deck", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private StudySystem studySystem;
 
     /**
@@ -97,6 +99,7 @@ public class Deck implements Serializable
         this.uuid = UUID.randomUUID().toString();
         this.name =  name;
         this.studySystem = studySystem;
+        studySystem.setDeck(this);
         this.cardOrder = cardOrder;
         this.visibility = visibile;
     }

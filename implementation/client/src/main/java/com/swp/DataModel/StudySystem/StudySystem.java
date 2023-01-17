@@ -1,13 +1,13 @@
 package com.swp.DataModel.StudySystem;
 
-import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import java.io.Serializable;
-import java.util.*;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Abstrakte Superklasse für das StudySystem von der die einzelnen
@@ -31,20 +31,20 @@ public abstract class StudySystem implements Serializable
      * Primärer Schlüssel für die persistierten `StudySysteme`
      */
     @Id
-    //@GeneratedValue
     private final String id;
 
     /**
      * Zugehöriges Deck für das System
      */
     @OneToOne
+    @JoinColumn (name="deck")
     protected Deck deck;
 
     /**
      * Einzelne Boxen des Systems, die Karten enthalten
      */
-    @OneToMany//(mappedBy = "studySystem")
-    protected ArrayList<StudySystemBox> boxes;
+    @OneToMany (mappedBy = "studySystem",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    protected List<StudySystemBox> boxes; //ArrayList funktioniet nicht, man muss generelle Typen nehmen
 
     /**
      * Zugehöriger Typ des Systems
