@@ -46,7 +46,12 @@ public class CardToDeckRepository extends BaseRepository<CardToDeck> {
     public void removeCardToDeck(Card card, Deck deck) {
         // darf man sowas machen, oder dann eher im execTransactional von der Logic
         // oder lieber über eigene Query für so einen Fall?
-        cardToDeckRepository.delete(cardToDeckRepository.getSpecific(card, deck));
+        //cardToDeckRepository.delete(cardToDeckRepository.getSpecific(card, deck));
+        getEntityManager()
+                .createNamedQuery("CardToDeck.removeCardToDeck", CardToDeck.class)
+                .setParameter("card", card)
+                .setParameter("deck", deck)
+                .executeUpdate();
     }
 
     public List<CardToDeck> getAllC2DForCard(Card card) {
