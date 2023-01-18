@@ -179,7 +179,7 @@ public class CardController {
     }
 
     /**
-     * Wird verwendet, um Data für eine Karte aktualisieren. Wird an die CardLogic weitergegeben.
+     * Wird verwendet, um Data für eine Karte zu aktualisieren. Wird an die CardLogic weitergegeben.
      *
      * @param cardToChange: die Karte zu aktualisieren
      * @param neu: Ob, die Karte neue oder nicht ist zu verstehen
