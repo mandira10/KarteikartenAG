@@ -60,8 +60,9 @@ public class CategoryRepository extends BaseRepository<Category> {
      * @param category die zu löschende Kategorie.
      * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
      */
-    public void deleteCategory(Category category) {
+    public boolean deleteCategory(Category category) {
         getInstance().delete(category);
+        return true;
     }
 
     /**
