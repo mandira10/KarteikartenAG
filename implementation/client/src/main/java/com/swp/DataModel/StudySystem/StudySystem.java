@@ -80,12 +80,9 @@ public abstract class StudySystem implements Serializable
     }
 
     /**
-     * Konstruktor der Klasse StudySystem
-     * @param ...
-     * @param type: Typ des StudySystems
-     * @param nboxes: Anzahl der Boxen für das StudySystem
+    * //TODO
      */
-    public StudySystem(String name,CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility)
+    public StudySystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility)
     {
         this.id = UUID.randomUUID().toString();
         this.cardOrder = cardOrder;

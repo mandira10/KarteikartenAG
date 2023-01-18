@@ -28,7 +28,7 @@ public class StudySystemController{
     public void moveCardToBox(StudySystem studySystem, Card card, int boxindex, SingleDataCallback<Boolean> singleDataCallback)
     {
         studySystemLogic.moveCardToBox(studySystem,card,boxindex);
-        studySystem.setPointQuestion();
+        //studySystem.setPointQuestion();
     }
 
     public void moveAllCardsForDeckToFirstBox(List<Card> cards) {
@@ -82,7 +82,7 @@ public class StudySystemController{
      */
     public Card getNextCard(int index)
     {
-
+        return null;
     }
 
     //NEEDS TO BE IMPLEMENTED
@@ -91,4 +91,4 @@ public class StudySystemController{
         return (float)Math.random();  //Should return percentage as: 0.0 ... 1.0
     }
 }
-}
+

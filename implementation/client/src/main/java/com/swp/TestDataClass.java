@@ -359,7 +359,7 @@ public class TestDataClass {
 
         //TestData For Decks
 
-        Deck deck1 = new Deck("Spanisch", Deck.CardOrder.ALPHABETICAL,false);
+        /*Deck deck1 = new Deck("Spanisch", Deck.CardOrder.ALPHABETICAL,false);
         StudySystem studySystem1 = new LeitnerSystem(deck1);
         studySystem1.moveAllCardsForDeckToFirstBox(spanischL);
         deckLogic.updateDeckData(null, deck1, true);
@@ -378,7 +378,7 @@ public class TestDataClass {
         Deck deck5 = new Deck("Serien", Deck.CardOrder.RANDOM,false);
         StudySystem studySystem5 = new LeitnerSystem(deck5);
         studySystem5.moveAllCardsForDeckToFirstBox(serien);
-        deckLogic.updateDeckData(null, deck5, true);
+        deckLogic.updateDeckData(null, deck5, true);*/
 
 
         //TestData for Hierarchy

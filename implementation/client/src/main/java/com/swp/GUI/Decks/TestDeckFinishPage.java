@@ -46,7 +46,7 @@ public class TestDeckFinishPage extends Page
     public void setDeck(Deck deck)
     {
         this.pDeck = deck;
-        pFinishText.setString("Your final score is: " + pDeck.getStudySystem().getResult());
+        pFinishText.setString("Your final score is: " + 0); //pDeck.getStudySystem().getResult());//TODO
 
         resize();
         reposition();

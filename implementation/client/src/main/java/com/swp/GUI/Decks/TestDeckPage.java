@@ -57,7 +57,7 @@ public class TestDeckPage extends Page
             @Override public void run(int rating) 
             {
                 bNextCardAllowed = true;
-                pDeck.getStudySystem().giveRating(rating);
+                //pDeck.getStudySystem().giveRating(rating);//TODO
             }
         });
         optionsMenu.addGUI(ratingGUI);
@@ -81,7 +81,7 @@ public class TestDeckPage extends Page
                     bNextCardAllowed = true;
                     bStopTime = true;
 
-                    pDeck.getStudySystem().giveAnswer(pTestGUI.checkAnswers());
+                    //pDeck.getStudySystem().giveAnswer(pTestGUI.checkAnswers());//TODO
                     switch(pDeck.getStudySystem().getType())
                     {
                         case VOTE:   
@@ -90,7 +90,7 @@ public class TestDeckPage extends Page
                             break;
 
                         case TIMING: 
-                            pDeck.getStudySystem().giveTime((int)fElapsedSeconds);
+                            //pDeck.getStudySystem().giveTime((int)fElapsedSeconds);//TODO
                             break;
 
                         default:
@@ -128,14 +128,14 @@ public class TestDeckPage extends Page
         this.bStopTime = false;
         pCanvas.destroyChildren();
 
-        Card nextCard = pDeck.getStudySystem().getNextCard(0);
-        if(nextCard == null)
-        {
-            finishTest();
-            return;
-        }
+        //Card nextCard = pDeck.getStudySystem().getNextCard(0);//TODO
+//        if(nextCard == null)
+//        {
+//            finishTest();
+//            return;
+//        }
 
-        pTestGUI = new TestCardGUI(nextCard);
+       // pTestGUI = new TestCardGUI(nextCard);//TODO
         pCanvas.addGUI(pTestGUI);
         reposition();
         resize();
@@ -143,7 +143,7 @@ public class TestDeckPage extends Page
 
     private void finishTest()
     {
-        pDeck.getStudySystem().finishTest();
+        //pDeck.getStudySystem().finishTest();//TODO
         ((TestDeckFinishPage)PageManager.viewPage(PAGES.DECK_TEST_FINAL)).setDeck(pDeck);
     }
 

@@ -42,7 +42,7 @@ public class DeckList extends RenderGUI
             Text numcardsText = new Text("", defaultFont, new ivec2(10, 50), 0);
             numcardsText.setCharacterHeight(35);
 
-            int percentage = (int)(deck.getStudySystem().getProgress() * 100.0f);
+            int percentage = (int)(0); //(deck.getStudySystem().getProgress() * 100.0f);//TODO
             Text progressText = new Text("Progress: " + percentage + "%", defaultFont, new ivec2(100, 10), 0);
             progressText.setPositionInPercent(true, false);
             progressText.setCharacterHeight(35);

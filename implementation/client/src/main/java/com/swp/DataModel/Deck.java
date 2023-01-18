@@ -74,7 +74,7 @@ public class Deck implements Serializable
     public Deck()
     {
         this("", null, CardOrder.ALPHABETICAL, false);
-        studySystem = new LeitnerSystem(this);
+       // studySystem = new LeitnerSystem(this);
     }
 
     /**

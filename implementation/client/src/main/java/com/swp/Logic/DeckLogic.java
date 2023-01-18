@@ -91,9 +91,9 @@ public class DeckLogic extends BaseLogic<Deck>
         if(neu) {
              deckRepository.save(newdeck);
                  //nach Saven müssen alle CardToDecks erstellt werden, Handling tbd.
-                 for(Card c : newdeck.getStudySystem().getAllCardsInStudySystem()){
-                     cardToDeckRepository.createCardToDeck(c,newdeck);
-                 }
+                // for(Card c : newdeck.getStudySystem().getAllCardsInStudySystem()){
+                //     cardToDeckRepository.createCardToDeck(c,newdeck);
+                 //}
         }
 
         else if(!neu && newdeck.getStudySystem().equals(olddeck.getStudySystem()))
