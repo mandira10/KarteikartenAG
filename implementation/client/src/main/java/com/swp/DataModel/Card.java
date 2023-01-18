@@ -49,7 +49,6 @@ public abstract class Card implements Serializable
      * UUID der Karte
      */
     @Id
-    //@GeneratedValue(strategy = GenerationType.UUID) //TODO: Führt zu Problemen beim Persistieren
     @Column
     @Setter(AccessLevel.NONE)
     protected final String uuid;

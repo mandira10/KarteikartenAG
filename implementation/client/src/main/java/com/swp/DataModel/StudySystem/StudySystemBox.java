@@ -21,24 +21,23 @@ public class StudySystemBox implements Serializable
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
     @OneToMany(fetch = FetchType.EAGER)
-    private Set<Card> boxContent;
+    private List<Card> boxContent;
 
-
-    @ManyToOne
-    @JoinColumn(name = "studySystem")
-    private StudySystem studySystem;
-
+    /**
+     * Zugehöriges Deck
+     */
+//    @OneToMany
+//    @Setter(AccessLevel.NONE)
+//    @JoinColumn(name = "studySystembox_id")
+//    private final BoxToCard boxToCard;
     /**
      * Konstruktor um eine neue interne Box für ein Lernsystem anzulegen.
      *
      */
-    public StudySystemBox(StudySystem studySystem, LinkedHashSet<Card> cards) {
-        this.boxContent = cards;
-    }
-    public StudySystemBox(StudySystem studySystem) {
+    public StudySystemBox(List<Card> cards) {
         this.id = UUID.randomUUID().toString();
-        this.studySystem = studySystem;
-        this.boxContent = new HashSet<>();
+        this.boxContent = cards;
+//        this.boxToCard = boxToCard;
     }
 
     /**
@@ -46,7 +45,7 @@ public class StudySystemBox implements Serializable
      */
     public StudySystemBox() {
         this.id = UUID.randomUUID().toString();
-        this.boxContent = new HashSet<>();
+        this.boxContent = new ArrayList<>();
     }
 
     /**

@@ -34,10 +34,30 @@ public abstract class StudySystem implements Serializable
     private final String id;
 
     /**
-     * Zugehöriges Deck für das System
+     * Enum für die CardOrder des Decks
      */
-    @OneToOne
-    protected Deck deck;
+    public enum CardOrder
+    {
+        ALPHABETICAL,
+        REVERSED_ALPHABETICAL,
+        RANDOM
+    }
+
+    /**
+     * Bezeichnung des Decks
+     */
+    @Column(unique = true)
+    private String name;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private CardOrder cardOrder;
+
+    /**
+     * Sichtbarkeit des Decks. Wenn wahr, dann für alle sichtbar.
+     */
+    @Column
+    private boolean visibility;
 
     /**
      * Einzelne Boxen des Systems, die Karten enthalten
@@ -61,22 +81,24 @@ public abstract class StudySystem implements Serializable
 
     /**
      * Konstruktor der Klasse StudySystem
-     * @param deck: Deck des StudySystems
+     * @param ...
      * @param type: Typ des StudySystems
      * @param nboxes: Anzahl der Boxen für das StudySystem
      */
-    public StudySystem(Deck deck, StudySystemType type, int nboxes)
+    public StudySystem(String name,CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility)
     {
-        if(deck!=null) this.deck = deck;
-        if(deck!=null) deck.setStudySystem(this);
+        this.id = UUID.randomUUID().toString();
+        this.cardOrder = cardOrder;
+        this.visibility = visibility;
+        this.name = name;
         this.type = type;
         initStudySystemBoxes(nboxes);
-        this.id = UUID.randomUUID().toString();
+
     }
 
     // No-Arg Konstruktor
     public StudySystem() {
-        this(null, null, 0);
+        this("",null,null, 0, false);
     }
 
     /**
@@ -85,8 +107,8 @@ public abstract class StudySystem implements Serializable
      * @return Boxliste des StudySystems
      */
     private void  initStudySystemBoxes(int size) {
-        for (int i = 0; i < size; i++)
-          this.boxes.add(new StudySystemBox(this));
+      //  for (int i = 0; i < size; i++)
+        //  this.boxes.add(new StudySystemBox(this));
     }
 
     /**
@@ -112,51 +134,13 @@ public abstract class StudySystem implements Serializable
         boxes.get(0).add(cards);
     }
 
-    public Set<Card> getAllCardsInStudySystem() {
-        Set<Card> cardsInStudyS = new HashSet<>();
 
-        for(StudySystemBox box : boxes){
-            cardsInStudyS.addAll(box.getBoxContent());
-        }
-        return cardsInStudyS;
-    }
 
-    /**
-     * Nach Beantwortung einer Frage wird die Antwort übergeben, so dass
-     * je nach Antwort die Karte in den Boxen verschoben werden kann
-     * @param answer: Frage war richtig / falsch beantwortet
-     */
-    public void giveAnswer(boolean answer) { }
-
-    //TO IMPLEMENT
-    public void giveRating(int rating) { };
-
-    //TO IMPLEMENT
-    public void giveTime(float seconds) { };
-
-    //TO IMPLEMENT (is also called when the test has been canceled)
-    public void finishTest() {}
-
-    //TO IMPLEMENT (returns final score calculated in finishTest)
-    public int getResult() { return 0; }
-
-    /**
-     * Gibt die nächste Karte zum Lernen zurück
-     * @return Karte die als nächstes gelernt werden soll
-     */
-    public Card getNextCard(int index)
-    {
-        for (StudySystemBox box : boxes) {
-            if (!box.getBoxContent().isEmpty()){
-                return box.getBoxContent().iterator().next();
-            }
-        }
-        throw new NoResultException("No Cards in StudySystem");
-    }
-
-    //NEEDS TO BE IMPLEMENTED
-    public float getProgress()
-    {
-        return (float)Math.random();  //Should return percentage as: 0.0 ... 1.0
+    @Override
+    public boolean equals(Object o){
+        if ( this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StudySystem studySystem = (StudySystem) o;
+        return name == studySystem.name;
     }
 }
