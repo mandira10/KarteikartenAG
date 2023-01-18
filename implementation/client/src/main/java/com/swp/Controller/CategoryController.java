@@ -81,7 +81,10 @@ public class CategoryController {
         }
     }
 
-    
+    /**
+     * Wird verwendet, um eine Karte von einer Kategorie zu löschen. Wird an die CategoryLogic weitergegeben.
+     * @param c2d: Partition Class dafür
+     */
     public void deleteCardToCategory(CardToCategory c2d, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.deleteCardToCategory(c2d);
@@ -90,6 +93,10 @@ public class CategoryController {
         }
     }
 
+    /**
+     * Wird verwendet, um die Parents einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
+     * @param child: die Child Kategorie,um die Parents zu bekommen
+     */
     public void getParentsForCategory(Category child, DataCallback<Category> dataCallback) {
         try {
             dataCallback.onSuccess(categoryLogic.getParentsForCategory(child));
@@ -98,6 +105,10 @@ public class CategoryController {
         }
     }
 
+    /**
+     * Wird verwendet, um die Children einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
+     * @param parent: die Parent Kategorie,um die Children zu bekommen
+     */
     public void getChildrenForCategory(Category parent, DataCallback<Category> dataCallback) {
         try {
             dataCallback.onSuccess(categoryLogic.getChildrenForCategory(parent));
@@ -106,6 +117,11 @@ public class CategoryController {
         }
     }
 
+    /**
+     * Wird verwendet, um einzelne Kategorieinformationen über ihre UUID abzurufen. Wird an die CategoryLogic weitergegeben.
+     *
+     * @param uuid: UUID der abzurufenden Kategorie
+     */
     public void getCategoryByUUID(String uuid, SingleDataCallback<Category> singleDataCallback) {
         try {
             singleDataCallback.onSuccess(categoryLogic.getCategoryByUUID(uuid));
@@ -114,6 +130,10 @@ public class CategoryController {
         }
     }
 
+    /**
+     * Wird verwendet, um die Anzahl der Karten einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
+     * @param category: die Kategorie,um die Anzahl der Karten drin zu bekommen
+     */
     public void numCardsInCategory(Category category, SingleDataCallback<Integer> singleDataCallback) {
         try {
             singleDataCallback.onSuccess(categoryLogic.numCardsInCategory(category));
@@ -122,7 +142,11 @@ public class CategoryController {
         }
     }
 
-
+    /**
+     * Wird verwendet, um die Kategorien für eine Kategorie zu ändern.  Wird an die CategoryLogic weitergegeben.
+     * @param card: die Karte,um zu ändern
+     * @param categories: Liste der Kategorien
+     */
     public void setCategoriesToCard(Card card, List<Category> categories, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.setC2COrCH(card, categories, false);
