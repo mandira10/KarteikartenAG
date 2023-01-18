@@ -27,12 +27,27 @@ public class StudySystemController{
      */
     public void moveCardToBox(StudySystem studySystem, Card card, int boxindex, SingleDataCallback<Boolean> singleDataCallback)
     {
-        studySystemLogic.moveCardToBox(studySystem,card,boxindex);
-        //studySystem.setPointQuestion();
+        try {
+            studySystemLogic.moveCardToBox(studySystem,card,boxindex);
+        }
+        catch (Exception exception){
+            singleDataCallback.onFailure(exception.getMessage());
+        }
     }
 
-    public void moveAllCardsForDeckToFirstBox(List<Card> cards) {
+    public void moveAllCardsForDeckToFirstBox(List<Card> cards, SingleDataCallback<Boolean> singleDataCallback) {
 
+        try{
+            if(cards.isEmpty()){
+                singleDataCallback.onFailure("Es gibt keine Karten");
+            }
+            else{
+                studySystemLogic.moveAllCardsForDeckToFirstBox(cards);
+            }
+        }
+        catch (Exception e){
+            singleDataCallback.onFailure(e.getMessage());
+        }
     }
 
     public void getAllCardsInStudySystem(DataCallback<Card> dataCallback) {
@@ -42,12 +57,13 @@ public class StudySystemController{
 
             if (cards.isEmpty()) {
                 dataCallback.onInfo("Es gibt keine Karten zu diesem StudySystem");
-
+            }
+            else {
                 dataCallback.onSuccess(cards);
             }
         }
         catch(Exception ex){
-
+            dataCallback.onFailure(ex.getMessage());
         }
     }
 
@@ -56,16 +72,44 @@ public class StudySystemController{
      * je nach Antwort die Karte in den Boxen verschoben werden kann
      * @param answer: Frage war richtig / falsch beantwortet
      */
-    public void giveAnswer(boolean answer) { }
+    public void giveAnswer(boolean answer,SingleDataCallback singleDataCallback) {
+        try{
+            studySystemLogic.giveAnswer(answer);
+        }
+        catch (Exception e){
+            singleDataCallback.onFailure(e.getMessage());
+        }
+    }
 
     //TO IMPLEMENT
-    public void giveRating(int rating) { };
+    public void giveRating(int rating,SingleDataCallback singleDataCallback) {
+        try{
+            studySystemLogic.giveRating(rating);
+        }
+        catch (Exception e){
+            singleDataCallback.onFailure(e.getMessage());
+        }
+    };
 
     //TO IMPLEMENT
-    public void giveTime(float seconds) { };
+    public void giveTime(float seconds,SingleDataCallback singleDataCallback) {
+        try{
+            studySystemLogic.giveTime(seconds);
+        }
+        catch (Exception e){
+            singleDataCallback.onFailure(e.getMessage());
+        }
+    };
 
     //TO IMPLEMENT (is also called when the test has been canceled)
-    public void finishTest() {}
+    public void finishTest(SingleDataCallback singleDataCallback) {
+        try{
+            studySystemLogic.finishTest();
+        }
+        catch (Exception e){
+            singleDataCallback.onFailure(e.getMessage());
+        }
+    }
 
     //TO IMPLEMENT (returns final score calculated in finishTest)
     public void getResult(SingleDataCallback<Integer> singleDataCallback) {
@@ -80,15 +124,26 @@ public class StudySystemController{
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    public Card getNextCard(int index)
+    public void getNextCard(int index,SingleDataCallback singleDataCallback)
     {
-        return null;
+        try{
+            Card card = studySystemLogic.getNextCard(index);
+            singleDataCallback.onSuccess(card);
+        }
+        catch (Exception e){
+            singleDataCallback.onFailure(e.getMessage());
+        }
     }
 
     //NEEDS TO BE IMPLEMENTED
-    public float getProgress()
+    public void getProgress(SingleDataCallback singleDataCallback)
     {
-        return (float)Math.random();  //Should return percentage as: 0.0 ... 1.0
+        try{
+            singleDataCallback.onSuccess(studySystemLogic.getProgress());
+        }
+        catch (Exception e){
+            singleDataCallback.onFailure(e.getMessage());
+        }
     }
 }
 
