@@ -12,18 +12,34 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@NamedQuery(name  = "CardToDeck.allC2DByCard",
-            query = "SELECT cd FROM CardToDeck cd WHERE cd.card = :card")
-@NamedQuery(name  = "CardToDeck.allC2DByDeck",
-            query = "SELECT cd FROM CardToDeck cd WHERE cd.deck = :deck")
-@NamedQuery(name  = "CardToDeck.allCardsWithDeck",
-            query = "SELECT cd.card FROM CardToDeck cd WHERE cd.deck = :deck")
-@NamedQuery(name  = "CardToDeck.allDecksWithCard",
-            query = "SELECT cd.deck FROM CardToDeck cd WHERE cd.card = :card")
-@NamedQuery(name  = "CardToDeck.findSpecificC2C",
-            query = "SELECT cd FROM CardToDeck cd WHERE cd.card = :card AND cd.deck = :deck")
-@NamedQuery(name  = "CardToDeck.numCardsInDeck",
-            query = "SELECT count(*) FROM CardToDeck cd WHERE cd.deck =: deck")
+//@NamedQuery(name  = "CardToDeck.allC2DByCard",
+//            query = "SELECT cd FROM CardToDeck cd WHERE cd.card = :card")
+//@NamedQuery(name  = "CardToDeck.allC2DByDeck",
+//            query = "SELECT cd FROM CardToDeck cd WHERE cd.deck = :deck")
+//@NamedQuery(name  = "CardToDeck.allCardsWithDeck",
+//            query = "SELECT cd.card FROM CardToDeck cd WHERE cd.deck = :deck")
+//@NamedQuery(name  = "CardToDeck.allDecksWithCard",
+//            query = "SELECT cd.deck FROM CardToDeck cd WHERE cd.card = :card")
+//@NamedQuery(name  = "CardToDeck.findSpecificC2C",
+//            query = "SELECT cd FROM CardToDeck cd WHERE cd.card = :card AND cd.deck = :deck")
+//@NamedQuery(name  = "CardToDeck.numCardsInDeck",
+//            query = "SELECT count(*) FROM CardToDeck cd WHERE cd.deck =: deck")
+@NamedQuery(name = "CardToDeck.allCardsOfDeck",
+        query = "SELECT c2d.card FROM CardToDeck c2d WHERE c2d.deck = :deck")
+@NamedQuery(name = "CardToDeck.allDecksOfCard",
+        query = "SELECT c2d.deck FROM CardToDeck c2d WHERE c2d.card = :card")
+@NamedQuery(name = "CardToDeck.allC2DByCard",
+        query = "SELECT c FROM CardToDeck c WHERE c.card = :card")
+@NamedQuery(name = "CardToDeck.allC2DByDeck",
+        query = "SELECT c FROM CardToDeck c WHERE c.deck = :deck")
+@NamedQuery(name = "CardToDeck.findSpecificC2D",
+        query = "SELECT c FROM CardToDeck c WHERE c.deck = :deck and c.card = :card")
+@NamedQuery(name = "CardToDeck.numCardsInDeck",
+        query = "SELECT count(*) FROM CardToDeck c WHERE c.deck = :deck")
+@NamedQuery(name = "CardToDeck.numDecksWithCard",
+        query = "SELECT count(*) FROM CardToDeck c WHERE c.card = :card")
+
+        
 public class CardToDeck implements Serializable
 {
     /**
