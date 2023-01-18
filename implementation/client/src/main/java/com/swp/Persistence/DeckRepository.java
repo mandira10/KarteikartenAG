@@ -32,6 +32,32 @@ public class DeckRepository extends BaseRepository<Deck>
         return deckRepository;
     }
 
+    /**
+     * Die Funktion `saveDeck` persistiert die übergebene Deck.
+     *
+     * @param category ein Deck
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
+     */
+    public boolean saveDeck(Deck deck)
+    {
+        getInstance().save(deck);
+        return true;
+    }
+
+    /**
+     * Die Funktion `deleteDeck` löscht die angegebene Kategorie und alle Verbindungen,
+     * die als `CardToDeck`-Objekte vorliegen.
+     *
+     * @param deck die zu löschende Kategorie.
+     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
+     */
+    public boolean deleteDeck(Deck deck)
+    {
+        getInstance().delete(deck);
+        return true;
+    }
+
+
 
     public List<Deck> getDecks()
     {
