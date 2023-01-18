@@ -35,11 +35,11 @@ public class CardToDeckRepository extends BaseRepository<CardToDeck> {
                 .getSingleResult();
     }
 
-    public void removeCardsFromDeck(List<Card> cards, Deck deck) {
+    public void removeCardsFromDeck(Deck deck) {
         //Todo gucken ob es so etwas in der Art gibt "WHERE ANY :cards = card"
         //ansonsten erstmal sowas (sollte aber auch eher in die Logic)
-        for (final Card card : cards) {
-            removeCardToDeck(card, deck);
+        for (CardToDeck c2d : getAllC2DForDeck(deck)) {
+            removeCardToDeck(c2d.getCard(), deck);
         }
     }
 
