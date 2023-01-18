@@ -1,7 +1,11 @@
 package com.swp.Persistence;
 
+import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
+import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
+
+import java.util.*;
 
 public class StudySystemRepository extends BaseRepository<StudySystem> {
     private StudySystemRepository() {
@@ -44,4 +48,56 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
         //        .setParameter("deck", deck)
         //        .getSingleResult();
     }
+
+    public void addCardToBox(BoxToCard boxToCard){
+        //TODO
+    }
+
+    public List<Card> getAllCardsInStudySystem(){
+        //TODO
+        return null;
+    }
+
+    public int getTrueCount(){
+        //TODO
+        return 0;
+    }
+
+    public int getQuestionCount(){
+        //TODO
+        return 0;
+    }
+
+    public void setTrueCount(int i){
+        //TODO
+    }
+
+    public void setQuestionCount(int i){
+        //TODO
+    }
+
+    public int getTimeLimit(){
+        return 0;
+        //TODO
+    }
+
+    public void setTimeLimit(int i){
+        //TODO
+    }
+
+    public Card getNextCard(){
+        //TODO
+        // Should return Card by QuestionCount
+        return null;
+    }
+
+    public void saveProgress(float progress){
+        //TODO
+    }
+
+
+
+
+
+
 }

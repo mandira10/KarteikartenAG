@@ -2,6 +2,7 @@ package com.swp.Controller;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.StudySystemBox;
 import com.swp.Logic.StudySystemLogic;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,26 +24,26 @@ public class StudySystemController{
     /**
      * Verschiebt spezifische Karte in eine Box des StudySystems
      * @param card: Zu verschiebene Karte
-     * @param boxindex: Index der Box, in den die Karte verschoben werden soll
+     * @param box: Index der Box, in den die Karte verschoben werden soll
      */
-    public void moveCardToBox(StudySystem studySystem, Card card, int boxindex, SingleDataCallback<Boolean> singleDataCallback)
+    public void moveCardToBox(Card card, StudySystemBox box, SingleDataCallback<Boolean> singleDataCallback)
     {
         try {
-            studySystemLogic.moveCardToBox(studySystem,card,boxindex);
+            studySystemLogic.moveCardToBox(card,box);
         }
         catch (Exception exception){
             singleDataCallback.onFailure(exception.getMessage());
         }
     }
 
-    public void moveAllCardsForDeckToFirstBox(List<Card> cards, SingleDataCallback<Boolean> singleDataCallback) {
+    public void moveAllCardsForDeckToFirstBox(List<Card> cards,StudySystemBox box, SingleDataCallback<Boolean> singleDataCallback) {
 
         try{
             if(cards.isEmpty()){
                 singleDataCallback.onFailure("Es gibt keine Karten");
             }
             else{
-                studySystemLogic.moveAllCardsForDeckToFirstBox(cards);
+                studySystemLogic.moveAllCardsForDeckToBox(cards,box);
             }
         }
         catch (Exception e){
@@ -72,9 +73,9 @@ public class StudySystemController{
      * je nach Antwort die Karte in den Boxen verschoben werden kann
      * @param answer: Frage war richtig / falsch beantwortet
      */
-    public void giveAnswer(boolean answer,SingleDataCallback singleDataCallback) {
+    public void giveAnswer(StudySystem studySystem,boolean answer,SingleDataCallback singleDataCallback) {
         try{
-            studySystemLogic.giveAnswer(answer);
+            studySystemLogic.giveAnswer(studySystem,answer);
         }
         catch (Exception e){
             singleDataCallback.onFailure(e.getMessage());
@@ -82,9 +83,9 @@ public class StudySystemController{
     }
 
     //TO IMPLEMENT
-    public void giveRating(int rating,SingleDataCallback singleDataCallback) {
+    public void giveRating(StudySystem studySystem,int rating,SingleDataCallback singleDataCallback) {
         try{
-            studySystemLogic.giveRating(rating);
+            studySystemLogic.giveRating(studySystem,rating);
         }
         catch (Exception e){
             singleDataCallback.onFailure(e.getMessage());
@@ -92,9 +93,9 @@ public class StudySystemController{
     };
 
     //TO IMPLEMENT
-    public void giveTime(float seconds,SingleDataCallback singleDataCallback) {
+    public void giveTime(StudySystem studySystem,float seconds,SingleDataCallback singleDataCallback) {
         try{
-            studySystemLogic.giveTime(seconds);
+            studySystemLogic.giveTime(studySystem,seconds);
         }
         catch (Exception e){
             singleDataCallback.onFailure(e.getMessage());
@@ -102,9 +103,9 @@ public class StudySystemController{
     };
 
     //TO IMPLEMENT (is also called when the test has been canceled)
-    public void finishTest(SingleDataCallback singleDataCallback) {
+    public void finishTest(StudySystem studySystem,SingleDataCallback singleDataCallback) {
         try{
-            studySystemLogic.finishTest();
+            studySystemLogic.finishTest(studySystem);
         }
         catch (Exception e){
             singleDataCallback.onFailure(e.getMessage());
@@ -124,10 +125,10 @@ public class StudySystemController{
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    public void getNextCard(int index,SingleDataCallback singleDataCallback)
+    public void getNextCard(SingleDataCallback singleDataCallback)
     {
         try{
-            Card card = studySystemLogic.getNextCard(index);
+            Card card = studySystemLogic.getNextCard();
             singleDataCallback.onSuccess(card);
         }
         catch (Exception e){

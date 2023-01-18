@@ -1,6 +1,7 @@
 package com.swp.Logic;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
 import com.swp.Persistence.StudySystemRepository;
@@ -29,41 +30,24 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     /**
      * Verschiebt spezifische Karte in eine Box des StudySystems
      *
-     * @param studySystem
+     *
      * @param card        : Zu verschiebene Karte
-     * @param boxindex    : Index der Box, in den die Karte verschoben werden soll
+     * @param box    : Index der Box, in den die Karte verschoben werden soll
      */
-    public void moveCardToBox(StudySystem studySystem, Card card, int boxindex)
+    public void moveCardToBox(Card card, StudySystemBox box)
     {
-        //studySystem.getType()
-               // moveCardToBox
-
-
-//        if(boxindex >= boxes.size() || boxindex < 0)
-//            return;
-//
-//        for(StudySystemBox box : boxes)
-//        {
-//            if(box.getBoxContent().contains(card))
-//                box.remove(card);
-//        }
-//
-//        boxes.get(boxindex).add(card);
+        BoxToCard boxToCard = new BoxToCard(card,box);
+        studySystemRepository.addCardToBox(boxToCard);
     }
 
-    public void moveAllCardsForDeckToFirstBox(List<Card> cards) {
-
-        //boxes.get(0).add(cards);
+    public void moveAllCardsForDeckToBox(List<Card> cards,StudySystemBox box) {
+        for(Card c : cards){
+            moveCardToBox(c,box);
+        }
     }
 
     public List<Card> getAllCardsInStudySystem() {
-//        List<Card> cardsInStudyS = new ArrayList<>();
-//
-//        for(StudySystemBox box : boxes){
-//            cardsInStudyS.addAll(box.getBoxContent());
-//        }
-//        return cardsInStudyS;
-        return null;
+        return execTransactional(() -> studySystemRepository.getAllCardsInStudySystem());
     }
 
     /**
@@ -71,28 +55,70 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * je nach Antwort die Karte in den Boxen verschoben werden kann
      * @param answer: Frage war richtig / falsch beantwortet
      */
-    public void giveAnswer(boolean answer) { }
+    public void giveAnswer(StudySystem studySystem,boolean answer) {
+        switch (studySystem.getType()){
+            case LEITNER:
+                if(answer){
+                    studySystemRepository.setTrueCount(studySystemRepository.getTrueCount() + 1);
+                }
+                else{
+                    if(studySystemRepository.getQuestionCount() > 0){
+                        studySystemRepository.setQuestionCount(studySystemRepository.getQuestionCount() - 2);
+                    }
+                }
+            case TIMING:
+            case VOTE:
+                if(answer){
+                    studySystemRepository.setTrueCount(studySystemRepository.getTrueCount() + 1);
+                }
+
+        }
+    }
 
     //TO IMPLEMENT
-    public void giveRating(int rating) { };
+    public void giveRating(StudySystem studySystem,int rating) {
+        //TODO
+    };
 
     //TO IMPLEMENT
-    public void giveTime(float seconds) { };
+    public void giveTime(StudySystem studySystem,float seconds) {
+        if(studySystem.getType() == StudySystem.StudySystemType.TIMING){
+            if(seconds > studySystemRepository.getTimeLimit()){
+                studySystemRepository.setTrueCount(studySystemRepository.getTrueCount()-1);
+            }
+        }
+    };
 
     //TO IMPLEMENT (is also called when the test has been canceled)
-    public void finishTest() {}
+    public void finishTest(StudySystem studySystem) {
+        if(studySystem.getType() == StudySystem.StudySystemType.LEITNER){
+            //TODO
+        }
+        else{
+            studySystemRepository.saveProgress(getProgress());
+            studySystemRepository.setQuestionCount(0);
+            studySystemRepository.setTrueCount(0);
+        }
+    }
 
     //TO IMPLEMENT (returns final score calculated in finishTest)
     public int getResult() {
-    //    studySystemRepository.getResultFor();
-        return  0;
+        if(!studySystemRepository.getAllCardsInStudySystem().isEmpty()){
+            return (100 / studySystemRepository.getAllCardsInStudySystem().size()) *  studySystemRepository.getTrueCount();
+        }
+        else {
+            return 0;
+        }
     }
 
     /**
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    public Card getNextCard(int index){return null;}
+    public Card getNextCard(){
+        studySystemRepository.setQuestionCount(studySystemRepository.getQuestionCount()+1);
+        return studySystemRepository.getNextCard();
+    }
 //    {
 //        for (StudySystemBox box : boxes) {
 //            if (!box.getBoxContent().isEmpty()){
@@ -105,7 +131,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     //NEEDS TO BE IMPLEMENTED
     public float getProgress()
     {
-        return (float)Math.random();  //Should return percentage as: 0.0 ... 1.0
+        if(studySystemRepository.getAllCardsInStudySystem().size() > 0){
+            return studySystemRepository.getTrueCount() / studySystemRepository.getAllCardsInStudySystem().size();
+        }
+        else{
+            return 0;
+        }
     }
 }
 
