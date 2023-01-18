@@ -26,6 +26,12 @@ public class CategoryController {
         return categoryController;
     }
 
+    /**
+     * Wird verwendet, um Data für eine Kategorie zu aktualisieren. Wird an die CategoryLogic weitergegeben.
+     *
+     * @param category: die Kategorie zu aktualisieren
+     * @param neu: Ob, die Kategorie neue oder nicht ist zu verstehen
+     */
     public void updateCategoryData(Category category, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.updateCategoryData(category, neu);
@@ -34,6 +40,13 @@ public class CategoryController {
         }
     }
 
+    /**
+     * Wird verwendet, um Hierarchy der Kategorie zu bearbeiten. Wird an die CategoryLogic weitergegeben.
+     *
+     * @param category: die Kategorie zu bearbeiten
+     * @param parents : die Liste der Parents Kategorien für diese Katagorie
+     * @param children: die Liste der Children Kategorien für diese Katagorie
+     */
     public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.editCategoryHierarchy(category, parents, children);
@@ -42,6 +55,11 @@ public class CategoryController {
         }
     }
 
+    /**
+     * Wird verwendet, um eine Kategorie zu löschen. Wird an die CategoryLogic weitergegeben.
+     *
+     * @param category: die Kategorie zu löschen
+     */
     public void deleteCategory(Category category, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.deleteCategory(category);
@@ -50,6 +68,11 @@ public class CategoryController {
         }
     }
 
+    /**
+     * Wird verwendet, um mehrere Kategorien zu löschen. Wird an die CategoryLogic weitergegeben.
+     *
+     * @param categories: die Liste der Kategorien zu löschen
+     */
     public void deleteCategories(List<Category> categories, SingleDataCallback<Boolean> singleDataCallback){
         try {
             categoryLogic.deleteCategories(categories);
@@ -58,6 +81,7 @@ public class CategoryController {
         }
     }
 
+    
     public void deleteCardToCategory(CardToCategory c2d, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.deleteCardToCategory(c2d);

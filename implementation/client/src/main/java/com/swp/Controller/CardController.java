@@ -164,6 +164,12 @@ public class CardController {
     }
 
 
+    /**
+     * Wird verwendet, um Tags für eine Karte festzulegen. Wird an die CardLogic weitergegeben.
+     *
+     * @param card: die Karte
+     * @param set: die Liste der Tags
+     */
     public void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.setTagsToCard(card, set);
@@ -172,6 +178,12 @@ public class CardController {
         }
     }
 
+    /**
+     * Wird verwendet, um Data für eine Karte zu aktualisieren. Wird an die CardLogic weitergegeben.
+     *
+     * @param cardToChange: die Karte zu aktualisieren
+     * @param neu: Ob, die Karte neue oder nicht ist zu verstehen
+     */
     public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.updateCardData(cardToChange, neu);
