@@ -23,6 +23,10 @@ public class DeckController
 
     private final DeckLogic deckLogic = DeckLogic.getInstance();
 
+
+    /**
+     * Wird verwendet, um die Decks zu bekommen. Wird an die DeckLogic weitergegeben.
+     */
     public void getDecks(DataCallback<Deck> dataCallback) {
 
        try {
@@ -39,7 +43,7 @@ public class DeckController
     }
 
     /**
-     * Wird verwendet, um das Deck zu updaten.
+     * Wird verwendet, um das Deck zu updaten. Wird an die DeckLogic weitergegeben.
      * @param olddeck Deck im vorherigen Zustand, benötigt, um festzustellen, ob das StudySystem gewechselt wurde und Handling
      * @param newdeck Neue Deck Eigenschaften
      * @param neu Ist true, wenn das Deck neu angelegt wurde
@@ -52,7 +56,7 @@ public class DeckController
     }
 
     /**
-     * Wird verwendet, um ein komplett neues StudySystem anzulegen
+     * Wird verwendet, um ein komplett neues StudySystem anzulegen. Wird an die DeckLogic weitergegeben.
      * @param type Typ des StudySystems
      * @return true, wenn erfolgreich
      */
@@ -63,6 +67,10 @@ public class DeckController
          }
     }
 
+    /**
+     * Wird verwendet, um ein Deck zu löschen. Wird an die DeckLogic weitergegeben.
+     * @param deck: Deck zu löschen
+     */
     public void deleteDeck(Deck deck, SingleDataCallback<Boolean> singleDataCallback) {
          try{deckLogic.deleteDeck(deck);}
          catch(IllegalStateException ex){
@@ -73,6 +81,10 @@ public class DeckController
          }
     }
 
+    /**
+     * Wird verwendet, um eine Liste von Decks zu löschen. Wird an die DeckLogic weitergegeben.
+     * @param decks: die Liste der Decks zu löschen
+     */
     public void deleteDecks(Deck[] decks, SingleDataCallback<Boolean> singleDataCallback) {
 
          try{deckLogic.deleteDecks(decks);}
@@ -82,7 +94,11 @@ public class DeckController
     }
 
 
-
+    /**
+     * Wird verwendet, um eine Karte in einem Deck mit einer bestimmten Kategorie zu erstellen. Wird an die DeckLogic weitergegeben
+     * @param category: die Kategorie für die Karte
+     * @param deck: Deck, um die Karte darin zu speichern
+     */
     public void createCardToDeckForCategory(Category category, Deck deck, SingleDataCallback<Boolean> singleDataCallback) {
          try{deckLogic.createCardToDeckForCategory(category, deck);}
          catch(Exception ex){
@@ -91,6 +107,10 @@ public class DeckController
     }
 
 
+    /**
+     * Wird verwendet, um Decks nach Suchbegriff zu bekommen. Wird an die DeckLogic weitergegeben
+     * @param searchterm: Suchbegriff zu suchen
+     */
     public void getDecksBySearchterm(String searchterm, DataCallback<Deck> dataCallback) {
          try{
              List<Deck> decks = deckLogic.getDecksBySearchterm(searchterm);
@@ -108,7 +128,7 @@ public class DeckController
     }
 
     /**
-     * Wird benutzt, um einzelne Karten aus dem Deck zu löschen
+     * Wird benutzt, um einzelne Karten aus dem Deck zu löschen. Wird an die DeckLogic weitergegeben
      * @param cards
      * @param deck
      */
@@ -122,7 +142,7 @@ public class DeckController
     }
 
     /**
-     * Für nachträgliches Hinzufpgen von Karten
+     * Für nachträgliches Hinzufpgen von Karten. Wird an die DeckLogic weitergegeben
      * @param cards
      * @param deck
      */
@@ -134,6 +154,10 @@ public class DeckController
 
   }
 
+    /**
+     * Wird verwendet, um ein Deck nach UUID zu bekommen. Wird an die DeckLogic weitergegeben
+     * @param uuid: UUID zu suchen
+     */
     public void getDeckByUUID(String uuid,SingleDataCallback<Deck> singleDataCallback) {
         try{
             singleDataCallback.onSuccess(deckLogic.getDeckByUUID(uuid));
@@ -149,6 +173,10 @@ public class DeckController
         }
     }
 
+    /**
+     * Wird verwendet, um Karten in einem Deck zu bekommen. Wird an die DeckLogic weitergegeben
+     * @param deck: Deck, um Karten darin zu suchen
+     */
     public void getCardsInDeck(Deck deck,DataCallback<Card> dataCallback) {
         try{
             List<Card> cards = deckLogic.getCardsByDeck(deck);
@@ -162,6 +190,10 @@ public class DeckController
         }
     }
 
+    /**
+     * Wird verwendet, um die Anzahl der Karten in einem Deck zu bekommen. Wird an die DeckLogic weitergegeben
+     * @param deck: Deck, um die Anzahl der Karten darin zu suchen
+     */
     public void numCardsInDeck(Deck deck, SingleDataCallback<Integer> singleDataCallback) {
        try{
            singleDataCallback.onSuccess(deckLogic.numCardsInDeck(deck));
@@ -174,6 +206,11 @@ public class DeckController
 
 
 
+    /**
+     * Wird verwendet, um eine Karte in einem Deck hinzufügen. Wird an die DeckLogic weitergegeben
+     * @param card: die Karte, hinzufügen
+     * @param deck: Deck, um die Karte darin hinzufügen
+     */
     public void createCardToDeck(Card card, Deck deck,  SingleDataCallback<Boolean> singleDataCallback) {
         try{deckLogic.createCardToDeck(card, deck);}
         catch(Exception ex){
