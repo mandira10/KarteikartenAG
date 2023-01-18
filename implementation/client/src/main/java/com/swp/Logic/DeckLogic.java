@@ -38,6 +38,10 @@ public class DeckLogic extends BaseLogic<Deck>
         return deckLogic;
     }
 
+    /**
+     * Wird verwendet, Um die alle Decks zu bekommen. Wird an das DeckRepository weitergegeben.
+     @return eine Liste von Decks
+     */
     public List<Deck> getDecks()
     {
         return execTransactional(() -> deckRepository.getDecks());
@@ -55,17 +59,32 @@ public class DeckLogic extends BaseLogic<Deck>
         return false;
     }
 
+    /**
+     * Wird verwendet, Um ein Deck nach UUID zu bekommen. Wird an das DeckRepository weitergegeben.
+     @return Deck
+     */
     public Deck getDeckByUUID(String uuid)
     {
         checkNotNullOrBlank(uuid, "UUID",true);
         return execTransactional(() -> deckRepository.getDeckByUUID(uuid));
     }
 
+    /**
+     * Wird verwendet, Um die Karten eines Decks zu bekommen. Wird an das DeckRepository weitergegeben.
+     @param deck: Deck, um Karten zu bekommen
+     @return eine Liste von Karten
+     */
     public List<Card> getCardsByDeck(Deck deck)
     {
         return execTransactional(() -> cardRepository.findCardsByDeck(deck));
     }
 
+    /**
+     * Wird verwendet, Um Deckinformationen zu updaten. Wird an das CardToDeckRepository weitergegeben.
+     * @param olddeck: Deck vor Update
+     * @param newdeck: angegebenes Deck zu updaten
+     * @param neu: Ob, olddeck und newdeck gleich oder nicht sind zu verstehen
+     */
     public void updateDeckData(Deck olddeck, Deck newdeck, boolean neu)
     {
          execTransactional(() -> {
@@ -102,6 +121,10 @@ public class DeckLogic extends BaseLogic<Deck>
 
 
 
+    /**
+     * Wird verwendet, Um StudySystem zu updaten und hinzufügen. Wird an das StudySystemRepository weitergegeben.
+     @param type: StudySystem Type zu updaten und hinzufügen
+     */
     public void addStudySystemTypeAndUpdate(StudySystem.StudySystemType type)
     {
         execTransactional(() -> {
@@ -112,6 +135,10 @@ public class DeckLogic extends BaseLogic<Deck>
     }
 
 
+    /**
+     * Wird verwendet, Um ein Deck zu löschen. Wird an das DeckRepository weitergegeben.
+     @param deck: Deck zu löschen
+     */
     public void deleteDeck(Deck deck)
     {
 
@@ -124,6 +151,10 @@ public class DeckLogic extends BaseLogic<Deck>
         });
     }
 
+    /**
+     * Wird verwendet, Um eine Liste von Decks zu löschen
+     @param decks: eine Liste von Decks zu löschen
+     */
     public void deleteDecks(Deck[] decks)
     {
         for(Deck d : decks)
@@ -132,21 +163,41 @@ public class DeckLogic extends BaseLogic<Deck>
         deleteDeck(d);
     }
 
+    /**
+     * Wird verwendet, Um Decks einer Karte zu bekommen. Wird an das DeckRepository weitergegeben.
+     @param card: die Karte, um Decks zu bekommen
+     @return eine Liste von Decks
+     */
     public List<Deck> getDecksByCard(Card card)
     {
         return execTransactional(() -> deckRepository.findDecksByCard(card));
     }
 
+    /**
+     * Wird verwendet, Um Anzahl der Karten eines Deck zu bekommen.
+     @param deck: das Deck
+     @return Anzahl der Karten im Deck als Integer
+     */
     public int numCardsInDeck(Deck deck)
     {
         return getCardsByDeck(deck).size();
     }
 
+    /**
+     * Wird verwendet, Um Decks nach Suchbegriff zu bekommen. Wird an das DeckRepository weitergegeben.
+     @param searchterm: Suchbegriff zu suchen
+     @return eine Liste von Decks
+     */
     public List<Deck> getDecksBySearchterm(String searchterm) {
         checkNotNullOrBlank(searchterm,"Suchbegriff",true);
         return execTransactional(() -> deckRepository.findDecksContaining(searchterm));
     }
 
+    /**
+     * Wird verwendet, Um Karten in einem Deck zu löschen. Wird an das CardToDeckRepository weitergegeben.
+     @param cards: eine Liste von Karten zu löschen
+     @param deck: Deck, um darin Karten zu löschen
+     */
     public void removeCardsFromDeck(List<Card> cards, Deck deck) {
         //TODO: removeCardsAusStudySystemBoxes
         //UpdateDeck
@@ -159,6 +210,11 @@ public class DeckLogic extends BaseLogic<Deck>
         });
     }
 
+    /**
+     * Wird verwendet, Um Karten in einem Deck zu löschen. Wird an das CardToDeckRepository weitergegeben.
+     @param cards: eine Liste von Karten zu löschen
+     @param deck: Deck, um darin Karten zu löschen
+     */
     public void addCardsToDeck(List<Card> cards, Deck deck) {
             if(deck == null){
             throw new IllegalStateException("Karte existiert nicht");
@@ -174,6 +230,11 @@ public class DeckLogic extends BaseLogic<Deck>
         }
 
 
+    /**
+     * Wird verwendet, Um die Karten eines Decks zu updaten. Wird an das DeckRepository weitergegeben.
+     @param cards: eine Liste von Karten zu updaten
+     @param deck: Deck, um darin Karten zu updaten
+     */
     public void updateDeckCards(List<Card> cards,Deck deck){
         //execTransactional(() -> { not needed, da sehr viele aufgerufen werden
             List<Card> oldCards = new ArrayList<>();
