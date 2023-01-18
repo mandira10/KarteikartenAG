@@ -124,6 +124,11 @@ public class CardLogic extends BaseLogic<Card>
     }
 
 
+    /**
+     * Wird verwendet, um Tags einer Karte zu bekommen. Wird an das TagRepository weitergegeben.
+     * @param card: Karte, um Ihre Tags zu bekommen.
+     * @return eine Liste von Tag
+     */
     public List<Tag> getTagsToCard(Card card) {
         return execTransactional(() -> tagRepository.getTagsToCard(card));
     }
@@ -149,6 +154,11 @@ public class CardLogic extends BaseLogic<Card>
     }
 
 
+    /**
+     * Wird verwendet, um die Tags einer Karte zu ändern.
+     * @param card: Karte, um Ihre Tags zu ändern.
+     * @param tagNew: die Liste von Tags
+     */
     public void setTagsToCard(Card card, List<Tag> tagNew) {
         if(!tagNew.isEmpty()) {
             List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
@@ -169,6 +179,12 @@ public class CardLogic extends BaseLogic<Card>
         }
     }
 
+    /**
+     * Wird verwendet, Um zu überprüfen, ob die angegebene Liste von Tags bereits Tags für die Karte sind oder nicht. Wird an das CardToTagRepository weitergegeben.
+     * @param card: die Karte, um ihre Tags zu überprüfen
+     * @param tagOld: die Liste von Tags der Karte
+     * @param tagNew: die angegebene Liste von Tags zu vergleichen
+     */
     private void checkAndRemoveTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
         for (Tag t : tagOld) {
             if (!tagNew.contains(t))
@@ -181,6 +197,13 @@ public class CardLogic extends BaseLogic<Card>
     }
 
 
+    /**
+     * Wird verwendet, Um zu überprüfen, ob die angegebene Liste von Tags bereits Tags für die Karte sind oder nicht.
+     * Wenn nicht wird diese Liste von Tags in der Karte hinzufügen. Wird an das CardToTagRepository weitergegeben.
+     * @param card: die Karte, um ihre Tags zu überprüfen
+     * @param tagOld: die Liste von Tags der Karte
+     * @param tagNew: die angegebene Liste von Tags zu vergleichen und hinzufügen
+     */
     private void checkAndCreateTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
          execTransactional(() -> {
             for (Tag t : tagNew) {
