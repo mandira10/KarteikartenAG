@@ -49,52 +49,24 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
         //        .getSingleResult();
     }
 
-    public void addCardToBox(BoxToCard boxToCard){
-        //TODO
-    }
 
-    public List<Card> getAllCardsInStudySystem(){
+
+    public List<Card> getAllCardsInStudySystem(StudySystem studySystem){
         //TODO
         return null;
     }
 
-    public int getTrueCount(){
-        //TODO
-        return 0;
-    }
-
-    public int getQuestionCount(){
-        //TODO
-        return 0;
-    }
-
-    public void setTrueCount(int i){
-        //TODO
-    }
-
-    public void setQuestionCount(int i){
-        //TODO
-    }
-
-    public int getTimeLimit(){
-        return 0;
-        //TODO
-    }
-
-    public void setTimeLimit(int i){
-        //TODO
-    }
 
     public Card getNextCard(){
         //TODO
         // Should return Card by QuestionCount
+        //maybe just get all cards in specific box by once
         return null;
     }
 
-    public void saveProgress(float progress){
+    public void addCardToBox(BoxToCard boxToCard){
         //TODO
     }
-
 
 
 

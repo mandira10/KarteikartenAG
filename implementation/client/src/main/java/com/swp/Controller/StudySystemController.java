@@ -51,10 +51,10 @@ public class StudySystemController{
         }
     }
 
-    public void getAllCardsInStudySystem(DataCallback<Card> dataCallback) {
+    public void getAllCardsInStudySystem(StudySystem studySystem, DataCallback<Card> dataCallback) {
 
         try {
-            List<Card> cards = studySystemLogic.getAllCardsInStudySystem();
+            List<Card> cards = studySystemLogic.getAllCardsInStudySystem(studySystem);
 
             if (cards.isEmpty()) {
                 dataCallback.onInfo("Es gibt keine Karten zu diesem StudySystem");
@@ -113,9 +113,9 @@ public class StudySystemController{
     }
 
     //TO IMPLEMENT (returns final score calculated in finishTest)
-    public void getResult(SingleDataCallback<Integer> singleDataCallback) {
+    public void getResult(StudySystem studySystem, SingleDataCallback<Integer> singleDataCallback) {
         try{
-            singleDataCallback.onSuccess(studySystemLogic.getResult());
+            singleDataCallback.onSuccess(studySystemLogic.getResult( studySystem));
         }catch (Exception ex){
             singleDataCallback.onFailure("");
         }
@@ -125,10 +125,10 @@ public class StudySystemController{
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    public void getNextCard(SingleDataCallback singleDataCallback)
+    public void getNextCard(StudySystem studySystem, SingleDataCallback singleDataCallback)
     {
         try{
-            Card card = studySystemLogic.getNextCard();
+            Card card = studySystemLogic.getNextCard(studySystem);
             singleDataCallback.onSuccess(card);
         }
         catch (Exception e){
@@ -137,10 +137,10 @@ public class StudySystemController{
     }
 
     //NEEDS TO BE IMPLEMENTED
-    public void getProgress(SingleDataCallback singleDataCallback)
+    public void getProgress(StudySystem studySystem,SingleDataCallback singleDataCallback)
     {
         try{
-            singleDataCallback.onSuccess(studySystemLogic.getProgress());
+            singleDataCallback.onSuccess(studySystemLogic.getProgress(studySystem));
         }
         catch (Exception e){
             singleDataCallback.onFailure(e.getMessage());

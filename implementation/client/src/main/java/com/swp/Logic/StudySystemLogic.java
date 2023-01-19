@@ -4,12 +4,15 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
+import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.Persistence.StudySystemRepository;
 import jakarta.persistence.NoResultException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import static com.swp.DataModel.StudySystem.StudySystem.StudySystemType.TIMING;
 
 public class StudySystemLogic extends BaseLogic<StudySystem>{
 
@@ -46,9 +49,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         }
     }
 
-    public List<Card> getAllCardsInStudySystem() {
-        return execTransactional(() -> studySystemRepository.getAllCardsInStudySystem());
-    }
 
     /**
      * Nach Beantwortung einer Frage wird die Antwort übergeben, so dass
@@ -59,20 +59,21 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         switch (studySystem.getType()){
             case LEITNER:
                 if(answer){
-                    studySystemRepository.setTrueCount(studySystemRepository.getTrueCount() + 1);
+                    //TODO
+                    //studySystemRepository.setTrueCount(studySystemRepository.getTrueCount() + 1);
                 }
                 else{
-                    if(studySystemRepository.getQuestionCount() > 0){
-                        studySystemRepository.setQuestionCount(studySystemRepository.getQuestionCount() - 2);
+                    //if(studySystemRepository.getQuestionCount() > 0){
+                      //  studySystemRepository.setQuestionCount(studySystemRepository.getQuestionCount() - 2);
                     }
                 }
-            case TIMING:
-            case VOTE:
-                if(answer){
-                    studySystemRepository.setTrueCount(studySystemRepository.getTrueCount() + 1);
-                }
+           // case TIMING:
+           // case VOTE:
+               // if(answer){
+                   // studySystemRepository.setTrueCount(studySystemRepository.getTrueCount() + 1);
+             //   }
 
-        }
+      //  }
     }
 
     //TO IMPLEMENT
@@ -83,8 +84,9 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     //TO IMPLEMENT
     public void giveTime(StudySystem studySystem,float seconds) {
         if(studySystem.getType() == StudySystem.StudySystemType.TIMING){
-            if(seconds > studySystemRepository.getTimeLimit()){
-                studySystemRepository.setTrueCount(studySystemRepository.getTrueCount()-1);
+            TimingSystem timingSystem = (TimingSystem) studySystem;
+            if(seconds > timingSystem.getTimeLimit()){
+                timingSystem.setTrueCount(timingSystem.getTrueCount()-1);
             }
         }
     };
@@ -95,28 +97,34 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             //TODO
         }
         else{
-            studySystemRepository.saveProgress(getProgress());
-            studySystemRepository.setQuestionCount(0);
-            studySystemRepository.setTrueCount(0);
+            //studySystem.saveProgress(getProgress()); //hier fehlt noch ein Attribut für den Progress, wherever Logic / persistence
+            studySystem.setQuestionCount(0);
+           // studySystem.setTrueCount(0);
         }
     }
 
     //TO IMPLEMENT (returns final score calculated in finishTest)
-    public int getResult() {
-        if(!studySystemRepository.getAllCardsInStudySystem().isEmpty()){
-            return (100 / studySystemRepository.getAllCardsInStudySystem().size()) *  studySystemRepository.getTrueCount();
+    public int getResult(StudySystem studySystem) {
+        List<Card> cards = getAllCardsInStudySystem(studySystem);
+        if(!cards.isEmpty()){
+            return (100 / cards.size()); //*  studySystemRepository.getTrueCount(); TODO
         }
         else {
             return 0;
         }
     }
 
+    public List<Card> getAllCardsInStudySystem(StudySystem studySystem) {
+       return studySystemRepository.getAllCardsInStudySystem(studySystem);
+    }
+
     /**
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    public Card getNextCard(){
-        studySystemRepository.setQuestionCount(studySystemRepository.getQuestionCount()+1);
+    public Card getNextCard(StudySystem studySystem){
+        //take all of the box and get the next one?
+       //TODO studySystemRepository.setQuestionCount(studySystemRepository.getQuestionCount()+1);
         return studySystemRepository.getNextCard();
     }
 //    {
@@ -129,10 +137,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 //    }
 
     //NEEDS TO BE IMPLEMENTED
-    public float getProgress()
+    public float getProgress(StudySystem studySystem)
     {
-        if(studySystemRepository.getAllCardsInStudySystem().size() > 0){
-            return studySystemRepository.getTrueCount() / studySystemRepository.getAllCardsInStudySystem().size();
+        if(studySystemRepository.getAllCardsInStudySystem(studySystem).size() > 0){
+            return 0 ;//TODO  studySystemRepository.getTrueCount() / studySystemRepository.getAllCardsInStudySystem().size();
         }
         else{
             return 0;

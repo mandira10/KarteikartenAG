@@ -4,6 +4,9 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.*;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -12,6 +15,8 @@ import java.util.ArrayList;
  * Klasse für das TimingSystem. Erbt alle Attribute vom StudySystem
  */
 @Entity
+@Getter
+@Setter
 @DiscriminatorValue("Timing")
 public class TimingSystem extends StudySystem
 {

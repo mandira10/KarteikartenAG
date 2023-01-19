@@ -5,7 +5,9 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Klasse für das LeitnerSystem. Erbt alle Attribute vom StudySystem
@@ -13,6 +15,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @DiscriminatorValue("Leitner")
 @NoArgsConstructor
+@Getter
+@Setter
 public class LeitnerSystem extends StudySystem
 {
         private int questionCount = 0;
