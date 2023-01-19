@@ -12,7 +12,19 @@ import java.util.*;
 
 @Entity
 @Setter
+@Table
 @Getter
+@NamedQuery(name = "StudySystemBox.allBoxes",
+        query = "SELECT s FROM StudySystemBox s")
+@NamedQuery(name = "StudySystemBox.allBoxesByStudySystem",
+        query = "SELECT s FROM StudySystemBox s WHERE s.studySystemBox = :studySystemBox")
+@NamedQuery(name = "StudySystemBox.findSpecificBox",
+        query = "SELECT s FROM StudySystemBox s WHERE s.id = :id")
+@NamedQuery(name = "StudySystemBox.numBoxes",
+        query = "SELECT count(*) FROM StudySystemBox s")
+@NamedQuery(name = "StudySystemBox.numBoxesByStudySystem",
+        query = "SELECT count(*) FROM StudySystemBox s WHERE s.studySystemBox = :studySystemBox")
+
 public class StudySystemBox implements Serializable
 {
     @Id
@@ -20,16 +32,16 @@ public class StudySystemBox implements Serializable
 
     @Getter(AccessLevel.PROTECTED)
     @Setter(AccessLevel.PROTECTED)
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Card> boxContent;
 
     /**
      * Zugehöriges Deck
      */
-//    @OneToMany
-//    @Setter(AccessLevel.NONE)
-//    @JoinColumn(name = "studySystembox_id")
-//    private final BoxToCard boxToCard;
+    @ManyToOne
+    @Setter(AccessLevel.NONE)
+    @JoinColumn(name = "studySystembox_id")
+    private final StudySystemBox studySystemBox;
     /**
      * Konstruktor um eine neue interne Box für ein Lernsystem anzulegen.
      *
@@ -37,7 +49,7 @@ public class StudySystemBox implements Serializable
     public StudySystemBox(List<Card> cards) {
         this.id = UUID.randomUUID().toString();
         this.boxContent = cards;
-//        this.boxToCard = boxToCard;
+        this.studySystemBox = null;
     }
 
     /**
@@ -46,6 +58,7 @@ public class StudySystemBox implements Serializable
     public StudySystemBox() {
         this.id = UUID.randomUUID().toString();
         this.boxContent = new ArrayList<>();
+        this.studySystemBox = null;
     }
 
     /**

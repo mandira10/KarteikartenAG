@@ -17,6 +17,7 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
+@Table (name = "StudySystemBox")
 @DiscriminatorColumn(name = "StudySystemType")
 public abstract class StudySystem implements Serializable
 {
@@ -62,8 +63,8 @@ public abstract class StudySystem implements Serializable
     /**
      * Einzelne Boxen des Systems, die Karten enthalten
      */
-    @OneToMany (mappedBy = "studySystem",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    protected List<StudySystemBox> boxes = new ArrayList<>(); //ArrayList funktioniert nicht, man muss generelle Typen nehmen
+    @OneToMany (mappedBy = "studySystemBox",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    protected List<StudySystemBox> boxes = new ArrayList<StudySystemBox>(); //ArrayList funktioniert nicht, man muss generelle Typen nehmen
 
     /**
      * Zugehöriger Typ des Systems
