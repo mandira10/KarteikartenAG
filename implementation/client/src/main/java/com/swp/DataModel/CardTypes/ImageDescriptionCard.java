@@ -4,10 +4,7 @@ import java.nio.ByteBuffer;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,7 +33,7 @@ public class ImageDescriptionCard extends Card
     /**
      * Antwort der Frage
      */
-    @Column
+    @OneToMany
     private ImageDescriptionCardAnswer[] answers;
 
     /**
