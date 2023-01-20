@@ -34,6 +34,7 @@ public class ImageDescriptionCard extends Card
      * Antwort der Frage
      */
     @OneToMany
+    @Embedded
     private ImageDescriptionCardAnswer[] answers;
 
     /**

@@ -93,7 +93,7 @@ public class CardRepository extends BaseRepository<Card> {
      * @param uuid eine UUID als String
      * @return eine Card mit entsprechender UUID, oder `null` falls keine gefunden wurde.
      */
-    public Card getCardByUUID(String uuid) {
+    public Card getCardByUUID(String uuid) throws NoResultException {
         return getEntityManager()
                 .createNamedQuery("Card.findCardByUUID", Card.class)
                 .setParameter("uuid", uuid)

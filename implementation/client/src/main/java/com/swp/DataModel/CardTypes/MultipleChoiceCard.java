@@ -58,6 +58,10 @@ public class MultipleChoiceCard extends Card
         setTitle(title);
         this.question = question;
         this.answers = answers;
+        // wenn irgendeiner der hinterlegten Indexe außerhalb vom Antworten-Array liegt,
+        // dann ist die Eingabe nicht gültig. Also Exception werfen.
+        if (Arrays.stream(correctAnswers).anyMatch(a -> a >= answers.length) )
+            throw new IllegalArgumentException("Indexes of correctAnswers has to be within valid range of array `answers`!");
         this.correctAnswers = correctAnswers;
         this.visibility = visible;
         setContent();
