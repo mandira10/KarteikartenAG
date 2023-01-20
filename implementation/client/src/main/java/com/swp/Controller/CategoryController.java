@@ -1,6 +1,7 @@
 package com.swp.Controller;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;
@@ -163,9 +164,9 @@ public class CategoryController {
      *
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
      */
-    public void getCardsInCategory(Category category, DataCallback<Card> dataCallback) {
+    public void getCardsInCategory(Category category, DataCallback<CardOverview> dataCallback) {
         try {
-            List<Card> cards = categoryLogic.getCardsInCategory(category);
+            List<CardOverview> cards = categoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
                 log.info("Es gibt keine Karten zu dieser Kategorie");
@@ -189,10 +190,10 @@ public class CategoryController {
      *
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
      */
-    public void getCardsInCategory(String category, DataCallback<Card> dataCallback) {
+    public void getCardsInCategory(String category, DataCallback<CardOverview> dataCallback) {
 
         try {
-            List<Card> cards = categoryLogic.getCardsInCategory(category);
+            List<CardOverview> cards = categoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
                 NotificationGUI.addNotification("Es gibt keine Karten für diese Kategorie", Notification.NotificationType.INFO, 5);

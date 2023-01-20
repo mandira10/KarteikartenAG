@@ -61,6 +61,9 @@ public class DeckOverviewPage extends Page
         }, new SearchbarCallback() {
             @Override public void run(String query, int option) 
             {
+                if(query.equals(""))
+                    loadDecks();
+                else
                 loadDecks(query);
             }
         });

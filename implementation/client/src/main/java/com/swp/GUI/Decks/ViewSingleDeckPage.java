@@ -8,6 +8,7 @@ import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -85,9 +86,9 @@ public class ViewSingleDeckPage extends Page
         this.pDeck = deck;
         pCardList.reset();
 
-        StudySystemController.getInstance().getAllCardsInStudySystem(this.pDeck, new DataCallback<Card>() {
+        StudySystemController.getInstance().getAllCardsInStudySystem(this.pDeck, new DataCallback<CardOverview>() {
             @Override
-            public void onSuccess(List<Card> data) {
+            public void onSuccess(List<CardOverview> data) {
                 pCardList.addCards(data.stream().collect(Collectors.toSet()));
             }
 

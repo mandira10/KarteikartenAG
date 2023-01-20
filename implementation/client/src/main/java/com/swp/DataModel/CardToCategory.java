@@ -9,7 +9,7 @@ import java.util.UUID;
 @Table//(uniqueConstraints = @UniqueConstraint(name = "uniqueCardCategory",columnNames = {"card_uuid","category_uuid"}))
 @Getter
 @NamedQuery(name = "CardToCategory.allCardsOfCategory",
-            query = "SELECT c2c.card FROM CardToCategory c2c WHERE c2c.category = :category")
+            query = "SELECT c FROM CardOverview c LEFT JOIN CardToCategory c2c ON c2c.card = c.uUUID WHERE c2c.category = :category")
 @NamedQuery(name = "CardToCategory.allCategoriesOfCard",
             query = "SELECT c2c.category FROM CardToCategory c2c WHERE c2c.card = :card")
 @NamedQuery(name = "CardToCategory.allC2CByCard",

@@ -38,10 +38,11 @@ public class CardRepository extends BaseRepository<Card> {
     /**
      * @return List<CardOverview> eine Übersicht
      */
-    public List<CardOverview> getCardOverview() {
+    public List<CardOverview> getCardOverview(int from, int to) {
+        assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
         return getEntityManager()
                 .createQuery("SELECT c FROM CardOverview c", CardOverview.class)
-                .getResultList();
+                .setFirstResult(from).setMaxResults(to - from).getResultList();
     }
 
     /**
@@ -78,9 +79,9 @@ public class CardRepository extends BaseRepository<Card> {
      * @param searchWords ein String nach dem im Inhalt aller Karten gesucht werden soll.
      * @return Set<Card> eine Menge von Karten, welche `searchWords` als Teilstring im Inhalt hat.
      */
-    public List<Card> findCardsContaining(String searchWords) {
+    public List<CardOverview> findCardsContaining(String searchWords) {
         return getEntityManager()
-                .createNamedQuery("Card.findCardsByContent", Card.class)
+                .createNamedQuery("CardOverview.findCardsByContent", CardOverview.class)
                 .setParameter("content", "%" + searchWords + "%")
                 .getResultList();
     }
@@ -107,9 +108,9 @@ public class CardRepository extends BaseRepository<Card> {
      * @return Set<Card> eine Menge von Karten, die der Kategorie zugeordnet sind.
      * @throws NoResultException falls keine Karte mit dieser Kategorie existiert
      */
-    public List<Card> getCardsByCategory(Category category) throws NoResultException {
+    public List<CardOverview> getCardsByCategory(Category category) throws NoResultException {
         return getEntityManager()
-                .createNamedQuery("CardToCategory.allCardsOfCategory", Card.class)
+                .createNamedQuery("CardToCategory.allCardsOfCategory", CardOverview.class)
                 .setParameter("category", category)
                 .getResultList();
     }
@@ -145,9 +146,9 @@ public class CardRepository extends BaseRepository<Card> {
         return new ArrayList<>();
     }
 
-    public List<Card> findCardsByStudySystem(StudySystem oldStudyS) {
+    public List<CardOverview> findCardsByStudySystem(StudySystem oldStudyS) {
         return getEntityManager()
-                .createNamedQuery("BoxToCard.allCardsWithStudySystem", Card.class)
+                .createNamedQuery("CardOverview.allCardsWithStudySystem", CardOverview.class)
                 .setParameter("studySystem", oldStudyS.getUuid())
                 .getResultList();
     }

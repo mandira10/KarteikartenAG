@@ -1,6 +1,7 @@
 package com.swp.Logic;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
@@ -128,7 +129,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     //TO IMPLEMENT (returns final score calculated in finishTest)
     public int calculateResultAndSave(StudySystem studySystem) {
-        List<Card> cards = getAllCardsInStudySystem(studySystem);
+        List<CardOverview> cards = getAllCardsInStudySystem(studySystem);
         if(!cards.isEmpty()){
             return (100 / cards.size());
             //*  studySystemRepository.getTrueCount(); TODO speichern?
@@ -138,7 +139,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         }
     }
 
-    public List<Card> getAllCardsInStudySystem(StudySystem studySystem) {
+    public List<CardOverview> getAllCardsInStudySystem(StudySystem studySystem) {
        return   execTransactional(() -> cardRepository.findCardsByStudySystem(studySystem));
     }
 
@@ -225,7 +226,7 @@ return null;
     private void resetStudySystem(StudySystem oldStudyS, StudySystem newStudyS) {
         execTransactional(() -> {
             //first get all Cards for specific deck
-            List<Card> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudyS);
+            List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudyS);
             //then move them to the other StudySystem
             // newStudyS.moveAllCardsForDeckToFirstBox(cardsToDeck);
             return true;

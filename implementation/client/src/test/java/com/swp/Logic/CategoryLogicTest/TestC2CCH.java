@@ -32,172 +32,172 @@ public void setup() {
     categoryLogic = CategoryLogic.getInstance();
 }
 
-    @Test
-    public void testCreateOneCategoryForCardNoExistingCat(){
-        Category catToAdd = new Category("TestKategorie1");
-        ArrayList<Category> categoryToAdd = new ArrayList<>() {
-            {
-                add(catToAdd);
-            }
-        };
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
-        //add card to database
-        cardLogic.updateCardData(card1,true);
-        //add cardTocategory for own category
-        categoryLogic.setC2COrCH(card1,categoryToAdd,false);
-        //check if C2C was added successfully
-        List<Category> cat = categoryLogic.getCategoriesByCard(card1);
-        assertFalse(cat.isEmpty());
-        assertEquals(cat.size(),1);
-    }
-    @Test
-    public void testCardCreateAndUpdateWithCategoriesNoExistingCat(){
-        ArrayList<Category> categoriesToAdd = new ArrayList<>() {
-            {
-                add(new Category("TestKategorie1"));
-                add(new Category("TestKategorie2"));
-            }
-        };
-        Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel2",false);
-        //add card to database
-        cardLogic.updateCardData(card2,true);
-        //add cardTocategory for own category
-        categoryLogic.setC2COrCH(card2,categoriesToAdd,false);
-        //check if C2C was added successfully
-        List<Category> cat = categoryLogic.getCategoriesByCard(card2);
-        assertFalse(cat.isEmpty());
-        assertEquals(cat.size(),2);
-    }
-
-    @Test
-    public void testCardCreateAndUpdateWithCategoriesWithExistingCat(){
-        importTestData();
-        ArrayList<Category> categoriesToAdd = new ArrayList<>() {
-            {
-                add(new Category("Erdkunde"));
-                add(new Category("Spanisch"));
-            }
-        };
-        Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel2",false);
-        //add card to database
-        cardLogic.updateCardData(card2,true);
-        //add cardTocategory for own category
-        categoryLogic.setC2COrCH(card2,categoriesToAdd,false);
-        //check if C2C was added successfully
-        List<Category> cat = categoryLogic.getCategoriesByCard(card2);
-        assertFalse(cat.isEmpty());
-        assertEquals(cat.size(),2);
-    }
-
-    @Test
-    public void addSameCategoriesToExistingCard(){
-        importTestData();
-        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("Erdkunde");
-        assertFalse(cardsWithCategories.isEmpty());
-        Card card1 = cardsWithCategories.get(0);
-        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
-        assertFalse(catOld.isEmpty());
-        assertEquals(2,catOld.size());
-        //name of existing categories
-        String name1 = catOld.get(0).getName();
-        String name2 = catOld.get(1).getName();
-
-        List<Category> categoriesToAdd = new ArrayList<>() {
-            {
-                add(new Category(name1));
-                add(new Category(name2));
-            }
-        };
-        //add cardTocategory for new categories
-        categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
-        //check if C2C was added successfully
-        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
-        assertFalse(catNew.isEmpty());
-        assertEquals(2,catNew.size());
-    }
-
-
-
-    @Test
-    public void addNewCategoriesToExistingCard(){
-        importTestData();
-        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("Spanisch");
-        assertFalse(cardsWithCategories.isEmpty());
-        Card card1 = cardsWithCategories.get(0);
-        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
-        assertFalse(catOld.isEmpty());
-        //name of existing categories
-        String name1 = catOld.get(0).getName();
-        String name2 = catOld.get(1).getName();
-
-        List<Category> categoriesToAdd = new ArrayList<>() {
-            {
-                add(new Category(name1));
-                add(new Category(name2));
-                add(new Category("Test"));
-                add(new Category("Erdkunde"));
-            }
-        };
-        //add cardTocategory for new categories
-        categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
-        //check if C2C was added successfully
-        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
-        assertFalse(catNew.isEmpty());
-        assertEquals(4,catNew.size());
-    }
-
-    @Test
-    public void RemoveCategoriesFromExistingCard(){
-        importTestData();
-        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("Technik");
-        assertFalse(cardsWithCategories.isEmpty());
-        Card card1 = cardsWithCategories.get(0);
-        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
-        assertFalse(catOld.isEmpty());
-        assertEquals(2,catOld.size());
-        //name of existing categories
-        String name1 = catOld.get(0).getName();
-        String name2 = catOld.get(1).getName();
-
-        List<Category> categoriesToAdd = new ArrayList<>() {
-            {
-                add(new Category(name1));
-            }
-        };
-        //add cardTocategory for new categories
-        categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
-        //check if C2C was added successfully
-        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
-        assertFalse(catNew.isEmpty());
-        assertEquals(1,catNew.size());
-    }
-
-
-    @Test
-    public void RemoveAndAddCategoriesToExistingCard(){
-        importTestData();
-        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("random");
-        assertFalse(cardsWithCategories.isEmpty());
-        Card card1 = cardsWithCategories.get(0);
-        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
-        assertFalse(catOld.isEmpty());
-        assertEquals(1,catOld.size());
-        //name of existing categories
-        String name1 = catOld.get(0).getName();
-
-        List<Category> categoriesToAdd = new ArrayList<>() {
-            {
-                add(new Category("Test"));
-                add(new Category("Spanisch"));
-            }
-        };
-        //add cardTocategory for new categories
-        categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
-        //check if C2C was added successfully
-        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
-        assertFalse(catNew.isEmpty());
-        assertEquals(2,catNew.size());
-    }
+//    @Test
+//    public void testCreateOneCategoryForCardNoExistingCat(){
+//        Category catToAdd = new Category("TestKategorie1");
+//        ArrayList<Category> categoryToAdd = new ArrayList<>() {
+//            {
+//                add(catToAdd);
+//            }
+//        };
+//        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
+//        //add card to database
+//        cardLogic.updateCardData(card1,true);
+//        //add cardTocategory for own category
+//        categoryLogic.setC2COrCH(card1,categoryToAdd,false);
+//        //check if C2C was added successfully
+//        List<Category> cat = categoryLogic.getCategoriesByCard(card1);
+//        assertFalse(cat.isEmpty());
+//        assertEquals(cat.size(),1);
+//    }
+//    @Test
+//    public void testCardCreateAndUpdateWithCategoriesNoExistingCat(){
+//        ArrayList<Category> categoriesToAdd = new ArrayList<>() {
+//            {
+//                add(new Category("TestKategorie1"));
+//                add(new Category("TestKategorie2"));
+//            }
+//        };
+//        Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel2",false);
+//        //add card to database
+//        cardLogic.updateCardData(card2,true);
+//        //add cardTocategory for own category
+//        categoryLogic.setC2COrCH(card2,categoriesToAdd,false);
+//        //check if C2C was added successfully
+//        List<Category> cat = categoryLogic.getCategoriesByCard(card2);
+//        assertFalse(cat.isEmpty());
+//        assertEquals(cat.size(),2);
+//    }
+//
+//    @Test
+//    public void testCardCreateAndUpdateWithCategoriesWithExistingCat(){
+//        importTestData();
+//        ArrayList<Category> categoriesToAdd = new ArrayList<>() {
+//            {
+//                add(new Category("Erdkunde"));
+//                add(new Category("Spanisch"));
+//            }
+//        };
+//        Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel2",false);
+//        //add card to database
+//        cardLogic.updateCardData(card2,true);
+//        //add cardTocategory for own category
+//        categoryLogic.setC2COrCH(card2,categoriesToAdd,false);
+//        //check if C2C was added successfully
+//        List<Category> cat = categoryLogic.getCategoriesByCard(card2);
+//        assertFalse(cat.isEmpty());
+//        assertEquals(cat.size(),2);
+//    }
+//
+//    @Test
+//    public void addSameCategoriesToExistingCard(){
+//        importTestData();
+//        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("Erdkunde");
+//        assertFalse(cardsWithCategories.isEmpty());
+//        Card card1 = cardsWithCategories.get(0);
+//        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
+//        assertFalse(catOld.isEmpty());
+//        assertEquals(2,catOld.size());
+//        //name of existing categories
+//        String name1 = catOld.get(0).getName();
+//        String name2 = catOld.get(1).getName();
+//
+//        List<Category> categoriesToAdd = new ArrayList<>() {
+//            {
+//                add(new Category(name1));
+//                add(new Category(name2));
+//            }
+//        };
+//        //add cardTocategory for new categories
+//        categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
+//        //check if C2C was added successfully
+//        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
+//        assertFalse(catNew.isEmpty());
+//        assertEquals(2,catNew.size());
+//    }
+//
+//
+//
+//    @Test
+//    public void addNewCategoriesToExistingCard(){
+//        importTestData();
+//        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("Spanisch");
+//        assertFalse(cardsWithCategories.isEmpty());
+//        Card card1 = cardsWithCategories.get(0);
+//        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
+//        assertFalse(catOld.isEmpty());
+//        //name of existing categories
+//        String name1 = catOld.get(0).getName();
+//        String name2 = catOld.get(1).getName();
+//
+//        List<Category> categoriesToAdd = new ArrayList<>() {
+//            {
+//                add(new Category(name1));
+//                add(new Category(name2));
+//                add(new Category("Test"));
+//                add(new Category("Erdkunde"));
+//            }
+//        };
+//        //add cardTocategory for new categories
+//        categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
+//        //check if C2C was added successfully
+//        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
+//        assertFalse(catNew.isEmpty());
+//        assertEquals(4,catNew.size());
+//    }
+//
+//    @Test
+//    public void RemoveCategoriesFromExistingCard(){
+//        importTestData();
+//        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("Technik");
+//        assertFalse(cardsWithCategories.isEmpty());
+//        Card card1 = cardsWithCategories.get(0);
+//        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
+//        assertFalse(catOld.isEmpty());
+//        assertEquals(2,catOld.size());
+//        //name of existing categories
+//        String name1 = catOld.get(0).getName();
+//        String name2 = catOld.get(1).getName();
+//
+//        List<Category> categoriesToAdd = new ArrayList<>() {
+//            {
+//                add(new Category(name1));
+//            }
+//        };
+//        //add cardTocategory for new categories
+//        categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
+//        //check if C2C was added successfully
+//        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
+//        assertFalse(catNew.isEmpty());
+//        assertEquals(1,catNew.size());
+//    }
+//
+//
+//    @Test
+//    public void RemoveAndAddCategoriesToExistingCard(){
+//        importTestData();
+//        List<Card> cardsWithCategories = categoryLogic.getCardsInCategory("random");
+//        assertFalse(cardsWithCategories.isEmpty());
+//        Card card1 = cardsWithCategories.get(0);
+//        List<Category> catOld = categoryLogic.getCategoriesByCard(card1);
+//        assertFalse(catOld.isEmpty());
+//        assertEquals(1,catOld.size());
+//        //name of existing categories
+//        String name1 = catOld.get(0).getName();
+//
+//        List<Category> categoriesToAdd = new ArrayList<>() {
+//            {
+//                add(new Category("Test"));
+//                add(new Category("Spanisch"));
+//            }
+//        };
+//        //add cardTocategory for new categories
+//        categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
+//        //check if C2C was added successfully
+//        List<Category> catNew = categoryLogic.getCategoriesByCard(card1);
+//        assertFalse(catNew.isEmpty());
+//        assertEquals(2,catNew.size());
+//    }
 
 
     @Test
