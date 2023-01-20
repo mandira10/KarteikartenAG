@@ -6,8 +6,13 @@ import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
+import com.swp.DataModel.StudySystem.LeitnerSystem;
+import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.TimingSystem;
+import com.swp.DataModel.StudySystem.VoteSystem;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CategoryLogic;
+import com.swp.Logic.StudySystemLogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +27,7 @@ public class TestDataClass {
         final CategoryController categoryController = CategoryController.getInstance();
         final CardController cardController = CardController.getInstance();
         final CategoryLogic categoryLogic = CategoryLogic.getInstance();
+        final StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
 
         Category randomCategory = new Category("Random");
         Category schuleCategory = new Category("Schule");
@@ -352,26 +358,26 @@ public class TestDataClass {
 
         //TestData For Decks
 
-        /*Deck deck1 = new Deck("Spanisch", Deck.CardOrder.ALPHABETICAL,false);
-        StudySystem studySystem1 = new LeitnerSystem(deck1);
-        studySystem1.moveAllCardsForDeckToFirstBox(spanischL);
-        deckLogic.updateDeckData(null, deck1, true);
-        Deck deck2 = new Deck("Erdkunde", Deck.CardOrder.RANDOM,false);
-        StudySystem studySystem2 = new VoteSystem(deck2);
-        studySystem2.moveAllCardsForDeckToFirstBox(erdkundeL);
-        deckLogic.updateDeckData(null, deck2, true);
-        Deck deck3 = new Deck("Technik", Deck.CardOrder.RANDOM,false);
-        StudySystem studySystem3 = new TimingSystem(deck3,5);
-        studySystem3.moveAllCardsForDeckToFirstBox(technikL);
-        deckLogic.updateDeckData(null, deck3, true);
-        Deck deck4 = new Deck("2000er", Deck.CardOrder.RANDOM,false);
-        StudySystem studySystem4 = new LeitnerSystem(deck4);
-        studySystem4.moveAllCardsForDeckToFirstBox(zweitausender);
-        deckLogic.updateDeckData(null, deck4, true);
-        Deck deck5 = new Deck("Serien", Deck.CardOrder.RANDOM,false);
-        StudySystem studySystem5 = new LeitnerSystem(deck5);
-        studySystem5.moveAllCardsForDeckToFirstBox(serien);
-        deckLogic.updateDeckData(null, deck5, true);*/
+        StudySystem studySystem1 = new LeitnerSystem("Spanisch", StudySystem.CardOrder.ALPHABETICAL, false);
+        studySystemLogic.updateStudySystemData(null, studySystem1, true);
+        studySystemLogic.moveAllCardsForDeckToFirstBox(spanischL,studySystem1);
+
+        StudySystem studySystem2 = new TimingSystem("Erdkunde", StudySystem.CardOrder.RANDOM, false,5);
+        studySystemLogic.updateStudySystemData(null, studySystem2, true);
+        studySystemLogic.moveAllCardsForDeckToFirstBox(erdkundeL,studySystem2);
+
+        StudySystem studySystem3 = new VoteSystem("Technik", StudySystem.CardOrder.ALPHABETICAL, false);
+        studySystemLogic.updateStudySystemData(null, studySystem3, true);
+        studySystemLogic.moveAllCardsForDeckToFirstBox(technikL,studySystem3);
+
+        StudySystem studySystem4 = new LeitnerSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL, false);
+        studySystemLogic.updateStudySystemData(null, studySystem4, true);
+        studySystemLogic.moveAllCardsForDeckToFirstBox(zweitausender,studySystem4);
+
+        StudySystem studySystem5 = new LeitnerSystem("Serien", StudySystem.CardOrder.ALPHABETICAL, false);
+        studySystemLogic.updateStudySystemData(null, studySystem5, true);
+        studySystemLogic.moveAllCardsForDeckToFirstBox(serien,studySystem5);
+
 
 
         //TestData for Hierarchy

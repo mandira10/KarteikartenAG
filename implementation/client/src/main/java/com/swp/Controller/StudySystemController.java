@@ -1,6 +1,7 @@
 package com.swp.Controller;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
@@ -67,10 +68,10 @@ public class StudySystemController{
      * @param studySystem
      * @param dataCallback
      */
-    public void getAllCardsInStudySystem(StudySystem studySystem, DataCallback<Card> dataCallback) {
+    public void getAllCardsInStudySystem(StudySystem studySystem, DataCallback<CardOverview> dataCallback) {
 
         try {
-            List<Card> cards = studySystemLogic.getAllCardsInStudySystem(studySystem);
+            List<CardOverview> cards = studySystemLogic.getAllCardsInStudySystem(studySystem);
 
             if (cards.isEmpty()) {
                 dataCallback.onInfo("Es gibt keine Karten zu diesem StudySystem");
@@ -150,10 +151,10 @@ public class StudySystemController{
      * @return Karte die als nächstes gelernt werden soll
      * //TODO: javadoc, ich würde sagen wir brauchen hier die Box noch, damit wir wissen, woraus wir die nächste Karte ziehen
      */
-    public void getNextCard(StudySystem studySystem, int box, boolean startTesting,SingleDataCallback<Card> singleDataCallback)
+    public void getNextCard(StudySystem studySystem, SingleDataCallback<Card> singleDataCallback)
     {
         try{
-            singleDataCallback.onSuccess(studySystemLogic.getNextCard(studySystem, box, startTesting));
+            singleDataCallback.onSuccess(studySystemLogic.getNextCard(studySystem));
         }
         catch (Exception e){
             singleDataCallback.onFailure(e.getMessage());

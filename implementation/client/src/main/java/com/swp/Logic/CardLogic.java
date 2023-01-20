@@ -44,6 +44,10 @@ public class CardLogic extends BaseLogic<Card>
         return execTransactional(() -> cardRepository.getCardRange(begin, end));
     }
 
+    public List<CardOverview> getCardOverview(int begin, int end) {
+        return execTransactional(() -> cardRepository.getCardOverview(begin, end));
+    }
+
     /**
      * Wird verwendet bei einer Filterung nach einem bestimmten Tag. Prüft zunächst, dass der übergebene Tag nicht
      * null oder leer ist und gibt die Funktion dann an das Card Repository weiter.
@@ -60,10 +64,11 @@ public class CardLogic extends BaseLogic<Card>
     /**
      * Methode wird verwendet, um passende Karten für die angegebenen Suchwörter zu identifizieren. Prüft zunächst,
      * dass der übergebene Tag nicht null oder leer ist und gibt die Funktion dann an das Card Repository weiter.
+     *
      * @param terms Suchwörter, die durch ein Leerzeichen voneinander getrennt sind
      * @return Set der Karten, die Suchwörter enthalten.
      */
-    public List<Card> getCardsBySearchterms(String terms)
+    public List<CardOverview> getCardsBySearchterms(String terms)
     {
         checkNotNullOrBlank(terms, "Suchbegriff",true);
         return execTransactional(() -> cardRepository.findCardsContaining(terms));
@@ -247,5 +252,6 @@ public class CardLogic extends BaseLogic<Card>
             return null; // Lambda braucht einen return
         });
     }
+
 
 }

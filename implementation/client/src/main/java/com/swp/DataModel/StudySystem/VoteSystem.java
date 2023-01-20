@@ -23,8 +23,8 @@ public class VoteSystem extends StudySystem
      * Konstruktor der Klasse VoteSystem.
      * TODO
      */
-    public VoteSystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility) {
-        super(name, cardOrder, type, nboxes, visibility);
+    public VoteSystem(String name, CardOrder cardOrder, boolean visibility) {
+        super(name, cardOrder, StudySystemType.VOTE,6, visibility);
     }
 
     public VoteSystem(VoteSystem other) {

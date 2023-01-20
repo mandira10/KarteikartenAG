@@ -42,12 +42,6 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
         return new ArrayList<>();
     }
 
-    public BoxToCard findSpecificCardInBoxForStudySystem(StudySystem studySystem) {
-        //TODO, if not null then return
-        //else NoResultException
-        return null;
-    }
-
     /**
      * Die Funktion `createCardToDeck` erstellt eine neues `CardToDecl`, welches eine Karte mit einem Tag in
      * Verbindung setzt und persistiert dieses in der Datenbank.

@@ -13,8 +13,6 @@ import java.util.UUID;
 @Table(uniqueConstraints = @UniqueConstraint(name = "uniqueCardBox",columnNames = {"card_uuid","studySystemBox_id"}))
 @Getter
 @Setter
-@NamedQuery(name = "BoxToCard.allCardsWithStudySystem",
-        query = "SELECT b2c.card FROM BoxToCard b2c LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
 @NamedQuery(name = "BoxToCard.allC2DByCard",
         query = "SELECT b2c.studySystemBox FROM BoxToCard b2c WHERE b2c.card = :card")
 @NamedQuery(name = "BoxToCard.allb2cByCard",

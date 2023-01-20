@@ -25,9 +25,8 @@ public class LeitnerSystem extends StudySystem
          *
          * TODO
          */
-        public LeitnerSystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility)
-        {super(name,cardOrder,type,nboxes,visibility);
-//                super(deck, StudySystemType.LEITNER, 5);
+        public LeitnerSystem(String name, CardOrder cardOrder, boolean visibility)
+        {super(name,cardOrder,StudySystemType.LEITNER,5,visibility);
                  }
 
                  public LeitnerSystem(LeitnerSystem other){
