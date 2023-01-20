@@ -32,7 +32,7 @@ public class TimingSystem extends StudySystem
      */
     public TimingSystem(String name, CardOrder cardOrder, boolean visibility,int timeLimit){
         super(name,cardOrder,StudySystemType.TIMING,visibility);
-        initStudySystemBoxes(5); //Do we need a daysToRelearn here?
+        this.boxes.add(new StudySystemBox(this));
 //        super(StudySystemType.TIMING, 5);
              this.timeLimit = timeLimit;}
 
@@ -42,17 +42,6 @@ public class TimingSystem extends StudySystem
         answerTime = other.getAnswerTime();
         trueCount = other.getTrueCount();
 
-    }
-
-    /**
-     * Initiiert die Boxen des StudySystems
-     * @param size: Übergebene Anzahl der Boxen für das StudySystem
-     * @return Boxliste des StudySystems
-     */
-    @Override
-    protected void  initStudySystemBoxes(int size) {
-        for (int i = 0; i < size; i++)
-            this.boxes.add(new StudySystemBox(this));
     }
 
 

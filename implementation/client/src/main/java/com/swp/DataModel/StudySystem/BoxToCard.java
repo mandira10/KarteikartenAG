@@ -72,6 +72,10 @@ public class BoxToCard {
     @Column
     private int boxNumber;
 
+    @Column
+    private int rating;
+
+
     /**
      * Status der Karte im studySystemBox. Wird beim Lernen aktualisiert.
      */

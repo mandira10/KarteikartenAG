@@ -1,7 +1,6 @@
 package com.swp.Logic.CardLogicTest;
 
 import com.swp.DataModel.CardToCategory;
-import com.swp.DataModel.CardToDeck;
 import com.swp.DataModel.CardToTag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;

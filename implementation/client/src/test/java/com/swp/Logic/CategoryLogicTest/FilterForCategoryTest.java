@@ -1,6 +1,7 @@
 package com.swp.Logic.CategoryLogicTest;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
@@ -52,13 +53,10 @@ public class FilterForCategoryTest {
 
     @Test
     public void testListOfCardsForCategory(){
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
-        Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel1",true);
-        Card card3  = new TextCard("Testfrage2","Testantwort2","Testtitel2",true);
-        final List<Card> expected = Arrays.asList(new Card[]{card1,card2,card3});
-        //when(cardRepMock.getCardsByCategory(categoryRepMock.find(anyString()))).thenReturn(expected);
-        //List<Card> actual = categoryLogic.getCardsInCategory("test");
-        //assertEquals(expected,actual);
+        final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardRepMock.getCardsByCategory(categoryRepMock.find(anyString()))).thenReturn(expected);
+        List<CardOverview> actual = categoryLogic.getCardsInCategory("test");
+        assertEquals(expected,actual);
     }
 
 }

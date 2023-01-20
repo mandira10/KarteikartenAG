@@ -55,7 +55,7 @@ public class CardLogic extends BaseLogic<Card>
      * @return Set der Karten, die Tag enthalten
      * @throws NoResultException falls es keinen Tag, oder Karte mit entsprechendem Tag gibt.
      */
-    public List<Card> getCardsByTag(String tagName) {
+    public List<CardOverview> getCardsByTag(String tagName) {
         checkNotNullOrBlank(tagName, "Tag",true);
         return execTransactional(() -> cardRepository.findCardsByTag(
                 tagRepository.findTag(tagName)));

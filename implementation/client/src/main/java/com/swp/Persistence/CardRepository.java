@@ -65,9 +65,9 @@ public class CardRepository extends BaseRepository<Card> {
      * @param tag ein Tag für den alle Karten gesucht werden sollen, die diesen haben.
      * @return Set<Card> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
      */
-    public List<Card> findCardsByTag(Tag tag) {
+    public List<CardOverview> findCardsByTag(Tag tag) {
         return getEntityManager()
-                .createNamedQuery("CardToTag.allCardsWithTag", Card.class)
+                .createNamedQuery("CardOverview.allCardsWithTag", CardOverview.class)
                 .setParameter("tag", tag).getResultList();
     }
 
@@ -115,32 +115,6 @@ public class CardRepository extends BaseRepository<Card> {
                 .getResultList();
     }
 
-    //
-    // Tags
-    //
-
-    /**
-     * Die Funktion `getTags` liefer alle gespeicherten Tags zurück.
-     *
-     * @return Set<Tag> eine Menge mit allen Tags
-     */
-    public List<Tag> getTags() {
-        return getEntityManager()
-                .createQuery("SELECT t FROM Tag t", Tag.class)
-                .getResultList();
-    }
-
-    /**
-     * Die Funktion `getCardToTags` liefer alle `CardToTag`-Objekte zurück.
-     * Sie stellen die Verbindungen zwischen Karten und Tags dar.
-     *
-     * @return List<CardToTag> eine Menge mit allen `CardToTag`-Objekten.
-     */
-    public List<CardToTag> getCardToTags() {
-        return getEntityManager()
-                .createQuery("SELECT CardToTag FROM CardToTag", CardToTag.class)
-                .getResultList();
-    }
 
 
     public List<CardOverview> findCardsByStudySystem(StudySystem oldStudyS) {
@@ -159,6 +133,11 @@ public class CardRepository extends BaseRepository<Card> {
      * @return
      */
     public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem, StudySystem.CardOrder cardOrder) {
+        return new ArrayList<>();
+    }
+
+    public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
+        //TODO gib mir alle Karten sortiert nach Ranking fürs nächste Lernen,
         return new ArrayList<>();
     }
 }

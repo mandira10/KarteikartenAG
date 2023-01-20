@@ -1,8 +1,6 @@
 package com.swp.Persistence;
 
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardToDeck;
-import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;

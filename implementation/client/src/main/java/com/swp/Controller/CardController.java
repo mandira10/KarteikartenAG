@@ -57,9 +57,9 @@ public class CardController {
      *
      * @param tag: Der Tag, zu dem die Karten abgerufen werden sollen
      */
-    public void getCardsByTag(String tag, DataCallback<Card> callback) {
+    public void getCardsByTag(String tag, DataCallback<CardOverview> callback) {
         try {
-            List<Card> cardsForTag = cardLogic.getCardsByTag(tag);
+            List<CardOverview> cardsForTag = cardLogic.getCardsByTag(tag);
 
             if (cardsForTag.isEmpty())
                 callback.onInfo("Es gibt keine Karten für diesen Tag");

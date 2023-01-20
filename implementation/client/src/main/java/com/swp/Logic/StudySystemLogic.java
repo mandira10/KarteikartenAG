@@ -136,6 +136,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return Karte die als nächstes gelernt werden soll
      */
     public Card getNextCard(StudySystem studySystem){
+        //je nach Lernsystem ausgeben
        //first off all gib mir alle Karten, die zu lernen sind aktuell, Logik siehe Repo-funktion
         if(testingBoxCards.isEmpty()){
             testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem, studySystem.getCardOrder());
@@ -153,6 +154,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     public void giveRating(StudySystem studySystem,int rating) {
         //TODO eigentlich nur für VoteSystem? Get Rating?
     };
+
+    //GIb mir all Karten für das VoteSystem
+    public List <Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
+        //testingBoxCards
+      return cardRepository.getAllCardsSortedForVoteSystem(studySystem);
+    }
 
     //TO IMPLEMENT
     public void giveTime(StudySystem studySystem,float seconds) {
@@ -172,6 +179,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         }
         else{
             //TODO was muss hier genau passieren?
+            // List<Card> testingBoxCards; remove all Cards
             //trueCount und QuestionCount auf 0? Also brauchen wir die nciht in der Database?
             //studySystem.saveProgress(getProgress()); //hier fehlt noch ein Attribut für den Progress, wherever Logic / persistence
             studySystem.setQuestionCount(0);
