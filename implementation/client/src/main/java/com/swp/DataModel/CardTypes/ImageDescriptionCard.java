@@ -7,6 +7,7 @@ import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,15 +18,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-//@Entity
-//@DiscriminatorValue("IMAGEDESC")
+@Entity
+@DiscriminatorValue("IMAGEDESC")
 public class ImageDescriptionCard extends Card
 {
+    
     /**
      * Bilddatei für die Frage
      */
-    @Column
-    private String image;  //Not optimal
+    @Lob
+    private Byte[] imageBytes;
 
     /**
      * Antwort der Frage
@@ -38,7 +40,11 @@ public class ImageDescriptionCard extends Card
      */
     public ImageDescriptionCard()
     {
-        this("", new ImageDescriptionCardAnswer[] {}, "", "", false);
+        this.question = "";
+        this.imageBytes = null;
+        this.answers = null;
+        this.visibility = false;
+        setContent();
     }
 
     /**
@@ -48,12 +54,12 @@ public class ImageDescriptionCard extends Card
      * @param title Optionaler Titel der Karte
      * @param visible Sichtbarkeit der Karte
      */
-    public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, String image, boolean visible)
+    public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, Byte[] imageBytes, boolean visible)
     {
         super(CardType.IMAGEDESC);
         setTitle(title);
         this.question = question;
-        this.image = image;
+        this.imageBytes = imageBytes;
         this.answers = answers;
         this.visibility = visible;
         setContent();
