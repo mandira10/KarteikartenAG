@@ -33,11 +33,6 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
     }
 
 
-    public List<Card> getAllCardsInStudySystem(StudySystem studySystem){
-        //TODO
-        //should return allCardsInASpecificBox
-        return null;
-    }
 
 
 

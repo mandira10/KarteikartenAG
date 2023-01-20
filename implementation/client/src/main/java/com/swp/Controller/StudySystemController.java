@@ -150,10 +150,10 @@ public class StudySystemController{
      * @return Karte die als nächstes gelernt werden soll
      * //TODO: javadoc, ich würde sagen wir brauchen hier die Box noch, damit wir wissen, woraus wir die nächste Karte ziehen
      */
-    public void getNextCard(StudySystem studySystem, int box, boolean startTesting,SingleDataCallback<Card> singleDataCallback)
+    public void getNextCard(StudySystem studySystem, SingleDataCallback<Card> singleDataCallback)
     {
         try{
-            singleDataCallback.onSuccess(studySystemLogic.getNextCard(studySystem, box, startTesting));
+            singleDataCallback.onSuccess(studySystemLogic.getNextCard(studySystem));
         }
         catch (Exception e){
             singleDataCallback.onFailure(e.getMessage());

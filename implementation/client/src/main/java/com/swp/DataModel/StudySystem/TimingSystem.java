@@ -30,8 +30,8 @@ public class TimingSystem extends StudySystem
      * Konstruktor der Klasse TimingSystem.
      * TODO
      */
-    public TimingSystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility,int timeLimit){
-        super(name,cardOrder,type,nboxes,visibility);
+    public TimingSystem(String name, CardOrder cardOrder, boolean visibility,int timeLimit){
+        super(name,cardOrder,StudySystemType.TIMING,5,visibility);
 
 //        super(StudySystemType.TIMING, 5);
              this.timeLimit = timeLimit;}

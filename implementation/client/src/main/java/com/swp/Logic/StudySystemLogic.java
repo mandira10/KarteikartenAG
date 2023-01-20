@@ -2,7 +2,6 @@ package com.swp.Logic;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
-import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
@@ -46,17 +45,19 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public void moveCardToBox(Card card, StudySystemBox newBox, StudySystem studySystem)
     {
-        BoxToCard boxToCard;
-        try{
-            boxToCard = cardToBoxRepository.findSpecificCardInBoxForStudySystem(studySystem);
-            boxToCard.setStudySystemBox(newBox);
-            cardToBoxRepository.update(boxToCard);
-        }
-        catch(NoResultException ex){
-            boxToCard = new BoxToCard(card,newBox);
-            //save new BoxToCard
-            cardToBoxRepository.save(boxToCard);
-        }
+        execTransactional(() -> {
+            BoxToCard boxToCard;
+            try {
+                boxToCard = cardToBoxRepository.getSpecific(card, studySystem);
+                boxToCard.setStudySystemBox(newBox);
+                cardToBoxRepository.update(boxToCard);
+            } catch (NoResultException ex) {
+                boxToCard = new BoxToCard(card, newBox);
+                //save new BoxToCard
+                cardToBoxRepository.save(boxToCard);
+            }
+            return null;
+        });
 
     }
 
@@ -138,41 +139,48 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
     public List<Card> getAllCardsInStudySystem(StudySystem studySystem) {
-       return studySystemRepository.getAllCardsInStudySystem(studySystem);
+       return   execTransactional(() -> cardRepository.findCardsByStudySystem(studySystem));
     }
 
     /**
      * Gibt die nächste Karte zum Lernen zurück
      * @return Karte die als nächstes gelernt werden soll
      */
-    public Card getNextCard(StudySystem studySystem, int box, boolean startTesting){
-        if(startTesting)
-            testingBoxCards = cardRepository.getAllCardsForBox(studySystem.getBoxes().get(box), studySystem.getCardOrder());
+    public Card getNextCard(StudySystem studySystem){
+        if(testingBoxCards.isEmpty()){}
+           // testingBoxCards = cardRepository.getAllCardsForBox(studySystem.getBoxes().get(box), studySystem.getCardOrder());
 
-        if(!testingBoxCards.isEmpty()){
-            Card cardToLearn = testingBoxCards.get(0);
-            testingBoxCards.remove(cardToLearn);
-            studySystem.incrementQuestionCount();
-            return cardToLearn;
-        }
-        else {
-            throw new IllegalStateException("Keine Karten mehr in Box enthalten");
+
+            //Card cardToLearn = testingBoxCards.get(0);
+           // testingBoxCards.remove(cardToLearn);
+            //studySystem.incrementQuestionCount();
+           // return cardToLearn;
+
+
+            //throw new IllegalStateException("Keine Karten mehr in Box enthalten");
             //TODO take all of the box and get the next one?
 
 
-        }
+return null;
 
     }
 
 
     public float getProgress(StudySystem studySystem)
     {
-        if(studySystemRepository.getAllCardsInStudySystem(studySystem).size() > 0){
-            return 0 ;//TODO  studySystemRepository.getTrueCount() / studySystemRepository.getAllCardsInStudySystem().size();
-        }
-        else{
-            return 0;
-        }
+//        float progress = 0;
+//        execTransactional(() -> {
+//
+//        if(studySystemRepository.getAllCardsInStudySystem(studySystem).size() > 0){
+//            progress = 0 ;//TODO  studySystemRepository.getTrueCount() / studySystemRepository.getAllCardsInStudySystem().size();
+//        }
+//        else{
+//            progress = 0;
+//        }
+//            return null;
+//        });
+//       return progress;
+        return 0;
     }
 
 
@@ -199,10 +207,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         execTransactional(() -> {
             if(neu) {
                 studySystemRepository.save(newStudySystem);
-                //nach Saven müssen alle CardToDecks erstellt werden, Handling tbd.
-                // for(Card c : newdeck.getStudySystem().getAllCardsInStudySystem()){
-                //     cardToDeckRepository.createCardToDeck(c,newdeck);
-                //}
             }
 
             else if(!neu && newStudySystem.getType().equals(oldStudySystem.getType()))
