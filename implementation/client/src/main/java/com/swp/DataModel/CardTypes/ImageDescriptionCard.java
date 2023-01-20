@@ -22,12 +22,16 @@ import lombok.Setter;
 @DiscriminatorValue("IMAGEDESC")
 public class ImageDescriptionCard extends Card
 {
-    
+
     /**
      * Bilddatei für die Frage
      */
-    @Lob
-    private Byte[] imageBytes;
+    //@Lob
+    //@Column
+    //private Byte[] imageBytes;
+
+    @Column
+    private String image; //Not optimal
 
     /**
      * Antwort der Frage
@@ -40,11 +44,12 @@ public class ImageDescriptionCard extends Card
      */
     public ImageDescriptionCard()
     {
-        this.question = "";
-        this.imageBytes = null;
-        this.answers = null;
-        this.visibility = false;
-        setContent();
+        //this.question = "";
+        //this.imageBytes = null;
+        //this.answers = null;
+        //this.visibility = false;
+        //setContent();
+        this("", new ImageDescriptionCardAnswer[] {}, "", "", false);
     }
 
     /**
@@ -54,12 +59,23 @@ public class ImageDescriptionCard extends Card
      * @param title Optionaler Titel der Karte
      * @param visible Sichtbarkeit der Karte
      */
-    public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, Byte[] imageBytes, boolean visible)
+    //public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, Byte[] imageBytes, boolean visible)
+    //{
+    //    super(CardType.IMAGEDESC);
+    //    setTitle(title);
+    //    this.question = question;
+    //    this.imageBytes = imageBytes;
+    //    this.answers = answers;
+    //    this.visibility = visible;
+    //    setContent();
+    //}
+
+    public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, String image, boolean visible)
     {
         super(CardType.IMAGEDESC);
         setTitle(title);
         this.question = question;
-        this.imageBytes = imageBytes;
+        this.image = image;
         this.answers = answers;
         this.visibility = visible;
         setContent();
