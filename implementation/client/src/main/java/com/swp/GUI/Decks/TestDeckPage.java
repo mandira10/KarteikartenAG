@@ -95,7 +95,7 @@ public class TestDeckPage extends Page
                     bNextCardAllowed = true;
                     bStopTime = true;
 
-                    studySystemController.giveAnswer(pDeck, pTestGUI.checkAnswers(), new SingleDataCallback() {
+                    studySystemController.giveAnswer(pDeck, pTestGUI.checkAnswers(),  new SingleDataCallback() {
                         @Override
                         public void onSuccess(Object data) {}
 

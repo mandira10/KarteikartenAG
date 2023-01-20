@@ -48,8 +48,8 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
      * @param card eine Karte, der ein Tag zugeordnet werden soll
      * @param studySystemBox ein Tag, der der Karte zugeordnet werden soll
      */
-    public void createCardToBox(Card card, StudySystemBox studySystemBox) {
-        getEntityManager().persist(new BoxToCard(card, studySystemBox));
+    public void createCardToBox(Card card, StudySystemBox studySystemBox, int box) {
+        getEntityManager().persist(new BoxToCard(card, studySystemBox, box));
     }
 
 

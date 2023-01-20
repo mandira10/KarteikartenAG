@@ -33,6 +33,9 @@ public class StudySystemBox implements Serializable
     @JoinColumn(name = "studySystembox_id")
     private StudySystem studySystem;
 
+    @Column
+    private int daysToLearnAgain;
+
     /**
      * Konstruktor um eine neue leere Box für ein Lernsystem anzulegen.
      *
@@ -40,6 +43,12 @@ public class StudySystemBox implements Serializable
     public StudySystemBox(StudySystem studySystem) {
         this.studySystem = studySystem;
         this.id = UUID.randomUUID().toString();
+    }
+
+    public StudySystemBox(StudySystem studySystem, int daysToLearnAgain) {
+        this.studySystem = studySystem;
+        this.id = UUID.randomUUID().toString();
+        this.daysToLearnAgain = daysToLearnAgain;
     }
 
     public StudySystemBox() {

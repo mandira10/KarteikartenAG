@@ -88,22 +88,22 @@ public abstract class StudySystem implements Serializable
     /**
     * //TODO
      */
-    public StudySystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility)
+    public StudySystem(String name, CardOrder cardOrder, StudySystemType type, boolean visibility)
     {
         this.uuid = UUID.randomUUID().toString();
         this.cardOrder = cardOrder;
         this.visibility = visibility;
         this.name = name;
         this.type = type;
-        initStudySystemBoxes(nboxes);
 
     }
 
     // No-Arg Konstruktor
     public StudySystem() {
-        this("",null,null, 0, false);
+        this("",null,null,  false);
     }
 
+    protected void  initStudySystemBoxes(int size){}
 
     /**
      * Methode für das Kopieren einer Karte. Hilfsmethode fürs
@@ -134,15 +134,7 @@ public abstract class StudySystem implements Serializable
         this.resultPoint = other.getResultPoint();
     }
 
-    /**
-     * Initiiert die Boxen des StudySystems
-     * @param size: Übergebene Anzahl der Boxen für das StudySystem
-     * @return Boxliste des StudySystems
-     */
-    private void  initStudySystemBoxes(int size) {
-        for (int i = 0; i < size; i++)
-          this.boxes.add(new StudySystemBox(this));
-    }
+
 
     public void incrementQuestionCount(){questionCount++;}
 

@@ -29,6 +29,7 @@ public class DeckTest {
         studySystemLogic.updateStudySystemData(null, studySystem, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(cards,studySystem);
         List<StudySystem> studySystems = studySystemLogic.getStudySystems();
+
     }
 
 }

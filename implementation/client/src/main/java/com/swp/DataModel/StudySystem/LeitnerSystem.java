@@ -9,6 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Klasse für das LeitnerSystem. Erbt alle Attribute vom StudySystem
  */
@@ -26,12 +29,22 @@ public class LeitnerSystem extends StudySystem
          * TODO
          */
         public LeitnerSystem(String name, CardOrder cardOrder, boolean visibility)
-        {super(name,cardOrder,StudySystemType.LEITNER,5,visibility);
+        {super(name,cardOrder,StudySystemType.LEITNER,visibility);
+            initStudySystemBoxes(5);
                  }
 
                  public LeitnerSystem(LeitnerSystem other){
                  super(other);
                  }
+
+
+    @Override
+    protected void  initStudySystemBoxes(int size) {
+        List<Integer> daysToLearn = Arrays.asList(new Integer[]{0,1,3,7,14}); //hardcoded not ideal
+        for (int i = 0; i < size; i++)
+            this.boxes.add(new StudySystemBox(this,daysToLearn.get(i)));
+
+    }
 //
 //        @Override
 //        public void giveAnswer(boolean answer) {

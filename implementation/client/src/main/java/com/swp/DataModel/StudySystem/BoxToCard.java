@@ -62,9 +62,15 @@ public class BoxToCard {
 
 
     /**
-     * Zeitpunkt des Lernens der Karte.
+     * Zeitpunkt des nächsten Lernens der Karte. Ist abhängig vom StudySystem, wird anfangs immer auf
+     * bei Erstellung einer neuen BoxToCard immer auf das aktuelle Datum gesetzt.
+     * Deswegen kann auch die Box einer Referenz manuell geupdatet werden.
      */
-    private Timestamp learnedAt;
+    @Column
+    private Timestamp learnedNextAt;
+
+    @Column
+    private int boxNumber;
 
     /**
      * Status der Karte im studySystemBox. Wird beim Lernen aktualisiert.
@@ -78,12 +84,14 @@ public class BoxToCard {
      * @param c: Karte
      * @param ssb: StudySystemBox
      */
-    public BoxToCard(Card c, StudySystemBox ssb)
+    public BoxToCard(Card c, StudySystemBox ssb,  int boxNumber)
     {
         this.card = c;
         this.studySystemBox = ssb;
+        this.boxNumber = boxNumber;
         this.id = UUID.randomUUID().toString();
         this.status = BoxToCard.CardStatus.NEW;
+        this.learnedNextAt = new Timestamp(System.currentTimeMillis());
     }
 
     /**

@@ -142,15 +142,24 @@ public class CardRepository extends BaseRepository<Card> {
                 .getResultList();
     }
 
-    public List<Card> getAllCardsForBox(StudySystemBox studySystemBox, StudySystem.CardOrder cardOrder) {
-        return new ArrayList<>();
-    }
 
     public List<CardOverview> findCardsByStudySystem(StudySystem oldStudyS) {
         return getEntityManager()
                 .createNamedQuery("CardOverview.allCardsWithStudySystem", CardOverview.class)
                 .setParameter("studySystem", oldStudyS.getUuid())
                 .getResultList();
+    }
+
+    /**
+     * TODO EFE Hier sollen alle Karten zurückgegeben werden, die in der untersten Box sind bzw. alle, die vom Lerndatum dran sind (CardToBox) learnedAt in SORTIERTER FORM!
+     * Schau mal ob getDate() in H2 funktioniert, ansonsten lass dir das aktuelle Datum über System.currentTimeMillis ausgeben.
+     * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
+     * @param studySystem
+     * @param cardOrder
+     * @return
+     */
+    public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem, StudySystem.CardOrder cardOrder) {
+        return new ArrayList<>();
     }
 }
 

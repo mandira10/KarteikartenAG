@@ -24,7 +24,15 @@ public class VoteSystem extends StudySystem
      * TODO
      */
     public VoteSystem(String name, CardOrder cardOrder, boolean visibility) {
-        super(name, cardOrder, StudySystemType.VOTE,6, visibility);
+        super(name, cardOrder, StudySystemType.VOTE, visibility);
+        initStudySystemBoxes(3);
+    }
+
+    @Override
+    protected void initStudySystemBoxes(int size) {
+        List<Integer> daysToLearnAgain = Arrays.asList(new Integer[]{1,3,7}); //hardcoded not ideal
+        for (int i = 0; i < size; i++)
+            this.boxes.add(new StudySystemBox(this,daysToLearnAgain.get(i)));
     }
 
     public VoteSystem(VoteSystem other) {

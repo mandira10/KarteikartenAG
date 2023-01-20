@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 public class StudySystemController{
@@ -31,7 +30,7 @@ public class StudySystemController{
      * @param box: Index der Box, in den die Karte verschoben werden soll
      * @TODO: MERT
      */
-    public void moveCardToSpecificBox(Card card, StudySystemBox box, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback)
+    public void moveCardToSpecificBox(Card card, int box, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback)
     {
         try {
             studySystemLogic.moveCardToBox(card,box, studySystem);
@@ -91,7 +90,7 @@ public class StudySystemController{
      * @param answer: Frage war richtig / falsch beantwortet
      * @TODO: MERT
      */
-    public void giveAnswer(StudySystem studySystem,boolean answer,SingleDataCallback singleDataCallback) {
+    public void giveAnswer(StudySystem studySystem,boolean answer, SingleDataCallback singleDataCallback) {
         try{
             studySystemLogic.giveAnswer(studySystem,answer);
         }
