@@ -12,20 +12,20 @@ import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.io.Mouse;
-import com.swp.Controller.DeckController;
 import com.swp.Controller.SingleDataCallback;
-import com.swp.DataModel.Deck;
+import com.swp.Controller.StudySystemController;
+import com.swp.DataModel.StudySystem.StudySystem;
 
 public class DeckList extends RenderGUI
 {
     public interface DeckListCallback
     {
-        void run(Deck deck);
+        void run(StudySystem deck);
     }
 
     private class DeckContainer extends Box
     {
-        public DeckContainer(Deck deck)
+        public DeckContainer(StudySystem deck)
         {
             super(new ivec2(), new ivec2());
             setColor(GUI.getTheme().primaryColor);
@@ -35,7 +35,7 @@ public class DeckList extends RenderGUI
             Font defaultFont = FontManager.getInstance().getDefaultFont();
             Font fontAwesome = FontManager.getInstance().getFont("FontAwesome");
             
-            Text deckName = new Text(deck.getName() + " - " + deck.getStudySystem().getType().name(), defaultFont, new ivec2(10,10), 0);
+            Text deckName = new Text(deck.getName() + " - " + deck.getType().name(), defaultFont, new ivec2(10,10), 0);
             deckName.setCharacterHeight(35);
             addElement(deckName);
 
@@ -55,7 +55,7 @@ public class DeckList extends RenderGUI
             iconText.setColor(new vec4(0.13f, 0.13f, 0.14f, 1));
 
             final int[] numCards = {0};
-                    DeckController.getInstance().numCardsInDeck(deck, new SingleDataCallback<Integer>() {
+                    StudySystemController.getInstance().numCardsInDeck(deck, new SingleDataCallback<Integer>() {
                         @Override
                         public void onSuccess(Integer data) {
                             numCards[0] = data;
@@ -124,10 +124,10 @@ public class DeckList extends RenderGUI
         pScroller.destroyChildren();
     }
 
-    public void addDecks(List<Deck> decks)
+    public void addDecks(List<StudySystem> decks)
     {
         int y = 0;
-        for(Deck deck : decks)
+        for(StudySystem deck : decks)
         {
             DeckContainer container = new DeckContainer(deck);
             container.setPosition(new ivec2(5, y++ * 110));

@@ -23,7 +23,7 @@ import com.swp.GUI.PageManager.PAGES;
 public class TestDeckPage extends Page
 {
     private RenderGUI pCanvas;
-    private Deck pDeck;
+    private StudySystem pDeck;
     private TestCardGUI pTestGUI;
     private Text pTimeText;
     private boolean bAnswerChecked, bNextCardAllowed;
@@ -82,7 +82,7 @@ public class TestDeckPage extends Page
                     bStopTime = true;
 
                     //pDeck.getStudySystem().giveAnswer(pTestGUI.checkAnswers());//TODO
-                    switch(pDeck.getStudySystem().getType())
+                    switch(pDeck.getType())
                     {
                         case VOTE:   
                             bNextCardAllowed = false; 
@@ -115,10 +115,10 @@ public class TestDeckPage extends Page
         resize();
     }
 
-    public void startTests(Deck deck)
+    public void startTests(StudySystem deck)
     {
         this.pDeck = deck;
-        pTimeText.hide(pDeck.getStudySystem().getType() != StudySystem.StudySystemType.TIMING);
+        pTimeText.hide(pDeck.getType() != StudySystem.StudySystemType.TIMING);
         nextCard();
     }
 

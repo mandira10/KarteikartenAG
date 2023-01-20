@@ -4,6 +4,7 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Deck;
+import com.swp.DataModel.StudySystem.StudySystem;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -16,9 +17,9 @@ import static org.junit.Assert.assertEquals;
 public class CrudTest {
     // Repositories die getestet werden
     private CardRepository cardRepository;
-    private DeckRepository deckRepository;
+    private StudySystemRepository studySystemRepository;
     private CategoryRepository categoryRepository;
-    private CardToDeckRepository cardToDeckRepository;
+    private CardToBoxRepository cardToBoxRepository;
     private CardToCategoryRepository cardToCategoryRepository;
 
     // Hilfsfunktionen um einen Test-Datensatz an Instanzen zu haben
@@ -61,7 +62,7 @@ public class CrudTest {
         return exampleCards;
     }
 
-    private List<Deck> exampleDecks() {
+    private List<StudySystem> exampleStudySystems() {
         //TODO Test-Decks erstellen
         return null;
     }
@@ -75,9 +76,9 @@ public class CrudTest {
     @BeforeEach
     public void setup() {
         cardRepository = CardRepository.getInstance();
-        deckRepository = DeckRepository.getInstance();
+        studySystemRepository = StudySystemRepository.getInstance();
         categoryRepository = CategoryRepository.getInstance();
-        cardToDeckRepository = CardToDeckRepository.getInstance();
+        cardToBoxRepository = CardToBoxRepository.getInstance();
         cardToCategoryRepository = CardToCategoryRepository.getInstance();
     }
 

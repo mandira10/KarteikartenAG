@@ -9,9 +9,8 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Output;
-import com.swp.Controller.DeckController;
 import com.swp.Controller.SingleDataCallback;
-import com.swp.DataModel.Deck;
+import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -23,7 +22,7 @@ public class EditDeckPage extends Page
     private Dropdown pStudySystemDropdown;
     private Dropdown pCardOrderDropdown;
     private Button pApplyButton;
-    private Deck pOldDeck, pNewDeck;
+    private StudySystem pOldDeck, pNewDeck;
     private TextField pTitleField;
 
     private RenderGUI pCanvas;
@@ -81,10 +80,10 @@ public class EditDeckPage extends Page
 
     public void editDeck(String uuid) {
 
-            DeckController.getInstance().getDeckByUUID(uuid, new SingleDataCallback<Deck>() {
+            StudySystemController.getInstance().getStudySystemByUUID(uuid, new SingleDataCallback<StudySystem>() {
                 @Override
-                public void onSuccess(Deck data) {
-                    editDeck(data);
+                public void onSuccess(StudySystem data) {
+                    editDeck(data, false);
                 }
 
                 @Override
@@ -92,7 +91,7 @@ public class EditDeckPage extends Page
                     NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
                 }
             }); }
-    public void editDeck(Deck deck)
+    public void editDeck(StudySystem deck, boolean newdeck)
     {
         if(deck == null)
         {
@@ -101,11 +100,11 @@ public class EditDeckPage extends Page
         }
 
         pOldDeck = deck;
-        pNewDeck = new Deck(deck);
+        pNewDeck = StudySystem.copyStudySystem(deck);
 
         pCanvas.hide(true);
         pTitleField.setString(pNewDeck.getName());
-        switch(pNewDeck.getStudySystem().getType())
+        switch(pNewDeck.getType())
         {
             case LEITNER: pStudySystemDropdown.setTitle("Leitner"); break;
             case TIMING:  pStudySystemDropdown.setTitle("Timing");  break;

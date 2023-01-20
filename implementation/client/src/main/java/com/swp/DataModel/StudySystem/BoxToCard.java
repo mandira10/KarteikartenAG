@@ -3,19 +3,37 @@ package com.swp.DataModel.StudySystem;
 import com.swp.DataModel.Card;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.UUID;
 
+@Entity
+@Table(uniqueConstraints = @UniqueConstraint(name = "uniqueCardBox",columnNames = {"card_uuid","studySystemBox_id"}))
+@Getter
+@Setter
+@NamedQuery(name = "BoxToCard.allCardsWithStudySystem",
+        query = "SELECT b2c.card FROM BoxToCard b2c LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
+@NamedQuery(name = "BoxToCard.allC2DByCard",
+        query = "SELECT b2c.studySystemBox FROM BoxToCard b2c WHERE b2c.card = :card")
+@NamedQuery(name = "BoxToCard.allb2cByCard",
+        query = "SELECT b2c FROM BoxToCard b2c WHERE b2c.card = :card")
+@NamedQuery(name = "BoxToCard.allB2CByStudySystem",
+        query = "SELECT b2c FROM BoxToCard b2c LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
+@NamedQuery(name = "BoxToCard.findSpecificC2C",
+        query = "SELECT b2c FROM BoxToCard b2c  LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem and b2c.card = :card")
+@NamedQuery(name = "BoxToCard.numCardsInStudySystem",
+        query = "SELECT count(distinct c.id) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
+@NamedQuery(name = "BoxToCard.numstudySystemBoxsWithCard",
+        query = "SELECT count(distinct c.id) FROM BoxToCard c WHERE c.card = :card")
 public class BoxToCard {
 
 
     @Id
-    //@GeneratedValue
     /**
      * Identifier und Primärschlüssel für
-     * Karte-zu-Deck Verbindung
+     * Karte-zu-studySystemBox Verbindung
      */
     protected final String id;
 
@@ -38,25 +56,27 @@ public class BoxToCard {
     private final Card card;
 
     /**
-     * Zugehöriges Deck
+     * Zugehörige Box der Karte, kann angepasst werden.
      */
     @ManyToOne
-    @Setter(AccessLevel.NONE)
-    @JoinColumn(name = "studySystembox_id")
-    private final StudySystemBox studySystemBox;
+    @JoinColumn(name = "studySystemBox_id")
+    private StudySystemBox studySystemBox;
 
 
+    /**
+     * Zeitpunkt des Lernens der Karte.
+     */
     private Timestamp learnedAt;
 
     /**
-     * Status der Karte im Deck. Wird beim Lernen aktualisiert.
+     * Status der Karte im studySystemBox. Wird beim Lernen aktualisiert.
      */
     @Column
     @Enumerated(EnumType.STRING)
     private BoxToCard.CardStatus status;
 
     /**
-     * Konstruktor der Klasse CardToDeck
+     * Konstruktor der Klasse BoxToCard
      * @param c: Karte
      * @param ssb: StudySystemBox
      */

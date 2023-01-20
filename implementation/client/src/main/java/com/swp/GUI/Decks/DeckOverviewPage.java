@@ -5,8 +5,8 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.DataCallback;
-import com.swp.Controller.DeckController;
-import com.swp.DataModel.Deck;
+import com.swp.Controller.StudySystemController;
+import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
@@ -34,7 +34,7 @@ public class DeckOverviewPage extends Page
 
         pCanvas = findChildByID("canvas");
         pDeckList = new DeckList(new ivec2(0, 0), new ivec2(100, 100), new DeckListCallback() {
-            @Override public void run(Deck deck) 
+            @Override public void run(StudySystem deck)
             {
                 ViewSingleDeckPage page = (ViewSingleDeckPage)PageManager.getPage(PAGES.DECK_SINGLEVIEW);
                 page.setDeck(deck);
@@ -46,14 +46,15 @@ public class DeckOverviewPage extends Page
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button newButton = (Button)optionsMenu.findChildByID("adddeckbutton");
-        newButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                EditDeckPage page = (EditDeckPage)PageManager.getPage(PAGES.DECK_EDIT);
-                page.editDeck(new Deck());
-                PageManager.viewPage(PAGES.DECK_EDIT);
-            }
-        });
+//        newButton.onClick(new GUICallback() {
+//            @Override public void run(RenderGUI gui)
+//            {
+//                EditDeckPage page = (EditDeckPage)PageManager.getPage(PAGES.DECK_EDIT);
+//                page.editDeck(new StudySystem()
+//                PageManager.viewPage(PAGES.DECK_EDIT);
+        //TODO: same as cards? Choose type and then?
+//            }
+//        });
 
         Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Deck", new String[] {
             "By Content",
@@ -75,9 +76,9 @@ public class DeckOverviewPage extends Page
     public void loadDecks()
     {
         pDeckList.reset();
-        DeckController.getInstance().getDecks(new DataCallback<>() {
+        StudySystemController.getInstance().getStudySystems(new DataCallback<>() {
             @Override
-            public void onSuccess(List<Deck> data) {
+            public void onSuccess(List<StudySystem> data) {
                 pDeckList.addDecks(data);
             }
             @Override
@@ -95,9 +96,9 @@ public class DeckOverviewPage extends Page
     {
         pDeckList.reset();
 
-                DeckController.getInstance().getDecksBySearchterm(searchterm, new DataCallback<Deck>() {
+                StudySystemController.getInstance().getStudySystemBySearchTerms(searchterm, new DataCallback<StudySystem>() {
                     @Override
-                    public void onSuccess(List<Deck> data) {
+                    public void onSuccess(List<StudySystem> data) {
                         pDeckList.addDecks(data);
                     }
 

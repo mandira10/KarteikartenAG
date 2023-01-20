@@ -193,25 +193,25 @@ public class AddCardTest {
 
         });
     }
-    @Test
-     public void getDecks(){
-        DeckController.getInstance().getDecks(new DataCallback<Deck>() {
-            @Override
-            public void onSuccess(List<Deck> data) {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-
-            }
-
-            @Override
-            public void onInfo(String msg) {
-
-            }
-        });
-    }
+//    @Test
+//     public void getDecks(){
+//        DeckController.getInstance().getDecks(new DataCallback<Deck>() {
+//            @Override
+//            public void onSuccess(List<Deck> data) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(String msg) {
+//
+//            }
+//
+//            @Override
+//            public void onInfo(String msg) {
+//
+//            }
+//        });
+//    }
 
 
 }

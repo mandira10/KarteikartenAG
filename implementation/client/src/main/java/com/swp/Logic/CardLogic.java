@@ -23,7 +23,8 @@ public class CardLogic extends BaseLogic<Card>
     private final TagRepository tagRepository = TagRepository.getInstance();
     private final CardToTagRepository cardToTagRepository = CardToTagRepository.getInstance();
     private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
-    private final CardToDeckRepository cardToDeckRepository = CardToDeckRepository.getInstance();
+
+    private final CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
     private static CardLogic cardLogic;
     public static CardLogic getInstance() {
         if (cardLogic == null)
@@ -81,7 +82,7 @@ public class CardLogic extends BaseLogic<Card>
         execTransactional(() -> {
             cardRepository.delete(card);
             cardToCategoryRepository.delete(cardToCategoryRepository.getAllC2CForCard(card));
-            cardToDeckRepository.delete(cardToDeckRepository.getAllC2DForCard(card));
+            cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForCard(card));
             cardToTagRepository.delete(cardToTagRepository.getAllC2TForCard(card));
             return null; // Lambda braucht immer einen return
         });

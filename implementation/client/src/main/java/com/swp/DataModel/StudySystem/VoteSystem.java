@@ -18,10 +18,6 @@ import java.util.*;
 @DiscriminatorValue("Vote")
 public class VoteSystem extends StudySystem
 {
-    int questionCount = 0;
-    int trueAnswerCount = 0;
-    int pointQuestion = 100;
-    int resultPoint = 0;
 
     /**
      * Konstruktor der Klasse VoteSystem.
@@ -30,9 +26,9 @@ public class VoteSystem extends StudySystem
     public VoteSystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility) {
         super(name, cardOrder, type, nboxes, visibility);
     }
-        {
-       // super(deck, StudySystemType.VOTE, 5);
 
+    public VoteSystem(VoteSystem other) {
+        super(other);
     }
 
     public VoteSystem() {

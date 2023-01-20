@@ -1,19 +1,9 @@
 package com.swp.Controller;
 
-import com.swp.DataModel.Card;
-import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.Deck;
-import com.swp.DataModel.StudySystem.LeitnerSystem;
-import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.Logic.CardLogic;
-import com.swp.Logic.DeckLogic;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class DeckTest {
-    private final DeckLogic deckLogic = DeckLogic.getInstance();
     private final CardLogic cardLogic = CardLogic.getInstance();
 
     @Test

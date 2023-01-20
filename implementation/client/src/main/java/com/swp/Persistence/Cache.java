@@ -15,7 +15,7 @@ public class Cache
     private Set<StudySystem.StudySystemType> stStudySystemTypes;
     private Set<Category> stCategories;
     private Set<Tag> stTags;
-    private List<CardToDeck> alCardToDecks;
+    //private List<CardToDeck> alCardToDecks;
     private Set<CardToCategory> stCardToCategories;
     private Set<CardToTag> stCardToTags;
 
@@ -24,7 +24,7 @@ public class Cache
         alDecks = new ArrayList<>();
         stCategories = new HashSet<>();
         stTags = new HashSet<>();
-        alCardToDecks = new ArrayList<>();
+       // alCardToDecks = new ArrayList<>();
         stCardToCategories = new HashSet<>();
         stCardToTags = new HashSet<>();
         stStudySystemTypes = new HashSet<>();
@@ -42,10 +42,10 @@ public class Cache
     //
     // Setter
     //
-    public void setDecks(List<Deck> decks)                                  { this.alDecks = decks; }
+    //public void setDecks(List<Deck> decks)                                  { this.alDecks = decks; }
     public void setCategories(Set<Category> stCategories)                   { this.stCategories = stCategories; }
     public void setTags(Set<Tag> stTags)                                    { this.stTags = stTags; }
-    public void setCardToDecks(List<CardToDeck> cardToDecks)                { this.alCardToDecks = cardToDecks; }
+    //public void setCardToDecks(List<CardToDeck> cardToDecks)                { this.alCardToDecks = cardToDecks; }
     public void setCardToCategories(Set<CardToCategory> stCardToCategories) { this.stCardToCategories = stCardToCategories; }
     public void setCardToTags(Set<CardToTag> stCardToTags)                  { this.stCardToTags = stCardToTags; }
     public void setStudySystemTypes(Set<StudySystem.StudySystemType> stStudySystemTypes){ this.stStudySystemTypes = stStudySystemTypes; }
@@ -55,10 +55,10 @@ public class Cache
     // Getter
     //
     public Set<Tag> getTags()                        { return stTags; }
-    public List<Deck> getDecks()                     { return alDecks; }
+   // public List<Deck> getDecks()                     { return alDecks; }
     public Set<Category> getCategories()             { return stCategories; }
     public Set<CardToTag> getCardToTags()            { return stCardToTags; }
-    public List<CardToDeck> getCardToDecks()         { return alCardToDecks; }
+   // public List<CardToDeck> getCardToDecks()         { return alCardToDecks; }
     public Set<CardToCategory> getCardToCategories() { return stCardToCategories; }
     public Set<StudySystem.StudySystemType> getStudySystemTypes(){ return stStudySystemTypes; }
 

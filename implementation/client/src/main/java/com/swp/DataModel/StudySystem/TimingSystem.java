@@ -20,13 +20,11 @@ import java.util.ArrayList;
 @DiscriminatorValue("Timing")
 public class TimingSystem extends StudySystem
 {
+
+    //TODO MERT JAVA DOC
     private float timeLimit = 0;
     private float answerTime = 0;
-    private int questionCount = 0;
     private int trueCount = 0;
-    private int pointQuestion = 100;
-    private int resultPoint = 0;
-
 
     /**
      * Konstruktor der Klasse TimingSystem.
@@ -38,6 +36,12 @@ public class TimingSystem extends StudySystem
 //        super(StudySystemType.TIMING, 5);
              this.timeLimit = timeLimit;}
 
+    public TimingSystem(TimingSystem other){
+        super(other);
+        timeLimit = other.getTimeLimit();
+        answerTime = other.getAnswerTime();
+        trueCount = other.getTrueCount();
+    }
 
 
     public TimingSystem() {

@@ -1,5 +1,7 @@
 package com.swp.Persistence;
 import com.swp.DataModel.*;
+import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.StudySystemBox;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,12 +70,7 @@ public class CardRepository extends BaseRepository<Card>
                 .setParameter("tag", tag).getResultList();
     }
 
-    public List<Card> findCardsByDeck(Deck deck) {
-        return getEntityManager()
-                .createNamedQuery("CardToDeck.allCardsWithDeck", Card.class)
-                .setParameter("deck", deck)
-                .getResultList();
-    }
+
 
     /**
      * Die Funktion `findCardsContaining` durchsucht den Inhalt aller Karten.
@@ -116,7 +113,6 @@ public class CardRepository extends BaseRepository<Card>
                 .getResultList();
     }
 
-
     //
     // Tags
     //
@@ -140,4 +136,16 @@ public class CardRepository extends BaseRepository<Card>
                 .createQuery("SELECT CardToTag FROM CardToTag", CardToTag.class)
                 .getResultList();
     }
-}
+
+    public List<Card> getAllCardsForBox(StudySystemBox studySystemBox, StudySystem.CardOrder cardOrder) {
+        return new ArrayList<>();
+    }
+
+    public List<Card> findCardsByStudySystem(StudySystem oldStudyS) {
+            return getEntityManager()
+                    .createNamedQuery("BoxToCard.allCardsWithStudySystem", Card.class)
+                    .setParameter("studySystem", oldStudyS.getUuid())
+                    .getResultList();
+        }
+    }
+

@@ -32,44 +32,41 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
         //TODO (siehe Todo in `addStudySystemType()`)
     }
 
-    public StudySystem getStudySystem(Deck deck)
-    {
-        //wenn man schon das Deck hat, könnte man auch über den @Getter an `studySystem` Attribut kommen
-        return deck.getStudySystem();
-
-        //oder falls man nur die ID von dem Deck hat
-        //return getEntityManager()
-        //        .createNamedQuery("Deck.getStudySystemByUUID", StudySystem.class)
-        //        .setParameter("uuid", deck.getUuid())
-        //        .getSingleResult();
-
-        //return getEntityManager()
-        //        .createNamedQuery("Deck.getStudySystemForDeck", StudySystem.class)
-        //        .setParameter("deck", deck)
-        //        .getSingleResult();
-    }
-
-
 
     public List<Card> getAllCardsInStudySystem(StudySystem studySystem){
         //TODO
+        //should return allCardsInASpecificBox
         return null;
     }
 
 
-    public Card getNextCard(){
-        //TODO
-        // Should return Card by QuestionCount
-        //maybe just get all cards in specific box by once
-        return null;
-    }
 
     public void addCardToBox(BoxToCard boxToCard){
-        //TODO
+        //TODO create and save BoxToCard
     }
 
 
+    public List<StudySystem> getStudySystems() {
+        return getEntityManager().createQuery("SELECT s FROM StudySystem s ORDER BY s.name",StudySystem.class).getResultList();
+    }
 
+        public StudySystem getStudySystemByUUID(String uuid) {
+            return getEntityManager()
+                    .createNamedQuery("StudySystem.getStudySystemByUUID", StudySystem.class)
+                    .setParameter("uuid", uuid)
+                    .getSingleResult();
+    }
 
-
+    /**
+     * Die Funktion `findStudySystemsContaining` durchsucht die Namen aller StudySystems.
+     * Es werden alle StudySystems zurückgegeben, die den übergebenen Suchtext als Teilstring im Namen enthalten.
+     * @param searchterm ein String nach dem in den Namen gesucht werden soll.
+     * @return Set<StudySystem> eine Menge von StudySystem, welche `searchWords` als Teilstring im Inhalt hat.
+     */
+    public List<StudySystem> findStudySystemsContaining(String searchterm) {
+        return getEntityManager()
+                .createNamedQuery("StudySystem.findStudySystemByContent", StudySystem.class)
+                .setParameter("name", "%" + searchterm + "%")
+                .getResultList();
+    }
 }

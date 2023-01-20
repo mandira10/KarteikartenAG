@@ -15,7 +15,6 @@ public class CardLogicTest {
     private CardLogic cardLogic;
     private CardRepository cardRepository;
     private CardToCategory cardToCategory;
-    private CardToDeck cardToDeck;
     private CardToTag cardToTag;
 
     @BeforeEach

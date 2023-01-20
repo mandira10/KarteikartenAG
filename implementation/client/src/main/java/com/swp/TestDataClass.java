@@ -6,14 +6,8 @@ import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
-import com.swp.DataModel.Deck;
-import com.swp.DataModel.StudySystem.LeitnerSystem;
-import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.TimingSystem;
-import com.swp.DataModel.StudySystem.VoteSystem;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CategoryLogic;
-import com.swp.Logic.DeckLogic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +22,6 @@ public class TestDataClass {
         final CategoryController categoryController = CategoryController.getInstance();
         final CardController cardController = CardController.getInstance();
         final CategoryLogic categoryLogic = CategoryLogic.getInstance();
-        final DeckLogic deckLogic = DeckLogic.getInstance();
 
         Category randomCategory = new Category("Random");
         Category schuleCategory = new Category("Schule");

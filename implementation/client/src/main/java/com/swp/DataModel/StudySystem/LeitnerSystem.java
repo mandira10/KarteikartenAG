@@ -19,10 +19,6 @@ import lombok.Setter;
 @Setter
 public class LeitnerSystem extends StudySystem
 {
-        private int questionCount = 0;
-        private int trueAnswerCount = 0;
-        private int pointQuestion = 100;
-        private int resultPoint = 0;
 
         /**
          * Konstruktor der Klasse LeitnerSystem.
@@ -32,6 +28,10 @@ public class LeitnerSystem extends StudySystem
         public LeitnerSystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility)
         {super(name,cardOrder,type,nboxes,visibility);
 //                super(deck, StudySystemType.LEITNER, 5);
+                 }
+
+                 public LeitnerSystem(LeitnerSystem other){
+                 super(other);
                  }
 //
 //        @Override
