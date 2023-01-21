@@ -1,5 +1,6 @@
 package com.swp.GUI.Cards;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,6 @@ public class EditCardPage extends Page
 
     private Card pNewCard;
     private List<Category> aCategories;
-    private List<Tag> aTags;
     private RenderGUI pCanvas;
     private TextField pTitlefield, pQuestionField;
     private TagList<Tag> pTagList;
@@ -51,7 +51,8 @@ public class EditCardPage extends Page
     {
         super("Edit Card");
         this.vSize = new ivec2(100,100);
-        pNewCard = null;
+        this.pNewCard = null;
+        this.aCategories = new ArrayList<>();
 
 
         addGUI(XMLGUI.loadFile("guis/cards/cardeditpage.xml"));
@@ -230,7 +231,6 @@ public class EditCardPage extends Page
 
     public void updateTags(List<Tag> tags)
     {
-        this.aTags = tags;
         for(Tag tag : tags)
             pTagList.addTag(tag.getVal(), tag);
     }
@@ -246,7 +246,6 @@ public class EditCardPage extends Page
             }
         });
 
-        //TODO: bitte umändern, dass statt null leere Liste übergeben wird
         CardController.getInstance().setTagsToCard(pNewCard, pTagList.getTagUserptrs(), new SingleDataCallback<Boolean>() {
             @Override public void onSuccess(Boolean data) {}
 
@@ -256,8 +255,6 @@ public class EditCardPage extends Page
             }
         });
 
-        //TODO: bitte umändern, dass statt null leere Liste übergeben wird
-        //TODO: Categories werden auf Kartendetailseite nicht angezeigt?
         CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories, new SingleDataCallback<Boolean>() {
             @Override public void onSuccess(Boolean data) {}
 
