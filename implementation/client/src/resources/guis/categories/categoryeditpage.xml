@@ -2,7 +2,7 @@
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="form" size="95%, 80%" pos="2.5%, 10%">
         <text pos="10, 10" fontsize="30">Title:</text>
-        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" fontsize="30" hint="(Optional)"></textfield>
+        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
 
         <gui id="canvas" size="100%, 80%" pos="0, 50">
 

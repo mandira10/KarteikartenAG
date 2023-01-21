@@ -7,6 +7,7 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
+import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.GUI.Page;
@@ -81,7 +82,7 @@ public class CardOverviewPage extends Page
                 if(query.equals(""))
                     loadCards(0, 30);
                 else
-                    loadCards(query);
+                    loadCards(query, option);
             }
         });
         pSearchbar.setPositionInPercent(false, true);
@@ -113,10 +114,11 @@ public class CardOverviewPage extends Page
         resize();
     }
 
-    public void loadCards(String str)
+    public void loadCards(String str, int option)
     {
         pCardList.reset();
-        CardController.getInstance().getCardsBySearchterms(str, new DataCallback<CardOverview>() {
+
+        DataCallback<CardOverview> commoncallback = new DataCallback<CardOverview>() {
             @Override
             public void onSuccess(List<CardOverview> data) {
                 pCardList.addCards(data);
@@ -131,7 +133,14 @@ public class CardOverviewPage extends Page
             public void onInfo(String msg) {
             NotificationGUI.addNotification(msg,NotificationType.INFO,5);
             }
-        });
+        };
+
+        switch(option)
+        {
+            /*By Content*/  case 0: CardController.getInstance().getCardsBySearchterms(str, commoncallback);  break;
+            /*By Tag*/      case 1: CardController.getInstance().getCardsByTag(str, commoncallback);          break;
+            /*By Category*/ case 2: CategoryController.getInstance().getCardsInCategory(str, commoncallback); break;
+        }
 
         reposition();
         resize();

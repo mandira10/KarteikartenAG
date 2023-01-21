@@ -78,19 +78,23 @@ public class EditDeckPage extends Page
         reposition();
     }
 
-    public void editDeck(String uuid) {
+    
+    public void editDeck(String uuid) 
+    {
+        StudySystemController.getInstance().getStudySystemByUUID(uuid, new SingleDataCallback<StudySystem>() {
+            @Override
+            public void onSuccess(StudySystem data) {
+                editDeck(data, false);
+            }
 
-            StudySystemController.getInstance().getStudySystemByUUID(uuid, new SingleDataCallback<StudySystem>() {
-                @Override
-                public void onSuccess(StudySystem data) {
-                    editDeck(data, false);
-                }
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+        }); 
+    }
 
-                @Override
-                public void onFailure(String msg) {
-                    NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
-                }
-            }); }
+
     public void editDeck(StudySystem deck, boolean newdeck)
     {
         if(deck == null)

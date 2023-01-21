@@ -103,6 +103,7 @@ import lombok.extern.slf4j.Slf4j;
 //   - Language Class               -- done
 //   - Language enum
 //   - Settings file                -- done
+//   - Check for mandatory fields
 ////////////////////////////////////////////////////
 
 @Slf4j

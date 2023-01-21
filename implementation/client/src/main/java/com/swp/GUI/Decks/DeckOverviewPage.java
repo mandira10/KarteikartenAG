@@ -46,15 +46,12 @@ public class DeckOverviewPage extends Page
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button newButton = (Button)optionsMenu.findChildByID("adddeckbutton");
-//        newButton.onClick(new GUICallback() {
-//            @Override public void run(RenderGUI gui)
-//            {
-//                EditDeckPage page = (EditDeckPage)PageManager.getPage(PAGES.DECK_EDIT);
-//                page.editDeck(new StudySystem()
-//                PageManager.viewPage(PAGES.DECK_EDIT);
-        //TODO: same as cards? Choose type and then?
-//            }
-//        });
+        newButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)
+            {
+                PageManager.viewPage(PAGES.DECK_CREATE);
+            }
+        });
 
         Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Deck", new String[] {
             "By Content",
@@ -64,7 +61,7 @@ public class DeckOverviewPage extends Page
                 if(query.equals(""))
                     loadDecks();
                 else
-                loadDecks(query);
+                loadDecks(query, option);
             }
         });
         searchbar.setPositionInPercent(false, true);
@@ -95,26 +92,31 @@ public class DeckOverviewPage extends Page
         });
     }
     
-    public void loadDecks(String searchterm)
+    public void loadDecks(String searchterm, int option)
     {
         pDeckList.reset();
 
-                StudySystemController.getInstance().getStudySystemBySearchTerms(searchterm, new DataCallback<StudySystem>() {
-                    @Override
-                    public void onSuccess(List<StudySystem> data) {
-                        pDeckList.addDecks(data);
-                    }
+        DataCallback<StudySystem> commoncallback = new DataCallback<StudySystem>() {
+            @Override
+            public void onSuccess(List<StudySystem> data) {
+                pDeckList.addDecks(data);
+            }
 
-                    @Override
-                    public void onFailure(String msg) {
-                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
-                    }
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
 
-                    @Override
-                    public void onInfo(String msg) {
-                        NotificationGUI.addNotification(msg, Notification.NotificationType.INFO, 5);
-                    }
-                });
+            @Override
+            public void onInfo(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.INFO, 5);
+            }
+        };
+
+        switch(option)
+        {
+            /*By Content*/  case 0: StudySystemController.getInstance().getStudySystemBySearchTerms(searchterm, commoncallback);  break;
+        }  
     }
 
     private void exportCards()

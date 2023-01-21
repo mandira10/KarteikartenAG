@@ -98,7 +98,7 @@ public abstract class StudySystem implements Serializable
 
     // No-Arg Konstruktor
     public StudySystem() {
-        this("",null,null,  false);
+        this("", CardOrder.ALPHABETICAL, StudySystemType.LEITNER, false);
     }
 
     protected void  initStudySystemBoxes(int size){}

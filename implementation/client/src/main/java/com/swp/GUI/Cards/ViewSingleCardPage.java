@@ -75,7 +75,17 @@ public class ViewSingleCardPage extends Page
         pRatingGUI.setPositionInPercent(true, false);
         pRatingGUI.setOrigin(new ivec2(180, 0));
         pRatingGUI.setCallback(new RateCallback() {
-            @Override public void run(int rating) { pCard.setRating(rating); }
+            @Override public void run(int rating) 
+            { 
+                pCard.setRating(rating); 
+                CardController.getInstance().updateCardData(pCard, false, new SingleDataCallback<Boolean>() {
+                    @Override public void onSuccess(Boolean data) {}
+                    @Override public void onFailure(String msg) 
+                    {
+                        NotificationGUI.addNotification("Failed to submit rating: " + msg, NotificationType.ERROR, 5);
+                    }
+                });
+            }
         });
         addElement(pRatingGUI);
         
