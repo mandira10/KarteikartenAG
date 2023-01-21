@@ -37,9 +37,6 @@ public abstract class StudySystem implements Serializable
     protected int questionCount = 0;
     protected int trueAnswerCount = 0;
 
-    @OneToOne
-    Deck deck;
-
     /**
      * Enum für die CardOrder des Decks
      */

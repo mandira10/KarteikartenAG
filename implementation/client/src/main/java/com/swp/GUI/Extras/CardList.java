@@ -170,7 +170,7 @@ public class CardList extends RenderGUI
         pList.addEntry(new ListCell[] { titlecell, creationcell, numdeckscell, checkcell }, card1[0]);
     }
 
-    public void addCards(Set<CardOverview> cards)
+    public void addCards(java.util.List<CardOverview> cards)
     {
         for(CardOverview card : cards)
             addCard(card);

@@ -36,8 +36,6 @@ public class StudySystemBox implements Serializable
     @Column
     private int daysToLearnAgain;
 
-    StudySystem studySystem;
-
     /**
      * Konstruktor um eine neue leere Box für ein Lernsystem anzulegen.
      *
