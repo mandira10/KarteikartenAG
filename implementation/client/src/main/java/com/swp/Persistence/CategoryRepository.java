@@ -105,4 +105,10 @@ public class CategoryRepository extends BaseRepository<Category> {
                 .setParameter("child", child)
                 .getResultList();
     }
+
+    public List<Category> getRoots() {
+        return getEntityManager()
+      .createQuery("SELECT c  FROM Category c WHERE NOT EXISTS (SELECT ch.child FROM CategoryHierarchy ch WHERE ch.child = c.uuid)", Category.class)
+                .getResultList();
+    }
 }
