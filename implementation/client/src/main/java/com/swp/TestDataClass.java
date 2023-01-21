@@ -391,6 +391,9 @@ public class TestDataClass {
         Category klasse11 = new Category("Klasse11");
         Category fotosynthese = new Category("Fotosynthese");
         Category genetik = new Category("Genetik");
+        Category other = new Category("Other");
+        Category other2 = new Category("Other 2");
+        Category other3 = new Category("Other 3");
         List<Category> categories = new ArrayList<>() {
             {
                 add(gymnasium);
@@ -401,6 +404,9 @@ public class TestDataClass {
                 add(klasse10);
                 add(fotosynthese);
                 add(genetik);
+                add(other);
+                add(other2);
+                add(other3);
             }
         };
         for (Category c : categories) {
@@ -422,6 +428,8 @@ public class TestDataClass {
             {
                 add(fotosynthese);
                 add(genetik);
+                add(other);
+                add(other2);
             }
         };
         List<Category> parentsKunst = new ArrayList<>() {
@@ -436,11 +444,17 @@ public class TestDataClass {
                 add(oberschule);
             }
         };
+        List<Category> others = new ArrayList<>() {
+            {
+                add(other3);
+            }
+        };
         categoryLogic.setC2COrCH(kunst, parentsKunst, true);
         categoryLogic.setC2COrCH(kunst, childKunst, false);
         categoryLogic.setC2COrCH(biologie, parentsBiologie, true);
         categoryLogic.setC2COrCH(biologie, childsBiologie, false);
         categoryLogic.setC2COrCH(klasse11, childsklasse11, false);
+        categoryLogic.setC2COrCH(other2, others, false);
     }
 
 

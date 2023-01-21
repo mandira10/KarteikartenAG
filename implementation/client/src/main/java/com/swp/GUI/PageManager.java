@@ -10,6 +10,7 @@ import com.swp.GUI.Cards.EditCardPages.EditImageDescriptionCardAnswersPage;
 import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Category.CategorySelectPage;
 import com.swp.GUI.Category.EditCategoryPage;
+import com.swp.GUI.Category.ViewCategoryTreePage;
 import com.swp.GUI.Category.ViewSingleCategoryPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.Decks.DeckSelectPage;
@@ -35,6 +36,7 @@ public class PageManager
         CATEGORY_SINGLEVIEW,
         CATEGORY_EDIT,
         CATEGORY_SELECTION,
+        CATEGORY_TREE,
         DECK_OVERVIEW,
         DECK_SINGLEVIEW,
         DECK_EDIT,
@@ -82,6 +84,7 @@ public class PageManager
         addPage(PAGES.CATEGORY_SINGLEVIEW, new ViewSingleCategoryPage());
         addPage(PAGES.CATEGORY_EDIT,       new EditCategoryPage());
         addPage(PAGES.CATEGORY_SELECTION,  new CategorySelectPage());
+        addPage(PAGES.CATEGORY_TREE,       new ViewCategoryTreePage());
         addPage(PAGES.DECK_OVERVIEW,       new DeckOverviewPage());
         addPage(PAGES.DECK_SINGLEVIEW,     new ViewSingleDeckPage());
         addPage(PAGES.DECK_EDIT,           new EditDeckPage());

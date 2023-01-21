@@ -7,7 +7,9 @@ import com.gumse.gui.HierarchyList.HierarchyListEntry;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.io.Mouse;
+import com.gumse.tools.Output;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Category;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Category.ViewSingleCategoryPage;
@@ -42,16 +44,26 @@ public class CategoryList extends RenderGUI
         pList.reset();
     }
 
-    public void addCategories(List<Category> categories)
+    public void addCategory(Category category, HierarchyListEntry listentry)
     {
-        for(Category category : categories)
-        {
-            HierarchyListEntry entry = new HierarchyListEntry(category.getName(), pList, (RenderGUI gui) -> {
-                ((ViewSingleCategoryPage)PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW)).setCategory(category);
-                pList.selectEntry(null);
-            });
-            entry.onHover(null, Mouse.GUM_CURSOR_HAND);
-            pList.addEntry(entry);
-        }
+        if(listentry == null)
+            listentry = pList.getRootEntry();
+
+        final HierarchyListEntry entry = new HierarchyListEntry(category.getName(), pList, (RenderGUI gui) -> {
+            ((ViewSingleCategoryPage)PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW)).setCategory(category);
+            pList.selectEntry(null);
+        });
+        entry.onHover(null, Mouse.GUM_CURSOR_HAND);
+        CategoryController.getInstance().getChildrenForCategory(category, new DataCallback<Category>() {
+            @Override public void onFailure(String msg) {}
+            @Override public void onInfo(String msg) {}
+            @Override public void onSuccess(List<Category> categories) 
+            {
+                for(Category cat : categories)
+                    addCategory(cat, entry);
+            }
+        });
+
+        listentry.addEntry(entry);
     }
 }

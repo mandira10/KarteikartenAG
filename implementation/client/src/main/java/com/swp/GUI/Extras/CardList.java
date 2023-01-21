@@ -156,7 +156,7 @@ public class CardList extends RenderGUI
         pList.addEntry(new ListCell[] { titlecell, creationcell, numdeckscell, checkcell }, card);
     }
 
-    public void addCards(Set<Card> cards)
+    public void addCards(java.util.List<Card> cards)
     {
         for(Card card : cards)
             addCard(card);

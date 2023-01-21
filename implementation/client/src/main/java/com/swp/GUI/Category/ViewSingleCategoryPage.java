@@ -20,14 +20,12 @@ import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ViewSingleCategoryPage extends Page
 {
     private Category pCategory;
     private RenderGUI pCanvas;
     private CardList pCardList;
-    private final CategoryController categoryController = CategoryController.getInstance();
 
     public ViewSingleCategoryPage()
     {
@@ -75,10 +73,10 @@ public class ViewSingleCategoryPage extends Page
         this.pCategory = category;
 
         pCardList.reset();
-        categoryController.getCardsInCategory(this.pCategory, new DataCallback<Card>() {
+        CategoryController.getInstance().getCardsInCategory(this.pCategory, new DataCallback<Card>() {
             @Override
             public void onSuccess(List<Card> data) {
-                pCardList.addCards(data.stream().collect(Collectors.toSet()));
+                pCardList.addCards(data);
             }
 
             @Override
@@ -101,7 +99,7 @@ public class ViewSingleCategoryPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                categoryController.deleteCategory(pCategory, new SingleDataCallback<Boolean>() {
+                CategoryController.getInstance().deleteCategory(pCategory, new SingleDataCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean data) {
 

@@ -33,6 +33,9 @@ public abstract class StudySystem implements Serializable
     @Id
     private final String id;
 
+    @OneToOne
+    Deck deck;
+
     /**
      * Enum für die CardOrder des Decks
      */

@@ -23,6 +23,8 @@ public class StudySystemBox implements Serializable
     @OneToMany(fetch = FetchType.EAGER)
     private List<Card> boxContent;
 
+    StudySystem studySystem;
+
     /**
      * Zugehöriges Deck
      */

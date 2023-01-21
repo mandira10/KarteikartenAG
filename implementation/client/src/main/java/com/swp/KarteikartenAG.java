@@ -94,11 +94,11 @@ import lombok.extern.slf4j.Slf4j;
 //   - Fix Scroller class           -- done
 //   - Searchbar                    -- done
 //   - Searchbar filter             -- done
-//   - Category GUIs
+//   - Category GUIs                -- done
 //       - Category List            -- done
 //       - Single Category View     -- done
-//       - Category Tree
-//   - Fix Hierarchy List
+//       - Category Tree            -- done
+//   - Fix Hierarchy List           -- done
 //   - Theming                      -- done
 //   - Language Class               -- done
 //   - Language enum
@@ -182,6 +182,7 @@ public class KarteikartenAG
             }
         });
 
+        importTestData();
         KarteikartenAGGUI pKarteikartenAGGUI = KarteikartenAGGUI.getInstance();
         pKarteikartenAGGUI.setSize(new ivec2(100, 100));
         pKarteikartenAGGUI.setSizeInPercent(true, true);
@@ -201,7 +202,6 @@ public class KarteikartenAG
         }
 
         pMainGUI.setSize(iWindowSize);
-        importTestData();
 
         
         while(pMainWindow.isOpen())

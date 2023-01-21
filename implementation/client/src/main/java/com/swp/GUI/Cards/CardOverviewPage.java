@@ -1,7 +1,6 @@
 package com.swp.GUI.Cards;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -35,8 +34,6 @@ public class CardOverviewPage extends Page
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/cards/cardoverviewpage.xml"));
-
-        RenderGUI optionsMenu = findChildByID("menu");
 
         Button addCardButton = (Button)findChildByID("addcardbutton");
         addCardButton.onClick(new GUICallback() {
@@ -102,7 +99,7 @@ public class CardOverviewPage extends Page
         CardController.getInstance().getCardsToShow(from, to, new DataCallback<Card>() {
             @Override public void onSuccess(List<Card> data) 
             {
-                pCardList.addCards(data.stream().collect(Collectors.toSet()));
+                pCardList.addCards(data);
             }
 
             @Override public void onFailure(String msg) 
@@ -121,7 +118,7 @@ public class CardOverviewPage extends Page
         CardController.getInstance().getCardsBySearchterms(str, new DataCallback<Card>() {
             @Override
             public void onSuccess(List<Card> data) {
-                pCardList.addCards(data.stream().collect(Collectors.toSet()));
+                pCardList.addCards(data);
             }
 
             @Override

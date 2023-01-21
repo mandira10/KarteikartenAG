@@ -4,8 +4,15 @@ import com.gumse.gui.GUI;
 import com.gumse.gui.Theme;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.*;
+import com.gumse.tools.Output;
 import com.swp.DataModel.Settings.Setting;
+import com.swp.Controller.CategoryController;
+import com.swp.Controller.SingleDataCallback;
+import com.swp.DataModel.Category;
 import com.swp.DataModel.Settings;
+import com.swp.GUI.PageManager.PAGES;
+import com.swp.GUI.Category.ViewCategoryTreePage;
+import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
 
@@ -57,7 +64,10 @@ public class KarteikartenAGGUI extends RenderGUI
 
         //ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
         //page.setCard(card);
-        ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();*/
+        */
+        ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
+
+        PageManager.viewPage(PAGES.CATEGORY_OVERVIEW);
 
 
         pConfirmations = ConfirmationGUI.getInstance();

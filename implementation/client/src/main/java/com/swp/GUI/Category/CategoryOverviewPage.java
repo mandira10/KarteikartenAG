@@ -4,6 +4,7 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Output;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Category;
@@ -11,8 +12,10 @@ import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardExportPage;
 import com.swp.GUI.Extras.CategoryList;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CategoryList.CategoryListCallback;
+import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
 
@@ -45,6 +48,14 @@ public class CategoryOverviewPage extends Page
         pCanvas.addGUI(pCategoryList);
         
         RenderGUI optionsMenu = findChildByID("menu");
+        Button treeButton = (Button)optionsMenu.findChildByID("treeviewbutton");
+        treeButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui) 
+            {
+                ((ViewCategoryTreePage)PageManager.viewPage(PAGES.CATEGORY_TREE)).reset();
+            }
+        });
+
         Button newButton = (Button)optionsMenu.findChildByID("addcategorybutton");
         newButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui)  
@@ -73,20 +84,15 @@ public class CategoryOverviewPage extends Page
     public void loadCategories()
     {
         pCategoryList.reset();
-        categoryController.getCategories(new DataCallback() {
-            @Override
-            public void onSuccess(List data) {
-                pCategoryList.addCategories(data);
-            }
-
-            @Override
-            public void onFailure(String msg) {
-
-            }
-
-            @Override
-            public void onInfo(String msg) {
-
+        categoryController.getRootCategories(new DataCallback<Category>() {
+            @Override public void onFailure(String msg) { NotificationGUI.addNotification(msg, NotificationType.ERROR, 5); }
+            @Override public void onInfo(String msg) {}
+            @Override public void onSuccess(List<Category> data) 
+            {
+                for(Category cat : data)
+                {
+                    pCategoryList.addCategory(cat, null);
+                }
             }
         });
     }

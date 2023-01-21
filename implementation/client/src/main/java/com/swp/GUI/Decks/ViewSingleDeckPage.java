@@ -88,7 +88,7 @@ public class ViewSingleDeckPage extends Page
         DeckController.getInstance().getCardsInDeck(this.pDeck, new DataCallback<Card>() {
             @Override
             public void onSuccess(List<Card> data) {
-                pCardList.addCards(data.stream().collect(Collectors.toSet()));
+                pCardList.addCards(data);
             }
 
             @Override

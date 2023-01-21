@@ -253,9 +253,10 @@ public class CategoryLogic extends BaseLogic<Category>
 
 
     /**
-     * Lädt alle Categories als Set. Werden in der CardEditPage als Dropdown angezeigt. Wird weitergegeben an das CategoryRepository.
-     * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
-     * @return Set mit bestehenden Categories
+     * Lädt alle Categories als Liste.
+     * Werden in der CardEditPage als Dropdown angezeigt. 
+     * Wird weitergegeben an das CategoryRepository.
+     * @return Liste mit bestehenden Categories
      */
     public List<Category> getCategories() {
         return execTransactional(categoryRepository::getAll);
@@ -293,4 +294,23 @@ public class CategoryLogic extends BaseLogic<Category>
         return execTransactional(() -> categoryRepository.getParentsForCategory(child));
     }
 
+
+    /**
+     * Lädt alle Categories ohne Parents als Set.
+     * Wird weitergegeben an das CategoryRepository.
+     * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
+     * @return Liste mit bestehenden Categories
+     */
+    public List<Category> getRootCategories()
+    {
+        //Wahrscheinlich nicht die beste lösung
+        List<Category> rootCats = new ArrayList<>();
+        for(Category cat : getCategories())
+        {
+            if(getParentsForCategory(cat).size() == 0)
+                rootCats.add(cat);
+        }
+
+        return rootCats;
+    }
 }

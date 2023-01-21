@@ -83,6 +83,7 @@ public class CategoryController {
 
     /**
      * Wird verwendet, um eine Karte von einer Kategorie zu löschen. Wird an die CategoryLogic weitergegeben.
+     * 
      * @param c2d: Partition Class dafür
      */
     public void deleteCardToCategory(CardToCategory c2d, SingleDataCallback<Boolean> singleDataCallback) {
@@ -95,6 +96,7 @@ public class CategoryController {
 
     /**
      * Wird verwendet, um die Parents einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
+     * 
      * @param child: die Child Kategorie,um die Parents zu bekommen
      */
     public void getParentsForCategory(Category child, DataCallback<Category> dataCallback) {
@@ -107,6 +109,7 @@ public class CategoryController {
 
     /**
      * Wird verwendet, um die Children einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
+     * 
      * @param parent: die Parent Kategorie,um die Children zu bekommen
      */
     public void getChildrenForCategory(Category parent, DataCallback<Category> dataCallback) {
@@ -233,9 +236,9 @@ public class CategoryController {
 //CARDEDITPAGE, CATEGORY OVERVIEW
 
     /**
-     * Lädt alle Categories als Set. Werden in der CardEditPage als Dropdown angezeigt. Wird weitergegeben an die CategoryLogic.
-     * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
-     *
+     * Lädt alle Categories als Set. 
+     * Werden in der CardEditPage als Dropdown angezeigt. 
+     * Wird weitergegeben an die CategoryLogic.
      */
     public void getCategories(DataCallback<Category> dataCallback) {
         try {
@@ -245,6 +248,21 @@ public class CategoryController {
                 log.info("Keine Kategorien vorhanden");
 
             dataCallback.onSuccess(categories);
+        } catch (Exception ex) {
+            dataCallback.onFailure(ex.getMessage());
+        }
+    }
+
+    /**
+     * Lädt alle Categories welche keine Parent-Categories haben als Liste. 
+     * Wird weitergegeben an die CategoryLogic.
+     * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
+     *
+     */
+    public void getRootCategories(DataCallback<Category> dataCallback)
+    {
+        try {
+            dataCallback.onSuccess(categoryLogic.getRootCategories());
         } catch (Exception ex) {
             dataCallback.onFailure(ex.getMessage());
         }
