@@ -305,14 +305,7 @@ public class CategoryLogic extends BaseLogic<Category>
      */
     public List<Category> getRootCategories()
     {
-        //Wahrscheinlich nicht die beste lösung
-        List<Category> rootCats = new ArrayList<>();
-        for(Category cat : getCategories())
-        {
-            if(getParentsForCategory(cat).size() == 0)
-                rootCats.add(cat);
-        }
+        return execTransactional(() -> categoryRepository.getRoots());
 
-        return rootCats;
     }
 }
