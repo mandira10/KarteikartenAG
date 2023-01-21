@@ -4,9 +4,7 @@ import java.nio.ByteBuffer;
 
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,20 +15,26 @@ import lombok.Setter;
 
 @Getter
 @Setter
-//@Entity
-//@DiscriminatorValue("IMAGEDESC")
+@Entity
+@DiscriminatorValue("IMAGEDESC")
 public class ImageDescriptionCard extends Card
 {
+
     /**
      * Bilddatei für die Frage
      */
+    //@Lob
+    //@Column
+    //private Byte[] imageBytes;
+
     @Column
-    private String image;  //Not optimal
+    private String image; //Not optimal
 
     /**
      * Antwort der Frage
      */
-    @Column
+    @OneToMany
+    @Embedded
     private ImageDescriptionCardAnswer[] answers;
 
     /**
@@ -38,6 +42,11 @@ public class ImageDescriptionCard extends Card
      */
     public ImageDescriptionCard()
     {
+        //this.question = "";
+        //this.imageBytes = null;
+        //this.answers = null;
+        //this.visibility = false;
+        //setContent();
         this("", new ImageDescriptionCardAnswer[] {}, "", "", false);
     }
 
@@ -48,6 +57,17 @@ public class ImageDescriptionCard extends Card
      * @param title Optionaler Titel der Karte
      * @param visible Sichtbarkeit der Karte
      */
+    //public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, Byte[] imageBytes, boolean visible)
+    //{
+    //    super(CardType.IMAGEDESC);
+    //    setTitle(title);
+    //    this.question = question;
+    //    this.imageBytes = imageBytes;
+    //    this.answers = answers;
+    //    this.visibility = visible;
+    //    setContent();
+    //}
+
     public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, String image, boolean visible)
     {
         super(CardType.IMAGEDESC);

@@ -20,16 +20,8 @@ import java.util.UUID;
 @Getter
 @NamedQuery(name  = "Card.findCardByUUID",
             query = "SELECT c FROM Card c WHERE c.uuid = :uuid")
-@NamedQuery(name  = "Card.findCardsByContent",
-            query = "SELECT c FROM Card c WHERE LOWER(c.content) LIKE LOWER(:content)")
 @NamedQuery(name  = "Card.findByTitle",
             query = "SELECT c FROM Card c WHERE c.title = :title ")
-@NamedQuery(name  = "Card.findCategoriesOfCard",
-            query = "SELECT c2c.category FROM CardToCategory c2c WHERE c2c.card = :card") //doppelt?
-@NamedQuery(name  = "Card.findTagsOfCard",
-            query = "SELECT c2t.tag FROM CardToTag c2t WHERE c2t.card = :card") //doppelt?
-@NamedQuery(name  = "Card.findDecksOfCard",
-            query = "SELECT c2d.deck FROM CardToDeck c2d WHERE c2d.card = :card")
 public abstract class Card implements Serializable
 {
     /**

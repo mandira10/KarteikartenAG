@@ -15,7 +15,10 @@ import com.gumse.gui.List.ColumnInfo.ColumnType;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.io.Mouse;
+import com.swp.Controller.CardController;
+import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.ViewSingleCardPage;
 import com.swp.GUI.PageManager.PAGES;
@@ -113,9 +116,20 @@ public class CardList extends RenderGUI
         bIsInSelectmode = false;
     }
 
-    public void addCard(Card card)
+    public void addCard(CardOverview card)
     {
+        final Card[] card1 = new Card[1];
+        CardController.getInstance().getCardByUUID(card.getUUUID(), new SingleDataCallback<Card>() {
+            @Override
+            public void onSuccess(Card data) {
+                card1[0] =data;
+            }
 
+            @Override
+            public void onFailure(String msg) {
+            //nada
+            }
+        });
         GUICallback commoncallback = new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
@@ -126,20 +140,20 @@ public class CardList extends RenderGUI
                 }
                 else
                 {
-                    ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(card);
+                    ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(card1[0]);
                 }
             }
         };
 
-        ListCell titlecell = new ListCell(card.getTitle());
+        ListCell titlecell = new ListCell(card.getTitelToShow());
         titlecell.alignment = Alignment.LEFT;
         titlecell.onclickcallback = commoncallback;
 
-        ListCell creationcell = new ListCell(card.getCreationDate());
+        ListCell creationcell = new ListCell(card.getCardCreated());
         creationcell.alignment = Alignment.LEFT;
         creationcell.onclickcallback = commoncallback;
 
-        ListCell numdeckscell = new ListCell(42);
+        ListCell numdeckscell = new ListCell(card.getCountDecks());
         numdeckscell.alignment = Alignment.LEFT;
         numdeckscell.onclickcallback = commoncallback;
 
@@ -153,12 +167,12 @@ public class CardList extends RenderGUI
             }
         };
 
-        pList.addEntry(new ListCell[] { titlecell, creationcell, numdeckscell, checkcell }, card);
+        pList.addEntry(new ListCell[] { titlecell, creationcell, numdeckscell, checkcell }, card1[0]);
     }
 
-    public void addCards(java.util.List<Card> cards)
+    public void addCards(Set<CardOverview> cards)
     {
-        for(Card card : cards)
+        for(CardOverview card : cards)
             addCard(card);
     }
 

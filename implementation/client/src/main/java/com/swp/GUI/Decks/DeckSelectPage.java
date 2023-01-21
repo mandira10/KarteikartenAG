@@ -2,15 +2,14 @@ package com.swp.GUI.Decks;
 
 import java.util.List;
 
-import clojure.lang.IFn;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.DataCallback;
-import com.swp.Controller.DeckController;
+import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Deck;
+import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
@@ -36,7 +35,7 @@ public class DeckSelectPage extends Page
         pCanvas = findChildByID("canvas");
 
         pDeckList = new DeckList(new ivec2(0, 0), new ivec2(100, 100), new DeckListCallback() {
-            @Override public void run(Deck deck) 
+            @Override public void run(StudySystem deck)
             {
                 selectDeck(deck);
             }
@@ -62,9 +61,9 @@ public class DeckSelectPage extends Page
     {
         alCards = cards;
         pDeckList.reset();
-        DeckController.getInstance().getDecks(new DataCallback<>() {
+        StudySystemController.getInstance().getStudySystems(new DataCallback<>() {
             @Override
-            public void onSuccess(List<Deck> data) {
+            public void onSuccess(List<StudySystem> data) {
                 pDeckList.addDecks(data);
             }
             @Override
@@ -78,7 +77,7 @@ public class DeckSelectPage extends Page
         });
     }
     
-    private void selectDeck(Deck deck)
+    private void selectDeck(StudySystem deck)
     {
         ConfirmationGUI.openDialog("Do you want to add your cards to " + String.valueOf(deck.getName()) + "?", new ConfirmationCallback() {
             @Override public void onCancel() {}

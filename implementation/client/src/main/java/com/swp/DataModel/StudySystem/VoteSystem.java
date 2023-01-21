@@ -4,30 +4,34 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.*;
 
 /**
  * Klasse für das VoteSystem. Erbt alle Attribute vom StudySystem
  */
 @Entity
+@Getter
+@Setter
 @DiscriminatorValue("Vote")
 public class VoteSystem extends StudySystem
 {
-    int questionCount = 0;
-    int trueAnswerCount = 0;
-    int pointQuestion = 100;
-    int resultPoint = 0;
 
     /**
      * Konstruktor der Klasse VoteSystem.
      * TODO
      */
-    public VoteSystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility) {
-        super(name, cardOrder, type, nboxes, visibility);
+    public VoteSystem(String name, CardOrder cardOrder, boolean visibility) {
+        super(name, cardOrder, StudySystemType.VOTE, visibility);
+        this.boxes.add(new StudySystemBox(this));
     }
-        {
-       // super(deck, StudySystemType.VOTE, 5);
 
+
+
+    public VoteSystem(VoteSystem other) {
+        super(other);
     }
 
     public VoteSystem() {

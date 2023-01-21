@@ -1,7 +1,7 @@
 package com.swp.Logic.CardLogicTest;
 
-import com.swp.DataModel.Card;
-import com.swp.DataModel.CardTypes.TextCard;
+
+import com.swp.DataModel.CardOverview;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.TagRepository;
@@ -55,12 +55,9 @@ public class FilterSearchTermsTagTest {
     @Test
     public void testListOfCardsForTags(){
         on(cardLogic).set("tagRepository",tagRepMock);
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
-        Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel1",true);
-        Card card3  = new TextCard("Testfrage2","Testantwort2","Testtitel2",true);
-        final List<Card> expected =Arrays.asList(new Card[]{card1,card2,card3});
+        final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardRepMock.findCardsByTag(tagRepMock.findTag(anyString()))).thenReturn(expected);
-        List<Card> actual = cardLogic.getCardsByTag("test");
+        List<CardOverview> actual = cardLogic.getCardsByTag("test");
         assertEquals(expected,actual);
     }
 
@@ -82,12 +79,9 @@ public class FilterSearchTermsTagTest {
 
     @Test
     public void testListOfCardsForSearchterms(){
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
-        Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel1",true);
-        Card card3  = new TextCard("Testfrage2","Testantwort2","Testtitel2",true);
-        final List<Card> expected =Arrays.asList(new Card[]{card1,card2,card3});
+        final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardRepMock.findCardsContaining(anyString())).thenReturn(expected);
-        List<Card> actual = cardLogic.getCardsBySearchterms("test");
+        List<CardOverview> actual = cardLogic.getCardsBySearchterms("test");
         assertEquals(expected,actual);
     }
 

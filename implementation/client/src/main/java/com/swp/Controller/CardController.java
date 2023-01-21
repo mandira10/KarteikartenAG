@@ -2,6 +2,7 @@ package com.swp.Controller;
 
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter.ExportFileType;
@@ -33,9 +34,9 @@ public class CardController {
      * @param begin: Seitenauswahl Anfangswert
      * @param end: Seitenauswahl Endwert
      */
-    public void getCardsToShow(int begin, int end, DataCallback<Card> callback) {
+    public void getCardsToShow(int begin, int end, DataCallback<CardOverview> callback) {
         try {
-            List<Card> cardsToShow = cardLogic.getCardsToShow(begin, end);
+            List<CardOverview> cardsToShow = cardLogic.getCardOverview(begin, end);
 
             if (cardsToShow.isEmpty())
                 callback.onInfo("Es gibt bisher noch keine Karten");
@@ -56,9 +57,9 @@ public class CardController {
      *
      * @param tag: Der Tag, zu dem die Karten abgerufen werden sollen
      */
-    public void getCardsByTag(String tag, DataCallback<Card> callback) {
+    public void getCardsByTag(String tag, DataCallback<CardOverview> callback) {
         try {
-            List<Card> cardsForTag = cardLogic.getCardsByTag(tag);
+            List<CardOverview> cardsForTag = cardLogic.getCardsByTag(tag);
 
             if (cardsForTag.isEmpty())
                 callback.onInfo("Es gibt keine Karten für diesen Tag");
@@ -100,9 +101,9 @@ public class CardController {
      *
      * @param searchterm Übergebener String mit dem Suchwort
      */
-    public void getCardsBySearchterms(String searchterm, DataCallback<Card> callback) {
+    public void getCardsBySearchterms(String searchterm, DataCallback<CardOverview> callback) {
         try {
-            List<Card> cardsForSearchTerms = cardLogic.getCardsBySearchterms(searchterm);
+            List<CardOverview> cardsForSearchTerms = cardLogic.getCardsBySearchterms(searchterm);
 
             if (cardsForSearchTerms.isEmpty()) {
                 callback.onInfo("Es gibt keine Karten für dieses Suchwort");

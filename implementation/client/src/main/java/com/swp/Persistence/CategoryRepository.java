@@ -40,75 +40,14 @@ public class CategoryRepository extends BaseRepository<Category> {
                 .setParameter("uuid", uuid)
                 .getSingleResult();
     }
-
-    /**
-     * Die Funktion `saveCategory` persistiert die übergebene Kategorie.
-     *
-     * @param category eine Kategorie
-     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
-     */
-    public boolean saveCategory(Category category) {
-        getInstance().save(category);
-        return true;
-    }
-
-
-    /**
-     * Die Funktion `deleteCategory` löscht die angegebene Kategorie und alle Verbindungen,
-     * die als `CardToCategory`-Objekte vorliegen.
-     *
-     * @param category die zu löschende Kategorie.
-     * @return boolean, wenn erfolgreich ein `true`, im Fehlerfall wird eine Exception geworfen.
-     */
-    public boolean deleteCategory(Category category) {
-        getInstance().delete(category);
-        return true;
-    }
-
+    
     /**
      * Die Funktion `getCardToCategories` liefert alle gespeicherten `CardToCategory`-Objekte zurück.
      *
      * @return Set<CardToCategory> eine Menge mit allen `CardToCategory`
      */
     public  List<CardToCategory> getCardToCategories() {
-        // TODO: diese Funktion sollte nicht verwendet werden, sondern folgendes:
-        // CardToCategoryRepository.getInstance().getAll();
-
-        List<CardToCategory> card2categories = new ArrayList<>();
-//        if (!card2categories.isEmpty()) {
-//            return card2categories;
-//        }
-
-        /////////////////////////////////////////////////////////////////
-        //
-        // TEMPORARY
-        //
-        ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[]{
-                new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),
-                new ImageDescriptionCardAnswer("Orange", 61, 26),
-                new ImageDescriptionCardAnswer("Nase", 40, 67),
-                new ImageDescriptionCardAnswer("Hand", 82, 58),
-                new ImageDescriptionCardAnswer("Fuß", 62, 89),
-        };
-        ArrayList<Card> cards = new ArrayList<Card>();
-        cards.add(new MultipleChoiceCard("Multiple Choice Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", new String[]{"Answer 1", "Answer 2", "Answer 3"}, new int[]{1}, "MultipleChoiceCard", false));
-        cards.add(new TrueFalseCard("True False Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", true, "TrueFalseCard", false));
-        cards.add(new TextCard("Text Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "text answer", "TextCard", false));
-        cards.add(new ImageDescriptionCard("Image Desc Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", answers, "ImageDescriptionCard", "textures/orange-ket.png", false));
-        cards.add(new ImageTestCard("Image Test Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "image answer", "textures/orange-ket.png", "ImageTestCard", false, false));
-        //cards.add(new AudioCard("audios/thud.wav", "AudioCard", "Audio Complicated Question Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mauris elit, luctus id mollis a, posuere sed ante. Mauris a aliquet est. Integer egestas massa ac erat finibus iaculis. Vestibulum vitae dignissim lacus. Cras augue ante, semper id est sit amet, accumsan porta lacus. Ut rhoncus dui justo", "audio answer", false, false));
-        for (Category category : CategoryRepository.getInstance().getAll()) {
-            for (Card card : cards) {
-                CardToCategory cardtocategory = new CardToCategory(card, category);
-                card2categories.add(cardtocategory);
-            }
-        }
-        //Cache.getInstance().setCardToCategories(card2categories);
-        return card2categories;
-        /////////////////////////////////////////////////////////////////
-
-        //server.send("/getcardtocategories", jsonString);
-        //return null;
+       return CardToCategoryRepository.getInstance().getAll();
     }
 
     /**
@@ -140,19 +79,17 @@ public class CategoryRepository extends BaseRepository<Category> {
                 .getResultList();
     }
 
-    public boolean saveCategoryHierarchy(Category child, Category parent) {
+    public void saveCategoryHierarchy(Category child, Category parent) {
         getEntityManager().persist(new CategoryHierarchy(child, parent));
-        return true;
     }
 
-    public  boolean deleteCategoryHierarchy(Category child, Category parent) {
+    public void deleteCategoryHierarchy(Category child, Category parent) {
         CategoryHierarchy ch = getEntityManager()
                 .createNamedQuery("CategoryH.findSpecificCH", CategoryHierarchy.class)
                 .setParameter("child", child)
                 .setParameter("parent", parent)
                 .getSingleResult();
         getEntityManager().remove(ch);
-        return true;
     }
 
     public List<Category> getChildrenForCategory(Category parent) {

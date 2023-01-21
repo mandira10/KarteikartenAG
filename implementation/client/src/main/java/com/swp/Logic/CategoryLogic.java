@@ -3,6 +3,7 @@ package com.swp.Logic;
 import java.util.*;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
 import com.swp.Persistence.CardRepository;
@@ -126,7 +127,7 @@ public class CategoryLogic extends BaseLogic<Category>
      * @param categoryName Name der Kategorie
      * @return Liste an Karten mit Kategorie
      */
-    public List<Card> getCardsInCategory(String categoryName) {
+    public List<CardOverview> getCardsInCategory(String categoryName) {
         checkNotNullOrBlank(categoryName, "Kategorie",true);
         return execTransactional(() -> cardRepository.getCardsByCategory(categoryRepository.find(categoryName)));
     }
@@ -136,7 +137,7 @@ public class CategoryLogic extends BaseLogic<Category>
      * @param category Kategorie für die Karten gesucht werden sollen
      * @return Liste an Karten mit Kategorie
      */
-    public List<Card> getCardsInCategory(Category category) {
+    public List<CardOverview> getCardsInCategory(Category category) {
        return execTransactional(() -> cardRepository.getCardsByCategory(category));
     }
 
@@ -200,7 +201,8 @@ public class CategoryLogic extends BaseLogic<Category>
         for (Category c : catOld) {
             if (!catNew.contains(c))
                 if (cardOrCategory instanceof Card card) {
-                    cardToCategoryRepository.delete(cardToCategoryRepository.getSpecific(card, c));
+                    CardToCategory c2c = cardToCategoryRepository.getSpecific(card, c);
+                    cardToCategoryRepository.delete(c2c);
                 } else if (cardOrCategory instanceof Category category && !child) {
                     categoryRepository.deleteCategoryHierarchy(c, category);
                 } else if (cardOrCategory instanceof Category category) {

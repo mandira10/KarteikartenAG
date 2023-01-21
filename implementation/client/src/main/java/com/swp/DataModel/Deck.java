@@ -51,7 +51,8 @@ public class Deck implements Serializable
      * Gewähltes StudySystem für das spezifische Deck
      * Alle Aktionen vom Deck werden an das StudySystem weitergegeben.
      */
-    @OneToOne (mappedBy = "deck", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="d.uuid")
     private StudySystem studySystem;
 
     /**

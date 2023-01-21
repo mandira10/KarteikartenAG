@@ -4,6 +4,9 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.*;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -12,27 +15,34 @@ import java.util.ArrayList;
  * Klasse für das TimingSystem. Erbt alle Attribute vom StudySystem
  */
 @Entity
+@Getter
+@Setter
 @DiscriminatorValue("Timing")
 public class TimingSystem extends StudySystem
 {
+
+    //TODO MERT JAVA DOC
     private float timeLimit = 0;
     private float answerTime = 0;
-    private int questionCount = 0;
     private int trueCount = 0;
-    private int pointQuestion = 100;
-    private int resultPoint = 0;
-
 
     /**
      * Konstruktor der Klasse TimingSystem.
      * TODO
      */
-    public TimingSystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility,int timeLimit){
-        super(name,cardOrder,type,nboxes,visibility);
-
+    public TimingSystem(String name, CardOrder cardOrder, boolean visibility,int timeLimit){
+        super(name,cardOrder,StudySystemType.TIMING,visibility);
+        this.boxes.add(new StudySystemBox(this));
 //        super(StudySystemType.TIMING, 5);
              this.timeLimit = timeLimit;}
 
+    public TimingSystem(TimingSystem other){
+        super(other);
+        timeLimit = other.getTimeLimit();
+        answerTime = other.getAnswerTime();
+        trueCount = other.getTrueCount();
+
+    }
 
 
     public TimingSystem() {

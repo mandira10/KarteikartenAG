@@ -8,9 +8,13 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.swp.Controller.SingleDataCallback;
+import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.TestCardGUI;
@@ -23,13 +27,15 @@ import com.swp.GUI.PageManager.PAGES;
 public class TestDeckPage extends Page
 {
     private RenderGUI pCanvas;
-    private Deck pDeck;
+    private StudySystem pDeck;
     private TestCardGUI pTestGUI;
     private Text pTimeText;
     private boolean bAnswerChecked, bNextCardAllowed;
     private long lStartTime;
     private float fElapsedSeconds;
     private boolean bStopTime;
+
+    private StudySystemController studySystemController = StudySystemController.getInstance();
 
     public TestDeckPage()
     {
@@ -57,7 +63,15 @@ public class TestDeckPage extends Page
             @Override public void run(int rating) 
             {
                 bNextCardAllowed = true;
-                //pDeck.getStudySystem().giveRating(rating);//TODO
+                studySystemController.giveRating(pDeck,rating, new SingleDataCallback<>() {
+                    @Override
+                    public void onSuccess(Object data) {}
+
+                    @Override
+                    public void onFailure(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                    }
+                });
             }
         });
         optionsMenu.addGUI(ratingGUI);
@@ -81,16 +95,32 @@ public class TestDeckPage extends Page
                     bNextCardAllowed = true;
                     bStopTime = true;
 
-                    //pDeck.getStudySystem().giveAnswer(pTestGUI.checkAnswers());//TODO
-                    switch(pDeck.getStudySystem().getType())
+                    studySystemController.giveAnswer(pDeck, pTestGUI.checkAnswers(),  new SingleDataCallback() {
+                        @Override
+                        public void onSuccess(Object data) {}
+
+                        @Override
+                        public void onFailure(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                        }
+                    });
+                    switch(pDeck.getType())
                     {
                         case VOTE:   
                             bNextCardAllowed = false; 
                             ratingGUI.hide(false);
                             break;
 
-                        case TIMING: 
-                            //pDeck.getStudySystem().giveTime((int)fElapsedSeconds);//TODO
+                        case TIMING:
+                            studySystemController.giveTime(pDeck, ((int) fElapsedSeconds), new SingleDataCallback() {
+                                @Override
+                                public void onSuccess(Object data) {}
+
+                                @Override
+                                public void onFailure(String msg) {
+                                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                                }
+                            });
                             break;
 
                         default:
@@ -115,10 +145,10 @@ public class TestDeckPage extends Page
         resize();
     }
 
-    public void startTests(Deck deck)
+    public void startTests(StudySystem deck)
     {
         this.pDeck = deck;
-        pTimeText.hide(pDeck.getStudySystem().getType() != StudySystem.StudySystemType.TIMING);
+        pTimeText.hide(pDeck.getType() != StudySystem.StudySystemType.TIMING);
         nextCard();
     }
 
@@ -128,6 +158,32 @@ public class TestDeckPage extends Page
         this.bStopTime = false;
         pCanvas.destroyChildren();
 
+        studySystemController.getNextCard(pDeck,  new SingleDataCallback<Card>() {
+            @Override
+            public void onSuccess(Card data) {
+             Card nextCard = data;
+                if(nextCard == null)
+        {
+            studySystemController.finishTestAndGetResult(pDeck, new SingleDataCallback<Integer>() {
+                @Override
+                public void onSuccess(Integer data) {
+
+                }
+
+                @Override
+                public void onFailure(String msg) {
+
+                }
+            });
+            return;
+        }
+            }
+
+            @Override
+            public void onFailure(String msg) {
+
+            }
+        });
         //Card nextCard = pDeck.getStudySystem().getNextCard(0);//TODO
 //        if(nextCard == null)
 //        {

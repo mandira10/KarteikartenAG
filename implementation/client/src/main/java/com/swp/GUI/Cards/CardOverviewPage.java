@@ -8,6 +8,7 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Decks.DeckSelectPage;
@@ -96,8 +97,8 @@ public class CardOverviewPage extends Page
     {
         if(from == 0)
             pCardList.reset();
-        CardController.getInstance().getCardsToShow(from, to, new DataCallback<Card>() {
-            @Override public void onSuccess(List<Card> data) 
+        CardController.getInstance().getCardsToShow(from, to, new DataCallback<CardOverview>() {
+            @Override public void onSuccess(List<CardOverview> data)
             {
                 pCardList.addCards(data);
             }
@@ -115,9 +116,9 @@ public class CardOverviewPage extends Page
     public void loadCards(String str)
     {
         pCardList.reset();
-        CardController.getInstance().getCardsBySearchterms(str, new DataCallback<Card>() {
+        CardController.getInstance().getCardsBySearchterms(str, new DataCallback<CardOverview>() {
             @Override
-            public void onSuccess(List<Card> data) {
+            public void onSuccess(List<CardOverview> data) {
                 pCardList.addCards(data);
             }
 

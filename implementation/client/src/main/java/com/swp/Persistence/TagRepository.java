@@ -43,4 +43,18 @@ public class TagRepository extends BaseRepository<Tag> {
                 .setParameter("card", card)
                 .getResultList();
     }
+
+    /**
+     * Die Funktion `getTags` liefer alle gespeicherten Tags zurück.
+     *
+     * @return Set<Tag> eine Menge mit allen Tags
+     */
+    public List<Tag> getTags() {
+        return getEntityManager()
+                .createQuery("SELECT t FROM Tag t", Tag.class)
+                .getResultList();
+    }
+
+
+
 }

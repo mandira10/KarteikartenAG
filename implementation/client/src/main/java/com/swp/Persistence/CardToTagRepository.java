@@ -1,7 +1,6 @@
 package com.swp.Persistence;
 
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardToDeck;
 import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.Tag;
 
@@ -43,6 +42,18 @@ public class CardToTagRepository extends BaseRepository<CardToTag> {
         return getEntityManager()
                 .createNamedQuery("CardToTag.allC2TByCard", CardToTag.class)
                 .setParameter("card", card)
+                .getResultList();
+    }
+
+    /**
+     * Die Funktion `getCardToTags` liefer alle `CardToTag`-Objekte zurück.
+     * Sie stellen die Verbindungen zwischen Karten und Tags dar.
+     *
+     * @return List<CardToTag> eine Menge mit allen `CardToTag`-Objekten.
+     */
+    public List<CardToTag> getCardToTags() {
+        return getEntityManager()
+                .createQuery("SELECT CardToTag FROM CardToTag", CardToTag.class)
                 .getResultList();
     }
 

@@ -26,7 +26,7 @@ public class CardToCategoryRepository extends BaseRepository<CardToCategory> {
                 .getResultList();
     }
 
-    public static CardToCategory getSpecific(Card card, Category cat) {
+    public CardToCategory getSpecific(Card card, Category cat) {
         return getEntityManager()
                 .createNamedQuery("CardToCategory.findSpecificC2C", CardToCategory.class)
                 .setParameter("card", card)

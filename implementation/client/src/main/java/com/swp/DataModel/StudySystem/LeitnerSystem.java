@@ -5,7 +5,12 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Deck;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Klasse für das LeitnerSystem. Erbt alle Attribute vom StudySystem
@@ -13,22 +18,33 @@ import lombok.NoArgsConstructor;
 @Entity
 @DiscriminatorValue("Leitner")
 @NoArgsConstructor
+@Getter
+@Setter
 public class LeitnerSystem extends StudySystem
 {
-        private int questionCount = 0;
-        private int trueAnswerCount = 0;
-        private int pointQuestion = 100;
-        private int resultPoint = 0;
 
         /**
          * Konstruktor der Klasse LeitnerSystem.
          *
          * TODO
          */
-        public LeitnerSystem(String name, CardOrder cardOrder, StudySystemType type, int nboxes, boolean visibility)
-        {super(name,cardOrder,type,nboxes,visibility);
-//                super(deck, StudySystemType.LEITNER, 5);
+        public LeitnerSystem(String name, CardOrder cardOrder, boolean visibility)
+        {super(name,cardOrder,StudySystemType.LEITNER,visibility);
+            initStudySystemBoxes(5);
                  }
+
+                 public LeitnerSystem(LeitnerSystem other){
+                 super(other);
+                 }
+
+
+    @Override
+    protected void  initStudySystemBoxes(int size) {
+        List<Integer> daysToLearn = Arrays.asList(new Integer[]{0,1,3,7,14}); //hardcoded not ideal
+        for (int i = 0; i < size; i++)
+            this.boxes.add(new StudySystemBox(this,daysToLearn.get(i)));
+
+    }
 //
 //        @Override
 //        public void giveAnswer(boolean answer) {

@@ -23,7 +23,8 @@ public class CardLogic extends BaseLogic<Card>
     private final TagRepository tagRepository = TagRepository.getInstance();
     private final CardToTagRepository cardToTagRepository = CardToTagRepository.getInstance();
     private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
-    private final CardToDeckRepository cardToDeckRepository = CardToDeckRepository.getInstance();
+
+    private final CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
     private static CardLogic cardLogic;
     public static CardLogic getInstance() {
         if (cardLogic == null)
@@ -43,6 +44,10 @@ public class CardLogic extends BaseLogic<Card>
         return execTransactional(() -> cardRepository.getCardRange(begin, end));
     }
 
+    public List<CardOverview> getCardOverview(int begin, int end) {
+        return execTransactional(() -> cardRepository.getCardOverview(begin, end));
+    }
+
     /**
      * Wird verwendet bei einer Filterung nach einem bestimmten Tag. Prüft zunächst, dass der übergebene Tag nicht
      * null oder leer ist und gibt die Funktion dann an das Card Repository weiter.
@@ -50,7 +55,7 @@ public class CardLogic extends BaseLogic<Card>
      * @return Set der Karten, die Tag enthalten
      * @throws NoResultException falls es keinen Tag, oder Karte mit entsprechendem Tag gibt.
      */
-    public List<Card> getCardsByTag(String tagName) {
+    public List<CardOverview> getCardsByTag(String tagName) {
         checkNotNullOrBlank(tagName, "Tag",true);
         return execTransactional(() -> cardRepository.findCardsByTag(
                 tagRepository.findTag(tagName)));
@@ -59,10 +64,11 @@ public class CardLogic extends BaseLogic<Card>
     /**
      * Methode wird verwendet, um passende Karten für die angegebenen Suchwörter zu identifizieren. Prüft zunächst,
      * dass der übergebene Tag nicht null oder leer ist und gibt die Funktion dann an das Card Repository weiter.
+     *
      * @param terms Suchwörter, die durch ein Leerzeichen voneinander getrennt sind
      * @return Set der Karten, die Suchwörter enthalten.
      */
-    public List<Card> getCardsBySearchterms(String terms)
+    public List<CardOverview> getCardsBySearchterms(String terms)
     {
         checkNotNullOrBlank(terms, "Suchbegriff",true);
         return execTransactional(() -> cardRepository.findCardsContaining(terms));
@@ -81,7 +87,7 @@ public class CardLogic extends BaseLogic<Card>
         execTransactional(() -> {
             cardRepository.delete(card);
             cardToCategoryRepository.delete(cardToCategoryRepository.getAllC2CForCard(card));
-            cardToDeckRepository.delete(cardToDeckRepository.getAllC2DForCard(card));
+            cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForCard(card));
             cardToTagRepository.delete(cardToTagRepository.getAllC2TForCard(card));
             return null; // Lambda braucht immer einen return
         });
@@ -246,5 +252,6 @@ public class CardLogic extends BaseLogic<Card>
             return null; // Lambda braucht einen return
         });
     }
+
 
 }

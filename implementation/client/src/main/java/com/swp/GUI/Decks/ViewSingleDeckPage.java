@@ -5,10 +5,11 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.DataCallback;
-import com.swp.Controller.DeckController;
 import com.swp.Controller.SingleDataCallback;
+import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Deck;
+import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
 
 public class ViewSingleDeckPage extends Page
 {
-    private Deck pDeck;
+    private StudySystem pDeck;
     private RenderGUI pCanvas;
     private CardList pCardList;
 
@@ -46,7 +47,7 @@ public class ViewSingleDeckPage extends Page
         //Edit button
         Button editButton = (Button)optionsMenu.findChildByID("editdeckbutton");
         editButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  { ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(pDeck); }
+            @Override public void run(RenderGUI gui)  { ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(pDeck.getUuid()); }
         });
 
         //Delete button
@@ -80,14 +81,14 @@ public class ViewSingleDeckPage extends Page
         reposition();
     }
 
-    public void setDeck(Deck deck)
+    public void setDeck(StudySystem deck)
     {
         this.pDeck = deck;
         pCardList.reset();
 
-        DeckController.getInstance().getCardsInDeck(this.pDeck, new DataCallback<Card>() {
+        StudySystemController.getInstance().getAllCardsInStudySystem(this.pDeck, new DataCallback<CardOverview>() {
             @Override
-            public void onSuccess(List<Card> data) {
+            public void onSuccess(List<CardOverview> data) {
                 pCardList.addCards(data);
             }
 
@@ -112,7 +113,7 @@ public class ViewSingleDeckPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                DeckController.getInstance().deleteDeck(pDeck, new SingleDataCallback<Boolean>() {
+                StudySystemController.getInstance().deleteStudySystem(pDeck, new SingleDataCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean data) {
                     }
@@ -133,7 +134,7 @@ public class ViewSingleDeckPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                DeckController.getInstance().removeCardsFromDeck(pCardList.getSelection(), pDeck, new SingleDataCallback<Boolean>() {
+                StudySystemController.getInstance().removeCardsFromStudySystem(pCardList.getSelection(), pDeck, new SingleDataCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean data) {
                     }
