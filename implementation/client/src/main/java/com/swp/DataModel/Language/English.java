@@ -1,13 +1,15 @@
 package com.swp.DataModel.Language;
 
+import com.gumse.gui.Locale;
+
 public class English extends Language
 {
     private static English pInstance = null;
 
     private English()
     {
-        this.shortName = "en";
-        this.name = "English";
+        this.locale = new Locale("English", "en");
+        loadLocale("locale/en_US.UTF-8");
     }
 
     public static English getInstance()

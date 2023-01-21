@@ -4,7 +4,7 @@
 
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="addcardbutton"    pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" title="Add Card"     />
+        <button id="addcardbutton"    pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="addcardbutton" title="Add Card"     />
         <button id="addtodeckbutton"  pos="97.5%, 0" origin="240, 0" size="120, 30" fontsize="20" title="Add to Deck"  />
         <button id="deletecardbutton" pos="97.5%, 0" origin="380, 0" size="120, 30" fontsize="20" title="Delete Card(s)" color="#EB4D4B" />
     </gui>

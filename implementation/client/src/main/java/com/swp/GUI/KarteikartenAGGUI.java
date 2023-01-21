@@ -44,7 +44,7 @@ public class KarteikartenAGGUI extends RenderGUI
         pLightTheme.cornerRadius      = new vec4(0,0,0,0);
         pLightTheme.borderThickness   = 1;
 
-
+        Settings.getInstance().getLanguage().activate();
         if(!Settings.getInstance().getSetting(Setting.DARK_THEME).equals("true")) 
             GUI.setTheme(pLightTheme);
         updateTheme();

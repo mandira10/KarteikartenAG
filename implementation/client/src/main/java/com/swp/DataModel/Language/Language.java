@@ -2,6 +2,10 @@ package com.swp.DataModel.Language;
 
 import java.util.Map;
 
+import com.gumse.gui.Locale;
+import com.gumse.tools.Output;
+import com.gumse.tools.Toolbox;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,30 +13,28 @@ import lombok.Setter;
 @Setter
 public abstract class Language 
 {
-    /**
-     * Enum für die verfügbaren Sprachen.
-     */
-    public enum AvailableLanguages
+    protected Locale locale;
+    private int i;
+
+    protected void loadLocale(String resourceName)
     {
-        ENGLISH,
-        GERMAN,
-    };
+        String filecontent = Toolbox.loadResourceAsString(resourceName, getClass());
 
-    public enum LanguageEntry
-    {
-
-    };
-
-    protected String name;
-    protected String shortName;
-    protected Map<LanguageEntry, String> entries;
-
-    protected Language()
-    {
+        i = 0;
+        filecontent.lines().forEach((String line) -> {
+            i++;
+            String[] args = line.split("= ");
+            if(args.length < 1)
+                Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
+            String id = args[0].replaceAll("\\s","");
+            String value = args[1];
+            Output.info(id);
+            locale.setString(id, value);
+        });
     }
 
-    public String getEntry(LanguageEntry entry)
+    public void activate()
     {
-        return entries.get(entry);
+        Locale.setCurrentLocale(locale);
     }
 }

@@ -53,11 +53,13 @@ public class SettingsPage extends Page
 
         Dropdown languageDropdown = (Dropdown)generalSettings.findChildByID("languagedropdown");
         Language lang = settings.getLanguage();
-        languageDropdown.setTitle(lang.getName());
+        languageDropdown.setTitle(lang.getLocale().getLanguage());
 
         languageDropdown.onSelection((str) -> {
             if     (str.equals("German"))  settings.setSetting(Setting.LANGUAGE, "de");
             else if(str.equals("English")) settings.setSetting(Setting.LANGUAGE, "en");
+
+            settings.getLanguage().activate();
             KarteikartenAGGUI.getInstance().updateTheme();
         });
 
