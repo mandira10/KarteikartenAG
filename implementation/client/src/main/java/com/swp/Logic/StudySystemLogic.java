@@ -59,14 +59,14 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     {
         //TODO: check before that there is no card already in studySystem?
         execTransactional(() -> {
-                if(testingBoxCards.isEmpty()){
-                    return null;
-                }
-                else {
+//                if(testingBoxCards.isEmpty()){
+//                    return null;
+//                }
+//                else {
                     BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
                     //save new BoxToCard
                     cardToBoxRepository.save(boxToCard);
-                }
+//                }
                 return null;
         });
     }
