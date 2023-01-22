@@ -30,6 +30,10 @@ import static com.swp.Validator.checkNotNullOrBlank;
             query = "SELECT c FROM Card c WHERE c.nextLearnedAt < :now ORDER BY c.nextLearnedAt ASC")
 @NamedQuery(name = "Card.allCardsSortedByRanking",
             query = "SELECT c FROM Card c ORDER BY c.rating DESC")
+@NamedQuery(name = "Card.allCardsOfEveryBoxesOfTheStudySystem",
+            query = "SELECT c FROM Card c WHERE c.box.studySystem.uuid = :uuid")
+@NamedQuery (name = "Card.allCardsOfaBox",
+             query = "SELECT c FROM Card c WHERE c.box.uuid = :uuid")
 
 public abstract class Card implements Serializable
 {
@@ -106,6 +110,13 @@ public abstract class Card implements Serializable
      */
     @Column
     protected Timestamp nextLearnedAt;
+
+    /**
+     * Box, in der die Karte gespeichert ist.
+     */
+    @ManyToOne
+    @JoinColumn(name = "d_uuid")
+    protected Deck box;
 
     /**
      * Konstruktor für eine einfache Karte.
