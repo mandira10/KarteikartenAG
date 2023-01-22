@@ -15,7 +15,7 @@ public class LoginPage extends Page
 {
     public LoginPage()
     {
-        super("Login");
+        super("Login", "loginpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/loginpage.xml"));

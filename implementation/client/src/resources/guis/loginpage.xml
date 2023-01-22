@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui-root pos="0, 0" size="100%, 100%">
     <gui pos="15%, 15%" size="70%, 70%">
-        <textfield pos="0,  0" size="100%, 60" fontsize="40" hint="Username"></textfield>
-        <textfield pos="0, 80" size="100%, 60" fontsize="40" hint="Password"></textfield>
+        <textfield pos="0,  0" size="100%, 60" fontsize="40" locale-id="usernamefield"></textfield>
+        <textfield pos="0, 80" size="100%, 60" fontsize="40" locale-id="passwordfield"></textfield>
 
-        <text pos="0, 150" fontsize="20">Remember Me</text>
+        <text pos="0, 150" fontsize="20" locale-id="remembermefield"></text>
         <switch pos="100%, 150" origin="20, 0" size="20, 20" />
 
-        <!--<button id="registerbutton" pos="0, 300"   size="48%, 60" fontsize="40" title="Register"  />
-        <button id="loginbutton"    pos="100%, 300" origin="100%, 0" size="45%, 60" fontsize="40" title="Login"  />-->
-
         <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-            <button id="registerbutton"   pos="97.5%, 0" origin="220, 0" size="100, 30" fontsize="20" title="Register"    />
-            <button id="loginbutton" pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" title="Login"  />
+            <button id="registerbutton"   pos="97.5%, 0" origin="220, 0" size="100, 30" fontsize="20" locale-id="registerbutton"    />
+            <button id="loginbutton" pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="loginbutton"  />
         </gui>
     </gui>
 </gui-root>

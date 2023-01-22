@@ -29,7 +29,7 @@ public class EditDeckPage extends Page
 
     public EditDeckPage()
     {
-        super("Edit Deck");
+        super("Edit Deck", "editdeckpage");
         this.vSize = new ivec2(100,100);
         
         addGUI(XMLGUI.loadFile("guis/decks/deckeditpage.xml"));

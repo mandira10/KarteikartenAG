@@ -8,7 +8,6 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
-import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -24,7 +23,7 @@ public class TestDeckFinishPage extends Page
 
     public TestDeckFinishPage()
     {
-        super("View Deck");
+        super("Test Finished", "testfinishpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/decks/decktestfinishpage.xml"));

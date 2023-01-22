@@ -14,7 +14,7 @@ public class CardExportPage extends Page
 
     public CardExportPage() 
     {
-        super("Export Cards");
+        super("Export Cards", "exportcardspage");
     }
 
     public static void setToExport(Card[] cards)

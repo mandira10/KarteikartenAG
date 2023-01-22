@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="form" size="95%, 80%" pos="2.5%, 10%">
-        <text pos="10, 10" fontsize="30">Title:</text>
-        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" fontsize="30" hint="(Optional)"></textfield>
+        <text pos="10, 10" fontsize="30" locale-id="titlefield"></text>
+        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
 
         <gui id="canvas" size="100%, 70%" pos="0, 160">
-            <text pos="10, 10" fontsize="40">Custom Studysystem settings</text>
-            <text pos="10, 80" fontsize="30">Name:</text>
+            <text pos="10, 10" fontsize="40" locale-id="editstudysystemheading"></text>
+            <text pos="10, 80" fontsize="30" locale-id="namefield"></text>
             <textfield id="titlefield" pos="150, 80" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
         </gui>
 
         <!-- In order to render it after everything else -->
-        <text pos="10, 110" fontsize="30">Studysystem:</text>
+        <text pos="10, 110" fontsize="30" locale-id="studysystemfield"></text>
         <dropdown id="studysystemdd" pos="100%, 110" size="200, 30" origin="200, 0" fontsize="25">
             <item>Leitner</item>
             <item>Timing</item>
@@ -20,7 +20,7 @@
         </dropdown>
 
         <!-- In order to render it after everything else -->
-        <text pos="10, 60" fontsize="30">Card Order:</text>
+        <text pos="10, 60" fontsize="30" locale-id="cardorderfield"></text>
         <dropdown id="cardorderdd" pos="100%, 60" size="200, 30" origin="200, 0" fontsize="25">
             <item>Alphabetical</item>
             <item>Reversed Alphabetical</item>
@@ -28,7 +28,7 @@
         </dropdown>
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" fontsize="20" title="Cancel"  />
-        <button id="applybutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" title="Apply"   />
+        <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" fontsize="20" locale-id="cancelbutton" />
+        <button id="applybutton"  pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="applybutton" />
     </gui>
 </gui-root>

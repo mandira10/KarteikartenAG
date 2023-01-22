@@ -24,7 +24,7 @@ public class SettingsPage extends Page
 
     public SettingsPage() 
     {
-        super("Settings");
+        super("Settings", "settingspage");
         this.vSize = new ivec2(100,100);
         
         addGUI(XMLGUI.loadFile("guis/settings/settingsoverviewpage.xml"));

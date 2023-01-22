@@ -19,7 +19,7 @@ public class CreateDeckPage extends Page
 {
     public CreateDeckPage()
     {
-        super("Create Deck");
+        super("Create Deck", "createdeckpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/decks/deckcreatepage.xml"));

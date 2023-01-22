@@ -22,7 +22,7 @@ public class CreateCardPage extends Page
 {
     public CreateCardPage()
     {
-        super("Create Card");
+        super("Create Card", "createcardpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/cards/cardcreatepage.xml"));

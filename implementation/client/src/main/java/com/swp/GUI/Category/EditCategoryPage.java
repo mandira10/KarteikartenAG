@@ -25,7 +25,7 @@ public class EditCategoryPage extends Page
 
     public EditCategoryPage()
     {
-        super("Edit Category");
+        super("Edit Category", "editcategorypage");
         this.vSize = new ivec2(100,100);
         
         addGUI(XMLGUI.loadFile("guis/categories/categoryeditpage.xml"));

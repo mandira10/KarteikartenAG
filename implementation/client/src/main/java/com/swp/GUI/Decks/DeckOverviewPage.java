@@ -27,7 +27,7 @@ public class DeckOverviewPage extends Page
 
     public DeckOverviewPage()
     {
-        super("Decks");
+        super("Decks", "deckoverviewpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/decks/deckoverviewpage.xml"));

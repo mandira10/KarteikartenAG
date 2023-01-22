@@ -32,7 +32,7 @@ public class CardOverviewPage extends Page
 
     public CardOverviewPage()
     {
-        super("Card Overview");
+        super("Card Overview", "cardoverviewpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/cards/cardoverviewpage.xml"));

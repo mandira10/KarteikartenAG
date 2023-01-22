@@ -30,7 +30,7 @@ public class ViewSingleCategoryPage extends Page
 
     public ViewSingleCategoryPage()
     {
-        super("View Category");
+        super("View Category", "viewcategorypage");
         this.vSize = new ivec2(100, 100);
 
         addGUI(XMLGUI.loadFile("guis/categories/categoryviewpage.xml"));

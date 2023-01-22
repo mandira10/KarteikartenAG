@@ -1,1 +1,86 @@
-addcardbutton = Add Card
+# General
+cancelbutton           = Cancel
+applybutton            = Apply
+createbutton           = Create
+backbutton             = Back
+donebutton             = Done
+continuebutton         = Continue
+checkbutton            = Check
+
+# Edit pages
+titlefield             = Title:
+questionfield          = Question:
+answerfield            = Answer:
+answersfield           = Answers:
+audiofield             = Audio:
+imagefield             = Image:
+truefalsefield         = True/False:
+tagsfield              = Tags:
+categoriesfield        = Categories:
+namefield              = Name:
+editstudysystemheading = Custom Studysystem settings
+studysystemfield       = Studysystem:
+cardorderfield         = Card Order:
+
+# Login
+loginbutton            = Login
+registerbutton         = Register
+remembermefield        = Remember me
+usernamefield          = Username
+passwordfield          = Password
+
+# Card
+addcardbutton          = Add Card
+editcardbutton         = Edit Card
+deletecardbutton       = Delete Card
+deletecardsbutton      = Delete Card(s)
+flipcardbutton         = Flip Card
+showreferencesbutton   = Show References
+addtodeckbutton        = Add to Deck
+uploadaudiobutton      = Click to upload audio
+editanswersbutton      = Edit Answers
+openimagebutton        = Click to open
+
+# Category
+addcategorybutton      = Add Cat.
+viewtreebutton         = Tree View
+viewlistbutton         = List View
+deletecategorybutton   = Delete Cat.
+editcategorybutton     = Edit Cat.
+
+# Deck
+adddeckbutton          = Add Deck
+starttestbutton        = Start Test
+editdeckbutton         = Edit Deck
+deletedeckbutton       = Delete Deck
+removedeckbutton       = Remove Card(s)
+
+# Settings
+serversettingsbutton   = Server
+generalsettingsbutton  = General
+darkthemesetting       = Dark Theme
+languagesetting        = Language
+serveraddresssetting   = Address
+serverportsetting      = Port
+
+# Page headings
+loginpage              = Login
+settingspage           = Settings
+exportcardspage        = Export Cards
+cardoverviewpage       = Cards
+createcardpage         = Create Card
+editcardpage           = Edit Card
+editanswerspage        = Edit Answers
+viewcardpage           = View Card
+categoryoverviewpage   = Categories
+categoryselectionpage  = Category Selection
+editcategorypage       = Edit Category
+categorytreepage       = Category Tree
+viewcategorypage       = View Category
+createdeckpage         = Create Deck
+deckoverviewpage       = Decks
+deckselectionpage      = Deck Selection
+editdeckpage           = Edit Deck
+testfinishpage         = Test Finished
+testdeckpage           = Test Deck
+viewdeckpage           = View Deck

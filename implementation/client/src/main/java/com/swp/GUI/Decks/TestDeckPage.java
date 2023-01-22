@@ -39,7 +39,7 @@ public class TestDeckPage extends Page
 
     public TestDeckPage()
     {
-        super("Test Deck");
+        super("Test Deck", "testdeckpage");
         this.vSize = new ivec2(100,100);
         this.bAnswerChecked = false;
         this.bNextCardAllowed = false;

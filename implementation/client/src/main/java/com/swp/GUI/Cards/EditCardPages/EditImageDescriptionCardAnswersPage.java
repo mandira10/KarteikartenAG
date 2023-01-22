@@ -25,7 +25,7 @@ public class EditImageDescriptionCardAnswersPage extends Page
 
     public EditImageDescriptionCardAnswersPage()
     {
-        super("Edit Answers");
+        super("Edit Answers", "editanswerspage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/cards/edit/editimagedesccardanswers.xml"));

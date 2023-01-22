@@ -30,7 +30,7 @@ public class CategoryOverviewPage extends Page
    
     public CategoryOverviewPage()
     {
-        super("Categories");
+        super("Categories", "categoryoverviewpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/categories/categoryoverviewpage.xml"));

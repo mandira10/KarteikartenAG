@@ -23,12 +23,14 @@ public abstract class Language
         i = 0;
         filecontent.lines().forEach((String line) -> {
             i++;
+            if(line.replaceAll("\\s","").isEmpty() || line.charAt(0) == '#')
+                return;
+            
             String[] args = line.split("= ");
             if(args.length < 1)
                 Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
             String id = args[0].replaceAll("\\s","");
             String value = args[1];
-            Output.info(id);
             locale.setString(id, value);
         });
     }

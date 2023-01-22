@@ -7,7 +7,6 @@ import com.gumse.maths.ivec2;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
-import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
@@ -21,7 +20,6 @@ import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ViewSingleDeckPage extends Page
 {
@@ -31,7 +29,7 @@ public class ViewSingleDeckPage extends Page
 
     public ViewSingleDeckPage()
     {
-        super("View Deck");
+        super("View Deck", "viewdeckpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/decks/deckviewpage.xml"));

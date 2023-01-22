@@ -139,7 +139,7 @@ public class ViewCategoryTreePage extends Page
 
     public ViewCategoryTreePage()
     {
-        super("Category Tree");
+        super("Category Tree", "categorytreepage");
         this.vSize = new ivec2(100,100);
         this.bActiveMoving = false;
 

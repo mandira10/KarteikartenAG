@@ -49,7 +49,7 @@ public class EditCardPage extends Page
 
     public EditCardPage()
     {
-        super("Edit Card");
+        super("Edit Card", "editcardpage");
         this.vSize = new ivec2(100,100);
         this.pNewCard = null;
         this.aCategories = new ArrayList<>();

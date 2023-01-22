@@ -27,7 +27,7 @@ public class DeckSelectPage extends Page
 
     public DeckSelectPage()
     {
-        super("Deck Selection");
+        super("Deck Selection", "deckselectionpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/decks/deckselectionpage.xml"));

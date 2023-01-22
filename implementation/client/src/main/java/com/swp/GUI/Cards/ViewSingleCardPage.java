@@ -43,7 +43,7 @@ public class ViewSingleCardPage extends Page
 
     public ViewSingleCardPage()
     {
-        super("View Card");
+        super("View Card", "viewcardpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/cards/viewcardpage.xml"));

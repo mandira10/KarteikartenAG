@@ -75,7 +75,7 @@ public class CategorySelectPage extends Page
 
     public CategorySelectPage()
     {
-        super("Category Selection");
+        super("Category Selection", "categoryselectionpage");
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/categories/categoryselectionpage.xml"));

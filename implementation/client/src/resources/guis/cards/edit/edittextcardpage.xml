@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui-root pos="0, 0" size="100%, 100%">
-    <text pos="10, 0" fontsize="30">Answer:</text>
+    <text pos="10, 0" fontsize="30" locale-id="answerfield"></text>
     <textfield pos="150, 0" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
 </gui-root>
