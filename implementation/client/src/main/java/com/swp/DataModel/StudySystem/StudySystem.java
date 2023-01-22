@@ -37,6 +37,10 @@ public abstract class StudySystem implements Serializable
     protected int questionCount = 0;
     protected int trueAnswerCount = 0;
 
+    protected int resultPoint = 0;
+
+    protected int progress;
+
     /**
      * Enum für die CardOrder des Decks
      */

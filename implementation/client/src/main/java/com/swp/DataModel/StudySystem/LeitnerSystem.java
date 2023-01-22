@@ -25,8 +25,9 @@ public class LeitnerSystem extends StudySystem
 
         /**
          * Konstruktor der Klasse LeitnerSystem.
-         *
-         * TODO
+         * @param name: der Name des Systems
+         * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
+         * @param visibility: Sichtbarkeit des Systems
          */
         public LeitnerSystem(String name, CardOrder cardOrder, boolean visibility)
         {super(name,cardOrder,StudySystemType.LEITNER,visibility);
@@ -38,6 +39,8 @@ public class LeitnerSystem extends StudySystem
                  }
 
 
+
+
     @Override
     protected void  initStudySystemBoxes(int size) {
         List<Integer> daysToLearn = Arrays.asList(new Integer[]{0,1,3,7,14}); //hardcoded not ideal
@@ -45,50 +48,5 @@ public class LeitnerSystem extends StudySystem
             this.boxes.add(new StudySystemBox(this,daysToLearn.get(i)));
 
     }
-//
-//        @Override
-//        public void giveAnswer(boolean answer) {
-//                if(answer){
-//                        trueAnswerCount++;
-//                        questionCount++;
-//                }
-//                else{
-//                        questionCount = 0;
-//                }
-//        }
-//
-//        @Override
-//        public Card getNextCard(int index) {
-//                return getAllCardsInStudySystem().stream().toList().get(questionCount);
-//                // sollte nicht immer die vorderste Karte `.get(0)` genommen werden
-//                // und je nach Antwort wird sie eine Box weitere nach vorne/hinter geschoben
-//        }
-//
-//        @Override
-//        public void finishTest() {
-//                if(questionCount++ == getAllCardsInStudySystem().size()) {
-//                        if (trueAnswerCount == 0) {
-//                                resultPoint = 0;
-//                        } else {
-//                                pointQuestion = pointQuestion / getAllCardsInStudySystem().size();
-//                                resultPoint = pointQuestion * trueAnswerCount;
-//                        }
-//                }
-//        }
-//
-//        @Override
-//        public int getResult() {
-//                return resultPoint;
-//        }
-//
-//        @Override
-//        public float getProgress() {
-//                if(getAllCardsInStudySystem().size() == 0){
-//                        return 0;
-//                }
-//                else{
-//                        return trueAnswerCount / getAllCardsInStudySystem().size();
-//                }
-//
-//        }
+
 }

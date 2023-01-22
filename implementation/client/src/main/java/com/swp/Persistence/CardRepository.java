@@ -140,6 +140,11 @@ public class CardRepository extends BaseRepository<Card> {
         //TODO gib mir alle Karten sortiert nach Ranking fürs nächste Lernen,
         return new ArrayList<>();
     }
+
+    public List<Card> getAllCardsForTimingSystem(StudySystem studySystem){
+        //TODO gib mir alle Karten in diesem StudySystem for TimingSystem
+        return new ArrayList<>();
+    }
 }
 
 

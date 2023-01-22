@@ -21,14 +21,21 @@ import java.util.ArrayList;
 public class TimingSystem extends StudySystem
 {
 
-    //TODO MERT JAVA DOC
+    /**
+     * Zeitlimit für jede Frage zu beantworten
+     */
     private float timeLimit = 0;
+    /**
+     * Tatsächliche Antwortzeit für eine Frage
+     */
     private float answerTime = 0;
-    private int trueCount = 0;
 
     /**
      * Konstruktor der Klasse TimingSystem.
-     * TODO
+     * @param name: der Name des Systems
+     * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
+     * @param visibility: Sichtbarkeit des Systems
+     * @param timeLimit: Zeitlimit für jede Frage zu beantworten
      */
     public TimingSystem(String name, CardOrder cardOrder, boolean visibility,int timeLimit){
         super(name,cardOrder,StudySystemType.TIMING,visibility);
@@ -40,8 +47,6 @@ public class TimingSystem extends StudySystem
         super(other);
         timeLimit = other.getTimeLimit();
         answerTime = other.getAnswerTime();
-        trueCount = other.getTrueCount();
-
     }
 
 
@@ -49,57 +54,6 @@ public class TimingSystem extends StudySystem
         //this(null,5);
     }
 
-//    @Override
-//    public void giveAnswer(boolean answer) {
-//        if(answer && (answerTime <= timeLimit)){
-//            trueCount++;
-//        }
-//    }
-//
-//    @Override
-//    public void giveTime(float seconds) {
-//        answerTime = seconds;
-//    }
-//
-//    @Override
-//    public void finishTest() {
-//        if(questionCount++ == getAllCardsInStudySystem().size()) {
-//            if (trueCount == 0) {
-//                resultPoint = 0;
-//            } else {
-//                pointQuestion = pointQuestion / getAllCardsInStudySystem().size();
-//                resultPoint = pointQuestion * trueCount;
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public int getResult() {
-//        return resultPoint;
-//    }
-//
-//    @Override
-//    public Card getNextCard(int index) {
-//        if(questionCount++ == getAllCardsInStudySystem().size()){
-//            return null;
-//        }
-//        else{
-//            questionCount++;
-//            answerTime = 0;
-//            return getAllCardsInStudySystem().stream().toList().get(questionCount);
-//        }
-//
-//    }
-//
-//    @Override
-//    public float getProgress() {
-//        if(getAllCardsInStudySystem().size() == 0){
-//            return 0;
-//        }
-//        else{
-//            return trueCount / getAllCardsInStudySystem().size();
-//        }
-//    }
 }
 
 

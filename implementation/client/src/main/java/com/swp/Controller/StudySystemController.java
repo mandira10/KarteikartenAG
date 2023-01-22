@@ -25,10 +25,11 @@ public class StudySystemController{
     StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
 
     /**
-     * Verschiebt spezifische Karte in eine Box des StudySystems
+     * Verschiebt spezifische Karte in eine Box des StudySystems. Wird an die StudySystemLogic weitergegeben
      * @param card: Zu verschiebene Karte
      * @param box: Index der Box, in den die Karte verschoben werden soll
-     * @TODO: MERT
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
     public void moveCardToSpecificBox(Card card, int box, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback)
     {
@@ -63,9 +64,9 @@ public class StudySystemController{
 
 
     /**
-     * @TODO: MERT
-     * @param studySystem
-     * @param dataCallback
+     * Wird verwendet, um alle Karten in diesem Studiensystem zu erhalten. Wird an die StudySystemLogic weitergegeben
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param dataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
     public void getAllCardsInStudySystem(StudySystem studySystem, DataCallback<CardOverview> dataCallback) {
 
@@ -86,9 +87,10 @@ public class StudySystemController{
 
     /**
      * Nach Beantwortung einer Frage wird die Antwort übergeben, so dass
-     * je nach Antwort die Karte in den Boxen verschoben werden kann
+     * je nach Antwort die Karte in den Boxen verschoben werden kann. Wird an die StudySystemLogic weitergegeben
      * @param answer: Frage war richtig / falsch beantwortet
-     * @TODO: MERT
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
     public void giveAnswer(StudySystem studySystem,boolean answer, SingleDataCallback singleDataCallback) {
         try{
@@ -100,10 +102,11 @@ public class StudySystemController{
     }
 
     /**
-     * @TODO: MERT
-     * @param studySystem
-     * @param rating
-     * @param singleDataCallback
+     * Wird verwendet, um eine Bewertung vom Benutzer für VoteStudySystem zu bekommen.
+     * Wird an die StudySystemLogic weitergegeben
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
+     * @param rating: Bewertung von GUI
      */
     public void giveRating(StudySystem studySystem,int rating,SingleDataCallback singleDataCallback) {
         try{
@@ -115,10 +118,11 @@ public class StudySystemController{
     };
 
     /**
-     * @TODO: MERT
-     * @param studySystem
-     * @param seconds
-     * @param singleDataCallback
+     * Wird verwendet, um eine Antwortzeit vom Benutzer für TimingStudySystem zu bekommen.
+     * Wird an die StudySystemLogic weitergegeben
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
+     * @param seconds: Antwortzeit vom Benutzer für die Frage
      */
     public void giveTime(StudySystem studySystem,float seconds,SingleDataCallback singleDataCallback) {
         try{
@@ -130,9 +134,10 @@ public class StudySystemController{
     };
 
     /**
-     * @TODO: MERT
-     * @param studySystem
-     * @param singleDataCallback
+     * Wird verwendet, um den Test zu beenden und Ergebnispunkt zu berechnen
+     * Wird an die StudySystemLogic weitergegeben
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
     public void finishTestAndGetResult(StudySystem studySystem,SingleDataCallback<Integer> singleDataCallback) {
         try{
@@ -145,9 +150,10 @@ public class StudySystemController{
 
 
     /**
-     * @TODO: MERT
-     * Gibt die nächste Karte zum Lernen zurück
-     * @return Karte die als nächstes gelernt werden soll
+     * Wird verwendet, um die nächste Frage zu bekommen
+     * Wird an die StudySystemLogic weitergegeben
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      * //TODO: javadoc, ich würde sagen wir brauchen hier die Box noch, damit wir wissen, woraus wir die nächste Karte ziehen
      */
     public void getNextCard(StudySystem studySystem, SingleDataCallback<Card> singleDataCallback)
@@ -161,9 +167,10 @@ public class StudySystemController{
     }
 
     /**
-     * @TODO: MERT
-     * @param studySystem
-     * @param singleDataCallback
+     * Wird verwendet, um Progress für dieses Deck zu bekommen.
+     * Wird an die StudySystemLogic weitergegeben
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
     public void getProgress(StudySystem studySystem,SingleDataCallback<Float> singleDataCallback)
     {
@@ -178,6 +185,7 @@ public class StudySystemController{
     /**
      * Wird verwendet, um die Anzahl der Karten in einem studySystem zu bekommen. Wird an die StudySystemLogic weitergegeben
      * @param studySystem: studySystem, um die Anzahl der Karten darin zu suchen
+     * @param singleDataCallback: wird verwendet, um mögliche Fehler abzufangen.
      */
     public void numCardsInDeck(StudySystem studySystem, SingleDataCallback<Integer> singleDataCallback) {
         try{
@@ -191,6 +199,7 @@ public class StudySystemController{
     /**
      * Wird verwendet, um ein StudySystem nach UUID zu bekommen. Wird an die StudySystemLogic weitergegeben
      * @param uuid: UUID zu suchen
+     * @param singleDataCallback: wird verwendet, um mögliche Fehler abzufangen.
      */
     public void getStudySystemByUUID(String uuid, SingleDataCallback<StudySystem> singleDataCallback) {
         try{
@@ -207,12 +216,28 @@ public class StudySystemController{
         }
     }
 
-    //TODO DOC
-    public void removeCardsFromStudySystem(ArrayList<Card> selection, StudySystem pDeck, SingleDataCallback<Boolean> singleDataCallback) {
+    /**
+     * Wird verwendet, um eine Liste von Karten in einem StudySystem zu löschen. Wird an die StudySystemLogic weitergegeben.
+     * @param singleDataCallback: wird verwendet, um mögliche Fehler abzufangen.
+     * @param studySystem: Das StudySystem, das benötigt wird.
+     * @param list: die Liste der Karten zu löschen
+     */
+    public void removeCardsFromStudySystem(ArrayList<Card> list, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
+        try{studySystemLogic.removeCardsFromStudySystem(list,studySystem);}
+        catch(IllegalStateException ex){
+            singleDataCallback.onFailure(ex.getMessage());
+        }
+        catch(Exception ex){
+            singleDataCallback.onFailure(ex.getMessage());
+        }
     }
 
-    
-    //TODO DOC Wird verwendet, um ein StudySystem zu löschen. Wird an die ... weitergegeben.
+
+    /**
+     * Wird verwendet, um ein StudySystem zu löschen. Wird an die StudySystemLogic weitergegeben.
+     * @param singleDataCallback: wird verwendet, um mögliche Fehler abzufangen.
+     * @param studySystem: StudySystem zu löschen.
+     */
     public void deleteStudySystem(StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
         try{studySystemLogic.deleteStudySystem(studySystem);}
         catch(IllegalStateException ex){
@@ -226,7 +251,7 @@ public class StudySystemController{
 
     /**
      * Wird verwendet, um eine Liste von studySystems zu löschen. Wird an die StudySystemLogic weitergegeben.
-     * @param studySystems: die Liste der zu löschenden StudySystems
+     * @param singleDataCallback: wird verwendet, um mögliche Fehler abzufangen.
      */
     public void deleteDecks(StudySystem[] studySystems, SingleDataCallback<Boolean> singleDataCallback) {
 
@@ -237,8 +262,8 @@ public class StudySystemController{
     }
 
     /**
-     * TODO MERT
-     * @param dataCallback
+     * Wird verwendet, um StudySystem zu bekommen
+     * @param dataCallback: wird verwendet, um mögliche Fehler abzufangen.
      */
     public void getStudySystems(DataCallback<StudySystem> dataCallback) {
 
@@ -256,9 +281,9 @@ public class StudySystemController{
     }
 
     /**
-     * TODO MERT
-     * @param searchterm
-     * @param dataCallback
+     * Wird verwendet, um eine Suche für StudySystem nach einem Suchbegiff machen.
+     * @param searchterm: Suchbegriff um nach zu suchen.
+     * @param dataCallback: wird verwendet, um mögliche Fehler abzufangen.
      */
     public void getStudySystemBySearchTerms(String searchterm, DataCallback<StudySystem> dataCallback) {
         try{
@@ -279,8 +304,9 @@ public class StudySystemController{
 
     /**
      * Wird benutzt, um einzelne Karten aus dem studySystem zu löschen. Wird an die StudySystemLogic weitergegeben
-     * @param cards
-     * @param studySystem
+     * @param cards: die Liste von Karten, um von StudySystem zu löschen
+     * @param studySystem: Das StudySystem, das benötigt wird.
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
     public void removeCardsFromStudySystem(List<Card> cards, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
         try {
@@ -294,8 +320,9 @@ public class StudySystemController{
 
     /**
      * Für nachträgliches Hinzufügen von Karten. Wird an die StudySystemLogic weitergegeben
-     * @param cards
-     * @param studySystem
+     * @param cards: die Liste von Karten, um hinzufügen
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
     public void addCardsToStudySystem(List<Card> cards, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback){
         try{studySystemLogic.addCardsToDeck(cards,studySystem);}
@@ -310,7 +337,7 @@ public class StudySystemController{
      * @param oldStudySystem StudySystem im vorherigen Zustand, benötigt, um festzustellen, ob das StudySystem gewechselt wurde und Handling
      * @param newStudySystem Neue StudySystem Eigenschaften
      * @param neu Ist true, wenn das StudySystem neu angelegt wurde
-     * //TODO MERT
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
     public void updateDeckData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
         try{studySystemLogic.updateStudySystemData(oldStudySystem, newStudySystem,neu);}
@@ -322,6 +349,7 @@ public class StudySystemController{
     /**
      * Wird verwendet, um ein komplett neues StudySystem anzulegen. Wird an die StudySystemLogic weitergegeben.
      * @param type Typ des StudySystems
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      * @return true, wenn erfolgreich
      */
     public void addStudySystemTypeAndUpdate(StudySystem.StudySystemType type, SingleDataCallback<Boolean> singleDataCallback) {
@@ -336,6 +364,7 @@ public class StudySystemController{
      * Wird verwendet, um eine Karte in einem studySystem mit einer bestimmten Kategorie zu erstellen. Wird an die StudySystemLogic weitergegeben
      * @param category: die Kategorie für die Karte
      * @param studySystem: studySystem, um die Karte darin zu speichern
+     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
     public void createBoxToCardForCategory(Category category, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
         try{studySystemLogic.createBoxToCardForCategory(category, studySystem);}
