@@ -84,10 +84,14 @@ public class CardLogic extends BaseLogic<Card>
             throw new IllegalStateException("Karte existiert nicht");
         }
         execTransactional(() -> {
-            cardRepository.delete(card);
+            log.info("Lösche alle Card To Categories zur Karte");
             cardToCategoryRepository.delete(cardToCategoryRepository.getAllC2CForCard(card));
+            log.info("Lösche alle Card To Boxes zur Karte");
             cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForCard(card));
+            log.info("Lösche alle Card To Tags zur Karte");
             cardToTagRepository.delete(cardToTagRepository.getAllC2TForCard(card));
+            log.info("Lösche die Karte");
+            cardRepository.delete(card);
             return null; // Lambda braucht immer einen return
         });
 
