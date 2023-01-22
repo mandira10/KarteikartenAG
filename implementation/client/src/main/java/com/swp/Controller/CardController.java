@@ -44,9 +44,9 @@ public class CardController {
                 callback.onSuccess(cardsToShow);
 
         } catch (final Exception ex) {
-            log.error("Beim Suchen nach Karten ist ein Fehler aufgetreten"
-                    , ex);
-            callback.onFailure(ex.getMessage());
+            log.error("Beim Suchen nach Karten ist ein Fehler {} aufgetreten"
+                    , ex.getMessage());
+            callback.onFailure("Beim Abrufen der Karten ist ein Fehler aufgetreten");
         }
 
     }
@@ -75,7 +75,7 @@ public class CardController {
         }  catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit Tag {} ist ein Fehler {} aufgetreten", tag
                     , ex);
-            callback.onFailure(ex.getMessage());
+            callback.onFailure("Beim Suchen nach Karten für den Tag" + tag +" ist ein Fehler aufgetreten");
         }
 
     }
@@ -95,8 +95,8 @@ public class CardController {
             } else
                 callback.onSuccess(tagsForCard);
         } catch (final Exception ex) {
-             log.error("Beim Suchen nach Tags mit Karten {} ist ein Fehler {} aufgetreten", card, ex);
-             callback.onFailure(ex.getMessage());
+             log.error("Beim Suchen nach Tags der Karte {} ist ein Fehler {} aufgetreten", card.getUuid(), ex);
+             callback.onFailure("Beim Suchen nach Tags für die Karte ist ein Fehler aufgetreten");
         }
     }
 
@@ -120,7 +120,7 @@ public class CardController {
             callback.onFailure(ex.getMessage());
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit dem Suchbegriff {} ist ein Fehler {} aufgetreten", searchterm, ex);
-            callback.onFailure(ex.getMessage());
+            callback.onFailure("Beim Suchen nach Karten mit dem Suchbegriff "+ searchterm + " ist ein Fehler aufgetreten");
         }
     }
 
@@ -133,8 +133,12 @@ public class CardController {
     public void deleteCard(Card card, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.deleteCard(card);
-        } catch (Exception ex) {
+        }catch (IllegalStateException ex) {
             singleDataCallback.onFailure(ex.getMessage());
+            log.error("Null-Value übergeben");
+        }
+        catch (Exception ex) {
+            singleDataCallback.onFailure("Beim Löschen der Karte ist ein Fehler aufgetreten");
             log.error("Beim Löschen der Karte {} ist ein Fehler {} aufgetreten", card, ex);
         }
     }
@@ -148,8 +152,11 @@ public class CardController {
     public void deleteCards(List<Card> cards, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.deleteCards(cards);
-        } catch (Exception ex) {
+        }catch (IllegalStateException ex) {
             singleDataCallback.onFailure(ex.getMessage());
+            log.error("Null-Value übergeben");
+        } catch (Exception ex) {
+            singleDataCallback.onFailure("Beim Löschen der Karten ist ein Fehler aufgetreten");
             log.error("Beim Löschen der Karten {} ist ein Fehler {} aufgetreten", cards, ex);
         }
     }
@@ -193,7 +200,7 @@ public class CardController {
         try {
             cardLogic.setTagsToCard(card, set);
         } catch (Exception ex) {
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("Beim Hinzufügen der Tags zu der Karte ist ein Fehler aufgetreten");
             log.error("Beim Setzen der Tags für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());
         }
     }
@@ -208,9 +215,15 @@ public class CardController {
     public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.updateCardData(cardToChange, neu);
-        } catch (Exception ex) {
-            singleDataCallback.onFailure(String.format("Karte \"%s\" konnte nicht gespeichert oder geupdatet werden", cardToChange.getUuid()));
-            log.error("Beim Updaten/Speichern der Karte mit der UUID {} ist ein Fehler {} aufgetreten",cardToChange.getUuid(), ex.getMessage());
+        }
+        catch (IllegalStateException ex) {
+            singleDataCallback.onFailure(ex.getMessage());
+            log.error("Karte nicht gefunden");
+        }
+
+        catch (Exception ex) {
+            singleDataCallback.onFailure(String.format("Karte konnte nicht gespeichert oder geupdatet werden"));
+            log.error("Beim Updaten/Speichern der Karte {} mit der ist ein Fehler {} aufgetreten",cardToChange.getUuid(),ex.getMessage());
         }
     }
 
