@@ -34,7 +34,10 @@ import java.sql.Timestamp;
         query = "SELECT c FROM CardOverview c LEFT JOIN CardToTag c2t ON c2t.card = c.uUUID WHERE c2t.tag = :tag")
 @NamedQuery(name = "CardOverview.allCardsWithStudySystem",
         query = "SELECT c FROM CardOverview c LEFT JOIN BoxToCard b2c ON b2c.card = c.uUUID LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
-
+@NamedQuery(name = "CardOverview.allCardsWithTagName",
+        query = "SELECT c FROM CardOverview c LEFT JOIN CardToTag c2t ON c2t.card = c.uUUID LEFT JOIN Tag t on c2t.tag = t.uuid where LOWER(t.val) LIKE LOWER(:tagName)")
+@NamedQuery(name = "CardOverview.allCardsWithCategoryName",
+        query = "SELECT c FROM CardOverview c LEFT JOIN CardToCategory c2c ON c2c.card = c.uUUID LEFT JOIN Category cat on c2c.category = cat.uuid where LOWER(cat.name) LIKE LOWER(:categoryName)")
 public class CardOverview  {
 
 

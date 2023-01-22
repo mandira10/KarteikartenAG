@@ -19,6 +19,9 @@ public class EditCategoryPage extends Page
     private Button pApplyButton;
     private RenderGUI pCanvas;
     private Category pOldCategory, pNewCategory;
+    private boolean bIsNewCategory;
+    private boolean nameChange;
+
     private TextField pTitleField;
 
     private CategoryController categoryController = CategoryController.getInstance();
@@ -37,6 +40,7 @@ public class EditCategoryPage extends Page
             @Override public void enter(String complete) 
             {
                 pNewCategory.setName(complete);
+                nameChange = true;
             }
             @Override public void input(String input, String complete) {}
         });
@@ -68,7 +72,7 @@ public class EditCategoryPage extends Page
         categoryController.getCategoryByUUID(uuid, new SingleDataCallback<Category>() {
             @Override
             public void onSuccess(Category data) {
-                editCategory(data);
+                editCategory(data,false);
             }
 
             @Override
@@ -77,8 +81,11 @@ public class EditCategoryPage extends Page
             }
         });
         }
-    public void editCategory(Category category)
+    public void editCategory(Category category, boolean newCategory)
     {
+
+
+        bIsNewCategory = newCategory;
         pNewCategory = new Category(category);
 
         pTitleField.setString(pNewCategory.getName());
@@ -86,8 +93,7 @@ public class EditCategoryPage extends Page
 
     private void applyChanges()
     {
-        boolean neu = true;
-        categoryController.updateCategoryData(pNewCategory,neu, new SingleDataCallback<>() {
+        categoryController.updateCategoryData(pNewCategory,bIsNewCategory, nameChange, new SingleDataCallback<>() {
             @Override
             public void onSuccess(Boolean data) {
             }

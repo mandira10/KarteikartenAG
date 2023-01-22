@@ -156,7 +156,7 @@ public class ViewCategoryTreePage extends Page
         
         Button newButton = (Button)optionsMenu.findChildByID("addcategorybutton");
         newButton.onClick((RenderGUI gui) -> {
-            ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category());
+            ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category(),true);
         });
 
         this.setSizeInPercent(true, true);

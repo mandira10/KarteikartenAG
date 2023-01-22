@@ -1,5 +1,6 @@
 package com.swp;
 
+import com.swp.DataModel.Tag;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Controller.SingleDataCallback;
@@ -42,4 +43,5 @@ public class Validator {
         };
         return callback;
     }
+
 }

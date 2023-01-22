@@ -57,8 +57,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public List<CardOverview> getCardsByTag(String tagName) {
         checkNotNullOrBlank(tagName, "Tag",true);
-        return execTransactional(() -> cardRepository.findCardsByTag(
-                tagRepository.findTag(tagName)));
+        return execTransactional(() -> cardRepository.findCardsByTag(tagName));
     }
 
     /**
@@ -166,23 +165,21 @@ public class CardLogic extends BaseLogic<Card>
      * @param tagNew: die Liste von Tags
      */
     public void setTagsToCard(Card card, List<Tag> tagNew) {
-        if(!tagNew.isEmpty()) {
             List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
-            if (tagOld == null) {
+            if (tagOld.isEmpty()) {
                 checkAndCreateTags(card, tagNew, tagOld);
-            } else if (tagOld.containsAll(tagNew) && tagOld.size() == tagNew.size()) //no changes
-                return;
-
-            else if (tagOld.containsAll(tagNew) || tagOld.size() > tagNew.size()) { //es wurden nur tags gelöscht
-                checkAndRemoveTags(card, tagNew, tagOld);
-
-            } else if (tagNew.containsAll(tagOld)) {
+            } else if (new HashSet<>(tagOld).containsAll(tagNew)) {
+                if (tagOld.size() == tagNew.size()) {
+                    //nothing to do
+                } else { //nur Löschen
+                    checkAndRemoveTags(card, tagNew, tagOld);
+                }
+            } else if (new HashSet<>(tagNew).containsAll(tagOld)) {  // nur neue hinzufügen
                 checkAndCreateTags(card, tagNew, tagOld);
             } else { //neue und alte
                 checkAndCreateTags(card, tagNew, tagOld);
                 checkAndRemoveTags(card, tagNew, tagOld);
             }
-        }
     }
 
     /**
@@ -194,12 +191,15 @@ public class CardLogic extends BaseLogic<Card>
     private void checkAndRemoveTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
         for (Tag t : tagOld) {
             if (!tagNew.contains(t))
-                execTransactional(() -> {
-                    CardToTag c2t = cardToTagRepository.findSpecificCardToTag(card, t);
-                    cardToTagRepository.delete(c2t);
-                    return null;
-                });
+                    removeCardToTag(card,t);
         }
+    }
+    private void removeCardToTag(Card c, Tag t) {
+        execTransactional(() -> {
+            cardToTagRepository.delete(
+                    cardToTagRepository.findSpecificCardToTag(c, t));
+            return null; // Lambda braucht einen return
+        });
     }
 
 
@@ -213,13 +213,15 @@ public class CardLogic extends BaseLogic<Card>
     private void checkAndCreateTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
          execTransactional(() -> {
             for (Tag t : tagNew) {
-                if (tagOld != null && tagOld.contains(t)) {
+                if (!tagOld.isEmpty() && tagOld.contains(t)) {
                     log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
                 } else {
+                    checkNotNullOrBlank(t,"Tag",true);
                     try {
                         Tag tag = tagRepository.findTag(t.getVal());
-                        t = tag;
-                        log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", t.getVal());
+                            t = tag;
+                            log.info("Tag mit Namen {} bereits in Datenbank enthalten", t.getVal());
+
                     } catch (NoResultException ex) {
                         tagRepository.save(t);
                     }
@@ -245,13 +247,7 @@ public class CardLogic extends BaseLogic<Card>
         new Exporter(filetype).export(cards);
     }
 
-    private void removeCardToTag(Card c, Tag t) {
-        execTransactional(() -> {
-            cardToTagRepository.delete(
-                    cardToTagRepository.findSpecificCardToTag(c, t));
-            return null; // Lambda braucht einen return
-        });
-    }
+
 
 
 }

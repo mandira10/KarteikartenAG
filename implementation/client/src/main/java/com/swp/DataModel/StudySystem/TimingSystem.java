@@ -40,8 +40,7 @@ public class TimingSystem extends StudySystem
     public TimingSystem(String name, CardOrder cardOrder, boolean visibility,int timeLimit){
         super(name,cardOrder,StudySystemType.TIMING,visibility);
         this.boxes.add(new StudySystemBox(this));
-//        super(StudySystemType.TIMING, 5);
-             this.timeLimit = timeLimit;}
+        this.timeLimit = timeLimit;}
 
     public TimingSystem(TimingSystem other){
         super(other);
@@ -51,7 +50,7 @@ public class TimingSystem extends StudySystem
 
 
     public TimingSystem() {
-        //this(null,5);
+      super("",CardOrder.ALPHABETICAL,StudySystemType.TIMING,false);
     }
 
 }

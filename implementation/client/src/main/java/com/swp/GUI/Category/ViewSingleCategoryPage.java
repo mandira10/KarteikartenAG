@@ -52,7 +52,7 @@ public class ViewSingleCategoryPage extends Page
         editButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(pCategory);
+                ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(pCategory,false);
             }
         });
 

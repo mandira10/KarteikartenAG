@@ -51,7 +51,7 @@ public class TestDataClass {
         });
 
         for (Category category : new Category[]{randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory}) {
-            categoryController.updateCategoryData(category, true, new SingleDataCallback<Boolean>() {
+            categoryController.updateCategoryData(category, true, false, new SingleDataCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean data) {
                 }
@@ -409,7 +409,7 @@ public class TestDataClass {
             }
         };
         for (Category c : categories) {
-            categoryLogic.updateCategoryData(c, true);
+            categoryLogic.updateCategoryData(c,true, false);
         }
         List<Category> childKunst = new ArrayList<>() {
             {

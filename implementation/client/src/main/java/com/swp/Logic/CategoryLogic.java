@@ -75,14 +75,34 @@ public class CategoryLogic extends BaseLogic<Category>
      * @param category Die upzudatende Kategorie
      * @param neu gibt an, ob die Karte neu erstellt werden muss oder nur aktualisiert werden muss
      */
-    public void updateCategoryData(Category category, boolean neu) {
+    public void updateCategoryData(Category category, boolean neu, boolean nameChange) {
         if (neu) {
             execTransactional(() -> {
-                categoryRepository.save(category);
+                try{
+                    Category catExists = categoryRepository.find(category.getName());
+                    if(catExists != null){
+                        throw new IllegalArgumentException("Kategorie mit dem Namen existiert bereits!");
+                    }
+                }
+                catch(NoResultException ex) {
+                    categoryRepository.save(category);
+                }
                 return true;
             });
         } else {
             execTransactional(() -> {
+                if(nameChange){
+                    try{
+                        Category catExists = categoryRepository.find(category.getName());
+                        if(catExists != null){
+                            throw new IllegalArgumentException("Kategorie mit dem Namen existiert bereits!");
+                        }
+                    }
+                    catch(NoResultException ex) {
+                        categoryRepository.save(category);
+                    }
+                }
+                else
                 categoryRepository.update(category);
                 return true;
             });
@@ -129,7 +149,7 @@ public class CategoryLogic extends BaseLogic<Category>
      */
     public List<CardOverview> getCardsInCategory(String categoryName) {
         checkNotNullOrBlank(categoryName, "Kategorie",true);
-        return execTransactional(() -> cardRepository.getCardsByCategory(categoryRepository.find(categoryName)));
+        return execTransactional(() -> cardRepository.getCardsByCategory(categoryName));
     }
 
     /**
@@ -159,7 +179,6 @@ public class CategoryLogic extends BaseLogic<Category>
      * @param <T> Karte oder Kategorie, je nach Nutzung.
      */
     public <T> void setC2COrCH(T cardOrCategory, List<Category> catNew, boolean child) {
-        if (!catNew.isEmpty()) {
             List<Category> catOld = new ArrayList<>();
             if (cardOrCategory instanceof Card card)
                 catOld = getCategoriesByCard(card); //check Old Tags to remove unused tags
@@ -168,7 +187,7 @@ public class CategoryLogic extends BaseLogic<Category>
             else if (cardOrCategory instanceof Category category)
                 catOld = getParentsForCategory(category);
 
-            if (catOld == null || catOld.isEmpty()) { //TODO:  vereinheitlichung rückgabewert
+            if (catOld.isEmpty()) {
                 checkAndCreateCategories(cardOrCategory, catNew, catOld, child);
             } else if (new HashSet<>(catOld).containsAll(catNew)) {
                 if (catOld.size() == catNew.size()) {
@@ -182,7 +201,6 @@ public class CategoryLogic extends BaseLogic<Category>
                 checkAndCreateCategories(cardOrCategory, catNew, catOld, child);
                 checkAndRemoveCategories(cardOrCategory, catNew, catOld, child);
             }
-        }
     }
 
 
@@ -197,7 +215,6 @@ public class CategoryLogic extends BaseLogic<Category>
      */
     private <T> void checkAndRemoveCategories(final T cardOrCategory, List<Category> catNew, List<Category> catOld, boolean child) {
         execTransactional(() -> {
-            //TODO: Auch noch Prüfung, ob Category überhaupt vorhanden?
         for (Category c : catOld) {
             if (!catNew.contains(c))
                 if (cardOrCategory instanceof Card card) {
@@ -227,14 +244,16 @@ public class CategoryLogic extends BaseLogic<Category>
     private <T> void checkAndCreateCategories(final T cardOrCategory, List<Category> catNew, List<Category> catOld, boolean child) {
         execTransactional(() -> {
         for (Category c : catNew) {
-            if (catOld != null && catOld.contains(c))
+            if (!catOld.isEmpty() && catOld.contains(c))
                 log.info("Kategorie {} bereits in CardToCategory/ CategorieHierarchy enthalten, kein erneutes Hinzufügen notwendig", c.getUuid());
             else {
-                try { Category category = categoryRepository.find(c.getName());
+                try {
+                    Category category = categoryRepository.find(c.getName());
                     c = category;
-                log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", c.getName());}
+                    log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", c.getName());
+                    }
                 catch(NoResultException ex){
-                    categoryRepository.save(c);
+                    categoryRepository.save(c); //sollte aktuell gar nicht passieren, da nur aus bereits bestehenden ausgewählt werden kann?
                 }
                 if (cardOrCategory instanceof Card card) {
                     log.info("Kategorie {} wird zu Karte {} hinzugefügt", c.getUuid(), card.getUuid());
@@ -249,7 +268,8 @@ public class CategoryLogic extends BaseLogic<Category>
                 }
 
             }
-            return null; });
+            return null;
+        });
 
     }
 

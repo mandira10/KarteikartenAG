@@ -17,28 +17,27 @@ import java.util.List;
  */
 @Entity
 @DiscriminatorValue("Leitner")
-@NoArgsConstructor
 @Getter
 @Setter
 public class LeitnerSystem extends StudySystem
 {
 
-        /**
-         * Konstruktor der Klasse LeitnerSystem.
-         * @param name: der Name des Systems
-         * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
-         * @param visibility: Sichtbarkeit des Systems
-         */
-        public LeitnerSystem(String name, CardOrder cardOrder, boolean visibility)
-        {super(name,cardOrder,StudySystemType.LEITNER,visibility);
-            initStudySystemBoxes(5);
-                 }
-
-                 public LeitnerSystem(LeitnerSystem other){
-                 super(other);
-                 }
+    /**
+     * Konstruktor der Klasse LeitnerSystem.
+     *
+     * @param name:       der Name des Systems
+     * @param cardOrder:  CardOrdner, um die Reihenfolge der Karten festzulegen
+     * @param visibility: Sichtbarkeit des Systems
+     */
+    public LeitnerSystem(String name, CardOrder cardOrder, boolean visibility) {
+        super(name, cardOrder, StudySystemType.LEITNER, visibility);
+        initStudySystemBoxes(5);
+    }
 
 
+    public LeitnerSystem() {
+        super("", CardOrder.ALPHABETICAL, StudySystemType.LEITNER, false);
+    }
 
 
     @Override
