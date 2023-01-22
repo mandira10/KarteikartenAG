@@ -24,6 +24,10 @@ import static com.swp.Validator.checkNotNullOrBlank;
             query = "SELECT c FROM Card c WHERE c.uuid = :uuid")
 @NamedQuery(name  = "Card.findByTitle",
             query = "SELECT c FROM Card c WHERE c.title = :title ")
+@NamedQuery(name  = "Card.allCardNextLearnedAtOlderThanNow",
+            query = "SELECT c FROM Card c WHERE c.nextLearnedAt < :now")
+//query = "SELECT c FROM Card c WHERE c.uuid IN (SELECT b2c.card FROM BoxToCard b2c WHERE b2c.studySystemBox = :studySystemBox AND b2c.nextLearnDate <= :now ORDER BY ASC b2c.nextLearnDate)")
+
 public abstract class Card implements Serializable
 {
     /**
@@ -95,6 +99,12 @@ public abstract class Card implements Serializable
     protected boolean visibility;
 
     /**
+     * Zeitpunkt, wann die Karte das nächste Mal gelernt werden soll.
+     */
+    @Column
+    protected Timestamp nextLearnedAt;
+
+    /**
      * Konstruktor für eine einfache Karte.
      * @param type: Karteikartentyp der zu erstellenden Karte.
      */
@@ -107,6 +117,7 @@ public abstract class Card implements Serializable
         this.content = "";
         this.references = "";
         this.creationDate = new Timestamp(System.currentTimeMillis());
+        this.nextLearnedAt = new Timestamp(System.currentTimeMillis());
     }
 
     /**
@@ -117,6 +128,7 @@ public abstract class Card implements Serializable
         uuid = UUID.randomUUID().toString();
         this.type = null;
         this.creationDate = new Timestamp(System.currentTimeMillis());
+        this.nextLearnedAt = new Timestamp(System.currentTimeMillis() );
     }
 
 

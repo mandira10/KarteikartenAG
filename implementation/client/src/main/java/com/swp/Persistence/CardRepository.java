@@ -120,8 +120,11 @@ public class CardRepository extends BaseRepository<Card> {
      * @param cardOrder
      * @return
      */
-    public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem, StudySystem.CardOrder cardOrder) {
-        return new ArrayList<>();
+    public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
+        return getEntityManager()
+                .createNamedQuery("Card.allCardNextLearnedAtOlderThanNow", Card.class)
+                .setParameter("studySystem", studySystem)
+                .getResultList();
     }
 
     public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
