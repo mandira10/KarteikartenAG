@@ -26,7 +26,10 @@ import static com.swp.Validator.checkNotNullOrBlank;
             query = "SELECT c FROM Card c WHERE c.title = :title ")
 @NamedQuery(name  = "Card.allCardNextLearnedAtOlderThanNow",
             query = "SELECT c FROM Card c WHERE c.nextLearnedAt < :now")
-//query = "SELECT c FROM Card c WHERE c.uuid IN (SELECT b2c.card FROM BoxToCard b2c WHERE b2c.studySystemBox = :studySystemBox AND b2c.nextLearnDate <= :now ORDER BY ASC b2c.nextLearnDate)")
+@NamedQuery(name  = "Card.allCardNextLearnedAtOlderThanNowAscending",
+            query = "SELECT c FROM Card c WHERE c.nextLearnedAt < :now ORDER BY c.nextLearnedAt ASC")
+@NamedQuery(name = "Card.allCardsSortedByRanking",
+            query = "SELECT c FROM Card c ORDER BY c.rating DESC")
 
 public abstract class Card implements Serializable
 {

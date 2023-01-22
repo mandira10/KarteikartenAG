@@ -122,14 +122,17 @@ public class CardRepository extends BaseRepository<Card> {
      */
     public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
         return getEntityManager()
-                .createNamedQuery("Card.allCardNextLearnedAtOlderThanNow", Card.class)
+                .createNamedQuery("Card.allCardNextLearnedAtOlderThanNowAscending", Card.class)
                 .setParameter("studySystem", studySystem)
                 .getResultList();
     }
 
     public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
-        //TODO gib mir alle Karten sortiert nach Ranking fürs nächste Lernen,
-        return new ArrayList<>();
+        //gib mir alle Karten sortiert nach Ranking fürs nächste Lernen,
+        return getEntityManager()
+                .createNamedQuery("Card.allCardsSortedByRanking", Card.class)
+                .setParameter("studySystem", studySystem)
+                .getResultList();
     }
 
     public List<Card> getAllCardsForTimingSystem(StudySystem studySystem) {
