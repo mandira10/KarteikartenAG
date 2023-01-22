@@ -1,4 +1,5 @@
 package com.swp.Persistence;
+
 import com.swp.DataModel.*;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
@@ -43,19 +44,6 @@ public class CardRepository extends BaseRepository<Card> {
         return getEntityManager()
                 .createQuery("SELECT c FROM CardOverview c", CardOverview.class)
                 .setFirstResult(from).setMaxResults(to - from).getResultList();
-    }
-
-    /**
-     * Die Funktion `findCardsByCategory` such nach allen Karten die einer bestimmten Kategorie zugeordnet sind.
-     *
-     * @param category eine Category
-     * @return List<Card> eine Liste von Karten, die der Kategorie zugeordnet sind.
-     */
-    public List<Card> findCardsByCategory(Category category) {
-        return getEntityManager()
-                .createNamedQuery("CardToCategory.allCardsOfCategory", Card.class)
-                .setParameter("category", category)
-                .getResultList();
     }
 
 
@@ -116,7 +104,6 @@ public class CardRepository extends BaseRepository<Card> {
     }
 
 
-
     public List<CardOverview> findCardsByStudySystem(StudySystem oldStudyS) {
         return getEntityManager()
                 .createNamedQuery("CardOverview.allCardsWithStudySystem", CardOverview.class)
@@ -128,6 +115,7 @@ public class CardRepository extends BaseRepository<Card> {
      * TODO EFE Hier sollen alle Karten zurückgegeben werden, die in der untersten Box sind bzw. alle, die vom Lerndatum dran sind (CardToBox) learnedAt in SORTIERTER FORM!
      * Schau mal ob getDate() in H2 funktioniert, ansonsten lass dir das aktuelle Datum über System.currentTimeMillis ausgeben.
      * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
+     *
      * @param studySystem
      * @param cardOrder
      * @return
@@ -140,6 +128,38 @@ public class CardRepository extends BaseRepository<Card> {
         //TODO gib mir alle Karten sortiert nach Ranking fürs nächste Lernen,
         return new ArrayList<>();
     }
+
+    public List<Card> getAllCardsForTimingSystem(StudySystem studySystem) {
+        //TODO gib mir alle Karten in diesem StudySystem for TimingSystem
+        return new ArrayList<>();
+    }
+
+    /**
+     * Die Funktion `findCardsByTag` sucht nach Karten, die zu einem bestimmten String passen, der wiederum einen Tag
+     * repräsentiert oder einen Teil eines Tag Values.
+     *
+     * @param tagName ein Tag für den alle Karten gesucht werden sollen, die diesen haben.
+     * @return Set<CardOverview> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
+     */
+    public List<CardOverview> findCardsByTag(String tagName) {
+        return getEntityManager()
+                .createNamedQuery("CardOverview.allCardsWithTagName", CardOverview.class)
+                .setParameter("tagName", "%" + tagName + "%").getResultList();
+    }
+
+    /**
+     * Die Funktion `getCardsByCategoy` sucht nach Karten, die zu einem bestimmten String passen, der wiederum eine Kategorie
+     * repräsentiert oder einen Teil eines Kategorienamens.
+     *
+     * @param categoryName eine Kategorie für die alle Karten gesucht werden sollen, die diesen haben.
+     * @return Set<CardOverview> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
+     */
+    public List<CardOverview> getCardsByCategory(String categoryName) {
+        return getEntityManager()
+                .createNamedQuery("CardOverview.allCardsWithCategoryName", CardOverview.class)
+                .setParameter("categoryName", "%" + categoryName + "%").getResultList();
+    }
+
 }
 
 

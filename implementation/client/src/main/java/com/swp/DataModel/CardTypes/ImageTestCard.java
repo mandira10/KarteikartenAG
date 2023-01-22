@@ -79,7 +79,7 @@ public class ImageTestCard extends Card
     }
 
     public void setAnswer(String answer) {
-        this.answer = checkNotNullOrBlank("Antwort", answer,false);
+        this.answer = checkNotNullOrBlank( answer,"Antwort",false);
     }
 
     @Override

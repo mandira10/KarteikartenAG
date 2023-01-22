@@ -169,7 +169,8 @@ public abstract class BaseRepository<T> {
      * @param object das zu löschende Objekt.
      */
     public void delete(T object) {
-        entityManager.remove(object);
+
+        entityManager.remove(entityManager.contains(object) ? object : entityManager.merge(object));
     }
 
     /**

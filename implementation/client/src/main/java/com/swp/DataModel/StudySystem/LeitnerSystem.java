@@ -17,25 +17,27 @@ import java.util.List;
  */
 @Entity
 @DiscriminatorValue("Leitner")
-@NoArgsConstructor
 @Getter
 @Setter
 public class LeitnerSystem extends StudySystem
 {
 
-        /**
-         * Konstruktor der Klasse LeitnerSystem.
-         *
-         * TODO
-         */
-        public LeitnerSystem(String name, CardOrder cardOrder, boolean visibility)
-        {super(name,cardOrder,StudySystemType.LEITNER,visibility);
-            initStudySystemBoxes(5);
-                 }
+    /**
+     * Konstruktor der Klasse LeitnerSystem.
+     *
+     * @param name:       der Name des Systems
+     * @param cardOrder:  CardOrdner, um die Reihenfolge der Karten festzulegen
+     * @param visibility: Sichtbarkeit des Systems
+     */
+    public LeitnerSystem(String name, CardOrder cardOrder, boolean visibility) {
+        super(name, cardOrder, StudySystemType.LEITNER, visibility);
+        initStudySystemBoxes(5);
+    }
 
-                 public LeitnerSystem(LeitnerSystem other){
-                 super(other);
-                 }
+
+    public LeitnerSystem() {
+        super("", CardOrder.ALPHABETICAL, StudySystemType.LEITNER, false);
+    }
 
 
     @Override
@@ -45,50 +47,5 @@ public class LeitnerSystem extends StudySystem
             this.boxes.add(new StudySystemBox(this,daysToLearn.get(i)));
 
     }
-//
-//        @Override
-//        public void giveAnswer(boolean answer) {
-//                if(answer){
-//                        trueAnswerCount++;
-//                        questionCount++;
-//                }
-//                else{
-//                        questionCount = 0;
-//                }
-//        }
-//
-//        @Override
-//        public Card getNextCard(int index) {
-//                return getAllCardsInStudySystem().stream().toList().get(questionCount);
-//                // sollte nicht immer die vorderste Karte `.get(0)` genommen werden
-//                // und je nach Antwort wird sie eine Box weitere nach vorne/hinter geschoben
-//        }
-//
-//        @Override
-//        public void finishTest() {
-//                if(questionCount++ == getAllCardsInStudySystem().size()) {
-//                        if (trueAnswerCount == 0) {
-//                                resultPoint = 0;
-//                        } else {
-//                                pointQuestion = pointQuestion / getAllCardsInStudySystem().size();
-//                                resultPoint = pointQuestion * trueAnswerCount;
-//                        }
-//                }
-//        }
-//
-//        @Override
-//        public int getResult() {
-//                return resultPoint;
-//        }
-//
-//        @Override
-//        public float getProgress() {
-//                if(getAllCardsInStudySystem().size() == 0){
-//                        return 0;
-//                }
-//                else{
-//                        return trueAnswerCount / getAllCardsInStudySystem().size();
-//                }
-//
-//        }
+
 }

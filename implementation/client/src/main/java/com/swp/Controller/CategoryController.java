@@ -7,8 +7,12 @@ import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CategoryLogic;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.UniqueConstraint;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.SQLGrammarException;
 
 import java.util.List;
 
@@ -33,10 +37,15 @@ public class CategoryController {
      * @param category: die Kategorie zu aktualisieren
      * @param neu: Ob, die Kategorie neue oder nicht ist zu verstehen
      */
-    public void updateCategoryData(Category category, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
+    public void updateCategoryData(Category category, boolean neu, boolean nameChange, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            categoryLogic.updateCategoryData(category, neu);
-        } catch (Exception ex) {
+            categoryLogic.updateCategoryData(category, neu, nameChange);
+        }
+        catch (IllegalArgumentException ex) { //übergebener Wert ist leer
+            log.error("Der übergebene Wert war leer");
+            singleDataCallback.onFailure(ex.getMessage());
+        }
+        catch (Exception ex) {
             singleDataCallback.onFailure(ex.getMessage());
         }
     }
@@ -204,10 +213,9 @@ public class CategoryController {
             dataCallback.onSuccess(cards);
 
         } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
+            log.error("Der übergebene Wert war leer");
             dataCallback.onFailure(ex.getMessage());
-        } catch (final NoResultException ex) {
-            dataCallback.onInfo("Es gibt keine Kategorie zum angegebenen Namen");
-        } catch (final Exception ex) {
+        }  catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category
                     , ex);
             dataCallback.onFailure(ex.getMessage());

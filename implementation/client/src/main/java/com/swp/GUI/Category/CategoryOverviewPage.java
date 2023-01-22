@@ -60,7 +60,7 @@ public class CategoryOverviewPage extends Page
         newButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui)  
             {
-                ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category());
+                ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category(),true);
             }
         });
 

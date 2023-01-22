@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import static com.swp.Validator.checkNotNullOrBlank;
+
 /**
  * Abstrakte Superklasse für die Karten. Enthält die einzelnen Kartentypen sowie
  * weitere generische Eigenschaften jeder Karte, die alle Untertypen erben.
@@ -138,8 +140,8 @@ public abstract class Card implements Serializable
      */
     public void setQuestion(String question) 
     {
-        if(question != null)
-            this.question = question;
+
+            this.question = checkNotNullOrBlank(question,"Frage",false);
     }
 
     public void setTitle(String title) 

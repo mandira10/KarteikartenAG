@@ -49,7 +49,7 @@ public class TrueFalseCard extends Card
         this.question = question;
         this.answer = answer;
         visibility = visible;
-       setContent();
+        setContent();
     }
 
 

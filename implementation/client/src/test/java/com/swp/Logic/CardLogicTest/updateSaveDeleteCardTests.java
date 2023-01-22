@@ -7,7 +7,6 @@ import com.swp.Persistence.CardRepository;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,9 +17,9 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 
 /**
- * Class testing the normal functionalities of any card.
+ * Klasse, die die normalen Funktionen für eine Karte testet.
  */
-public class updateSaveDeleteTests {
+public class updateSaveDeleteCardTests {
 
 
     private CardRepository cardRepMock;

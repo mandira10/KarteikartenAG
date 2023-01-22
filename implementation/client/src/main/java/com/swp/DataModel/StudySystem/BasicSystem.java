@@ -10,34 +10,32 @@ import lombok.Setter;
 import java.util.*;
 
 /**
- * Klasse für das VoteSystem. Erbt alle Attribute vom StudySystem
+ * Klasse für das BasicSystem. Erbt alle Attribute vom StudySystem
  */
-@Entity
-@Getter
-@Setter
-@DiscriminatorValue("Vote")
-public class VoteSystem extends StudySystem
+
+// TODO
+public class BasicSystem extends StudySystem
 {
 
     /**
-     * Konstruktor der Klasse VoteSystem.
+     * Konstruktor der Klasse BasicSystem.
      * @param name: der Name des Systems
      * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
      * @param visibility: Sichtbarkeit des Systems
      */
-    public VoteSystem(String name, CardOrder cardOrder, boolean visibility) {
-        super(name, cardOrder, StudySystemType.VOTE, visibility);
+    public BasicSystem(String name, CardOrder cardOrder, boolean visibility) {
+        super(name, cardOrder, StudySystemType.CUSTOM, visibility);
         this.boxes.add(new StudySystemBox(this));
     }
 
 
 
-    public VoteSystem(VoteSystem other) {
+    public BasicSystem(BasicSystem other) {
         super(other);
     }
 
-    public VoteSystem() {
-       super("",CardOrder.ALPHABETICAL,StudySystemType.VOTE,false);
+    public BasicSystem() {
+        //
     }
 
 

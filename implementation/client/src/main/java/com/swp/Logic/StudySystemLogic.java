@@ -59,9 +59,14 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     {
         //TODO: check before that there is no card already in studySystem?
         execTransactional(() -> {
-                BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
-                //save new BoxToCard
-                cardToBoxRepository.save(boxToCard);
+//                if(testingBoxCards.isEmpty()){
+//                    return null;
+//                }
+//                else {
+                    BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
+                    //save new BoxToCard
+                    cardToBoxRepository.save(boxToCard);
+//                }
                 return null;
         });
     }
@@ -90,35 +95,34 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                         Die Karte wird eine Box nach hinten verschoben, nextLearnTime muss gesetzt werde
 
                     */
-
                     int box = boxToCard.getBoxNumber();
-                    if(box < 4) //avoid index out of bound exception
+                    if(box < 4) { //avoid index out of bound exception
                         ++box;
-
                         changeCardDueDate(box, boxToCard);
-                        moveCardToBox(boxToCard,box,studySystem);
-
+                        moveCardToBox(boxToCard, box, studySystem);
+                    }
+                    else{
+                        changeCardDueDate(box,boxToCard);
+                        cardToBoxRepository.update(boxToCard); // Needed or auto?
+                    }
                 }
                 else{
-                    if(studySystem.getQuestionCount() > 0){
-                        studySystem.setQuestionCount(studySystem.getQuestionCount() -2); //warum?
-                        int box = boxToCard.getBoxNumber();
-                        if(box >0) //avoid index out of bound exception
-                         --box;
-
+                    int box = boxToCard.getBoxNumber();
+                    if(box >0) { //avoid index out of bound exception
+                        --box;
                         changeCardDueDate(box, boxToCard);
-                        moveCardToBox(boxToCard,box,studySystem);
-
-
-
-                        //resetDate
-                      //testingBoxCards.add(card) //ganz nach hinten einfach AGAIN
+                        moveCardToBox(boxToCard, box, studySystem);
+                    }
+                    else{
+                        changeCardDueDate(box,boxToCard);
+                        cardToBoxRepository.update(boxToCard); // Needed or auto?
                     }
                     }
             case TIMING:
             case VOTE:
+            case CUSTOM:
                 if(answer){
-                studySystem.incrementTrueCount();
+                    studySystem.incrementTrueCount();
                 }
 
         }
@@ -139,12 +143,23 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         //je nach Lernsystem ausgeben
        //first off all gib mir alle Karten, die zu lernen sind aktuell, Logik siehe Repo-funktion
         if(testingBoxCards.isEmpty()){
-            testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem, studySystem.getCardOrder());
+            switch (studySystem.getType()){
+                case CUSTOM:
+                case TIMING:
+                    testingBoxCards = cardRepository.getAllCardsForTimingSystem(studySystem);
+                    // can we use function for leitner also here?
+                case LEITNER:
+                    testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem, studySystem.getCardOrder());
+                case VOTE:
+                    testingBoxCards = cardRepository.getAllCardsSortedForVoteSystem(studySystem);
 
-                if(testingBoxCards.isEmpty()) //falls immernoch empty nach dem Ziehen, dann gib das an das GUI weiter
-                return null;
+            }
+            if(testingBoxCards.isEmpty()){ //falls immernoch empty nach dem Ziehen, dann gib das an das GUI weiter
+                return null;}
+
         }
-        Card cardToLearn = testingBoxCards.get(0); //gib mir die vorderste
+        Card cardToLearn = testingBoxCards.get(studySystem.getQuestionCount()); //gib mir die vorderste
+        // QuestionCount am Anfang ist immer 0
         studySystem.incrementQuestionCount(); //Karte gelernt
         return cardToLearn;
     }
@@ -152,21 +167,24 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     //TO IMPLEMENT
     public void giveRating(StudySystem studySystem,int rating) {
-        //TODO eigentlich nur für VoteSystem? Get Rating?
+        getBoxToCard(testingBoxCards.get(studySystem.getQuestionCount()),studySystem).setRating(rating);
     };
 
+    /*
     //GIb mir all Karten für das VoteSystem
     public List <Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
         //testingBoxCards
       return cardRepository.getAllCardsSortedForVoteSystem(studySystem);
     }
+    Do we need this here?
+     */
 
     //TO IMPLEMENT
     public void giveTime(StudySystem studySystem,float seconds) {
         if(studySystem.getType() == StudySystem.StudySystemType.TIMING){
             TimingSystem timingSystem = (TimingSystem) studySystem;
             if(seconds > timingSystem.getTimeLimit()){
-                timingSystem.setTrueCount(timingSystem.getTrueCount()-1);
+                studySystem.setTrueAnswerCount(studySystem.getTrueAnswerCount()-1);
                 //TODO: vielleicht in Box2Card speichern zur einzelnen Karte?
             }
         }
@@ -174,36 +192,36 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     //TO IMPLEMENT (is also called when the test has been canceled)
     public int finishTestAndGetResult(StudySystem studySystem) {
-        if(studySystem.getType() == StudySystem.StudySystemType.LEITNER){
-            //TODO
+
+        if(!testingBoxCards.isEmpty()) {
+            if (studySystem.getQuestionCount() == testingBoxCards.size() - 1) {
+                int resultPoint = (100 / testingBoxCards.size()) * studySystem.getTrueAnswerCount();
+                int progress = studySystem.getTrueAnswerCount() / testingBoxCards.size();
+                studySystem.setProgress(progress);
+                studySystem.setResultPoint(resultPoint);
+                studySystem.setTrueAnswerCount(0);
+                studySystem.setQuestionCount(0);
+            } else {
+                int resultPoint = (100 / studySystem.getQuestionCount()) * studySystem.getTrueAnswerCount();
+                int progress = studySystem.getTrueAnswerCount() / testingBoxCards.size();
+                studySystem.setProgress(progress);
+                studySystem.setResultPoint(resultPoint);
+            }
+            return calculateResultAndSave(studySystem);
         }
-        else{
-            //TODO was muss hier genau passieren?
-            // List<Card> testingBoxCards; remove all Cards
-            //trueCount und QuestionCount auf 0? Also brauchen wir die nciht in der Database?
-            //studySystem.saveProgress(getProgress()); //hier fehlt noch ein Attribut für den Progress, wherever Logic / persistence
-            studySystem.setQuestionCount(0);
-           // studySystem.setTrueCount(0);
+        else {
+            throw new NoResultException("Es wurden keine Karten gelernt"); //Abfangen in Controller und als Info ausspielen
         }
-        //
-        return calculateResultAndSave(studySystem);
+
     }
 
     //TO IMPLEMENT (returns final score calculated in finishTest)
     public int calculateResultAndSave(StudySystem studySystem) {
         //TODO truecount verwenden, in Zsm.hang mit dem questionCount
         //TODO wollen wir das Result immer neu berechnen, also nur für den Tag ausgeben? Ansonsten muss man das noch aufschlüsseln
-
-        //progress ermitteln und zurückgeben?
-
-        List<CardOverview> cards = getAllCardsInStudySystem(studySystem);
-        if(!cards.isEmpty()){
-            return (100 / cards.size());
-            //*  studySystemRepository.getTrueCount(); TODO speichern?
-        }
-        else {
-            throw new NoResultException("Es wurden keine Karten gelernt"); //Abfangen in Controller und als Info ausspielen
-        }
+        testingBoxCards.removeAll(testingBoxCards);
+        studySystemRepository.update(studySystem);
+        return studySystem.getResultPoint();
     }
 
     public List<CardOverview> getAllCardsInStudySystem(StudySystem studySystem) {
@@ -214,19 +232,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     public float getProgress(StudySystem studySystem)
     {
-//        float progress = 0;
-//        execTransactional(() -> {
-//
-//        if(studySystemRepository.getAllCardsInStudySystem(studySystem).size() > 0){
-//            progress = 0 ;//TODO  studySystemRepository.getTrueCount() / studySystemRepository.getAllCardsInStudySystem().size();
-//        }
-//        else{
-//            progress = 0;
-//        }
-//            return null;
-//        });
-//       return progress;
-        return 0;
+        return studySystem.getProgress();
     }
 
 
