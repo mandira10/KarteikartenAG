@@ -28,9 +28,11 @@ import java.util.List;
 
 public class CategoryOverviewPage extends Page
 {
-    RenderGUI pCanvas;
-    CategoryList pCategoryList;
-    
+    private RenderGUI pCanvas;
+    private CategoryList pCategoryList;
+    private Button pDeleteCategoriesButton;
+    private Button pAddToDeckButton;
+
     private static final CategoryController categoryController = CategoryController.getInstance();
    
     public CategoryOverviewPage()
@@ -56,28 +58,28 @@ public class CategoryOverviewPage extends Page
                 ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category(),true);
             }
         });
-        Button deleteCategoriesButton = (Button)findChildByID("deletecategoriesbutton");
-        deleteCategoriesButton.onClick(new GUICallback() {
+        pDeleteCategoriesButton = (Button)findChildByID("deletecategoriesbutton");
+        pDeleteCategoriesButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
                 deleteCategories(pCategoryList.getSelectedCategories());
             }
         });
-        deleteCategoriesButton.hide(true);
+        pDeleteCategoriesButton.hide(true);
 
-        Button addToDeckButton = (Button)findChildByID("addtodeckbutton");
-        addToDeckButton.onClick(new GUICallback() {
+        pAddToDeckButton = (Button)findChildByID("addtodeckbutton");
+        pAddToDeckButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
                 addToDeck();
             }
         });
-        addToDeckButton.hide(true);
+        pAddToDeckButton.hide(true);
 
         pCanvas = findChildByID("canvas");
         pCategoryList = new CategoryList(new ivec2(0, 0), new ivec2(100, 100), new CategoryListSelectmodeCallback() {
-            @Override public void enterSelectmod() { deleteCategoriesButton.hide(false); addToDeckButton.hide(false); }
-            @Override public void exitSelectmod()  { deleteCategoriesButton.hide(true); addToDeckButton.hide(true); }
+            @Override public void enterSelectmod() { pDeleteCategoriesButton.hide(false); pAddToDeckButton.hide(false); }
+            @Override public void exitSelectmod()  { pDeleteCategoriesButton.hide(true);  pAddToDeckButton.hide(true);  }
         });
         pCategoryList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCategoryList);
@@ -113,6 +115,8 @@ public class CategoryOverviewPage extends Page
                 }
             }
         });
+        pDeleteCategoriesButton.hide(true); 
+        pAddToDeckButton.hide(true);
     }
     
     public void loadCategories(String searchterm)
