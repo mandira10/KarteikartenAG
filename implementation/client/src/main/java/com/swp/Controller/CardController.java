@@ -149,7 +149,7 @@ public class CardController {
      * @param cards Die zu löschenden Karten
      * @param singleDataCallback: Callback für die GUI, bei success passiert nichts, bei Fehler wird die Exception message an GUI weitergegeben.
      */
-    public void deleteCards(List<Card> cards, SingleDataCallback<Boolean> singleDataCallback) {
+    public void deleteCards(List<CardOverview> cards, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.deleteCards(cards);
         }catch (IllegalStateException ex) {

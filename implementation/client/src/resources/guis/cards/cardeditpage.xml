@@ -12,7 +12,7 @@
         </gui>
 
         <text pos="10, 350" fontsize="30" locale-id="tagsfield"></text>
-        <tag-list id="tagslist" pos="150, 350" size="100%, 30" margin="-150, 0"></tag-list>
+        <gui id="tagslist" pos="150, 350" size="100%, 30" margin="-150, 0"></gui>
 
         <text pos="10, 500" fontsize="30" locale-id="categoriesfield"></text>
         <textbox id="categorylist" fontsize="20" pos="150, 500" size="100%, 30" margin="-190, 0"></textbox>

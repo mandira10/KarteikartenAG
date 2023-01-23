@@ -53,8 +53,8 @@ public class DeckOverviewPage extends Page
             }
         });
 
-        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "Search Deck", new String[] {
-            "By Content",
+        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "decksearch", new String[] {
+            "bycontentsearch",
         }, new SearchbarCallback() {
             @Override public void run(String query, int option) 
             {

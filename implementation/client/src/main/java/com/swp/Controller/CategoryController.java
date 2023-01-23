@@ -222,6 +222,14 @@ public class CategoryController {
         }
     }
 
+
+    // gibt alle karten aus allen gegebenen kategorien wieder
+    public void getCardsInCategories(List<Category> categories, DataCallback<CardOverview> dataCallback)
+    {
+        //TODO
+    }
+
+
     /**
      * Kann verwendet werden, um einzelne Kategorien zu Karten in der SingleCardOverviewPage oder im EditModus aufzurufen
      *

@@ -94,7 +94,6 @@ public class CardLogic extends BaseLogic<Card>
             cardRepository.delete(card);
             return null; // Lambda braucht immer einen return
         });
-
     }
 
     /**
@@ -102,10 +101,11 @@ public class CardLogic extends BaseLogic<Card>
      * an das CardRepository und erhält ein positives Ergebnis, wenn alle Karten erfolgreich gelöscht wurden.
      * @param cards zu löschende Karten
      */
-    public void deleteCards(List<Card> cards)
+    public void deleteCards(List<CardOverview> cards)
     {
-        for(Card c : cards)
-        deleteCard(c);
+        //TODO
+        //for(CardOverview c : cards)
+            //deleteCard(c);
     }
 
 

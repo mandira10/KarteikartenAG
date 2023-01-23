@@ -3,6 +3,7 @@ package com.swp.GUI.Extras;
 import java.util.List;
 
 import com.gumse.gui.GUI;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
@@ -43,7 +44,7 @@ public class DeckList extends RenderGUI
             numcardsText.setCharacterHeight(35);
 
             int percentage = (int)(0); //(deck.getStudySystem().getProgress() * 100.0f);//TODO
-            Text progressText = new Text("Progress: " + percentage + "%", defaultFont, new ivec2(100, 10), 0);
+            Text progressText = new Text(Locale.getCurrentLocale().getString("deckprogress") + ": " + percentage + "%", defaultFont, new ivec2(100, 10), 0);
             progressText.setPositionInPercent(true, false);
             progressText.setCharacterHeight(35);
             progressText.setOrigin(new ivec2(200, 0));
@@ -68,12 +69,12 @@ public class DeckList extends RenderGUI
                     });
             if(numCards[0] > 0)
             {
-                numcardsText.setString("Cards: " + numCards[0]);
+                numcardsText.setString(numCards[0] + " " + Locale.getCurrentLocale().getString("deckentrycards"));
                 iconText.setString("");
             }
             else
             {
-                numcardsText.setString("Empty");
+                numcardsText.setString(Locale.getCurrentLocale().getString("deckempty"));
                 iconText.setString("");
                 iconText.setOrigin(new ivec2(50, 40));
             }

@@ -27,7 +27,7 @@ public class Searchbar extends RenderGUI
     private Speechbubble pBubble;
     private int iCurrentSearchOption;
 
-    public Searchbar(ivec2 pos, ivec2 size, String hint, String[] options, SearchbarCallback callback)
+    public Searchbar(ivec2 pos, ivec2 size, String localeid, String[] optionlocaleids, SearchbarCallback callback)
     {
         this.sType = "Searchbar";
         this.vPos.set(pos);
@@ -50,7 +50,7 @@ public class Searchbar extends RenderGUI
             }
         });
         pInputField.setCornerRadius(new vec4(GUI.getTheme().cornerRadius.x, 0, 0, GUI.getTheme().cornerRadius.w));
-        pInputField.setHint(hint);
+        pInputField.setLocaleID(localeid);
         addElement(pInputField);
 
         
@@ -78,7 +78,7 @@ public class Searchbar extends RenderGUI
         pBubble.hide(true);
         pOptionsButton.addGUI(pBubble);
 
-        Radiobutton searchOptions = new Radiobutton(new ivec2(20, 20), 20, 100, fonts.getDefaultFont(), options);
+        Radiobutton searchOptions = new Radiobutton(new ivec2(20, 20), 20, 100, fonts.getDefaultFont(), new String[optionlocaleids.length], optionlocaleids);
         searchOptions.select(iCurrentSearchOption);
         searchOptions.singleSelect(true);
         searchOptions.setSizeInPercent(true, false);

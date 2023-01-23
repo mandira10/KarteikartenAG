@@ -40,6 +40,10 @@ addtodeckbutton        = Add to Deck
 uploadaudiobutton      = Click to upload audio
 editanswersbutton      = Edit Answers
 openimagebutton        = Click to open
+cardsearch             = Search Card
+cardlisttitle          = Title
+cardlistdate           = Creationdate
+cardlistdecks          = Decks
 
 # Category
 addcategorybutton      = Add Cat.
@@ -47,6 +51,9 @@ viewtreebutton         = Tree View
 viewlistbutton         = List View
 deletecategorybutton   = Delete Cat.
 editcategorybutton     = Edit Cat.
+categorysearch         = Search Category
+categorylisttitle      = Categories
+deletecategoriesbutton = Delete Categories
 
 # Deck
 adddeckbutton          = Add Deck
@@ -54,6 +61,15 @@ starttestbutton        = Start Test
 editdeckbutton         = Edit Deck
 deletedeckbutton       = Delete Deck
 removedeckbutton       = Remove Card(s)
+deckprogress           = Progress
+deckentrycards         = Cards
+deckempty              = Empty
+decksearch             = Search Deck
+
+# Search
+bycontentsearch        = By Content
+bytagsearch            = By Tag
+bycategorysearch       = By Category
 
 # Settings
 serversettingsbutton   = Server

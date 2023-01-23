@@ -12,6 +12,7 @@ import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.GUI.Extras.Notification;
@@ -189,6 +190,21 @@ public class ViewSingleCardPage extends Page
         });
 
         updateReferences();
+    }
+
+    public void setCard(CardOverview cardoverview)
+    {
+        CardController.getInstance().getCardByUUID(cardoverview.getUUUID(), new SingleDataCallback<Card>() {
+            @Override public void onSuccess(Card card) 
+            {
+                setCard(card);    
+            }
+
+            @Override public void onFailure(String msg) 
+            {
+                NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);
+            }
+        });
     }
 
     private void updateReferences()

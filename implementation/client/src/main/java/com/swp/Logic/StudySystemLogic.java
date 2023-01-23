@@ -309,12 +309,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         return execTransactional(() -> studySystemRepository.findStudySystemsContaining(searchterm));
     }
 
-    public void removeCardsFromStudySystem(List<Card> cards, StudySystem studySystem) {
+    public void removeCardsFromStudySystem(List<CardOverview> cards, StudySystem studySystem) 
+    {
         execTransactional(() -> {
-            for(Card c : cards) {
-                cardToBoxRepository
-                        .delete(cardToBoxRepository.getSpecific(c, studySystem));
-            }
+            //TODO
+            //for(CardOverview c : cards)
+                //cardToBoxRepository.delete(cardToBoxRepository.getSpecific(c, studySystem));
             return null; // Lambda braucht immer einen return
         });
     }

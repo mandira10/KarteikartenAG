@@ -108,7 +108,8 @@ public class StudySystemController{
      * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      * @param rating: Bewertung von GUI
      */
-    public void giveRating(StudySystem studySystem,int rating,SingleDataCallback singleDataCallback) {
+    public void giveRating(StudySystem studySystem,int rating, SingleDataCallback singleDataCallback) 
+    {
         try{
             studySystemLogic.giveRating(studySystem,rating);
         }
@@ -222,14 +223,11 @@ public class StudySystemController{
      * @param studySystem: Das StudySystem, das benötigt wird.
      * @param list: die Liste der Karten zu löschen
      */
-    public void removeCardsFromStudySystem(ArrayList<Card> list, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
-        try{studySystemLogic.removeCardsFromStudySystem(list,studySystem);}
-        catch(IllegalStateException ex){
-            singleDataCallback.onFailure(ex.getMessage());
-        }
-        catch(Exception ex){
-            singleDataCallback.onFailure(ex.getMessage());
-        }
+    public void removeCardsFromStudySystem(List<CardOverview> list, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) 
+    {
+        try                             { studySystemLogic.removeCardsFromStudySystem(list, studySystem); }
+        catch(IllegalStateException ex) { singleDataCallback.onFailure(ex.getMessage()); }
+        catch(Exception ex)             { singleDataCallback.onFailure(ex.getMessage()); }
     }
 
 
@@ -298,22 +296,6 @@ public class StudySystemController{
         }
         catch(Exception ex){
             dataCallback.onFailure(ex.getMessage());
-        }
-    }
-
-
-    /**
-     * Wird benutzt, um einzelne Karten aus dem studySystem zu löschen. Wird an die StudySystemLogic weitergegeben
-     * @param cards: die Liste von Karten, um von StudySystem zu löschen
-     * @param studySystem: Das StudySystem, das benötigt wird.
-     * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
-     */
-    public void removeCardsFromStudySystem(List<Card> cards, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
-        try {
-            studySystemLogic.removeCardsFromStudySystem(cards, studySystem);
-        }
-        catch(Exception ex){
-            singleDataCallback.onFailure(ex.getMessage());
         }
     }
 

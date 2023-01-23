@@ -2,13 +2,13 @@ package com.swp.GUI.Cards;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
+import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.TagList.TagList;
 import com.gumse.gui.XML.XMLGUI;
@@ -116,7 +116,11 @@ public class EditCardPage extends Page
         });
 
 
-        pTagList = (TagList<Tag>)findChildByID("tagslist");
+        RenderGUI taglistcontainer = findChildByID("tagslist");
+        pTagList = new TagList<>(new ivec2(0, 0), new ivec2(100, 30), FontManager.getInstance().getDefaultFont(), Tag.class);
+        pTagList.setSizeInPercent(true, false);
+        taglistcontainer.addGUI(pTagList);
+
         pCategoriesBox = (TextBox)findChildByID("categorylist");
         pCategoriesBox.setAlignment(Alignment.LEFT);
         pCategoriesBox.setAutoInsertLinebreaks(true);
