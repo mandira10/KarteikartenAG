@@ -5,12 +5,14 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import com.swp.DataModel.StudySystem.StudySystemBox;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 
@@ -33,8 +35,6 @@ import static com.swp.Validator.checkNotNullOrBlank;
             query = "SELECT c FROM Card c WHERE c.nextLearnedAt < :now ORDER BY c.nextLearnedAt ASC")
 @NamedQuery(name = "Card.allCardsSortedByRanking",
             query = "SELECT c FROM Card c ORDER BY c.rating DESC")
-
-
 public abstract class Card implements Serializable
 {
     /**
@@ -54,7 +54,7 @@ public abstract class Card implements Serializable
      * UUID der Karte
      */
     @Id
-    @Column
+    @Column(name = "CARD_ID")
     @Setter(AccessLevel.NONE)
     protected final String uuid;
 
@@ -117,6 +117,13 @@ public abstract class Card implements Serializable
     //@ManyToOne
     //@JoinColumn(name = "studySystembox_id")
     //protected StudySystemBox box;
+    @OneToMany(mappedBy = "card")
+    @Cascade({CascadeType.ALL})
+    protected List<CardToTag> assignedTags;
+
+    @OneToMany(mappedBy = "card")
+    @Cascade({CascadeType.ALL})
+    protected List<CardToCategory> assignedCategories;
 
     /**
      * Konstruktor für eine einfache Karte.
@@ -165,19 +172,23 @@ public abstract class Card implements Serializable
      * Manueller Setter, der prüft, ob der übergebene Wert im GUI leer ist
      * @param question: Frage der Karte
      */
-    public void setQuestion(String question) 
+    public void setQuestion(String question)
     {
 
             this.question = checkNotNullOrBlank(question,"Frage",false);
     }
 
-    public void setTitle(String title) 
+    public void setTitle(String title)
     {
         if(title != null)
             this.title = title;
     }
 
     public String getAnswerString() { return ""; }
+
+    public List<Tag> getTagValues() {
+        return this.getAssignedTags().stream().map(CardToTag::getTag).toList();
+    }
 
     @Override
     public boolean equals(Object o) {
