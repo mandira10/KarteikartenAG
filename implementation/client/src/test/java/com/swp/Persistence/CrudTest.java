@@ -250,6 +250,7 @@ public class CrudTest {
         return exampleStudySystems;
     }
 
+    /*
     private List<Deck> exampleDecks() {
         //TODO Test-Decks erstellen
         List<Deck> exampleDecks = new ArrayList<>();
@@ -258,6 +259,7 @@ public class CrudTest {
         );
         return null;
     }
+     */
 
     public List<Category> exampleCategories() {
         //TODO Test-Kategorien erstellen
