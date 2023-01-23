@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+import com.swp.DataModel.StudySystem.StudySystemBox;
+
 import static com.swp.Validator.checkNotNullOrBlank;
 
 /**
@@ -30,10 +32,7 @@ import static com.swp.Validator.checkNotNullOrBlank;
             query = "SELECT c FROM Card c WHERE c.nextLearnedAt < :now ORDER BY c.nextLearnedAt ASC")
 @NamedQuery(name = "Card.allCardsSortedByRanking",
             query = "SELECT c FROM Card c ORDER BY c.rating DESC")
-@NamedQuery(name = "Card.allCardsOfEveryBoxesOfTheStudySystem",
-            query = "SELECT c FROM Card c WHERE c.box.studySystem.uuid = :uuid")
-@NamedQuery (name = "Card.allCardsOfaBox",
-             query = "SELECT c FROM Card c WHERE c.box.uuid = :uuid")
+
 
 public abstract class Card implements Serializable
 {
@@ -114,9 +113,9 @@ public abstract class Card implements Serializable
     /**
      * Box, in der die Karte gespeichert ist.
      */
-    @ManyToOne
-    @JoinColumn(name = "d_uuid")
-    protected Deck box;
+    //@ManyToOne
+    //@JoinColumn(name = "studySystembox_id")
+    //protected StudySystemBox box;
 
     /**
      * Konstruktor für eine einfache Karte.
@@ -132,6 +131,7 @@ public abstract class Card implements Serializable
         this.references = "";
         this.creationDate = new Timestamp(System.currentTimeMillis());
         this.nextLearnedAt = new Timestamp(System.currentTimeMillis());
+        //this.box = null;
     }
 
     /**
@@ -142,7 +142,7 @@ public abstract class Card implements Serializable
         uuid = UUID.randomUUID().toString();
         this.type = null;
         this.creationDate = new Timestamp(System.currentTimeMillis());
-        this.nextLearnedAt = new Timestamp(System.currentTimeMillis() );
+        this.nextLearnedAt = new Timestamp(System.currentTimeMillis());
     }
 
 

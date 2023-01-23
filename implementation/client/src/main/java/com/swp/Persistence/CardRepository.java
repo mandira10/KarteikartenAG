@@ -138,7 +138,7 @@ public class CardRepository extends BaseRepository<Card> {
     public List<Card> getAllCardsForTimingSystem(StudySystem studySystem) {
         //TOTEST gib mir alle Karten in diesem StudySystem for TimingSystem
         return getEntityManager()
-                .createNamedQuery("Card.allCardsOfEveryBoxesOfTheStudySystem", Card.class)
+                .createNamedQuery("BoxToCard.allCardsOfEveryBoxesOfTheStudySystem", Card.class)
                 .setParameter("studySystem", studySystem)
                 .getResultList();
     }
