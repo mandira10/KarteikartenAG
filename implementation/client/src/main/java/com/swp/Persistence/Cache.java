@@ -11,7 +11,7 @@ import com.swp.DataModel.StudySystem.StudySystem;
 public class Cache 
 {
     private static Cache pCacheInstance = null;
-    private List<Deck> alDecks;
+    //private List<Deck> alDecks;
     private Set<StudySystem.StudySystemType> stStudySystemTypes;
     private Set<Category> stCategories;
     private Set<Tag> stTags;
@@ -21,7 +21,7 @@ public class Cache
 
     private Cache()
     {
-        alDecks = new ArrayList<>();
+        //alDecks = new ArrayList<>();
         stCategories = new HashSet<>();
         stTags = new HashSet<>();
        // alCardToDecks = new ArrayList<>();

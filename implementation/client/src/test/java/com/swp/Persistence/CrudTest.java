@@ -3,7 +3,6 @@ package com.swp.Persistence;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
-import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
@@ -205,14 +204,14 @@ public class CrudTest {
         return exampleStudySystems;
     }
 
-    private List<Deck> exampleDecks() {
-        //TODO Test-Decks erstellen
-        List<Deck> exampleDecks = new ArrayList<>();
-        Collections.addAll(exampleDecks,
-                new Deck()
-            );
-        return null;
-    }
+//    private List<Deck> exampleDecks() {
+//        //TODO Test-Decks erstellen
+//        List<Deck> exampleDecks = new ArrayList<>();
+//        Collections.addAll(exampleDecks,
+//                new Deck()
+//            );
+//        return null;
+//    }
 
     public List<Category> exampleCategories() {
         //TODO Test-Kategorien erstellen

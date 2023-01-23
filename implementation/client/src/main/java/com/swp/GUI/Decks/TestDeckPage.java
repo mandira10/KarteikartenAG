@@ -11,7 +11,6 @@ import com.gumse.maths.ivec2;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.Deck;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;

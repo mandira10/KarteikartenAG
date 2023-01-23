@@ -450,7 +450,7 @@ public class CardControllerTests {
 
         @Test
     public void deleteCardsTestException(){
-            final List<Card> list = Arrays.asList(new TextCard(), new TrueFalseCard(), new MultipleChoiceCard());
+            final List<CardOverview> list = Arrays.asList(new CardOverview(),new CardOverview());
             doThrow(new RuntimeException()).when(cardMockLogic).deleteCards(list);
             String expected = "Beim Löschen der Karten ist ein Fehler aufgetreten";
             final String[] actual = new String[1];
@@ -471,7 +471,7 @@ public class CardControllerTests {
 
     @Test
     public void deleteCardsTest(){
-        final List<Card> list = Arrays.asList(new TextCard(), new TrueFalseCard(), new MultipleChoiceCard());
+        final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         doNothing().when(cardMockLogic).deleteCards(null);
 
         cardController.deleteCards(list, new SingleDataCallback<Boolean>() {

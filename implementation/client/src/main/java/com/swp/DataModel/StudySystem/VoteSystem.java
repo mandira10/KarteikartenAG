@@ -1,13 +1,9 @@
 package com.swp.DataModel.StudySystem;
 
-import com.swp.DataModel.Card;
-import com.swp.DataModel.Deck;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.*;
 
 /**
  * Klasse für das VoteSystem. Erbt alle Attribute vom StudySystem
