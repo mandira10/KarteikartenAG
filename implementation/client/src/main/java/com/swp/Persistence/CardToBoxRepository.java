@@ -39,8 +39,10 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
 
 
     public List<BoxToCard> getAllBoxToCardsForStudySystem(StudySystem studySystem) {
-        //TODO
-        return new ArrayList<>();
+        return getEntityManager()
+                .createNamedQuery("BoxToCard.allByStudySystem", BoxToCard.class)
+                .setParameter("studySystem", studySystem)
+                .getResultList();
     }
 
     /**
