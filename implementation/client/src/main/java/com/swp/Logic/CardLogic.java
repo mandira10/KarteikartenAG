@@ -218,7 +218,7 @@ public class CardLogic extends BaseLogic<Card>
          execTransactional(() -> {
             for (Tag t : tagNew) {
                 if (!tagOld.isEmpty() && tagOld.contains(t)) {
-                    log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
+                    log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getVal(), card.getUuid());
                 } else {
                     checkNotNullOrBlank(t,"Tag",true);
                     try {
@@ -229,7 +229,7 @@ public class CardLogic extends BaseLogic<Card>
                     } catch (NoResultException ex) {
                         tagRepository.save(t);
                     }
-                    log.info("Tag {} wird zu Karte {} hinzugefügt", t.getUuid(), card.getUuid());
+                    log.info("Tag {} wird zu Karte {} hinzugefügt", t.getVal(), card.getUuid());
                     cardToTagRepository.createCardToTag(card, t);
                 }
             }
