@@ -2,6 +2,9 @@ package com.swp.DataModel;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -33,6 +36,7 @@ public class CardToCategory implements Serializable
      */
     @ManyToOne
     @JoinColumn(name="card_uuid")
+    @Cascade({CascadeType.PERSIST, CascadeType.MERGE})
     private final Card card;
 
     /**
@@ -40,6 +44,7 @@ public class CardToCategory implements Serializable
      */
     @ManyToOne
     @JoinColumn(name="category_uuid")
+    @Cascade({CascadeType.PERSIST, CascadeType.MERGE})
     private final Category category;
 
     /**

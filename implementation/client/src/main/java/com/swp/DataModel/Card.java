@@ -121,6 +121,9 @@ public abstract class Card implements Serializable
     @Cascade({CascadeType.ALL})
     protected List<CardToTag> assignedTags;
 
+    @OneToMany(mappedBy = "card")
+    @Cascade({CascadeType.ALL})
+    protected List<CardToCategory> assignedCategories;
 
     /**
      * Konstruktor für eine einfache Karte.
