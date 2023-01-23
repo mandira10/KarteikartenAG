@@ -39,11 +39,6 @@ public class CardLogic extends BaseLogic<Card>
      * @param end: Seitenauswahl Endwert
      * @return anzuzeigende Karten
      */
-    public List<Card> getCardsToShow(int begin, int end)
-    {
-        return execTransactional(() -> cardRepository.getCardRange(begin, end));
-    }
-
     public List<CardOverview> getCardOverview(int begin, int end) {
         return execTransactional(() -> cardRepository.getCardOverview(begin, end));
     }
@@ -52,8 +47,7 @@ public class CardLogic extends BaseLogic<Card>
      * Wird verwendet bei einer Filterung nach einem bestimmten Tag. Prüft zunächst, dass der übergebene Tag nicht
      * null oder leer ist und gibt die Funktion dann an das Card Repository weiter.
      * @param tagName: Der textuelle Tag, zu dem die Karten gesucht werden sollen
-     * @return Set der Karten, die Tag enthalten
-     * @throws NoResultException falls es keinen Tag, oder Karte mit entsprechendem Tag gibt.
+     * @return Set der Karten, die den Tag enthalten
      */
     public List<CardOverview> getCardsByTag(String tagName) {
         checkNotNullOrBlank(tagName, "Tag",true);
@@ -75,7 +69,7 @@ public class CardLogic extends BaseLogic<Card>
 
     /**
      * Wird aufgerufen, wenn eine spezifische Karte gelöscht werden soll. Gibt die Karte weiter
-     * an das CardRepository und erhält ein positives Ergebnis, wenn die Aktion erfolgreich war.
+     * an das CardRepository.
      * @param card zu löschende Karte
      */
     public void deleteCard(Card card)
@@ -98,7 +92,7 @@ public class CardLogic extends BaseLogic<Card>
 
     /**
      * Wird aufgerufen, wenn mehrere Karten gelöscht werden sollen. Gibt die Karten einzeln weiter
-     * an das CardRepository und erhält ein positives Ergebnis, wenn alle Karten erfolgreich gelöscht wurden.
+     * an das CardRepository.
      * @param cards zu löschende Karten
      */
     public void deleteCards(List<CardOverview> cards)
@@ -108,9 +102,6 @@ public class CardLogic extends BaseLogic<Card>
             //deleteCard(c);
     }
 
-
-
-    //SINGLEVIEWCARDPAGE, CARDEDITPAGE
 
     /**
      * Wird verwendet, um einzelne Karteninformationen über ihre UUID abzurufen. Wird an das CardRepository weitergegeben.
@@ -146,7 +137,6 @@ public class CardLogic extends BaseLogic<Card>
      * Wird aufgerufen, wenn eine neue Karte erstellt wird oder eine bestehende angepasst.
      * @param cardToChange Die Karte, die neu erstellt werden soll oder die Kopie der Karte mit den Änderungen
      * @param neu gibt an, ob es sich um eine komplett neue Karte handelt
-     * @return
      */
     public void updateCardData(Card cardToChange, boolean neu) {
         if(cardToChange == null){
@@ -198,6 +188,12 @@ public class CardLogic extends BaseLogic<Card>
                     removeCardToTag(card,t);
         }
     }
+
+    /**
+     * Wird verwendet, um einen spezifischen CardToTag zu löschen. Wird ans cardToTagRepo weitegegeben.
+     * @param c Karte für den CardToTag
+     * @param t Tag für den CardToTag
+     */
     private void removeCardToTag(Card c, Tag t) {
         execTransactional(() -> {
             cardToTagRepository.delete(
@@ -245,7 +241,6 @@ public class CardLogic extends BaseLogic<Card>
      * Wird aufgerufen, um ausgewählte Karten zu exportieren. Wird an die Exporter Klasse weitergereicht.
      * @param cards Set an Karten, die exportiert werden sollen
      * @param filetype Exporttyp der Karten
-     * @return Exportierte Datei
      */
     public void exportCards(Card[] cards, ExportFileType filetype) {
         new Exporter(filetype).export(cards);

@@ -7,14 +7,15 @@ import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CategoryRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.joor.Reflect.on;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -27,7 +28,7 @@ public class FilterForCategoryTest {
     private CardLogic cardLogic = CardLogic.getInstance();
     private CategoryLogic categoryLogic = CategoryLogic.getInstance();
 
-    @Before
+    @BeforeEach
     public void beforeEach(){
         cardRepMock = mock(CardRepository.class);
         categoryRepMock = mock(CategoryRepository.class);
@@ -54,7 +55,7 @@ public class FilterForCategoryTest {
     @Test
     public void testListOfCardsForCategory(){
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.getCardsByCategory(categoryRepMock.find(anyString()))).thenReturn(expected);
+        when(cardRepMock.getCardsByCategory(anyString())).thenReturn(expected);
         List<CardOverview> actual = categoryLogic.getCardsInCategory("test");
         assertEquals(expected,actual);
     }

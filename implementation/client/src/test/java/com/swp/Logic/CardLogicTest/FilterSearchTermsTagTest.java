@@ -5,14 +5,14 @@ import com.swp.DataModel.CardOverview;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.TagRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.joor.Reflect.on;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -29,7 +29,7 @@ public class FilterSearchTermsTagTest {
     private CardLogic cardLogic = CardLogic.getInstance();
 
 
-    @Before
+    @BeforeEach
     public void beforeEach(){
         cardRepMock = mock(CardRepository.class);
         tagRepMock = mock(TagRepository.class);
@@ -56,7 +56,7 @@ public class FilterSearchTermsTagTest {
     public void testListOfCardsForTags(){
         on(cardLogic).set("tagRepository",tagRepMock);
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.findCardsByTag(tagRepMock.findTag(anyString()))).thenReturn(expected);
+        when(cardRepMock.findCardsByTag(anyString())).thenReturn(expected);
         List<CardOverview> actual = cardLogic.getCardsByTag("test");
         assertEquals(expected,actual);
     }

@@ -6,14 +6,13 @@ import com.swp.DataModel.Category;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Persistence.CardRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.joor.Reflect.on;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -26,10 +25,10 @@ public class updateSaveDeleteCategoryTest {
 
 
     public void beforeEach(){
-
+        cardRepMock = mock(CardRepository.class);
     }
 
-
+    @Test
     public void testExceptionIfCardToDeleteIsNull() {
         final String expected = "Karte existiert nicht";
         final IllegalStateException exception =
@@ -37,14 +36,14 @@ public class updateSaveDeleteCategoryTest {
         assertEquals(expected, exception.getMessage());
     }
 
-
+    @Test
     public void testDeleteCardFunction(){
         Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
         doNothing().when(cardRepMock).delete(card1);
         cardLogic.deleteCard(card1);
     }
 
-
+    @Test
     public void testDeleteFunctionForManyCards(){
         Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
         Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel1",true);
@@ -54,7 +53,7 @@ public class updateSaveDeleteCategoryTest {
         //cardLogic.deleteCards(cards);
     }
 
-
+    @Test
     public void testExceptionIfCardToUpdateIsNull() {
         final String expected = "Karte existiert nicht";
         final IllegalStateException exception =
@@ -63,7 +62,7 @@ public class updateSaveDeleteCategoryTest {
     }
 
 
-
+    @Test
     public void testGetCardByUUID(){
         //TODO
     }
