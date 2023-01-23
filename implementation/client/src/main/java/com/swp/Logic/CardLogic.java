@@ -97,9 +97,9 @@ public class CardLogic extends BaseLogic<Card>
      */
     public void deleteCards(List<CardOverview> cards)
     {
-        //TODO
-        //for(CardOverview c : cards)
-            //deleteCard(c);
+        for(CardOverview c : cards){
+           deleteCard(execTransactional(() -> cardRepository.getCardByUUID(c.getUUUID())));
+        }
     }
 
 

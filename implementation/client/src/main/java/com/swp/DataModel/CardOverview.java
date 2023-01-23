@@ -59,5 +59,9 @@ public class CardOverview  {
 
     public CardOverview(){}
 
+    //For Test reasons
+    public CardOverview(String uUUID){
+        this.uUUID = uUUID;
+    }
 
 }

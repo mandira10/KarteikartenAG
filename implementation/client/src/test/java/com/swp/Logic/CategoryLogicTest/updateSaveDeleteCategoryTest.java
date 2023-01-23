@@ -1,10 +1,15 @@
 package com.swp.Logic.CategoryLogicTest;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.TextCard;
+import com.swp.DataModel.CardTypes.TrueFalseCard;
+import com.swp.DataModel.Category;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Persistence.CardRepository;
+import com.swp.Persistence.CategoryRepository;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.Test;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,14 +17,17 @@ import org.junit.jupiter.api.BeforeEach;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.swp.Validator.checkNotNullOrBlank;
+import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 public class updateSaveDeleteCategoryTest {
 
     private CardRepository cardRepMock;
+    private CategoryRepository categoryRepMock;
     private CardLogic cardLogic = CardLogic.getInstance();
     private CategoryLogic categoryLogic = CategoryLogic.getInstance();
 
@@ -27,50 +35,101 @@ public class updateSaveDeleteCategoryTest {
     @BeforeEach
     public void beforeEach(){
         cardRepMock = mock(CardRepository.class);
+        categoryRepMock = mock(CategoryRepository.class);
+        on(categoryLogic).set("categoryRepository",categoryRepMock);
+
     }
 
     @Test
-    public void testExceptionIfCardToDeleteIsNull() {
-        final String expected = "Karte existiert nicht";
+    public void testExceptionIfCategoryToDeleteIsNull() {
+        final String expected = "Kategorie existiert nicht";
         final IllegalStateException exception =
-                assertThrows(IllegalStateException.class, () -> cardLogic.deleteCard(null));
+                assertThrows(IllegalStateException.class, () -> categoryLogic.deleteCategory(null));
         assertEquals(expected, exception.getMessage());
     }
 
     @Test
-    public void testDeleteCardFunction(){
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
-        doNothing().when(cardRepMock).delete(card1);
-        cardLogic.deleteCard(card1);
+    public void testDeleteCategoryFunction(){
+        Category category  = new Category("Test");
+        doNothing().when(categoryRepMock).delete(category);
+        categoryLogic.deleteCategory(category);
     }
 
     @Test
-    public void testDeleteFunctionForManyCards(){
-        /*
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
-        Card card2  = new TextCard("Testfrage1","Testantwort1","Testtitel1",true);
-        Card card3  = new TextCard("Testfrage2","Testantwort2","Testtitel2",true);
-        List<Card> cards = Arrays.asList(new Card[]{card1,card2,card3});
-        doNothing().when(cardRepMock).delete(card1);
-        cardLogic.deleteCards(cards);
-         */
+    public void testDeleteFunctionForManyCategories(){
+       Category cat1 = new Category("Test");
+       Category cat2 = new Category("Test2");
+        List<Category> cats = Arrays.asList(new Category[]{cat2,cat1});
+        doNothing().when(categoryRepMock).delete(any(Category.class));
+       categoryLogic.deleteCategories(cats);
     }
 
     @Test
-    public void testExceptionIfCardToUpdateIsNull() {
-        final String expected = "Karte existiert nicht";
+    public void testExceptionIfCategoryToUpdateIsNull() {
+        final String expected = "Kategorie existiert nicht";
         final IllegalStateException exception =
-                assertThrows(IllegalStateException.class, () -> cardLogic.updateCardData(null,true));
+                assertThrows(IllegalStateException.class, () -> categoryLogic.updateCategoryData(null,true,false));
         assertEquals(expected, exception.getMessage());
     }
 
+    @Test
+    public void testExceptionIfCategoryNameAlreadyExists1() {
+        final String expected = "Kategorie mit dem Namen existiert bereits!";
+        Category catToAdd = new Category("Test");
+        Category existingCat = new Category("Test");
+        when(categoryRepMock.find("Test")).thenReturn(existingCat);
+        final IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> categoryLogic.updateCategoryData(catToAdd,true,false));
+        assertEquals(expected, exception.getMessage());
+    }
 
     @Test
-    public void testGetCardByUUID(){
-        //TODO
+    public void testExceptionIfCategoryNameAlreadyExists2() {
+        final String expected = "Kategorie mit dem Namen existiert bereits!";
+        Category catToChange = new Category("Test");
+        Category existingCat = new Category("Test");
+        when(categoryRepMock.find("Test")).thenReturn(existingCat);
+        final IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> categoryLogic.updateCategoryData(catToChange,false,true));
+        assertEquals(expected, exception.getMessage());
     }
 
-    public void testGetCardsToShow(){
-        //TODO
+    @Test
+    public void testSaveFunction() {
+        Category catToAdd = new Category("Test");
+        when(categoryRepMock.find("Test")).thenThrow(NoResultException.class);
+        when(categoryRepMock.save(catToAdd)).thenReturn(catToAdd);
+        categoryLogic.updateCategoryData(catToAdd,true,false);
     }
+    @Test
+    public void testUpdateFunction() {
+        Category catToAdd = new Category("Test");
+        when(categoryRepMock.update(catToAdd)).thenReturn(catToAdd);
+        categoryLogic.updateCategoryData(catToAdd,false,true);
+    }
+
+    @Test
+    public void testGetCategoryByUUIDNullException(){
+        final String expected = "UUID darf nicht null sein!";
+        final IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> categoryLogic.getCategoryByUUID(null));
+        assertEquals(expected, exception.getMessage());
+    }
+
+    @Test
+    public void testGetCategoryByUUIDEmptyException(){
+        final String expected = "UUID darf nicht leer sein!";
+        final IllegalArgumentException exception =
+                assertThrows(IllegalArgumentException.class, () -> categoryLogic.getCategoryByUUID(""));
+        assertEquals(expected, exception.getMessage());
+    }
+
+    @Test
+    public void testGetCategoryByUUID(){
+        Category category = new Category("Test");
+        when(categoryRepMock.findByUUID(any(String.class))).thenReturn(category);
+        Category category1 = categoryLogic.getCategoryByUUID("Test");
+        assertEquals(category,category1);
+    }
+
 }

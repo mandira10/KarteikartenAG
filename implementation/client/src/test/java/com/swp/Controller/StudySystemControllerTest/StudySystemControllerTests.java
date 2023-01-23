@@ -1,22 +1,11 @@
 package com.swp.Controller.StudySystemControllerTest;
 
 
-import com.swp.Controller.CardController;
 import com.swp.Controller.DataCallback;
-import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
-import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.Tag;
-import com.swp.Logic.CardLogic;
 import com.swp.Logic.StudySystemLogic;
-import com.swp.Persistence.Exporter;
-import com.swp.TestData;
-import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -48,6 +48,7 @@ public class CategoryLogic extends BaseLogic<Category>
      * @return Kategorie mit entsprechender UUID
      */
     public Category getCategoryByUUID(String uuid) {
+        checkNotNullOrBlank(uuid, "UUID",true);
         return execTransactional(() -> categoryRepository.findByUUID(uuid));
     }
 
@@ -76,6 +77,9 @@ public class CategoryLogic extends BaseLogic<Category>
      * @param neu gibt an, ob die Karte neu erstellt werden muss oder nur aktualisiert werden muss
      */
     public void updateCategoryData(Category category, boolean neu, boolean nameChange) {
+        if(category == null){
+            throw new IllegalStateException("Kategorie existiert nicht");
+        }
         if (neu) {
             execTransactional(() -> {
                 try{
@@ -114,10 +118,13 @@ public class CategoryLogic extends BaseLogic<Category>
      * @param category Die zu löschende Kategorie.
      */
     public void deleteCategory(Category category) {
+        if(category == null){
+            throw new IllegalStateException("Kategorie existiert nicht");
+        }
          execTransactional(() -> {
-            categoryRepository.delete(category);
             cardToCategoryRepository
                     .delete(cardToCategoryRepository.getAllC2CForCategory(category));
+             categoryRepository.delete(category);
             //TODO alle Parents und Childs der Kategorie müssen noch gelöscht werden generell oder? TODO in CategoryRepo
             return true;
         });

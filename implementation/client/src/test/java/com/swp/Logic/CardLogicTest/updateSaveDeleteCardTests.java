@@ -1,5 +1,6 @@
 package com.swp.Logic.CardLogicTest;
 
+import com.gumse.gui.Primitives.Box;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.*;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -63,21 +65,25 @@ public class updateSaveDeleteCardTests {
         on(cardLogic).set("cardToTagRepository",cardToTagRepMock);
         on(cardLogic).set("cardToCategoryRepository",cardToCategoryRepMock);
         Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
-        doNothing().when(cardToBoxRepMock).delete((BoxToCard) when(cardToBoxRepMock.getAllB2CForCard(card1)).thenReturn(new ArrayList<>()));
-        doNothing().when(cardToTagRepMock).delete((CardToTag) when(cardToTagRepMock.getAllC2TForCard(card1)).thenReturn(new ArrayList<>()));
-        doNothing().when(cardToCategoryRepMock).delete((CardToCategory) when(cardToCategoryRepMock.getAllC2CForCard(card1)).thenReturn(new ArrayList<>()));
-
+        when(cardToBoxRepMock.getAllB2CForCard(card1)).thenReturn(new ArrayList<>());
+        doNothing().when(cardToBoxRepMock).delete(any(BoxToCard.class));
+        when(cardToTagRepMock.getAllC2TForCard(card1)).thenReturn(new ArrayList<>());
+        doNothing().when(cardToTagRepMock).delete(any(CardToTag.class));
+        when(cardToCategoryRepMock.getAllC2CForCard(card1)).thenReturn(new ArrayList<>());
+        doNothing().when(cardToCategoryRepMock).delete(any(CardToCategory.class));
         doNothing().when(cardRepMock).delete(card1);
         cardLogic.deleteCard(card1);
     }
 
-    //TODO
-//    @Test
-//    public void testDeleteFunctionForManyCards(){
-//        List<CardOverview> cards = Arrays.asList(new CardOverview(),new CardOverview());
-//        doNothing().when(cardRepMock).delete(any(CardOverview.class));
-//        cardLogic.deleteCards(cards);
-//    }
+
+    @Test
+    public void testDeleteFunctionForManyCards(){
+        Card c1 = new TextCard();
+        List<CardOverview> cards = Arrays.asList(new CardOverview(UUID.randomUUID().toString()),new CardOverview(UUID.randomUUID().toString()));
+        when(cardRepMock.getCardByUUID(any(String.class))).thenReturn(c1);
+        doNothing().when(cardRepMock).delete(c1);
+        cardLogic.deleteCards(cards);
+    }
 
     @Test
     public void testExceptionIfCardToUpdateIsNull() {
@@ -89,8 +95,8 @@ public class updateSaveDeleteCardTests {
     @Test
     public void testUpdateCardData(){
         Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
-        doNothing().when(cardRepMock).update(card1);
-        doNothing().when(cardRepMock).save(card1);
+        when(cardRepMock.update(card1)).thenReturn(card1);
+        when(cardRepMock.save(card1)).thenReturn(card1);
         cardLogic.updateCardData(card1,true);
         cardLogic.updateCardData(card1,false);
     }
