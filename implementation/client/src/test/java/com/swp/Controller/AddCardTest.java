@@ -1,26 +1,22 @@
 package com.swp.Controller;
 
 
-
-import com.swp.DataModel.*;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.PersistenceManager;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-
+import java.util.HashMap;
+import java.util.List;
 
 import static com.swp.DataModel.Card.copyCard;
 import static com.swp.TestData.importTestData;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 public class AddCardTest {
@@ -68,8 +64,8 @@ public class AddCardTest {
         assertNotNull(mcCard);
         assertEquals("Testtitel1", mcCard.getTitle());
         assertEquals("Testfrage", mcCard.getQuestion());
-        Assert.assertArrayEquals(answers, mcCard.getAnswers());
-        Assert.assertArrayEquals(correctAnswers, mcCard.getCorrectAnswers());
+        assertArrayEquals(answers, mcCard.getAnswers());
+        assertArrayEquals(correctAnswers, mcCard.getCorrectAnswers());
         assertFalse(mcCard.isVisibility());
         assertEquals(mcCard.getTitle() + "\n" + mcCard.getQuestion(), mcCard.getContent());
 

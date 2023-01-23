@@ -1,19 +1,21 @@
 package com.swp.Logic.CategoryLogicTest;
 
 
-import com.swp.DataModel.*;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardTypes.TextCard;
+import com.swp.DataModel.Category;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToCategoryRepository;
 import com.swp.Persistence.CategoryRepository;
 import jakarta.persistence.NoResultException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.joor.Reflect.on;
 import static org.mockito.Mockito.*;
@@ -29,7 +31,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
     private CategoryRepository categoryRepMock;
     private CardToCategoryRepository cardToCategoryRepMock;
 
-    @Before
+    @BeforeEach
     public void beforeEach(){
         cardRepMock = mock(CardRepository.class);
         categoryRepMock = mock(CategoryRepository.class);
