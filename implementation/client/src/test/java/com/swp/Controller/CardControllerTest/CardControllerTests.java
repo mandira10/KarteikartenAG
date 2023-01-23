@@ -467,7 +467,6 @@ public class CardControllerTests {
 
             });
             assertEquals(expected, actual[0]);
-         */
     }
 
     @Test
@@ -484,7 +483,6 @@ public class CardControllerTests {
             public void onFailure(String msg) {
             }
         });
-         */
     }
 
 
