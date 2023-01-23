@@ -30,7 +30,8 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
 
     public void updateStudySystemTypes()
     {
-        //TODO (siehe Todo in `addStudySystemType()`)
+        //TOTEST (siehe Todo in `addStudySystemType()`)
+        getEntityManager().merge(StudySystem.StudySystemType.values());
 
     }
 
