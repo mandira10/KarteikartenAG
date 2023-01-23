@@ -1,18 +1,13 @@
 package com.swp.DataModel;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.NamedQuery;
-import lombok.AccessLevel;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+
 import java.io.Serializable;
-import java.util.UUID;
+import java.util.List;
 
 /**
  * Klasse für einen Tag für Karteikarten
@@ -21,23 +16,21 @@ import java.util.UUID;
 @Table
 @Getter
 @Setter
+@NoArgsConstructor
 @NamedQuery(name = "Tag.findTagByName",
-            query = "SELECT t FROM Tag t WHERE LOWER(t.val) LIKE LOWER(:text)")
+        query = "SELECT t FROM Tag t WHERE LOWER(t.val) LIKE LOWER(:text)")
 public class Tag implements Serializable
 {
     /**
      * Value des Tags
      */
-    @Column(unique = true)
+    @Id
+    @Column(name = "TAG_VALUE")
     private String val;
 
-    /**
-     * UUID des Tags
-     */
-    @Id
-    @Column
-    @Setter(AccessLevel.NONE)
-    private final String uuid;
+    @OneToMany(mappedBy="tag")
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    private List<CardToTag> cards;
 
     /**
      * Konstruktor der Klasse Tag
@@ -46,15 +39,6 @@ public class Tag implements Serializable
     public Tag(String val)
     {
         this.val = val;
-        this.uuid = UUID.randomUUID().toString();
-    }
-
-    /**
-     * no-arg constructor needed for hibernates `@Entity` tag
-     */
-    public Tag() {
-        this.val = null;
-        this.uuid = null;
     }
 
     @Override
