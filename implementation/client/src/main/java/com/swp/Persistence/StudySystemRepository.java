@@ -23,12 +23,15 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
 
     public void addStudySystemType(StudySystem.StudySystemType type)
     {
-        //TODO klären ob Enum, oder DiscriminatorColumn, Column mit String, etc.
+        //TOTEST klären ob Enum, oder DiscriminatorColumn, Column mit String, etc.
+        getEntityManager().persist(type);
+
     }
 
     public void updateStudySystemTypes()
     {
         //TODO (siehe Todo in `addStudySystemType()`)
+
     }
 
     public void addCardToBox(BoxToCard boxToCard){
