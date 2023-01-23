@@ -41,7 +41,7 @@ public class StudySystemControllerTests {
     @BeforeEach
     public void beforeEach(){
         studySystemLogic = mock(StudySystemLogic.class);
-        on(studySystemController).set("studysystemLogic",studySystemLogic);
+        on(studySystemController).set("studySystemLogic",studySystemLogic);
     }
 
 
