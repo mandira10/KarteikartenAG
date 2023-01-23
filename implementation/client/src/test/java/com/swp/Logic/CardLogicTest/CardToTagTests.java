@@ -57,9 +57,9 @@ public class CardToTagTests {
         when(tagRepMock.getTagsToCard(card1)).thenReturn(tagsToReturn);
         //Der angegebene Tag ist noch nicht in der Datenbank gespeichert, mocke das Speichern des Tags
         when(tagRepMock.findTag(tagToAdd.getVal())).thenThrow(NoResultException.class);
-        doNothing().when(tagRepMock).save(tagToAdd);
+        when(tagRepMock.save(tagToAdd)).thenReturn(tagToAdd);
         //Kein tatsächliches Speichern
-        doNothing().when(cardToTagRepMock).save(new CardToTag(card1, tagToAdd));
+        when(cardToTagRepMock.save(new CardToTag(card1, tagToAdd))).thenReturn(new CardToTag(card1, tagToAdd));
 
         //Test
         cardLogic.setTagsToCard(card1,TagToAdd);
@@ -86,12 +86,12 @@ public class CardToTagTests {
         when(tagRepMock.getTagsToCard(card1)).thenReturn(tagsToReturn);
         //TagToAdd ist noch nciht in Datenbank gespeichert, mocke das Speichern
         when(tagRepMock.findTag(tagToAdd.getVal())).thenThrow(NoResultException.class);
-        doNothing().when(tagRepMock).save(tagToAdd);
+        when(tagRepMock.save(tagToAdd)).thenReturn(tagToAdd);
         //TagToAdd1 ist bereits gespeichert und kann verwendet werden
         when(tagRepMock.findTag(tagToAdd1.getVal())).thenReturn(tagToAdd1);
         //Kein tatsächliches Speichern
-        doNothing().when(cardToTagRepMock).save(new CardToTag(card1, tagToAdd1));
-        doNothing().when(cardToTagRepMock).save(new CardToTag(card1, tagToAdd));
+        when(cardToTagRepMock.save(new CardToTag(card1, tagToAdd1))).thenReturn(new CardToTag(card1, tagToAdd1));
+        when(cardToTagRepMock.save(new CardToTag(card1, tagToAdd))).thenReturn(new CardToTag(card1, tagToAdd));
 
         //Test
         cardLogic.setTagsToCard(card1,tagsToAdd);
@@ -154,11 +154,11 @@ public class CardToTagTests {
         //Die neuen Tags sind noch nicht in DB gespeichert, die alten werden gar nicht gesucht
         when(tagRepMock.findTag(newTag1.getVal())).thenThrow(NoResultException.class);
         when(tagRepMock.findTag(newTag2.getVal())).thenThrow(NoResultException.class);
-        doNothing().when(tagRepMock).save(newTag1);
-        doNothing().when(tagRepMock).save(newTag2);
+        when(tagRepMock.save(newTag1)).thenReturn(newTag1);
+        when(tagRepMock.save(newTag2)).thenReturn(newTag2);
         //Tue nichts beim Hinzufügen der neuen CardToTags
-        doNothing().when(cardToTagRepMock).save(new CardToTag(card1, newTag1));
-        doNothing().when(cardToTagRepMock).save(new CardToTag(card1, newTag2));
+        when(cardToTagRepMock.save(new CardToTag(card1, newTag1))).thenReturn(new CardToTag(card1, newTag1));
+        when(cardToTagRepMock.save(new CardToTag(card1, newTag2))).thenReturn(new CardToTag(card1, newTag2));
 
         //Test
         cardLogic.setTagsToCard(card1, tagsToAdd);
@@ -244,10 +244,10 @@ public class CardToTagTests {
         when(tagRepMock.findTag(newTag1.getVal())).thenThrow(NoResultException.class);
         when(tagRepMock.findTag(newTag2.getVal())).thenThrow(NoResultException.class);
         //Tue nichts beim Speichern der neuen Tags und CardToTags
-        doNothing().when(tagRepMock).save(newTag1);
-        doNothing().when(tagRepMock).save(newTag2);
-        doNothing().when(cardToTagRepMock).save(new CardToTag(card1, newTag1));
-        doNothing().when(cardToTagRepMock).save(new CardToTag(card1, newTag2));
+        when(tagRepMock.save(newTag1)).thenReturn(newTag1);
+        when(tagRepMock.save(newTag2)).thenReturn(newTag2);
+        when(cardToTagRepMock.save(new CardToTag(card1, newTag1))).thenReturn(new CardToTag(card1, newTag1));
+        when(cardToTagRepMock.save(new CardToTag(card1, newTag2))).thenReturn(new CardToTag(card1, newTag2));
 
         //Test
         cardLogic.setTagsToCard(card1, TagsToAdd);

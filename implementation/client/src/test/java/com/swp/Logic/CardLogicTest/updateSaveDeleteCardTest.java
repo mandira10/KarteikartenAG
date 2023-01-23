@@ -10,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * Klasse, die die normalen Funktionen für eine Karte testet.
@@ -63,8 +61,8 @@ public class updateSaveDeleteCardTest {
     @Test
     public void testUpdateCardData(){
         Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
-        doNothing().when(cardRepMock).update(card1);
-        doNothing().when(cardRepMock).save(card1);
+        when(cardRepMock.update(card1)).thenReturn(card1);
+        when(cardRepMock.save(card1)).thenReturn(card1);
         cardLogic.updateCardData(card1,true);
         cardLogic.updateCardData(card1,false);
     }

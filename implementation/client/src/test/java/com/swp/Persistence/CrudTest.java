@@ -9,6 +9,7 @@ import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -24,6 +25,21 @@ public class CrudTest {
     private final CategoryRepository categoryRepository = CategoryRepository.getInstance();
     private final CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
     private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
+
+    @BeforeEach
+    void setup(){
+        CardRepository.startTransaction();
+        cardRepository.delete(cardRepository.getAll());
+        CardRepository.commitTransaction();
+
+        CategoryRepository.startTransaction();
+        categoryRepository.delete(categoryRepository.getAll());
+        CategoryRepository.commitTransaction();
+
+        CardToCategoryRepository.startTransaction();
+        cardToCategoryRepository.delete(cardToCategoryRepository.getAll());
+        CardToCategoryRepository.commitTransaction();
+    }
 
     @Test
     public void cardCrudTest() {
@@ -173,7 +189,7 @@ public class CrudTest {
         // Delete
         CardToCategory deletedC2C = persistedC2Cs.get(0);
         CardToCategoryRepository.startTransaction();
-        //cardToCategoryRepository.refresh(deletedC2C);
+        deletedC2C = cardToCategoryRepository.getSpecific(deletedC2C.getCard(), deletedC2C.getCategory());
         cardToCategoryRepository.delete(deletedC2C);
         //assertEquals(allC2Cs.size()-1, cardToCategoryRepository.countAll());
         CardToCategoryRepository.commitTransaction();

@@ -65,9 +65,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 //                else {
                     BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
                     //save new BoxToCard
-                    cardToBoxRepository.save(boxToCard);
+                    return cardToBoxRepository.save(boxToCard);
 //                }
-                return null;
         });
     }
 
@@ -257,15 +256,15 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu) {
         execTransactional(() -> {
-            if(neu) {
+            if (newStudySystem == null) {
+                throw new IllegalArgumentException("newStudySystem can't be null");
+            } else if (neu) {
                 studySystemRepository.save(newStudySystem);
-            }
-
-            else if(!neu && newStudySystem.getType().equals(oldStudySystem.getType()))
-                resetStudySystem(oldStudySystem,newStudySystem);
-
-            else
+            } else if (oldStudySystem != null && newStudySystem.getType().equals(oldStudySystem.getType())) {
+                resetStudySystem(oldStudySystem, newStudySystem);
+            } else {
                 studySystemRepository.update(newStudySystem);
+            }
             return true;
         });
     }

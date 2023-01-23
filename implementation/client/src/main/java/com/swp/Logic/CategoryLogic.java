@@ -203,6 +203,14 @@ public class CategoryLogic extends BaseLogic<Category>
             }
     }
 
+    public void setC2COrCH(Category category, List<Category> catNew, boolean child) {
+        //TODO
+    }
+
+    public void setC2COrCH(Card card, List<Category> catNew, boolean child) {
+        //TODO
+    }
+
 
 
     /**

@@ -52,7 +52,7 @@ public class FilterForCategoryTest {
     @Test
     public void testListOfCardsForCategory(){
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.getCardsByCategory(categoryRepMock.find(anyString()))).thenReturn(expected);
+        when(cardRepMock.getCardsByCategory(anyString())).thenReturn(expected);
         List<CardOverview> actual = categoryLogic.getCardsInCategory("test");
         assertEquals(expected,actual);
     }

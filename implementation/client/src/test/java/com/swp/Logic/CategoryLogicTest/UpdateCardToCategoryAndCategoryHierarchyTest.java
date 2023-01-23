@@ -60,9 +60,9 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(categoryRepMock.getCategoriesToCard(card1)).thenReturn(categoriesToReturn);
         //Die angegebene Kategorie ist noch nicht in der Datenbank gespeichert, mocke das Speichern der Kategorie
         when(categoryRepMock.find(catToAdd.getName())).thenThrow(NoResultException.class);
-        doNothing().when(categoryRepMock).save(catToAdd);
+        when(categoryRepMock.save(catToAdd)).thenReturn(catToAdd);
         //Kein tatsächliches Speichern
-        doNothing().when(cardToCategoryRepMock).save(new CardToCategory(card1, catToAdd));
+        when(cardToCategoryRepMock.save(new CardToCategory(card1, catToAdd))).thenReturn(new CardToCategory(card1, catToAdd));
 
         //Test
         categoryLogic.setC2COrCH(card1,categoryToAdd,false);
@@ -89,12 +89,12 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(categoryRepMock.getCategoriesToCard(card1)).thenReturn(categoriesToReturn);
         //CatToAdd1 ist noch nciht in Datenbank gespeichert, mocke das Speichern
         when(categoryRepMock.find(catToAdd1.getName())).thenThrow(NoResultException.class);
-        doNothing().when(categoryRepMock).save(catToAdd1);
+        when(categoryRepMock.save(catToAdd1)).thenReturn(catToAdd1);
         //CatToAdd ist bereits gespeichert und kann verwendet werden
         when(categoryRepMock.find(catToAdd.getName())).thenReturn(catToAdd);
         //Kein tatsächliches Speichern
-        doNothing().when(cardToCategoryRepMock).save(new CardToCategory(card1, catToAdd));
-        doNothing().when(cardToCategoryRepMock).save(new CardToCategory(card1, catToAdd1));
+        when(cardToCategoryRepMock.save(new CardToCategory(card1, catToAdd))).thenReturn(new CardToCategory(card1, catToAdd));
+        when(cardToCategoryRepMock.save(new CardToCategory(card1, catToAdd1))).thenReturn(new CardToCategory(card1, catToAdd1));
 
         //Test
         categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
@@ -157,11 +157,11 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         //Die neuen Kategorien sind noch nicht in DB gespeichert, die alten werden gar nicht gesucht
         when(categoryRepMock.find(newCat1.getName())).thenThrow(NoResultException.class);
         when(categoryRepMock.find(newCat2.getName())).thenThrow(NoResultException.class);
-        doNothing().when(categoryRepMock).save(newCat1);
-        doNothing().when(categoryRepMock).save(newCat2);
+        when(categoryRepMock.save(newCat1)).thenReturn(newCat1);
+        when(categoryRepMock.save(newCat2)).thenReturn(newCat2);
         //Tue nichts beim Hinzufügen der neuen CardToCategories
-        doNothing().when(cardToCategoryRepMock).save(new CardToCategory(card1, newCat1));
-        doNothing().when(cardToCategoryRepMock).save(new CardToCategory(card1, newCat2));
+        when(cardToCategoryRepMock.save(new CardToCategory(card1, newCat1))).thenReturn(new CardToCategory(card1, newCat1));
+        when(cardToCategoryRepMock.save(new CardToCategory(card1, newCat2))).thenReturn(new CardToCategory(card1, newCat2));
 
         //Test
         categoryLogic.setC2COrCH(card1, categorieToAdd, false);
@@ -247,10 +247,10 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(categoryRepMock.find(newCat1.getName())).thenThrow(NoResultException.class);
         when(categoryRepMock.find(newCat2.getName())).thenThrow(NoResultException.class);
         //Tue nichts beim Speichern der neuen Kategorien und CardToCategories
-        doNothing().when(categoryRepMock).save(newCat1);
-        doNothing().when(categoryRepMock).save(newCat2);
-        doNothing().when(cardToCategoryRepMock).save(new CardToCategory(card1, newCat1));
-        doNothing().when(cardToCategoryRepMock).save(new CardToCategory(card1, newCat2));
+        when(categoryRepMock.save(newCat1)).thenReturn(newCat1);
+        when(categoryRepMock.save(newCat2)).thenReturn(newCat2);
+        when(cardToCategoryRepMock.save(new CardToCategory(card1, newCat1))).thenReturn(new CardToCategory(card1, newCat1));
+        when(cardToCategoryRepMock.save(new CardToCategory(card1, newCat2))).thenReturn(new CardToCategory(card1, newCat2));
 
         //Test
         categoryLogic.setC2COrCH(card1, categoriesToAdd, false);
@@ -284,9 +284,9 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(categoryRepMock.getParentsForCategory(technik)).thenReturn(new ArrayList<>());
         //Manche Kategorien sind noch nicht in DB, tue nichts beim Speicheraufruf
         when(categoryRepMock.find(klasse10.getName())).thenThrow(NoResultException.class);
-        doNothing().when(categoryRepMock).save(klasse10);
+        when(categoryRepMock.save(klasse10)).thenReturn(klasse10);
         when(categoryRepMock.find(gymnasium.getName())).thenThrow(NoResultException.class);
-        doNothing().when(categoryRepMock).save(gymnasium);
+        when(categoryRepMock.save(gymnasium)).thenReturn(gymnasium);
         //Finde die anderen Kategorien in DB
         when(categoryRepMock.find(klasse11.getName())).thenReturn(klasse11);
         when(categoryRepMock.find(oberschule.getName())).thenReturn(oberschule);
@@ -375,7 +375,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         doNothing().when(categoryRepMock).deleteCategoryHierarchy(any(Category.class),any(Category.class));
         //Neues Child noch nicht in Db enthalten, tue nichts beim Save
         when(categoryRepMock.find(klasse10.getName())).thenThrow(NoResultException.class);
-        doNothing().when(categoryRepMock).save(klasse10);
+        when(categoryRepMock.save(klasse10)).thenReturn(klasse10);
         //Parent bereits in DB enthalten, finde diesen
         when(categoryRepMock.find(gymnasium.getName())).thenReturn(gymnasium);
 

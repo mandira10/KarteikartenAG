@@ -6,10 +6,12 @@ import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.Logic.CardLogic;
+import com.swp.Persistence.CardRepository;
+import com.swp.Persistence.CategoryRepository;
 import com.swp.Persistence.PersistenceManager;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,19 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AddCardTest {
 
     private static final PersistenceManager pm = new PersistenceManager();
+
+    @BeforeEach
+    public void setup(){
+            var cardRepository = CardRepository.getInstance();
+            CardRepository.startTransaction();
+            cardRepository.delete(cardRepository.getAll());
+            CardRepository.commitTransaction();
+
+            var categoryRepository = CategoryRepository.getInstance();
+            CategoryRepository.startTransaction();
+            categoryRepository.delete(categoryRepository.getAll());
+            CategoryRepository.commitTransaction();
+    }
 
     private CardLogic cardLogic = CardLogic.getInstance();
 
@@ -46,7 +61,7 @@ public class AddCardTest {
         //MULTIPLE CHOICE
 
         String[] answers = {"Testantwort 1", "Testantwort2", "Testantwort 3"};
-        int[] correctAnswers = {1, 3};
+        int[] correctAnswers = {0,2};
         HashMap<String, Object> mcmap = new HashMap<>() {
             {
                 put("answers", answers);
@@ -143,7 +158,7 @@ public class AddCardTest {
     @Test
     public void testCopyCard() {
         String[] answers = {"Testantwort 1", "Testantwort2", "Testantwort 3"};
-        int[] correctAnswers = {1, 3};
+        int[] correctAnswers = {0,2};
         Card text1 = new TextCard("F1", "nein doch", "Titel für die Karte 1", false);
         Card text2 = new MultipleChoiceCard("F2", answers, correctAnswers, "Titel für die Karte 2", true);
        cardLogic.updateCardData(text1, true);
