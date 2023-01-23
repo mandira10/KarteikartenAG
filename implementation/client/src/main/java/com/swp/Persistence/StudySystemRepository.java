@@ -1,5 +1,6 @@
 package com.swp.Persistence;
 
+import com.swp.DataModel.Card;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 
@@ -30,12 +31,8 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
         //TODO (siehe Todo in `addStudySystemType()`)
     }
 
-
-
-
-
     public void addCardToBox(BoxToCard boxToCard){
-        //TODO create and save BoxToCard
+        getEntityManager().persist(boxToCard);
     }
 
 
