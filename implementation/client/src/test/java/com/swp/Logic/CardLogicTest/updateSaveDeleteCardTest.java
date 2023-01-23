@@ -1,15 +1,11 @@
 package com.swp.Logic.CardLogicTest;
 
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.List;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +17,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Klasse, die die normalen Funktionen für eine Karte testet.
  */
-public class updateSaveDeleteCardTests {
+public class updateSaveDeleteCardTest {
 
 
     private CardRepository cardRepMock;
