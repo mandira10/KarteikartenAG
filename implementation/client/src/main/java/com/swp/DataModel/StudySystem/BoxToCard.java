@@ -27,6 +27,8 @@ import java.util.UUID;
         query = "SELECT count(distinct c.id) FROM BoxToCard c WHERE c.card = :card")
 @NamedQuery (name = "BoxToCard.allCardsOfEveryBoxesOfTheStudySystem",
         query = "SELECT c FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
+@NamedQuery (name = "BoxToCard.allByBox",
+        query = "SELECT c FROM BoxToCard c WHERE c.studySystemBox = :box")
 public class BoxToCard {
 
 

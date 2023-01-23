@@ -25,13 +25,16 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
 
     /**
      * Gibt alle Karten einer Box für das aktuelle Testen in der angegebenen Reihenfolge wider.
-     * @param studySystemBox //TODO Efe
+     * @param studySystemBox //TOTEST Efe
      * @param cardOrder
      * @return
      */
     public  List<BoxToCard> getAllForBox(StudySystemBox studySystemBox, StudySystem.CardOrder cardOrder) {
-        //TODO
-        return null;
+        return getEntityManager()
+                .createNamedQuery("BoxToCard.allByBox", BoxToCard.class)
+                .setParameter("box", studySystemBox)
+                .setParameter("cardOrder", cardOrder)
+                .getResultList();
     }
 
 
