@@ -149,7 +149,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     testingBoxCards = cardRepository.getAllCardsForTimingSystem(studySystem);
                     // can we use function for leitner also here?
                 case LEITNER:
-                    testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem, studySystem.getCardOrder());
+                    testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem);
                 case VOTE:
                     testingBoxCards = cardRepository.getAllCardsSortedForVoteSystem(studySystem);
 

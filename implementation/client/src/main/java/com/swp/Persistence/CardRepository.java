@@ -112,7 +112,7 @@ public class CardRepository extends BaseRepository<Card> {
     }
 
     /**
-     * TODO EFE Hier sollen alle Karten zurückgegeben werden, die in der untersten Box sind bzw. alle, die vom Lerndatum dran sind (CardToBox) learnedAt in SORTIERTER FORM!
+     * TOTEST EFE Hier sollen alle Karten zurückgegeben werden, die in der untersten Box sind bzw. alle, die vom Lerndatum dran sind (CardToBox) learnedAt in SORTIERTER FORM!
      * Schau mal ob getDate() in H2 funktioniert, ansonsten lass dir das aktuelle Datum über System.currentTimeMillis ausgeben.
      * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
      *
@@ -120,18 +120,27 @@ public class CardRepository extends BaseRepository<Card> {
      * @param cardOrder
      * @return
      */
-    public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem, StudySystem.CardOrder cardOrder) {
-        return new ArrayList<>();
+    public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
+        return getEntityManager()
+                .createNamedQuery("Card.allCardNextLearnedAtOlderThanNowAscending", Card.class)
+                .setParameter("studySystem", studySystem)
+                .getResultList();
     }
 
     public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
-        //TODO gib mir alle Karten sortiert nach Ranking fürs nächste Lernen,
-        return new ArrayList<>();
+        //TOTEST gib mir alle Karten sortiert nach Ranking fürs nächste Lernen,
+        return getEntityManager()
+                .createNamedQuery("Card.allCardsSortedByRanking", Card.class)
+                .setParameter("studySystem", studySystem)
+                .getResultList();
     }
 
     public List<Card> getAllCardsForTimingSystem(StudySystem studySystem) {
-        //TODO gib mir alle Karten in diesem StudySystem for TimingSystem
-        return new ArrayList<>();
+        //TOTEST gib mir alle Karten in diesem StudySystem for TimingSystem
+        return getEntityManager()
+                .createNamedQuery("BoxToCard.allCardsOfEveryBoxesOfTheStudySystem", Card.class)
+                .setParameter("studySystem", studySystem)
+                .getResultList();
     }
 
     /**
