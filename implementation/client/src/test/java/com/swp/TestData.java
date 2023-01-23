@@ -1,6 +1,5 @@
 package com.swp;
 
-import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
@@ -8,12 +7,8 @@ import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
-
-import static org.junit.Assert.*;
 
 /**
  * Kann für Tests verwendet werden.

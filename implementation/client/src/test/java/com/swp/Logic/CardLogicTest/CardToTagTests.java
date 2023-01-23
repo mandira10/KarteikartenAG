@@ -1,24 +1,22 @@
 package com.swp.Logic.CardLogicTest;
 
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
-import com.swp.Persistence.*;
+import com.swp.Persistence.CardRepository;
+import com.swp.Persistence.CardToTagRepository;
+import com.swp.Persistence.TagRepository;
 import jakarta.persistence.NoResultException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.joor.Reflect.on;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doNothing;
 
 /**
  * Diese Testklasse untersucht alle CardLogic Funktionen für die Card2Tags.
@@ -31,7 +29,7 @@ public class CardToTagTests {
     private CardLogic cardLogic = CardLogic.getInstance();
 
 
-    @Before
+    @BeforeEach
     public void beforeEach(){
         cardRepMock = mock(CardRepository.class);
         tagRepMock = mock(TagRepository.class);

@@ -2,14 +2,15 @@ package com.swp.Persistence;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class CardRepositoryTest {
     // Repositories die getestet werden
@@ -35,7 +36,7 @@ public class CardRepositoryTest {
             allReadCards.add(readCard);
         }
         CardRepository.getEntityManager().getTransaction().commit();
-        assertEquals("same length", cards.size(), allReadCards.size());
+        assertEquals(cards.size(), allReadCards.size(), "same length");
         assertTrue(allReadCards.containsAll(cards));
 
         // UPDATE

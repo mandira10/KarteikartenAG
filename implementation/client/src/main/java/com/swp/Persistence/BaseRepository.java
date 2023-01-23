@@ -6,8 +6,11 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.metamodel.SingularAttribute;
+import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.Getter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +32,10 @@ public abstract class BaseRepository<T> {
 
     public BaseRepository(Class<T> repoType) {
         this.repoType = repoType;
+    }
+
+    public void refresh(T t){
+        entityManager.refresh(t);
     }
 
     /**
@@ -99,7 +106,7 @@ public abstract class BaseRepository<T> {
         criteriaQuery.where(
                 criteriaBuilder.equal(
                         queryRoot.get(attribute),value)
-                );
+        );
 
         return entityManager.createQuery(criteriaQuery).getResultList();
     }
@@ -142,26 +149,28 @@ public abstract class BaseRepository<T> {
      * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu persistieren.
      * @param object das zu speichernde Objekt.
      */
-    public void save(T object) {
-        entityManager.persist(object);
+    public T save(T object) {
+        return entityManager.merge(object);
     }
 
     /**
      * Funktion um eine Liste von Objekten im Repository zu persistieren.
      * @param objects Liste der zu speichernden Objekte.
      */
-    public void save(List<T> objects) {
+    public List<T> save(List<T> objects) {
+        var result = new ArrayList<T>();
         for (T object : objects) {
-            save(object);
+            result.add(save(object));
         }
+        return result;
     }
 
     /**
      * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu aktualisieren.
      * @param object das zu aktualisierende Objekt.
      */
-    public void update(T object) {
-        entityManager.merge(object);
+    public T update(T object) {
+        return entityManager.merge(object);
     }
 
     /**
@@ -169,8 +178,7 @@ public abstract class BaseRepository<T> {
      * @param object das zu löschende Objekt.
      */
     public void delete(T object) {
-
-        entityManager.remove(entityManager.contains(object) ? object : entityManager.merge(object));
+        entityManager.remove(object);
     }
 
     /**

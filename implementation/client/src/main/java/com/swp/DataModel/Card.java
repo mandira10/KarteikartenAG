@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.swp.DataModel.StudySystem.StudySystemBox;
@@ -178,5 +179,31 @@ public abstract class Card implements Serializable
 
     public String getAnswerString() { return ""; }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return rating == card.rating && visibility == card.visibility && Objects.equals(uuid, card.uuid) && type == card.type && Objects.equals(question, card.question) && Objects.equals(content, card.content) && Objects.equals(references, card.references) && Objects.equals(title, card.title) && Objects.equals(creationDate, card.creationDate);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(uuid, type, question, rating, content, references, title, creationDate, visibility);
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "uuid='" + uuid + '\'' +
+                ", type=" + type +
+                ", question='" + question + '\'' +
+                ", rating=" + rating +
+                ", content='" + content + '\'' +
+                ", references='" + references + '\'' +
+                ", title='" + title + '\'' +
+                ", creationDate=" + creationDate +
+                ", visibility=" + visibility +
+                '}';
+    }
 }

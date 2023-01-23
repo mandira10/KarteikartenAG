@@ -17,18 +17,30 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
     <version.commons-io>2.4</version.commons-io>
   </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.9.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>junit</groupId>-->
+<!--      <artifactId>junit</artifactId>-->
+<!--      <version>4.11</version>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
 
     <dependency>
       <groupId>com.gumse</groupId>
@@ -37,23 +49,23 @@
       <type>jar</type>
     </dependency>
 
-    <dependency>
-      <groupId>jakarta.persistence</groupId>
-      <artifactId>jakarta.persistence-api</artifactId>
-      <version>3.1.0</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>jakarta.persistence</groupId>-->
+<!--      <artifactId>jakarta.persistence-api</artifactId>-->
+<!--      <version>3.1.0</version>-->
+<!--    </dependency>-->
 
-    <dependency>
-      <groupId>org.hibernate.orm</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>6.1.5.Final</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.hibernate.orm</groupId>-->
+<!--      <artifactId>hibernate-core</artifactId>-->
+<!--      <version>6.1.5.Final</version>-->
+<!--    </dependency>-->
 
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>2.1.214</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>com.h2database</groupId>-->
+<!--      <artifactId>h2</artifactId>-->
+<!--      <version>2.1.214</version>-->
+<!--    </dependency>-->
 
     <dependency>
         <groupId>org.projectlombok</groupId>
@@ -99,23 +111,22 @@
       <artifactId>joor</artifactId>
       <version>0.9.14</version>
       <scope>test</scope>
+  </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter</artifactId>
+          <scope>test</scope>
       </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>5.8.1</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
   <build>
     <!--<pluginManagement>--><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
+<!--        <plugin>-->
+<!--          <artifactId>maven-clean-plugin</artifactId>-->
+<!--          <version>3.1.0</version>-->
+<!--        </plugin>-->
         <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>

@@ -81,7 +81,7 @@ public class StudySystemController{
             }
         }
         catch(Exception ex){
-            dataCallback.onFailure(ex.getMessage());
+            dataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
