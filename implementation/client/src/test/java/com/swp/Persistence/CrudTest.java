@@ -1,17 +1,21 @@
 package com.swp.Persistence;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
-import org.junit.Test;
+import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.Test;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import static org.junit.Assert.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CrudTest {
     // Repositories die getestet werden
@@ -26,11 +30,12 @@ public class CrudTest {
         List<Card> cards = exampleCards();
 
         // CREATE
-        CardRepository.startTransaction();
         for (final Card card : cards) {
+            //System.out.println(card.toString());
+            CardRepository.startTransaction();
             cardRepository.save(card);
+            CardRepository.commitTransaction();
         }
-        CardRepository.commitTransaction();
 
         // READ
         List<Card> allReadCards = new ArrayList<>();
@@ -41,7 +46,7 @@ public class CrudTest {
             allReadCards.add(readCard);
         }
         CardRepository.commitTransaction();
-        assertEquals("same length", cards.size(), allReadCards.size());
+        assertEquals(cards.size(), allReadCards.size(), "same length");
         assertTrue(allReadCards.containsAll(cards));
         allReadCards = new ArrayList<>();
 
@@ -57,15 +62,17 @@ public class CrudTest {
             allReadCards.add(readCard);
         }
         CardRepository.commitTransaction();
-        assertEquals("same length", cards.size(), allReadCards.size());
+        assertEquals(cards.size(), allReadCards.size(), "same length");
         assertTrue(allReadCards.containsAll(cards));
         allReadCards = new ArrayList<>();
 
         // DELETE
         CardRepository.startTransaction();
         final String uuid = changedCard.getUuid();
-        cardRepository.delete(changedCard);
-        //assertThrows(new NoResultException(), cardRepository.getCardByUUID(uuid));
+        Card card = cardRepository.getCardByUUID(uuid);
+        assertNotNull(card);
+        cardRepository.delete(card);
+        assertThrows(NoResultException.class, () -> cardRepository.getCardByUUID(uuid));
         CardRepository.commitTransaction();
     }
 
@@ -85,6 +92,7 @@ public class CrudTest {
         }
         CategoryRepository.commitTransaction();
 
+
         // READ
         List<Category> allReadCategories = new ArrayList<>();
         CategoryRepository.startTransaction();
@@ -94,7 +102,7 @@ public class CrudTest {
             allReadCategories.add(readCategory);
         }
         CategoryRepository.commitTransaction();
-        assertEquals("same length", categories.size(), allReadCategories.size());
+        assertEquals(categories.size(), allReadCategories.size(), "same length");
         assertTrue(allReadCategories.containsAll(categories));
         allReadCategories = new ArrayList<>();
 
@@ -110,15 +118,17 @@ public class CrudTest {
             allReadCategories.add(readCategory);
         }
         CategoryRepository.commitTransaction();
-        assertEquals("same length", categories.size(), allReadCategories.size());
+        assertEquals(categories.size(), allReadCategories.size(), "same length");
         assertTrue(allReadCategories.containsAll(categories));
         allReadCategories = new ArrayList<>();
 
         // DELETE
         CategoryRepository.startTransaction();
         final String uuid = changedCategory.getUuid();
-        categoryRepository.delete(changedCategory);
-        //assertThrows(new NoResultException(), categoryRepository.findByUUID(uuid));
+        var cat = categoryRepository.findByUUID(uuid);
+        assertNotNull(cat, "changed category not found");
+        categoryRepository.delete(cat);
+        assertThrows(NoResultException.class, () -> categoryRepository.findByUUID(uuid));
         CategoryRepository.commitTransaction();
     }
 
@@ -129,7 +139,43 @@ public class CrudTest {
 
     @Test
     public void cardToCategoryCrudTest() {
+        /*
+        // Daten
+        Card cardA = new MultipleChoiceCard("Multi 1", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{0,3}, "Titel 1", false);
+        Card cardB = new TextCard("Textfrage", "Antwort", "Titel", false);
+        Category categoryA = new Category("Kategorie A");
+        Category categoryB = new Category("Kategorie B");
+        CardToCategory aa = new CardToCategory(cardA, categoryA);
+        CardToCategory ab = new CardToCategory(cardA, categoryB);
+        CardToCategory bb = new CardToCategory(cardB, categoryB);
+        List<CardToCategory> allC2Cs = new ArrayList<>();
+        Collections.addAll(allC2Cs, aa,ab,bb);
 
+        // Create
+        CardToCategoryRepository.startTransaction();
+        assertEquals(0, cardToCategoryRepository.countAll());
+        for (CardToCategory c2c : allC2Cs) {
+            cardToCategoryRepository.save(c2c);
+        }
+        assertEquals(allC2Cs.size(), cardToCategoryRepository.countAll());
+        CardToCategoryRepository.commitTransaction();
+
+        // Read
+        CardToCategoryRepository.startTransaction();
+        List<CardToCategory> readC2Cs = cardToCategoryRepository.getAll();
+        CardToCategoryRepository.commitTransaction();
+        assertEquals(allC2Cs.size(), readC2Cs.size());
+        assertTrue(readC2Cs.containsAll(allC2Cs));
+
+        // Update (CardToCategory hat keine setter. Card und Category sind final)
+
+        // Delete
+        CardToCategory deletedC2C = readC2Cs.get(0);
+        CardToCategoryRepository.startTransaction();
+        cardToCategoryRepository.delete(readC2Cs.get(0));
+        assertEquals(allC2Cs.size()-1, cardToCategoryRepository.countAll());
+        CardToCategoryRepository.commitTransaction();
+         */
     }
 
 
@@ -176,7 +222,7 @@ public class CrudTest {
                 new TrueFalseCard("WahrFalsch 3", false, "Titel 3", true),
                 new TrueFalseCard("WahrFalsch 4", true, "Titel 4", true),
                 new TrueFalseCard("WahrFalsch 5", false, "Titel 5", false)
-            );
+        );
 
         return exampleCards;
     }
@@ -199,19 +245,19 @@ public class CrudTest {
                 new VoteSystem("Vote 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL, false),
                 new VoteSystem("Vote 4", StudySystem.CardOrder.RANDOM, true),
                 new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL, false)
-            );
+        );
 
         return exampleStudySystems;
     }
 
-//    private List<Deck> exampleDecks() {
-//        //TODO Test-Decks erstellen
-//        List<Deck> exampleDecks = new ArrayList<>();
-//        Collections.addAll(exampleDecks,
-//                new Deck()
-//            );
-//        return null;
-//    }
+    private List<Deck> exampleDecks() {
+        //TODO Test-Decks erstellen
+        List<Deck> exampleDecks = new ArrayList<>();
+        Collections.addAll(exampleDecks,
+                new Deck()
+        );
+        return null;
+    }
 
     public List<Category> exampleCategories() {
         //TODO Test-Kategorien erstellen
@@ -222,7 +268,7 @@ public class CrudTest {
                 new Category("Kategorie C"),
                 new Category("Kategorie D"),
                 new Category("Kategorie E")
-            );
+        );
         return exampleCategories;
     }
 }

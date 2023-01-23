@@ -4,8 +4,8 @@ import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardToTag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.joor.Reflect.on;
 import static org.mockito.Mockito.mock;
