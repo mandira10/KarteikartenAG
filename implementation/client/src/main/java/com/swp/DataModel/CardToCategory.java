@@ -35,7 +35,7 @@ public class CardToCategory implements Serializable
      * Zugehörige Karte
      */
     @ManyToOne
-    @JoinColumn(name="card_uuid")
+    @JoinColumn(name="card_uuid", referencedColumnName = "CARD_ID")
     @Cascade({CascadeType.PERSIST, CascadeType.MERGE})
     private final Card card;
 
@@ -43,7 +43,7 @@ public class CardToCategory implements Serializable
      * Zugehörige Kategorie
      */
     @ManyToOne
-    @JoinColumn(name="category_uuid")
+    @JoinColumn(name="category_uuid", referencedColumnName = "CATEGORY_ID")
     @Cascade({CascadeType.PERSIST, CascadeType.MERGE})
     private final Category category;
 

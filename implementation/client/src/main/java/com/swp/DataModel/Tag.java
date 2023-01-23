@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -29,7 +30,7 @@ public class Tag implements Serializable
     private String val;
 
     @OneToMany(mappedBy="tag")
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    @Cascade(CascadeType.DELETE)
     private List<CardToTag> cards;
 
     /**
