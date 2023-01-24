@@ -7,7 +7,6 @@ import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;

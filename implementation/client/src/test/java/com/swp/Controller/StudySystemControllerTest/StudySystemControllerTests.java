@@ -7,7 +7,6 @@ import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.Logic.StudySystemLogic;
@@ -21,7 +20,6 @@ import java.util.List;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

@@ -448,12 +448,12 @@ public class TestDataClass {
                 add(other3);
             }
         };
-        categoryLogic.setC2COrCH(kunst, parentsKunst, true);
-        categoryLogic.setC2COrCH(kunst, childKunst, false);
-        categoryLogic.setC2COrCH(biologie, parentsBiologie, true);
-        categoryLogic.setC2COrCH(biologie, childsBiologie, false);
-        categoryLogic.setC2COrCH(klasse11, childsklasse11, false);
-        categoryLogic.setC2COrCH(other2, others, false);
+        categoryLogic.setCategoryHierarchy(kunst, parentsKunst, true);
+        categoryLogic.setCategoryHierarchy(kunst, childKunst, false);
+        categoryLogic.setCategoryHierarchy(biologie, parentsBiologie, true);
+        categoryLogic.setCategoryHierarchy(biologie, childsBiologie, false);
+        categoryLogic.setCategoryHierarchy(klasse11, childsklasse11, false);
+        categoryLogic.setCategoryHierarchy(other2, others, false);
     }
 
 

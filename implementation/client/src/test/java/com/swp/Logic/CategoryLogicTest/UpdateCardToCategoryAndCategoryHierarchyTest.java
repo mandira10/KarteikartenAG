@@ -66,7 +66,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(cardToCategoryRepMock.save(new CardToCategory(card1, catToAdd))).thenReturn(c1);
 
         //Test
-        categoryLogic.setC2COrCH(card1,categoryToAdd,false);
+        categoryLogic.setCardToCategories(card1,categoryToAdd);
     }
 
     /**
@@ -100,7 +100,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(cardToCategoryRepMock.save(new CardToCategory(card1, catToAdd1))).thenReturn(c2);
 
         //Test
-        categoryLogic.setC2COrCH(card1,categoriesToAdd,false);
+        categoryLogic.setCardToCategories(card1,categoriesToAdd);
     }
 
     /**
@@ -125,7 +125,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(categoryRepMock.getCategoriesToCard(card1)).thenReturn(categories);
 
         //Test
-        categoryLogic.setC2COrCH(card1, categories, false);
+        categoryLogic.setCardToCategories(card1, categories);
     }
 
     /**
@@ -169,7 +169,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(cardToCategoryRepMock.save(new CardToCategory(card1, newCat2))).thenReturn(c2);
 
         //Test
-        categoryLogic.setC2COrCH(card1, categorieToAdd, false);
+        categoryLogic.setCardToCategories(card1, categorieToAdd);
     }
 
     /**
@@ -210,7 +210,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         doNothing().when(cardToCategoryRepMock).delete((any(CardToCategory.class)));
 
         //test
-        categoryLogic.setC2COrCH(card1, categorieToAdd, false);
+        categoryLogic.setCardToCategories(card1, categorieToAdd);
 
     }
 
@@ -260,7 +260,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(cardToCategoryRepMock.save(new CardToCategory(card1, newCat2))).thenReturn(c2);
 
         //Test
-        categoryLogic.setC2COrCH(card1, categoriesToAdd, false);
+        categoryLogic.setCardToCategories(card1, categoriesToAdd);
     }
 
     /**
@@ -305,8 +305,8 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         doNothing().when(categoryRepMock).saveCategoryHierarchy(technik, oberschule);
 
         //Test
-        categoryLogic.setC2COrCH(technik, parentsTechnik, true);
-        categoryLogic.setC2COrCH(technik, childTechnik, false);
+        categoryLogic.setCategoryHierarchy(technik, parentsTechnik, true);
+        categoryLogic.setCategoryHierarchy(technik, childTechnik, false);
     }
     /**
      * Testet das komplette Löschen von Children und Parents für eine Kategorie, die bereits Children und Parents hat.
@@ -338,8 +338,8 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         doNothing().when(categoryRepMock).deleteCategoryHierarchy(any(Category.class),any(Category.class));
 
         //Test
-        categoryLogic.setC2COrCH(technik, new ArrayList<>(), true);
-        categoryLogic.setC2COrCH(technik, new ArrayList<>(), false);
+        categoryLogic.setCategoryHierarchy(technik, new ArrayList<>(), true);
+        categoryLogic.setCategoryHierarchy(technik, new ArrayList<>(), false);
 
     }
 
@@ -391,8 +391,8 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         doNothing().when(categoryRepMock).saveCategoryHierarchy(technik, gymnasium);
 
         //Test
-        categoryLogic.setC2COrCH(technik,newParentsTechnik, true);
-        categoryLogic.setC2COrCH(technik, newChildTechnik, false);
+        categoryLogic.setCategoryHierarchy(technik,newParentsTechnik, true);
+        categoryLogic.setCategoryHierarchy(technik, newChildTechnik, false);
 
     }
 }

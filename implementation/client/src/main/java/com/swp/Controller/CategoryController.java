@@ -41,12 +41,14 @@ public class CategoryController {
         try {
             categoryLogic.updateCategoryData(category, neu, nameChange);
         }
-        catch (IllegalArgumentException ex) { //übergebener Wert ist leer
-            log.error("Der übergebene Wert war leer");
+        catch (IllegalStateException ex) {
             singleDataCallback.onFailure(ex.getMessage());
+            log.error("Kategorie nicht gefunden");
         }
         catch (Exception ex) {
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure(String.format("Kategorie konnte nicht gespeichert oder geupdatet werden"));
+            log.error("Beim Updaten/Speichern der Kategorie {} ist ein Fehler {} aufgetreten",category.getUuid(),ex.getMessage());
+
         }
     }
 
@@ -54,14 +56,15 @@ public class CategoryController {
      * Wird verwendet, um Hierarchy der Kategorie zu bearbeiten. Wird an die CategoryLogic weitergegeben.
      *
      * @param category: die Kategorie zu bearbeiten
-     * @param parents : die Liste der Parents Kategorien für diese Katagorie
-     * @param children: die Liste der Children Kategorien für diese Katagorie
+     * @param parents : die Liste der Parents Kategorien für diese Kategorie
+     * @param children: die Liste der Children Kategorien für diese Kategorie
      */
     public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.editCategoryHierarchy(category, parents, children);
         } catch (Exception ex) {
-            singleDataCallback.onFailure(ex.getMessage());
+            log.error("Beim Updaten der Kategorie ist der Fehler {} aufgetreten", ex.getMessage());
+            singleDataCallback.onFailure("Beim Updaten der Hierarchie ist ein Fehler aufgetreten");
         }
     }
 
@@ -73,8 +76,13 @@ public class CategoryController {
     public void deleteCategory(Category category, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.deleteCategory(category);
-        } catch (Exception ex) {
+        } catch (IllegalStateException ex) { //übergebener Wert ist leer
+            log.error("Der übergebene Wert war leer");
             singleDataCallback.onFailure(ex.getMessage());
+        }
+        catch (Exception ex) {
+            singleDataCallback.onFailure("Beim Löschen der Kategorie ist ein Fehler aufgetreten");
+            log.error("Beim Löschen der Kategorie {} ist ein Fehler {} aufgetreten", category, ex);
         }
     }
 
@@ -87,46 +95,27 @@ public class CategoryController {
         try {
             categoryLogic.deleteCategories(categories);
         } catch (Exception ex) {
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("Beim Löschen der Kategorien ist ein Fehler aufgetreten");
+            log.error("Beim Löschen der Kategorien {} ist ein Fehler {} aufgetreten", categories, ex);
         }
     }
 
-    /**
-     * Wird verwendet, um eine Karte von einer Kategorie zu löschen. Wird an die CategoryLogic weitergegeben.
-     * 
-     * @param c2d: Partition Class dafür
-     */
-    public void deleteCardToCategory(CardToCategory c2d, SingleDataCallback<Boolean> singleDataCallback) {
-        try {
-            categoryLogic.deleteCardToCategory(c2d);
-        } catch (Exception ex) {
-            singleDataCallback.onFailure(ex.getMessage());
-        }
-    }
-
-    /**
-     * Wird verwendet, um die Parents einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
-     * 
-     * @param child: die Child Kategorie,um die Parents zu bekommen
-     */
-    public void getParentsForCategory(Category child, DataCallback<Category> dataCallback) {
-        try {
-            dataCallback.onSuccess(categoryLogic.getParentsForCategory(child));
-        } catch (Exception ex) {
-            dataCallback.onFailure(ex.getMessage());
-        }
-    }
 
     /**
      * Wird verwendet, um die Children einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
      * 
-     * @param parent: die Parent Kategorie,um die Children zu bekommen
+     * @param parent: die Parent Kategorie, um die Children zu bekommen
      */
     public void getChildrenForCategory(Category parent, DataCallback<Category> dataCallback) {
         try {
-            dataCallback.onSuccess(categoryLogic.getChildrenForCategory(parent));
+            List<Category> categoryChildren = categoryLogic.getChildrenForCategory(parent);
+            if (categoryChildren.isEmpty())
+                log.info("Keine Children für diese Kategorie vorhanden");
+
+            dataCallback.onSuccess(categoryChildren);
         } catch (Exception ex) {
-            dataCallback.onFailure(ex.getMessage());
+            dataCallback.onFailure("Beim Abrufen der Children für die Kategorie ist ein Fehler aufgetreten");
+            log.error("Beim Beim Abrufen der Children für die Kategorie {} ist ein Fehler {} aufgetreten", parent, ex);
         }
     }
 
@@ -138,22 +127,21 @@ public class CategoryController {
     public void getCategoryByUUID(String uuid, SingleDataCallback<Category> singleDataCallback) {
         try {
             singleDataCallback.onSuccess(categoryLogic.getCategoryByUUID(uuid));
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException ex) {//übergebener Wert ist leer
+            log.error("Der übergebene Wert war leer");
             singleDataCallback.onFailure(ex.getMessage());
+        }
+        catch(NoResultException ex){
+            singleDataCallback.onFailure("Es konnte keine Kategorie zur UUID gefunden werden");
+            log.error("Es wurde keine Kategorie zur UUID {} gefunden",uuid);
+        }
+        catch(Exception ex){
+            singleDataCallback.onFailure("Beim Abrufen der Kategorie ist ein Fehler aufgetreten");
+            log.error("Beim Abrufen der Kategorie ist ein Fehler {} aufgetreten",ex.getMessage());
         }
     }
 
-    /**
-     * Wird verwendet, um die Anzahl der Karten einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
-     * @param category: die Kategorie,um die Anzahl der Karten drin zu bekommen
-     */
-    public void numCardsInCategory(Category category, SingleDataCallback<Integer> singleDataCallback) {
-        try {
-            singleDataCallback.onSuccess(categoryLogic.numCardsInCategory(category));
-        } catch (Exception ex) {
-            singleDataCallback.onFailure(ex.getMessage());
-        }
-    }
+
 
     /**
      * Wird verwendet, um die Kategorien für eine Kategorie zu ändern.  Wird an die CategoryLogic weitergegeben.
@@ -162,9 +150,10 @@ public class CategoryController {
      */
     public void setCategoriesToCard(Card card, List<Category> categories, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            categoryLogic.setC2COrCH(card, categories, false);
+            categoryLogic.setCardToCategories(card, categories);
         } catch (Exception ex) {
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("Beim Hinzufügen der Kategorien zu der Karte ist ein Fehler aufgetreten");
+            log.error("Beim Setzen der Kategorien für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());
         }
     }
 
@@ -182,16 +171,21 @@ public class CategoryController {
 
             if (cards.isEmpty())
                 log.info("Es gibt keine Karten zu dieser Kategorie");
+
             dataCallback.onSuccess(cards);
 
         } catch (final NoResultException ex) {
             // keine Karten mit entsprechendem Inhalt gefunden
             log.info("Keine Karten mit der Kategorie {} gefunden", category);
             dataCallback.onFailure(ex.getMessage());
-        } catch (final Exception ex) {
-            log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category
-                    , ex);
+        } catch (IllegalStateException ex) { //übergebener Wert ist leer
+            log.error("Der übergebene Wert war leer");
             dataCallback.onFailure(ex.getMessage());
+        }
+        catch (final Exception ex) {
+            log.error("Beim Suchen nach Karten mit Kategorie {} ist ein Fehler {} aufgetreten", category
+                    , ex);
+            dataCallback.onFailure("Beim Suchen nach Karten für die Kategorie " + category.getName() +" ist ein Fehler aufgetreten");
         }
     }
 
@@ -208,25 +202,43 @@ public class CategoryController {
             List<CardOverview> cards = categoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
-                NotificationGUI.addNotification("Es gibt keine Karten für diese Kategorie", Notification.NotificationType.INFO, 5);
+               dataCallback.onInfo("Es gibt keine Karten für diese Kategorie");
 
             dataCallback.onSuccess(cards);
 
-        } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
+        } catch (IllegalStateException ex) { //übergebener Wert ist leer
             log.error("Der übergebene Wert war leer");
             dataCallback.onFailure(ex.getMessage());
         }  catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category
                     , ex);
-            dataCallback.onFailure(ex.getMessage());
+            dataCallback.onFailure("Beim Suchen nach Karten für die Kategorie " + category +" ist ein Fehler aufgetreten");
         }
     }
 
 
-    // gibt alle karten aus allen gegebenen kategorien wieder
+    /**
+     * Gibt Karten für mehrere Kategorien wider. Wird an die CategoryLogic weitergegeben.
+     * @param categories Die Kategorien, zu denen die zugehörigen Karten gesucht werden sollen
+     * @param dataCallback: Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
+     */
     public void getCardsInCategories(List<Category> categories, DataCallback<CardOverview> dataCallback)
     {
-        //TODO
+        try {
+            List<CardOverview> cards = categoryLogic.getCardsInCategories(categories);
+
+            if (cards.isEmpty())
+                dataCallback.onInfo("Es gibt keine Karten für diese Kategorien");
+
+            dataCallback.onSuccess(cards);
+
+        } catch (IllegalStateException ex) { //null
+            log.error("Der übergebene Wert war leer");
+            dataCallback.onFailure(ex.getMessage());
+        }  catch (final Exception ex) {
+            log.error("Beim Suchen nach Karten mit Kategorien ist ein Fehler {} aufgetreten", ex);
+            dataCallback.onFailure("Beim Suchen nach den Karten für die angegebenen Kategorien ist ein Fehler aufgetreten");
+        }
     }
 
 
@@ -245,12 +257,10 @@ public class CategoryController {
             dataCallback.onSuccess(categoriesForCard);
 
         } catch (final Exception ex) {
-            log.error("Beim Suchen nach Kategorien mit Karten {} ist ein Fehler {} aufgetreten", card, ex);
-            dataCallback.onFailure(ex.getMessage());
+            log.error("Beim Suchen nach Kategorien für die Karte {} ist ein Fehler {} aufgetreten", card, ex);
+            dataCallback.onFailure("Beim Suchen nach Kategorien für die Karte ist ein Fehler aufgetreten");
         }
     }
-
-//CARDEDITPAGE, CATEGORY OVERVIEW
 
     /**
      * Lädt alle Categories als Set. 
@@ -266,7 +276,8 @@ public class CategoryController {
 
             dataCallback.onSuccess(categories);
         } catch (Exception ex) {
-            dataCallback.onFailure(ex.getMessage());
+            log.error("Beim Suchen nach Kategorien  ist ein Fehler {} aufgetreten", ex);
+            dataCallback.onFailure("Beim Suchen nach Kategorien ist ein Fehler aufgetreten");
         }
     }
 
@@ -281,7 +292,8 @@ public class CategoryController {
         try {
             dataCallback.onSuccess(categoryLogic.getRootCategories());
         } catch (Exception ex) {
-            dataCallback.onFailure(ex.getMessage());
+            log.error("Beim Suchen nach Root-Kategorien  ist ein Fehler {} aufgetreten", ex);
+            dataCallback.onFailure("Beim Suchen nach Root-Kategorien ist ein Fehler aufgetreten");
         }
     }
 }

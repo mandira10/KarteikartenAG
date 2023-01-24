@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 /**
  * Klasse, die die normalen Funktionen für eine Karte testet.
  */
-public class updateSaveDeleteCardTest {
+public class CRUDCardLogicTest {
 
 
     private CardRepository cardRepMock;
@@ -79,6 +79,16 @@ public class updateSaveDeleteCardTest {
         Card c1 = new TextCard();
         List<CardOverview> cards = Arrays.asList(new CardOverview(UUID.randomUUID().toString()),new CardOverview(UUID.randomUUID().toString()));
         when(cardRepMock.getCardByUUID(any(String.class))).thenReturn(c1);
+        on(cardLogic).set("cardToBoxRepository",cardToBoxRepMock);
+        on(cardLogic).set("cardToTagRepository",cardToTagRepMock);
+        on(cardLogic).set("cardToCategoryRepository",cardToCategoryRepMock);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
+        when(cardToBoxRepMock.getAllB2CForCard(card1)).thenReturn(new ArrayList<>());
+        doNothing().when(cardToBoxRepMock).delete(any(BoxToCard.class));
+        when(cardToTagRepMock.getAllC2TForCard(card1)).thenReturn(new ArrayList<>());
+        doNothing().when(cardToTagRepMock).delete(any(CardToTag.class));
+        when(cardToCategoryRepMock.getAllC2CForCard(card1)).thenReturn(new ArrayList<>());
+        doNothing().when(cardToCategoryRepMock).delete(any(CardToCategory.class));
         doNothing().when(cardRepMock).delete(c1);
         cardLogic.deleteCards(cards);
     }
