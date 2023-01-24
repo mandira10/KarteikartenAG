@@ -28,6 +28,7 @@ import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.EditCardPages.*;
 import com.swp.GUI.Category.CategorySelectPage;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.GUI.References.EditReferencesPage;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 
@@ -107,14 +108,13 @@ public class EditCardPage extends Page
         });
 
         Button applyButton = (Button)findChildByID("applybutton");
-        applyButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  { applyChanges(); } 
-        });
+        applyButton.onClick((RenderGUI gui) -> { applyChanges(); });
+
+        Button referencesButton = (Button)findChildByID("referencesbutton");
+        referencesButton.onClick((RenderGUI gui) -> { ((EditReferencesPage)PageManager.viewPage(PAGES.REFERENCES_EDIT_PAGE)).setCard(pNewCard); });
 
         Button cancelButton = (Button)findChildByID("cancelbutton");
-        cancelButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  { PageManager.viewLastPage(); } 
-        });
+        cancelButton.onClick((RenderGUI gui) -> { PageManager.viewLastPage(); });
 
 
         RenderGUI taglistcontainer = findChildByID("tagslist");
@@ -130,11 +130,10 @@ public class EditCardPage extends Page
 
 
         Button categoryButton = (Button)findChildByID("editcategoriesbutton");
-        categoryButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  
-            { 
-                ((CategorySelectPage)PageManager.viewPage(PAGES.CATEGORY_SELECTION)).reset(); 
-            } 
+        categoryButton.onClick((RenderGUI gui) -> { 
+            ((CategorySelectPage)PageManager.viewPage(PAGES.CATEGORY_SELECTION)).reset(false, (categories -> {
+                ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).updateCategories(categories);
+            }), aCategories);
         });
         
 

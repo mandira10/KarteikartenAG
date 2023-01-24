@@ -36,7 +36,7 @@ public class ViewSingleCategoryPage extends Page
         addGUI(XMLGUI.loadFile("guis/categories/categoryviewpage.xml"));
         pCanvas = findChildByID("canvas");
 
-        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), new CardListSelectmodeCallback() {
+        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
             @Override public void enterSelectmod() 
             {    
             }

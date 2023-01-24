@@ -8,69 +8,55 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
-import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.GUI.Page;
-import com.swp.GUI.PageManager;
-import com.swp.GUI.Decks.DeckSelectPage;
 import com.swp.GUI.Extras.CardList;
-import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
-import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
-import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.DataCallback;
-import com.swp.Controller.SingleDataCallback;
 
-public class CardOverviewPage extends Page 
+public class CardSelectPage extends Page 
 {
+    public interface CardReturnFunc
+    {
+        void run(CardOverview categories);
+    }
+
+
     private Searchbar pSearchbar;
     private CardList pCardList;
+    private CardReturnFunc pReturnFunc;
 
-    public CardOverviewPage()
+    public CardSelectPage()
     {
-        super("Cards", "cardoverviewpage");
+        super("Card select", "cardselectpage");
         this.vSize = new ivec2(100,100);
 
-        addGUI(XMLGUI.loadFile("guis/cards/cardoverviewpage.xml"));
-
-        Button addCardButton = (Button)findChildByID("addcardbutton");
-        addCardButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                PageManager.viewPage(PAGES.CARD_CREATE);
-            }
-        });
-
-        Button deleteCardButton = (Button)findChildByID("deletecardbutton");
-        deleteCardButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                deleteCards();
-            }
-        });
-        deleteCardButton.hide(true);
-
-        Button addToDeckButton = (Button)findChildByID("addtodeckbutton");
-        addToDeckButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(pCardList.getSelection());
-            }
-        });
-        addToDeckButton.hide(true);
+        addGUI(XMLGUI.loadFile("guis/cards/cardselectpage.xml"));
 
         RenderGUI canvas = findChildByID("canvas");
 
-        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod() { deleteCardButton.hide(false); addToDeckButton.hide(false); }
-            @Override public void exitSelectmod()  { deleteCardButton.hide(true); addToDeckButton.hide(true); }
+        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), true, new CardListSelectmodeCallback() {
+            @Override public void enterSelectmod() 
+            { 
+                if(pReturnFunc != null && pCardList.getSelection().size() > 0)
+                    pReturnFunc.run(pCardList.getSelection().get(0)); 
+            }
+            @Override public void exitSelectmod()  { }
         });
         pCardList.setSizeInPercent(true, true);
+        pCardList.setSelectMode(true);
         canvas.addGUI(pCardList);
+
+        RenderGUI optionsMenu = findChildByID("menu");
+        Button doneButton = (Button)optionsMenu.findChildByID("donebutton");
+        doneButton.onClick((RenderGUI gui) -> {
+            if(pReturnFunc != null && pCardList.getSelection().size() > 0)
+                pReturnFunc.run(pCardList.getSelection().get(0));
+        });
 
         pSearchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "cardsearch", new String[] {
             "bycontentsearch",
@@ -92,6 +78,12 @@ public class CardOverviewPage extends Page
 
         this.setSizeInPercent(true, true);
         reposition();
+    }
+
+    public void reset(CardReturnFunc returnfunc)
+    {
+        this.pReturnFunc = returnfunc;
+        loadCards(0, 30);
     }
 
     public void loadCards(int from, int to)
@@ -144,33 +136,5 @@ public class CardOverviewPage extends Page
 
         reposition();
         resize();
-    }
-
-    public void deleteCards()
-    {
-        int numCards = pCardList.getSelection().size();
-        ConfirmationGUI.openDialog("Are you sure that you want to delete " + String.valueOf(numCards) + " cards?", new ConfirmationCallback() {
-            @Override public void onConfirm() 
-            {  
-                CardController.getInstance().deleteCards(pCardList.getSelection(), new SingleDataCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(Boolean data) {}
-
-                    @Override
-                    public void onFailure(String msg) {
-                    NotificationGUI.addNotification("Beim Löschen der Karte ist ein Fehler aufgetreten",NotificationType.ERROR,5);
-                    }
-                });
-            }
-            @Override public void onCancel() 
-            {
-            }
-        });
-    }
-
-    private void exportCards()
-    {
-        CardExportPage.setToExport(null);
-        PageManager.viewPage(PAGES.CARD_EXPORT);
     }
 }

@@ -61,7 +61,7 @@ public class ViewSingleDeckPage extends Page
         });
         removeCardsButton.hide(true);
 
-        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), new CardListSelectmodeCallback() {
+        pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
             @Override public void enterSelectmod() 
             {
                 removeCardsButton.hide(false);

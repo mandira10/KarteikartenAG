@@ -32,6 +32,7 @@ passwordfield          = Password
 # Card
 addcardbutton          = Add Card
 editcardbutton         = Edit Card
+referencesbutton       = References
 deletecardbutton       = Delete Card
 deletecardsbutton      = Delete Card(s)
 flipcardbutton         = Flip Card
@@ -100,3 +101,4 @@ editdeckpage           = Edit Deck
 testfinishpage         = Test Finished
 testdeckpage           = Test Deck
 viewdeckpage           = View Deck
+editreferencespage     = Edit References

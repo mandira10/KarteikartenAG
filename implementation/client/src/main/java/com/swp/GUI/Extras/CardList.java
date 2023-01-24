@@ -29,15 +29,17 @@ public class CardList extends RenderGUI
 
     private List<CardOverview> pList;
     private boolean bIsInSelectmode;
+    private boolean bSingleselectmode;
     private CardListSelectmodeCallback pCallback;
 
     private static final int CHECK_COLUMN = 3;
 
-    public CardList(ivec2 pos, ivec2 size, CardListSelectmodeCallback callback)
+    public CardList(ivec2 pos, ivec2 size, boolean singleselect, CardListSelectmodeCallback callback)
     {
         vPos.set(pos);
         vSize.set(size);
         this.bIsInSelectmode = false;
+        this.bSingleselectmode = singleselect;
         this.pCallback = callback;
 
         ColumnInfo checkcolumn = new ColumnInfo("", ColumnType.BOOLEAN, 5, "");
@@ -46,6 +48,9 @@ public class CardList extends RenderGUI
         checkcolumn.onclickcallback = new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
+                if(bSingleselectmode)
+                    return;
+
                 ArrayList<CardOverview> list = pList.getUserdataWhere(new Predicate<ListEntry<CardOverview>>() {
                     @Override public boolean test(ListEntry<CardOverview> arg0) 
                     {
@@ -116,7 +121,14 @@ public class CardList extends RenderGUI
     {
         GUICallback commoncallback = new GUICallback() {
             @Override public void run(RenderGUI gui) 
-            {
+            {   
+                if(bSingleselectmode && pCallback != null)
+                {
+                    Switch switchgui = (Switch)gui.getParent().getChild(CHECK_COLUMN).getChild(0);
+                    switchgui.tick(!switchgui.isTicked());
+                    pCallback.enterSelectmod();
+                    return;
+                }
                 if(bIsInSelectmode)
                 {
                     Switch switchgui = (Switch)gui.getParent().getChild(CHECK_COLUMN).getChild(0);
@@ -160,7 +172,12 @@ public class CardList extends RenderGUI
         updateSelectmode();
     }
 
+    //
+    // Setter
+    //
+    public void setSelectMode(boolean mode) { this.bIsInSelectmode = mode; }
 
+    
     //
     // Getter
     //

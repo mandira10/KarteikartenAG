@@ -18,12 +18,18 @@ import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
-import com.swp.GUI.PageManager;
-import com.swp.GUI.Cards.EditCardPage;
-import com.swp.GUI.PageManager.PAGES;
 
 public class CategorySelectPage extends Page 
 {
+    public interface CategoryReturnFunc
+    {
+        void run(List<Category> categories);
+    }
+
+    private Scroller pCanvas;
+    private boolean bSingleselect;
+    private CategoryReturnFunc pReturnFunc;
+
     private final CategoryController categoryController = CategoryController.getInstance();
     private class CategoryListEntry extends RenderGUI
     {
@@ -31,7 +37,7 @@ public class CategorySelectPage extends Page
         private TextBox pCardNameBox;
         private Switch pSelectSwitch;
 
-        public CategoryListEntry(Category category, ivec2 pos, ivec2 size)
+        public CategoryListEntry(Category category, ivec2 pos, ivec2 size, boolean selected)
         {
             this.vSize = size;
             this.vPos = pos;
@@ -49,14 +55,15 @@ public class CategorySelectPage extends Page
             pSelectSwitch = new Switch(new ivec2(100, 10), new ivec2(20, 20), 0.0f);
             pSelectSwitch.setPositionInPercent(true, false);
             pSelectSwitch.setOrigin(new ivec2(30, 0));
+            pSelectSwitch.tick(selected);
             addElement(pSelectSwitch);
 
             onHover(null, Mouse.GUM_CURSOR_HAND);
-            onClick(new GUICallback() {
-                @Override public void run(RenderGUI gui) 
-                {
-                    pSelectSwitch.tick(!pSelectSwitch.isTicked());
-                }
+            onClick((RenderGUI gui) -> {
+                pSelectSwitch.tick(!pSelectSwitch.isTicked());
+
+                if(bSingleselect && pReturnFunc != null)
+                    pReturnFunc.run(getSelection());
             });
 
             setSizeInPercent(true, false);
@@ -71,8 +78,6 @@ public class CategorySelectPage extends Page
         public Category getCategory() { return pCategory; }
     };
 
-    private Scroller pCanvas;
-
     public CategorySelectPage()
     {
         super("Category Selection", "categoryselectionpage");
@@ -84,11 +89,9 @@ public class CategorySelectPage extends Page
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button doneButton = (Button)optionsMenu.findChildByID("donebutton");
-        doneButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).updateCategories(getSelection());
-            }
+        doneButton.onClick((RenderGUI gui) -> {
+            if(pReturnFunc != null)
+                pReturnFunc.run(getSelection());
         });
 
 
@@ -96,35 +99,35 @@ public class CategorySelectPage extends Page
         reposition();
     }
 
-    public void reset()
+    public void reset(boolean singleselect, CategoryReturnFunc returnfunc, List<Category> selected)
     {
+        this.bSingleselect = singleselect;
+        this.pReturnFunc = returnfunc;
+
         pCanvas.destroyChildren();
 
-        int y = 0;
-
-        final List<Category> categories = new ArrayList<>();
-            categoryController.getCategories(new DataCallback<Category>() {
-            @Override
-            public void onSuccess(List<Category> data) {
-                categories.addAll(data);
+        categoryController.getCategories(new DataCallback<Category>() {
+            @Override public void onInfo(String msg) {}
+            @Override public void onSuccess(List<Category> categories) 
+            {
+                int y = 0;
+                for(Category category : categories)
+                {
+                    CategoryListEntry container = new CategoryListEntry(
+                        category, 
+                        new ivec2(0, y++ * 50), 
+                        new ivec2(100, 40), 
+                        selected != null && selected.contains(category)
+                    );
+                    pCanvas.addGUI(container);
+                }
             }
 
-            @Override
-            public void onFailure(String msg) {
+            @Override public void onFailure(String msg) 
+            {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
-
-            @Override
-            public void onInfo(String msg) {}
         });
-
-            for(Category category : categories)
-        {
-            CategoryListEntry container = new CategoryListEntry(category, new ivec2(0, y++ * 50), new ivec2(100, 40));
-            pCanvas.addGUI(container);
-        }
-
-
     }
 
     private List<Category> getSelection()
