@@ -52,6 +52,8 @@ public class CardLogic extends BaseLogic<Card>
     public List<CardOverview> getCardsByTag(String tagName) {
         checkNotNullOrBlank(tagName, "Tag",true);
         return execTransactional(() -> cardRepository.findCardsByTag(tagName));
+        //return execTransactional(() -> cardRepository.findCardsByTag(
+        //        tagRepository.findTag(tagName)));
     }
 
     /**
@@ -85,6 +87,8 @@ public class CardLogic extends BaseLogic<Card>
             log.info("Lösche alle Card To Tags zur Karte");
             cardToTagRepository.delete(cardToTagRepository.getAllC2TForCard(card));
             log.info("Lösche die Karte");
+            //TODO Ole
+            // CardTo[Category, Box, Tag] bei Löschung von Karte kaskadieren
             cardRepository.delete(card);
             return null; // Lambda braucht immer einen return
         });
@@ -120,7 +124,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public List<Tag> getTags()
     {
-        return execTransactional(() -> tagRepository.getAll());
+        return execTransactional(tagRepository::getAll);
     }
 
 
@@ -159,6 +163,14 @@ public class CardLogic extends BaseLogic<Card>
      * @param tagNew: die Liste von Tags
      */
     public void setTagsToCard(Card card, List<Tag> tagNew) {
+        execTransactional(() -> {
+            cardRepository.refresh(card);
+            card.setAssignedTags(tagNew.stream().map(t -> new CardToTag(card, t)).toList());
+            cardRepository.update(card);
+            return null;
+        });
+        /*
+        if(!tagNew.isEmpty()) {
             List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
             if (tagOld.isEmpty()) {
                 checkAndCreateTags(card, tagNew, tagOld);
@@ -174,8 +186,13 @@ public class CardLogic extends BaseLogic<Card>
                 checkAndCreateTags(card, tagNew, tagOld);
                 checkAndRemoveTags(card, tagNew, tagOld);
             }
+        }
+         */
     }
 
+    /* Mit `cardRepository.update(card.setAssignedTags(List<Tag>))` kann man eine angepasste Karte
+     * persistieren. Die Relation zu den Tags wird kaskadiert.
+     */
     /**
      * Wird verwendet, Um zu überprüfen, ob die angegebene Liste von Tags bereits Tags für die Karte sind oder nicht. Wird an das CardToTagRepository weitergegeben.
      * @param card: die Karte, um ihre Tags zu überprüfen
@@ -211,10 +228,16 @@ public class CardLogic extends BaseLogic<Card>
      * @param tagNew: die angegebene Liste von Tags zu vergleichen und hinzufügen
      */
     private void checkAndCreateTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
-         execTransactional(() -> {
+        execTransactional(() -> {
+            card.setAssignedTags(tagNew.stream().map(t -> new CardToTag(card, t)).toList());
+            cardRepository.update(card);
+            return null;
+        });
+        /*
+        execTransactional(() -> {
             for (Tag t : tagNew) {
                 if (!tagOld.isEmpty() && tagOld.contains(t)) {
-                    log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getUuid(), card.getUuid());
+                    log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getVal(), card.getUuid());
                 } else {
                     checkNotNullOrBlank(t,"Tag",true);
                     try {
@@ -225,12 +248,13 @@ public class CardLogic extends BaseLogic<Card>
                     } catch (NoResultException ex) {
                         tagRepository.save(t);
                     }
-                    log.info("Tag {} wird zu Karte {} hinzugefügt", t.getUuid(), card.getUuid());
+                    log.info("Tag {} wird zu Karte {} hinzugefügt", t.getVal(), card.getUuid());
                     cardToTagRepository.createCardToTag(card, t);
                 }
             }
             return null;
         });
+         */
     }
 
 
@@ -245,8 +269,5 @@ public class CardLogic extends BaseLogic<Card>
     public void exportCards(Card[] cards, ExportFileType filetype) {
         new Exporter(filetype).export(cards);
     }
-
-
-
 
 }

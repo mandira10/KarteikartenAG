@@ -1,9 +1,9 @@
 package com.swp.Logic.CardLogicTest;
 
-import com.gumse.gui.Primitives.Box;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
-import com.swp.DataModel.*;
+import com.swp.DataModel.CardToCategory;
+import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.StudySystem.BoxToCard;
@@ -24,14 +24,12 @@ import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.*;
 
 /**
  * Klasse, die die normalen Funktionen für eine Karte testet.
  */
-public class updateSaveDeleteCardTests {
+public class updateSaveDeleteCardTest {
 
 
     private CardRepository cardRepMock;

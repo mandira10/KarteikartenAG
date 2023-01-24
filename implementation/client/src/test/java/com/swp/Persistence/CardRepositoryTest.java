@@ -29,13 +29,13 @@ public class CardRepositoryTest {
 
         // READ
         List<Card> allReadCards = new ArrayList<>();
-        CardRepository.getEntityManager().getTransaction().begin();
+        CardRepository.startTransaction();
         for (final Card card : cards) {
             final Card readCard = cardRepository.getCardByUUID(card.getUuid());
             assertEquals(card, readCard);
             allReadCards.add(readCard);
         }
-        CardRepository.getEntityManager().getTransaction().commit();
+        CardRepository.commitTransaction();
         assertEquals(cards.size(), allReadCards.size(), "same length");
         assertTrue(allReadCards.containsAll(cards));
 
