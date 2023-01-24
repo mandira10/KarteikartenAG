@@ -34,8 +34,8 @@ public class CardToTagRepository extends BaseRepository<CardToTag> {
      * @param card eine Karte, der ein Tag zugeordnet werden soll
      * @param tag ein Tag, der der Karte zugeordnet werden soll
      */
-    public void createCardToTag(Card card, Tag tag) {
-        getEntityManager().persist(new CardToTag(card, tag));
+    public CardToTag createCardToTag(Card card, Tag tag) {
+        return getEntityManager().merge(new CardToTag(card, tag));
     }
 
     public List<CardToTag> getAllC2TForCard(Card card) {

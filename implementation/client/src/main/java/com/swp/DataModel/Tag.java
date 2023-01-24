@@ -17,7 +17,7 @@ import java.util.List;
 @Table
 @Getter
 @Setter
-@NoArgsConstructor
+//@NoArgsConstructor
 @NamedQuery(name = "Tag.findTagByName",
         query = "SELECT t FROM Tag t WHERE LOWER(t.val) LIKE LOWER(:text)")
 public class Tag implements Serializable
@@ -40,6 +40,10 @@ public class Tag implements Serializable
     public Tag(String val)
     {
         this.val = val;
+    }
+
+    public Tag() {
+        this.val = "NoArgConstructor-Tag?!";
     }
 
     @Override

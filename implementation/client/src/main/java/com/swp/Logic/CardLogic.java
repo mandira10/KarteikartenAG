@@ -163,13 +163,14 @@ public class CardLogic extends BaseLogic<Card>
      * @param tagNew: die Liste von Tags
      */
     public void setTagsToCard(Card card, List<Tag> tagNew) {
+        /*
         execTransactional(() -> {
             cardRepository.refresh(card);
             card.setAssignedTags(tagNew.stream().map(t -> new CardToTag(card, t)).toList());
             cardRepository.update(card);
             return null;
         });
-        /*
+         */
         if(!tagNew.isEmpty()) {
             List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
             if (tagOld.isEmpty()) {
@@ -187,7 +188,6 @@ public class CardLogic extends BaseLogic<Card>
                 checkAndRemoveTags(card, tagNew, tagOld);
             }
         }
-         */
     }
 
     /* Mit `cardRepository.update(card.setAssignedTags(List<Tag>))` kann man eine angepasste Karte
@@ -228,12 +228,13 @@ public class CardLogic extends BaseLogic<Card>
      * @param tagNew: die angegebene Liste von Tags zu vergleichen und hinzufügen
      */
     private void checkAndCreateTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
+        /*
         execTransactional(() -> {
             card.setAssignedTags(tagNew.stream().map(t -> new CardToTag(card, t)).toList());
             cardRepository.update(card);
             return null;
         });
-        /*
+         */
         execTransactional(() -> {
             for (Tag t : tagNew) {
                 if (!tagOld.isEmpty() && tagOld.contains(t)) {
@@ -241,20 +242,22 @@ public class CardLogic extends BaseLogic<Card>
                 } else {
                     checkNotNullOrBlank(t,"Tag",true);
                     try {
-                        Tag tag = tagRepository.findTag(t.getVal());
-                            t = tag;
-                            log.info("Tag mit Namen {} bereits in Datenbank enthalten", t.getVal());
-
+                        t = tagRepository.findTag(t.getVal());
+                        log.info("Tag mit Namen {} bereits in Datenbank enthalten", t.getVal());
                     } catch (NoResultException ex) {
-                        tagRepository.save(t);
+                        t = tagRepository.save(t);
                     }
-                    log.info("Tag {} wird zu Karte {} hinzugefügt", t.getVal(), card.getUuid());
-                    cardToTagRepository.createCardToTag(card, t);
+                    try {
+                        cardToTagRepository.findSpecificCardToTag(card, t);
+                        log.info("Tag {} wurde bereits zur Karte {} zugefügt", t.getVal(), card.getUuid());
+                    } catch (NoResultException ex) {
+                        log.info("Tag {} wird zu Karte {} hinzugefügt", t.getVal(), card.getUuid());
+                        cardToTagRepository.createCardToTag(card, t);
+                    }
                 }
             }
             return null;
         });
-         */
     }
 
 

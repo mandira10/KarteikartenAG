@@ -210,16 +210,6 @@ public class CategoryLogic extends BaseLogic<Category>
             }
     }
 
-    public void setC2COrCH(Category category, List<Category> catNew, boolean child) {
-        //TODO
-    }
-
-    public void setC2COrCH(Card card, List<Category> catNew, boolean child) {
-        //TODO
-    }
-
-
-
     /**
      * Hilfsmethode für das Löschen einzelner Kategorien in Card2Category bzw. der CategoryHierarchy
      * @param cardOrCategory  Karte für Card2Category bzw. Category bei Hierarchieanpassung
@@ -258,21 +248,20 @@ public class CategoryLogic extends BaseLogic<Category>
      */
     private <T> void checkAndCreateCategories(final T cardOrCategory, List<Category> catNew, List<Category> catOld, boolean child) {
         execTransactional(() -> {
-        for (Category c : catNew) {
-            if (!catOld.isEmpty() && catOld.contains(c))
-                log.info("Kategorie {} bereits in CardToCategory/ CategorieHierarchy enthalten, kein erneutes Hinzufügen notwendig", c.getUuid());
-            else {
-                try {
-                    Category category = categoryRepository.find(c.getName());
-                    c = category;
-                    log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", c.getName());
+            for (Category c : catNew) {
+                if (!catOld.isEmpty() && catOld.contains(c))
+                    log.info("Kategorie {} bereits in CardToCategory/ CategorieHierarchy enthalten, kein erneutes Hinzufügen notwendig", c.getUuid());
+                else {
+                    try {
+                        Category category = categoryRepository.find(c.getName());
+                        c = category;
+                        log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", c.getName());
+                    } catch(NoResultException ex) {
+                        categoryRepository.save(c); //sollte aktuell gar nicht passieren, da nur aus bereits bestehenden ausgewählt werden kann?
                     }
-                catch(NoResultException ex){
-                    categoryRepository.save(c); //sollte aktuell gar nicht passieren, da nur aus bereits bestehenden ausgewählt werden kann?
-                }
-                if (cardOrCategory instanceof Card card) {
-                    log.info("Kategorie {} wird zu Karte {} hinzugefügt", c.getUuid(), card.getUuid());
-                        cardToCategoryRepository.save(new CardToCategory(card, c));
+                    if (cardOrCategory instanceof Card card) {
+                        log.info("Kategorie {} wird zu Karte {} hinzugefügt", c.getUuid(), card.getUuid());
+                            cardToCategoryRepository.save(new CardToCategory(card, c));
                     } else if (cardOrCategory instanceof Category category && !child) {
                         log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
                         categoryRepository.saveCategoryHierarchy(c, category);
@@ -281,11 +270,9 @@ public class CategoryLogic extends BaseLogic<Category>
                         categoryRepository.saveCategoryHierarchy(category, c);
                     }
                 }
-
             }
             return null;
         });
-
     }
 
 
