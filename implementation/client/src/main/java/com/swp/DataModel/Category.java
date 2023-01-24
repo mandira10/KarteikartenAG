@@ -1,13 +1,14 @@
 package com.swp.DataModel;
 
 import jakarta.persistence.*;
-
-import java.io.Serializable;
-import java.util.HashSet;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import java.util.Set;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -35,10 +36,13 @@ public class Category implements Serializable
      */
     @Id
     //@GeneratedValue(strategy = GenerationType.UUID)
-    @Column
+    @Column(name = "CATEGORY_ID")
     @Setter(AccessLevel.NONE)
     private final String uuid;
 
+    @OneToMany(mappedBy="category")
+    @Cascade(CascadeType.DELETE)
+    private List<CardToCategory> cards;
 
     /**
      * Copy Konstruktor
@@ -63,7 +67,7 @@ public class Category implements Serializable
     /**
      * no-arg constructor needed for hibernates `@Entity` tag
      */
-    public Category() 
+    public Category()
     {
         this("");
     }
@@ -73,7 +77,7 @@ public class Category implements Serializable
         if ( this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category cat = (Category) o;
-        return name == cat.name;
+        return name.equals(cat.name);
     }
 
 }

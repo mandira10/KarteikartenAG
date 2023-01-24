@@ -46,20 +46,6 @@ public class CardRepository extends BaseRepository<Card> {
                 .setFirstResult(from).setMaxResults(to - from).getResultList();
     }
 
-
-    /**
-     * Die Funktion `findCardsByTag` sucht nach Karten, der ein bestimmter Tag zugeordnet ist und gibt diese zurück.
-     *
-     * @param tag ein Tag für den alle Karten gesucht werden sollen, die diesen haben.
-     * @return Set<Card> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
-     */
-    public List<CardOverview> findCardsByTag(Tag tag) {
-        return getEntityManager()
-                .createNamedQuery("CardOverview.allCardsWithTag", CardOverview.class)
-                .setParameter("tag", tag).getResultList();
-    }
-
-
     /**
      * Die Funktion `findCardsContaining` durchsucht den Inhalt aller Karten.
      * Es werden alle Karten zurückgegeben, die den übergebenen Suchtext als Teilstring enthalten.
@@ -103,7 +89,6 @@ public class CardRepository extends BaseRepository<Card> {
                 .getResultList();
     }
 
-
     public List<CardOverview> findCardsByStudySystem(StudySystem oldStudyS) {
         return getEntityManager()
                 .createNamedQuery("CardOverview.allCardsWithStudySystem", CardOverview.class)
@@ -117,7 +102,6 @@ public class CardRepository extends BaseRepository<Card> {
      * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
      *
      * @param studySystem
-     * @param cardOrder
      * @return
      */
     public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
@@ -141,6 +125,18 @@ public class CardRepository extends BaseRepository<Card> {
                 .createNamedQuery("BoxToCard.allCardsOfEveryBoxesOfTheStudySystem", Card.class)
                 .setParameter("studySystem", studySystem)
                 .getResultList();
+    }
+
+    /**
+     * Die Funktion `findCardsByTag` sucht nach Karten, der ein bestimmter Tag zugeordnet ist und gibt diese zurück.
+     *
+     * @param tag ein Tag für den alle Karten gesucht werden sollen, die diesen haben.
+     * @return Set<Card> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
+     */
+    public List<CardOverview> findCardsByTag(Tag tag) {
+        return getEntityManager()
+                .createNamedQuery("CardOverview.allCardsWithTag", CardOverview.class)
+                .setParameter("tag", tag).getResultList();
     }
 
     /**
