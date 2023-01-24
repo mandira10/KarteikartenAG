@@ -159,6 +159,7 @@ public class CategoryController {
     public void setCategoriesToCard(Card card, List<Category> categories, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.setCardToCategories(card, categories);
+            singleDataCallback.onSuccess(true);
         } catch (Exception ex) {
             singleDataCallback.onFailure("Beim Hinzufügen der Kategorien zu der Karte ist ein Fehler aufgetreten");
             log.error("Beim Setzen der Kategorien für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());

@@ -199,6 +199,7 @@ public class CardController {
     public void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.setTagsToCard(card, set);
+            singleDataCallback.onSuccess(true);
         } catch (Exception ex) {
             singleDataCallback.onFailure("Beim Hinzufügen der Tags zu der Karte ist ein Fehler aufgetreten");
             log.error("Beim Setzen der Tags für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());
@@ -215,6 +216,7 @@ public class CardController {
     public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.updateCardData(cardToChange, neu);
+            singleDataCallback.onSuccess(true);
         }
         catch (IllegalStateException ex) {
             singleDataCallback.onFailure(ex.getMessage());

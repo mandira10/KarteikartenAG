@@ -13,6 +13,7 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.TagList.TagList;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Output;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
@@ -117,7 +118,9 @@ public class EditCardPage extends Page
 
 
         RenderGUI taglistcontainer = findChildByID("tagslist");
-        pTagList = new TagList<>(new ivec2(0, 0), new ivec2(100, 30), FontManager.getInstance().getDefaultFont(), Tag.class);
+        pTagList = new TagList<>(new ivec2(0, 0), new ivec2(100, 30), FontManager.getInstance().getDefaultFont(), (String name) -> {
+            return new Tag(name);
+        });
         pTagList.setSizeInPercent(true, false);
         taglistcontainer.addGUI(pTagList);
 
@@ -242,29 +245,37 @@ public class EditCardPage extends Page
     private void applyChanges()
     {
         CardController.getInstance().updateCardData(pNewCard, bIsNewCard, new SingleDataCallback<Boolean>() {
-            @Override public void onSuccess(Boolean data) {}
-
-            @Override
-            public void onFailure(String msg) {
-            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            @Override public void onSuccess(Boolean data) 
+            {
+                Output.info("Wrote card");
+                CardController.getInstance().setTagsToCard(pNewCard, pTagList.getTagUserptrs(), new SingleDataCallback<Boolean>() {
+                    @Override public void onSuccess(Boolean data) 
+                    {
+                        Output.info("Wrote tags");
+                        CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories, new SingleDataCallback<Boolean>() {
+                            @Override public void onSuccess(Boolean data)
+                            {
+                                Output.info("Wrote categories");
+                                ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(pNewCard);
+                            }
+                
+                            @Override public void onFailure(String msg) 
+                            {
+                                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                            }
+                        });
+                    }
+        
+                    @Override public void onFailure(String msg) 
+                    {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                    }
+                });
             }
-        });
 
-        CardController.getInstance().setTagsToCard(pNewCard, pTagList.getTagUserptrs(), new SingleDataCallback<Boolean>() {
-            @Override public void onSuccess(Boolean data) {}
-
-            @Override
-            public void onFailure(String msg) {
-            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
-            }
-        });
-
-        CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories, new SingleDataCallback<Boolean>() {
-            @Override public void onSuccess(Boolean data) {}
-
-            @Override
-            public void onFailure(String msg) {
-            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            @Override public void onFailure(String msg) 
+            {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
         });
     }
