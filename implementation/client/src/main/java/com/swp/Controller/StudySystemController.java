@@ -36,9 +36,13 @@ public class StudySystemController{
         try {
             studySystemLogic.moveCardToBox(card,box, studySystem);
         }
-        catch (Exception exception){
-            singleDataCallback.onFailure(exception.getMessage());
+        catch (IllegalStateException s){
+            singleDataCallback.onFailure("Null Value Gegeben");
         }
+        catch (Exception exception){
+            singleDataCallback.onFailure("Ein Fehler aufgetreten");
+        }
+
     }
 
     /**
@@ -51,14 +55,14 @@ public class StudySystemController{
 
         try{
             if(cards.isEmpty()){
-                singleDataCallback.onFailure("Es gibt keine Karten");
+                throw new IllegalStateException();
             }
             else{
                 studySystemLogic.moveAllCardsForDeckToFirstBox(cards,studySystem);
             }
         }
         catch (Exception e){
-            singleDataCallback.onFailure(e.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -97,7 +101,7 @@ public class StudySystemController{
             studySystemLogic.giveAnswer(studySystem,answer);
         }
         catch (Exception e){
-            singleDataCallback.onFailure(e.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -114,7 +118,7 @@ public class StudySystemController{
             studySystemLogic.giveRating(studySystem,rating);
         }
         catch (Exception e){
-            singleDataCallback.onFailure(e.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     };
 
@@ -130,7 +134,7 @@ public class StudySystemController{
             studySystemLogic.giveTime(studySystem,seconds);
         }
         catch (Exception e){
-            singleDataCallback.onFailure(e.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     };
 
@@ -145,7 +149,7 @@ public class StudySystemController{
             singleDataCallback.onSuccess(studySystemLogic.finishTestAndGetResult(studySystem));
         }
         catch (Exception e){
-            singleDataCallback.onFailure(e.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -163,7 +167,7 @@ public class StudySystemController{
             singleDataCallback.onSuccess(studySystemLogic.getNextCard(studySystem));
         }
         catch (Exception e){
-            singleDataCallback.onFailure(e.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -179,7 +183,7 @@ public class StudySystemController{
             singleDataCallback.onSuccess(studySystemLogic.getProgress(studySystem));
         }
         catch (Exception e){
-            singleDataCallback.onFailure(e.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -193,6 +197,7 @@ public class StudySystemController{
             singleDataCallback.onSuccess(studySystemLogic.numCardsInDeck(studySystem));
         }
         catch(Exception ex){
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
             log.error("Beim Abrufen von der Anzahl der studySystems ist ein Fehler aufgetreten");
         }
     }
@@ -207,7 +212,7 @@ public class StudySystemController{
             singleDataCallback.onSuccess(studySystemLogic.getStudySystemByUUID(uuid));
         }
         catch (IllegalArgumentException ex) {//übergebener Wert ist leer
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("UUID darf nicht null sein");
         }
         catch(NoResultException ex){
             singleDataCallback.onFailure("Es konnte kein studySystem zur UUID gefunden werden");
@@ -226,8 +231,8 @@ public class StudySystemController{
     public void removeCardsFromStudySystem(List<CardOverview> list, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) 
     {
         try                             { studySystemLogic.removeCardsFromStudySystem(list, studySystem); }
-        catch(IllegalStateException ex) { singleDataCallback.onFailure(ex.getMessage()); }
-        catch(Exception ex)             { singleDataCallback.onFailure(ex.getMessage()); }
+        catch(IllegalStateException ex) { singleDataCallback.onFailure("Null Variable gegeben"); }
+        catch(Exception ex)             { singleDataCallback.onFailure("Ein Fehler ist aufgetreten"); }
     }
 
 
@@ -242,7 +247,7 @@ public class StudySystemController{
             singleDataCallback.onFailure(ex.getMessage());
         }
         catch(Exception ex){
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("Beim Löschen der StudySystem ist ein Fehler aufgetreten");
         }
     }
 
@@ -255,7 +260,7 @@ public class StudySystemController{
 
         try{studySystemLogic.deleteStudySystem(studySystems);}
         catch(Exception ex){
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -274,7 +279,7 @@ public class StudySystemController{
             dataCallback.onSuccess(studySystems);
         }
         catch(Exception ex){
-            dataCallback.onFailure(ex.getMessage());
+            dataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -292,10 +297,10 @@ public class StudySystemController{
             dataCallback.onSuccess(studySystems);
         }
         catch(IllegalArgumentException ex){
-            dataCallback.onFailure(ex.getMessage());
+            dataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
         catch(Exception ex){
-            dataCallback.onFailure(ex.getMessage());
+            dataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -309,7 +314,7 @@ public class StudySystemController{
     public void addCardsToStudySystem(List<Card> cards, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback){
         try{studySystemLogic.addCardsToDeck(cards,studySystem);}
         catch(Exception ex){
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
 
     }
@@ -324,7 +329,7 @@ public class StudySystemController{
     public void updateDeckData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
         try{studySystemLogic.updateStudySystemData(oldStudySystem, newStudySystem,neu);}
         catch(Exception ex){
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -337,7 +342,7 @@ public class StudySystemController{
     public void addStudySystemTypeAndUpdate(StudySystem.StudySystemType type, SingleDataCallback<Boolean> singleDataCallback) {
         try{studySystemLogic.addStudySystemTypeAndUpdate(type);}
         catch(Exception ex){
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
@@ -351,7 +356,7 @@ public class StudySystemController{
     public void createBoxToCardForCategory(Category category, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
         try{studySystemLogic.createBoxToCardForCategory(category, studySystem);}
         catch(Exception ex){
-            singleDataCallback.onFailure(ex.getMessage());
+            singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
     }
 
