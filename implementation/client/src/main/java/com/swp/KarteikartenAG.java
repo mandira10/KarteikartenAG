@@ -5,8 +5,6 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL11;
@@ -28,17 +26,7 @@ import com.gumse.system.Window.WindowResizePosCallback;
 import com.gumse.tools.Output;
 import com.gumse.tools.Output.OutputCallback;
 import com.gumse.tools.FPS;
-import com.swp.Controller.CardController;
-import com.swp.Controller.CategoryController;
-import com.swp.DataModel.Card;
-import com.swp.DataModel.Category;
-import com.swp.DataModel.Tag;
-import com.swp.DataModel.CardTypes.AudioCard;
-import com.swp.DataModel.CardTypes.ImageTestCard;
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.GUI.KarteikartenAGGUI;
-import com.swp.Controller.SingleDataCallback;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,7 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 // GUIs
 //   - Create GUI inside thread
 //   - Card List columns            -- done
-//   - card references list (links) 
+//   - card references list (links) -- done
+//   - card references edit page
 //   - Show tags/categories in view -- done
 //   - Edit card new card switch    -- done
 //   - Notification GUI             -- done
@@ -82,7 +71,7 @@ import lombok.extern.slf4j.Slf4j;
 //       - AudioCard
 //   - Export Cards Page
 //   - Add Single Cards to Deck     -- done
-//   - Add Cards to Deck by category
+//   - Add Cards to Deck by category-- done
 //   - Add icons to edit options
 //   - Finalize Editpages           -- done
 //       - TextCard                 -- done
@@ -101,7 +90,7 @@ import lombok.extern.slf4j.Slf4j;
 //   - Fix Hierarchy List           -- done
 //   - Theming                      -- done
 //   - Language Class               -- done
-//   - Language enum
+//   - Language files               -- done
 //   - Settings file                -- done
 //   - Check for mandatory fields
 ////////////////////////////////////////////////////

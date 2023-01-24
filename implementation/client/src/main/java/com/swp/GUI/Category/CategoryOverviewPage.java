@@ -115,8 +115,6 @@ public class CategoryOverviewPage extends Page
                 }
             }
         });
-        pDeleteCategoriesButton.hide(true); 
-        pAddToDeckButton.hide(true);
     }
     
     public void loadCategories(String searchterm)

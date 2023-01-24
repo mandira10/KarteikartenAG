@@ -26,6 +26,7 @@ import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.RatingGUI.RateCallback;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.GUI.References.ReferencesGUI;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 
@@ -39,8 +40,7 @@ public class ViewSingleCardPage extends Page
     RenderGUI pCanvas;
     CardRenderer pCardRenderer;
     Text pTagsText, pCategoriesText;
-    Box pReferencesBox;
-    TextBox pReferencesText;
+    ReferencesGUI pReferences;
 
     public ViewSingleCardPage()
     {
@@ -57,20 +57,11 @@ public class ViewSingleCardPage extends Page
         pCardRenderer.setPositionInPercent(true, false);
         pCanvas.addGUI(pCardRenderer);
 
-        pReferencesBox = new Box(new ivec2(10, 20), new ivec2(80, 70));
-        pReferencesBox.setPositionInPercent(true, true);
-        pReferencesBox.setSizeInPercent(true, true);
-        pReferencesBox.hide(true);
-        pCanvas.addGUI(pReferencesBox);
-
-        pReferencesText = new TextBox("References", FontManager.getInstance().getDefaultFont(), new ivec2(15, 15), new ivec2(70, 70));
-        pReferencesText.setPositionInPercent(true, true);
-        pReferencesText.setSizeInPercent(true, true);
-        pReferencesText.setTextSize(50);
-        pReferencesText.setAlignment(Alignment.LEFT);
-        pReferencesText.setAutoInsertLinebreaks(true);
-        pReferencesText.getBox().hide(true);
-        pReferencesBox.addGUI(pReferencesText);
+        pReferences = new ReferencesGUI(new ivec2(10, 20), new ivec2(80, 70));
+        pReferences.setPositionInPercent(true, true);
+        pReferences.setSizeInPercent(true, true);
+        pReferences.hide(true);
+        pCanvas.addGUI(pReferences);
 
         pRatingGUI = new RatingGUI(new ivec2(100, 70), 30, 5);
         pRatingGUI.setPositionInPercent(true, false);
@@ -127,8 +118,8 @@ public class ViewSingleCardPage extends Page
         referencesButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                pReferencesBox.hide(!pReferencesBox.isHidden());
-                pCardRenderer.hide(!pReferencesBox.isHidden());
+                pReferences.hide(!pReferences.isHidden());
+                pCardRenderer.hide(!pReferences.isHidden());
             }
         });
 
@@ -209,21 +200,13 @@ public class ViewSingleCardPage extends Page
 
     private void updateReferences()
     {
-        String referencesStr = "";
-        for(String line : pCard.getReferences().split("\n"))
-        {
-            String[] args = line.split(";");
-            if(args.length < 2)
-                continue;
-            String type = args[0];
-            String uuid = args[1];
-            String desc = "";
-            for(int i = 2; i < args.length; i++)
-                desc += args[i];
-            
-            referencesStr += desc + "\n";
-        }
-        pReferencesText.setString(referencesStr);
+        //pReferences.interpreteString(pCard.getReferences());
+        pReferences.interpreteString("""
+        ctg;[UUID];random random
+        crd;[UUID];Weird card I found on the street
+        htm;https://www.google.de;Some obscure searchengine
+        fil;./pom.xml;the krabby patty secret formula
+        """);
     }
 
 

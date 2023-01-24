@@ -3,13 +3,11 @@ package com.swp.GUI.Extras;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gumse.gui.Basics.Switch.OnSwitchTicked;
 import com.gumse.gui.HierarchyList.HierarchyList;
 import com.gumse.gui.HierarchyList.HierarchyListEntry;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.io.Mouse;
-import com.gumse.tools.Output;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Category;
@@ -89,6 +87,7 @@ public class CategoryList extends RenderGUI
     public void reset()
     {
         pList.reset();
+        updateSelectmode();
     }
 
     public void addCategory(Category category, HierarchyListEntry<Category> listentry)

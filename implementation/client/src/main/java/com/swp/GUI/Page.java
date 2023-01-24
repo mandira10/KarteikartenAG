@@ -27,4 +27,10 @@ public class Page extends RenderGUI
         
         pNameText.render();
     }
+
+    @Override
+    protected void updateOnThemeChange() 
+    {
+        pNameText.setOrigin(new ivec2(pNameText.getSize().x + 10, 0));
+    }
 }

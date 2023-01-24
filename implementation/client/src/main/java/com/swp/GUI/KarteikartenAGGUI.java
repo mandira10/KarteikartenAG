@@ -6,11 +6,14 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.*;
 import com.gumse.tools.Output;
 import com.swp.DataModel.Settings.Setting;
+import com.swp.DataModel.CardTypes.ImageDescriptionCard;
+import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Settings;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.GUI.Cards.ViewSingleCardPage;
 import com.swp.GUI.Category.ViewCategoryTreePage;
 import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.Extras.ConfirmationGUI;
@@ -49,7 +52,7 @@ public class KarteikartenAGGUI extends RenderGUI
             GUI.setTheme(pLightTheme);
         updateTheme();
 
-        /*ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
+        ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
             new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),
             new ImageDescriptionCardAnswer("Orange",       61, 26),
             new ImageDescriptionCardAnswer("Nase",         40, 67),
@@ -62,12 +65,12 @@ public class KarteikartenAGGUI extends RenderGUI
         //page.editCard(card);
         //PageManager.viewPage(PAGES.CARD_EDIT);
 
-        //ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
-        //page.setCard(card);
-        */
-        ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
+        ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
+        page.setCard(card);
+        
+        /*((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
 
-        PageManager.viewPage(PAGES.CATEGORY_OVERVIEW);
+        PageManager.viewPage(PAGES.CATEGORY_OVERVIEW);*/
 
 
         pConfirmations = ConfirmationGUI.getInstance();
