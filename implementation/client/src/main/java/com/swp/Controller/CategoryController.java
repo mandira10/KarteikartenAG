@@ -36,6 +36,7 @@ public class CategoryController {
      *
      * @param category: die Kategorie zu aktualisieren
      * @param neu: Ob, die Kategorie neue oder nicht ist zu verstehen
+     * @param singleDataCallback: Callback für die GUI gib bei Fehler die Exception message weiter
      */
     public void updateCategoryData(Category category, boolean neu, boolean nameChange, SingleDataCallback<Boolean> singleDataCallback) {
         try {
@@ -58,6 +59,7 @@ public class CategoryController {
      * @param category: die Kategorie zu bearbeiten
      * @param parents : die Liste der Parents Kategorien für diese Kategorie
      * @param children: die Liste der Children Kategorien für diese Kategorie
+     * @param singleDataCallback: Callback für die GUI, gibt bei Fehler die Exception message weiter
      */
     public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<Boolean> singleDataCallback) {
         try {
@@ -72,6 +74,7 @@ public class CategoryController {
      * Wird verwendet, um eine Kategorie zu löschen. Wird an die CategoryLogic weitergegeben.
      *
      * @param category: die Kategorie zu löschen
+     * @param singleDataCallback Callback für die GUI, gibt bei Fehler die Exception message weiter
      */
     public void deleteCategory(Category category, SingleDataCallback<Boolean> singleDataCallback) {
         try {
@@ -90,6 +93,8 @@ public class CategoryController {
      * Wird verwendet, um mehrere Kategorien zu löschen. Wird an die CategoryLogic weitergegeben.
      *
      * @param categories: die Liste der Kategorien zu löschen
+     * @param singleDataCallback: Callback für die GUI, gibt bei Fehler die Exception message.
+     *
      */
     public void deleteCategories(List<Category> categories, SingleDataCallback<Boolean> singleDataCallback){
         try {
@@ -105,6 +110,7 @@ public class CategoryController {
      * Wird verwendet, um die Children einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
      * 
      * @param parent: die Parent Kategorie, um die Children zu bekommen
+     * @param dataCallback: Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getChildrenForCategory(Category parent, DataCallback<Category> dataCallback) {
         try {
@@ -123,6 +129,7 @@ public class CategoryController {
      * Wird verwendet, um einzelne Kategorieinformationen über ihre UUID abzurufen. Wird an die CategoryLogic weitergegeben.
      *
      * @param uuid: UUID der abzurufenden Kategorie
+     * @param singleDataCallback: Callback für die GUI, gibt bei success Category an GUI weiter, bei Fehler die Exception message.
      */
     public void getCategoryByUUID(String uuid, SingleDataCallback<Category> singleDataCallback) {
         try {
@@ -144,9 +151,10 @@ public class CategoryController {
 
 
     /**
-     * Wird verwendet, um die Kategorien für eine Kategorie zu ändern.  Wird an die CategoryLogic weitergegeben.
-     * @param card: die Karte,um zu ändern
+     * Wird verwendet, um die Kategorien für eine Kategorie zu ändern. Wird an die CategoryLogic weitergegeben.
+     * @param card: die Karte, um zu ändern
      * @param categories: Liste der Kategorien
+     * @param singleDataCallback: Callback für die GUI, gibt bei Fehler die Exception message an die GUI weiter.
      */
     public void setCategoriesToCard(Card card, List<Category> categories, SingleDataCallback<Boolean> singleDataCallback) {
         try {
@@ -164,6 +172,7 @@ public class CategoryController {
      * Wird an die CategoryLogic weitergegeben.
      *
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
+     * @param dataCallback: Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCardsInCategory(Category category, DataCallback<CardOverview> dataCallback) {
         try {
@@ -195,6 +204,7 @@ public class CategoryController {
      * Wird an die CategoryLogic weitergegeben.
      *
      * @param category: Die Kategorie, zu der die Karten abgerufen werden sollen
+     * @param dataCallback: Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCardsInCategory(String category, DataCallback<CardOverview> dataCallback) {
 
@@ -220,7 +230,7 @@ public class CategoryController {
     /**
      * Gibt Karten für mehrere Kategorien wider. Wird an die CategoryLogic weitergegeben.
      * @param categories Die Kategorien, zu denen die zugehörigen Karten gesucht werden sollen
-     * @param dataCallback: Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
+     * @param dataCallback Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCardsInCategories(List<Category> categories, DataCallback<CardOverview> dataCallback)
     {
@@ -246,6 +256,7 @@ public class CategoryController {
      * Kann verwendet werden, um einzelne Kategorien zu Karten in der SingleCardOverviewPage oder im EditModus aufzurufen
      *
      * @param card Die Karte, zu der die Kategorien abgerufen werden sollen
+     * @param dataCallback Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCategoriesToCard(Card card, DataCallback<Category> dataCallback) {
         try {
@@ -266,6 +277,7 @@ public class CategoryController {
      * Lädt alle Categories als Set. 
      * Werden in der CardEditPage als Dropdown angezeigt. 
      * Wird weitergegeben an die CategoryLogic.
+     * @param dataCallback: Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCategories(DataCallback<Category> dataCallback) {
         try {
@@ -285,6 +297,7 @@ public class CategoryController {
      * Lädt alle Categories welche keine Parent-Categories haben als Liste. 
      * Wird weitergegeben an die CategoryLogic.
      * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
+     * @param dataCallback: Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      *
      */
     public void getRootCategories(DataCallback<Category> dataCallback)

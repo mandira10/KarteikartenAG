@@ -212,8 +212,6 @@ public class TestDataClass {
         technikL.add(new MultipleChoiceCard("Google Earth ist weltweit bekannt. Doch eine Berliner Agentur schuf bereits Anfang der Neunziger ein ähnliches Produkt, wie hieß der digitale Globus der Berliner??", new String[]{"Terravision", "Globetrotter", "Digiglobe"}, new int[]{0}, "Das erste Google Earth", false));
         technikL.add(new TrueFalseCard("Logitech produzierte die erste echte Computer-Maus", false, "Produzent erster Computer-Maus", false));
         technikL.add(new TrueFalseCard("http steht für Hypertext Transfer Protocol", false, "HTTP", false));
-        technikL.add(new MultipleChoiceCard("Mag sein, dass das iPhone 2007 die Ära der Smartphones erst so richtig begründet hat. Aber das IBM Simon (hier in der Mitte) war tatsächlich das allererste Smartphone mit Touch Display. Wann kam es auf den Markt??", new String[]{"1989", "1994", "2001"}, new int[]{1}, "Erstes Smartphone", false));
-        technikL.add(new MultipleChoiceCard("Google Earth ist weltweit bekannt. Doch eine Berliner Agentur schuf bereits Anfang der Neunziger ein ähnliches Produkt, wie hieß der digitale Globus der Berliner??", new String[]{"Terravision", "Globetrotter", "Digiglobe"}, new int[]{0}, "Das erste Google Earth", false));
 
         for (Card c : technikL) {
             CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
@@ -264,7 +262,7 @@ public class TestDataClass {
         zweitausender.add(new MultipleChoiceCard("Wo fanden 2008 die Olympischen Sommerspiele statt?", new String[]{"London", "Peking", "Athen", "Sydney"}, new int[]{1}, "Olympia 2088", false));
         zweitausender.add(new MultipleChoiceCard("Wer wurde am 7. November 2000 zum 43. US-Präsidenten gewählt??", new String[]{"George W.Bush", "Barack Obama", "Donald Trump", "Angela Merkel"}, new int[]{0}, "USA Präsident 2000", false));
         zweitausender.add(new MultipleChoiceCard("Welches Technik Produkt kam 2007 erstmals auf den Markt?", new String[]{"GoPro", "Drohne", "Sony Ericsson W800", "iPhone"}, new int[]{3}, "Technik Produkt 2007", false));
-        zweitausender.add(new MultipleChoiceCard("Wer gewann 2006 bei der Fußball-WM in Deutschland den Weltmeistertitel??", new String[]{"Deutschland", "Spanien", "Russland", "Italien"}, new int[]{3}, "Erster Harry Potter Film", false));
+        zweitausender.add(new MultipleChoiceCard("Wer gewann 2006 bei der Fußball-WM in Deutschland den Weltmeistertitel??", new String[]{"Deutschland", "Spanien", "Russland", "Italien"}, new int[]{3}, "Fußball WM Deutschland", false));
 
         for (Card c : zweitausender) {
             CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
