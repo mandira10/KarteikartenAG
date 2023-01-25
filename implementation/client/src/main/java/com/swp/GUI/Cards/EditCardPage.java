@@ -237,6 +237,7 @@ public class EditCardPage extends Page
 
     public void updateTags(List<Tag> tags)
     {
+        pTagList.reset();
         for(Tag tag : tags)
             pTagList.addTag(tag.getVal(), tag);
     }
