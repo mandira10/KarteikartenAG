@@ -77,9 +77,9 @@ public class CardList extends RenderGUI
             new ivec2(0, 0), 
             new ivec2(100, 100), 
             new ColumnInfo[] {
-                new ColumnInfo("Title",        ColumnType.STRING,  65, "CardOverviewlisttitle"),
-                new ColumnInfo("Creationdate", ColumnType.DATE,    20, "CardOverviewlistdate"),
-                new ColumnInfo("Decks",        ColumnType.INTEGER, 10, "CardOverviewlistdecks"),
+                new ColumnInfo("Title",        ColumnType.STRING,  65, "cardlisttitle"),
+                new ColumnInfo("Creationdate", ColumnType.DATE,    20, "cardlistdate"),
+                new ColumnInfo("Decks",        ColumnType.INTEGER, 10, "cardlistdecks"),
                 checkcolumn
             }
         );
