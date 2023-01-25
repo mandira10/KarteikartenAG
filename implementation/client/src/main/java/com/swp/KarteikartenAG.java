@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL11.*;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
+import com.swp.DataModel.Settings;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL11;
 import org.lwjgl.openal.ALC;
@@ -181,7 +182,7 @@ public class KarteikartenAG
 
         XMLGUI.addGUIType("menu", MenuOptions.createFromXMLNode());
         XMLGUI.addGUIType("searchbar", Searchbar.createFromXMLNode());
-
+        Settings.getInstance().getLanguage().activate();
         importTestData();
         KarteikartenAGGUI pKarteikartenAGGUI = KarteikartenAGGUI.getInstance();
         pKarteikartenAGGUI.setSize(new ivec2(100, 100));

@@ -950,7 +950,7 @@ public class StudySystemControllerTests {
     public void addCardsToStudySystemTestException(){
         StudySystem studySystem = new StudySystem() {
         };
-        List<Card> list = new ArrayList<>();
+        List<CardOverview> list = new ArrayList<>();
         doThrow(new RuntimeException()).when(studySystemLogic).addCardsToDeck(list,studySystem);
         String expected = "Ein Fehler ist aufgetreten";
         final String[] actual = new String[1];
@@ -973,7 +973,7 @@ public class StudySystemControllerTests {
     public void addCardsToStudySystemTest(){
         StudySystem studySystem = new StudySystem() {
         };
-        List<Card> list = new ArrayList<>();
+        List<CardOverview> list = new ArrayList<>();
         doNothing().when(studySystemLogic).addCardsToDeck(list,studySystem);
 
         studySystemController.addCardsToStudySystem(list,studySystem, new SingleDataCallback<Boolean>() {

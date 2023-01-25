@@ -22,6 +22,8 @@ public class EditDeckPage extends Page
     private Dropdown pStudySystemDropdown;
     private Dropdown pCardOrderDropdown;
     private StudySystem pNewDeck;
+    private boolean bNewDeck;
+    private StudySystem pOldDeck;
     private TextField pTitleField;
 
     private RenderGUI pCanvas;
@@ -40,8 +42,17 @@ public class EditDeckPage extends Page
         RenderGUI optionsMenu = findChildByID("menu");
         //Cancel Button
         Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
+        Button applyButton = (Button)optionsMenu.findChildByID("applybutton");
         cancelButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) { PageManager.viewLastPage(); }
+        });
+
+
+        applyButton.onClick(new GUICallback() {
+            @Override public void run(RenderGUI gui)
+            {
+                applyChanges();
+            }
         });
 
         //Titlefield
@@ -101,8 +112,9 @@ public class EditDeckPage extends Page
             Output.error("EditDeckPage: Cannot edit deck: is null");
             return;
         }
-
+        pOldDeck = deck;
         pNewDeck = StudySystem.copyStudySystem(deck);
+        bNewDeck = newdeck;
 
         pCanvas.hide(true);
         pTitleField.setString(pNewDeck.getName());
@@ -126,6 +138,17 @@ public class EditDeckPage extends Page
 
     private void applyChanges()
     {
+        StudySystemController.getInstance().updateDeckData(pOldDeck, pNewDeck, bNewDeck, new SingleDataCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean data) {
+
+            }
+
+            @Override
+            public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            }
+        });
         //TODO TBD: fügst du die ausgewählten Karten bei einem neuen Deck bereits in das neue StudySystem vom neuen Deck ein?
         //DeckController.updateDeckData(pOldDeck, pNewDeck, boolean if new // CardSet wenn die von uns eingefügt werden sollen );
     }

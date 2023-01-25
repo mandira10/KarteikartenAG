@@ -1,6 +1,7 @@
 package com.swp.DataModel;
 
 
+import com.gumse.gui.Locale;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -177,7 +178,7 @@ public abstract class Card implements Serializable
     public void setQuestion(String question)
     {
 
-            this.question = checkNotNullOrBlank(question,"Frage",false);
+            this.question = checkNotNullOrBlank(Locale.getCurrentLocale().getString("question"),"Frage",false);
     }
 
     public void setTitle(String title)

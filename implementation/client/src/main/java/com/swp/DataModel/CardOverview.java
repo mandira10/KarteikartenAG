@@ -20,7 +20,7 @@ import java.sql.Timestamp;
         "c.CREATIONDATE as cardCreated," +
         "c.content as content,"+
         "CASE WHEN c.TITLE = '' THEN c.QUESTION ELSE c.TITLE END AS titelToShow," +
-        "COUNT(SELECT DISTINCT b2C.ID FROM BOXTOCARD b2C WHERE b2C.CARD_UUID = c.CARD_ID) AS countDecks " +
+        "(SELECT COUNT(DISTINCT b2C.ID) FROM BOXTOCARD b2C WHERE b2C.CARD_UUID = c.CARD_ID) AS countDecks, " +
         "FROM CARD c " +
         "GROUP BY c.CARD_ID " +
         "ORDER BY c.TITLE")
@@ -32,9 +32,12 @@ import java.sql.Timestamp;
 @NamedQuery(name = "CardOverview.allCardsWithStudySystem",
            query = "SELECT co FROM CardOverview co LEFT JOIN BoxToCard b2c ON b2c.card = co.uUUID LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
 @NamedQuery(name = "CardOverview.allCardsWithTagName",
-           query = "SELECT co FROM CardOverview co LEFT JOIN CardToTag c2t ON c2t.card = co.uUUID LEFT JOIN Tag t on c2t.tag = t.id where LOWER(t.val) LIKE LOWER(:tagName)")
+           query = "SELECT co FROM CardOverview co LEFT JOIN CardToTag c2t ON c2t.card = co.uUUID LEFT JOIN Tag t on c2t.tag = t.val where LOWER(t.val) LIKE LOWER(:tagName)")
 @NamedQuery(name = "CardOverview.allCardsWithCategoryName",
            query = "SELECT co FROM CardOverview co LEFT JOIN CardToCategory c2c ON c2c.card = co.uUUID LEFT JOIN Category cat on c2c.category = cat.uuid where LOWER(cat.name) LIKE LOWER(:categoryName)")
+@NamedQuery(name = "CardOverview.getCardsForUUIDs",
+       query = "SELECT c FROM Card c LEFT JOIN CardOverview co on c.uuid = co.uUUID WHERE co IN (:uuids)"
+)
 public class CardOverview  {
 
 

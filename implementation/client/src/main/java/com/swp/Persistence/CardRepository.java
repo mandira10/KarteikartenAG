@@ -125,6 +125,14 @@ public class CardRepository extends BaseRepository<Card> {
                 .getResultList();
     }
 
+    public List<Card> getAllCardsForCardOverview(List<CardOverview> uuids){
+        return getEntityManager()
+                .createNamedQuery("CardOverview.getCardsForUUIDs",Card.class)
+                .setParameter("uuids",uuids)
+                .getResultList();
+    }
+
+
     /**
      * Die Funktion `findCardsByTag` sucht nach Karten, der ein bestimmter Tag zugeordnet ist und gibt diese zurück.
      *

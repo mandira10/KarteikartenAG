@@ -8,6 +8,7 @@ import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter.ExportFileType;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
+import com.gumse.gui.Locale;
 
 import java.util.*;
 
@@ -38,7 +39,7 @@ public class CardController {
 
             if (cardsToShow.isEmpty()) {
                 log.info("Es wurden keine zugehörigen Karten gefunden");
-                callback.onInfo("Es gibt bisher noch keine Karten");
+                callback.onInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
             }
             else
                 callback.onSuccess(cardsToShow);
@@ -64,7 +65,7 @@ public class CardController {
 
             if (cardsForTag.isEmpty()){
                 log.info("Es wurden keine Karten für den Tag gefunden");
-                callback.onInfo("Es gibt keine Karten für diesen Tag");
+                callback.onInfo(Locale.getCurrentLocale().getString("getcardsbytagempty"));
             }
             else
                 callback.onSuccess(cardsForTag);
@@ -75,7 +76,7 @@ public class CardController {
         }  catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit Tag {} ist ein Fehler {} aufgetreten", tag
                     , ex);
-            callback.onFailure("Beim Suchen nach Karten für den Tag" + tag +" ist ein Fehler aufgetreten");
+            callback.onFailure(Locale.getCurrentLocale().getString("getcardsbytagerror"));
         }
 
     }
@@ -91,12 +92,12 @@ public class CardController {
             List<Tag> tagsForCard = cardLogic.getTagsToCard(card);
 
             if (tagsForCard.isEmpty()) {
-                log.info("Es wurden keine Tags für die Karte gefunden");
+                log.info(Locale.getCurrentLocale().getString("gettagstocard"));
             } else
                 callback.onSuccess(tagsForCard);
         } catch (final Exception ex) {
              log.error("Beim Suchen nach Tags der Karte {} ist ein Fehler {} aufgetreten", card.getUuid(), ex);
-             callback.onFailure("Beim Suchen nach Tags für die Karte ist ein Fehler aufgetreten");
+             callback.onFailure(Locale.getCurrentLocale().getString("gettagstocarderror"));
         }
     }
 
@@ -112,7 +113,7 @@ public class CardController {
 
             if (cardsForSearchTerms.isEmpty()) {
                 callback.onInfo("Es gibt keine Karten für dieses Suchwort");
-                log.info("Keine Karten für Suchwort gefunden");
+                log.info(Locale.getCurrentLocale().getString("getcardsbysearchtermsempty"));
             } else
                 callback.onSuccess(cardsForSearchTerms);
         } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
@@ -120,7 +121,7 @@ public class CardController {
             callback.onFailure(ex.getMessage());
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit dem Suchbegriff {} ist ein Fehler {} aufgetreten", searchterm, ex);
-            callback.onFailure("Beim Suchen nach Karten mit dem Suchbegriff "+ searchterm + " ist ein Fehler aufgetreten");
+            callback.onFailure(Locale.getCurrentLocale().getString("getcardsbysearchtermserror"));
         }
     }
 
@@ -138,7 +139,7 @@ public class CardController {
             log.error("Null-Value übergeben");
         }
         catch (Exception ex) {
-            singleDataCallback.onFailure("Beim Löschen der Karte ist ein Fehler aufgetreten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("deletecarderror"));
             log.error("Beim Löschen der Karte {} ist ein Fehler {} aufgetreten", card, ex);
         }
     }
@@ -156,7 +157,7 @@ public class CardController {
             singleDataCallback.onFailure(ex.getMessage());
             log.error("Null-Value übergeben");
         } catch (Exception ex) {
-            singleDataCallback.onFailure("Beim Löschen der Karten ist ein Fehler aufgetreten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("deletecardserror"));
             log.error("Beim Löschen der Karten {} ist ein Fehler {} aufgetreten", cards, ex);
         }
     }
@@ -179,11 +180,12 @@ public class CardController {
             singleDataCallback.onFailure(ex.getMessage());
         }
         catch(NoResultException ex){
-            singleDataCallback.onFailure("Es konnte keine Karte zur UUID gefunden werden");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("getcardbyuuidempty"
+            ));
             log.error("Es wurde keine Karte zur UUID {} gefunden",uuid);
         }
         catch(Exception ex){
-            singleDataCallback.onFailure("Beim Abrufen der Karte ist ein Fehler aufgetreten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("getcardbyuuiderror"));
             log.error("Beim Abrufen der Karte ist ein Fehler {} aufgetreten",ex.getMessage());
         }
     }
@@ -201,7 +203,7 @@ public class CardController {
             cardLogic.setTagsToCard(card, set);
             singleDataCallback.onSuccess(true);
         } catch (Exception ex) {
-            singleDataCallback.onFailure("Beim Hinzufügen der Tags zu der Karte ist ein Fehler aufgetreten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("settagstocarderror"));
             log.error("Beim Setzen der Tags für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());
         }
     }
@@ -224,7 +226,7 @@ public class CardController {
         }
 
         catch (Exception ex) {
-            singleDataCallback.onFailure(String.format("Karte konnte nicht gespeichert oder geupdatet werden"));
+            singleDataCallback.onFailure(String.format(Locale.getCurrentLocale().getString("updatecreatecarderror")));
             log.error("Beim Updaten/Speichern der Karte {} mit der ist ein Fehler {} aufgetreten",cardToChange.getUuid(),ex.getMessage());
         }
     }
@@ -242,7 +244,7 @@ public class CardController {
         try {
             cardLogic.exportCards(cards, filetype);
         } catch (Exception ex) {
-            singleDataCallback.onFailure("Es gab Probleme beim Exportieren der Karten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("cardexporterror"));
             log.error("Beim Exportieren der Karte(n) gab es einen Fehler {}" + ex.getMessage());
         }
     }

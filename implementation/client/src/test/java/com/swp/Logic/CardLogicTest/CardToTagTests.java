@@ -9,6 +9,7 @@ import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToTagRepository;
 import com.swp.Persistence.TagRepository;
 import jakarta.persistence.NoResultException;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +40,7 @@ public class CardToTagTests {
     }
 
     /**
-     * Testet das Hinzufügen eines einzelnen Tag zu einer Karte, wenn diese noch keine Tags hat.
+     * Testet das Hinzufügen eines einzelnen Tags zu einer Karte, wenn diese noch keine Tags hat.
      */
     @Test
     public void testAddOneCardToTagNotExisting(){

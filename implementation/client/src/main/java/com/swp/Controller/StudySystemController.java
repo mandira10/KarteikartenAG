@@ -309,9 +309,12 @@ public class StudySystemController{
      * @param studySystem Das StudySystem, das benötigt wird.
      * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void addCardsToStudySystem(List<Card> cards, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback){
-        try{studySystemLogic.addCardsToDeck(cards,studySystem);}
+    public void addCardsToStudySystem(List<CardOverview> cards, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback){
+        try{
+            studySystemLogic.addCardsToDeck(cards,studySystem);
+        }
         catch(Exception ex){
+            log.error(ex.getMessage());
             singleDataCallback.onFailure("Ein Fehler ist aufgetreten");
         }
 
