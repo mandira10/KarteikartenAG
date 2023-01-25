@@ -33,7 +33,7 @@ public class LeitnerSystem extends StudySystem
 
 
     public LeitnerSystem() {
-        super("", CardOrder.ALPHABETICAL, StudySystemType.LEITNER, false);
+        this("", CardOrder.ALPHABETICAL, false);
     }
 
 

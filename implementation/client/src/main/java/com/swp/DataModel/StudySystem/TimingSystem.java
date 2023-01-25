@@ -44,7 +44,7 @@ public class TimingSystem extends StudySystem
 
 
     public TimingSystem() {
-      super("",CardOrder.ALPHABETICAL,StudySystemType.TIMING,false);
+     this("",CardOrder.ALPHABETICAL,false,0);
     }
 
 }

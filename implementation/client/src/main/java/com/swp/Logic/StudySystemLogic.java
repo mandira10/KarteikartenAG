@@ -303,7 +303,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu) {
         execTransactional(() -> {
             if (newStudySystem == null) {
-                throw new IllegalArgumentException("newStudySystem can't be null");
+                throw new IllegalArgumentException("New Study System can't be null");
             } else if (neu) {
                 studySystemRepository.save(newStudySystem);
             } else if (oldStudySystem != null && newStudySystem.getType().equals(oldStudySystem.getType())) {
