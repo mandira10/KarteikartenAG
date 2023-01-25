@@ -1,5 +1,6 @@
 package com.swp.DataModel.CardTypes;
 
+import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -60,7 +61,7 @@ public class TextCard extends Card
     }
 
     public void setAnswer(String answer) {
-        this.answer = checkNotNullOrBlank("Antwort", answer,false);
+        this.answer = checkNotNullOrBlank(Locale.getCurrentLocale().getString("answer"), answer,false);
     }
 
     @Override

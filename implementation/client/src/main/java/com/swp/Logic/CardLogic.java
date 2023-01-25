@@ -1,5 +1,6 @@
 package com.swp.Logic;
 
+import com.gumse.gui.Locale;
 import com.swp.DataModel.*;
 import com.swp.Persistence.*;
 import com.swp.Persistence.Exporter.ExportFileType;
@@ -65,7 +66,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public List<CardOverview> getCardsBySearchterms(String terms)
     {
-        checkNotNullOrBlank(terms, "Suchbegriff",true);
+        checkNotNullOrBlank(terms, Locale.getCurrentLocale().getString("searchterm"), true);
         return execTransactional(() -> cardRepository.findCardsContaining(terms));
     }
 
@@ -77,7 +78,7 @@ public class CardLogic extends BaseLogic<Card>
     public void deleteCard(Card card)
     {
         if(card == null){
-            throw new IllegalStateException("Karte existiert nicht");
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("cardnullerror"));
         }
         execTransactional(() -> {
             log.info("Lösche alle Card To Categories zur Karte");
@@ -144,7 +145,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public void updateCardData(Card cardToChange, boolean neu) {
         if(cardToChange == null){
-            throw new IllegalStateException("Karte existiert nicht");
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("cardnullerror"));
         }
         cardToChange.setContent();
         execTransactional(() -> {

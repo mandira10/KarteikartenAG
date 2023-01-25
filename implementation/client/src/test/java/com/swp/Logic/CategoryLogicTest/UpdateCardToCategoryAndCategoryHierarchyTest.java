@@ -1,6 +1,9 @@
 package com.swp.Logic.CategoryLogicTest;
 
 
+import com.gumse.gui.Locale;
+import com.gumse.tools.Output;
+import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardTypes.TextCard;
@@ -25,11 +28,12 @@ import static org.mockito.Mockito.*;
  */
 public class UpdateCardToCategoryAndCategoryHierarchyTest {
 
-    CardLogic cardLogic = CardLogic.getInstance();
     CategoryLogic categoryLogic = CategoryLogic.getInstance();
     private CardRepository cardRepMock;
     private CategoryRepository categoryRepMock;
     private CardToCategoryRepository cardToCategoryRepMock;
+    private Locale locale = new Locale("German", "de");
+    private int i;
 
     @BeforeEach
     public void beforeEach(){
@@ -39,6 +43,23 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         on(categoryLogic).set("categoryRepository",categoryRepMock);
         on(categoryLogic).set("cardRepository",cardRepMock);
         on(categoryLogic).set("cardToCategoryRepository",cardToCategoryRepMock);
+
+        Locale.setCurrentLocale(locale);
+        String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
+
+        i = 0;
+        filecontent.lines().forEach((String line) -> {
+            i++;
+            if(line.replaceAll("\\s","").isEmpty() || line.charAt(0) == '#')
+                return;
+
+            String[] args = line.split("= ");
+            if(args.length < 1)
+                Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
+            String id = args[0].replaceAll("\\s","");
+            String value = args[1];
+            locale.setString(id, value);
+        });
     }
 
     /**

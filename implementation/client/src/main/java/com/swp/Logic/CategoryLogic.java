@@ -2,6 +2,7 @@ package com.swp.Logic;
 
 import java.util.*;
 
+import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToCategory;
@@ -82,14 +83,14 @@ public class CategoryLogic extends BaseLogic<Category> {
      */
     public void updateCategoryData(Category category, boolean neu, boolean nameChange) {
         if (category == null) {
-            throw new IllegalStateException("Kategorie existiert nicht");
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("categorynullerror"));
         }
         if (neu) {
             execTransactional(() -> {
                 try {
                     Category catExists = categoryRepository.find(category.getName());
                     if (catExists != null) {
-                        throw new IllegalArgumentException("Kategorie mit dem Namen existiert bereits!");
+                        throw new IllegalArgumentException(Locale.getCurrentLocale().getString("categorywithnameexistsalready"));
                     }
                 } catch (NoResultException ex) {
                     categoryRepository.save(category);
@@ -102,7 +103,7 @@ public class CategoryLogic extends BaseLogic<Category> {
                     try {
                         Category catExists = categoryRepository.find(category.getName());
                         if (catExists != null) {
-                            throw new IllegalArgumentException("Kategorie mit dem Namen existiert bereits!");
+                            throw new IllegalArgumentException(Locale.getCurrentLocale().getString("categorywithnameexistsalready"));
                         }
                     } catch (NoResultException ex) {
                         categoryRepository.save(category);
@@ -121,7 +122,7 @@ public class CategoryLogic extends BaseLogic<Category> {
      */
     public void deleteCategory(Category category) {
         if (category == null) {
-            throw new IllegalStateException("Kategorie existiert nicht");
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("categorynullerror"));
         }
         execTransactional(() -> {
             cardToCategoryRepository
@@ -162,7 +163,7 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @return Liste an Karten mit Kategorie
      */
     public List<CardOverview> getCardsInCategory(String categoryName) {
-        checkNotNullOrBlank(categoryName, "Kategorie", true);
+        checkNotNullOrBlank(categoryName, Locale.getCurrentLocale().getString("category"), true);
         return execTransactional(() -> cardRepository.getCardsByCategory(categoryName));
     }
 
@@ -174,7 +175,7 @@ public class CategoryLogic extends BaseLogic<Category> {
      */
     public List<CardOverview> getCardsInCategory(Category category) {
         if (category == null) {
-            throw new IllegalStateException("Kategorie existiert nicht");
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("categorynullerror"));
         }
         return execTransactional(() -> cardRepository.getCardsByCategory(category));
     }
@@ -183,7 +184,7 @@ public class CategoryLogic extends BaseLogic<Category> {
         List<CardOverview> cardsToCategories = new ArrayList<>();
         for (Category c : categories) {
             if (c == null) {
-                throw new IllegalStateException("Kategorie existiert nicht");
+                throw new IllegalStateException(Locale.getCurrentLocale().getString("categorynullerror"));
             }
             cardsToCategories.addAll(getCardsInCategory(c));
         }

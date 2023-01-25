@@ -33,7 +33,7 @@ public class VoteSystem extends StudySystem
     }
 
     public VoteSystem() {
-       super("",CardOrder.ALPHABETICAL,StudySystemType.VOTE,false);
+       this("",CardOrder.ALPHABETICAL,false);
     }
 
 

@@ -1,5 +1,6 @@
 package com.swp.Controller;
 
+import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
@@ -39,7 +40,7 @@ public class CategoryController {
             log.error("Kategorie nicht gefunden");
         }
         catch (Exception ex) {
-            singleDataCallback.onFailure(String.format("Kategorie konnte nicht gespeichert oder geupdatet werden"));
+            singleDataCallback.onFailure(String.format(Locale.getCurrentLocale().getString("categoryupdatesaveerror")));
             log.error("Beim Updaten/Speichern der Kategorie {} ist ein Fehler {} aufgetreten",category.getUuid(),ex.getMessage());
 
         }
@@ -58,7 +59,7 @@ public class CategoryController {
             categoryLogic.editCategoryHierarchy(category, parents, children);
         } catch (Exception ex) {
             log.error("Beim Updaten der Kategorie ist der Fehler {} aufgetreten", ex.getMessage());
-            singleDataCallback.onFailure("Beim Updaten der Hierarchie ist ein Fehler aufgetreten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("categoryhierarchyupdateerror"));
         }
     }
 
@@ -76,7 +77,7 @@ public class CategoryController {
             singleDataCallback.onFailure(ex.getMessage());
         }
         catch (Exception ex) {
-            singleDataCallback.onFailure("Beim Löschen der Kategorie ist ein Fehler aufgetreten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("deletecategoryerror"));
             log.error("Beim Löschen der Kategorie {} ist ein Fehler {} aufgetreten", category, ex);
         }
     }
@@ -92,7 +93,7 @@ public class CategoryController {
         try {
             categoryLogic.deleteCategories(categories);
         } catch (Exception ex) {
-            singleDataCallback.onFailure("Beim Löschen der Kategorien ist ein Fehler aufgetreten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("deletecategorieserror"));
             log.error("Beim Löschen der Kategorien {} ist ein Fehler {} aufgetreten", categories, ex);
         }
     }
@@ -108,11 +109,11 @@ public class CategoryController {
         try {
             List<Category> categoryChildren = categoryLogic.getChildrenForCategory(parent);
             if (categoryChildren.isEmpty())
-                log.info("Keine Children für diese Kategorie vorhanden");
+                log.trace(Locale.getCurrentLocale().getString("catchildrenempty"));
 
             dataCallback.onSuccess(categoryChildren);
         } catch (Exception ex) {
-            dataCallback.onFailure("Beim Abrufen der Children für die Kategorie ist ein Fehler aufgetreten");
+            dataCallback.onFailure(Locale.getCurrentLocale().getString("catchilderror"));
             log.error("Beim Beim Abrufen der Children für die Kategorie {} ist ein Fehler {} aufgetreten", parent, ex);
         }
     }
@@ -131,11 +132,11 @@ public class CategoryController {
             singleDataCallback.onFailure(ex.getMessage());
         }
         catch(NoResultException ex){
-            singleDataCallback.onFailure("Es konnte keine Kategorie zur UUID gefunden werden");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("categorybyuuidempty"));
             log.error("Es wurde keine Kategorie zur UUID {} gefunden",uuid);
         }
         catch(Exception ex){
-            singleDataCallback.onFailure("Beim Abrufen der Kategorie ist ein Fehler aufgetreten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("categorybyuuiderror"));
             log.error("Beim Abrufen der Kategorie ist ein Fehler {} aufgetreten",ex.getMessage());
         }
     }
@@ -153,7 +154,7 @@ public class CategoryController {
             categoryLogic.setCardToCategories(card, categories);
             singleDataCallback.onSuccess(true);
         } catch (Exception ex) {
-            singleDataCallback.onFailure("Beim Hinzufügen der Kategorien zu der Karte ist ein Fehler aufgetreten");
+            singleDataCallback.onFailure(Locale.getCurrentLocale().getString("setcategoriestocarderror"));
             log.error("Beim Setzen der Kategorien für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());
         }
     }
@@ -172,14 +173,10 @@ public class CategoryController {
             List<CardOverview> cards = categoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
-                log.info("Es gibt keine Karten zu dieser Kategorie");
+                log.info(Locale.getCurrentLocale().getString("getcardincategoryempty"));
 
             dataCallback.onSuccess(cards);
 
-        } catch (final NoResultException ex) {
-            // keine Karten mit entsprechendem Inhalt gefunden
-            log.info("Keine Karten mit der Kategorie {} gefunden", category);
-            dataCallback.onFailure(ex.getMessage());
         } catch (IllegalStateException ex) { //übergebener Wert ist leer
             log.error("Der übergebene Wert war leer");
             dataCallback.onFailure(ex.getMessage());
@@ -187,7 +184,7 @@ public class CategoryController {
         catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit Kategorie {} ist ein Fehler {} aufgetreten", category
                     , ex);
-            dataCallback.onFailure("Beim Suchen nach Karten für die Kategorie " + category.getName() +" ist ein Fehler aufgetreten");
+            dataCallback.onFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
         }
     }
 
@@ -205,7 +202,7 @@ public class CategoryController {
             List<CardOverview> cards = categoryLogic.getCardsInCategory(category);
 
             if (cards.isEmpty())
-               dataCallback.onInfo("Es gibt keine Karten für diese Kategorie");
+               dataCallback.onInfo(Locale.getCurrentLocale().getString("getcardincategoryempty"));
 
             dataCallback.onSuccess(cards);
 
@@ -215,7 +212,7 @@ public class CategoryController {
         }  catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category
                     , ex);
-            dataCallback.onFailure("Beim Suchen nach Karten für die Kategorie " + category +" ist ein Fehler aufgetreten");
+            dataCallback.onFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
         }
     }
 
@@ -231,7 +228,7 @@ public class CategoryController {
             List<CardOverview> cards = categoryLogic.getCardsInCategories(categories);
 
             if (cards.isEmpty())
-                dataCallback.onInfo("Es gibt keine Karten für diese Kategorien");
+                dataCallback.onInfo(Locale.getCurrentLocale().getString("getcardsincategoryempty"));
 
             dataCallback.onSuccess(cards);
 
@@ -240,7 +237,7 @@ public class CategoryController {
             dataCallback.onFailure(ex.getMessage());
         }  catch (final Exception ex) {
             log.error("Beim Suchen nach Karten mit Kategorien ist ein Fehler {} aufgetreten", ex);
-            dataCallback.onFailure("Beim Suchen nach den Karten für die angegebenen Kategorien ist ein Fehler aufgetreten");
+            dataCallback.onFailure(Locale.getCurrentLocale().getString("getcardsincategoryerror"));
         }
     }
 
@@ -256,13 +253,13 @@ public class CategoryController {
             List<Category> categoriesForCard = categoryLogic.getCategoriesByCard(card);
 
             if (categoriesForCard.isEmpty())
-                log.info("Keine Kategorien für diese Karte vorhanden");
+                log.info(Locale.getCurrentLocale().getString("getcategoriestocardempty"));
 
             dataCallback.onSuccess(categoriesForCard);
 
         } catch (final Exception ex) {
             log.error("Beim Suchen nach Kategorien für die Karte {} ist ein Fehler {} aufgetreten", card, ex);
-            dataCallback.onFailure("Beim Suchen nach Kategorien für die Karte ist ein Fehler aufgetreten");
+            dataCallback.onFailure(Locale.getCurrentLocale().getString("getcategoriestocarderror"));
         }
     }
 
@@ -277,12 +274,12 @@ public class CategoryController {
             List<Category> categories = categoryLogic.getCategories();
 
             if (categories.isEmpty())
-                log.info("Keine Kategorien vorhanden");
+                log.info(Locale.getCurrentLocale().getString("getcatoriesempty"));
 
             dataCallback.onSuccess(categories);
         } catch (Exception ex) {
             log.error("Beim Suchen nach Kategorien  ist ein Fehler {} aufgetreten", ex);
-            dataCallback.onFailure("Beim Suchen nach Kategorien ist ein Fehler aufgetreten");
+            dataCallback.onFailure(Locale.getCurrentLocale().getString("getcatorieserror"));
         }
     }
 
@@ -299,7 +296,7 @@ public class CategoryController {
             dataCallback.onSuccess(categoryLogic.getRootCategories());
         } catch (Exception ex) {
             log.error("Beim Suchen nach Root-Kategorien  ist ein Fehler {} aufgetreten", ex);
-            dataCallback.onFailure("Beim Suchen nach Root-Kategorien ist ein Fehler aufgetreten");
+            dataCallback.onFailure(Locale.getCurrentLocale().getString("getrootcategorieserror"));
         }
     }
 }

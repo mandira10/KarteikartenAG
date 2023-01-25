@@ -1,5 +1,6 @@
 package com.swp.Logic;
 
+import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
@@ -63,16 +64,9 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public void moveCardToBoxAndSave(Card card, int newBox, StudySystem studySystem)
     {
-        //TODO: check before that there is no card already in studySystem?
-        execTransactional(() -> {
-//                if(testingBoxCards.isEmpty()){
-//                    return null;
-//                }
-//                else {
-                    BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
-                    //save new BoxToCard
-                    return cardToBoxRepository.save(boxToCard);
-//                }
+        execTransactional(() -> { BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
+        cardToBoxRepository.save(boxToCard);
+        return null;
         });
     }
 
@@ -264,7 +258,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return Liste von CardOverView,die zu StudySystem gehört
      */
     public List<CardOverview> getAllCardsInStudySystem(StudySystem studySystem) {
-       return   execTransactional(() -> cardRepository.findCardsByStudySystem(studySystem));
+       return  execTransactional(() -> cardRepository.findCardsByStudySystem(studySystem));
     }
 
 
@@ -309,7 +303,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu) {
         execTransactional(() -> {
             if (newStudySystem == null) {
-                throw new IllegalArgumentException("newStudySystem can't be null");
+                throw new IllegalArgumentException("New Study System can't be null");
             } else if (neu) {
                 studySystemRepository.save(newStudySystem);
             } else if (oldStudySystem != null && newStudySystem.getType().equals(oldStudySystem.getType())) {
@@ -369,7 +363,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return eine Liste von StudySystem
      */
     public List<StudySystem> getStudySystemsBySearchterm(String searchterm) {
-        checkNotNullOrBlank(searchterm,"Suchbegriff",true);
+        checkNotNullOrBlank(searchterm, Locale.getCurrentLocale().getString("searchterm"),true);
         return execTransactional(() -> studySystemRepository.findStudySystemsContaining(searchterm));
     }
 
@@ -393,20 +387,22 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param cards: die Liste von Karten, um hinzufügen
      * @param studySystem Das StudySystem, das benötigt wird.
      */
-    public void addCardsToDeck(List<Card> cards, StudySystem studySystem) {
+    public void addCardsToDeck(List<CardOverview> cards, StudySystem studySystem) {
         if(studySystem == null){
             throw new IllegalStateException("Karte existiert nicht");
         }
-        execTransactional(() -> {
-            moveAllCardsForDeckToFirstBox(cards,studySystem);
-            studySystemRepository.update(studySystem);
-            for (Card c : cards) {
-                cardToBoxRepository.createCardToBox(c, studySystem.getBoxes().get(0),0);
-            }
-            return null; // Lambda braucht immer einen return
+        //TODO Prüfung, ob Karte schon in Deck enthalten, dann throw Exception und abfangen im Controller @Mert
+            List<Card> cards1 = getCardsForCardOverview(cards);
+            moveAllCardsForDeckToFirstBox(cards1,studySystem);
+            execTransactional(() -> {
+           studySystemRepository.update(studySystem);
+            return true; // Lambda braucht immer einen return
         });
     }
 
+    public List<Card> getCardsForCardOverview(List<CardOverview>cards){
+       return execTransactional(() -> cardRepository.getAllCardsForCardOverview(cards));
+    }
 
     /**
      * Wird verwendet, Um ein StudySystem nach UUID zu bekommen. Prüft zunächst auf nicht leere Werte.

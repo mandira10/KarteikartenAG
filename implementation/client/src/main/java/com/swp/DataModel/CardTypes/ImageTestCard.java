@@ -1,5 +1,6 @@
 package com.swp.DataModel.CardTypes;
 
+import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -79,7 +80,7 @@ public class ImageTestCard extends Card
     }
 
     public void setAnswer(String answer) {
-        this.answer = checkNotNullOrBlank( answer,"Antwort",false);
+        this.answer = checkNotNullOrBlank(Locale.getCurrentLocale().getString("answer"),"Antwort",false);
     }
 
     @Override
