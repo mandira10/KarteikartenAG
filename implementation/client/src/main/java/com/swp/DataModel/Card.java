@@ -155,16 +155,18 @@ public abstract class Card implements Serializable
 
 
     /**
-     * Methode für das Kopieren einer Karte. Hilfsmethode fürs
-     * Updaten einer Karte.
-     * @param card: Zu kopierende Karte
-     * @return Kopie der Karte
+     * Copy Konstruktor
      */
-    public static Card copyCard(Card card)
+    /*public Card(Card other)
     {
-        Card retCard = card;
-        return retCard;
-    }
+        this.uuid     = other.getUuid();
+        this.title    = other.getTitle();
+        this.rating    = other.getRating();
+        this.references = other.getReferences();
+        this.creationDate = other.getCreationDate();
+        this.nextLearnedAt = other.getNextLearnedAt();
+        this.content = other.content;
+    }*/
 
     public void setContent(){}
 

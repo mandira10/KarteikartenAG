@@ -118,8 +118,12 @@ public class PageManager
         if(!mPages.containsKey(name))
             return null;
 
-        pLastPage = pActivePage;
-        pActivePage = mPages.get(name);
+        if(pActivePage != mPages.get(name))
+        {
+            pLastPage = pActivePage;
+            pActivePage = mPages.get(name);
+        }
+
         return pActivePage;
     }
 

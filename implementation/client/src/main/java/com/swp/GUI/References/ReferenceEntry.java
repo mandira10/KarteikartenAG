@@ -35,7 +35,7 @@ public abstract class ReferenceEntry extends TextBox
 
         ReferenceEntry retReference = null;
         
-        String type = args[0];
+        String type = args[0].replaceAll("\\s", "");
         String destination = args[1];
         String description = args[2];
         String destDescription = "";

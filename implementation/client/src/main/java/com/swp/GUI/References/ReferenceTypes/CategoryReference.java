@@ -22,7 +22,7 @@ public class CategoryReference extends ReferenceEntry
             CategoryController.getInstance().getCategoryByUUID(uuid, new SingleDataCallback<Category>() {
                 @Override public void onSuccess(Category category) 
                 {
-                    ((ViewSingleCategoryPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCategory(category);
+                    ((ViewSingleCategoryPage)PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW)).setCategory(category);
                 }
 
                 @Override public void onFailure(String msg) 

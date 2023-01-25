@@ -160,7 +160,7 @@ public class EditCardPage extends Page
             return;
 
         bIsNewCard = newcard;
-        pNewCard = Card.copyCard(card);
+        pNewCard = card; //Maybe TODO?
 
         //Set data
         pTitlefield.setString(pNewCard.getTitle());
@@ -246,15 +246,12 @@ public class EditCardPage extends Page
         CardController.getInstance().updateCardData(pNewCard, bIsNewCard, new SingleDataCallback<Boolean>() {
             @Override public void onSuccess(Boolean data) 
             {
-                Output.info("Wrote card");
                 CardController.getInstance().setTagsToCard(pNewCard, pTagList.getTagUserptrs(), new SingleDataCallback<Boolean>() {
                     @Override public void onSuccess(Boolean data) 
                     {
-                        Output.info("Wrote tags");
                         CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories, new SingleDataCallback<Boolean>() {
                             @Override public void onSuccess(Boolean data)
                             {
-                                Output.info("Wrote categories");
                                 ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(pNewCard);
                             }
                 

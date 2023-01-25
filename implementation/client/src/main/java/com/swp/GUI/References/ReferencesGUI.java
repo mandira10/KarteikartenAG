@@ -52,18 +52,20 @@ public class ReferencesGUI extends RenderGUI
     {
         pContent.destroyChildren();
 
-        str.lines().forEach((String line) -> {
-            if(line.isEmpty())
-                return;
-            ReferenceEntry entry = ReferenceEntry.createFromString(line, new ivec2(0, pContent.numChildren() * (30 + iGapSize)), new ivec2(100, 30));
-            entry.setSizeInPercent(true, false);
-            if(entry != null)
-                addReference(entry);
-        });
-    }
 
-    public String toString()
-    {
-        return "";
+        if(!str.isEmpty())
+        {
+            str.lines().forEach((String line) -> {
+                if(line.isEmpty())
+                    return;
+                    
+                ReferenceEntry entry = ReferenceEntry.createFromString(line, new ivec2(0, pContent.numChildren() * (30 + iGapSize)), new ivec2(100, 30));
+                if(entry != null)
+                {
+                    entry.setSizeInPercent(true, false);
+                    addReference(entry);
+                }
+            });
+        }
     }
 }

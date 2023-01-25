@@ -1,10 +1,6 @@
 package com.swp.GUI.Cards;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.TextBox;
-import com.gumse.gui.Basics.TextBox.Alignment;
-import com.gumse.gui.Font.FontManager;
-import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
@@ -120,6 +116,7 @@ public class ViewSingleCardPage extends Page
             {
                 pReferences.hide(!pReferences.isHidden());
                 pCardRenderer.hide(!pReferences.isHidden());
+                updateReferences();
             }
         });
 
@@ -180,7 +177,8 @@ public class ViewSingleCardPage extends Page
             }
         });
 
-        updateReferences();
+        pReferences.hide(true);
+        pCardRenderer.hide(false);
     }
 
     public void setCard(CardOverview cardoverview)
@@ -200,13 +198,8 @@ public class ViewSingleCardPage extends Page
 
     private void updateReferences()
     {
-        //pReferences.interpreteString(pCard.getReferences());
-        pReferences.interpreteString("""
-        ctg;[UUID];random random
-        crd;[UUID];Weird card I found on the street
-        htm;https://www.google.de;Some obscure searchengine
-        fil;./pom.xml;the krabby patty secret formula
-        """);
+        if(!pReferences.isHidden())
+            pReferences.interpreteString(pCard.getReferences());
     }
 
 

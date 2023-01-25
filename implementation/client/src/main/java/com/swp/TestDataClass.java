@@ -23,7 +23,8 @@ import java.util.List;
 public class TestDataClass {
 
 
-    public static void importTestData() {
+    public static void importTestData() 
+    {
         final CategoryController categoryController = CategoryController.getInstance();
         final CardController cardController = CardController.getInstance();
         final CategoryLogic categoryLogic = CategoryLogic.getInstance();
@@ -66,6 +67,12 @@ public class TestDataClass {
         List<Card> randomL = new ArrayList<>();
         //randomL.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[]{}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
         randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle", false, true));
+
+        String testReferences = 
+            "ctg;" + randomCategory.getUuid() + ";random random\n" +
+            "crd;" + randomL.get(0).getUuid() + ";Weird card I found on the street\n" +
+            "htm;https://www.google.de;Some obscure searchengine \n" +
+            "fil;./pom.xml;the krabby patty secret formula";
 
         for (Card c : randomL) {
             CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
@@ -117,6 +124,7 @@ public class TestDataClass {
         erdkundeL.add(new TrueFalseCard("Die USA hat insgesamt 50 Bundesstaaten", true, "USA Bundesstaaten", false));
 
         for (Card c : erdkundeL) {
+            c.setReferences(testReferences);
             CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean data) {
@@ -165,6 +173,7 @@ public class TestDataClass {
         spanischL.add(new AudioCard(null, "Taufen", "Taufen", "bautizar", false, true));
 
         for (Card c : spanischL) {
+            c.setReferences(testReferences);
             CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean data) {
@@ -214,6 +223,7 @@ public class TestDataClass {
         technikL.add(new TrueFalseCard("http steht für Hypertext Transfer Protocol", false, "HTTP", false));
 
         for (Card c : technikL) {
+            c.setReferences(testReferences);
             CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean data) {
@@ -265,6 +275,7 @@ public class TestDataClass {
         zweitausender.add(new MultipleChoiceCard("Wer gewann 2006 bei der Fußball-WM in Deutschland den Weltmeistertitel??", new String[]{"Deutschland", "Spanien", "Russland", "Italien"}, new int[]{3}, "Fußball WM Deutschland", false));
 
         for (Card c : zweitausender) {
+            c.setReferences(testReferences);
             CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean data) {
@@ -315,6 +326,7 @@ public class TestDataClass {
         serien.add(new TrueFalseCard("Chandra Wilson spielt in Greys Anatomy Arizona Robbins",false,"Greys Anatomy",false));
 
         for (Card c : serien) {
+            c.setReferences(testReferences);
             CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean data) {

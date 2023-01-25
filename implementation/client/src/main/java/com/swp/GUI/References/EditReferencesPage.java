@@ -6,6 +6,7 @@ import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Output;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
@@ -15,6 +16,7 @@ public class EditReferencesPage extends Page
 {
     private Scroller pContextScroller;
     private Button pAddEntryButton;
+    private Card pCard;
 
     public EditReferencesPage()
     {
@@ -43,13 +45,10 @@ public class EditReferencesPage extends Page
     {
         pContextScroller.destroyChildren();
         createAddButton();
+        pCard = card;
 
         String references = card.getReferences();
-
-        //for(ImageDescriptionCardAnswer answer : )
-        {
-            //addEntry(answer.answertext, new ivec2(answer.xpos, answer.ypos));
-        }
+        references.lines().forEach((String line) -> { addEntry(line); });
     }
 
     private void reallignEntries()
@@ -101,8 +100,21 @@ public class EditReferencesPage extends Page
         }
     }
 
+    public String toString()
+    {
+        String retStr = "";
+        for(RenderGUI child : pContextScroller.getChildren())
+        {
+            if(child.getType().equals("EditReferencesEntry"))
+                retStr += ((EditReferencesEntry)child).toString() + "\n";
+        }
+        Output.info(retStr);
+        return retStr;
+    }
+
     private void applyChanges()
     {
-        
+        pCard.setReferences(toString());
+        PageManager.viewPage(PAGES.CARD_EDIT);
     }
 }
