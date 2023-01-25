@@ -82,7 +82,7 @@ public class AudioGUI extends RenderGUI
         this.vPos.set(pos);
         this.vSize.set(size);
         this.bIsPlaying = false;
-        this.v4Color = GUI.getTheme().accentColor;
+        setColor(GUI.getTheme().accentColor);
 
         initVAO();
 
@@ -93,8 +93,8 @@ public class AudioGUI extends RenderGUI
 
 
         onHover(null, Mouse.GUM_CURSOR_HAND);
-        onEnter((RenderGUI gui) -> { v4Color = vec4.sub(GUI.getTheme().accentColor, 0.02f); });
-        onLeave((RenderGUI gui) -> { v4Color = GUI.getTheme().accentColor; });
+        onEnter((RenderGUI gui) -> { setColor(vec4.sub(GUI.getTheme().accentColor, 0.02f)); });
+        onLeave((RenderGUI gui) -> { setColor(GUI.getTheme().accentColor); });
         onClick((RenderGUI gui) -> { toggle(); });
 
         resize();

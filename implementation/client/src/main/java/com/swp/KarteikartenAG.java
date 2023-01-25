@@ -104,13 +104,6 @@ import lombok.extern.slf4j.Slf4j;
 ////////////////////////////////////////////////////
 
 
-//
-// Generelle Sachen:
-// 
-// - Nach Apply sollten wir immer auf die Übersicht gehen und einen refresh ausführen, damit auch angezeigt wird, dass neue  Dinge dazugekommen sind / Sachen geändert wurden etc.
-// - Können wir bei den Textfeldern auch ohne Enter die Sachen speichern? Ist so nicht klsr erkennbar und man ist manchmal verwirrt, dass das nicht geklappt hat
-// 
-// 
 // Deck Page:
 // 
 // 
