@@ -10,6 +10,7 @@ import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.Controller.SingleDataCallback;
@@ -17,12 +18,9 @@ import com.swp.Controller.SingleDataCallback;
 public class EditCategoryPage extends Page
 {
     private Category pNewCategory;
+    private TextField pTitleField;
     private boolean bIsNewCategory;
     private boolean nameChange;
-
-    private TextField pTitleField;
-
-    private CategoryController categoryController = CategoryController.getInstance();
 
     public EditCategoryPage()
     {
@@ -35,54 +33,43 @@ public class EditCategoryPage extends Page
 
         pTitleField = (TextField)findChildByID("titlefield");
         pTitleField.setCallback(new TextFieldInputCallback() {
-            @Override public void enter(String complete) 
-            {
+            @Override public void enter(String complete) {}
+            @Override public void input(String input, String complete) {
                 pNewCategory.setName(complete);
                 nameChange = true;
             }
-            @Override public void input(String input, String complete) {}
         });
 
         
         RenderGUI optionsMenu = findChildByID("menu");
+        // Cancel Button
         Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
-        cancelButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                PageManager.viewLastPage();
-            }
-        });
+        cancelButton.onClick((RenderGUI gui) -> { PageManager.viewLastPage(); });
 
+        // Apply Button
         Button applyButton = (Button)optionsMenu.findChildByID("applybutton");
-        applyButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                applyChanges();
-            }
-        });
+        applyButton.onClick((RenderGUI gui) -> { applyChanges(); });
 
         this.setSizeInPercent(true, true);
         reposition();
         resize();
     }
 
-    public void editCategory(String uuid) {
-        categoryController.getCategoryByUUID(uuid, new SingleDataCallback<Category>() {
-            @Override
-            public void onSuccess(Category data) {
+    public void editCategory(String uuid) 
+    {
+        CategoryController.getInstance().getCategoryByUUID(uuid, new SingleDataCallback<Category>() {
+            @Override public void onSuccess(Category data) {
                 editCategory(data,false);
             }
 
-            @Override
-            public void onFailure(String msg) {
-            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+            @Override public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
         });
-        }
+    }
+
     public void editCategory(Category category, boolean newCategory)
     {
-
-
         bIsNewCategory = newCategory;
         pNewCategory = new Category(category);
 
@@ -91,13 +78,12 @@ public class EditCategoryPage extends Page
 
     private void applyChanges()
     {
-        categoryController.updateCategoryData(pNewCategory,bIsNewCategory, nameChange, new SingleDataCallback<>() {
-            @Override
-            public void onSuccess(Boolean data) {
+        CategoryController.getInstance().updateCategoryData(pNewCategory,bIsNewCategory, nameChange, new SingleDataCallback<>() {
+            @Override public void onSuccess(Boolean data) {
+                PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW);
             }
 
-            @Override
-            public void onFailure(String msg) {
+            @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
 

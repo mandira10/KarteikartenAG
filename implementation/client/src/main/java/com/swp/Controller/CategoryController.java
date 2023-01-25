@@ -9,6 +9,8 @@ import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
+import org.hibernate.grammars.hql.HqlParser.OnOverflowClauseContext;
+
 @Slf4j
 public class CategoryController {
     private CategoryController() {
@@ -34,6 +36,7 @@ public class CategoryController {
     public void updateCategoryData(Category category, boolean neu, boolean nameChange, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.updateCategoryData(category, neu, nameChange);
+            singleDataCallback.onSuccess(true);
         }
         catch (IllegalStateException ex) {
             singleDataCallback.onFailure(ex.getMessage());
@@ -57,6 +60,7 @@ public class CategoryController {
     public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.editCategoryHierarchy(category, parents, children);
+            singleDataCallback.onSuccess(true);
         } catch (Exception ex) {
             log.error("Beim Updaten der Kategorie ist der Fehler {} aufgetreten", ex.getMessage());
             singleDataCallback.onFailure(Locale.getCurrentLocale().getString("categoryhierarchyupdateerror"));
@@ -72,6 +76,7 @@ public class CategoryController {
     public void deleteCategory(Category category, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             categoryLogic.deleteCategory(category);
+            singleDataCallback.onSuccess(true);
         } catch (IllegalStateException ex) { //übergebener Wert ist leer
             log.error("Der übergebene Wert war leer");
             singleDataCallback.onFailure(ex.getMessage());
@@ -92,6 +97,7 @@ public class CategoryController {
     public void deleteCategories(List<Category> categories, SingleDataCallback<Boolean> singleDataCallback){
         try {
             categoryLogic.deleteCategories(categories);
+            singleDataCallback.onSuccess(true);
         } catch (Exception ex) {
             singleDataCallback.onFailure(Locale.getCurrentLocale().getString("deletecategorieserror"));
             log.error("Beim Löschen der Kategorien {} ist ein Fehler {} aufgetreten", categories, ex);

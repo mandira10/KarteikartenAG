@@ -38,38 +38,24 @@ public class ViewSingleDeckPage extends Page
         RenderGUI optionsMenu = findChildByID("menu");
         //Start test button
         Button startButton = (Button)optionsMenu.findChildByID("starttestbutton");
-        startButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  { ((TestDeckPage)PageManager.viewPage(PAGES.DECK_TEST)).startTests(pDeck); }
-        });
+        startButton.onClick((RenderGUI gui) -> { ((TestDeckPage)PageManager.viewPage(PAGES.DECK_TEST)).startTests(pDeck); });
 
         //Edit button
         Button editButton = (Button)optionsMenu.findChildByID("editdeckbutton");
-        editButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  { ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(pDeck.getUuid()); }
-        });
+        editButton.onClick((RenderGUI gui) -> { ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(pDeck.getUuid()); });
 
         //Delete button
         Button deleteDeckButton = (Button)findChildByID("deletedeckbutton");
-        deleteDeckButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  { deleteDeck();}
-        });
+        deleteDeckButton.onClick((RenderGUI gui) -> { deleteDeck();});
 
         //Remove cards button
         Button removeCardsButton = (Button)findChildByID("removecardbutton");
-        removeCardsButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  { removeCards();}
-        });
+        removeCardsButton.onClick((RenderGUI gui) -> { removeCards();});
         removeCardsButton.hide(true);
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod() 
-            {
-                removeCardsButton.hide(false);
-            }
-            @Override public void exitSelectmod() 
-            {
-                removeCardsButton.hide(true);
-            }
+            @Override public void enterSelectmod()  { removeCardsButton.hide(false); }
+            @Override public void exitSelectmod()   { removeCardsButton.hide(true);  }
         });
         pCardList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCardList);
@@ -85,18 +71,15 @@ public class ViewSingleDeckPage extends Page
         pCardList.reset();
 
         StudySystemController.getInstance().getAllCardsInStudySystem(this.pDeck, new DataCallback<CardOverview>() {
-            @Override
-            public void onSuccess(List<CardOverview> data) {
+            @Override public void onSuccess(List<CardOverview> data) {
                 pCardList.addCards(data);
             }
 
-            @Override
-            public void onFailure(String msg) {
+            @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
 
-            @Override
-            public void onInfo(String msg) {
+            @Override public void onInfo(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.INFO,5);
             }
         });
@@ -112,12 +95,10 @@ public class ViewSingleDeckPage extends Page
             @Override public void onConfirm() 
             {  
                 StudySystemController.getInstance().deleteStudySystem(pDeck, new SingleDataCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(Boolean data) {
+                    @Override public void onSuccess(Boolean data) {
                     }
 
-                    @Override
-                    public void onFailure(String msg) {
+                    @Override public void onFailure(String msg) {
                         NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
                     }
                 });

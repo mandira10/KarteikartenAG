@@ -3,7 +3,6 @@ package com.swp.GUI.Decks;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Basics.Dropdown.DropdownSelectionCallback;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -40,20 +39,14 @@ public class EditDeckPage extends Page
 
         
         RenderGUI optionsMenu = findChildByID("menu");
+
         //Cancel Button
         Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
+        cancelButton.onClick((RenderGUI gui) -> { PageManager.viewLastPage(); });
+
+        //Apply Button
         Button applyButton = (Button)optionsMenu.findChildByID("applybutton");
-        cancelButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) { PageManager.viewLastPage(); }
-        });
-
-
-        applyButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)
-            {
-                applyChanges();
-            }
-        });
+        applyButton.onClick((RenderGUI gui) -> { applyChanges(); });
 
         //Titlefield
         pTitleField = (TextField)findChildByID("titlefield");
@@ -64,25 +57,14 @@ public class EditDeckPage extends Page
 
         //CardOrder dropdown
         pCardOrderDropdown = (Dropdown)findChildByID("cardorderdd");
-        pCardOrderDropdown.onSelection(new DropdownSelectionCallback() {
-            @Override public void run(String str) 
-            {
-            }
-        });
+        pCardOrderDropdown.onSelection((String str) -> {});
 
         //Studysystem dropdown
         pStudySystemDropdown = (Dropdown)findChildByID("studysystemdd");
-        pStudySystemDropdown.onSelection(new DropdownSelectionCallback() {
-            @Override public void run(String str) 
-            {
-                if(str.equals("Custom"))
-                    pCanvas.hide(false);
-                else
-                    pCanvas.hide(true);
-            }
+        pStudySystemDropdown.onSelection((String str) -> {
+            if(str.equals("Custom")) { pCanvas.hide(false); }
+            else                     { pCanvas.hide(true);  }
         });
-
-
 
         this.setSizeInPercent(true, true);
         reposition();
@@ -92,13 +74,11 @@ public class EditDeckPage extends Page
     public void editDeck(String uuid) 
     {
         StudySystemController.getInstance().getStudySystemByUUID(uuid, new SingleDataCallback<StudySystem>() {
-            @Override
-            public void onSuccess(StudySystem data) {
+            @Override public void onSuccess(StudySystem data) {
                 editDeck(data, false);
             }
 
-            @Override
-            public void onFailure(String msg) {
+            @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
         }); 
