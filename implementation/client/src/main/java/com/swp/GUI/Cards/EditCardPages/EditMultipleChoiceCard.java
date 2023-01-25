@@ -11,6 +11,7 @@ import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Output;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.GUI.Cards.EditCardPages.EditMultipleChoiceCardAnswerEntry.AnswerEntryCallback;
 
@@ -98,13 +99,14 @@ public class EditMultipleChoiceCard extends RenderGUI
         List<Integer> correctanswers = new ArrayList<>();
 
         int i = 0;
-        for(RenderGUI child : vChildren)
+        for(RenderGUI child : pContextScroller.getChildren())
         {
             if(!child.getType().equals("EditMultipleChoiceCardAnswerEntry"))
                 continue;
 
             EditMultipleChoiceCardAnswerEntry entry = (EditMultipleChoiceCardAnswerEntry)child;
             answers.add(entry.getAnswerString());
+            Output.info(entry.getAnswerString());
             if(entry.isCorrect())
                 correctanswers.add(i);
             i++;

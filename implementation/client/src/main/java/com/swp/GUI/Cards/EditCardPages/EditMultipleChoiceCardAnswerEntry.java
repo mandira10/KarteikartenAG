@@ -31,23 +31,18 @@ public class EditMultipleChoiceCardAnswerEntry extends RenderGUI
 
         pSwitch = new Switch(new ivec2(5, 5), new ivec2(20), 0);
         pSwitch.tick(correct);
-        pSwitch.onTick(new OnSwitchTicked() {
-            @Override public void run(boolean ticked) 
-            {
-                callback.onChange(thisentry);
-            }
-        });
+        pSwitch.onTick((boolean ticked) -> { callback.onChange(thisentry); });
         addElement(pSwitch);
 
         pAnswerField = new TextField(str, FontManager.getInstance().getDefaultFont(), new ivec2(40, 0), new ivec2(100, 30));
         pAnswerField.setSizeInPercent(true, false);
         pAnswerField.setMargin(new ivec2(-80, 0));
         pAnswerField.setCallback(new TextFieldInputCallback() {
-            @Override public void input(String input, String complete) {} 
-            @Override public void enter(String complete) 
-            {
-                callback.onChange(thisentry);
-            }
+            @Override public void enter(String complete) {}
+            @Override public void input(String input, String complete) 
+            { 
+                callback.onChange(thisentry); 
+            } 
         });
         addElement(pAnswerField);
 
@@ -57,13 +52,7 @@ public class EditMultipleChoiceCardAnswerEntry extends RenderGUI
         pTrashButton.setPositionInPercent(true, false);
         pTrashButton.setOrigin(new ivec2(30, 0));
         
-        this.pTrashButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)
-            {
-                callback.onRemove(thisentry);
-            }
-            
-        });
+        this.pTrashButton.onClick((RenderGUI gui) -> { callback.onRemove(thisentry); });
         addElement(pTrashButton);
         
         this.setSizeInPercent(true, true);

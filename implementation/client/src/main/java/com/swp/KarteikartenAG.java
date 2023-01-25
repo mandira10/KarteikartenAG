@@ -119,7 +119,6 @@ import lombok.extern.slf4j.Slf4j;
 // - bei references lassen sich File und Browser nicht öffnen
 // - Löschen funktioniert noch nicht  (@TODO Nadja, Mert)
 // - beim Create einer neuen Karte sind Tags vorbelegt ?
-// - Bei Multiple Choice werden die Antworten nicht gespeichert?
 // - Bild und Audio sind weiterhin offen @Efe, @Ole
 // 
 // Deck:
@@ -129,7 +128,6 @@ import lombok.extern.slf4j.Slf4j;
 // - Doppelter Dropdown für das System was aktell ausgewählt ist?
 // 
 // Categories:
-// - uns fehlt eine Möglichkeit die Hierarchie anzupassen
 // - Search Categories fehlt noch @Mert, Nadja
 // 
 // 
