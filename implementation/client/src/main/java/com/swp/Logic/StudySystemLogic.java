@@ -40,11 +40,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     private final CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
 
     /**
-     * Verschiebt spezifische Karte in eine Box des StudySystems
-     *
-     *
-     * @param cardToBox: Zu verschiebene Card2Box
+     * Verschiebt spezifische Karte in eine Box des StudySystems. 
+     * @param cardToBox: Zu verschiebene Karte
      * @param newBox: Index der Box, in den die Karte verschoben werden soll
+     * @param studySystem Das StudySystem, das benötigt wird.
      */
     public void moveCardToBox(BoxToCard cardToBox, int newBox, StudySystem studySystem)
     {
@@ -55,6 +54,13 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             return null;
             });
     }
+
+    /**
+     * Verschiebt und speichert spezifische Karte in eine Box des StudySystems. 
+     * @param card: Zu verschiebene Karte
+     * @param newBox: Index der Box, in den die Karte verschoben werden soll
+     * @param studySystem: Das StudySystem, das benötigt wird.
+     */
     public void moveCardToBoxAndSave(Card card, int newBox, StudySystem studySystem)
     {
         //TODO: check before that there is no card already in studySystem?
@@ -70,6 +76,11 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         });
     }
 
+    /**
+     * Wird nach der Erstellung eines neuen StudySystem verwendet und verschiebt alle Karten für das StudySystem in das erste Box.
+     * @param cards: Karten, die StudySystem enthalten soll.
+     * @param studySystem: Das StudySystem, das benötigt wird.
+     */
     public void moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem) {
         for(Card c : cards)
             moveCardToBoxAndSave(c,0,studySystem);
@@ -78,7 +89,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     /**
      * Nach Beantwortung einer Frage wird die Antwort übergeben, so dass
      * je nach Antwort die Karte in den Boxen verschoben werden kann
-     *
+     * @param studySystem Das StudySystem, das benötigt wird.
      * @param answer : Frage war richtig / falsch beantwortet
      */
     public void giveAnswer(StudySystem studySystem,boolean answer) {
@@ -87,8 +98,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         switch (studySystem.getType()){
             case LEITNER:
                 if(answer){
-                    //TODO
-                    studySystem.incrementTrueCount(); //wofür
+                    studySystem.incrementTrueCount(); //wofür - to show resultpoint end of the test
                    /*
                         Folgendes Handling muss hier berücksichtigt werden:
                         Die Karte wird eine Box nach hinten verschoben, nextLearnTime muss gesetzt werde
@@ -123,10 +133,14 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 if(answer){
                     studySystem.incrementTrueCount();
                 }
-
         }
     }
 
+    /**
+     * Wird verwendet, um nächste Lernzeit einer Frage für LeitnerSystem zu ändern
+     * @param box neues Box
+     * @param boxToCard : Um Box und Card zusammen zu speichern
+     */
     private void changeCardDueDate(int box, BoxToCard boxToCard) {
             GregorianCalendar cal = new GregorianCalendar();
             cal.setTime(new Timestamp(System.currentTimeMillis()));
@@ -136,6 +150,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     /**
      * Gibt die nächste Karte zum Lernen zurück
+     * @param studySystem: Das StudySystem, das benötigt wird.
      * @return Karte die als nächstes gelernt werden soll
      */
     public Card getNextCard(StudySystem studySystem){
@@ -146,7 +161,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 case CUSTOM:
                 case TIMING:
                     testingBoxCards = cardRepository.getAllCardsForTimingSystem(studySystem);
-                    // can we use function for leitner also here?
                 case LEITNER:
                     testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem);
                 case VOTE:
@@ -164,7 +178,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
 
-    //TO IMPLEMENT
+    /**
+     * Wird verwendet, um eine Bewertung vom Benutzer für VoteStudySystem zu bekommen.
+     * 
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param rating: Bewertung von GUI
+     */
     public void giveRating(StudySystem studySystem,int rating) {
         getBoxToCard(testingBoxCards.get(studySystem.getQuestionCount()),studySystem).setRating(rating);
     };
@@ -178,7 +197,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     Do we need this here?
      */
 
-    //TO IMPLEMENT
+    /**
+     * Wird verwendet, um eine Antwortzeit vom Benutzer für TimingStudySystem zu bekommen.
+     * 
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @param seconds: Antwortzeit vom Benutzer für die Frage
+     */
     public void giveTime(StudySystem studySystem,float seconds) {
         if(studySystem.getType() == StudySystem.StudySystemType.TIMING){
             TimingSystem timingSystem = (TimingSystem) studySystem;
@@ -189,7 +213,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         }
     };
 
-    //TO IMPLEMENT (is also called when the test has been canceled)
+    /**
+     * Wird verwendet, um den Test zu beenden und Ergebnispunkt zu berechnen
+     * 
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @return ResultPoint von der Funktion calculateResultAndSave bekommen wird
+     */
     public int finishTestAndGetResult(StudySystem studySystem) {
 
         if(!testingBoxCards.isEmpty()) {
@@ -214,7 +243,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     }
 
-    //TO IMPLEMENT (returns final score calculated in finishTest)
+    /**
+     * Wird verwendet, um Am Ende der Test Liste der Karten leer zu machen und Database zu aktualisieren
+     * 
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @return ResultPoint
+     */
     public int calculateResultAndSave(StudySystem studySystem) {
         //TODO truecount verwenden, in Zsm.hang mit dem questionCount
         //TODO wollen wir das Result immer neu berechnen, also nur für den Tag ausgeben? Ansonsten muss man das noch aufschlüsseln
@@ -223,12 +257,24 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         return studySystem.getResultPoint();
     }
 
+
+    /**
+     * Wird verwendet, um alle Karten in diesem Studiensystem zu erhalten. 
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @return Liste von CardOverView,die zu StudySystem gehört
+     */
     public List<CardOverview> getAllCardsInStudySystem(StudySystem studySystem) {
        return   execTransactional(() -> cardRepository.findCardsByStudySystem(studySystem));
     }
 
 
 
+    /**
+     * Wird verwendet, um Progress für dieses Deck zu bekommen.
+     * 
+     * @param studySystem Das StudySystem, das benötigt wird.
+     * @return Progress für gegebenes StudySystem
+     */
     public float getProgress(StudySystem studySystem)
     {
         return studySystem.getProgress();
@@ -254,6 +300,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         });
     }
 
+    /**
+     * Wird verwendet, um das StudySystem zu updaten. .
+     * @param oldStudySystem StudySystem im vorherigen Zustand, benötigt, um festzustellen, ob das StudySystem gewechselt wurde und Handling
+     * @param newStudySystem Neue StudySystem Eigenschaften
+     * @param neu Ist true, wenn das StudySystem neu angelegt wurde
+     */
     public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu) {
         execTransactional(() -> {
             if (newStudySystem == null) {
@@ -283,6 +335,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         });
     }
 
+    /**
+     * Wird verwendet, um ein StudySystem zu löschen. .
+     * @param studySystem: StudySystem zu löschen.
+     */
     public void deleteStudySystem(StudySystem studySystem) {
         if(studySystem == null){
             throw new IllegalStateException("Karte existiert nicht");
@@ -294,6 +350,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         });
     }
 
+    /**
+     * Wird verwendet, um eine Liste von StudySystem zu löschen. .
+     * @param studySystems: StudySysteme zu löschen.
+     */
     public void deleteStudySystem(StudySystem[] studySystems) {
         for(StudySystem d : studySystems)
             deleteStudySystem(d);
@@ -303,11 +363,21 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             //TODO
     }
 
+    /**
+     * Wird verwendet, um eine Suche für StudySystem nach einem Suchbegiff machen.
+     * @param searchterm: Suchbegriff um nach zu suchen.
+     * @return eine Liste von StudySystem
+     */
     public List<StudySystem> getStudySystemsBySearchterm(String searchterm) {
         checkNotNullOrBlank(searchterm,"Suchbegriff",true);
         return execTransactional(() -> studySystemRepository.findStudySystemsContaining(searchterm));
     }
 
+    /**
+     * Wird verwendet, um eine Liste von Karten in einem StudySystem zu löschen. .
+     * @param studySystem: Das StudySystem, das benötigt wird.
+     * @param cards: die Liste der Karten zu löschen
+     */
     public void removeCardsFromStudySystem(List<CardOverview> cards, StudySystem studySystem) 
     {
         execTransactional(() -> {
@@ -318,6 +388,11 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         });
     }
 
+    /**
+     * Für nachträgliches Hinzufügen von Karten. 
+     * @param cards: die Liste von Karten, um hinzufügen
+     * @param studySystem Das StudySystem, das benötigt wird.
+     */
     public void addCardsToDeck(List<Card> cards, StudySystem studySystem) {
         if(studySystem == null){
             throw new IllegalStateException("Karte existiert nicht");
@@ -344,14 +419,32 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         return execTransactional(() -> studySystemRepository.getStudySystemByUUID(uuid));
     }
 
-    public Integer numCardsInDeck(StudySystem deck) {
-        return getAllCardsInStudySystem(deck).size();
+    /**
+     * Wird verwendet, um die Anzahl der Karten in einem studySystem zu bekommen. 
+     * @param studySystem: studySystem, um die Anzahl der Karten darin zu suchen
+     * @return Anzahl der Karten
+     */
+    public Integer numCardsInDeck(StudySystem studySystem) {
+        return getAllCardsInStudySystem(studySystem).size();
     }
 
+
+    /**
+     * Wird verwendet, um Box für ein Card zu bekommen. 
+     * @param studySystem: Das StudySystem, das benötigt wird.
+     * @param card: Für Box zu suchen
+     * @return gefundenes BoxToCard
+     */
     public BoxToCard getBoxToCard(Card card,  StudySystem studySystem) {
       return execTransactional(() ->  cardToBoxRepository.getSpecific(card, studySystem));
     }
 
+    /**
+     * Wird verwendet, um ein Card in einem Box zu speichern. 
+     * @param studySystem: Das StudySystem, das benötigt wird.
+     * @param card: Um zu speichern
+     * @param box: Box wo wird Card gespeichert
+     */
     public void moveCardToBox(Card card, int box, StudySystem studySystem) {
         BoxToCard boxToCard = getBoxToCard(card,studySystem);
         moveCardToBox(boxToCard,box,studySystem);
