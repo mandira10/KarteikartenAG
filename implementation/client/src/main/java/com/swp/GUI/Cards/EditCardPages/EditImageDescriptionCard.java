@@ -61,7 +61,7 @@ public class EditImageDescriptionCard extends RenderGUI
                 pImageButton.setSize(new ivec2((int)(size * aspect), size));
             }
 
-            pCard.setImage("TODO");
+            pCard.setImage(filepath);
         }
     }
 
