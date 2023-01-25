@@ -44,7 +44,7 @@ public class StudySystemController{
     }
 
     /**
-     * Used after creation of a new StudySystemDeck, moves all cards for the studySystem to the first box.
+     * Wird nach der Erstellung eines neuen StudySystem verwendet und verschiebt alle Karten für das StudySystem in das erste Box.
      * @param cards Karten, die StudySystem enthalten soll.
      * @param studySystem Das StudySystem, das benötigt wird.
      * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
