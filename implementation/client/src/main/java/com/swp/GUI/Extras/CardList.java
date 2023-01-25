@@ -34,7 +34,7 @@ public class CardList extends RenderGUI
 
     private static final int CHECK_COLUMN = 3;
 
-    public CardList(ivec2 pos, ivec2 size, boolean singleselect, CardListSelectmodeCallback callback)
+    public CardList(ivec2 pos, ivec2 size, boolean singleselect, CardListSelectmodeCallback callback, GUICallback onbottom)
     {
         vPos.set(pos);
         vSize.set(size);
@@ -84,6 +84,7 @@ public class CardList extends RenderGUI
             }
         );
         pList.setSizeInPercent(true, true);
+        pList.onBottomHit(onbottom);
         addElement(pList);
 
         onHover(null, Mouse.GUM_CURSOR_HAND);

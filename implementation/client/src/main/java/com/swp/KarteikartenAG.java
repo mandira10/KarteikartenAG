@@ -103,29 +103,6 @@ import lombok.extern.slf4j.Slf4j;
 //   - Change cardlist order
 ////////////////////////////////////////////////////
 
-
-// Deck Page:
-// 
-// 
-// 
-// Card:
-// - bei references lassen sich File und Browser nicht öffnen
-// - Löschen funktioniert noch nicht  (@TODO Nadja, Mert)
-// - Bild und Audio sind weiterhin offen @Efe, @Ole
-// 
-// Deck:
-// - Delete funktioniert nicht
-// - Remove Cards fehlt noch @Mert, Nadja
-// - Edit Deck funktioniert nicht richtig @Mert, Nadja (Fehler ist aufgetreten)
-// - Doppelter Dropdown für das System was aktell ausgewählt ist?
-// 
-// Categories:
-// - Search Categories fehlt noch @Mert, Nadja
-// 
-// 
-// Login Page:
-//
-
 @Slf4j
 public class KarteikartenAG 
 {

@@ -43,7 +43,7 @@ public class ViewSingleCategoryPage extends Page
             @Override public void exitSelectmod() 
             {   
             }
-        });
+        }, null);
         pCardList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCardList);
 

@@ -29,11 +29,13 @@ public class CardSelectPage extends Page
     private Searchbar pSearchbar;
     private CardList pCardList;
     private CardReturnFunc pReturnFunc;
+    private int iCurrentLastIndex;
 
     public CardSelectPage()
     {
         super("Card select", "cardselectpage");
         this.vSize = new ivec2(100,100);
+        this.iCurrentLastIndex = 0;
 
         addGUI(XMLGUI.loadFile("guis/cards/cardselectpage.xml"));
 
@@ -46,6 +48,9 @@ public class CardSelectPage extends Page
                     pReturnFunc.run(pCardList.getSelection().get(0)); 
             }
             @Override public void exitSelectmod()  { }
+        }, (RenderGUI gui) -> {
+            if(iCurrentLastIndex != -1)
+                loadCards(iCurrentLastIndex, iCurrentLastIndex + 30);
         });
         pCardList.setSizeInPercent(true, true);
         pCardList.setSelectMode(true);
@@ -90,10 +95,14 @@ public class CardSelectPage extends Page
     public void loadCards(int from, int to)
     {
         if(from == 0)
+        {
+            iCurrentLastIndex = 0;
             pCardList.reset();
+        }
         CardController.getInstance().getCardsToShow(from, to, new DataCallback<CardOverview>() {
             @Override public void onSuccess(List<CardOverview> data)
             {
+                iCurrentLastIndex += data.size();
                 pCardList.addCards(data);
             }
 
@@ -110,21 +119,19 @@ public class CardSelectPage extends Page
     public void loadCards(String str, int option)
     {
         pCardList.reset();
+        iCurrentLastIndex = -1;
 
         DataCallback<CardOverview> commoncallback = new DataCallback<CardOverview>() {
-            @Override
-            public void onSuccess(List<CardOverview> data) {
+            @Override public void onSuccess(List<CardOverview> data) {
                 pCardList.addCards(data);
             }
 
-            @Override
-            public void onFailure(String msg) {
-            NotificationGUI.addNotification(msg,NotificationType.ERROR,5);
+            @Override public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg,NotificationType.ERROR,5);
             }
 
-            @Override
-            public void onInfo(String msg) {
-            NotificationGUI.addNotification(msg,NotificationType.INFO,5);
+            @Override public void onInfo(String msg) {
+                NotificationGUI.addNotification(msg, NotificationType.INFO, 5);
             }
         };
 

@@ -6,6 +6,7 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Output;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
 import com.swp.GUI.Page;
@@ -19,7 +20,6 @@ import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
-import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
@@ -29,11 +29,13 @@ public class CardOverviewPage extends Page
 {
     private Searchbar pSearchbar;
     private CardList pCardList;
+    private int iCurrentLastIndex;
 
     public CardOverviewPage()
     {
         super("Cards", "cardoverviewpage");
         this.vSize = new ivec2(100,100);
+        this.iCurrentLastIndex = 0;
 
         addGUI(XMLGUI.loadFile("guis/cards/cardoverviewpage.xml"));
 
@@ -57,6 +59,9 @@ public class CardOverviewPage extends Page
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
             @Override public void enterSelectmod() { deleteCardButton.hide(false); addToDeckButton.hide(false); menu.resize(); }
             @Override public void exitSelectmod()  { deleteCardButton.hide(true); addToDeckButton.hide(true); menu.resize(); }
+        }, (RenderGUI gui) -> {
+            if(iCurrentLastIndex != -1)
+                loadCards(iCurrentLastIndex, iCurrentLastIndex + 30);
         });
         pCardList.setSizeInPercent(true, true);
         canvas.addGUI(pCardList);
@@ -76,10 +81,15 @@ public class CardOverviewPage extends Page
     public void loadCards(int from, int to)
     {
         if(from == 0)
+        {
+            iCurrentLastIndex = 0;
             pCardList.reset();
+        }
+
         CardController.getInstance().getCardsToShow(from, to, new DataCallback<CardOverview>() {
             @Override public void onSuccess(List<CardOverview> data)
             {
+                iCurrentLastIndex += data.size();
                 pCardList.addCards(data);
             }
 
@@ -89,12 +99,11 @@ public class CardOverviewPage extends Page
             }
             @Override public void onInfo(String msg) {}
         });
-        reposition();
-        resize();
     }
 
     public void loadCards(String str, int option)
     {
+        iCurrentLastIndex = -1;
         pCardList.reset();
 
         DataCallback<CardOverview> commoncallback = new DataCallback<CardOverview>() {

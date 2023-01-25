@@ -66,7 +66,8 @@ public class TestDataClass {
 
         List<Card> randomL = new ArrayList<>();
         //randomL.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[]{}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
-        randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle", false, true));
+        for(int i = 0; i < 100; i++)
+            randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle" + i, false, true));
 
         String testReferences = 
             "ctg;" + randomCategory.getUuid() + ";random random\n" +
