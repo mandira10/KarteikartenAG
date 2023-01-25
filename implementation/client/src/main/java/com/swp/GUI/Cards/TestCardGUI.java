@@ -1,7 +1,5 @@
 package com.swp.GUI.Cards;
 
-import java.io.InputStream;
-
 import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Radiobutton;
@@ -92,9 +90,8 @@ public class TestCardGUI extends RenderGUI
     {
         AudioCard card = (AudioCard)pCard;
 
-        //TODO
-        InputStream stream = null;// TestCardGUI.class.getClassLoader().getResourceAsStream(card.getAudio());
-        AudioGUI audioGUI = new AudioGUI(new ivec2(5, 55), new ivec2(80, 80), stream);
+        AudioGUI audioGUI = new AudioGUI(new ivec2(5, 55), new ivec2(80, 80));
+        audioGUI.loadAudio(card.getAudio());
         audioGUI.setPositionInPercent(true, true);
         audioGUI.setSizeInPercent(false, false);
         audioGUI.setOrigin(new ivec2(0, -50));

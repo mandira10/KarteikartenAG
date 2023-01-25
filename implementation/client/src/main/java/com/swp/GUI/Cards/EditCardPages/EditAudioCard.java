@@ -4,13 +4,17 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.GUI.Extras.AudioGUI;
+import com.swp.GUI.Extras.FileDialog;
 
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
+import java.io.FileInputStream;
 
 public class EditAudioCard extends RenderGUI
 {
     private Button pUploadButton;
+    private AudioCard pCard;
+    private AudioGUI pAudioGUI;
 
     public EditAudioCard()
     {
@@ -21,26 +25,33 @@ public class EditAudioCard extends RenderGUI
         RenderGUI audioGUIContainer = findChildByID("audio");
 
         //InputStream stream = EditAudioCard.class.getClassLoader().getResourceAsStream("audios/thud.wav");
-        AudioGUI audioGUI = new AudioGUI(new ivec2(0, 0), new ivec2(100, 100), null);
-        audioGUI.setSizeInPercent(true, true);
-        audioGUIContainer.addGUI(audioGUI);
+        pAudioGUI = new AudioGUI(new ivec2(0, 0), new ivec2(100, 100));
+        pAudioGUI.setSizeInPercent(true, true);
+        audioGUIContainer.addGUI(pAudioGUI);
 
         pUploadButton = (Button)findChildByID("audioupload");
-        pUploadButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                selectAudioFile();
-            } 
-        });
+        pUploadButton.onClick((RenderGUI gui) -> { selectAudioFile(); });
         
         this.setSizeInPercent(true, true);
         reposition();
     }
 
+    public void setCard(AudioCard card)
+    {
+        pCard = card;
+        pAudioGUI.loadAudio(pCard.getAudio());
+    }
+
 
     private void selectAudioFile()
     {
-        System.out.println("\nOpening file open dialog...");
-        System.out.println(tinyfd_openFileDialog("Open File(s)", "", null, null, true));
+        String filepath = FileDialog.openFile("Select Audio File", "Audio Files", new String[] {"wav"});
+
+        if(filepath != null && !filepath.equals(""))
+        {
+            pAudioGUI.loadAudio((FileInputStream)null);
+
+            pCard.setAudio(null);
+        }
     }
 }

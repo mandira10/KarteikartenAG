@@ -76,7 +76,7 @@ public class AudioGUI extends RenderGUI
         }
     }
 
-    public AudioGUI(ivec2 pos, ivec2 size, InputStream audio)
+    public AudioGUI(ivec2 pos, ivec2 size)
     {
         this.sTitle = "AudioGUI";
         this.vPos.set(pos);
@@ -89,47 +89,13 @@ public class AudioGUI extends RenderGUI
         pBackground = new Box(new ivec2(0, 0), new ivec2(100, 100));
         pBackground.setSizeInPercent(true, true);
         pBackground.setColor(GUI.getTheme().primaryColor);
-        //pBackground.setCornerRadius(new vec4(10));
         addElement(pBackground);
 
-        if(audio == null)
-        {
-            Output.error("AudioGUI: Given audiostream is null");
-            return;
-        }
-
-        //Data buffer
-        int audiobuffer = AL11.alGenBuffers();
-        WaveData data = WaveData.create(audio);
-        AL11.alBufferData(audiobuffer, data.format, data.data, data.samplerate);
-        data.dispose();
-
-        //Source
-        iSourceID = AL11.alGenSources();
-        AL11.alSourcef(iSourceID, AL11.AL_GAIN, 1);
-        AL11.alSourcef(iSourceID, AL11.AL_PITCH, 1);
-        AL11.alSource3f(iSourceID, AL11.AL_POSITION, 0, 0, 0);
-        AL11.alSourcei(iSourceID, AL11.AL_BUFFER, audiobuffer);
 
         onHover(null, Mouse.GUM_CURSOR_HAND);
-        onEnter(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                v4Color = vec4.sub(GUI.getTheme().accentColor, 0.02f);
-            }
-        });
-        onLeave(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                v4Color = GUI.getTheme().accentColor;
-            }
-        });
-        onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                toggle();
-            }
-        });
+        onEnter((RenderGUI gui) -> { v4Color = vec4.sub(GUI.getTheme().accentColor, 0.02f); });
+        onLeave((RenderGUI gui) -> { v4Color = GUI.getTheme().accentColor; });
+        onClick((RenderGUI gui) -> { toggle(); });
 
         resize();
         reposition();
@@ -202,5 +168,36 @@ public class AudioGUI extends RenderGUI
             stop();
         else
             play();
+    }
+
+    public void loadAudio(InputStream audio)
+    {
+        if(audio == null)
+        {
+            Output.error("AudioGUI: Given audiostream is null");
+            return;
+        }
+
+        //Data buffer
+        int audiobuffer = AL11.alGenBuffers();
+        WaveData data = WaveData.create(audio);
+        AL11.alBufferData(audiobuffer, data.format, data.data, data.samplerate);
+        data.dispose();
+
+        //Source
+        iSourceID = AL11.alGenSources();
+        AL11.alSourcef(iSourceID, AL11.AL_GAIN, 1);
+        AL11.alSourcef(iSourceID, AL11.AL_PITCH, 1);
+        AL11.alSource3f(iSourceID, AL11.AL_POSITION, 0, 0, 0);
+        AL11.alSourcei(iSourceID, AL11.AL_BUFFER, audiobuffer);
+    }
+
+    public void loadAudio(byte[] data)
+    {
+        if(data == null)
+        {
+            Output.error("AudioGUI: Given audiodata is null");
+            return;
+        }
     }
 }

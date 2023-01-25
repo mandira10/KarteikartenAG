@@ -19,10 +19,12 @@ import com.swp.Controller.CategoryController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
+import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
+import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
@@ -193,29 +195,34 @@ public class EditCardPage extends Page
         switch(pNewCard.getType())
         {
             case TRUEFALSE:      
-                setPage(pEditTrueFalseCardPage);        
+                setPage(pEditTrueFalseCardPage);
+                pEditTrueFalseCardPage.setCard((TrueFalseCard)pNewCard);
                 break;
 
             case IMAGETEST:      
-                setPage(pEditImageTestCardPage);        
+                setPage(pEditImageTestCardPage);
                 pEditImageTestCardPage.setCard((ImageTestCard)pNewCard);
                 break;
 
             case IMAGEDESC:      
-                setPage(pEditImageDescriptionCardPage); 
+                setPage(pEditImageDescriptionCardPage);
                 pEditImageDescriptionCardPage.setCard((ImageDescriptionCard)pNewCard); 
                 break;
 
             case MULITPLECHOICE: 
-                setPage(pEditMultipleChoiceCardPage);   
+                setPage(pEditMultipleChoiceCardPage);
                 pEditMultipleChoiceCardPage.setCard((MultipleChoiceCard)pNewCard);
                 break;
 
             case TEXT:           
-                setPage(pEditTextCardPage);             
+                setPage(pEditTextCardPage);
                 pEditTextCardPage.setCard((TextCard)pNewCard);
                 break;
-            case AUDIO:          setPage(pEditAudioCardPage);            break;
+
+            case AUDIO:          
+                setPage(pEditAudioCardPage);
+                pEditAudioCardPage.setCard((AudioCard)pNewCard);
+                break;
         }
     }
 
