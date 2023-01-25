@@ -20,7 +20,9 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
+import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
@@ -81,29 +83,17 @@ public class EditCardPage extends Page
 
         pTitlefield = (TextField)findChildByID("titlefield");
         pTitlefield.setCallback(new TextFieldInputCallback() { 
-            @Override
-            public void enter(String complete) 
-            {
+            @Override public void enter(String complete) {}
+            @Override public void input(String input, String complete) {
                 pNewCard.setTitle(complete); 
-            }
-
-            @Override
-            public void input(String input, String complete) 
-            {
             } 
         });
 
         pQuestionField = (TextField)findChildByID("questionfield");
         pQuestionField.setCallback(new TextFieldInputCallback() { 
-            @Override
-            public void enter(String complete) 
-            {
+            @Override public void enter(String complete) {}
+            @Override public void input(String input, String complete) {
                 pNewCard.setQuestion(complete); 
-            }
-
-            @Override
-            public void input(String input, String complete) 
-            {
             } 
         });
 
@@ -202,17 +192,29 @@ public class EditCardPage extends Page
 
         switch(pNewCard.getType())
         {
-            case TRUEFALSE:      setPage(pEditTrueFalseCardPage);        break;
-            case IMAGETEST:      setPage(pEditImageTestCardPage);        break;
+            case TRUEFALSE:      
+                setPage(pEditTrueFalseCardPage);        
+                break;
+
+            case IMAGETEST:      
+                setPage(pEditImageTestCardPage);        
+                pEditImageTestCardPage.setCard((ImageTestCard)pNewCard);
+                break;
+
             case IMAGEDESC:      
                 setPage(pEditImageDescriptionCardPage); 
                 pEditImageDescriptionCardPage.setCard((ImageDescriptionCard)pNewCard); 
                 break;
+
             case MULITPLECHOICE: 
                 setPage(pEditMultipleChoiceCardPage);   
                 pEditMultipleChoiceCardPage.setCard((MultipleChoiceCard)pNewCard);
                 break;
-            case TEXT:           setPage(pEditTextCardPage);             break;
+
+            case TEXT:           
+                setPage(pEditTextCardPage);             
+                pEditTextCardPage.setCard((TextCard)pNewCard);
+                break;
             case AUDIO:          setPage(pEditAudioCardPage);            break;
         }
     }

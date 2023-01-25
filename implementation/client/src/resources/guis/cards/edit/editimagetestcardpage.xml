@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui-root pos="0, 0" size="100%, 100%">
     <text pos="10, 0" fontsize="30" locale-id="answerfield"></text>
-    <textfield pos="150, 0" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
+    <textfield id="answerfield" pos="150, 0" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
 
     <text pos="10, 50" fontsize="30" locale-id="imagefield"></text>
     <button id="imagebox" pos="150, 50" size="120, 120" color="#282A36" fontsize="24" locale-id="openimagebutton"></button>

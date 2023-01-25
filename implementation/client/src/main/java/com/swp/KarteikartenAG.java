@@ -103,6 +103,43 @@ import lombok.extern.slf4j.Slf4j;
 //   - Change cardlist order
 ////////////////////////////////////////////////////
 
+
+//
+// Generelle Sachen:
+// 
+// - Nach Apply sollten wir immer auf die Übersicht gehen und einen refresh ausführen, damit auch angezeigt wird, dass neue  Dinge dazugekommen sind / Sachen geändert wurden etc.
+// - Können wir bei den Textfeldern auch ohne Enter die Sachen speichern? Ist so nicht klsr erkennbar und man ist manchmal verwirrt, dass das nicht geklappt hat
+// 
+// 
+// Deck Page:
+// 
+// 
+// 
+// Card:
+// - bei references lassen sich File und Browser nicht öffnen
+// - Löschen funktioniert noch nicht  (@TODO Nadja, Mert)
+// - beim Create einer neuen Karte sind Tags vorbelegt ?
+// - bei Edit wird die Kartenfrage nicht editiert
+// - die Antwort bei einer Textkarte wird zwar gespeichert aber nicht angezeigt
+// - Bei Multiple Choice werden die Antworten nicht gespeichert?
+// - Bild und Audio sind weiterhin offen @Efe, @Ole
+// 
+// Deck:
+// - Delete funktioniert nicht
+// - Remove Cards fehlt noch @Mert, Nadja
+// - Edit Deck funktioniert nicht richtig @Mert, Nadja (Fehler ist aufgetreten)
+// - Custom Type einfach bei Create mit hinzufügen in GUI, lasst uns dazu morgen mal sprechen
+// - Doppelter Dropdown für das System was aktell ausgewählt ist?
+// 
+// Categories:
+// - uns fehlt eine Möglichkeit die Hierarchie anzupassen
+// -Search Categories fehlt noch @Mert, Nadja
+// 
+// 
+// Login Page: 
+// - was wollen wir damit machen? morgen klären
+//
+
 @Slf4j
 public class KarteikartenAG 
 {

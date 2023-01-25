@@ -6,6 +6,7 @@
         <artifactId>gum-gui</artifactId>
         <groupId>com.gumse</groupId>
         <version>1.0.0</version>
+        <relativePath>..</relativePath>
     </parent>
   
     <groupId>com.swp</groupId>

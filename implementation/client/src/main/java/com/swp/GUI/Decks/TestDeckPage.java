@@ -190,7 +190,7 @@ public class TestDeckPage extends Page
 //            return;
 //        }
 
-       // pTestGUI = new TestCardGUI(nextCard);//TODO
+        //pTestGUI = new TestCardGUI(nextCard);//TODO
         pCanvas.addGUI(pTestGUI);
         reposition();
         resize();
