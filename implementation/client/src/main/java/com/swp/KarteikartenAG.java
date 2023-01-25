@@ -119,8 +119,6 @@ import lombok.extern.slf4j.Slf4j;
 // - bei references lassen sich File und Browser nicht öffnen
 // - Löschen funktioniert noch nicht  (@TODO Nadja, Mert)
 // - beim Create einer neuen Karte sind Tags vorbelegt ?
-// - bei Edit wird die Kartenfrage nicht editiert
-// - die Antwort bei einer Textkarte wird zwar gespeichert aber nicht angezeigt
 // - Bei Multiple Choice werden die Antworten nicht gespeichert?
 // - Bild und Audio sind weiterhin offen @Efe, @Ole
 // 
@@ -128,16 +126,14 @@ import lombok.extern.slf4j.Slf4j;
 // - Delete funktioniert nicht
 // - Remove Cards fehlt noch @Mert, Nadja
 // - Edit Deck funktioniert nicht richtig @Mert, Nadja (Fehler ist aufgetreten)
-// - Custom Type einfach bei Create mit hinzufügen in GUI, lasst uns dazu morgen mal sprechen
 // - Doppelter Dropdown für das System was aktell ausgewählt ist?
 // 
 // Categories:
 // - uns fehlt eine Möglichkeit die Hierarchie anzupassen
-// -Search Categories fehlt noch @Mert, Nadja
+// - Search Categories fehlt noch @Mert, Nadja
 // 
 // 
-// Login Page: 
-// - was wollen wir damit machen? morgen klären
+// Login Page:
 //
 
 @Slf4j

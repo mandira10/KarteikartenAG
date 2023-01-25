@@ -1,12 +1,17 @@
 package com.swp.GUI.Category;
 
+import java.util.List;
+
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Basics.TextBox;
+import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -21,6 +26,8 @@ public class EditCategoryPage extends Page
     private TextField pTitleField;
     private boolean bIsNewCategory;
     private boolean nameChange;
+    private List<Category> aParents, aChildren;
+    private TextBox pCategoriesParentsBox, pCategoriesChildrenBox;
 
     public EditCategoryPage()
     {
@@ -38,6 +45,30 @@ public class EditCategoryPage extends Page
                 pNewCategory.setName(complete);
                 nameChange = true;
             }
+        });
+
+
+        pCategoriesParentsBox = (TextBox)findChildByID("categoryparentslist");
+        pCategoriesParentsBox.setAlignment(Alignment.LEFT);
+        pCategoriesParentsBox.setAutoInsertLinebreaks(true);
+
+        Button categoryParentsButton = (Button)findChildByID("editparentsbutton");
+        categoryParentsButton.onClick((RenderGUI gui) -> { 
+            ((CategorySelectPage)PageManager.viewPage(PAGES.CATEGORY_SELECTION)).reset(false, (categories -> {
+                ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).updateParentCategories(categories);
+            }), aParents);
+        });
+
+
+        pCategoriesChildrenBox = (TextBox)findChildByID("categorychildrenlist");
+        pCategoriesChildrenBox.setAlignment(Alignment.LEFT);
+        pCategoriesChildrenBox.setAutoInsertLinebreaks(true);
+
+        Button categoryChildrenButton = (Button)findChildByID("editchildrenbutton");
+        categoryChildrenButton.onClick((RenderGUI gui) -> { 
+            ((CategorySelectPage)PageManager.viewPage(PAGES.CATEGORY_SELECTION)).reset(false, (categories -> {
+                ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).updateChildCategories(categories);
+            }), aChildren);
         });
 
         
@@ -58,10 +89,7 @@ public class EditCategoryPage extends Page
     public void editCategory(String uuid) 
     {
         CategoryController.getInstance().getCategoryByUUID(uuid, new SingleDataCallback<Category>() {
-            @Override public void onSuccess(Category data) {
-                editCategory(data,false);
-            }
-
+            @Override public void onSuccess(Category data) { editCategory(data, false); }
             @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
@@ -74,19 +102,73 @@ public class EditCategoryPage extends Page
         pNewCategory = new Category(category);
 
         pTitleField.setString(pNewCategory.getName());
+
+        CategoryController.getInstance().getChildrenForCategory(category, new DataCallback<Category>() {
+            @Override public void onInfo(String msg) {}
+            @Override public void onSuccess(List<Category> children) {
+                updateChildCategories(children);
+            }
+
+            @Override public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);    
+            }            
+        });
+
+        CategoryController.getInstance().getParentsForCategory(category, new DataCallback<Category>() {
+            @Override public void onInfo(String msg) {}
+            @Override public void onSuccess(List<Category> parents) {
+                updateParentCategories(parents);
+            }
+
+            @Override public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);    
+            }            
+        });
     }
+
+    public void updateChildCategories(List<Category> children)
+    {
+        this.aChildren = children;
+        String catString = "";
+        for(Category category : aChildren)
+            catString += category.getName() + ", ";
+        if(catString.length() > 0)
+            catString = catString.substring(0, catString.length() - 2);
+        pCategoriesChildrenBox.setString(catString);
+    }
+
+    public void updateParentCategories(List<Category> parents)
+    {
+        this.aParents = parents;
+        String catString = "";
+        for(Category category : aParents)
+            catString += category.getName() + ", ";
+        if(catString.length() > 0)
+            catString = catString.substring(0, catString.length() - 2);
+        pCategoriesParentsBox.setString(catString);
+    }
+
 
     private void applyChanges()
     {
         CategoryController.getInstance().updateCategoryData(pNewCategory,bIsNewCategory, nameChange, new SingleDataCallback<>() {
-            @Override public void onSuccess(Boolean data) {
-                PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW);
+            @Override public void onSuccess(Boolean data) 
+            {
+                CategoryController.getInstance().editCategoryHierarchy(pNewCategory, aParents, aChildren, new SingleDataCallback<>() {
+                    @Override public void onSuccess(Boolean data) 
+                    {
+                        PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW);
+                    }
+        
+                    @Override public void onFailure(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                    }
+                });
             }
 
             @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
-
         });
     }
 }

@@ -124,6 +124,26 @@ public class CategoryController {
         }
     }
 
+
+    /**
+     * Wird verwendet, um die Parents einer Kategorie zu bekommen. Wird an die CategoryLogic weitergegeben.
+     * 
+     * @param child: die Child Kategorie, um die Parents zu bekommen
+     * @param dataCallback: Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
+     */
+    public void getParentsForCategory(Category child, DataCallback<Category> dataCallback) {
+        try {
+            List<Category> categoryParents = categoryLogic.getParentsForCategory(child);
+            if (categoryParents.isEmpty())
+                log.trace(Locale.getCurrentLocale().getString("catchildrenempty"));
+
+            dataCallback.onSuccess(categoryParents);
+        } catch (Exception ex) {
+            dataCallback.onFailure(Locale.getCurrentLocale().getString("catchilderror"));
+            log.error("Beim Beim Abrufen der Children für die Kategorie {} ist ein Fehler {} aufgetreten", child, ex);
+        }
+    }
+
     /**
      * Wird verwendet, um einzelne Kategorieinformationen über ihre UUID abzurufen. Wird an die CategoryLogic weitergegeben.
      *

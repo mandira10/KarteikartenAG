@@ -4,9 +4,13 @@
         <text pos="10, 10" fontsize="30" locale-id="titlefield"></text>
         <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
 
-        <gui id="canvas" size="100%, 80%" pos="0, 50">
+        <text    pos="10, 50" fontsize="30" locale-id="categoryparentsfield"></text>
+        <textbox pos="150, 50" id="categoryparentslist" fontsize="20" size="100%, 30" margin="-190, 0"></textbox>
+        <button  pos="100%, 50" title="" font="FontAwesome" fontsize="20" id="editparentsbutton" size="30, 30" origin="30, 0"></button>
 
-        </gui>
+        <text    pos="10, 90" fontsize="30" locale-id="categorychildrenfield"></text>
+        <textbox pos="150, 90" id="categorychildrenlist" fontsize="20" size="100%, 30" margin="-190, 0"></textbox>
+        <button  pos="100%, 90" title="" font="FontAwesome" fontsize="20" id="editchildrenbutton" size="30, 30" origin="30, 0"></button>
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
         <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" fontsize="20" locale-id="cancelbutton" />

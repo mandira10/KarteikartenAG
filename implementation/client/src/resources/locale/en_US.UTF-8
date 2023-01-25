@@ -55,6 +55,8 @@ editcategorybutton     = Edit Cat.
 categorysearch         = Search Category
 categorylisttitle      = Categories
 deletecategoriesbutton = Delete Categories
+categorychildrenfield  = Children
+categoryparentsfield   = Parents
 
 # Deck
 adddeckbutton          = Add Deck
