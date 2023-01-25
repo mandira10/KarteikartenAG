@@ -118,7 +118,6 @@ import lombok.extern.slf4j.Slf4j;
 // Card:
 // - bei references lassen sich File und Browser nicht öffnen
 // - Löschen funktioniert noch nicht  (@TODO Nadja, Mert)
-// - beim Create einer neuen Karte sind Tags vorbelegt ?
 // - Bild und Audio sind weiterhin offen @Efe, @Ole
 // 
 // Deck:

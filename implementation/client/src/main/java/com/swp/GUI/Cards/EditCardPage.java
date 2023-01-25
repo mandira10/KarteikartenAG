@@ -157,6 +157,8 @@ public class EditCardPage extends Page
         //Set data
         pTitlefield.setString(pNewCard.getTitle());
         pQuestionField.setString(pNewCard.getQuestion());
+        
+        pCategoriesBox.setString("");
         CategoryController.getInstance().getCategoriesToCard(pNewCard, new DataCallback<Category>() {
             @Override
             public void onSuccess(List<Category> data) {
@@ -175,6 +177,7 @@ public class EditCardPage extends Page
             
         });
 
+        pTagList.reset();
         CardController.getInstance().getTagsToCard(pNewCard, new DataCallback<Tag>() {
             @Override
             public void onSuccess(List<Tag> data) {
@@ -246,7 +249,6 @@ public class EditCardPage extends Page
 
     public void updateTags(List<Tag> tags)
     {
-        pTagList.reset();
         for(Tag tag : tags)
             pTagList.addTag(tag.getVal(), tag);
     }

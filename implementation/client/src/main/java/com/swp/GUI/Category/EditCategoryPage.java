@@ -103,6 +103,7 @@ public class EditCategoryPage extends Page
 
         pTitleField.setString(pNewCategory.getName());
 
+        pCategoriesChildrenBox.setString("");
         CategoryController.getInstance().getChildrenForCategory(category, new DataCallback<Category>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Category> children) {
@@ -114,6 +115,7 @@ public class EditCategoryPage extends Page
             }            
         });
 
+        pCategoriesParentsBox.setString("");
         CategoryController.getInstance().getParentsForCategory(category, new DataCallback<Category>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Category> parents) {
