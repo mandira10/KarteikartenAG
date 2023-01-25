@@ -5,7 +5,6 @@ import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

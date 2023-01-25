@@ -16,9 +16,7 @@ import com.swp.Controller.SingleDataCallback;
 
 public class EditCategoryPage extends Page
 {
-    private Button pApplyButton;
-    private RenderGUI pCanvas;
-    private Category pOldCategory, pNewCategory;
+    private Category pNewCategory;
     private boolean bIsNewCategory;
     private boolean nameChange;
 
@@ -33,7 +31,7 @@ public class EditCategoryPage extends Page
         
         addGUI(XMLGUI.loadFile("guis/categories/categoryeditpage.xml"));
 
-        pCanvas = findChildByID("canvas");
+        //pCanvas = findChildByID("canvas");
 
         pTitleField = (TextField)findChildByID("titlefield");
         pTitleField.setCallback(new TextFieldInputCallback() {

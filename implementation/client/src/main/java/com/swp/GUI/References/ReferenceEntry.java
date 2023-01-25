@@ -2,10 +2,8 @@ package com.swp.GUI.References;
 
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Font.FontManager;
-import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.io.Mouse;
-import com.gumse.tools.Output;
 import com.swp.GUI.References.ReferenceTypes.CardReference;
 import com.swp.GUI.References.ReferenceTypes.CategoryReference;
 import com.swp.GUI.References.ReferenceTypes.FileReference;

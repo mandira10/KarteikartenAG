@@ -4,13 +4,11 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.StudySystemBox;
 import com.swp.Logic.StudySystemLogic;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -129,7 +127,7 @@ public class StudySystemController{
      * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      * @param seconds: Antwortzeit vom Benutzer für die Frage
      */
-    public void giveTime(StudySystem studySystem,float seconds,SingleDataCallback singleDataCallback) {
+    public void giveTime(StudySystem studySystem,float seconds, SingleDataCallback singleDataCallback) {
         try{
             studySystemLogic.giveTime(studySystem,seconds);
         }

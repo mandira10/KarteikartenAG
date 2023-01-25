@@ -21,8 +21,7 @@ public class EditDeckPage extends Page
 {
     private Dropdown pStudySystemDropdown;
     private Dropdown pCardOrderDropdown;
-    private Button pApplyButton;
-    private StudySystem pOldDeck, pNewDeck;
+    private StudySystem pNewDeck;
     private TextField pTitleField;
 
     private RenderGUI pCanvas;
@@ -103,7 +102,6 @@ public class EditDeckPage extends Page
             return;
         }
 
-        pOldDeck = deck;
         pNewDeck = StudySystem.copyStudySystem(deck);
 
         pCanvas.hide(true);

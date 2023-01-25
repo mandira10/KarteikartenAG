@@ -1,15 +1,10 @@
 package com.swp.GUI;
 
 import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Switch;
-import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
-import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.*;
 import com.gumse.tools.Output;
-import com.swp.GUI.Extras.RatingGUI;
 
 public class LoginPage extends Page
 {

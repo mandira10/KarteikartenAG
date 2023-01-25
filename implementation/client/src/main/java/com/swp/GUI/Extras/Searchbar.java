@@ -5,13 +5,14 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Radiobutton;
 import com.gumse.gui.Basics.Speechbubble;
 import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Basics.Radiobutton.OnSelectCallback;
 import com.gumse.gui.Basics.Speechbubble.Side;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
+import com.gumse.gui.XML.XMLGUI.XMLGUICreator;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
+import com.gumse.system.filesystem.XML.XMLNode;
 
 public class Searchbar extends RenderGUI
 {
@@ -27,12 +28,11 @@ public class Searchbar extends RenderGUI
     private Speechbubble pBubble;
     private int iCurrentSearchOption;
 
-    public Searchbar(ivec2 pos, ivec2 size, String localeid, String[] optionlocaleids, SearchbarCallback callback)
+    public Searchbar(ivec2 pos, ivec2 size, String localeid, String[] optionlocaleids)
     {
         this.sType = "Searchbar";
         this.vPos.set(pos);
         this.vSize.set(size);
-        this.pCallback = callback;
         this.iCurrentSearchOption = 0;
 
         FontManager fonts = FontManager.getInstance();
@@ -59,22 +59,12 @@ public class Searchbar extends RenderGUI
         pOptionsButton.setPositionInPercent(true, false);
         pOptionsButton.getBox().setTextSize(20);
         pOptionsButton.setCornerRadius(new vec4(0,0,0,0));
-        pOptionsButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                pBubble.show();
-            }
-        });
+        pOptionsButton.onClick((RenderGUI gui) -> { pBubble.show(); });
         addElement(pOptionsButton);
 
         pBubble = new Speechbubble(new ivec2(size.y / 2, 0), new ivec2(200, 120), Side.ABOVE);
         pBubble.setColor(vec4.sub(GUI.getTheme().primaryColor, 0.06f));
-        pBubble.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                // Prevent clickthrough
-            }
-        });
+        pBubble.onClick((RenderGUI gui) -> { /*Prevent clickthrough*/ });
         pBubble.hide(true);
         pOptionsButton.addGUI(pBubble);
 
@@ -82,11 +72,8 @@ public class Searchbar extends RenderGUI
         searchOptions.select(iCurrentSearchOption);
         searchOptions.singleSelect(true);
         searchOptions.setSizeInPercent(true, false);
-        searchOptions.onSelect(new OnSelectCallback() {
-            @Override public void run(int index, String content) 
-            {
-                iCurrentSearchOption = index;
-            }
+        searchOptions.onSelect((int index, String content) -> {
+            iCurrentSearchOption = index;
         });
         pBubble.addGUI(searchOptions);
         pBubble.setSize(new ivec2(200, searchOptions.getSize().y + 30));
@@ -96,16 +83,18 @@ public class Searchbar extends RenderGUI
         pSubmitButton.setPositionInPercent(true, false);
         pSubmitButton.setCornerRadius(new vec4(0, GUI.getTheme().cornerRadius.y, GUI.getTheme().cornerRadius.z, 0));
         pSubmitButton.getBox().setTextSize(20);
-        pSubmitButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                pCallback.run(pInputField.getString(), iCurrentSearchOption);
-            }
+        pSubmitButton.onClick((RenderGUI gui) -> {
+            pCallback.run(pInputField.getString(), iCurrentSearchOption);
         });
         addElement(pSubmitButton);
 
         resize();
         reposition();
+    }
+
+    public void setCallback(SearchbarCallback callback)
+    {
+        this.pCallback = callback;
     }
 
     @Override
@@ -115,4 +104,15 @@ public class Searchbar extends RenderGUI
         pSubmitButton.setCornerRadius(new vec4(0, GUI.getTheme().cornerRadius.y, GUI.getTheme().cornerRadius.z, 0));
         pBubble.setColor(vec4.sub(GUI.getTheme().primaryColor, 0.06f));
     }
+
+    public static XMLGUICreator createFromXMLNode() 
+    {
+        return (XMLNode node) -> { 
+			String localeid = node.getAttribute("locale-id");
+			String[] optionids = node.getAttribute("option-ids").split(",");
+			
+			Searchbar searchbargui = new Searchbar(new ivec2(0,0), new ivec2(30,30), localeid, optionids);
+			return searchbargui;
+        };
+    };
 }

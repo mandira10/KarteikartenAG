@@ -29,8 +29,8 @@ public class Validator {
     }
 
 
-    private static SingleDataCallback getDataCallback() {
-        SingleDataCallback callback = new SingleDataCallback<>() {
+    private static SingleDataCallback<Object> getDataCallback() {
+        SingleDataCallback<Object> callback = new SingleDataCallback<>() {
             @Override
             public void onSuccess(Object data) {
 

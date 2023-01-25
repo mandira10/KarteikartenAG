@@ -1,9 +1,7 @@
 package com.swp.DataModel.CardTypes;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
 import jakarta.persistence.*;
 import lombok.Getter;

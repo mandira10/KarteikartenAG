@@ -4,18 +4,12 @@ import com.gumse.gui.GUI;
 import com.gumse.gui.Theme;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.*;
-import com.gumse.tools.Output;
 import com.swp.DataModel.Settings.Setting;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
-import com.swp.Controller.CategoryController;
-import com.swp.Controller.SingleDataCallback;
-import com.swp.DataModel.Category;
 import com.swp.DataModel.Settings;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Cards.ViewSingleCardPage;
-import com.swp.GUI.Category.ViewCategoryTreePage;
-import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
 

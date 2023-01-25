@@ -8,7 +8,6 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.StudySystemController;
-import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
@@ -24,7 +23,7 @@ public class DeckSelectPage extends Page
 {
     private RenderGUI pCanvas;
     private DeckList pDeckList;
-    private List<CardOverview> alCards;
+    //private List<CardOverview> alCards;
 
     public DeckSelectPage()
     {
@@ -60,7 +59,7 @@ public class DeckSelectPage extends Page
 
     public void reset(List<CardOverview> cards)
     {
-        alCards = cards;
+        //alCards = cards;
         pDeckList.reset();
         StudySystemController.getInstance().getStudySystems(new DataCallback<>() {
             @Override

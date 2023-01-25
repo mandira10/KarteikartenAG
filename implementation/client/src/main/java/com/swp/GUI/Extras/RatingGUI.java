@@ -1,7 +1,6 @@
 package com.swp.GUI.Extras;
 
 import com.gumse.gui.GUI;
-import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
@@ -11,7 +10,6 @@ import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
-import com.gumse.tools.Output;
 
 public class RatingGUI extends RenderGUI
 {

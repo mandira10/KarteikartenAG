@@ -94,7 +94,7 @@ public class TestDeckPage extends Page
                     bNextCardAllowed = true;
                     bStopTime = true;
 
-                    studySystemController.giveAnswer(pDeck, pTestGUI.checkAnswers(),  new SingleDataCallback() {
+                    studySystemController.giveAnswer(pDeck, pTestGUI.checkAnswers(),  new SingleDataCallback<Object>() {
                         @Override
                         public void onSuccess(Object data) {}
 
@@ -111,7 +111,7 @@ public class TestDeckPage extends Page
                             break;
 
                         case TIMING:
-                            studySystemController.giveTime(pDeck, ((int) fElapsedSeconds), new SingleDataCallback() {
+                            studySystemController.giveTime(pDeck, ((int) fElapsedSeconds), new SingleDataCallback<Object>() {
                                 @Override
                                 public void onSuccess(Object data) {}
 

@@ -18,7 +18,6 @@ import com.swp.GUI.PageManager.PAGES;
 public class TestDeckFinishPage extends Page
 {
     private StudySystem pDeck;
-    private RenderGUI pCanvas;
     private TextBox pFinishText;
 
     public TestDeckFinishPage()

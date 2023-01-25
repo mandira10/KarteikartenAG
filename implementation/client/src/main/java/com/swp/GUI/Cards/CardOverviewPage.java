@@ -8,13 +8,12 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
-import com.swp.DataModel.Card;
-import com.swp.DataModel.CardOverview;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Decks.DeckSelectPage;
 import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.Extras.ConfirmationGUI;
+import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
@@ -24,6 +23,7 @@ import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
+import com.swp.DataModel.CardOverview;
 
 public class CardOverviewPage extends Page 
 {
@@ -37,58 +37,37 @@ public class CardOverviewPage extends Page
 
         addGUI(XMLGUI.loadFile("guis/cards/cardoverviewpage.xml"));
 
+        MenuOptions menu = (MenuOptions)findChildByID("menu");
+
         Button addCardButton = (Button)findChildByID("addcardbutton");
-        addCardButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                PageManager.viewPage(PAGES.CARD_CREATE);
-            }
-        });
+        addCardButton.onClick((RenderGUI gui) -> { PageManager.viewPage(PAGES.CARD_CREATE); });
 
         Button deleteCardButton = (Button)findChildByID("deletecardbutton");
-        deleteCardButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                deleteCards();
-            }
-        });
+        deleteCardButton.onClick((RenderGUI gui) -> { deleteCards(); });
         deleteCardButton.hide(true);
 
         Button addToDeckButton = (Button)findChildByID("addtodeckbutton");
-        addToDeckButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(pCardList.getSelection());
-            }
+        addToDeckButton.onClick((RenderGUI gui) -> {
+            ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(pCardList.getSelection());
         });
         addToDeckButton.hide(true);
 
         RenderGUI canvas = findChildByID("canvas");
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod() { deleteCardButton.hide(false); addToDeckButton.hide(false); }
-            @Override public void exitSelectmod()  { deleteCardButton.hide(true); addToDeckButton.hide(true); }
+            @Override public void enterSelectmod() { deleteCardButton.hide(false); addToDeckButton.hide(false); menu.resize(); }
+            @Override public void exitSelectmod()  { deleteCardButton.hide(true); addToDeckButton.hide(true); menu.resize(); }
         });
         pCardList.setSizeInPercent(true, true);
         canvas.addGUI(pCardList);
 
-        pSearchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "cardsearch", new String[] {
-            "bycontentsearch",
-            "bytagsearch",
-            "bycategorysearch"
-        }, new SearchbarCallback() {
-            @Override public void run(String query, int option)
-            {
-                if(query.equals(""))
-                    loadCards(0, 30);
-                else
-                    loadCards(query, option);
-            }
+        pSearchbar = (Searchbar)findChildByID("searchbar");
+        pSearchbar.setCallback((String query, int option) -> {
+            if(query.equals(""))
+                loadCards(0, 30);
+            else
+                loadCards(query, option);
         });
-        pSearchbar.setPositionInPercent(false, true);
-        pSearchbar.setSizeInPercent(true, false);
-        pSearchbar.setOrigin(new ivec2(0, 50));
-        addGUI(pSearchbar);
 
         this.setSizeInPercent(true, true);
         reposition();

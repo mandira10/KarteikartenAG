@@ -2,18 +2,10 @@ package com.swp.Controller;
 
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
-import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CategoryLogic;
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.UniqueConstraint;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.exception.SQLGrammarException;
-
 import java.util.List;
 
 @Slf4j

@@ -13,6 +13,7 @@ import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardExportPage;
 import com.swp.GUI.Extras.DeckList;
+import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.DeckList.DeckListCallback;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
@@ -33,41 +34,25 @@ public class DeckOverviewPage extends Page
         addGUI(XMLGUI.loadFile("guis/decks/deckoverviewpage.xml"));
 
         pCanvas = findChildByID("canvas");
-        pDeckList = new DeckList(new ivec2(0, 0), new ivec2(100, 100), new DeckListCallback() {
-            @Override public void run(StudySystem deck)
-            {
-                ViewSingleDeckPage page = (ViewSingleDeckPage)PageManager.getPage(PAGES.DECK_SINGLEVIEW);
-                page.setDeck(deck);
-                PageManager.viewPage(PAGES.DECK_SINGLEVIEW);
-            }
+        pDeckList = new DeckList(new ivec2(0, 0), new ivec2(100, 100), (StudySystem deck) -> {
+            ViewSingleDeckPage page = (ViewSingleDeckPage)PageManager.getPage(PAGES.DECK_SINGLEVIEW);
+            page.setDeck(deck);
+            PageManager.viewPage(PAGES.DECK_SINGLEVIEW);
         });
         pDeckList.setSizeInPercent(true, true);
         pCanvas.addGUI(pDeckList);
         
-        RenderGUI optionsMenu = findChildByID("menu");
-        Button newButton = (Button)optionsMenu.findChildByID("adddeckbutton");
-        newButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)
-            {
-                PageManager.viewPage(PAGES.DECK_CREATE);
-            }
-        });
+        MenuOptions menu = (MenuOptions)findChildByID("menu");
+        Button newButton = (Button)findChildByID("adddeckbutton");
+        newButton.onClick((RenderGUI gui) -> { PageManager.viewPage(PAGES.DECK_CREATE); });
 
-        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "decksearch", new String[] {
-            "bycontentsearch",
-        }, new SearchbarCallback() {
-            @Override public void run(String query, int option) 
-            {
-                if(query.equals(""))
-                    loadDecks();
-                else
-                loadDecks(query, option);
-            }
+        Searchbar searchbar = (Searchbar)findChildByID("searchbar");
+        searchbar.setCallback((String query, int option) -> {
+            if(query.equals(""))
+                loadDecks();
+            else
+            loadDecks(query, option);
         });
-        searchbar.setPositionInPercent(false, true);
-        searchbar.setSizeInPercent(true, false);
-        searchbar.setOrigin(new ivec2(0, 50));
-        addGUI(searchbar);
 
         this.setSizeInPercent(true, true);
         reposition();

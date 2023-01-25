@@ -2,7 +2,9 @@
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="canvas" size="95%, 80%" pos="2.5%, 10%">
     </gui>
-q    <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="adddeckbutton"     pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="adddeckbutton" />
-    </gui>
+
+    <searchbar id="searchbar" pos="20, 100%" size="40%, 30" origin="0, 50" locale-id="decksearch" option-ids="bycontentsearch" />
+    <menu id="menu" size="60%, 30" pos="100%, 100%" origin="100%, 50" margin="-50, 0">
+        <button id="adddeckbutton" size="100, 30" fontsize="20" locale-id="adddeckbutton" />
+    </menu>
 </gui-root>

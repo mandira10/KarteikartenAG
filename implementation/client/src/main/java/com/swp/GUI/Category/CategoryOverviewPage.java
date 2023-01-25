@@ -19,9 +19,9 @@ import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CategoryList.CategoryListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.Notification.NotificationType;
-import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;
@@ -42,60 +42,40 @@ public class CategoryOverviewPage extends Page
 
         addGUI(XMLGUI.loadFile("guis/categories/categoryoverviewpage.xml"));
         
-        RenderGUI optionsMenu = findChildByID("menu");
-        Button treeButton = (Button)optionsMenu.findChildByID("treeviewbutton");
-        treeButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                ((ViewCategoryTreePage)PageManager.viewPage(PAGES.CATEGORY_TREE)).reset();
-            }
+
+        MenuOptions menu = (MenuOptions)findChildByID("menu");
+
+        Button treeButton = (Button)findChildByID("treeviewbutton");
+        treeButton.onClick((RenderGUI gui) -> {
+            ((ViewCategoryTreePage)PageManager.viewPage(PAGES.CATEGORY_TREE)).reset();
         });
 
-        Button newButton = (Button)optionsMenu.findChildByID("addcategorybutton");
-        newButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  
-            {
-                ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category(),true);
-            }
+        Button newButton = (Button)findChildByID("addcategorybutton");
+        newButton.onClick((RenderGUI gui) -> {
+            ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category(),true);
         });
         pDeleteCategoriesButton = (Button)findChildByID("deletecategoriesbutton");
-        pDeleteCategoriesButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                deleteCategories(pCategoryList.getSelectedCategories());
-            }
+        pDeleteCategoriesButton.onClick((RenderGUI gui) -> {
+            deleteCategories(pCategoryList.getSelectedCategories());
         });
         pDeleteCategoriesButton.hide(true);
 
         pAddToDeckButton = (Button)findChildByID("addtodeckbutton");
-        pAddToDeckButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                addToDeck();
-            }
+        pAddToDeckButton.onClick((RenderGUI gui) -> {
+            addToDeck();
         });
         pAddToDeckButton.hide(true);
 
         pCanvas = findChildByID("canvas");
         pCategoryList = new CategoryList(new ivec2(0, 0), new ivec2(100, 100), new CategoryListSelectmodeCallback() {
-            @Override public void enterSelectmod() { pDeleteCategoriesButton.hide(false); pAddToDeckButton.hide(false); }
-            @Override public void exitSelectmod()  { pDeleteCategoriesButton.hide(true);  pAddToDeckButton.hide(true);  }
+            @Override public void enterSelectmod() { pDeleteCategoriesButton.hide(false); pAddToDeckButton.hide(false); menu.resize(); }
+            @Override public void exitSelectmod()  { pDeleteCategoriesButton.hide(true);  pAddToDeckButton.hide(true);  menu.resize(); }
         });
         pCategoryList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCategoryList);
 
-        Searchbar searchbar = new Searchbar(new ivec2(20, 100), new ivec2(40, 30), "categorysearch", new String[] {
-            "bycontentsearch",
-        }, new SearchbarCallback() {
-            @Override public void run(String query, int option) 
-            {
-                loadCategories(query);
-            }
-        });
-        searchbar.setPositionInPercent(false, true);
-        searchbar.setSizeInPercent(true, false);
-        searchbar.setOrigin(new ivec2(0, 50));
-        addGUI(searchbar);
+        Searchbar searchbar = (Searchbar)findChildByID("searchbar");
+        searchbar.setCallback((String query, int option) -> { loadCategories(query); });
 
         this.setSizeInPercent(true, true);
         reposition();

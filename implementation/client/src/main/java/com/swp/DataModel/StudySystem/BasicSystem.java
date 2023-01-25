@@ -1,9 +1,5 @@
 package com.swp.DataModel.StudySystem;
 
-
-
-import java.util.*;
-
 /**
  * Klasse für das BasicSystem. Erbt alle Attribute vom StudySystem
  */

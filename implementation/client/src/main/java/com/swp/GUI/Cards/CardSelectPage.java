@@ -62,7 +62,8 @@ public class CardSelectPage extends Page
             "bycontentsearch",
             "bytagsearch",
             "bycategorysearch"
-        }, new SearchbarCallback() {
+        });
+        pSearchbar.setCallback(new SearchbarCallback() {
             @Override public void run(String query, int option)
             {
                 if(query.equals(""))

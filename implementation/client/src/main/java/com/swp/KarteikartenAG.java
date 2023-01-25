@@ -18,6 +18,7 @@ import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.Display;
@@ -27,6 +28,8 @@ import com.gumse.tools.Output;
 import com.gumse.tools.Output.OutputCallback;
 import com.gumse.tools.FPS;
 import com.swp.GUI.KarteikartenAGGUI;
+import com.swp.GUI.Extras.MenuOptions;
+import com.swp.GUI.Extras.Searchbar;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 //   - Create GUI inside thread
 //   - Card List columns            -- done
 //   - card references list (links) -- done
-//   - card references edit page
+//   - card references edit page    -- done
 //   - Show tags/categories in view -- done
 //   - Edit card new card switch    -- done
 //   - Notification GUI             -- done
@@ -92,7 +95,11 @@ import lombok.extern.slf4j.Slf4j;
 //   - Language Class               -- done
 //   - Language files               -- done
 //   - Settings file                -- done
+//   - Threedots optionsmenu        -- done
+//   - Auto resizing menubar        -- done
+//   - Custom XML types             -- done
 //   - Check for mandatory fields
+//   - Change cardlist order
 ////////////////////////////////////////////////////
 
 @Slf4j
@@ -139,7 +146,7 @@ public class KarteikartenAG
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(iWindowSize);
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
 
@@ -171,6 +178,9 @@ public class KarteikartenAG
                 pMainGUI.setSize(val);
             }
         });
+
+        XMLGUI.addGUIType("menu", MenuOptions.createFromXMLNode());
+        XMLGUI.addGUIType("searchbar", Searchbar.createFromXMLNode());
 
         importTestData();
         KarteikartenAGGUI pKarteikartenAGGUI = KarteikartenAGGUI.getInstance();

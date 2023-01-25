@@ -3,9 +3,10 @@
     <gui id="canvas" size="95%, 80%" pos="2.5%, 10%">
 
     </gui>
-    <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="addcardbutton"    pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="addcardbutton" />
-        <button id="addtodeckbutton"  pos="97.5%, 0" origin="240, 0" size="120, 30" fontsize="20" locale-id="addtodeckbutton" />
-        <button id="deletecardbutton" pos="97.5%, 0" origin="380, 0" size="120, 30" fontsize="20" locale-id="deletecardsbutton" color="#EB4D4B" />
-    </gui>
+    <searchbar id="searchbar" pos="20, 100%" size="40%, 30" origin="0, 50" locale-id="cardsearch" option-ids="bycontentsearch,bytagsearch,bycategorysearch" />
+    <menu id="menu" size="60%, 30" pos="100%, 100%" origin="100%, 50" margin="-50, 0">
+        <button id="addcardbutton"    size="100, 30" fontsize="20" locale-id="addcardbutton" />
+        <button id="addtodeckbutton"  size="120, 30" fontsize="20" locale-id="addtodeckbutton" />
+        <button id="deletecardbutton" size="120, 30" fontsize="20" locale-id="deletecardsbutton" color="#EB4D4B" />
+    </menu>
 </gui-root>

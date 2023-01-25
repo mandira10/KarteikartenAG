@@ -1,9 +1,6 @@
 package com.swp.GUI.References.ReferenceTypes;
 
-import java.io.File;
 import java.io.IOException;
-import java.awt.Desktop;
-
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.Display;

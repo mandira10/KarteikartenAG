@@ -1,9 +1,5 @@
 package com.swp.Logic.CategoryLogicTest;
 
-import com.swp.DataModel.Card;
-import com.swp.DataModel.CardOverview;
-import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Category;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
@@ -17,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.swp.Validator.checkNotNullOrBlank;
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
