@@ -293,6 +293,71 @@ public class CrudTest {
     }
 
     @Test
+    public void studySystemCrudTest() {
+        List<StudySystem> studySystems = exampleStudySystems();
+
+        // CREATE
+        StudySystemRepository.startTransaction();
+        for (final StudySystem studySystem : studySystems) {
+            studySystemRepository.save(studySystem);
+        }
+        StudySystemRepository.commitTransaction();
+
+        // READ
+        List<StudySystem> allReadStudySystems = new ArrayList<>();
+        StudySystemRepository.startTransaction();
+        for (final StudySystem studySystem : studySystems) {
+            final StudySystem readStudySystem = studySystemRepository.getStudySystemByUUID(studySystem.getUuid());
+            assertEquals(studySystem, readStudySystem);
+            allReadStudySystems.add(readStudySystem);
+        }
+        StudySystemRepository.commitTransaction();
+        assertEquals(studySystems.size(), allReadStudySystems.size(), "same length");
+        assertTrue(allReadStudySystems.containsAll(studySystems));
+        allReadStudySystems = new ArrayList<>();
+
+        // UPDATE
+        StudySystem changedStudySystem = studySystems.get(0);
+        changedStudySystem.setName("Neuer Name");
+        studySystems.set(0, changedStudySystem);
+        StudySystemRepository.startTransaction();
+        studySystemRepository.update(changedStudySystem);
+        for (final StudySystem studySystem : studySystems) {
+            final StudySystem readStudySystem = studySystemRepository.getStudySystemByUUID(studySystem.getUuid());
+            assertEquals(studySystem, readStudySystem);
+            allReadStudySystems.add(readStudySystem);
+        }
+
+        StudySystemRepository.commitTransaction();
+        assertEquals(studySystems.size(), allReadStudySystems.size(), "same length");
+        assertTrue(allReadStudySystems.containsAll(studySystems));
+        allReadStudySystems = new ArrayList<>();
+        
+        // DELETE
+        StudySystemRepository.startTransaction();
+        final String uuid = changedStudySystem.getUuid();
+        var ss = studySystemRepository.getStudySystemByUUID(uuid);
+        assertNotNull(ss, "changed study system not found");
+        studySystemRepository.delete(ss);
+        assertThrows(NoResultException.class, () -> studySystemRepository.getStudySystemByUUID(uuid));
+        StudySystemRepository.commitTransaction();
+
+
+    }
+
+    @Test
+    public void studySystemBoxCrudTest() {
+        
+    }
+
+    @Test
+    public void cardToBoxCrudTest() {
+        
+    }
+
+
+
+    @Test
     public void saveAndDeleteList() {
         CategoryRepository.startTransaction();
 
@@ -354,7 +419,10 @@ public class CrudTest {
         return exampleCards;
     }
 
-    private List<StudySystem> exampleStudySystem() {
+
+
+
+    private List<StudySystem> exampleStudySystems() {
         List<StudySystem> exampleStudySystems = new ArrayList<>();
         Collections.addAll(exampleStudySystems,
                 new LeitnerSystem("Leitner 1", StudySystem.CardOrder.RANDOM, false),
