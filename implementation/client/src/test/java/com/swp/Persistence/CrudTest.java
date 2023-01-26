@@ -183,6 +183,17 @@ public class CrudTest {
     }
 
     @Test
+    public void baseRepositoryGetter() {
+        assertNull(BaseRepository.getEntityManager());
+        assertThrows(NullPointerException.class, () -> cardRepository.findCardsByTag("test"));
+        assertNull(BaseRepository.getCriteriaBuilder());
+
+        BaseRepository.startTransaction();
+        assertNotNull(BaseRepository.getEntityManager());
+        assertNotNull(BaseRepository.getCriteriaBuilder());
+    }
+
+    @Test
     public void categoryCrudTest() {
         List<Category> categories = exampleCategories();
 

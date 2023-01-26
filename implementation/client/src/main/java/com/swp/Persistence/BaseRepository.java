@@ -5,7 +5,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import jakarta.persistence.metamodel.SingularAttribute;
 import lombok.AccessLevel;
 import lombok.Getter;
 
@@ -72,6 +71,7 @@ public abstract class BaseRepository<T> {
         } finally {
             entityManager.close();
             entityManager = null;
+            criteriaBuilder = null;
         }
     }
 
@@ -88,6 +88,7 @@ public abstract class BaseRepository<T> {
         } finally {
             entityManager.close();
             entityManager = null;
+            criteriaBuilder = null;
         }
     }
 

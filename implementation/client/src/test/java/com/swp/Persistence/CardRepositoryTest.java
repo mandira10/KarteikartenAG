@@ -1,15 +1,19 @@
 package com.swp.Persistence;
 
-import com.swp.DataModel.Card;
+import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.*;
+import com.swp.DataModel.StudySystem.BoxToCard;
+import com.swp.DataModel.StudySystem.LeitnerSystem;
+import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.StudySystemBox;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class CardRepositoryTest {
@@ -47,8 +51,114 @@ public class CardRepositoryTest {
 
     }
 
+    @Test
+    public void getCardsByStudySystem() {
+        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1", false);
+        Card card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2", false);
+        StudySystem studySystem = new LeitnerSystem("Name", StudySystem.CardOrder.ALPHABETICAL, false);
+        StudySystem notSavedStudySystem = new LeitnerSystem("Anderes", StudySystem.CardOrder.ALPHABETICAL, false);
+        BoxToCard cardToBox = new BoxToCard(card1, studySystem.getBoxes().get(0),0);
 
+        CardRepository.startTransaction();
+        cardRepository.save(card1);
+        cardRepository.save(card2);
+        CardRepository.commitTransaction();
 
+        StudySystemRepository.startTransaction();
+        StudySystemRepository studySystemRepository = StudySystemRepository.getInstance();
+        studySystemRepository.save(studySystem);
+        StudySystemRepository.commitTransaction();
+
+        CardToBoxRepository.startTransaction();
+        CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
+        cardToBoxRepository.save(cardToBox);
+        CardToBoxRepository.commitTransaction();
+
+        CardToBoxRepository.startTransaction();
+        assertEquals(1, cardRepository.findCardsByStudySystem(studySystem).size());
+        assertEquals(card1.getUuid(), cardRepository.findCardsByStudySystem(studySystem).get(0).getUUUID());
+        assertEquals(0, cardRepository.findCardsByStudySystem(notSavedStudySystem).size());
+        CardToBoxRepository.commitTransaction();
+    }
+
+    @Test
+    public void getCardsByTag() {
+        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1", false);
+        Tag tag1 = new Tag("Tag_1");
+        Tag tag2 = new Tag("Tag_2"); // not persisted
+        CardToTag cardToTag = new CardToTag(card1, tag1);
+        CardToTag notSavedC2T = new CardToTag(card1, tag2);
+
+        CardRepository.startTransaction();
+        cardRepository.save(card1);
+        CardRepository.commitTransaction();
+
+        TagRepository.startTransaction();
+        TagRepository tagRepository = TagRepository.getInstance();
+        tagRepository.save(tag1);
+        tagRepository.save(tag2);
+        TagRepository.commitTransaction();
+
+        CardToTagRepository.startTransaction();
+        CardToTagRepository cardToTagRepository = CardToTagRepository.getInstance();
+        cardToTagRepository.save(cardToTag);
+        CardToTagRepository.commitTransaction();
+
+        CardRepository.startTransaction();
+        assertEquals(1, cardRepository.findCardsByTag(tag1).size());
+        assertEquals(1, cardRepository.findCardsByTag(tag1.getVal()).size());
+        assertEquals(card1.getUuid(), cardRepository.findCardsByTag(tag1).get(0).getUUUID());
+        assertEquals(0, cardRepository.findCardsByTag(tag2).size());
+        assertEquals(0, cardRepository.findCardsByTag(tag2.getVal()).size());
+        CardRepository.commitTransaction();
+    }
+
+    @Test
+    public void getCardsByCategory() {
+        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1", false);
+        Category cat1 = new Category("Kategorie A");
+        Category cat2 = new Category("Kategorie B"); // not persisted
+        CardToCategory cardToCategory = new CardToCategory(card1, cat1);
+        CardToCategory notSavedC2C = new CardToCategory(card1, cat2);
+
+        CardRepository.startTransaction();
+        cardRepository.save(card1);
+        CardRepository.commitTransaction();
+
+        CategoryRepository.startTransaction();
+        CategoryRepository categoryRepository = CategoryRepository.getInstance();
+        categoryRepository.save(cat1);
+        categoryRepository.save(cat2);
+        CategoryRepository.commitTransaction();
+
+        CardToCategoryRepository.startTransaction();
+        CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
+        cardToCategoryRepository.save(cardToCategory);
+        CardToCategoryRepository.commitTransaction();
+
+        CardRepository.startTransaction();
+        assertEquals(1, cardRepository.getCardsByCategory(cat1).size());
+        assertEquals(1, cardRepository.getCardsByCategory(cat1.getName()).size());
+        assertEquals(card1.getUuid(), cardRepository.getCardsByCategory(cat1).get(0).getUUUID());
+        assertEquals(0, cardRepository.getCardsByCategory(cat2).size());
+        assertEquals(0, cardRepository.getCardsByCategory(cat2.getName()).size());
+        CardRepository.commitTransaction();
+    }
+
+    @Test
+    public void getCardsByUUID() {
+        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1", false);
+        Card card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2", false);
+
+        CardRepository.startTransaction();
+        cardRepository.save(card1);
+        CardRepository.commitTransaction();
+
+        CardRepository.startTransaction();
+        assertEquals(card1, cardRepository.getCardByUUID(card1.getUuid()));
+        assertThrows(NoResultException.class, () -> cardRepository.getCardByUUID(card2.getUuid()));
+        CardRepository.commitTransaction();
+    }
 
     // Hilfsfunktionen um einen Test-Datensatz an Instanzen zu haben
     public List<Card> exampleCards() {
