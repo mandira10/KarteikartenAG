@@ -17,7 +17,7 @@ Benötigt wird:
 - X Window System
   - falls [wayland](https://wayland.freedesktop.org/) verwendet wird, kann die Installation von `xwayland` (deb) oder `xorg-x11-server-Xwayland` (rpm) helfen.
 - [GLIBC](https://www.gnu.org/software/libc/) > 2.14 (empfohlen >= 2.27)
-- Java JDK-17 z.B. `openjdk-17-jdk` (deb) oder `java-11-openjdk` (rpm)
+- Java JDK-17 z.B. `openjdk-17-jdk` (deb) oder `java-17-openjdk` (rpm)
 - Maven (empfohlen >= 3.6.3)
 
 ```sh

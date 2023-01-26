@@ -33,7 +33,16 @@ public abstract class BaseRepository<T> {
         this.repoType = repoType;
     }
 
+    /**
+     * Funktion um ein Object mit den Daten aus der abzugleichen.
+     * Nach dem Aufruf ist `t` mit denselben Daten gefüllt, wie sie im Repository vorliegen.
+     * @param t das zu aktualisierende Object vom Typ T (Repository-Typ).
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
+     */
     public void refresh(T t){
+        if (!isTransactionActive()) {
+            throw new IllegalStateException("Es gibt keine aktive Transaktionen.");
+        }
         entityManager.refresh(t);
     }
 
@@ -92,29 +101,14 @@ public abstract class BaseRepository<T> {
 
     // Allgemeine Funktionen für die Repositories (CRUD)
     /**
-     * Funktion um eine Liste von Objekten aus dem entsprechenden Repository zu ziehen.
-     * Die Objekte sind vom Typ des entsprechendem spezifischen Repository, welches BaseRepository<T> erweitert.
-     * Dabei wird dabei nach einem `value` gefiltert.
-     * @param value Object nach dem die Liste gefiltert werden soll
-     * @param attribute
-     */
-    public List<T> findListBy(final Object value, final SingularAttribute<T, ?> attribute) {
-        final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(repoType);
-        final Root<T> queryRoot = criteriaQuery.from(repoType);
-
-        criteriaQuery.where(
-                criteriaBuilder.equal(
-                        queryRoot.get(attribute),value)
-        );
-
-        return entityManager.createQuery(criteriaQuery).getResultList();
-    }
-
-    /**
      * Funktion um alle gespeicherten Objekte des Repository-Typs aus der Datenbank zu holen.
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      * @return List<T> eine Liste mit allen persistierten Objekten aus der Datenbank.
      */
-    public List<T> getAll() {
+    public List<T> getAll() throws IllegalStateException {
+        if (!isTransactionActive()) {
+            throw new IllegalStateException("Es gibt keine aktive Transaktionen.");
+        }
         final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(repoType);
         final Root<T> queryRoot = criteriaQuery.from(repoType);
         criteriaQuery.select(queryRoot);
@@ -125,38 +119,32 @@ public abstract class BaseRepository<T> {
      * Funktion um die Anzahl der persistierten Objekte des entsprechenden Repository-Typs zu bekommen.
      * @return int Anzahl der gespeicherten Objekte im Repository.
      */
-    public int countAll(){
+    public int countAll() {
         return getAll().size();
     }
-
-    /*
-     * Funktion um einen bestimmten Abschnitt der persistierten Objekte aus der Datenbank zu holen
-     * @param from     int: gibt an wie viele Zeilen des Ergebnisses übersprungen werden.
-     * @param to       int: gibt an bis zu welcher Zeile die Ergebnisse geholt werden sollen.
-     * @param callback DataCallback<T>: Callback-Instanz, über die die gefundenen Daten an die GUI gegeben werden.
-     * @param order    CardOrder: in welcher Reihenfolge die Ergebnisse sortiert sein sollen.
-    public List<T> getRange(final int from, final int to, final DataCallback<T> callback, Deck.CardOrder order) {
-        assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
-        final CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(repoType);
-        final Root<T> queryRoot = criteriaQuery.from(repoType);
-        criteriaQuery.select(queryRoot).orderBy(criteriaBuilder.asc('repoType_.columnName')).setFirstResult(from).setMaxResults(to-from);
-        return entityManager.createQuery(criteriaQuery).getResultList();
-    }
-     //*/
 
     /**
      * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu persistieren.
      * @param object das zu speichernde Objekt.
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */
-    public T save(T object) {
+    public T save(T object) throws IllegalStateException {
+        if (!isTransactionActive()) {
+            throw new IllegalStateException("Es gibt keine aktive Transaktionen.");
+        }
         return entityManager.merge(object);
     }
 
     /**
      * Funktion um eine Liste von Objekten im Repository zu persistieren.
      * @param objects Liste der zu speichernden Objekte.
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
+     * @return List<T> eine Liste der attached Objects die gerade gespeichert wurden.
      */
-    public List<T> save(List<T> objects) {
+    public List<T> save(List<T> objects) throws IllegalStateException {
+        if (!isTransactionActive()) {
+            throw new IllegalStateException("Es gibt keine aktive Transaktionen.");
+        }
         var result = new ArrayList<T>();
         for (T object : objects) {
             result.add(save(object));
@@ -167,24 +155,37 @@ public abstract class BaseRepository<T> {
     /**
      * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu aktualisieren.
      * @param object das zu aktualisierende Objekt.
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
+     * @return T das attached Object vom Repository-Typ das gerade aktualisiert wurde.
      */
-    public T update(T object) {
+    public T update(T object) throws IllegalStateException {
+        if (!isTransactionActive()) {
+            throw new IllegalStateException("Es gibt keine aktive Transaktionen.");
+        }
         return entityManager.merge(object);
     }
 
     /**
      * Funktion um ein Objekt des Repository-Typs aus dem entsprechenden Repository zu entfernen.
      * @param object das zu löschende Objekt.
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */
-    public void delete(T object) {
+    public void delete(T object) throws IllegalStateException {
+        if (!isTransactionActive()) {
+            throw new IllegalStateException("Es gibt keine aktive Transaktionen.");
+        }
         entityManager.remove(object);
     }
 
     /**
      * Funktion um eine Liste von Objekten im Repository zu entfernen.
      * @param objects Liste der zu löschenden Objekte.
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */
-    public void delete(List<T> objects) {
+    public void delete(List<T> objects) throws IllegalStateException {
+        if (!isTransactionActive()) {
+            throw new IllegalStateException("Es gibt keine aktive Transaktionen.");
+        }
         for (T object : objects) {
             delete(object);
         }
