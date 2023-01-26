@@ -9,13 +9,13 @@ import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToTagRepository;
 import com.swp.Persistence.TagRepository;
 import jakarta.persistence.NoResultException;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.joor.Reflect.on;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -274,6 +274,8 @@ public class CardToTagTests {
                 add(tag2);
             }
         };
-        when(tagRepMock.getTags()).thenReturn(tags);
+        when(tagRepMock.getAll()).thenReturn(tags);
+        on(cardLogic).set("tagRepository",tagRepMock);
+        assertEquals(tags, cardLogic.getTags());
     }
 }

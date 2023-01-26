@@ -191,6 +191,7 @@ public class CrudTest {
         BaseRepository.startTransaction();
         assertNotNull(BaseRepository.getEntityManager());
         assertNotNull(BaseRepository.getCriteriaBuilder());
+        BaseRepository.commitTransaction();
     }
 
     @Test
