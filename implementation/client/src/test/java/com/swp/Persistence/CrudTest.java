@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CrudTest {
@@ -112,11 +113,84 @@ public class CrudTest {
         cardRepository.delete(card);
         assertThrows(NoResultException.class, () -> cardRepository.getCardByUUID(uuid));
         CardRepository.commitTransaction();
+
+        // Refresh
+        CardRepository.startTransaction();
+        Card attachedCard = cardRepository.getAll().get(0);
+        String savedQuestion = attachedCard.getQuestion();
+        attachedCard.setQuestion("andere Frage");
+        cardRepository.refresh(attachedCard);
+        assertEquals(attachedCard.getQuestion(), savedQuestion);
+        CardRepository.commitTransaction();
     }
 
     @Test
-    public void deckCrudTest() {
-        // wahrscheinlich löschen
+    public void CRUDwithoutTransaction() {
+        Card exampleCard = new ImageDescriptionCard("Bildbeschreibung 3?", new ImageDescriptionCardAnswer[]{
+                new ImageDescriptionCardAnswer("Beschreibung 3", 0, 1)
+        }, "Titel der Karte", "/path/to/image3.png", false);
+
+        on(cardRepository).set("entityManager", null);
+        assertThrows(IllegalStateException.class, cardRepository::getAll);
+        assertThrows(IllegalStateException.class, cardRepository::countAll);
+        assertThrows(IllegalStateException.class, () -> cardRepository.save(exampleCard));
+        assertThrows(IllegalStateException.class, () -> cardRepository.save(exampleCards()));
+        exampleCard.setQuestion("neue Frage...");
+        assertThrows(IllegalStateException.class, () -> cardRepository.update(exampleCard));
+        assertThrows(IllegalStateException.class, () -> cardRepository.delete(exampleCard));
+        assertThrows(IllegalStateException.class, () -> cardRepository.delete(exampleCards()));
+        assertThrows(IllegalStateException.class, () -> cardRepository.refresh(exampleCard));
+    }
+
+    @Test
+    public void accessWithoutTransaction() {
+        on(cardRepository).set("entityManager", null);
+        assertThrows(IllegalStateException.class, cardRepository::getAll);
+        on(cardRepository).set("entityManager", PersistenceManager.emFactory.createEntityManager());
+        assertThrows(IllegalStateException.class, cardRepository::getAll);
+        on(cardRepository).set("entityManager", null);
+    }
+
+    @Test
+    public void commitWithoutTransaction() {
+        on(cardRepository).set("entityManager", null);
+        assertThrows(IllegalStateException.class, CardRepository::commitTransaction);
+        on(cardRepository).set("entityManager", PersistenceManager.emFactory.createEntityManager());
+        assertThrows(IllegalStateException.class, CardRepository::commitTransaction);
+        on(cardRepository).set("entityManager", null);
+    }
+
+    @Test
+    public void rollbackWithoutTransaction() {
+        on(cardRepository).set("entityManager", null);
+        assertThrows(IllegalStateException.class, CardRepository::rollbackTransaction);
+        //on(cardRepository).set("entityManager", PersistenceManager.emFactory.createEntityManager());
+        //assertThrows(IllegalStateException.class, CardRepository::rollbackTransaction);
+        //on(cardRepository).set("entityManager", null);
+    }
+
+    @Test
+    public void isTransactionActive() {
+        on(cardRepository).set("entityManager", null);
+        assertFalse(CardRepository.isTransactionActive());
+        on(cardRepository).set("entityManager",PersistenceManager.emFactory.createEntityManager());
+        assertFalse(CardRepository.isTransactionActive());
+        on(cardRepository).set("entityManager", null);
+        //on(cardRepository).set("entityManager",PersistenceManager.emFactory.createEntityManager().getTransaction());
+        //assertFalse(CardRepository.isTransactionActive());
+        //on(cardRepository).set("entityManager",PersistenceManager.emFactory.createEntityManager().getTransaction().begin());
+        //assertTrue(CardRepository.isTransactionActive());
+    }
+
+    @Test
+    public void baseRepositoryGetter() {
+        assertNull(BaseRepository.getEntityManager());
+        assertThrows(NullPointerException.class, () -> cardRepository.findCardsByTag("test"));
+        assertNull(BaseRepository.getCriteriaBuilder());
+
+        BaseRepository.startTransaction();
+        assertNotNull(BaseRepository.getEntityManager());
+        assertNotNull(BaseRepository.getCriteriaBuilder());
     }
 
     @Test
@@ -218,6 +292,19 @@ public class CrudTest {
 
     }
 
+    @Test
+    public void saveAndDeleteList() {
+        CategoryRepository.startTransaction();
+
+        assertDoesNotThrow(() -> {
+            List<Category> savedCategories;
+            savedCategories = categoryRepository.save(exampleCategories());
+            List<Category> readCategories;
+            readCategories = categoryRepository.getAll();
+            assertTrue(readCategories.containsAll(savedCategories));
+        });
+        CategoryRepository.commitTransaction();
+    }
 
     /*
      * Hilfsfunktionen um einen Test-Datensatz an Instanzen zu haben
@@ -289,17 +376,6 @@ public class CrudTest {
 
         return exampleStudySystems;
     }
-
-    /*
-    private List<Deck> exampleDecks() {
-        //TODO Test-Decks erstellen
-        List<Deck> exampleDecks = new ArrayList<>();
-        Collections.addAll(exampleDecks,
-                new Deck()
-        );
-        return null;
-    }
-     */
 
     public List<Category> exampleCategories() {
         //TODO Test-Kategorien erstellen

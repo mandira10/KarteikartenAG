@@ -134,6 +134,7 @@ public class CardController {
     public void deleteCard(Card card, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.deleteCard(card);
+            singleDataCallback.onSuccess(true);
         }catch (IllegalStateException ex) {
             singleDataCallback.onFailure(ex.getMessage());
             log.error("Null-Value übergeben");
@@ -153,6 +154,7 @@ public class CardController {
     public void deleteCards(List<CardOverview> cards, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.deleteCards(cards);
+            singleDataCallback.onSuccess(true);
         }catch (IllegalStateException ex) {
             singleDataCallback.onFailure(ex.getMessage());
             log.error("Null-Value übergeben");
@@ -245,6 +247,7 @@ public class CardController {
     public void exportCards(Card[] cards, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) {
         try {
             cardLogic.exportCards(cards, filetype);
+            singleDataCallback.onSuccess(true);
         } catch (Exception ex) {
             singleDataCallback.onFailure(Locale.getCurrentLocale().getString("cardexporterror"));
             log.error("Beim Exportieren der Karte(n) gab es einen Fehler {}" + ex.getMessage());
