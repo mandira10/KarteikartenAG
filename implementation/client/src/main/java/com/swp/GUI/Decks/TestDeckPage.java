@@ -183,14 +183,14 @@ public class TestDeckPage extends Page
 
             }
         });
-        //Card nextCard = pDeck.getStudySystem().getNextCard(0);//TODO
-//        if(nextCard == null)
-//        {
-//            finishTest();
-//            return;
-//        }
+        Card nextCard = null; // pDeck.getNextCard(0); TODO
+        if(nextCard == null)
+        {
+            finishTest();
+            return;
+        }
 
-        //pTestGUI = new TestCardGUI(nextCard);//TODO
+        pTestGUI = new TestCardGUI(nextCard);
         pCanvas.addGUI(pTestGUI);
         reposition();
         resize();

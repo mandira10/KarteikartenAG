@@ -177,8 +177,7 @@ public abstract class Card implements Serializable
      */
     public void setQuestion(String question)
     {
-
-            this.question = checkNotNullOrBlank(Locale.getCurrentLocale().getString("question"),"Frage",false);
+        this.question = checkNotNullOrBlank(Locale.getCurrentLocale().getString("question"),"Frage",false);
     }
 
     public void setTitle(String title)

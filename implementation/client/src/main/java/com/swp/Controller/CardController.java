@@ -216,19 +216,21 @@ public class CardController {
      * @param singleDataCallback: Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
     public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
-        try {
-            cardLogic.updateCardData(cardToChange, neu);
-            singleDataCallback.onSuccess(true);
-        }
-        catch (IllegalStateException ex) {
-            singleDataCallback.onFailure(ex.getMessage());
-            log.error("Karte nicht gefunden");
-        }
-
-        catch (Exception ex) {
-            singleDataCallback.onFailure(String.format(Locale.getCurrentLocale().getString("updatecreatecarderror")));
-            log.error("Beim Updaten/Speichern der Karte {} mit der ist ein Fehler {} aufgetreten",cardToChange.getUuid(),ex.getMessage());
-        }
+        new Thread(() -> {
+            try {
+                cardLogic.updateCardData(cardToChange, neu);
+                singleDataCallback.onSuccess(true);
+            }
+            catch (IllegalStateException ex) {
+                singleDataCallback.onFailure(ex.getMessage());
+                log.error("Karte nicht gefunden");
+            }
+    
+            catch (Exception ex) {
+                singleDataCallback.onFailure(String.format(Locale.getCurrentLocale().getString("updatecreatecarderror")));
+                log.error("Beim Updaten/Speichern der Karte {} mit der ist ein Fehler {} aufgetreten",cardToChange.getUuid(),ex.getMessage());
+            }
+        }).run();
     }
 
     //ZUSATZ
