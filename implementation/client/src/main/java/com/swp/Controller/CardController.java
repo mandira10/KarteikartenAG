@@ -227,7 +227,10 @@ public class CardController {
                 singleDataCallback.onFailure(ex.getMessage());
                 log.error("Karte nicht gefunden");
             }
-    
+            catch(IllegalArgumentException ex){ //Array in MultipleChoiceCard falsch
+                singleDataCallback.onFailure(ex.getMessage());
+                log.error("Index der Multiple Choice Card falsch");
+            }
             catch (Exception ex) {
                 singleDataCallback.onFailure(String.format(Locale.getCurrentLocale().getString("updatecreatecarderror")));
                 log.error("Beim Updaten/Speichern der Karte {} mit der ist ein Fehler {} aufgetreten",cardToChange.getUuid(),ex.getMessage());

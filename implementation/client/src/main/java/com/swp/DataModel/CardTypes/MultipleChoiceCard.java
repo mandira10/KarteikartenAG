@@ -2,6 +2,8 @@ package com.swp.DataModel.CardTypes;
 
 import java.util.Arrays;
 import java.util.List;
+
+import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -39,37 +41,42 @@ public class MultipleChoiceCard extends Card
      */
     public MultipleChoiceCard()
     {
-        this("", new String[] {}, new int[] {}, "", false);
+        this("", new String[] {}, new int[] {}, "");
     }
 
     /**
      * Konstruktor der Klasse MultipleChoiceCard
      * @param question Frage der Karte
      * @param answers Antwortmöglichkeiten der Karte
-     * @param correctAnswers Korrekte Antworten für die Karte
+     * @param correctAnswers Korrekte Antworten für die Karte. Liegen die hinterlegten Indexe
+     *                       außerhalb der Antwort-Array Größe, dann wird eine Exception geworfen.
      * @param title Optionaler Titel der Karte
-     * @param visible Sichtbarkeit der Karte
      */
-    public MultipleChoiceCard(String question, String[] answers, int[] correctAnswers, String title, boolean visible){
+    public MultipleChoiceCard(String question, String[] answers, int[] correctAnswers, String title){
         super(CardType.MULITPLECHOICE);
         setTitle(title);
         this.question = question;
         this.answers = answers;
-        // wenn irgendeiner der hinterlegten Indexe außerhalb vom Antworten-Array liegt,
-        // dann ist die Eingabe nicht gültig. Also Exception werfen.
         if (Arrays.stream(correctAnswers).anyMatch(a -> a >= answers.length) )
-            throw new IllegalArgumentException("Indexes of correctAnswers has to be within valid range of array `answers`!");
+            throw new IllegalArgumentException(Locale.getCurrentLocale().getString("multiplechoicecarderror"));
         this.correctAnswers = correctAnswers;
-        this.visibility = visible;
         setContent();
     }
 
-
+    /**
+     * Überschreibt die Grundmethode von Card. Setzt den Content, nach dem gesucht werden soll,
+     * wenn ein Suchterm eingegeben wird.
+     */
     @Override
     public void setContent(){
-        content = title + "\n" +  question; //TODO incorporate answers?
+        content = title + "\n" +  question + "\n" + Arrays.toString(answers);
     }
 
+    /**
+     * Überschreibt die Grundmethode von getAnswerString in Card.
+     * Gibt die Antwort zurück. In diesem Fall alle Antworten plus ihre Korrektheit.
+     * @return Antwort der Karte
+     */
     @Override
     public String getAnswerString() 
     {

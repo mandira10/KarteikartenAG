@@ -33,31 +33,37 @@ public class TrueFalseCard extends Card
      */
     public TrueFalseCard()
     {
-       this("", false, "", false);
+       this("", false, "");
     }
 
     /**
      * Konstruktor der Klasse TrueFalseCard
      * @param question: Frage der Karte
      * @param answer: Antwort der Karte
-     * @param visible: Sichtbarkeit der Karte
      */
-    public TrueFalseCard(String question, boolean answer, String title, boolean visible)
+    public TrueFalseCard(String question, boolean answer, String title)
     {
         super(CardType.TRUEFALSE);
         setTitle(title);
         this.question = question;
         this.answer = answer;
-        visibility = visible;
         setContent();
     }
 
-
+    /**
+     * Überschreibt die Grundmethode von Card. Setzt den Content, nach dem gesucht werden soll,
+     * wenn ein Suchterm eingegeben wird.
+     */
     @Override
     public void setContent(){
         content =  title + "\n" + question;
     }
 
+    /**
+     * Überschreibt die Grundmethode von getAnswerString in Card.
+     * Gibt die Antwort zurück, konvertiert Boolean zu String.
+     * @return Antwort der Karte
+     */
     @Override
     public String getAnswerString() 
     {

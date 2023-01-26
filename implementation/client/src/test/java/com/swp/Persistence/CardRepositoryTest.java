@@ -53,8 +53,8 @@ public class CardRepositoryTest {
 
     @Test
     public void getCardsByStudySystem() {
-        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1", false);
-        Card card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2", false);
+        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1");
+        Card card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2");
         StudySystem studySystem = new LeitnerSystem("Name", StudySystem.CardOrder.ALPHABETICAL, false);
         StudySystem notSavedStudySystem = new LeitnerSystem("Anderes", StudySystem.CardOrder.ALPHABETICAL, false);
         BoxToCard cardToBox = new BoxToCard(card1, studySystem.getBoxes().get(0),0);
@@ -83,7 +83,7 @@ public class CardRepositoryTest {
 
     @Test
     public void getCardsByTag() {
-        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1", false);
+        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1");
         Tag tag1 = new Tag("Tag_1");
         Tag tag2 = new Tag("Tag_2"); // not persisted
         CardToTag cardToTag = new CardToTag(card1, tag1);
@@ -115,7 +115,7 @@ public class CardRepositoryTest {
 
     @Test
     public void getCardsByCategory() {
-        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1", false);
+        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1");
         Category cat1 = new Category("Kategorie A");
         Category cat2 = new Category("Kategorie B"); // not persisted
         CardToCategory cardToCategory = new CardToCategory(card1, cat1);
@@ -147,8 +147,8 @@ public class CardRepositoryTest {
 
     @Test
     public void getCardsByUUID() {
-        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1", false);
-        Card card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2", false);
+        Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1");
+        Card card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2");
 
         CardRepository.startTransaction();
         cardRepository.save(card1);
@@ -170,7 +170,7 @@ public class CardRepositoryTest {
                 new AudioCard(),
                 new AudioCard(),
                 new AudioCard(),
-                new ImageDescriptionCard("Sind das komische Fragen?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", "/path/to/image.png", false),
+                new ImageDescriptionCard("Sind das komische Fragen?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", "/path/to/image.png"),
                 new ImageDescriptionCard(),
                 new ImageDescriptionCard(),
                 new ImageDescriptionCard(),
@@ -180,13 +180,13 @@ public class CardRepositoryTest {
                 new ImageTestCard(),
                 new ImageTestCard(),
                 new ImageTestCard(),
-                new MultipleChoiceCard("Frage 1", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{0,3}, "Titel 1", false),
-                new MultipleChoiceCard("Frage 2", new String[]{"Antwort A", "Antwort B", "Antwort C",            }, new int[]{1,2}, "Titel 2", true),
-                new MultipleChoiceCard("Frage 3!", new String[]{"Eine ungewöhnlich lange Antwort A", "Antwort [B]"}, new int[]{1}, "Titel 3", false),
-                new MultipleChoiceCard("Frage 2^2", new String[]{"SQL als Antwort...", "", "Antwort'); DROP TABLE Card"}, new int[]{1}, "Titel 4", true),
-                new MultipleChoiceCard("Frage 0b0101", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{2,0}, "Titel 5", false),
-                new TextCard("Frage", "Antwort", "Titel", false),
-                new TextCard("Frage 2", "Antwort auf die Frage", "Titel XY", false),
+                new MultipleChoiceCard("Frage 1", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{0,3}, "Titel 1"),
+                new MultipleChoiceCard("Frage 2", new String[]{"Antwort A", "Antwort B", "Antwort C",            }, new int[]{1,2}, "Titel 2"),
+                new MultipleChoiceCard("Frage 3!", new String[]{"Eine ungewöhnlich lange Antwort A", "Antwort [B]"}, new int[]{1}, "Titel 3"),
+                new MultipleChoiceCard("Frage 2^2", new String[]{"SQL als Antwort...", "", "Antwort'); DROP TABLE Card"}, new int[]{1}, "Titel 4"),
+                new MultipleChoiceCard("Frage 0b0101", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{2,0}, "Titel 5"),
+                new TextCard("Frage", "Antwort", "Titel"),
+                new TextCard("Frage 2", "Antwort auf die Frage", "Titel XY"),
                 new TextCard(),
                 new TextCard(),
                 new TextCard(),

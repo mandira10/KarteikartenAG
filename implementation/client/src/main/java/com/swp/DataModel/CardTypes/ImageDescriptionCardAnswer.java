@@ -9,23 +9,45 @@ import java.util.UUID;
 @Entity
 @Table
 @NoArgsConstructor
-//@Embeddable/
 public class ImageDescriptionCardAnswer //C++ Struct
 {
+    /**
+     * Id des Antwort für die ImageDescriptionCard
+     */
     @Id
     private String id;
 
+    /**
+     * Zugehörige ImageDescriptionCard
+     */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_ID")
     private ImageDescriptionCard parent;
 
+    /**
+     * Antworttext
+     */
     @Column
     public String answertext;
+
+    /**
+     * Position x
+     */
     @Column
     public int xpos;
+
+    /**
+     * Position y
+     */
     @Column
     public int ypos;
 
+    /**
+     * Konstruktor der ImageDescriptionAnswer
+     * @param text  Text der Antwort
+     * @param x Position x
+     * @param y Position y
+     */
     public ImageDescriptionCardAnswer(String text, int x, int y)
     {
         this.id = UUID.randomUUID().toString();
