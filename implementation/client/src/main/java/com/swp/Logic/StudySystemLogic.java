@@ -11,6 +11,8 @@ import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToBoxRepository;
 import com.swp.Persistence.StudySystemRepository;
 import jakarta.persistence.NoResultException;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
@@ -37,7 +39,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         return studySystemLogic;
     }
 
-    List<Card> testingBoxCards; //All current cards that need to be learned
+    @Getter
+    @Setter
+    //Getter Setter für Testzwecke
+    public List<Card> testingBoxCards; //All current cards that need to be learned
+
+
 
     private final StudySystemRepository studySystemRepository = StudySystemRepository.getInstance();
     private final CardRepository cardRepository = CardRepository.getInstance();

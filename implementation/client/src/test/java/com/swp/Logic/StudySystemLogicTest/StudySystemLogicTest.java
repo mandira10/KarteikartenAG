@@ -23,6 +23,7 @@ import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -238,16 +239,26 @@ public class StudySystemLogicTest {
         list.add(card4);
         StudySystem studySystem = new StudySystem() {
         };
-        studySystem.setType(StudySystem.StudySystemType.TIMING);
-        when(cardRepository.getAllCardsForTimingSystem(any(StudySystem.class))).thenReturn(list);
-        studySystemLogic.getNextCard(studySystem);
+        studySystemLogic.testingBoxCards = list;
+        studySystem.setType(StudySystem.StudySystemType.LEITNER);
+        studySystemLogic.setTestingBoxCards(list);
         StudySystemBox studySystemBox = new StudySystemBox();
+        StudySystemBox studySystemBox2 = new StudySystemBox();
+        StudySystemBox studySystemBox3 = new StudySystemBox();
+        List<StudySystemBox> boxlist = new ArrayList<>();
+        boxlist.add(studySystemBox);
+        boxlist.add(studySystemBox2);
+        boxlist.add(studySystemBox3);
+        studySystem.setBoxes(boxlist);
         BoxToCard boxToCard = new BoxToCard(card,studySystemBox,0);
         when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
         int boxNumber = boxToCard.getBoxNumber();
+        Timestamp timestamp = boxToCard.getLearnedNextAt();
         studySystemLogic.giveAnswer(studySystem,true);
 
-        assertEquals(boxNumber,boxToCard.getBoxNumber());
+        assertNotEquals(boxNumber,boxToCard.getBoxNumber());
+        assertNotEquals(timestamp,boxToCard.getLearnedNextAt());
+
 
 
     }
