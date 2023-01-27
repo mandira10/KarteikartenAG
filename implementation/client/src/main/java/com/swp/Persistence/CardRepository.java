@@ -141,9 +141,9 @@ public class CardRepository extends BaseRepository<Card> {
      * @param studySystem das zu durchsuchende Lernsystem.
      * @return List<BoxToCard> eine Liste von Karten (?), sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
      */
-    public List<BoxToCard> getAllCardsNeededToBeLearned(StudySystem studySystem) {
+    public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
         return getEntityManager()
-                .createNamedQuery("BoxToCard.allCardNextLearnedAtOlderThanNowAscending", BoxToCard.class)
+                .createNamedQuery("BoxToCard.allCardNextLearnedAtOlderThanNowAscending", Card.class)
                 .setParameter("now", System.currentTimeMillis()) //TODO in der Query muss wahrscheinlich noch auf das StudySystem gefiltert werden
                 .getResultList();
     }
