@@ -175,7 +175,7 @@ public abstract class BaseRepository<T> {
         if (!isTransactionActive()) {
             throw new IllegalStateException("Es gibt keine aktive Transaktionen.");
         }
-        entityManager.remove(object);
+        entityManager.remove(entityManager.contains(object) ? object : entityManager.merge(object));
     }
 
     /**

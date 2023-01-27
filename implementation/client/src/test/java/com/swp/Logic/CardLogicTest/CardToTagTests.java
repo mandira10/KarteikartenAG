@@ -37,6 +37,7 @@ public class CardToTagTests {
         cardToTagRepMock = mock(CardToTagRepository.class);
         on(cardLogic).set("cardRepository",cardRepMock);
         on(cardLogic).set("cardToTagRepository",cardToTagRepMock);
+        on(cardLogic).set("tagRepository",tagRepMock);
     }
 
     /**

@@ -1,6 +1,9 @@
 package com.swp.Controller.StudySystemControllerTest;
 
 
+import com.gumse.gui.Locale;
+import com.gumse.tools.Output;
+import com.gumse.tools.Toolbox;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
@@ -30,11 +33,27 @@ public class StudySystemControllerTests {
 
     private StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
     private StudySystemController studySystemController = StudySystemController.getInstance();
-
+    private Locale locale = new Locale("German", "de");
+    private int i;
     @BeforeEach
     public void beforeEach(){
         studySystemLogic = mock(StudySystemLogic.class);
         on(studySystemController).set("studySystemLogic",studySystemLogic);
+        Locale.setCurrentLocale(locale);
+        String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
+        i = 0;
+        filecontent.lines().forEach((String line) -> {
+            i++;
+            if(line.replaceAll("\\s","").isEmpty() || line.charAt(0) == '#')
+                return;
+
+            String[] args = line.split("= ");
+            if(args.length < 1)
+                Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
+            String id = args[0].replaceAll("\\s","");
+            String value = args[1];
+            locale.setString(id, value);
+        });
     }
 
 
@@ -48,6 +67,7 @@ public class StudySystemControllerTests {
         final String[] actual = new String[1];
         StudySystem studySystem = new StudySystem() {
         };
+
         studySystemController.getAllCardsInStudySystem(studySystem, new DataCallback<CardOverview>() {
             @Override
             public void onSuccess(List<CardOverview> data) {
@@ -64,7 +84,7 @@ public class StudySystemControllerTests {
                 actual[0] = msg;
             }
         });
-
+        //Thread.join();
         assertEquals(expected,actual[0]);
 
 
@@ -280,7 +300,7 @@ public class StudySystemControllerTests {
 
     @Test
     public void getStudySystemBySearchTermsException(){
-        when(studySystemLogic.getStudySystemsBySearchterm(any(String.class))).thenThrow(RuntimeException.class);
+        when(studySystemLogic.getStudySystemsBySearchterm(any(String.class))).thenThrow(IllegalArgumentException.class);
         final String expected = "Ein Fehler ist aufgetreten";
         final String[] actual = new String[1];
         studySystemController.getStudySystemBySearchTerms("Test",new DataCallback<StudySystem>() {

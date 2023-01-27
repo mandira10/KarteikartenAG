@@ -1,5 +1,8 @@
 package com.swp.Logic.StudySystemLogicTest;
 
+import com.gumse.gui.Locale;
+import com.gumse.tools.Output;
+import com.gumse.tools.Toolbox;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
@@ -39,7 +42,8 @@ public class StudySystemLogicTest {
     private CardRepository cardRepository = CardRepository.getInstance();
     private CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
 
-
+    private Locale locale = new Locale("German", "de");
+    private int i;
 
 
     @BeforeEach
@@ -51,6 +55,21 @@ public class StudySystemLogicTest {
         on(studySystemLogic).set("cardToBoxRepository",cardToBoxRepository);
         on(studySystemLogic).set("cardRepository",cardRepository);
         on(studySystemLogic).set("studySystemRepository",studySystemRepository);
+        Locale.setCurrentLocale(locale);
+        String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
+        i = 0;
+        filecontent.lines().forEach((String line) -> {
+            i++;
+            if(line.replaceAll("\\s","").isEmpty() || line.charAt(0) == '#')
+                return;
+
+            String[] args = line.split("= ");
+            if(args.length < 1)
+                Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
+            String id = args[0].replaceAll("\\s","");
+            String value = args[1];
+            locale.setString(id, value);
+        });
     }
 
 
@@ -86,7 +105,7 @@ public class StudySystemLogicTest {
         List<StudySystem> list = new ArrayList<>();
         when(studySystemRepository.findStudySystemsContaining(anyString())).thenReturn(list);
 
-        //assertEquals(list,studySystemLogic.getStudySystemsBySearchterm("Test"));
+        assertEquals(list,studySystemLogic.getStudySystemsBySearchterm("Test"));
     }
 
 
