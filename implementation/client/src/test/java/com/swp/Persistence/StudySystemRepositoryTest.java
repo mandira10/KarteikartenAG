@@ -25,7 +25,7 @@ public class StudySystemRepositoryTest {
 
     @Test
     public void studySystemCrudTest() {
-        List<StudySystem> studySystems = exampleStudySystems();
+        List<StudySystem> studySystems = exampleStudySystems2();
 
         // CREATE
         StudySystemRepository.startTransaction();
@@ -71,9 +71,9 @@ public class StudySystemRepositoryTest {
 
 
     // Hilfsfunktionen um einen Test-Datensatz an Instanzen zu haben
-    public List<StudySystem> exampleStudySystems() {
-        List<StudySystem> exampleStudySystems = new ArrayList<>();
-        Collections.addAll(exampleStudySystems,
+    public List<StudySystem> exampleStudySystems2() {
+        List<StudySystem> exampleStudySystems2 = new ArrayList<>();
+        Collections.addAll(exampleStudySystems2,
         new LeitnerSystem("Leitner 1", StudySystem.CardOrder.RANDOM, false),
         new LeitnerSystem("Leitner 2", StudySystem.CardOrder.ALPHABETICAL, true),
         new LeitnerSystem("Leitner 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL, false),
@@ -91,7 +91,7 @@ public class StudySystemRepositoryTest {
         new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL, false)
     );
 
-        return exampleStudySystems;
+        return exampleStudySystems2;
     }
 
 
