@@ -4,7 +4,8 @@
     </gui>
     
     <searchbar id="searchbar" pos="20, 100%" size="40%, 30" origin="0, 50" locale-id="categorysearch" option-ids="bycontentsearch" />
-    <menu id="menu" size="60%, 30" pos="100%, 100%" origin="100%, 50" margin="-50, 0">
+    <list-order id="listorder" size="30, 30" pos="40%, 100%" origin="-30, 50" option-ids="alphabeticalorder" />
+    <menu id="menu" size="60%, 30" pos="100%, 100%" origin="100%, 50" margin="-70, 0">
         <button id="addcategorybutton"      size="100, 30" fontsize="20" locale-id="addcategorybutton" />
         <button id="treeviewbutton"         size="100, 30" fontsize="20" locale-id="viewtreebutton" />
         <button id="addtodeckbutton"        size="100, 30" fontsize="20" locale-id="addtodeckbutton" />

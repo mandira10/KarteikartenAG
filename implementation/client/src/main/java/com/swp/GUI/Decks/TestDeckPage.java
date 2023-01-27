@@ -162,20 +162,20 @@ public class TestDeckPage extends Page
             public void onSuccess(Card data) {
              Card nextCard = data;
                 if(nextCard == null)
-        {
-            studySystemController.finishTestAndGetResult(pDeck, new SingleDataCallback<Integer>() {
-                @Override
-                public void onSuccess(Integer data) {
+                {
+                    studySystemController.finishTestAndGetResult(pDeck, new SingleDataCallback<Integer>() {
+                        @Override
+                        public void onSuccess(Integer data) {
 
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+                    });
+                    return;
                 }
-
-                @Override
-                public void onFailure(String msg) {
-
-                }
-            });
-            return;
-        }
             }
 
             @Override

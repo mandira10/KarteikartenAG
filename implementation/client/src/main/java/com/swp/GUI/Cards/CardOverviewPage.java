@@ -14,11 +14,13 @@ import com.swp.GUI.PageManager;
 import com.swp.GUI.Decks.DeckSelectPage;
 import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.Extras.ConfirmationGUI;
+import com.swp.GUI.Extras.ListOrder;
 import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Extras.ListOrder.Order;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.DataCallback;
@@ -30,6 +32,8 @@ public class CardOverviewPage extends Page
     private Searchbar pSearchbar;
     private CardList pCardList;
     private int iCurrentLastIndex;
+    private Order iOrder;
+    private boolean bReverseOrder;
 
     public CardOverviewPage()
     {
@@ -74,6 +78,13 @@ public class CardOverviewPage extends Page
                 loadCards(query, option);
         });
 
+        ListOrder listorder = (ListOrder)findChildByID("listorder");
+        listorder.setCallback((Order order, boolean reverse) -> {
+            iOrder = order;
+            bReverseOrder = reverse;
+            loadCards(0, 30);
+        });
+
         this.setSizeInPercent(true, true);
         reposition();
     }
@@ -85,6 +96,10 @@ public class CardOverviewPage extends Page
             iCurrentLastIndex = 0;
             pCardList.reset();
         }
+
+        // Use order:
+        //iOrder 
+        //bReverseOrder
 
         CardController.getInstance().getCardsToShow(from, to, new DataCallback<CardOverview>() {
             @Override public void onSuccess(List<CardOverview> data)

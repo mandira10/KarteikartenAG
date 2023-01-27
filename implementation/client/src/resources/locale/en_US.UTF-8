@@ -45,6 +45,9 @@ cardsearch             = Search Card
 cardlisttitle          = Title
 cardlistdate           = Creationdate
 cardlistdecks          = Decks
+alphabeticalorder      = Alphabetical
+numdeckorder           = No. Decks
+dateorder              = Date
 
 # Category
 addcategorybutton      = Add Cat.
@@ -132,8 +135,8 @@ categorynullerror = Category does not exist
 categorywithnameexistsalready = Category with name already exists!
 categoryupdatesaveerror= Category could not be saved or updated.
 categoryhierarchyupdateerror = An error occurred while updating hierarchy.
-deletecategoryerror = An error occurred while deleting the card.
-deletecategorieserror = An error occurred while deleting the cards.
+deletecategoryerror = An error occurred while deleting\n the card.
+deletecategorieserror = An error occurred while deleting\n the cards.
 catchildrenempty = No children for this category available.
 catchilderror = An error occurred while retrieving the children for the category.
 categorybyuuidempty = No category could be found for the UUID.

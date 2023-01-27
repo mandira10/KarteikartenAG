@@ -3,7 +3,6 @@ package com.swp.GUI.Cards.EditCardPages;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextField;
-import com.gumse.gui.Basics.Switch.OnSwitchTicked;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
