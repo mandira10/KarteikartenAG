@@ -1,0 +1,625 @@
+{"cards": [
+  {
+    "creationdate": "2023-01-27 06:00:43.9",
+    "question": "Walter White entwickelte sich in «Breaking Bad» vom krebskranken Chemie-Lehrer zum gefährlichen Drogen-Baron. Er nannte sich zum Schluss Goldberg",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "answer": false,
+    "rating": 0,
+    "categories": ["Durcheinander"],
+    "type": "TRUEFALSE",
+    "title": "Breaking Bad",
+    "uuid": "73b0eed1-3bf3-43b2-9eec-17249409d1a7",
+    "tags": [
+      "serien",
+      "Alles mögliche"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.825",
+    "question": "Welches der folgenden ist das flächenmäßig kleinste Bundesland?",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "rating": 0,
+    "answers": [
+      {
+        "answer": "Thüringen",
+        "correct": false
+      },
+      {
+        "answer": "Sachsen",
+        "correct": false
+      },
+      {
+        "answer": "Saarland",
+        "correct": true
+      }
+    ],
+    "categories": [
+      "Erdkunde",
+      "Schule"
+    ],
+    "type": "MULITPLECHOICE",
+    "title": "Bundesländer Größe",
+    "uuid": "5548ced1-1db5-475f-8c62-da74515cb811",
+    "tags": [
+      "Deutschland",
+      "Australien",
+      "Länder"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.852",
+    "question": "Comer",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "answer": "Essen",
+    "rating": 0,
+    "categories": [
+      "Spanisch",
+      "Schule"
+    ],
+    "type": "AUDIO",
+    "title": "Comer",
+    "uuid": "45f86d7f-8273-4713-a11d-5017b444e3ae",
+    "tags": [
+      "Essen",
+      "Anderes"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.863",
+    "question": "Google Earth ist weltweit bekannt. Doch eine Berliner Agentur schuf bereits Anfang der Neunziger ein ähnliches Produkt, wie hieß der digitale Globus der Berliner??",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "rating": 0,
+    "answers": [
+      {
+        "answer": "Terravision",
+        "correct": true
+      },
+      {
+        "answer": "Globetrotter",
+        "correct": false
+      },
+      {
+        "answer": "Digiglobe",
+        "correct": false
+      }
+    ],
+    "categories": [
+      "Technik",
+      "Schule"
+    ],
+    "type": "MULITPLECHOICE",
+    "title": "Das erste Google Earth",
+    "uuid": "c14f9872-212f-40fe-8965-c790386768c4",
+    "tags": [
+      "Google Earth",
+      "Technikmarken"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.9",
+    "question": "Homer ist der Name des Familienvaters bei Simpson",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "answer": true,
+    "rating": 0,
+    "categories": ["Durcheinander"],
+    "type": "TRUEFALSE",
+    "title": "Die Simpsons",
+    "uuid": "50d2a09f-ac13-47c3-87b6-2ba5b27b0630",
+    "tags": [
+      "serien",
+      "Alles mögliche"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.876",
+    "question": "In welchem Jahr kam die erste Harry-Potter-Verfilmung in die Kinos?",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "rating": 0,
+    "answers": [
+      {
+        "answer": "2005",
+        "correct": false
+      },
+      {
+        "answer": "2007",
+        "correct": false
+      },
+      {
+        "answer": "2001",
+        "correct": true
+      },
+      {
+        "answer": "2003",
+        "correct": false
+      }
+    ],
+    "categories": [
+      "Durcheinander",
+      "Jahre"
+    ],
+    "type": "MULITPLECHOICE",
+    "title": "Erster Harry Potter Film",
+    "uuid": "6144df39-3fa4-41d7-bc0d-b74eaec07c14",
+    "tags": [
+      "2000er",
+      "Alles mögliche"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.863",
+    "question": "Mag sein, dass das iPhone 2007 die Ära der Smartphones erst so richtig begründet hat. Aber das IBM Simon (hier in der Mitte) war tatsächlich das allererste Smartphone mit Touch Display. Wann kam es auf den Markt??",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "rating": 0,
+    "answers": [
+      {
+        "answer": "1989",
+        "correct": false
+      },
+      {
+        "answer": "1994",
+        "correct": true
+      },
+      {
+        "answer": "2001",
+        "correct": false
+      }
+    ],
+    "categories": [
+      "Technik",
+      "Schule"
+    ],
+    "type": "MULITPLECHOICE",
+    "title": "Erstes Smartphone",
+    "uuid": "1d8963ee-07ec-4f83-a4ac-f2bc4d1b1900",
+    "tags": [
+      "Google Earth",
+      "Technikmarken"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.876",
+    "question": "Wer gewann 2006 bei der Fußball-WM in Deutschland den Weltmeistertitel??",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "rating": 0,
+    "answers": [
+      {
+        "answer": "Deutschland",
+        "correct": false
+      },
+      {
+        "answer": "Spanien",
+        "correct": false
+      },
+      {
+        "answer": "Russland",
+        "correct": false
+      },
+      {
+        "answer": "Italien",
+        "correct": true
+      }
+    ],
+    "categories": [
+      "Durcheinander",
+      "Jahre"
+    ],
+    "type": "MULITPLECHOICE",
+    "title": "Fußball WM Deutschland",
+    "uuid": "f0e031a0-7d39-4584-94cc-372e14588736",
+    "tags": [
+      "2000er",
+      "Alles mögliche"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.9",
+    "question": "Der Königserbe aus Staffel 1 GoT hieß Joffrey",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "answer": true,
+    "rating": 0,
+    "categories": ["Durcheinander"],
+    "type": "TRUEFALSE",
+    "title": "GoT",
+    "uuid": "b3407710-d905-45f1-a377-83f1858d01a0",
+    "tags": [
+      "serien",
+      "Alles mögliche"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.9",
+    "question": "Chandra Wilson spielt in Greys Anatomy Arizona Robbins",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "answer": false,
+    "rating": 0,
+    "categories": ["Durcheinander"],
+    "type": "TRUEFALSE",
+    "title": "Greys Anatomy",
+    "uuid": "d0cb1862-2134-4f98-97ae-a5d755efd07a",
+    "tags": [
+      "serien",
+      "Alles mögliche"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.9",
+    "question": "Neil Patrick Harris spielt in HIMYM den Frauenhelden Marshall",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "answer": false,
+    "rating": 0,
+    "categories": ["Durcheinander"],
+    "type": "TRUEFALSE",
+    "title": "HIMYM",
+    "uuid": "e6fbe176-001b-4280-bcea-a76eba67311e",
+    "tags": [
+      "serien",
+      "Alles mögliche"
+    ]
+  },
+  {
+    "creationdate": "2023-01-27 06:00:43.863",
+    "question": "http steht für Hypertext Transfer Protocol",
+    "references": [
+      "ctg;bf251d58-cc86-411b-b961-d355cbb3a5be;random random",
+      "crd;4b9e2a05-cce3-4b0d-b04a-09ed206c03b3;Weird card I found on the street",
+      "htm;https://www.google.de;Some obscure searchengine ",
+      "fil;./pom.xml;the krabby patty secret formula"
+    ],
+    "answer": false,
+    "rating": 0,
+    "categories": [
+      "Technik",
+      "Schule"
+    ],
+    "type": "TRUEFALSE",
+    "title": "HTTP",
+    "uuid": "f0ca44e9-6246-4790-93ec-2d6ac812ca73",
+    "tags": [
+      "Google Earth",
+      "Technikmarken"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle0",
+    "uuid": "4b9e2a05-cce3-4b0d-b04a-09ed206c03b3",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle1",
+    "uuid": "fba6210f-b40f-4f10-8ffe-85b54e9616b4",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle10",
+    "uuid": "74735cc1-74dd-45c8-91cc-35fd46580bb7",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle11",
+    "uuid": "aa91bab6-238a-4554-bc13-c2a7b71f1436",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle12",
+    "uuid": "415c6a16-51a2-4714-9ab0-cc4533b47104",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle13",
+    "uuid": "d3d0ea05-c557-4271-a731-8ab8d187b157",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle14",
+    "uuid": "9cb35e85-e9de-4f09-b9fd-0154c60f2a38",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle15",
+    "uuid": "950d4633-deee-4d8d-a77b-b9c17e717e82",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle16",
+    "uuid": "8960fd29-1047-446b-9704-92fa3400bfa5",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle17",
+    "uuid": "0ae2942a-c4d4-400e-a0c1-53261a7259df",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle18",
+    "uuid": "8d4c537c-5f18-4e8b-bfdb-d84e0d597bba",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle19",
+    "uuid": "56d3b3eb-5eba-448c-8a58-d4ba308c28ad",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle2",
+    "uuid": "a152a508-0fe5-4b06-9273-2bdc6efb2311",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle20",
+    "uuid": "f18a949e-f7e2-41ae-ae9d-3d755c81d738",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle21",
+    "uuid": "574bc513-2734-442c-89b7-dbe2d93c1dcb",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle22",
+    "uuid": "e6fbd9f4-33a8-441f-829c-e7440fcbb7f8",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle23",
+    "uuid": "003ec097-c0bd-4bbf-8b8a-61cab4428169",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  },
+  {
+    "image": "textures/orange-ket.png",
+    "creationdate": "2023-01-27 06:00:43.285",
+    "question": "Some Image Test Question",
+    "references": [""],
+    "answer": "Correct Image Test Answer",
+    "rating": 0,
+    "categories": ["Random"],
+    "type": "IMAGETEST",
+    "title": "ImageTestCardTitle24",
+    "uuid": "94960895-5f7d-4075-a151-bf39ad76e82d",
+    "tags": [
+      "toll",
+      "cool"
+    ]
+  }
+]}
