@@ -270,8 +270,13 @@ public class CardLogic extends BaseLogic<Card>
      * @param cards Set an Karten, die exportiert werden sollen
      * @param filetype Exporttyp der Karten
      */
-    public void exportCards(Card[] cards, ExportFileType filetype) {
-        new Exporter(filetype).export(cards);
-    }
+    public boolean exportCards(List<CardOverview> cards, String destination, ExportFileType filetype) 
+    {
+        //TODO
+        List<Card> cardlist = new ArrayList<>();
+        for(CardOverview ov : cards)
+            cardlist.add(getCardByUUID(ov.getUUUID()));
 
+        return new Exporter(filetype).export(cardlist, destination);
+    }
 }

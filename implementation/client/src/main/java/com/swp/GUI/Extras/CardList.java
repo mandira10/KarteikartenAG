@@ -185,12 +185,18 @@ public class CardList extends RenderGUI
     public boolean isInSelectmode() { return bIsInSelectmode; }
     public ArrayList<CardOverview> getSelection() 
     {
-        ArrayList<CardOverview> foundEntries = pList.getUserdataWhere(new Predicate<ListEntry<CardOverview>>() {
-            @Override public boolean test(ListEntry<CardOverview> arg0) 
-            {
-                Switch switchgui = (Switch)arg0.getChild(CHECK_COLUMN).getChild(0);
-                return switchgui.isTicked();
-            }
+        ArrayList<CardOverview> foundEntries = pList.getUserdataWhere((ListEntry<CardOverview> arg0) -> {
+            Switch switchgui = (Switch)arg0.getChild(CHECK_COLUMN).getChild(0);
+            return switchgui.isTicked();
+        });
+
+        return foundEntries;
+    }
+
+    public ArrayList<CardOverview> getCards() 
+    {
+        ArrayList<CardOverview> foundEntries = pList.getUserdataWhere((ListEntry<CardOverview> arg0) -> {
+            return true;
         });
 
         return foundEntries;

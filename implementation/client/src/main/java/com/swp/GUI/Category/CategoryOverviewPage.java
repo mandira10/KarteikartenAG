@@ -158,7 +158,6 @@ public class CategoryOverviewPage extends Page
 
     private void exportCards()
     {
-        CardExportPage.setToExport(null);
-        PageManager.viewPage(PAGES.CARD_EXPORT);
+        ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(null);
     }
 }

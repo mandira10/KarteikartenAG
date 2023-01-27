@@ -9,5 +9,6 @@
         <button id="addcardbutton"    size="100, 30" fontsize="20" locale-id="addcardbutton" />
         <button id="addtodeckbutton"  size="120, 30" fontsize="20" locale-id="addtodeckbutton" />
         <button id="deletecardbutton" size="120, 30" fontsize="20" locale-id="deletecardsbutton" color="#EB4D4B" />
+        <button id="exportbutton"     size="120, 30" fontsize="20" locale-id="exportbutton" />
     </menu>
 </gui-root>

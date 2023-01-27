@@ -29,9 +29,11 @@ import com.gumse.tools.Output;
 import com.gumse.tools.Output.OutputCallback;
 import com.gumse.tools.FPS;
 import com.swp.GUI.KarteikartenAGGUI;
+import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.ListOrder;
 import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.Searchbar;
+import com.swp.GUI.PageManager.PAGES;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -152,7 +154,7 @@ public class KarteikartenAG
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(iWindowSize);
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
 
@@ -210,6 +212,8 @@ public class KarteikartenAG
         }
 
         pMainGUI.setSize(iWindowSize);
+
+        PageManager.viewPage(PAGES.CARD_EXPORT);
 
         
         while(pMainWindow.isOpen())

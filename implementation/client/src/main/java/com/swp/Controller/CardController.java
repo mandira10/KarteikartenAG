@@ -247,9 +247,9 @@ public class CardController {
      * @param filetype Exporttyp der Karten
      * @param singleDataCallback: Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
-    public void exportCards(Card[] cards, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) {
+    public void exportCards(List<CardOverview> cards, String destination, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) {
         try {
-            cardLogic.exportCards(cards, filetype);
+            cardLogic.exportCards(cards, destination, filetype);
             singleDataCallback.onSuccess(true);
         } catch (Exception ex) {
             singleDataCallback.onFailure(Locale.getCurrentLocale().getString("cardexporterror"));

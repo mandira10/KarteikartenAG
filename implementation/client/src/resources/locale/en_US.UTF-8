@@ -41,6 +41,7 @@ addtodeckbutton        = Add to Deck
 uploadaudiobutton      = Click to upload audio
 editanswersbutton      = Edit Answers
 openimagebutton        = Click to open
+exportbutton           = Export Cards
 cardsearch             = Search Card
 cardlisttitle          = Title
 cardlistdate           = Creationdate
