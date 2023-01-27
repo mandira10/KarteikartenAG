@@ -102,10 +102,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param answer : Frage war richtig / falsch beantwortet
      */
     public void giveAnswer(StudySystem studySystem,boolean answer) {
-        BoxToCard boxToCard = getBoxToCard(testingBoxCards.get(0),studySystem);
-        testingBoxCards.remove(0); //schmeiß die Karte raus
         switch (studySystem.getType()){
             case LEITNER:
+                BoxToCard boxToCard = getBoxToCard(testingBoxCards.get(0),studySystem);
+                testingBoxCards.remove(0); //schmeiß die Karte raus
                 if(answer){
                     studySystem.incrementTrueCount(); //wofür - to show resultpoint end of the test
                    /*
