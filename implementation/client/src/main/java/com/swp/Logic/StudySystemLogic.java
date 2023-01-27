@@ -121,7 +121,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     }
                     else{
                         changeCardDueDate(box,boxToCard);
-                        cardToBoxRepository.update(boxToCard); // Needed or auto?
+                        //cardToBoxRepository.update(boxToCard); // Needed or auto?
                     }
                 }
                 else{
@@ -133,7 +133,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     }
                     else{
                         changeCardDueDate(box,boxToCard);
-                        cardToBoxRepository.update(boxToCard); // Needed or auto?
+                        //cardToBoxRepository.update(boxToCard); // Needed or auto?
                     }
                     }
             case TIMING:

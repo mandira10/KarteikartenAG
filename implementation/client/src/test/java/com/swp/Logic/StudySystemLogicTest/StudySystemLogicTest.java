@@ -225,6 +225,33 @@ public class StudySystemLogicTest {
         assertEquals(studySystem.getTrueAnswerCount(),1);
     }
 
+    @Test
+    public void giveAnswerTestLeitner(){
+        List<Card> list = new ArrayList<>();
+        Card card = new TrueFalseCard();
+        Card card2= new TrueFalseCard();
+        Card card3 = new TrueFalseCard();
+        Card card4 = new TrueFalseCard();
+        list.add(card);
+        list.add(card2);
+        list.add(card3);
+        list.add(card4);
+        StudySystem studySystem = new StudySystem() {
+        };
+        studySystem.setType(StudySystem.StudySystemType.TIMING);
+        when(cardRepository.getAllCardsForTimingSystem(any(StudySystem.class))).thenReturn(list);
+        studySystemLogic.getNextCard(studySystem);
+        StudySystemBox studySystemBox = new StudySystemBox();
+        BoxToCard boxToCard = new BoxToCard(card,studySystemBox,0);
+        when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
+        int boxNumber = boxToCard.getBoxNumber();
+        studySystemLogic.giveAnswer(studySystem,true);
+
+        assertEquals(boxNumber,boxToCard.getBoxNumber());
+
+
+    }
+
 
 
 
