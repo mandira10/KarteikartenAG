@@ -22,7 +22,7 @@ public class ImageDescriptionCard extends Card
 {
 
     /**
-     * Bilddatei für die Frage
+     * Bilddatei für die Frage. Wird als ByteArray gespeichert.
      */
     //@Lob
     //@Column
@@ -43,12 +43,7 @@ public class ImageDescriptionCard extends Card
      */
     public ImageDescriptionCard()
     {
-        //this.question = "";
-        //this.imageBytes = null;
-        //this.answers = null;
-        //this.visibility = false;
-        //setContent();
-        this("", new ImageDescriptionCardAnswer[] {}, "", "", false);
+        this("", new ImageDescriptionCardAnswer[] {}, "", "");
     }
 
     /**
@@ -56,30 +51,21 @@ public class ImageDescriptionCard extends Card
      * @param question Textuelle Frage zum Bild
      * @param image: Bild für die Karte
      * @param title Optionaler Titel der Karte
-     * @param visible Sichtbarkeit der Karte
      */
-    //public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, Byte[] imageBytes, boolean visible)
-    //{
-    //    super(CardType.IMAGEDESC);
-    //    setTitle(title);
-    //    this.question = question;
-    //    this.imageBytes = imageBytes;
-    //    this.answers = answers;
-    //    this.visibility = visible;
-    //    setContent();
-    //}
-
-    public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, String image, boolean visible)
+    public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, String image)
     {
         super(CardType.IMAGEDESC);
         setTitle(title);
         this.question = question;
         this.image = image;
         this.answers = answers;
-        this.visibility = visible;
         setContent();
     }
 
+    /**
+     * Überschreibt die Grundmethode von Card. Setzt den Content, nach dem gesucht werden soll,
+     * wenn ein Suchterm eingegeben wird.
+     */
     @Override
     public void setContent()
     {
@@ -88,6 +74,11 @@ public class ImageDescriptionCard extends Card
             content += "\n" + answer.answertext;
     }
 
+    /**
+     * Überschreibt die Grundmethode von getAnswerString in Card.
+     * Gibt die Antwort zurück, in diesem Fall alle Antworten in einem String.
+     * @return Antwort der Karte
+     */
     @Override
     public String getAnswerString()
     {
@@ -114,7 +105,6 @@ public class ImageDescriptionCard extends Card
                 ", references='" + references + '\'' +
                 ", title='" + title + '\'' +
                 ", creationDate=" + creationDate +
-                ", visibility=" + visibility +
                 '}';
     }
 }

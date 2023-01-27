@@ -20,8 +20,9 @@ public class TagRepository extends BaseRepository<Tag> {
     }
 
     /**
-     * Die Funktion `find` sucht nach einem Tag, der dem übergebenen Text entspricht.
-     * Existiert kein Tag mit so einem Inhalt, dann wird ein leeres `Optional` zurückgegeben.
+     * Holt für einen angegebenen Text den entsprechenden Tag aus der Datenbank.
+     * Gibt es kein Tag mit diesem Text, wird eine Exception geworfen.
+     *
      * @param text ein String nach dem ein existierender Tag gesucht wird.
      * @return Tag der gefundene Tag mit entsprechendem Namen.
      * @throws NoResultException wenn kein entsprechender Tag gefunden wurde.
@@ -34,6 +35,8 @@ public class TagRepository extends BaseRepository<Tag> {
 
     /**
      * Die Funktion `getTagsToCard` liefer alle Tags zurück, die einer Karte zugeordnet sind.
+     * Gibt es keine Tags für die angegebene Karte, dann wird eine leere Liste zurückgegeben.
+     *
      * @param card eine Karte
      * @return List<Tag> eine Liste von Tags, die der Karte zugeordnet sind.
      */
@@ -43,18 +46,4 @@ public class TagRepository extends BaseRepository<Tag> {
                 .setParameter("card", card)
                 .getResultList();
     }
-
-    /**
-     * Die Funktion `getTags` liefer alle gespeicherten Tags zurück.
-     *
-     * @return Set<Tag> eine Menge mit allen Tags
-     */
-    public List<Tag> getTags() {
-        return getEntityManager()
-                .createQuery("SELECT t FROM Tag t", Tag.class)
-                .getResultList();
-    }
-
-
-
 }

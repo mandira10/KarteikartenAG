@@ -62,9 +62,9 @@ public class TestDeckPage extends Page
             @Override public void run(int rating) 
             {
                 bNextCardAllowed = true;
-                studySystemController.giveRating(pDeck,rating, new SingleDataCallback<>() {
+                studySystemController.giveRating(pDeck,rating, new SingleDataCallback<Boolean>() {
                     @Override
-                    public void onSuccess(Object data) {}
+                    public void onSuccess(Boolean data) {}
 
                     @Override
                     public void onFailure(String msg) {
@@ -94,9 +94,9 @@ public class TestDeckPage extends Page
                     bNextCardAllowed = true;
                     bStopTime = true;
 
-                    studySystemController.giveAnswer(pDeck, pTestGUI.checkAnswers(),  new SingleDataCallback<Object>() {
+                    studySystemController.giveAnswer(pDeck, pTestGUI.checkAnswers(),  new SingleDataCallback<Boolean>() {
                         @Override
-                        public void onSuccess(Object data) {}
+                        public void onSuccess(Boolean data) {}
 
                         @Override
                         public void onFailure(String msg) {
@@ -111,9 +111,9 @@ public class TestDeckPage extends Page
                             break;
 
                         case TIMING:
-                            studySystemController.giveTime(pDeck, ((int) fElapsedSeconds), new SingleDataCallback<Object>() {
+                            studySystemController.giveTime(pDeck, ((int) fElapsedSeconds), new SingleDataCallback<Boolean>() {
                                 @Override
-                                public void onSuccess(Object data) {}
+                                public void onSuccess(Boolean data) {}
 
                                 @Override
                                 public void onFailure(String msg) {
@@ -162,20 +162,20 @@ public class TestDeckPage extends Page
             public void onSuccess(Card data) {
              Card nextCard = data;
                 if(nextCard == null)
-        {
-            studySystemController.finishTestAndGetResult(pDeck, new SingleDataCallback<Integer>() {
-                @Override
-                public void onSuccess(Integer data) {
+                {
+                    studySystemController.finishTestAndGetResult(pDeck, new SingleDataCallback<Integer>() {
+                        @Override
+                        public void onSuccess(Integer data) {
 
+                        }
+
+                        @Override
+                        public void onFailure(String msg) {
+
+                        }
+                    });
+                    return;
                 }
-
-                @Override
-                public void onFailure(String msg) {
-
-                }
-            });
-            return;
-        }
             }
 
             @Override
@@ -183,14 +183,14 @@ public class TestDeckPage extends Page
 
             }
         });
-        //Card nextCard = pDeck.getStudySystem().getNextCard(0);//TODO
-//        if(nextCard == null)
-//        {
-//            finishTest();
-//            return;
-//        }
+        Card nextCard = null; // pDeck.getNextCard(0); TODO
+        if(nextCard == null)
+        {
+            finishTest();
+            return;
+        }
 
-        //pTestGUI = new TestCardGUI(nextCard);//TODO
+        pTestGUI = new TestCardGUI(nextCard);
         pCanvas.addGUI(pTestGUI);
         reposition();
         resize();

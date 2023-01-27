@@ -9,6 +9,7 @@ import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToCategoryRepository;
+import com.swp.Persistence.CategoryHierarchyRepository;
 import com.swp.Persistence.CategoryRepository;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class CategoryLogic extends BaseLogic<Category> {
     private final CategoryRepository categoryRepository = CategoryRepository.getInstance();
     private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
 
+    private final CategoryHierarchyRepository categoryHierarchyRepository = CategoryHierarchyRepository.getInstance();
 
     private static CategoryLogic categoryLogic;
 
@@ -127,6 +129,7 @@ public class CategoryLogic extends BaseLogic<Category> {
         execTransactional(() -> {
             cardToCategoryRepository
                     .delete(cardToCategoryRepository.getAllC2CForCategory(category));
+            categoryHierarchyRepository.delete(categoryHierarchyRepository.getAllChildrenAndParentsForCategory(category));
             categoryRepository.delete(category);
             //TODO alle Parents und Childs der Kategorie müssen noch gelöscht werden generell oder? TODO in CategoryRepo
             return true;
@@ -236,15 +239,16 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @param catNew         Alle neuen Kategorien für die CategoryHierarchy
      * @param child          Gibt an, ob die übergebene Kategorie ein child ist.
      */
-    public void setCategoryHierarchy(Category category, List<Category> catNew, boolean child) {
+    public Boolean setCategoryHierarchy(Category category, List<Category> catNew, boolean child) {
         List<Category> catOld = new ArrayList<>();
+        Boolean selfreference = false;
           if (!child)
             catOld = getChildrenForCategory(category);
         else
             catOld = getParentsForCategory(category);
 
         if (catOld.isEmpty()) {
-            checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
+            selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
         } else if (new HashSet<>(catOld).containsAll(catNew)) {
             if (catOld.size() == catNew.size()) {
                 //nothing to do
@@ -252,11 +256,12 @@ public class CategoryLogic extends BaseLogic<Category> {
                 checkAndRemoveCategoryHierarchy(category, catNew, catOld, child);
             }
         } else if (new HashSet<>(catNew).containsAll(catOld)) {  // nur neue hinzufügen
-            checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
+            selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
         } else { //neue und alte hinzufügen/entfernen
-            checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
+            selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
             checkAndRemoveCategoryHierarchy(category, catNew, catOld, child);
         }
+        return selfreference;
     }
 
 
@@ -289,10 +294,10 @@ public class CategoryLogic extends BaseLogic<Category> {
             for (Category c : catOld) {
                 if (!catNew.contains(c))
                   if (!child) {
-                        categoryRepository.deleteCategoryHierarchy(c, category);
+                        categoryHierarchyRepository.deleteCategoryHierarchy(c, category);
                     }
                 else  {
-                        categoryRepository.deleteCategoryHierarchy(category, c);
+                        categoryHierarchyRepository.deleteCategoryHierarchy(category, c);
                     }
             }
             return null;
@@ -337,24 +342,29 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @param catOld         Alle alten Kategorien der CategoryHierarchy
      * @param child          Gibt an, ob die übergebene Kategorie ein child ist.
      */
-    private void checkAndCreateCategoryHierarchy(final Category category, List<Category> catNew, List<Category> catOld, boolean child) {
-        execTransactional(() -> {
+    private Boolean checkAndCreateCategoryHierarchy(final Category category, List<Category> catNew, List<Category> catOld, boolean child) {
+        return execTransactional(() -> {
+            boolean selfreference = false;
             for (Category c : catNew) {
                 if (!catOld.isEmpty() && catOld.contains(c))
                     log.info("Kategorie {} bereits in CategorieHierarchy enthalten, kein erneutes Hinzufügen notwendig", c.getUuid());
+                if(category.equals(c)){
+                    log.error("Selbstreferenz einer Kategorie in der Hierarchie nicht möglich");
+                    selfreference = true;
+                }
                 else {
                     Category cat = checkAndFindOrCreateCategory(c);
                     if(!child) {
-                        log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
-                        categoryRepository.saveCategoryHierarchy(cat, category);
+                        log.info("Kategorie {} wird als Children zur KategorieHierarchie für Parent {} hinzugefügt", c.getName(), category.getName());
+                        categoryHierarchyRepository.saveCategoryHierarchy(cat, category);
                 }
                      else  {
-                        log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
-                        categoryRepository.saveCategoryHierarchy(category, cat);
+                        log.info("Kategorie {} wird als Children zur KategorieHierarchie für Parent {} hinzugefügt",  category.getName(), c.getName());
+                        categoryHierarchyRepository.saveCategoryHierarchy(category, cat);
                     }
                 }
             }
-            return null;
+            return selfreference;
         });
     }
 
@@ -394,10 +404,12 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @param parents  Parents der Kategorie
      * @param children Children der Kategorie
      */
-    public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children) {
+    public Boolean editCategoryHierarchy(Category category, List<Category> parents, List<Category> children) {
+        if(setCategoryHierarchy(category, parents, true) || setCategoryHierarchy(category, children, false))
+            return true;
 
-        setCategoryHierarchy(category, parents, true);
-        setCategoryHierarchy(category, children, false);
+        else
+            return false;
     }
 
 

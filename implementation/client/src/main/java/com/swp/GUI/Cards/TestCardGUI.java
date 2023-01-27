@@ -184,7 +184,9 @@ public class TestCardGUI extends RenderGUI
         answerScroller.setOrigin(new ivec2(0, -50));
         addGUI(answerScroller);
 
-        Radiobutton radiobutton = new Radiobutton(new ivec2(0, 0), 30, 100, defaultFont, card.getAnswers(), new String[card.getAnswers().length]);
+        Radiobutton radiobutton = new Radiobutton(new ivec2(0, 0), 100, defaultFont, 30);
+        for(String answer : card.getAnswers())
+            radiobutton.addOption(answer);
         radiobutton.setSizeInPercent(true, false);
         answerScroller.addGUI(radiobutton);
     }

@@ -11,14 +11,19 @@ import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToBoxRepository;
 import com.swp.Persistence.StudySystemRepository;
 import jakarta.persistence.NoResultException;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 
+@Slf4j
 public class StudySystemLogic extends BaseLogic<StudySystem>{
 
 
@@ -34,7 +39,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         return studySystemLogic;
     }
 
-    List<Card> testingBoxCards; //All current cards that need to be learned
+    @Getter
+    @Setter
+    //Getter Setter für Testzwecke
+    public List<Card> testingBoxCards; //All current cards that need to be learned
+
+
 
     private final StudySystemRepository studySystemRepository = StudySystemRepository.getInstance();
     private final CardRepository cardRepository = CardRepository.getInstance();
@@ -64,20 +74,32 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public void moveCardToBoxAndSave(Card card, int newBox, StudySystem studySystem)
     {
-        execTransactional(() -> { BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
+        BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
         cardToBoxRepository.save(boxToCard);
-        return null;
-        });
+
     }
 
     /**
      * Wird nach der Erstellung eines neuen StudySystem verwendet und verschiebt alle Karten für das StudySystem in das erste Box.
+     * Vorher wird geprüft, ob die Karte bereits im StudySystem enthalten ist, wenn ja, wird sie nicht nochmal hinzugefügt und das GUI
+     * zeigt eine Sammlung aller Karten an, die nciht hinzugefügt worden sind.
      * @param cards: Karten, die StudySystem enthalten soll.
      * @param studySystem: Das StudySystem, das benötigt wird.
      */
-    public void moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem) {
-        for(Card c : cards)
+    public List<Card> moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem) {
+        return execTransactional(() -> {
+            List<Card> existingCards = new ArrayList<>();
+            for(Card c : cards)
+            try{
+                Card card = cardRepository.findCardByStudySystem(studySystem,c);
+                log.info("Karte bereits Teil des StudySystems");
+                existingCards.add(card);
+            }
+        catch(NoResultException ex){
             moveCardToBoxAndSave(c,0,studySystem);
+            }
+            return existingCards;
+        });
     }
 
     /**
@@ -87,10 +109,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param answer : Frage war richtig / falsch beantwortet
      */
     public void giveAnswer(StudySystem studySystem,boolean answer) {
-        BoxToCard boxToCard = getBoxToCard(testingBoxCards.get(0),studySystem);
-        testingBoxCards.remove(0); //schmeiß die Karte raus
         switch (studySystem.getType()){
             case LEITNER:
+                BoxToCard boxToCard = getBoxToCard(testingBoxCards.get(0),studySystem);
+                testingBoxCards.remove(0); //schmeiß die Karte raus
                 if(answer){
                     studySystem.incrementTrueCount(); //wofür - to show resultpoint end of the test
                    /*
@@ -106,7 +128,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     }
                     else{
                         changeCardDueDate(box,boxToCard);
-                        cardToBoxRepository.update(boxToCard); // Needed or auto?
+                        //cardToBoxRepository.update(boxToCard); // Needed or auto?
                     }
                 }
                 else{
@@ -118,7 +140,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     }
                     else{
                         changeCardDueDate(box,boxToCard);
-                        cardToBoxRepository.update(boxToCard); // Needed or auto?
+                        //cardToBoxRepository.update(boxToCard); // Needed or auto?
                     }
                     }
             case TIMING:
@@ -238,7 +260,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
     /**
-     * Wird verwendet, um Am Ende der Test Liste der Karten leer zu machen und Database zu aktualisieren
+     * Wird verwendet, um am Ende der Test Liste der Karten leer zu machen und Database zu aktualisieren
      * 
      * @param studySystem Das StudySystem, das benötigt wird.
      * @return ResultPoint
@@ -255,7 +277,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     /**
      * Wird verwendet, um alle Karten in diesem Studiensystem zu erhalten. 
      * @param studySystem Das StudySystem, das benötigt wird.
-     * @return Liste von CardOverView,die zu StudySystem gehört
+     * @return Liste von CardOverView, die zu StudySystem gehört
      */
     public List<CardOverview> getAllCardsInStudySystem(StudySystem studySystem) {
        return  execTransactional(() -> cardRepository.findCardsByStudySystem(studySystem));
@@ -338,7 +360,9 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             throw new IllegalStateException("Karte existiert nicht");
         }
         execTransactional(() -> {
-            //TODO: Card2Box Removal
+            log.info("Lösche alle Card To Boxes zum StudySystem");
+            cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForStudySystem(studySystem));
+            log.info("Lösche StudySystem");
             studySystemRepository.delete(studySystem);
             return null;
         });
@@ -374,10 +398,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public void removeCardsFromStudySystem(List<CardOverview> cards, StudySystem studySystem) 
     {
+        List<Card> cards1 = getCardsForCardOverview(cards);
         execTransactional(() -> {
-            //TODO
-            //for(CardOverview c : cards)
-                //cardToBoxRepository.delete(cardToBoxRepository.getSpecific(c, studySystem));
+            for(Card c: cards1)
+                cardToBoxRepository.delete(cardToBoxRepository.getSpecific(c, studySystem));
             return null; // Lambda braucht immer einen return
         });
     }
@@ -387,17 +411,18 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param cards: die Liste von Karten, um hinzufügen
      * @param studySystem Das StudySystem, das benötigt wird.
      */
-    public void addCardsToDeck(List<CardOverview> cards, StudySystem studySystem) {
+    public List<Card> addCardsToDeck(List<CardOverview> cards, StudySystem studySystem) {
         if(studySystem == null){
             throw new IllegalStateException("Karte existiert nicht");
         }
         //TODO Prüfung, ob Karte schon in Deck enthalten, dann throw Exception und abfangen im Controller @Mert
             List<Card> cards1 = getCardsForCardOverview(cards);
-            moveAllCardsForDeckToFirstBox(cards1,studySystem);
+            List<Card> existingCardsInStudySystem = moveAllCardsForDeckToFirstBox(cards1,studySystem);
             execTransactional(() -> {
            studySystemRepository.update(studySystem);
             return true; // Lambda braucht immer einen return
         });
+            return existingCardsInStudySystem;
     }
 
     public List<Card> getCardsForCardOverview(List<CardOverview>cards){

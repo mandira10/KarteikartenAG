@@ -82,7 +82,7 @@ public class CRUDCardLogicTest {
         on(cardLogic).set("cardToBoxRepository",cardToBoxRepMock);
         on(cardLogic).set("cardToTagRepository",cardToTagRepMock);
         on(cardLogic).set("cardToCategoryRepository",cardToCategoryRepMock);
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel");
         when(cardToBoxRepMock.getAllB2CForCard(card1)).thenReturn(new ArrayList<>());
         doNothing().when(cardToBoxRepMock).delete(any(BoxToCard.class));
         when(cardToTagRepMock.getAllC2TForCard(card1)).thenReturn(new ArrayList<>());
@@ -102,7 +102,7 @@ public class CRUDCardLogicTest {
         on(cardLogic).set("cardToBoxRepository",cardToBoxRepMock);
         on(cardLogic).set("cardToTagRepository",cardToTagRepMock);
         on(cardLogic).set("cardToCategoryRepository",cardToCategoryRepMock);
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel");
         when(cardToBoxRepMock.getAllB2CForCard(card1)).thenReturn(new ArrayList<>());
         doNothing().when(cardToBoxRepMock).delete(any(BoxToCard.class));
         when(cardToTagRepMock.getAllC2TForCard(card1)).thenReturn(new ArrayList<>());
@@ -122,7 +122,7 @@ public class CRUDCardLogicTest {
     }
     @Test
     public void testUpdateCardData(){
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel",true);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel");
         when(cardRepMock.update(card1)).thenReturn(card1);
         when(cardRepMock.save(card1)).thenReturn(card1);
         cardLogic.updateCardData(card1,true);

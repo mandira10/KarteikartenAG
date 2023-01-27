@@ -14,11 +14,13 @@ import com.swp.GUI.PageManager;
 import com.swp.GUI.Decks.DeckSelectPage;
 import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.Extras.ConfirmationGUI;
+import com.swp.GUI.Extras.ListOrder;
 import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Extras.ListOrder.Order;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.DataCallback;
@@ -30,6 +32,8 @@ public class CardOverviewPage extends Page
     private Searchbar pSearchbar;
     private CardList pCardList;
     private int iCurrentLastIndex;
+    private Order iOrder;
+    private boolean bReverseOrder;
 
     public CardOverviewPage()
     {
@@ -48,6 +52,10 @@ public class CardOverviewPage extends Page
         deleteCardButton.onClick((RenderGUI gui) -> { deleteCards(); });
         deleteCardButton.hide(true);
 
+        Button exportCardsButton = (Button)findChildByID("exportbutton");
+        exportCardsButton.onClick((RenderGUI gui) -> { exportCards(); });
+        exportCardsButton.hide(true);
+
         Button addToDeckButton = (Button)findChildByID("addtodeckbutton");
         addToDeckButton.onClick((RenderGUI gui) -> {
             ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(pCardList.getSelection());
@@ -57,8 +65,8 @@ public class CardOverviewPage extends Page
         RenderGUI canvas = findChildByID("canvas");
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod() { deleteCardButton.hide(false); addToDeckButton.hide(false); menu.resize(); }
-            @Override public void exitSelectmod()  { deleteCardButton.hide(true); addToDeckButton.hide(true); menu.resize(); }
+            @Override public void enterSelectmod() { exportCardsButton.hide(false); deleteCardButton.hide(false); addToDeckButton.hide(false); menu.resize(); }
+            @Override public void exitSelectmod()  { exportCardsButton.hide(true);  deleteCardButton.hide(true);  addToDeckButton.hide(true);  menu.resize(); }
         }, (RenderGUI gui) -> {
             if(iCurrentLastIndex != -1)
                 loadCards(iCurrentLastIndex, iCurrentLastIndex + 30);
@@ -74,6 +82,13 @@ public class CardOverviewPage extends Page
                 loadCards(query, option);
         });
 
+        ListOrder listorder = (ListOrder)findChildByID("listorder");
+        listorder.setCallback((Order order, boolean reverse) -> {
+            iOrder = order;
+            bReverseOrder = reverse;
+            loadCards(0, 30);
+        });
+
         this.setSizeInPercent(true, true);
         reposition();
     }
@@ -85,6 +100,10 @@ public class CardOverviewPage extends Page
             iCurrentLastIndex = 0;
             pCardList.reset();
         }
+
+        // Use order:
+        //iOrder 
+        //bReverseOrder
 
         CardController.getInstance().getCardsToShow(from, to, new DataCallback<CardOverview>() {
             @Override public void onSuccess(List<CardOverview> data)
@@ -142,7 +161,7 @@ public class CardOverviewPage extends Page
             {  
                 CardController.getInstance().deleteCards(pCardList.getSelection(), new SingleDataCallback<Boolean>() {
                     @Override
-                    public void onSuccess(Boolean data) {}
+                    public void onSuccess(Boolean data) {loadCards(0,30);}
 
                     @Override
                     public void onFailure(String msg) {
@@ -158,7 +177,6 @@ public class CardOverviewPage extends Page
 
     private void exportCards()
     {
-        CardExportPage.setToExport(null);
-        PageManager.viewPage(PAGES.CARD_EXPORT);
+        ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(pCardList.getSelection());
     }
 }

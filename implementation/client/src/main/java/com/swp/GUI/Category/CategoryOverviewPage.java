@@ -19,6 +19,8 @@ import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CategoryList.CategoryListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Extras.ListOrder;
+import com.swp.GUI.Extras.ListOrder.Order;
 import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.Notification.NotificationType;
@@ -32,6 +34,7 @@ public class CategoryOverviewPage extends Page
     private CategoryList pCategoryList;
     private Button pDeleteCategoriesButton;
     private Button pAddToDeckButton;
+    private boolean bReverseOrder;
 
     private static final CategoryController categoryController = CategoryController.getInstance();
    
@@ -77,6 +80,13 @@ public class CategoryOverviewPage extends Page
         Searchbar searchbar = (Searchbar)findChildByID("searchbar");
         searchbar.setCallback((String query, int option) -> { loadCategories(query); });
 
+
+        ListOrder listorder = (ListOrder)findChildByID("listorder");
+        listorder.setCallback((Order order, boolean reverse) -> {
+            bReverseOrder = reverse;
+            loadCategories();
+        });
+
         this.setSizeInPercent(true, true);
         reposition();
     }
@@ -84,6 +94,7 @@ public class CategoryOverviewPage extends Page
     public void loadCategories()
     {
         pCategoryList.reset();
+        //bReverseOrder
         categoryController.getRootCategories(new DataCallback<Category>() {
             @Override public void onFailure(String msg) { NotificationGUI.addNotification(msg, NotificationType.ERROR, 5); }
             @Override public void onInfo(String msg) {}
@@ -99,6 +110,7 @@ public class CategoryOverviewPage extends Page
     
     public void loadCategories(String searchterm)
     {
+        //TODO
         pCategoryList.reset();
         //pCategoryList.addCategories(CategoryController.getCategoriesBySearchterm(searchterm));
     }
@@ -146,7 +158,6 @@ public class CategoryOverviewPage extends Page
 
     private void exportCards()
     {
-        CardExportPage.setToExport(null);
-        PageManager.viewPage(PAGES.CARD_EXPORT);
+        ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(null);
     }
 }

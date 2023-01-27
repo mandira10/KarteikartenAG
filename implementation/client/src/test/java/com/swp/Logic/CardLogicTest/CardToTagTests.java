@@ -9,13 +9,13 @@ import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToTagRepository;
 import com.swp.Persistence.TagRepository;
 import jakarta.persistence.NoResultException;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
 import static org.joor.Reflect.on;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -37,6 +37,7 @@ public class CardToTagTests {
         cardToTagRepMock = mock(CardToTagRepository.class);
         on(cardLogic).set("cardRepository",cardRepMock);
         on(cardLogic).set("cardToTagRepository",cardToTagRepMock);
+        on(cardLogic).set("tagRepository",tagRepMock);
     }
 
     /**
@@ -51,7 +52,7 @@ public class CardToTagTests {
                 add(tagToAdd);
             }
         };
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2");
         ArrayList<Tag> tagsToReturn = new ArrayList<>();
 
         //Karte hat noch keine Tags
@@ -81,7 +82,7 @@ public class CardToTagTests {
                 add(tagToAdd1);
             }
         };
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2");
         ArrayList<Tag> tagsToReturn = new ArrayList<>();
 
         //Karte hat noch keine Tags
@@ -116,7 +117,7 @@ public class CardToTagTests {
             }
         };
 
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
 
         //Die zugehörigen Tags sind die gleichen wie die hinzugefügten
         //kein Handling nötig
@@ -152,7 +153,7 @@ public class CardToTagTests {
                 add(exTag2);
             }
         };
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
         //Bereits gespeicherte Tags zu der Karte werden returned
         when(tagRepMock.getTagsToCard(card1)).thenReturn(tagsToAdd);
         //Die neuen Tags sind noch nicht in DB gespeichert, die alten werden gar nicht gesucht
@@ -195,7 +196,7 @@ public class CardToTagTests {
                 add(exTag2);
             }
         };
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
         //Bereits gespeicherte Tags zu der Karte
         when(tagRepMock.getTagsToCard(card1)).thenReturn(existingTags);
         //Manuell angelegte cardToTags für die zu löschenden Tags
@@ -237,7 +238,7 @@ public class CardToTagTests {
                 add(newTag2);
             }
         };
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
 
         //Bereits gespeicherte Tags zu der Karte
         when(tagRepMock.getTagsToCard(card1)).thenReturn(existingTags);
@@ -274,6 +275,8 @@ public class CardToTagTests {
                 add(tag2);
             }
         };
-        when(tagRepMock.getTags()).thenReturn(tags);
+        when(tagRepMock.getAll()).thenReturn(tags);
+        on(cardLogic).set("tagRepository",tagRepMock);
+        assertEquals(tags, cardLogic.getTags());
     }
 }

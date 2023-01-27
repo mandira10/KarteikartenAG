@@ -53,7 +53,7 @@ public class KarteikartenAGGUI extends RenderGUI
             new ImageDescriptionCardAnswer("Hand",         82, 58),
             new ImageDescriptionCardAnswer("Fuß",          62, 89),
         };
-        ImageDescriptionCard card = new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", "textures/orange-ket.png", true);
+        ImageDescriptionCard card = new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", "textures/orange-ket.png");
 
         //EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
         //page.editCard(card);

@@ -44,7 +44,7 @@ public class AudioCard extends Card
      */
     public AudioCard()
     {
-        this(null, "AudioCard", "", "", false, false);
+        this(null, "AudioCard", "", "", false);
     }
 
     /**
@@ -54,9 +54,8 @@ public class AudioCard extends Card
      * @param question Textzusatz zur AudioFile
      * @param answer Antwort
      * @param swapQA Wechsel Frage/Antwort
-     * @param visibility Sichtbarkeit der Karte
      */
-    public AudioCard(byte[] audioFile, String title, String question, String answer, boolean swapQA, boolean visibility)
+    public AudioCard(byte[] audioFile, String title, String question, String answer, boolean swapQA)
     {
         super(CardType.AUDIO);
         setTitle(title);
@@ -64,19 +63,31 @@ public class AudioCard extends Card
         this.question = question;
         this.answer = answer;
         this.swapQA = swapQA;
-        this.visibility = visibility;
         setContent();
     }
 
+    /**
+     * Überschreibt die Grundmethode von Card. Setzt den Content, nach dem gesucht werden soll,
+     * wenn ein Suchterm eingegeben wird.
+     */
     @Override
     public void setContent(){
         content =  title + "\n" +  question + "\n" + answer;
     }
 
+    /**
+     * Setter für die Antwort. Prüft zunächst, dass die Karte nicht null oder leer ist.
+     * @param answer: zu setzende Antwort
+     */
     public void setAnswer(String answer) {
-        this.answer = checkNotNullOrBlank(Locale.getCurrentLocale().getString("answer"), answer,false);
+        this.answer = checkNotNullOrBlank(answer,Locale.getCurrentLocale().getString("answer"),false);
     }
 
+    /**
+     * Überschreibt die Grundmethode von getAnswerString in Card.
+     * Gibt die Antwort zurück.
+     * @return Antwort der Karte
+     */
     @Override
     public String getAnswerString() 
     {

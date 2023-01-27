@@ -30,12 +30,8 @@ import static com.swp.Validator.checkNotNullOrBlank;
             query = "SELECT c FROM Card c WHERE c.uuid = :uuid")
 @NamedQuery(name  = "Card.findByTitle",
             query = "SELECT c FROM Card c WHERE c.title = :title ")
-@NamedQuery(name  = "Card.allCardNextLearnedAtOlderThanNow",
-            query = "SELECT c FROM Card c WHERE c.nextLearnedAt < :now")
-@NamedQuery(name  = "Card.allCardNextLearnedAtOlderThanNowAscending",
-            query = "SELECT c FROM Card c WHERE c.nextLearnedAt < :now ORDER BY c.nextLearnedAt ASC")
 @NamedQuery(name = "Card.allCardsSortedByRanking",
-            query = "SELECT c FROM Card c ORDER BY c.rating DESC")
+            query = "SELECT c FROM Card c ORDER BY c.rating DESC") //TODO FALSCH!
 public abstract class Card implements Serializable
 {
     /**
@@ -83,7 +79,9 @@ public abstract class Card implements Serializable
     @Column
     protected String content;
 
-    //NEU
+    /**
+     * Die Referenzen, die zur Karte angelegt worden sind.
+     */
     @Column
     protected String references;
 
@@ -99,18 +97,6 @@ public abstract class Card implements Serializable
     @Column
     protected Timestamp creationDate;
 
-
-    /**
-     * Sichtbarkeit der Karte, wenn wahr für alle sichtbar, ansonsten privat
-     */
-    @Column
-    protected boolean visibility;
-
-    /**
-     * Zeitpunkt, wann die Karte das nächste Mal gelernt werden soll.
-     */
-    @Column
-    protected Timestamp nextLearnedAt;
 
     /**
      * Box, in der die Karte gespeichert ist.
@@ -139,8 +125,6 @@ public abstract class Card implements Serializable
         this.content = "";
         this.references = "";
         this.creationDate = new Timestamp(System.currentTimeMillis());
-        this.nextLearnedAt = new Timestamp(System.currentTimeMillis());
-        //this.box = null;
     }
 
     /**
@@ -151,7 +135,6 @@ public abstract class Card implements Serializable
         uuid = UUID.randomUUID().toString();
         this.type = null;
         this.creationDate = new Timestamp(System.currentTimeMillis());
-        this.nextLearnedAt = new Timestamp(System.currentTimeMillis());
     }
 
 
@@ -177,18 +160,27 @@ public abstract class Card implements Serializable
      */
     public void setQuestion(String question)
     {
-
-            this.question = checkNotNullOrBlank(Locale.getCurrentLocale().getString("question"),"Frage",false);
+        this.question = checkNotNullOrBlank(question,Locale.getCurrentLocale().getString("question"),false);
     }
 
+    /**
+     * Titel der Karte,wird auf null geprüft.
+     * Da er leer sein kann, wird kein checkNotNullOrBlank ausgeführt.
+     * @param title: Titel der Karte (Optional)
+     */
     public void setTitle(String title)
     {
         if(title != null)
             this.title = title;
     }
 
+    /**
+     * Gibt die Antwort als String zurück. Wird in den Kartentypen überschrieben.
+     * @return String, der in der GUI angezeigt wird.
+     */
     public String getAnswerString() { return ""; }
 
+    //TODO raus
     public List<Tag> getTagValues() {
         return this.getAssignedTags().stream().map(CardToTag::getTag).toList();
     }
@@ -198,12 +190,12 @@ public abstract class Card implements Serializable
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Card card = (Card) o;
-        return rating == card.rating && visibility == card.visibility && Objects.equals(uuid, card.uuid) && type == card.type && Objects.equals(question, card.question) && Objects.equals(content, card.content) && Objects.equals(references, card.references) && Objects.equals(title, card.title) && Objects.equals(creationDate, card.creationDate);
+        return rating == card.rating && Objects.equals(uuid, card.uuid) && type == card.type && Objects.equals(question, card.question) && Objects.equals(content, card.content) && Objects.equals(references, card.references) && Objects.equals(title, card.title) && Objects.equals(creationDate, card.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, type, question, rating, content, references, title, creationDate, visibility);
+        return Objects.hash(uuid, type, question, rating, content, references, title, creationDate);
     }
 
     @Override
@@ -217,7 +209,6 @@ public abstract class Card implements Serializable
                 ", references='" + references + '\'' +
                 ", title='" + title + '\'' +
                 ", creationDate=" + creationDate +
-                ", visibility=" + visibility +
                 '}';
     }
 }

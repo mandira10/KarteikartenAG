@@ -43,3 +43,5 @@ getcategoriestocarderror = Beim Suchen nach Kategorien für die Karte ist ein Fe
 getcatoriesempty = Keine Kategorien vorhanden.
 getcatorieserror = Beim Suchen nach Kategorien ist ein Fehler aufgetreten.
 getrootcategorieserror = Beim Abrufen der KategorieHierarchie ist ein Fehler aufgetreten.
+multiplechoicecarderror = Index der korrekten Antworten muss innerhalb der Antwortmöglichkeiten liegen!
+selfreferenceerror = Kategorie darf nicht selbstreferenziert werden! Nicht hinzugefügt!

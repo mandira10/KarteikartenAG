@@ -31,6 +31,8 @@ import java.util.UUID;
         query = "SELECT c FROM BoxToCard c WHERE c.studySystemBox = :box")
 @NamedQuery (name = "BoxToCard.allByStudySystem",
         query = "SELECT c FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
+@NamedQuery (name = "Card.ByStudySystem",
+        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.card = :card")
 public class BoxToCard {
 
 

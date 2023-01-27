@@ -695,11 +695,12 @@ public class CardControllerTests {
 
         @Test
         public void exportCardsException(){
-            Card[] cards = new Card[1];
-            doThrow(new RuntimeException()).when(cardMockLogic).exportCards(cards, Exporter.ExportFileType.EXPORT_XML);
+            final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
+            String filepath = "Test";
+            doThrow(new RuntimeException()).when(cardMockLogic).exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML);
             String expected = "Es gab Probleme beim Exportieren der Karten.";
             final String[] actual = new String[1];
-            cardController.exportCards(cards, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
+            cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean data) {
 
@@ -717,9 +718,10 @@ public class CardControllerTests {
 
         @Test
         public void exportCards(){
-            Card[] cards = new Card[1];
-           doNothing().when(cardMockLogic).exportCards(cards, Exporter.ExportFileType.EXPORT_XML);
-            cardController.exportCards(cards,Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
+            final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
+            String filepath = "Test";
+             when(cardMockLogic.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML)).thenReturn(true);
+            cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean  data) {
 

@@ -21,8 +21,6 @@ public class FileDialog
             filters.put(stack.UTF8("*." + type));
         filters.flip();
 
-        Output.info(filters.get(0));
-
         File defaultPath = new File(".");
         defaultPath = defaultPath.getAbsoluteFile();
         String defaultString = defaultPath.getAbsolutePath();
@@ -30,6 +28,28 @@ public class FileDialog
             defaultString += File.separator;
        
         String result = tinyfd_openFileDialog(title, defaultString, filters, description, false);
+
+        stack.pop();
+        return result;
+    }
+
+    public static String saveFile(String title, String description, String[] allowedTypes)
+    {
+        MemoryStack stack = MemoryStack.stackPush();
+        PointerBuffer filters = stack.mallocPointer(1 + allowedTypes.length);
+
+        filters.put(stack.UTF8("*." + "txt"));
+        for(String type : allowedTypes)
+            filters.put(stack.UTF8("*." + type));
+        filters.flip();
+
+        File defaultPath = new File(".");
+        defaultPath = defaultPath.getAbsoluteFile();
+        String defaultString = defaultPath.getAbsolutePath();
+        if(defaultPath.isDirectory() && !defaultString.endsWith(File.separator))
+            defaultString += File.separator;
+       
+        String result = tinyfd_saveFileDialog(title, defaultString, filters, description);
 
         stack.pop();
         return result;

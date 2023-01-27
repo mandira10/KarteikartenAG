@@ -29,8 +29,11 @@ import com.gumse.tools.Output;
 import com.gumse.tools.Output.OutputCallback;
 import com.gumse.tools.FPS;
 import com.swp.GUI.KarteikartenAGGUI;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.Extras.ListOrder;
 import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.Searchbar;
+import com.swp.GUI.PageManager.PAGES;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +42,6 @@ import lombok.extern.slf4j.Slf4j;
 // TODO-List
 // 
 // GUIs
-//   - Create GUI inside thread
 //   - Card List columns            -- done
 //   - card references list (links) -- done
 //   - card references edit page    -- done
@@ -100,7 +102,12 @@ import lombok.extern.slf4j.Slf4j;
 //   - Auto resizing menubar        -- done
 //   - Custom XML types             -- done
 //   - Check for mandatory fields
-//   - Change cardlist order
+//   - Change cardlist order        -- done
+
+// Missing:
+// - get categories by name
+// - get cards/categories in different order
+
 ////////////////////////////////////////////////////
 
 @Slf4j
@@ -147,7 +154,7 @@ public class KarteikartenAG
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(iWindowSize);
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
 
@@ -182,6 +189,8 @@ public class KarteikartenAG
 
         XMLGUI.addGUIType("menu", MenuOptions.createFromXMLNode());
         XMLGUI.addGUIType("searchbar", Searchbar.createFromXMLNode());
+        XMLGUI.addGUIType("list-order", ListOrder.createFromXMLNode());
+        
         Settings.getInstance().getLanguage().activate();
         importTestData();
         KarteikartenAGGUI pKarteikartenAGGUI = KarteikartenAGGUI.getInstance();
@@ -203,6 +212,8 @@ public class KarteikartenAG
         }
 
         pMainGUI.setSize(iWindowSize);
+
+        PageManager.viewPage(PAGES.CARD_EXPORT);
 
         
         while(pMainWindow.isOpen())

@@ -4,6 +4,7 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
+import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
@@ -15,28 +16,36 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
     }
 
     private static CardToBoxRepository cardToBoxRepository = null;
-    public static CardToBoxRepository getInstance()
-    {
-        if(cardToBoxRepository == null)
+
+    public static CardToBoxRepository getInstance() {
+        if (cardToBoxRepository == null)
             cardToBoxRepository = new CardToBoxRepository();
         return cardToBoxRepository;
     }
 
     /**
      * Gibt alle Karten einer Box für das aktuelle Testen in der angegebenen Reihenfolge wider.
+     *
      * @param studySystemBox //TOTEST Efe
      * @param cardOrder
      * @return
      */
-    public  List<BoxToCard> getAllForBox(StudySystemBox studySystemBox, StudySystem.CardOrder cardOrder) {
+    public List<BoxToCard> getAllForBox(StudySystemBox studySystemBox, StudySystem.CardOrder cardOrder) {
         return getEntityManager()
                 .createNamedQuery("BoxToCard.allByBox", BoxToCard.class)
                 .setParameter("box", studySystemBox)
-                .setParameter("cardOrder", cardOrder)
+                .setParameter("cardOrder", cardOrder) // cardOrder wird in der Query noch nicht berücksichtigt.
                 .getResultList();
     }
 
-
+    /**
+     * Holt eine Liste von Karten-zu-LernsystemBox Verbindungen aus der Datenbank.
+     * Dabei werden nur Verbindungen zu dem angegebenen Lernsystem berücksichtigt.
+     * Gibt es keine Karten in dem Lernsystem, so wird eine leere Liste zurückgegeben.
+     *
+     * @param studySystem das Lernsystem, für die die Karten-Verbindungen gesucht werden.
+     * @return List<BoxToCard> eine Liste von Karten-zu-LernsystemBox Verbindungen.
+     */
     public List<BoxToCard> getAllBoxToCardsForStudySystem(StudySystem studySystem) {
         return getEntityManager()
                 .createNamedQuery("BoxToCard.allByStudySystem", BoxToCard.class)
@@ -45,16 +54,21 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
     }
 
     /**
-     * Die Funktion `createCardToDeck` erstellt eine neues `CardToDecl`, welches eine Karte mit einem Tag in
-     * Verbindung setzt und persistiert dieses in der Datenbank.
-     * @param card eine Karte, der ein Tag zugeordnet werden soll
-     * @param studySystemBox ein Tag, der der Karte zugeordnet werden soll
+     * Erstellt eine neue `BoxToCard` Verbindung und persistiert sie in der Datenbank.
+     *
+     * @param card           eine Karte, die einem Lernsystem-Kasten zugeordnet werden soll.
+     * @param studySystemBox ein Lernsystem-Kasten, dem eine Karte zugeordnet werden soll.
      */
     public void createCardToBox(Card card, StudySystemBox studySystemBox, int box) {
         getEntityManager().persist(new BoxToCard(card, studySystemBox, box));
     }
 
-
+    /**
+     * Gibt für ein angegebenes Lernsystem die Anzahl der enthaltenen Karten zurück.
+     *
+     * @param studySystem das Lernsystem, für welches die zugeordneten Karten gezählt werden soll.
+     * @return die Anzahl der Karten im angegebene Lernsystem.
+     */
     public int numCardsInStudySystem(StudySystem studySystem) {
         return getEntityManager()
                 .createNamedQuery("BoxToCard.numCardsInStudySystem", int.class)
@@ -62,8 +76,13 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
                 .getSingleResult();
     }
 
-
-
+    /**
+     * Holt für eine Karte alle Karten-zu-LernsystemBox Verbindungen aus der Datenbank.
+     * Ist die Karte in keinem Lernsystem enthalten, so wird eine leere Liste zurückgegeben.
+     *
+     * @param card die Karte für die die Verbindungen zu Lernsystem-Kästen geholt werden sollen.
+     * @return List<BoxToCard> eine Liste von Karten-zu-LernsystemBox Verbindungen.
+     */
     public List<BoxToCard> getAllB2CForCard(Card card) {
         return getEntityManager()
                 .createNamedQuery("BoxToCard.allb2cByCard", BoxToCard.class)
@@ -71,6 +90,13 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
                 .getResultList();
     }
 
+    /**
+     * Holt für ein angegebenes Lernsystem alle Karten-zu-LernsystemBox Verbindungen aus der Datenbank.
+     * Ist dem Lernsystem keine Karte zugeordnet, so wird eine leere Liste zurückgegeben.
+     *
+     * @param studySystem das Lernsystem, für das die Karten-zu-LernsystemBox Verbindungen zurückgegeben werden sollen.
+     * @return List<BoxToCard> eine Liste von Karten-zu-LernsystemBox Verbindungen
+     */
     public List<BoxToCard> getAllB2CForStudySystem(StudySystem studySystem) {
         return getEntityManager()
                 .createNamedQuery("BoxToCard.allB2CByStudySystem", BoxToCard.class)
@@ -78,12 +104,20 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
                 .getResultList();
     }
 
-    public BoxToCard getSpecific(Card card, StudySystem studySystem) {
+    /**
+     * Holt für eine angegebene Karte und ein angegebenes Lernsystem, die Karte-zu-LernsystemBox Verbindung
+     * aus der Datenbank. Sollte die Karte nicht dem Lernsystem zugeordnet sein, so wird eine Exception geworfen.
+     *
+     * @param card        eine Karte.
+     * @param studySystem ein Lernsystem.
+     * @return eine Karte-zu-LernsystemBox Verbindung
+     * @throws NoResultException falls die Karte nicht dem Lernsystem zugeordnet ist.
+     */
+    public BoxToCard getSpecific(Card card, StudySystem studySystem) throws NoResultException {
         return getEntityManager()
                 .createNamedQuery("BoxToCard.findSpecificC2C", BoxToCard.class)
                 .setParameter("card", card)
                 .setParameter("studySystem", studySystem.getUuid())
                 .getSingleResult();
     }
-
 }

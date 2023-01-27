@@ -26,9 +26,8 @@ public class ImageTestCard extends Card
     /**
      * Bild für die Karteikarte
      */
-
     @Column
-    private String image; //Texture
+    private String image; //TODO
 
     /**
      * Zusätzliche Beschreibung zum Bild als Antwort
@@ -48,7 +47,7 @@ public class ImageTestCard extends Card
      */
     public ImageTestCard()
     {
-        this("","","","",false,false);
+        this("","","","",false);
     }
 
     /**
@@ -58,9 +57,8 @@ public class ImageTestCard extends Card
      * @param image: Bild zur Antwort
      * @param swapQA: Wechsel Frage/Antwort
      * @param title Optionaler Titel der Karte
-     * @param visible Sichtbarkeit der Karte
      */
-    public ImageTestCard(String question, String answer, String image, String title, boolean swapQA, boolean visible)
+    public ImageTestCard(String question, String answer, String image, String title, boolean swapQA)
     {
         super(CardType.IMAGETEST);
         setTitle(title);
@@ -68,21 +66,32 @@ public class ImageTestCard extends Card
         this.answer = answer;
         this.image = image;
         this.swapQA = swapQA;
-        this.visibility = visible;
         setContent();
     }
 
 
-
+    /**
+     * Überschreibt die Grundmethode von Card. Setzt den Content, nach dem gesucht werden soll,
+     * wenn ein Suchterm eingegeben wird.
+     */
     @Override
     public void setContent(){
         content =  title + "\n" + question + "\n" + answer;
     }
 
+    /**
+     * Setter für die Antwort. Prüft zunächst, dass die Karte nicht null oder leer ist.
+     * @param answer: zu setzende Antwort
+     */
     public void setAnswer(String answer) {
-        this.answer = checkNotNullOrBlank(Locale.getCurrentLocale().getString("answer"),"Antwort",false);
+        this.answer = checkNotNullOrBlank(answer,Locale.getCurrentLocale().getString("answer"),false);
     }
 
+    /**
+     * Überschreibt die Grundmethode von getAnswerString in Card.
+     * Gibt die Antwort zurück.
+     * @return Antwort der Karte
+     */
     @Override
     public String getAnswerString() 
     {

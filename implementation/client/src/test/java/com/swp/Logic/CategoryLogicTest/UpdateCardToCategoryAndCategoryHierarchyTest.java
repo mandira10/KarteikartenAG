@@ -12,6 +12,7 @@ import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToCategoryRepository;
+import com.swp.Persistence.CategoryHierarchyRepository;
 import com.swp.Persistence.CategoryRepository;
 import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +33,8 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
     private CardRepository cardRepMock;
     private CategoryRepository categoryRepMock;
     private CardToCategoryRepository cardToCategoryRepMock;
+
+    private CategoryHierarchyRepository categoryHierarchyRepMock;
     private Locale locale = new Locale("German", "de");
     private int i;
 
@@ -40,9 +43,11 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         cardRepMock = mock(CardRepository.class);
         categoryRepMock = mock(CategoryRepository.class);
         cardToCategoryRepMock = mock(CardToCategoryRepository.class);
+        categoryHierarchyRepMock = mock(CategoryHierarchyRepository.class);
         on(categoryLogic).set("categoryRepository",categoryRepMock);
         on(categoryLogic).set("cardRepository",cardRepMock);
         on(categoryLogic).set("cardToCategoryRepository",cardToCategoryRepMock);
+        on(categoryLogic).set("categoryHierarchyRepository",categoryHierarchyRepMock);
 
         Locale.setCurrentLocale(locale);
         String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
@@ -74,7 +79,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                 add(catToAdd);
             }
         };
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2");
         ArrayList<Category> categoriesToReturn = new ArrayList<>();
 
         //Karte hat noch keine Kategorien
@@ -104,7 +109,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                add(catToAdd1);
             }
         };
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2");
         ArrayList<Category> categoriesToReturn = new ArrayList<>();
 
         //Karte hat noch keine Kategorien
@@ -139,7 +144,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
             }
         };
 
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
 
         //Die zugehörigen Kategorien sind die gleichen wie die hinzugefügten
         //kein Handling nötig
@@ -175,7 +180,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                 add(exCat2);
             }
         };
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
         //Bereits gespeicherte Kategorien zu der Karte werden returned
         when(categoryRepMock.getCategoriesToCard(card1)).thenReturn(existingCategories);
         //Die neuen Kategorien sind noch nicht in DB gespeichert, die alten werden gar nicht gesucht
@@ -218,7 +223,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                 add(exCat2);
             }
         };
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
         //Bereits gespeicherte Kategorien zu der Karte
         when(categoryRepMock.getCategoriesToCard(card1)).thenReturn(existingCategories);
         //Manuell angelegte cardToCategories für die zu löschenden Kategorien
@@ -260,7 +265,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                add(newCat2);
             }
         };
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
 
         //Bereits gespeicherte Kategorien zu der Karte
         when(categoryRepMock.getCategoriesToCard(card1)).thenReturn(existingCategories);
@@ -320,10 +325,10 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(categoryRepMock.find(oberschule.getName())).thenReturn(oberschule);
 
         //Speicher keine der neuen Hierarchien
-        doNothing().when(categoryRepMock).saveCategoryHierarchy(klasse10, technik);
-        doNothing().when(categoryRepMock).saveCategoryHierarchy(klasse11, technik);
-        doNothing().when(categoryRepMock).saveCategoryHierarchy(technik, gymnasium);
-        doNothing().when(categoryRepMock).saveCategoryHierarchy(technik, oberschule);
+        doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(klasse10, technik);
+        doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(klasse11, technik);
+        doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(technik, gymnasium);
+        doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(technik, oberschule);
 
         //Test
         categoryLogic.setCategoryHierarchy(technik, parentsTechnik, true);
@@ -356,7 +361,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(categoryRepMock.getChildrenForCategory(technik)).thenReturn(childTechnik);
         when(categoryRepMock.getParentsForCategory(technik)).thenReturn(parentsTechnik);
         //Mache nichts beim Löschen der Kategorien
-        doNothing().when(categoryRepMock).deleteCategoryHierarchy(any(Category.class),any(Category.class));
+        doNothing().when(categoryHierarchyRepMock).deleteCategoryHierarchy(any(Category.class),any(Category.class));
 
         //Test
         categoryLogic.setCategoryHierarchy(technik, new ArrayList<>(), true);
@@ -400,7 +405,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(categoryRepMock.getChildrenForCategory(technik)).thenReturn(oldChildTechnik);
         when(categoryRepMock.getParentsForCategory(technik)).thenReturn(oldParentsTechnik);
         //Tue nichts, wenn die alten Childs/Parents gelöscht werden
-        doNothing().when(categoryRepMock).deleteCategoryHierarchy(any(Category.class),any(Category.class));
+        doNothing().when(categoryHierarchyRepMock).deleteCategoryHierarchy(any(Category.class),any(Category.class));
         //Neues Child noch nicht in Db enthalten, tue nichts beim Save
         when(categoryRepMock.find(klasse10.getName())).thenThrow(NoResultException.class);
         when(categoryRepMock.save(klasse10)).thenReturn(klasse10);
@@ -408,8 +413,8 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         when(categoryRepMock.find(gymnasium.getName())).thenReturn(gymnasium);
 
         //Kein richtiges Speichern
-        doNothing().when(categoryRepMock).saveCategoryHierarchy(klasse10, technik);
-        doNothing().when(categoryRepMock).saveCategoryHierarchy(technik, gymnasium);
+        doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(klasse10, technik);
+        doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(technik, gymnasium);
 
         //Test
         categoryLogic.setCategoryHierarchy(technik,newParentsTechnik, true);

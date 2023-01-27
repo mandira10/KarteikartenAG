@@ -88,8 +88,6 @@ public class CardLogic extends BaseLogic<Card>
             log.info("Lösche alle Card To Tags zur Karte");
             cardToTagRepository.delete(cardToTagRepository.getAllC2TForCard(card));
             log.info("Lösche die Karte");
-            //TODO Ole
-            // CardTo[Category, Box, Tag] bei Löschung von Karte kaskadieren
             cardRepository.delete(card);
             return null; // Lambda braucht immer einen return
         });
@@ -222,8 +220,8 @@ public class CardLogic extends BaseLogic<Card>
 
 
     /**
-     * Wird verwendet, Um zu überprüfen, ob die angegebene Liste von Tags bereits Tags für die Karte sind oder nicht.
-     * Wenn nicht wird diese Liste von Tags in der Karte hinzufügen. Wird an das CardToTagRepository weitergegeben.
+     * Wird verwendet, um zu überprüfen, ob die angegebene Liste von Tags bereits Tags für die Karte sind oder nicht.
+     * Wenn nicht, wird diese Liste von Tags in der Karte hinzufügen. Wird an das CardToTagRepository weitergegeben.
      * @param card: die Karte, um ihre Tags zu überprüfen
      * @param tagOld: die Liste von Tags der Karte
      * @param tagNew: die angegebene Liste von Tags zu vergleichen und hinzufügen
@@ -270,8 +268,13 @@ public class CardLogic extends BaseLogic<Card>
      * @param cards Set an Karten, die exportiert werden sollen
      * @param filetype Exporttyp der Karten
      */
-    public void exportCards(Card[] cards, ExportFileType filetype) {
-        new Exporter(filetype).export(cards);
-    }
+    public boolean exportCards(List<CardOverview> cards, String destination, ExportFileType filetype) 
+    {
+        //TODO
+        List<Card> cardlist = new ArrayList<>();
+        for(CardOverview ov : cards)
+            cardlist.add(getCardByUUID(ov.getUUUID()));
 
+        return new Exporter(filetype).export(cardlist, destination);
+    }
 }

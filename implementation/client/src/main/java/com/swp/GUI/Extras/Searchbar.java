@@ -68,7 +68,10 @@ public class Searchbar extends RenderGUI
         pBubble.hide(true);
         pOptionsButton.addGUI(pBubble);
 
-        Radiobutton searchOptions = new Radiobutton(new ivec2(20, 20), 20, 100, fonts.getDefaultFont(), new String[optionlocaleids.length], optionlocaleids);
+        Radiobutton searchOptions = new Radiobutton(new ivec2(20, 20), 100, fonts.getDefaultFont(), 20);
+        for(String locale : optionlocaleids)
+            searchOptions.addOption("", locale, "");
+        
         searchOptions.select(iCurrentSearchOption);
         searchOptions.singleSelect(true);
         searchOptions.setSizeInPercent(true, false);
