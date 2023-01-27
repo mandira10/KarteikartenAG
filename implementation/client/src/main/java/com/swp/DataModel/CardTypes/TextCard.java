@@ -33,7 +33,7 @@ public class TextCard extends Card
      */
     public TextCard()
     {
-       this("", "", "", false);
+       this("", "", "");
     }
 
     /**
@@ -41,29 +41,39 @@ public class TextCard extends Card
      * @param question: Frage der Karte
      * @param answer: Antwort der Karte
      * @param title: Optionaler Titel der Karte
-     * @param visible: Sichtbarkeit der Karte
      */
-    public TextCard(String question, String answer, String title, boolean visible)
+    public TextCard(String question, String answer, String title)
     {
         super(CardType.TEXT);
         setTitle(title);
         this.question = question;
         this.answer = answer;
-        this.visibility = visible;
         setContent();
     }
 
 
-
+    /**
+     * Überschreibt die Grundmethode von Card. Setzt den Content, nach dem gesucht werden soll,
+     * wenn ein Suchterm eingegeben wird.
+     */
     @Override
     public void setContent(){
         content =  title + "\n" + question + "\n" + answer;
     }
 
+    /**
+     * Setter für die Antwort. Prüft zunächst, dass die Karte nicht null oder leer ist.
+     * @param answer: zu setzende Antwort
+     */
     public void setAnswer(String answer) {
-        this.answer = checkNotNullOrBlank(Locale.getCurrentLocale().getString("answer"), answer,false);
+        this.answer = checkNotNullOrBlank(answer,Locale.getCurrentLocale().getString("answer"), false);
     }
 
+    /**
+     * Überschreibt die Grundmethode von getAnswerString in Card.
+     * Gibt die Antwort zurück.
+     * @return Antwort der Karte
+     */
     @Override
     public String getAnswerString() 
     {

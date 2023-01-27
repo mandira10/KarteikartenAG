@@ -23,21 +23,31 @@ public class CardRepository extends BaseRepository<Card> {
     }
 
     /**
-     * Funktion um einen bestimmten Abschnitt der persistierten Objekte aus der Datenbank zu holen
+     * Holt eine Liste von Karten, alphabetisch sortiert nach dem Titel, aus der Datenbank.
      *
      * @param from int: gibt an wie viele Zeilen des Ergebnisses übersprungen werden.
      * @param to   int: gibt an bis zu welcher Zeile die Ergebnisse geholt werden sollen.
+     * @return List<Card> eine Liste von Karten.
+     * @throws AssertionError falls der angegebene Bereich (from, to) ungültig ist.
      */
-    public List<Card> getCardRange(final int from, final int to) {
+    public List<Card> getCardRange(final int from, final int to) throws AssertionError {
         assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
         return getEntityManager().createQuery("SELECT c FROM Card c ORDER BY c.title", Card.class)
                 .setFirstResult(from).setMaxResults(to - from).getResultList();
     }
 
     /**
-     * @return List<CardOverview> eine Übersicht
+     * Holt eine Liste von Karten in sortierter Reihenfolge aus der CardOverview.
+     * Diese Overview ist eine View über mehrere Tabellen.
+     * Sie enthält je Karte noch weitere Informationen, wie die Anzahl der
+     * Lernsystem-Decks in der sie enthalten ist.
+     *
+     * @param from int: unterer Index für den angeforderten Bereich von Karten-Übersichten.
+     * @param to   int: oberer Index für den angeforderten Bereich von Karten-Übersichten.
+     * @return List<CardOverview> eine Liste von Karten-Übersichten.
+     * @throws AssertionError falls der angegebene Bereich (from, to) ungültig ist.
      */
-    public List<CardOverview> getCardOverview(int from, int to) {
+    public List<CardOverview> getCardOverview(int from, int to) throws AssertionError {
         assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
         return getEntityManager()
                 .createQuery("SELECT c FROM CardOverview c", CardOverview.class)
@@ -45,11 +55,12 @@ public class CardRepository extends BaseRepository<Card> {
     }
 
     /**
-     * Die Funktion `findCardsContaining` durchsucht den Inhalt aller Karten.
-     * Es werden alle Karten zurückgegeben, die den übergebenen Suchtext als Teilstring enthalten.
+     * Holt aus der Datenbank eine Liste von Karten-Übersichten.
+     * Es wird danach gefiltert, ob die Karte das angegebene Suchwort als
+     * Teilstring im Inhalt hat.
      *
      * @param searchWords ein String nach dem im Inhalt aller Karten gesucht werden soll.
-     * @return Set<Card> eine Menge von Karten, welche `searchWords` als Teilstring im Inhalt hat.
+     * @return Set<CardOverview> eine Menge von Karten, welche `searchWords` als Teilstring im Inhalt hat.
      */
     public List<CardOverview> findCardsContaining(String searchWords) {
         return getEntityManager()
@@ -59,11 +70,11 @@ public class CardRepository extends BaseRepository<Card> {
     }
 
     /**
-     * Die Funktion `getCardByUUID` sucht anhand einer UUID nach einer Karte und gibt diese zurück.
-     * Existiert keine Karte mit angegebener UUID, dann
+     * Holt anhand der übergebenen UUID aus der Datenbank eine Karte.
      *
-     * @param uuid eine UUID als String
+     * @param uuid eine Karten-UUID als String.
      * @return eine Card mit entsprechender UUID, oder `null` falls keine gefunden wurde.
+     * @throws NoResultException falls keine Karte mit angegebener UUID in der Datenbank existiert.
      */
     public Card getCardByUUID(String uuid) throws NoResultException {
         return getEntityManager()
@@ -75,22 +86,45 @@ public class CardRepository extends BaseRepository<Card> {
     /**
      * Der Funktion `getCardsByCategory` wird eine Kategorie übergeben.
      * Es werden alle Karten zurückgegeben, die dieser Kategorie zugeordnet sind.
+     * Gibt es keine Karten in dieser Kategorie, so wird eine leere Liste zurückgegeben.
      *
      * @param category eine Kategorie
-     * @return Set<Card> eine Menge von Karten, die der Kategorie zugeordnet sind.
-     * @throws NoResultException falls keine Karte mit dieser Kategorie existiert
+     * @return Set<CardOverview> eine Menge von Karten-Übersichten, die der Kategorie zugeordnet sind.
      */
-    public List<CardOverview> getCardsByCategory(Category category) throws NoResultException {
+    public List<CardOverview> getCardsByCategory(Category category) {
         return getEntityManager()
                 .createNamedQuery("CardToCategory.allCardsOfCategory", CardOverview.class)
                 .setParameter("category", category)
                 .getResultList();
     }
 
-    public List<CardOverview> findCardsByStudySystem(StudySystem oldStudyS) {
+    /**
+     * Der Funktion `getCardsByCategory` wird ein Kategorie-Name übergeben.
+     * Es werden alle Karten zurückgegeben, die dieser Kategorie zugeordnet sind.
+     * Gibt es keine Karten in dieser Kategorie, so wird eine leere Liste zurückgegeben.
+     *
+     * @param categoryName ein Kategorie-Name für die alle Karten gesucht werden sollen, die diesen haben.
+     * @return Set<CardOverview> eine Menge von Karten-Übersichten, welche der Kategorie zugeordnet sind.
+     */
+    public List<CardOverview> getCardsByCategory(String categoryName) {
+        return getEntityManager()
+                .createNamedQuery("CardOverview.allCardsWithCategoryName", CardOverview.class)
+                .setParameter("categoryName", "%" + categoryName + "%")
+                .getResultList();
+    }
+
+    /**
+     * Holt eine List von Karten-Übersichten aus der Datenbank.
+     * Es wird nach der Zugehörigkeit zu einer angegebenen Lernsystem-Instanz gefiltert.
+     * Ist in dem Lernsystem keine Karte enthalten, wird eine leere Liste zurückgegeben.
+     *
+     * @param studySystem ein Lernsystem
+     * @return List<CardOverview> eine List von Karten-Übersichten, aller Karten im angegeben Lernsystem.
+     */
+    public List<CardOverview> findCardsByStudySystem(StudySystem studySystem) {
         return getEntityManager()
                 .createNamedQuery("CardOverview.allCardsWithStudySystem", CardOverview.class)
-                .setParameter("studySystem", oldStudyS.getUuid())
+                .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }
 
@@ -99,16 +133,24 @@ public class CardRepository extends BaseRepository<Card> {
      * Schau mal ob getDate() in H2 funktioniert, ansonsten lass dir das aktuelle Datum über System.currentTimeMillis ausgeben.
      * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
      *
-     * @param studySystem
-     * @return
+     * @param studySystem das zu durchsuchende Lernsystem.
+     * @return List<Card> eine Liste von Karten, sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
      */
     public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
         return getEntityManager()
                 .createNamedQuery("Card.allCardNextLearnedAtOlderThanNowAscending", Card.class)
-                .setParameter("studySystem", studySystem)
+                .setParameter("now", System.currentTimeMillis()) //TODO in der Query muss wahrscheinlich noch auf das StudySystem gefiltert werden
                 .getResultList();
     }
 
+    /**
+     * Holt eine Liste von Karten aus der Datenbank, welche sich in einem angegebenen Lernsystem befinden.
+     * Es wird nach der benutzerdefinierten Bewertung für die Karten sortiert.
+     * Gibt es keine Karten in dem Lernsystem, so wird eine leere Liste zurückgegeben.
+     *
+     * @param studySystem das zu durchsuchende Lernsystem.
+     * @return List<Card> eine Liste von Karten in dem Lernsystem, sortiert nach ihrer Bewertung.
+     */
     public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
         //TOTEST gib mir alle Karten sortiert nach Ranking fürs nächste Lernen,
         return getEntityManager()
@@ -117,6 +159,13 @@ public class CardRepository extends BaseRepository<Card> {
                 .getResultList();
     }
 
+    /**
+     * Holt alle Karten für ein angegebenes Lernsystem aus der Datenbank.
+     * Gibt es keine Karten in dem Lernsystem, so wird eine leere Liste zurückgegeben.
+     *
+     * @param studySystem das zu durchsuchende Lernsystem.
+     * @return List<Card> eine Liste der Karten in dem Lernsystem.
+     */
     public List<Card> getAllCardsForTimingSystem(StudySystem studySystem) {
         //TOTEST gib mir alle Karten in diesem StudySystem for TimingSystem
         return getEntityManager()
@@ -125,16 +174,23 @@ public class CardRepository extends BaseRepository<Card> {
                 .getResultList();
     }
 
-    public List<Card> getAllCardsForCardOverview(List<CardOverview> uuids){
+    /**
+     * Holt für eine Liste von Karten-Übersichten die entsprechenden Karten aus der Datenbank.
+     *
+     * @param overviews eine Liste von Karten-Übersichten.
+     * @return List<Card> eine Liste von Karten, welche in der Übersicht-Liste referenziert wurden.
+     */
+    public List<Card> getAllCardsForCardOverview(List<CardOverview> overviews){
         return getEntityManager()
                 .createNamedQuery("CardOverview.getCardsForUUIDs",Card.class)
-                .setParameter("uuids",uuids)
+                .setParameter("uuids",overviews)
                 .getResultList();
     }
 
 
     /**
-     * Die Funktion `findCardsByTag` sucht nach Karten, der ein bestimmter Tag zugeordnet ist und gibt diese zurück.
+     * Holt aus der Datenbank eine Liste von Karten, welche einen angegebenen Tag zugeordnet haben.
+     * Gibt es keine Karte mit dem angegebene Tag, so wird eine leere Liste zurückgegeben.
      *
      * @param tag ein Tag für den alle Karten gesucht werden sollen, die diesen haben.
      * @return Set<Card> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
@@ -142,35 +198,23 @@ public class CardRepository extends BaseRepository<Card> {
     public List<CardOverview> findCardsByTag(Tag tag) {
         return getEntityManager()
                 .createNamedQuery("CardOverview.allCardsWithTag", CardOverview.class)
-                .setParameter("tag", tag).getResultList();
+                .setParameter("tag", tag)
+                .getResultList();
     }
 
     /**
-     * Die Funktion `findCardsByTag` sucht nach Karten, die zu einem bestimmten String passen, der wiederum einen Tag
-     * repräsentiert oder einen Teil eines Tag Values.
+     * Holt aus der Datenbank eine Liste von Karten, welche einen angegebenen Tag zugeordnet haben.
+     * Gibt es keine Karte mit dem angegebene Tag, so wird eine leere Liste zurückgegeben.
      *
-     * @param tagName ein Tag für den alle Karten gesucht werden sollen, die diesen haben.
+     * @param tagName Teilstring der einem bestehenden Tag matchen sollte.
      * @return Set<CardOverview> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
      */
     public List<CardOverview> findCardsByTag(String tagName) {
         return getEntityManager()
                 .createNamedQuery("CardOverview.allCardsWithTagName", CardOverview.class)
-                .setParameter("tagName", "%" + tagName + "%").getResultList();
+                .setParameter("tagName", "%" + tagName + "%")
+                .getResultList();
     }
-
-    /**
-     * Die Funktion `getCardsByCategoy` sucht nach Karten, die zu einem bestimmten String passen, der wiederum eine Kategorie
-     * repräsentiert oder einen Teil eines Kategorienamens.
-     *
-     * @param categoryName eine Kategorie für die alle Karten gesucht werden sollen, die diesen haben.
-     * @return Set<CardOverview> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
-     */
-    public List<CardOverview> getCardsByCategory(String categoryName) {
-        return getEntityManager()
-                .createNamedQuery("CardOverview.allCardsWithCategoryName", CardOverview.class)
-                .setParameter("categoryName", "%" + categoryName + "%").getResultList();
-    }
-
 }
 
 

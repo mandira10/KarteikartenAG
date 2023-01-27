@@ -151,3 +151,4 @@ getcategoriestocarderror = An error occurred while searching for categories for 
 getcatoriesempty = No categories available.
 getcatorieserror = An error occurred while retrieving categories.
 getrootcategorieserror = An error occurred while retrieving category hierarchy.
+multiplechoicecarderror = Indexes of correctAnswers has to be within valid range of array 'answers'!

@@ -67,7 +67,7 @@ public class TestDataClass {
         List<Card> randomL = new ArrayList<>();
         //randomL.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[]{}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
         for(int i = 0; i < 100; i++)
-            randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle" + i, false, true));
+            randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle" + i, false));
 
         String testReferences = 
             "ctg;" + randomCategory.getUuid() + ";random random\n" +
@@ -118,11 +118,11 @@ public class TestDataClass {
 
         List<Card> erdkundeL = new ArrayList<>();
         //Karten 2: Erdkunde Fragen MC
-        erdkundeL.add(new MultipleChoiceCard("Welches der folgenden ist das flächenmäßig kleinste Bundesland?", new String[]{"Thüringen", "Sachsen", "Saarland"}, new int[]{2}, "Bundesländer Größe", false));
-        erdkundeL.add(new MultipleChoiceCard("Welcher See liegt nicht in Bayern?", new String[]{"Ammersee", "Schweriner See", "Starnberger See"}, new int[]{0}, "Sees in Bayern", false));
-        erdkundeL.add(new TextCard("Über welche Länge erstreckt sich das Uralgebirge?", "2.400 Kilometer", "Strecke des Uralgebirges", false));
-        erdkundeL.add(new MultipleChoiceCard("Welche dieser Städte liegt am nördlichsten?", new String[]{"Adelaide", "Perth", "Melbourne", "Brisbane"}, new int[]{3}, "Nördlichste Stadt Australiens", false));
-        erdkundeL.add(new TrueFalseCard("Die USA hat insgesamt 50 Bundesstaaten", true, "USA Bundesstaaten", false));
+        erdkundeL.add(new MultipleChoiceCard("Welches der folgenden ist das flächenmäßig kleinste Bundesland?", new String[]{"Thüringen", "Sachsen", "Saarland"}, new int[]{2}, "Bundesländer Größe"));
+        erdkundeL.add(new MultipleChoiceCard("Welcher See liegt nicht in Bayern?", new String[]{"Ammersee", "Schweriner See", "Starnberger See"}, new int[]{0}, "Sees in Bayern"));
+        erdkundeL.add(new TextCard("Über welche Länge erstreckt sich das Uralgebirge?", "2.400 Kilometer", "Strecke des Uralgebirges"));
+        erdkundeL.add(new MultipleChoiceCard("Welche dieser Städte liegt am nördlichsten?", new String[]{"Adelaide", "Perth", "Melbourne", "Brisbane"}, new int[]{3}, "Nördlichste Stadt Australiens"));
+        erdkundeL.add(new TrueFalseCard("Die USA hat insgesamt 50 Bundesstaaten", true, "USA Bundesstaaten"));
 
         for (Card c : erdkundeL) {
             c.setReferences(testReferences);
@@ -169,9 +169,9 @@ public class TestDataClass {
 
         List<Card> spanischL = new ArrayList<>();
         //Karten 2: Spanisch
-        spanischL.add(new AudioCard(null, "Comer", "Comer", "Essen", false, true));
-        spanischL.add(new AudioCard(null, "Trinken", "Trinken", "Beber", false, true));
-        spanischL.add(new AudioCard(null, "Taufen", "Taufen", "bautizar", false, true));
+        spanischL.add(new AudioCard(null, "Comer", "Comer", "Essen", false));
+        spanischL.add(new AudioCard(null, "Trinken", "Trinken", "Beber", false));
+        spanischL.add(new AudioCard(null, "Taufen", "Taufen", "bautizar", false));
 
         for (Card c : spanischL) {
             c.setReferences(testReferences);
@@ -218,10 +218,10 @@ public class TestDataClass {
 
         List<Card> technikL = new ArrayList<>();
         //Karten 3: Technik Quiz
-        technikL.add(new MultipleChoiceCard("Mag sein, dass das iPhone 2007 die Ära der Smartphones erst so richtig begründet hat. Aber das IBM Simon (hier in der Mitte) war tatsächlich das allererste Smartphone mit Touch Display. Wann kam es auf den Markt??", new String[]{"1989", "1994", "2001"}, new int[]{1}, "Erstes Smartphone", false));
-        technikL.add(new MultipleChoiceCard("Google Earth ist weltweit bekannt. Doch eine Berliner Agentur schuf bereits Anfang der Neunziger ein ähnliches Produkt, wie hieß der digitale Globus der Berliner??", new String[]{"Terravision", "Globetrotter", "Digiglobe"}, new int[]{0}, "Das erste Google Earth", false));
-        technikL.add(new TrueFalseCard("Logitech produzierte die erste echte Computer-Maus", false, "Produzent erster Computer-Maus", false));
-        technikL.add(new TrueFalseCard("http steht für Hypertext Transfer Protocol", false, "HTTP", false));
+        technikL.add(new MultipleChoiceCard("Mag sein, dass das iPhone 2007 die Ära der Smartphones erst so richtig begründet hat. Aber das IBM Simon (hier in der Mitte) war tatsächlich das allererste Smartphone mit Touch Display. Wann kam es auf den Markt??", new String[]{"1989", "1994", "2001"}, new int[]{1}, "Erstes Smartphone"));
+        technikL.add(new MultipleChoiceCard("Google Earth ist weltweit bekannt. Doch eine Berliner Agentur schuf bereits Anfang der Neunziger ein ähnliches Produkt, wie hieß der digitale Globus der Berliner??", new String[]{"Terravision", "Globetrotter", "Digiglobe"}, new int[]{0}, "Das erste Google Earth"));
+        technikL.add(new TrueFalseCard("Logitech produzierte die erste echte Computer-Maus", false, "Produzent erster Computer-Maus"));
+        technikL.add(new TrueFalseCard("http steht für Hypertext Transfer Protocol", false, "HTTP"));
 
         for (Card c : technikL) {
             c.setReferences(testReferences);
@@ -267,13 +267,13 @@ public class TestDataClass {
 
         List<Card> zweitausender = new ArrayList<>();
         //Karten zweitausender
-        zweitausender.add(new MultipleChoiceCard("In welchem Jahr kam die erste Harry-Potter-Verfilmung in die Kinos?", new String[]{"2005", "2007", "2001", "2003"}, new int[]{2}, "Erster Harry Potter Film", false));
-        zweitausender.add(new MultipleChoiceCard("Welcher Papst starb 2005", new String[]{"gar keiner", "Johannes Paul", "Benedikt XVI","Johannes Paul II"}, new int[]{3}, "Papst Tod", false));
-        zweitausender.add(new MultipleChoiceCard("Mit welchem Film gewann Peter Jackson 2004 den Oscar für den besten Film?", new String[]{"Mulan", "Der Herr der Ringe: Die Rückkehr des Königs", "Harry Potter und der Stein der Weisen", "Der Hobbit eine unerwartete Reise"}, new int[]{1}, "Peter Jacksons Oscar", false));
-        zweitausender.add(new MultipleChoiceCard("Wo fanden 2008 die Olympischen Sommerspiele statt?", new String[]{"London", "Peking", "Athen", "Sydney"}, new int[]{1}, "Olympia 2088", false));
-        zweitausender.add(new MultipleChoiceCard("Wer wurde am 7. November 2000 zum 43. US-Präsidenten gewählt??", new String[]{"George W.Bush", "Barack Obama", "Donald Trump", "Angela Merkel"}, new int[]{0}, "USA Präsident 2000", false));
-        zweitausender.add(new MultipleChoiceCard("Welches Technik Produkt kam 2007 erstmals auf den Markt?", new String[]{"GoPro", "Drohne", "Sony Ericsson W800", "iPhone"}, new int[]{3}, "Technik Produkt 2007", false));
-        zweitausender.add(new MultipleChoiceCard("Wer gewann 2006 bei der Fußball-WM in Deutschland den Weltmeistertitel??", new String[]{"Deutschland", "Spanien", "Russland", "Italien"}, new int[]{3}, "Fußball WM Deutschland", false));
+        zweitausender.add(new MultipleChoiceCard("In welchem Jahr kam die erste Harry-Potter-Verfilmung in die Kinos?", new String[]{"2005", "2007", "2001", "2003"}, new int[]{2}, "Erster Harry Potter Film"));
+        zweitausender.add(new MultipleChoiceCard("Welcher Papst starb 2005", new String[]{"gar keiner", "Johannes Paul", "Benedikt XVI","Johannes Paul II"}, new int[]{3}, "Papst Tod"));
+        zweitausender.add(new MultipleChoiceCard("Mit welchem Film gewann Peter Jackson 2004 den Oscar für den besten Film?", new String[]{"Mulan", "Der Herr der Ringe: Die Rückkehr des Königs", "Harry Potter und der Stein der Weisen", "Der Hobbit eine unerwartete Reise"}, new int[]{1}, "Peter Jacksons Oscar"));
+        zweitausender.add(new MultipleChoiceCard("Wo fanden 2008 die Olympischen Sommerspiele statt?", new String[]{"London", "Peking", "Athen", "Sydney"}, new int[]{1}, "Olympia 2088"));
+        zweitausender.add(new MultipleChoiceCard("Wer wurde am 7. November 2000 zum 43. US-Präsidenten gewählt??", new String[]{"George W.Bush", "Barack Obama", "Donald Trump", "Angela Merkel"}, new int[]{0}, "USA Präsident 2000"));
+        zweitausender.add(new MultipleChoiceCard("Welches Technik Produkt kam 2007 erstmals auf den Markt?", new String[]{"GoPro", "Drohne", "Sony Ericsson W800", "iPhone"}, new int[]{3}, "Technik Produkt 2007"));
+        zweitausender.add(new MultipleChoiceCard("Wer gewann 2006 bei der Fußball-WM in Deutschland den Weltmeistertitel??", new String[]{"Deutschland", "Spanien", "Russland", "Italien"}, new int[]{3}, "Fußball WM Deutschland"));
 
         for (Card c : zweitausender) {
             c.setReferences(testReferences);
@@ -319,12 +319,12 @@ public class TestDataClass {
 
         List<Card> serien = new ArrayList<>();
         //Karten zweitausender
-        serien.add(new TrueFalseCard("Homer ist der Name des Familienvaters bei Simpson",true,"Die Simpsons",false));
-        serien.add(new TrueFalseCard("Neil Patrick Harris spielt in HIMYM den Frauenhelden Marshall",false,"HIMYM",false));
-        serien.add(new TrueFalseCard("Der Königserbe aus Staffel 1 GoT hieß Joffrey",true,"GoT",false));
-        serien.add(new TrueFalseCard("Walter White entwickelte sich in «Breaking Bad» vom krebskranken Chemie-Lehrer zum gefährlichen Drogen-Baron. Er nannte sich zum Schluss Goldberg",false,"Breaking Bad",false));
-        serien.add(new TrueFalseCard("Sarah Jessica Parker spielt Carrie in Sex and the City",true,"SATC",false));
-        serien.add(new TrueFalseCard("Chandra Wilson spielt in Greys Anatomy Arizona Robbins",false,"Greys Anatomy",false));
+        serien.add(new TrueFalseCard("Homer ist der Name des Familienvaters bei Simpson",true,"Die Simpsons"));
+        serien.add(new TrueFalseCard("Neil Patrick Harris spielt in HIMYM den Frauenhelden Marshall",false,"HIMYM"));
+        serien.add(new TrueFalseCard("Der Königserbe aus Staffel 1 GoT hieß Joffrey",true,"GoT"));
+        serien.add(new TrueFalseCard("Walter White entwickelte sich in «Breaking Bad» vom krebskranken Chemie-Lehrer zum gefährlichen Drogen-Baron. Er nannte sich zum Schluss Goldberg",false,"Breaking Bad"));
+        serien.add(new TrueFalseCard("Sarah Jessica Parker spielt Carrie in Sex and the City",true,"SATC"));
+        serien.add(new TrueFalseCard("Chandra Wilson spielt in Greys Anatomy Arizona Robbins",false,"Greys Anatomy"));
 
         for (Card c : serien) {
             c.setReferences(testReferences);

@@ -74,7 +74,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                 add(catToAdd);
             }
         };
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2");
         ArrayList<Category> categoriesToReturn = new ArrayList<>();
 
         //Karte hat noch keine Kategorien
@@ -104,7 +104,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                add(catToAdd1);
             }
         };
-        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2",false);
+        Card card1  = new TextCard("Testfrage","Testantwort","Testtitel2");
         ArrayList<Category> categoriesToReturn = new ArrayList<>();
 
         //Karte hat noch keine Kategorien
@@ -139,7 +139,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
             }
         };
 
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
 
         //Die zugehörigen Kategorien sind die gleichen wie die hinzugefügten
         //kein Handling nötig
@@ -175,7 +175,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                 add(exCat2);
             }
         };
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
         //Bereits gespeicherte Kategorien zu der Karte werden returned
         when(categoryRepMock.getCategoriesToCard(card1)).thenReturn(existingCategories);
         //Die neuen Kategorien sind noch nicht in DB gespeichert, die alten werden gar nicht gesucht
@@ -218,7 +218,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                 add(exCat2);
             }
         };
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
         //Bereits gespeicherte Kategorien zu der Karte
         when(categoryRepMock.getCategoriesToCard(card1)).thenReturn(existingCategories);
         //Manuell angelegte cardToCategories für die zu löschenden Kategorien
@@ -260,7 +260,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
                add(newCat2);
             }
         };
-        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2", false);
+        Card card1 = new TextCard("Testfrage1", "Testantwort1", "Testtitel2");
 
         //Bereits gespeicherte Kategorien zu der Karte
         when(categoryRepMock.getCategoriesToCard(card1)).thenReturn(existingCategories);
