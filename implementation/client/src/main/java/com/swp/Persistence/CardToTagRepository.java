@@ -28,7 +28,7 @@ public class CardToTagRepository extends BaseRepository<CardToTag> {
      *
      * @param c eine Karte
      * @param t ein Tag
-     * @return eine Karte-zu-Tag Verbindung
+     * @return eine Karte-zu-Tag-Verbindung
      * @throws NoResultException falls diese Verbindung nicht existiert.
      */
     public CardToTag findSpecificCardToTag(Card c, Tag t) throws NoResultException {

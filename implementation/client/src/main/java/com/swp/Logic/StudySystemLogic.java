@@ -11,6 +11,7 @@ import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToBoxRepository;
 import com.swp.Persistence.StudySystemRepository;
 import jakarta.persistence.NoResultException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 
+@Slf4j
 public class StudySystemLogic extends BaseLogic<StudySystem>{
 
 
@@ -238,7 +240,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
     /**
-     * Wird verwendet, um Am Ende der Test Liste der Karten leer zu machen und Database zu aktualisieren
+     * Wird verwendet, um am Ende der Test Liste der Karten leer zu machen und Database zu aktualisieren
      * 
      * @param studySystem Das StudySystem, das benötigt wird.
      * @return ResultPoint
@@ -255,7 +257,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     /**
      * Wird verwendet, um alle Karten in diesem Studiensystem zu erhalten. 
      * @param studySystem Das StudySystem, das benötigt wird.
-     * @return Liste von CardOverView,die zu StudySystem gehört
+     * @return Liste von CardOverView, die zu StudySystem gehört
      */
     public List<CardOverview> getAllCardsInStudySystem(StudySystem studySystem) {
        return  execTransactional(() -> cardRepository.findCardsByStudySystem(studySystem));
@@ -338,7 +340,9 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             throw new IllegalStateException("Karte existiert nicht");
         }
         execTransactional(() -> {
-            //TODO: Card2Box Removal
+            log.info("Lösche alle Card To Boxes zum StudySystem");
+            cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForStudySystem(studySystem));
+            log.info("Lösche StudySystem");
             studySystemRepository.delete(studySystem);
             return null;
         });
@@ -374,10 +378,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public void removeCardsFromStudySystem(List<CardOverview> cards, StudySystem studySystem) 
     {
+        List<Card> cards1 = getCardsForCardOverview(cards);
         execTransactional(() -> {
-            //TODO
-            //for(CardOverview c : cards)
-                //cardToBoxRepository.delete(cardToBoxRepository.getSpecific(c, studySystem));
+            for(Card c: cards1)
+                cardToBoxRepository.delete(cardToBoxRepository.getSpecific(c, studySystem));
             return null; // Lambda braucht immer einen return
         });
     }

@@ -9,6 +9,7 @@ import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToCategoryRepository;
+import com.swp.Persistence.CategoryHierarchyRepository;
 import com.swp.Persistence.CategoryRepository;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ public class CategoryLogic extends BaseLogic<Category> {
     private final CategoryRepository categoryRepository = CategoryRepository.getInstance();
     private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
 
+    private final CategoryHierarchyRepository categoryHierarchyRepository = CategoryHierarchyRepository.getInstance();
 
     private static CategoryLogic categoryLogic;
 
@@ -127,6 +129,7 @@ public class CategoryLogic extends BaseLogic<Category> {
         execTransactional(() -> {
             cardToCategoryRepository
                     .delete(cardToCategoryRepository.getAllC2CForCategory(category));
+            categoryHierarchyRepository.delete(categoryHierarchyRepository.getAllChildrenAndParentsForCategory(category));
             categoryRepository.delete(category);
             //TODO alle Parents und Childs der Kategorie müssen noch gelöscht werden generell oder? TODO in CategoryRepo
             return true;
@@ -289,10 +292,10 @@ public class CategoryLogic extends BaseLogic<Category> {
             for (Category c : catOld) {
                 if (!catNew.contains(c))
                   if (!child) {
-                        categoryRepository.deleteCategoryHierarchy(c, category);
+                        categoryHierarchyRepository.deleteCategoryHierarchy(c, category);
                     }
                 else  {
-                        categoryRepository.deleteCategoryHierarchy(category, c);
+                        categoryHierarchyRepository.deleteCategoryHierarchy(category, c);
                     }
             }
             return null;
@@ -346,11 +349,11 @@ public class CategoryLogic extends BaseLogic<Category> {
                     Category cat = checkAndFindOrCreateCategory(c);
                     if(!child) {
                         log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
-                        categoryRepository.saveCategoryHierarchy(cat, category);
+                        categoryHierarchyRepository.saveCategoryHierarchy(cat, category);
                 }
                      else  {
                         log.info("Kategorie{} wird als Children zur KategorieHierarchie für Parent{} hinzugefügt", c.getName(), category.getName());
-                        categoryRepository.saveCategoryHierarchy(category, cat);
+                        categoryHierarchyRepository.saveCategoryHierarchy(category, cat);
                     }
                 }
             }
