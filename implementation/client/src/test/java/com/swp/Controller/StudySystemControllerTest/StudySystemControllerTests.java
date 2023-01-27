@@ -677,7 +677,7 @@ public class StudySystemControllerTests {
         StudySystem studySystem = new StudySystem() {
         };
         List<Card> card = new ArrayList<>();
-        doNothing().when(studySystemLogic).moveAllCardsForDeckToFirstBox(card,studySystem);
+        when(studySystemLogic.moveAllCardsForDeckToFirstBox(card,studySystem)).thenReturn(new ArrayList<>());
 
         studySystemController.moveAllCardsForDeckToFirstBox(card,studySystem, new SingleDataCallback<Boolean>() {
             @Override
@@ -994,7 +994,7 @@ public class StudySystemControllerTests {
         StudySystem studySystem = new StudySystem() {
         };
         List<CardOverview> list = new ArrayList<>();
-        doNothing().when(studySystemLogic).addCardsToDeck(list,studySystem);
+        when(studySystemLogic.addCardsToDeck(list,studySystem)).thenReturn(new ArrayList<Card>());
 
         studySystemController.addCardsToStudySystem(list,studySystem, new SingleDataCallback<String>() {
             @Override

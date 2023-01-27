@@ -931,7 +931,7 @@ public class CategoryControllerTests {
         final String[] actual = new String[1];
         categoryController.editCategoryHierarchy(cat,parents,childs, new SingleDataCallback<>() {
             @Override
-            public void onSuccess(Boolean data) {
+            public void onSuccess(String data) {
 
             }
 
@@ -951,7 +951,7 @@ public class CategoryControllerTests {
 
         categoryController.editCategoryHierarchy(cat,parents,childs, new SingleDataCallback<>() {
             @Override
-            public void onSuccess(Boolean data) {
+            public void onSuccess(String data) {
             }
 
             @Override
