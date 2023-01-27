@@ -1,6 +1,7 @@
 package com.swp.Persistence;
 
 import com.swp.DataModel.*;
+import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
@@ -138,11 +139,11 @@ public class CardRepository extends BaseRepository<Card> {
      * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
      *
      * @param studySystem das zu durchsuchende Lernsystem.
-     * @return List<Card> eine Liste von Karten, sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
+     * @return List<BoxToCard> eine Liste von Karten (?), sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
      */
     public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
         return getEntityManager()
-                .createNamedQuery("Card.allCardNextLearnedAtOlderThanNowAscending", Card.class)
+                .createNamedQuery("BoxToCard.allCardNextLearnedAtOlderThanNowAscending", Card.class)
                 .setParameter("now", System.currentTimeMillis()) //TODO in der Query muss wahrscheinlich noch auf das StudySystem gefiltert werden
                 .getResultList();
     }
@@ -156,9 +157,9 @@ public class CardRepository extends BaseRepository<Card> {
      * @return List<Card> eine Liste von Karten in dem Lernsystem, sortiert nach ihrer Bewertung.
      */
     public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
-        //TOTEST gib mir alle Karten sortiert nach Ranking fürs nächste Lernen, //TODO: wir haben zwei Ratingmöglichkeiten für Karten, das ist grad die falsche die verwendet wird
+        //TOTEST gib mir alle Karten sortiert nach Rating fürs nächste Lernen, //TODO: wir haben zwei Ratingmöglichkeiten für Karten, das ist grad die falsche die verwendet wird
         return getEntityManager()
-                .createNamedQuery("Card.allCardsSortedByRanking", Card.class)
+                .createNamedQuery("Card.allCardsSortedByRating", Card.class)
                 .setParameter("studySystem", studySystem)
                 .getResultList();
     }

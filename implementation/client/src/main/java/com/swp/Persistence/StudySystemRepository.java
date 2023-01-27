@@ -41,11 +41,11 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
 
     }
 
-    /**
-     * Holt alle Lernsysteme aus der Datenbank und gibt diese, sortiert nach Namen, in einer Liste zurück.
-     *
-     * @return eine Liste von Lernsystemen
-     */
+    public void addCardToBox(BoxToCard boxToCard){
+        getEntityManager().persist(boxToCard);
+    }
+
+
     public List<StudySystem> getStudySystems() {
         return getEntityManager().createQuery("SELECT s FROM StudySystem s ORDER BY s.name",StudySystem.class).getResultList();
     }
