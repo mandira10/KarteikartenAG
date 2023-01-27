@@ -161,7 +161,7 @@ public class CardOverviewPage extends Page
             {  
                 CardController.getInstance().deleteCards(pCardList.getSelection(), new SingleDataCallback<Boolean>() {
                     @Override
-                    public void onSuccess(Boolean data) {}
+                    public void onSuccess(Boolean data) {loadCards(0,30);}
 
                     @Override
                     public void onFailure(String msg) {

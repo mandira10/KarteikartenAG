@@ -15,6 +15,8 @@ import java.util.UUID;
         query = "SELECT c.child FROM CategoryHierarchy c WHERE c.parent = :parent")
 @NamedQuery(name = "CategoryH.findSpecificCH",
         query = "SELECT ch FROM CategoryHierarchy ch WHERE ch.parent = :parent AND ch.child = :child")
+@NamedQuery(name = "CategoryH.getAllCHForCategory",
+        query = "SELECT ch FROM CategoryHierarchy ch WHERE ch.parent = :category OR ch.child = :category")
 public class CategoryHierarchy implements Serializable {
     /**
      * Zugehöriges Child

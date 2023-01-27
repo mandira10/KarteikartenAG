@@ -67,32 +67,7 @@ public class CategoryRepository extends BaseRepository<Category> {
                 .getResultList();
     }
 
-    /**
-     * Speichert für eine angegebene Kind-Kategorie und einer angegebenen Eltern-Kategorie
-     * die entsprechende hierarchische Beziehung zwischen diesen beiden Kategorien in der Datenbank ab.
-     *
-     * @param child  eine untergeordnete Kategorie
-     * @param parent eine übergeordnete Kategorie
-     */
-    public void saveCategoryHierarchy(Category child, Category parent) {
-        getEntityManager().persist(new CategoryHierarchy(child, parent));
-    }
 
-    /**
-     * Löscht eine Eltern-Kind-Verbindung zwischen der übergebenen Eltern- und Kind-Kategorie
-     * aus der Datenbank.
-     *
-     * @param child die Kind-Kategorie, welche nicht mehr der Eltern-Kategorie untergeordnet sein soll.
-     * @param parent die Eltern-Kategorie, welche nicht mehr die Kind-Kategorie untergeordnet haben soll.
-     */
-    public void deleteCategoryHierarchy(Category child, Category parent) {
-        CategoryHierarchy ch = getEntityManager()
-                .createNamedQuery("CategoryH.findSpecificCH", CategoryHierarchy.class)
-                .setParameter("child", child)
-                .setParameter("parent", parent)
-                .getSingleResult();
-        getEntityManager().remove(ch);
-    }
 
     /**
      * Holt für eine angegebene Kategorie eine Liste aller untergeordneten Kategorien aus der Datenbank.
@@ -133,4 +108,8 @@ public class CategoryRepository extends BaseRepository<Category> {
       .createQuery("SELECT c  FROM Category c WHERE NOT EXISTS (SELECT ch.child FROM CategoryHierarchy ch WHERE ch.child = c.uuid)", Category.class)
                 .getResultList();
     }
+
+
+
+
 }

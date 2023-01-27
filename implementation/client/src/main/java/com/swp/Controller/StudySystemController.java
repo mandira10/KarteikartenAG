@@ -7,9 +7,11 @@ import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.Logic.StudySystemLogic;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
+import org.h2.util.StringUtils;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class StudySystemController {
@@ -342,11 +344,18 @@ public class StudySystemController {
      * @param studySystem           Das StudySystem, das benötigt wird.
      * @param singleDataCallback    wird verwendet, um mögliche Fehler abzufangen. 
      */
-    public void addCardsToStudySystem(List<CardOverview> cards, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
+    public void addCardsToStudySystem(List<CardOverview> cards, StudySystem studySystem, SingleDataCallback<String> singleDataCallback) {
         //new Thread(() -> {
             try {
-                studySystemLogic.addCardsToDeck(cards, studySystem);
-                singleDataCallback.onSuccess(true);
+                List<Card> existingCards = studySystemLogic.addCardsToDeck(cards, studySystem);
+                if(!existingCards.isEmpty()){
+                    String result = existingCards.stream().map(Card::getTitle)
+                            .collect(Collectors.joining(","));
+                    singleDataCallback.onSuccess("Karten bereits in Deck enthalten, nicht hinzugefügt:" + result);
+                }
+                else {
+                    singleDataCallback.onSuccess("");
+                }
             } catch (Exception ex) {
                 log.error(ex.getMessage());
                 singleDataCallback.onFailure("Ein Fehler ist aufgetreten");

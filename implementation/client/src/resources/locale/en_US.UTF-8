@@ -153,3 +153,4 @@ getcatoriesempty = No categories available.
 getcatorieserror = An error occurred while retrieving categories.
 getrootcategorieserror = An error occurred while retrieving category hierarchy.
 multiplechoicecarderror = Indexes of correctAnswers has to be within valid range of array 'answers'!
+selfreferenceerror = Category to edit must not be self-referenced! Not added!

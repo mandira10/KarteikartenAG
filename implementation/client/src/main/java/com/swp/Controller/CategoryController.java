@@ -57,12 +57,19 @@ public class CategoryController {
      * @param children  die Liste der Children Kategorien für diese Kategorie
      * @param singleDataCallback  Callback für die GUI, gibt bei Fehler die Exception message weiter
      */
-    public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<Boolean> singleDataCallback) {
+    public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<String> singleDataCallback) {
        //  new Thread(() -> {
             try {
-                categoryLogic.editCategoryHierarchy(category, parents, children);
-                singleDataCallback.onSuccess(true);
-            } catch (Exception ex) {
+                if(categoryLogic.editCategoryHierarchy(category, parents, children)) //Selfreference?
+                singleDataCallback.onSuccess(Locale.getCurrentLocale().getString("selfreferenceerror"));
+
+                else
+                singleDataCallback.onSuccess("");
+            }
+            catch(IllegalArgumentException ex){
+                singleDataCallback.onFailure(ex.getMessage());
+            }
+            catch (Exception ex) {
                 log.error("Beim Updaten der Kategorie ist der Fehler {} aufgetreten", ex.getMessage());
                 singleDataCallback.onFailure(Locale.getCurrentLocale().getString("categoryhierarchyupdateerror"));
             }
