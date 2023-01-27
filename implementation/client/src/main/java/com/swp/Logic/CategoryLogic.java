@@ -183,7 +183,13 @@ public class CategoryLogic extends BaseLogic<Category> {
         return execTransactional(() -> cardRepository.getCardsByCategory(category));
     }
 
-    public List<CardOverview> getCardsInCategories(List<Category> categories) {
+    /**
+     * Holt für jede Kategorie, aus der übergebenen Liste, jeweils alle Karten und sammelt sie in einer Liste.
+     * @param categories eine Liste von Kategorien.
+     * @return eine Liste von allen Karten, die den übergebenen Kategorien zugeordnet sind.
+     * @throws IllegalStateException falls eine der übergebenen Kategorien `null` ist.
+     */
+    public List<CardOverview> getCardsInCategories(List<Category> categories) throws IllegalStateException {
         List<CardOverview> cardsToCategories = new ArrayList<>();
         for (Category c : categories) {
             if (c == null) {
@@ -191,6 +197,7 @@ public class CategoryLogic extends BaseLogic<Category> {
             }
             cardsToCategories.addAll(getCardsInCategory(c));
         }
+        // Die zurückgegebene Liste kann Karten mehrfach enthalten, wenn sie mehreren Kategorien zugeordnet war.
         return cardsToCategories;
     }
 
