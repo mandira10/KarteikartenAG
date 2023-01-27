@@ -139,11 +139,11 @@ public class CardRepository extends BaseRepository<Card> {
      * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
      *
      * @param studySystem das zu durchsuchende Lernsystem.
-     * @return List<Card> eine Liste von Karten, sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
+     * @return List<BoxToCard> eine Liste von Karten (?), sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
      */
     public List<BoxToCard> getAllCardsNeededToBeLearned(StudySystem studySystem) {
         return getEntityManager()
-                .createNamedQuery("Card.allCardNextLearnedAtOlderThanNowAscending", BoxToCard.class)
+                .createNamedQuery("BoxToCard.allCardNextLearnedAtOlderThanNowAscending", BoxToCard.class)
                 .setParameter("now", System.currentTimeMillis()) //TODO in der Query muss wahrscheinlich noch auf das StudySystem gefiltert werden
                 .getResultList();
     }
