@@ -14,6 +14,7 @@ import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
+import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToBoxRepository;
@@ -27,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.joor.Reflect.on;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -163,6 +164,73 @@ public class StudySystemLogicTest {
         assertEquals(boxToCard.getStudySystemBox(),studySystemBox3);
 
     }
+
+    @Test
+    public void updateStudySystemTestNull(){
+        StudySystem studySystem = new StudySystem() {
+        };
+        StudySystem leer = null;
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            studySystemLogic.updateStudySystemData(studySystem,leer,true);
+        });
+
+        String expectedMessage = "New Study System can't be null";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+
+    }
+
+    @Test
+    public void updateStudySystemTestNeu(){
+       /* StudySystem oldStudySystem = new StudySystem() {
+        };
+        StudySystem newStudySystem = new StudySystem() {
+        };
+
+       doNothing().when(studySystemRepository).save(newStudySystem);
+       studySystemLogic.updateStudySystemData(oldStudySystem,newStudySystem,true);
+
+        */
+    }
+
+
+    @Test
+    public void giveAnswerTestTiming(){
+        StudySystem studySystem = new StudySystem() {
+        };
+        studySystem.setType(StudySystem.StudySystemType.TIMING);
+        studySystem.setTrueAnswerCount(0);
+        studySystemLogic.giveAnswer(studySystem,true);
+        assertEquals(studySystem.getTrueAnswerCount(),1);
+    }
+
+    @Test
+    public void giveAnswerTestVote(){
+        StudySystem studySystem = new StudySystem() {
+        };
+        studySystem.setType(StudySystem.StudySystemType.VOTE);
+        studySystem.setTrueAnswerCount(0);
+        studySystemLogic.giveAnswer(studySystem,true);
+        assertEquals(studySystem.getTrueAnswerCount(),1);
+    }
+
+    @Test
+    public void giveAnswerTestCustom(){
+        StudySystem studySystem = new StudySystem() {
+        };
+        studySystem.setType(StudySystem.StudySystemType.CUSTOM);
+        studySystem.setTrueAnswerCount(0);
+        studySystemLogic.giveAnswer(studySystem,true);
+        assertEquals(studySystem.getTrueAnswerCount(),1);
+    }
+
+
+
+
+
+
+
 
 
 
