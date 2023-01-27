@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static org.joor.Reflect.on;
@@ -40,10 +41,10 @@ import static org.mockito.Mockito.*;
 public class StudySystemLogicTest {
 
     private StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
-    private StudySystemRepository studySystemRepository = StudySystemRepository.getInstance();
-    private CardRepository cardRepository = CardRepository.getInstance();
-    private CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
-    private List<Card> testingBoxCards = studySystemLogic.testingBoxCards;
+    private StudySystemRepository studySystemRepository;
+    private CardRepository cardRepository;
+    private CardToBoxRepository cardToBoxRepository;
+    private List<Card> testingBoxMockCards ;
 
     private Locale locale = new Locale("German", "de");
     private int i;
@@ -55,8 +56,6 @@ public class StudySystemLogicTest {
         studySystemRepository = mock(StudySystemRepository.class);
         cardRepository = mock(CardRepository.class);
         cardToBoxRepository = mock(CardToBoxRepository.class);
-        testingBoxCards = mock(List.class);
-        on(studySystemLogic).set("testingBoxCards",testingBoxCards);
         on(studySystemLogic).set("cardToBoxRepository",cardToBoxRepository);
         on(studySystemLogic).set("cardRepository",cardRepository);
         on(studySystemLogic).set("studySystemRepository",studySystemRepository);
@@ -245,9 +244,9 @@ public class StudySystemLogicTest {
         list.add(card4);
         StudySystem studySystem = new StudySystem() {
         };
-        studySystemLogic.testingBoxCards = list;
         studySystem.setType(StudySystem.StudySystemType.LEITNER);
-        studySystemLogic.setTestingBoxCards(list);
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         StudySystemBox studySystemBox = new StudySystemBox();
         StudySystemBox studySystemBox2 = new StudySystemBox();
         StudySystemBox studySystemBox3 = new StudySystemBox();
@@ -284,7 +283,8 @@ public class StudySystemLogicTest {
         };
         studySystemLogic.testingBoxCards = list;
         studySystem.setType(StudySystem.StudySystemType.LEITNER);
-        studySystemLogic.setTestingBoxCards(list);
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         StudySystemBox studySystemBox = new StudySystemBox();
         StudySystemBox studySystemBox2 = new StudySystemBox();
         StudySystemBox studySystemBox3 = new StudySystemBox();
@@ -321,9 +321,9 @@ public class StudySystemLogicTest {
         list.add(card4);
         StudySystem studySystem = new StudySystem() {
         };
-        studySystemLogic.testingBoxCards = list;
         studySystem.setType(StudySystem.StudySystemType.LEITNER);
-        studySystemLogic.setTestingBoxCards(list);
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         StudySystemBox studySystemBox = new StudySystemBox();
         StudySystemBox studySystemBox2 = new StudySystemBox();
         StudySystemBox studySystemBox3 = new StudySystemBox();
@@ -360,7 +360,8 @@ public class StudySystemLogicTest {
         };
         studySystemLogic.testingBoxCards = list;
         studySystem.setType(StudySystem.StudySystemType.LEITNER);
-        studySystemLogic.setTestingBoxCards(list);
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         StudySystemBox studySystemBox = new StudySystemBox();
         StudySystemBox studySystemBox2 = new StudySystemBox();
         StudySystemBox studySystemBox3 = new StudySystemBox();
@@ -386,9 +387,9 @@ public class StudySystemLogicTest {
 
     @Test
     public void getNextCardTest(){
-        /*StudySystem studySystem = new StudySystem() {
+        StudySystem studySystem = new StudySystem() {
         };
-        studySystemLogic.setTestingBoxCards(new ArrayList<>());
+
         studySystem.setType(StudySystem.StudySystemType.TIMING);
         List<Card> list = new ArrayList<>();
         Card card = new TrueFalseCard();
@@ -399,13 +400,12 @@ public class StudySystemLogicTest {
         list.add(card2);
         list.add(card3);
         list.add(card4);
-        studySystemLogic.setTestingBoxCards(list);
-        doNothing().when(cardRepository).getAllCardsForTimingSystem(any(StudySystem.class));
-
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         Card test = studySystemLogic.getNextCard(studySystem);
-        assertEquals(list,testingBoxCards);
+        assertEquals(test,card);
 
-         */
+
     }
 
 

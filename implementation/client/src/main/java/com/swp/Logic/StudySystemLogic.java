@@ -39,9 +39,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         return studySystemLogic;
     }
 
-    @Getter
-    @Setter
-    //Getter Setter für Testzwecke
+
+
     public List<Card> testingBoxCards; //All current cards that need to be learned
 
 
