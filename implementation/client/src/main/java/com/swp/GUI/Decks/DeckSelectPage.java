@@ -84,9 +84,11 @@ public class DeckSelectPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                StudySystemController.getInstance().addCardsToStudySystem(alCards, deck, new SingleDataCallback<Boolean>() {
+                StudySystemController.getInstance().addCardsToStudySystem(alCards, deck, new SingleDataCallback<String>() {
                     @Override
-                    public void onSuccess(Boolean data) {
+                    public void onSuccess(String data) {
+                        if (data != "")
+                            NotificationGUI.addNotification(data, Notification.NotificationType.INFO, 10);
 
                     }
 
@@ -95,7 +97,7 @@ public class DeckSelectPage extends Page
                         NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
                     }
                 });
-                PageManager.viewLastPage();
+                PageManager.viewLastPage(); //TODO unselect card??
             }
         });
     }

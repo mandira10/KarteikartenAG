@@ -11,6 +11,8 @@ import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
 import com.swp.DataModel.Tag;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Logic.StudySystemLogic;
 
@@ -41,13 +43,13 @@ public class TestDataClass {
                 add(spanischCategory);
                 add(erdkundeCategory);
             }
-        }, new SingleDataCallback<Boolean>() {
+        }, new SingleDataCallback<String>() {
             @Override
             public void onFailure(String msg) {
             }
 
             @Override
-            public void onSuccess(Boolean data) {
+            public void onSuccess(String data) {
             }
         });
 

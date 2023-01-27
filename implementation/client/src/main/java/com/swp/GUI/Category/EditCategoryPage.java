@@ -157,8 +157,12 @@ public class EditCategoryPage extends Page
             @Override public void onSuccess(Boolean data) 
             {
                 CategoryController.getInstance().editCategoryHierarchy(pNewCategory, aParents, aChildren, new SingleDataCallback<>() {
-                    @Override public void onSuccess(Boolean data) 
+                    @Override public void onSuccess(String data)
                     {
+                        if(data != "")
+                            NotificationGUI.addNotification(data, Notification.NotificationType.INFO,10);
+
+
                         PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW);
                     }
         

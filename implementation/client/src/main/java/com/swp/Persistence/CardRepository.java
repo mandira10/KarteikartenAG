@@ -23,20 +23,6 @@ public class CardRepository extends BaseRepository<Card> {
     }
 
     /**
-     * Holt eine Liste von Karten, alphabetisch sortiert nach dem Titel, aus der Datenbank.
-     *
-     * @param from int: gibt an wie viele Zeilen des Ergebnisses übersprungen werden.
-     * @param to   int: gibt an bis zu welcher Zeile die Ergebnisse geholt werden sollen.
-     * @return List<Card> eine Liste von Karten.
-     * @throws AssertionError falls der angegebene Bereich (from, to) ungültig ist.
-     */
-    public List<Card> getCardRange(final int from, final int to) throws AssertionError {
-        assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
-        return getEntityManager().createQuery("SELECT c FROM Card c ORDER BY c.title", Card.class)
-                .setFirstResult(from).setMaxResults(to - from).getResultList();
-    }
-
-    /**
      * Holt eine Liste von Karten in sortierter Reihenfolge aus der CardOverview.
      * Diese Overview ist eine View über mehrere Tabellen.
      * Sie enthält je Karte noch weitere Informationen, wie die Anzahl der
@@ -129,6 +115,24 @@ public class CardRepository extends BaseRepository<Card> {
     }
 
     /**
+     * Holt eine List von Karten-Übersichten aus der Datenbank.
+     * Es wird nach der Zugehörigkeit zu einer angegebenen Lernsystem-Instanz gefiltert.
+     * Ist in dem Lernsystem keine Karte enthalten, wird eine leere Liste zurückgegeben.
+     *
+     * @param studySystem ein Lernsystem
+     * @return List<CardOverview> eine List von Karten-Übersichten, aller Karten im angegeben Lernsystem.
+     * @throws NoResultException falls keine Karte gefunden wurde
+     */
+    public Card findCardByStudySystem(StudySystem studySystem, Card card) throws NoResultException{
+        return getEntityManager()
+                .createNamedQuery("Card.ByStudySystem", Card.class)
+                .setParameter("studySystem", studySystem.getUuid())
+                .setParameter("card", card)
+                .getSingleResult();
+    }
+
+
+    /**
      * TOTEST EFE Hier sollen alle Karten zurückgegeben werden, die in der untersten Box sind bzw. alle, die vom Lerndatum dran sind (CardToBox) learnedAt in SORTIERTER FORM!
      * Schau mal ob getDate() in H2 funktioniert, ansonsten lass dir das aktuelle Datum über System.currentTimeMillis ausgeben.
      * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
@@ -152,7 +156,7 @@ public class CardRepository extends BaseRepository<Card> {
      * @return List<Card> eine Liste von Karten in dem Lernsystem, sortiert nach ihrer Bewertung.
      */
     public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
-        //TOTEST gib mir alle Karten sortiert nach Ranking fürs nächste Lernen,
+        //TOTEST gib mir alle Karten sortiert nach Ranking fürs nächste Lernen, //TODO: wir haben zwei Ratingmöglichkeiten für Karten, das ist grad die falsche die verwendet wird
         return getEntityManager()
                 .createNamedQuery("Card.allCardsSortedByRanking", Card.class)
                 .setParameter("studySystem", studySystem)

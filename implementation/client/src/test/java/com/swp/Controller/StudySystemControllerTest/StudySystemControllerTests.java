@@ -974,10 +974,10 @@ public class StudySystemControllerTests {
         doThrow(new RuntimeException()).when(studySystemLogic).addCardsToDeck(list,studySystem);
         String expected = "Ein Fehler ist aufgetreten";
         final String[] actual = new String[1];
-        studySystemController.addCardsToStudySystem(list,studySystem, new SingleDataCallback<Boolean>() {
+        studySystemController.addCardsToStudySystem(list,studySystem, new SingleDataCallback<String>() {
             @Override
-            public void onSuccess(Boolean  data) {
-
+            public void onSuccess(String data) {
+            //TODO Mert bitte einmal die beiden Nachrichten prüfen :)
             }
 
             @Override
@@ -996,9 +996,9 @@ public class StudySystemControllerTests {
         List<CardOverview> list = new ArrayList<>();
         doNothing().when(studySystemLogic).addCardsToDeck(list,studySystem);
 
-        studySystemController.addCardsToStudySystem(list,studySystem, new SingleDataCallback<Boolean>() {
+        studySystemController.addCardsToStudySystem(list,studySystem, new SingleDataCallback<String>() {
             @Override
-            public void onSuccess(Boolean  data) {
+            public void onSuccess(String  data) {
             }
 
             @Override
