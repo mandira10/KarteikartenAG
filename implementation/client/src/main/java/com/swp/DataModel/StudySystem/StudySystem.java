@@ -41,8 +41,17 @@ public abstract class StudySystem implements Serializable
 
     protected double progress;
 
+    protected String description;
+
     /**
-     * Enum für die CardOrder des Decks
+     * Bezeichnung des StudySystems/Decks
+     */
+    @Column(unique = true)
+    private String name;
+
+
+    /**
+     * Enum für die initiale Ordnung des Decks
      */
     public enum CardOrder
     {
@@ -52,20 +61,12 @@ public abstract class StudySystem implements Serializable
     }
 
     /**
-     * Bezeichnung des StudySystems/Decks
+     * Die initiale Ordnung der Karten bei Aufruf des Decks.
      */
-    @Column(unique = true)
-    private String name;
-
     @Column
     @Enumerated(EnumType.STRING)
     private CardOrder cardOrder;
 
-    /**
-     * Sichtbarkeit des Decks. Wenn wahr, dann für alle sichtbar.
-     */
-    @Column
-    private boolean visibility;
 
     /**
      * Einzelne Boxen des Systems, die Karten enthalten
@@ -73,12 +74,12 @@ public abstract class StudySystem implements Serializable
     @OneToMany (mappedBy = "studySystem",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List<StudySystemBox> boxes = new ArrayList<StudySystemBox>();
 
-    /**
-     * Zugehöriger Typ des Systems
-     */
-    @Getter
-    protected StudySystemType type;
 
+    /**
+     * Enum für die unterschiedlichen Study System Arten.
+     * Es gibt 3 fertige StudySystem sowie ein Custom System, das selbst benannt wird und
+     * wo die Parameter ausgewählt werden.
+     */
     public enum StudySystemType
     {
         LEITNER,
@@ -86,26 +87,45 @@ public abstract class StudySystem implements Serializable
         VOTE,
         CUSTOM
     }
+    /**
+     * Festgelegter Typ des Systems
+     */
+    @Getter
+    protected StudySystemType type;
 
     /**
-    * //TODO
+     * Boolean, ob ein Typ als Custom vorliegt. Kann für die GUI verwendet werden, um dieses anders darzustellen.
      */
-    public StudySystem(String name, CardOrder cardOrder, StudySystemType type, boolean visibility)
+    private boolean custom;
+
+    /**
+     * Textuelle Beschreibung des angepassten Lernsystems.
+     */
+    private String descriptionOfCustom;
+
+    /**
+     * Basiskonstruktor des StudySystems mit Grundfunktionen, die jeder Typ hat. Wird in den einzelnen Subklassen über super aufgerufen.
+     * @param name Name des Decks
+     * @param cardOrder Initiale Reihenfolge der Karten bei Erstaufruf
+     * @param type Typ des StudySystems
+     */
+    public StudySystem(String name, CardOrder cardOrder, StudySystemType type)
     {
         this.uuid = UUID.randomUUID().toString();
         this.cardOrder = cardOrder;
-        this.visibility = visibility;
         this.name = name;
         this.type = type;
 
     }
 
-    // No-Arg Konstruktor
+    /**
+     * Leerer Konstruktor für das StudySystem
+     */
     public StudySystem() {
-        this("", CardOrder.ALPHABETICAL, StudySystemType.LEITNER, false);
+        this("", CardOrder.ALPHABETICAL, StudySystemType.LEITNER);
     }
 
-    protected void  initStudySystemBoxes(int size){}
+    protected void  initStudySystemBoxes(int size, int[] daysToRelearn){}
 
     /**
      * Methode für das Kopieren einer Karte. Hilfsmethode fürs
@@ -129,7 +149,6 @@ public abstract class StudySystem implements Serializable
         this.type        = other.getType();
         this.boxes      =   other.getBoxes();
         this.cardOrder   = other.getCardOrder();
-        this.visibility  = other.isVisibility();
         this.trueAnswerCount = other.getTrueAnswerCount();
         this.questionCount = other.getQuestionCount();
     }
@@ -147,6 +166,8 @@ public abstract class StudySystem implements Serializable
         if ( this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StudySystem studySystem = (StudySystem) o;
-        return name == studySystem.name;
+        return name.equals(studySystem.name);
     }
+
+    public void setDescription(){}
 }

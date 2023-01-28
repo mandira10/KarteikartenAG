@@ -56,8 +56,8 @@ public class StudySystemRepositoryTest {
 
     @Test
     public void getStudySystemByUUID() {
-        StudySystem studySystem = new LeitnerSystem("Name", StudySystem.CardOrder.ALPHABETICAL, false);
-        StudySystem notSavedStudySystem = new LeitnerSystem("Anderes", StudySystem.CardOrder.ALPHABETICAL, false);
+        StudySystem studySystem = new LeitnerSystem("Name", StudySystem.CardOrder.ALPHABETICAL);
+        StudySystem notSavedStudySystem = new LeitnerSystem("Anderes", StudySystem.CardOrder.ALPHABETICAL);
         StudySystemRepository.startTransaction();
         studySystemRepository.save(studySystem);
         StudySystemRepository.commitTransaction();
@@ -74,21 +74,21 @@ public class StudySystemRepositoryTest {
     public List<StudySystem> exampleStudySystems2() {
         List<StudySystem> exampleStudySystems2 = new ArrayList<>();
         Collections.addAll(exampleStudySystems2,
-        new LeitnerSystem("Leitner 1", StudySystem.CardOrder.RANDOM, false),
-        new LeitnerSystem("Leitner 2", StudySystem.CardOrder.ALPHABETICAL, true),
-        new LeitnerSystem("Leitner 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL, false),
-        new LeitnerSystem("Leitner 4", StudySystem.CardOrder.RANDOM, true),
-        new LeitnerSystem("Leitner 5", StudySystem.CardOrder.ALPHABETICAL, false),
-        new TimingSystem("Timing 1", StudySystem.CardOrder.RANDOM, false, 10),
-        new TimingSystem("Timing 2", StudySystem.CardOrder.ALPHABETICAL, true, 20),
-        new TimingSystem("Timing 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL, false, 1),
-        new TimingSystem("Timing 4", StudySystem.CardOrder.RANDOM, true, 100),
-        new TimingSystem("Timing 5", StudySystem.CardOrder.ALPHABETICAL, false, 5),
-        new VoteSystem("Vote 1", StudySystem.CardOrder.RANDOM, false),
-        new VoteSystem("Vote 2", StudySystem.CardOrder.ALPHABETICAL, true),
-        new VoteSystem("Vote 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL, false),
-        new VoteSystem("Vote 4", StudySystem.CardOrder.RANDOM, true),
-        new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL, false)
+        new LeitnerSystem("Leitner 1", StudySystem.CardOrder.RANDOM),
+        new LeitnerSystem("Leitner 2", StudySystem.CardOrder.ALPHABETICAL),
+        new LeitnerSystem("Leitner 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL),
+        new LeitnerSystem("Leitner 4", StudySystem.CardOrder.RANDOM),
+        new LeitnerSystem("Leitner 5", StudySystem.CardOrder.ALPHABETICAL),
+        new TimingSystem("Timing 1", StudySystem.CardOrder.RANDOM, 10),
+        new TimingSystem("Timing 2", StudySystem.CardOrder.ALPHABETICAL, 20),
+        new TimingSystem("Timing 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL, 1),
+        new TimingSystem("Timing 4", StudySystem.CardOrder.RANDOM, 100),
+        new TimingSystem("Timing 5", StudySystem.CardOrder.ALPHABETICAL, 5),
+        new VoteSystem("Vote 1", StudySystem.CardOrder.RANDOM),
+        new VoteSystem("Vote 2", StudySystem.CardOrder.ALPHABETICAL),
+        new VoteSystem("Vote 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL),
+        new VoteSystem("Vote 4", StudySystem.CardOrder.RANDOM),
+        new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL)
     );
 
         return exampleStudySystems2;

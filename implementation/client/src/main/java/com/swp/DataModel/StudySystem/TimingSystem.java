@@ -1,5 +1,6 @@
 package com.swp.DataModel.StudySystem;
 
+import com.gumse.gui.Locale;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -28,25 +29,21 @@ public class TimingSystem extends StudySystem
      * Konstruktor der Klasse TimingSystem.
      * @param name: der Name des Systems
      * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
-     * @param visibility: Sichtbarkeit des Systems
      * @param timeLimit: Zeitlimit für jede Frage zu beantworten
      */
-    public TimingSystem(String name, CardOrder cardOrder, boolean visibility,int timeLimit){
-        super(name,cardOrder,StudySystemType.TIMING,visibility);
+    public TimingSystem(String name, CardOrder cardOrder,int timeLimit){
+        super(name,cardOrder,StudySystemType.TIMING);
         this.boxes.add(new StudySystemBox(this));
         this.timeLimit = timeLimit;}
 
-    public TimingSystem(TimingSystem other){
-        super(other);
-        timeLimit = other.getTimeLimit();
-        answerTime = other.getAnswerTime();
-    }
-
-
     public TimingSystem() {
-     this("",CardOrder.ALPHABETICAL,false,0);
+     this("",CardOrder.ALPHABETICAL,0);
     }
 
+    @Override
+    public void setDescription(){
+        description = Locale.getCurrentLocale().getString("descriptionTiming");
+    }
 }
 
 
