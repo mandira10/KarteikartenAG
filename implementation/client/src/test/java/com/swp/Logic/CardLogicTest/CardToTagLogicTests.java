@@ -10,6 +10,7 @@ import com.swp.Persistence.CardToTagRepository;
 import com.swp.Persistence.TagRepository;
 import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.*;
 /**
  * Diese Testklasse untersucht alle CardLogic Funktionen für die Card2Tags.
  */
-public class CardToTagTests {
+public class CardToTagLogicTests {
     private CardRepository cardRepMock;
     private TagRepository tagRepMock;
 

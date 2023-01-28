@@ -218,13 +218,13 @@ public class CategoryLogic extends BaseLogic<Category> {
         List<Category> catOld = getCategoriesByCard(card);
         if (catOld.isEmpty()) {
             checkAndCreateCardToCategories(card, catNew, catOld);
-        } else if (new HashSet<>(catOld).containsAll(catNew)) {
+        } else if (catOld.containsAll(catNew)) {
             if (catOld.size() == catNew.size()) {
                 //nothing to do
             } else { //nur Löschen
                 checkAndRemoveCardToCategories(card, catNew, catOld);
             }
-        } else if (new HashSet<>(catNew).containsAll(catOld)) {  // nur neue hinzufügen
+        } else if (catNew.containsAll(catOld)) {  // nur neue hinzufügen
             checkAndCreateCardToCategories(card, catNew, catOld);
         } else { //neue und alte hinzufügen/entfernen
             checkAndCreateCardToCategories(card, catNew, catOld);
@@ -256,13 +256,13 @@ public class CategoryLogic extends BaseLogic<Category> {
 
         if (catOld.isEmpty()) {
             selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
-        } else if (new HashSet<>(catOld).containsAll(catNew)) {
+        } else if (catOld.containsAll(catNew)) {
             if (catOld.size() == catNew.size()) {
                 //nothing to do
             } else { //nur Löschen
                 checkAndRemoveCategoryHierarchy(category, catNew, catOld, child);
             }
-        } else if (new HashSet<>(catNew).containsAll(catOld)) {  // nur neue hinzufügen
+        } else if (catNew.containsAll(catOld)) {  // nur neue hinzufügen
             selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
         } else { //neue und alte hinzufügen/entfernen
             selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);

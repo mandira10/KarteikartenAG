@@ -8,6 +8,7 @@ import org.hibernate.annotations.CascadeType;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Klasse für einen Tag für Karteikarten
@@ -47,10 +48,16 @@ public class Tag implements Serializable
 
     @Override
     public boolean equals(Object o){
-        if ( this == o) return true;
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tag tag = (Tag) o;
-        return val == tag.val;
+        return val.equals(tag.getVal());
     }
+
+    @Override
+    public int hashCode() {
+            int prime = 31;
+            return prime + (val == null ? 0 : val.hashCode());
+        }
 
 }

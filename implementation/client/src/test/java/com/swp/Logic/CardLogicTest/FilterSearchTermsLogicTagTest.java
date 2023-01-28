@@ -5,11 +5,9 @@ import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.CardOverview;
-import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.TagRepository;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +26,7 @@ import static org.mockito.Mockito.when;
  *
  */
 
-public class FilterSearchTermsTagTest {
+public class FilterSearchTermsLogicTagTest {
 
     private CardRepository cardRepMock;
     private TagRepository tagRepMock;
