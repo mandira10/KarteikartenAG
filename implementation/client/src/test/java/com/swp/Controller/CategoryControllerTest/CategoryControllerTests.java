@@ -5,6 +5,7 @@ import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
@@ -13,6 +14,7 @@ import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Category;
 import com.swp.Logic.CategoryLogic;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,6 +59,10 @@ public class CategoryControllerTests {
             locale.setString(id, value);
         });
 
+    }
+    @BeforeAll
+    public static void before(){
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
 
 

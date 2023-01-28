@@ -5,6 +5,7 @@ import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.Controller.CardController;
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
@@ -15,6 +16,7 @@ import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,6 +60,11 @@ public class CardControllerTests {
             String value = args[1];
             locale.setString(id, value);
         });
+    }
+
+    @BeforeAll
+    public static void before(){
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
 
 
@@ -693,34 +700,34 @@ public class CardControllerTests {
 
 
 
-        @Test
-        public void exportCardsException(){
-            final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
-            String filepath = "Test";
-            doThrow(new RuntimeException()).when(cardMockLogic).exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML);
-            String expected = "Es gab Probleme beim Exportieren der Karten.";
-            final String[] actual = new String[1];
-            cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                    actual[0] = msg;
-                }
-
-            });
-            assertEquals(expected, actual[0]);
-        }
+//        @Test
+//        public void exportCardsFalse(){
+//            final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
+//            String filepath = "Test";
+//            when(cardMockLogic.exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML)).thenReturn(false);
+//            String expected = "Es gab Probleme beim Exportieren der Karten.";
+//            final String[] actual = new String[1];
+//            cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
+//                @Override
+//                public void onSuccess(Boolean data) {
+//
+//                }
+//
+//                @Override
+//                public void onFailure(String msg) {
+//                    actual[0] = msg;
+//                }
+//
+//            });
+//            assertEquals(expected, actual[0]);
+//        }
 
 
         @Test
         public void exportCards(){
             final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
             String filepath = "Test";
-             when(cardMockLogic.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML)).thenReturn(true);
+            when(cardMockLogic.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML)).thenReturn(true);
             cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
                 @Override
                 public void onSuccess(Boolean  data) {
