@@ -9,11 +9,17 @@ public abstract class SingleDataCallback <E>
 
     public void callSuccess(E data)
     {
-        threadPool.addTaskToMainThread(() -> { onSuccess(data); });
+        if(threadPool.isSynchronized())
+            onSuccess(data);
+        else
+            threadPool.addTaskToMainThread(() -> { onSuccess(data); });
     }
 
     public void callFailure(String msg)
     {
-        threadPool.addTaskToMainThread(() -> { onFailure(msg); });
+        if(threadPool.isSynchronized())
+            onFailure(msg);
+        else
+            threadPool.addTaskToMainThread(() -> { onFailure(msg); });
     }
 }

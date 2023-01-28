@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import com.gumse.tools.Output;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
@@ -32,6 +33,7 @@ public class JSONExporter
     public static synchronized JSONArray getCardCategories(Card card)
     {
         JSONArray retArray = new JSONArray();
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
         CategoryController.getInstance().getCategoriesToCard(card, new DataCallback<Category>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Category> categories) 
@@ -44,6 +46,7 @@ public class JSONExporter
                 Output.error("Failed to get categories for card " + card.getTitle() + ": " + msg);
             }            
         });
+        ControllerThreadPool.getInstance().synchronizedTasks(false);
 
         return retArray;
     }
@@ -51,6 +54,7 @@ public class JSONExporter
     public static synchronized JSONArray getCardTags(Card card)
     {
         JSONArray retArray = new JSONArray();
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
         CardController.getInstance().getTagsToCard(card, new DataCallback<Tag>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Tag> tags) 
@@ -63,6 +67,7 @@ public class JSONExporter
                 Output.error("Failed to get tags for card " + card.getTitle() + ": " + msg);
             }            
         });
+        ControllerThreadPool.getInstance().synchronizedTasks(false);
 
         return retArray;
     }
@@ -152,7 +157,6 @@ public class JSONExporter
             jsonobj.put("tags", getCardTags(card));
             putCardSpecificData(card, jsonobj);
 
-            Output.info(jsonobj.toString());
             cardsArray.put(jsonobj);
         }
 

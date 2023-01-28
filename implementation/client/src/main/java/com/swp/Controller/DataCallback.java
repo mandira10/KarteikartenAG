@@ -14,16 +14,25 @@ public abstract class DataCallback <E>
 
     public void callSuccess(List<E> data)
     {
-        threadPool.addTaskToMainThread(() -> { onSuccess(data); });
+        if(threadPool.isSynchronized())
+            onSuccess(data);
+        else
+            threadPool.addTaskToMainThread(() -> { onSuccess(data); });
     }
 
     public void callFailure(String msg)
     {
-        threadPool.addTaskToMainThread(() -> { onFailure(msg); });
+        if(threadPool.isSynchronized())
+            onFailure(msg);
+        else
+            threadPool.addTaskToMainThread(() -> { onFailure(msg); });
     }
 
     public void callInfo(String msg)
     {
-        threadPool.addTaskToMainThread(() -> { onInfo(msg); });
+        if(threadPool.isSynchronized())
+            onInfo(msg);
+        else
+            threadPool.addTaskToMainThread(() -> { onInfo(msg); });
     }
 }

@@ -51,6 +51,11 @@ public class ControllerThreadPool
         this.bSynchronized = sync;
     }
 
+    public boolean isSynchronized()
+    {
+        return this.bSynchronized;
+    }
+
     public static ControllerThreadPool getInstance()
     {
         if(pInstance == null)

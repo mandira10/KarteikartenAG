@@ -261,17 +261,17 @@ public class CardController {
      */
     public void exportCards(List<CardOverview> cards, String destination, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) {
         threadPool.exec(() -> {
-            try 
-            {
-                threadPool.addTaskToMainThread(() -> {
-                    singleDataCallback.callSuccess(cardLogic.exportCards(cards, destination, filetype));
-                });
-            } 
-            catch (Exception ex) 
-            {
-                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("cardexporterror"));
-                log.error("Beim Exportieren der Karte(n) gab es einen Fehler {}" + ex.getMessage());
-            }
+            threadPool.addTaskToMainThread(() -> {
+                if(cardLogic.exportCards(cards, destination, filetype))
+                {
+                    singleDataCallback.callSuccess(true);
+                }
+                else
+                {
+                    singleDataCallback.callFailure(Locale.getCurrentLocale().getString("cardexporterror"));
+                    log.error("Beim Exportieren der Karte(n) gab es einen Fehler");
+                }
+            });
         });
     }
 

@@ -472,7 +472,7 @@ public class TestDataClass {
         categoryLogic.setCategoryHierarchy(klasse11, childsklasse11, false);
         categoryLogic.setCategoryHierarchy(other2, others, false);
 
-        cardController.getCardsToShow(0, 2, new DataCallback<CardOverview>() {
+        cardController.getCardsToShow(0, 16, new DataCallback<CardOverview>() {
             @Override protected void onSuccess(List<CardOverview> data) 
             {
                 cardController.exportCards(data, "./testexport.xml", ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {

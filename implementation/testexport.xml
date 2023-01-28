@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cards>
+    <card>
+        <type>TRUEFALSE</type>
+        <title>Breaking Bad</title>
+        <question>Walter White entwickelte sich in «Breaking Bad» vom krebskranken Chemie-Lehrer zum gefährlichen Drogen-Baron. Er nannte sich zum Schluss Goldberg</question>
+        <rating>0</rating>
+        <uuid>20efaba4-d06e-44d9-902d-36e9dfa3370f</uuid>
+        <creationdate>2023-01-28 05:55:17.669</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Durcheinander</category>
+        </categories>
+        <tags>
+            <tag>serien</tag>
+            <tag>Alles mögliche</tag>
+        </tags>
+        <answer>false</answer>
+    </card>
+    <card>
+        <type>MULITPLECHOICE</type>
+        <title>Bundesländer Größe</title>
+        <question>Welches der folgenden ist das flächenmäßig kleinste Bundesland?</question>
+        <rating>0</rating>
+        <uuid>54b6c717-ab13-4a09-ab0d-0a955dd3ab37</uuid>
+        <creationdate>2023-01-28 05:55:17.594</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Erdkunde</category>
+            <category>Schule</category>
+        </categories>
+        <tags>
+            <tag>Deutschland</tag>
+            <tag>Australien</tag>
+            <tag>Länder</tag>
+        </tags>
+        <answers>
+            <answer correct="false">Thüringen</answer>
+            <answer correct="false">Sachsen</answer>
+            <answer correct="true">Saarland</answer>
+        </answers>
+    </card>
+    <card>
+        <type>AUDIO</type>
+        <title>Comer</title>
+        <question>Comer</question>
+        <rating>0</rating>
+        <uuid>1fcf039b-14d1-4c8c-bd75-08ac76a6c198</uuid>
+        <creationdate>2023-01-28 05:55:17.619</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Spanisch</category>
+            <category>Schule</category>
+        </categories>
+        <tags>
+            <tag>Essen</tag>
+            <tag>Anderes</tag>
+        </tags>
+        <answer>Essen</answer>
+    </card>
+    <card>
+        <type>MULITPLECHOICE</type>
+        <title>Das erste Google Earth</title>
+        <question>Google Earth ist weltweit bekannt. Doch eine Berliner Agentur schuf bereits Anfang der Neunziger ein ähnliches Produkt, wie hieß der digitale Globus der Berliner??</question>
+        <rating>0</rating>
+        <uuid>4c2f2aa0-b0af-4ebe-9202-dfe37aab0551</uuid>
+        <creationdate>2023-01-28 05:55:17.632</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Technik</category>
+            <category>Schule</category>
+        </categories>
+        <tags>
+            <tag>Google Earth</tag>
+            <tag>Technikmarken</tag>
+        </tags>
+        <answers>
+            <answer correct="true">Terravision</answer>
+            <answer correct="false">Globetrotter</answer>
+            <answer correct="false">Digiglobe</answer>
+        </answers>
+    </card>
+    <card>
+        <type>TRUEFALSE</type>
+        <title>Die Simpsons</title>
+        <question>Homer ist der Name des Familienvaters bei Simpson</question>
+        <rating>0</rating>
+        <uuid>693bfba1-437f-4a97-99e0-0b5633549eee</uuid>
+        <creationdate>2023-01-28 05:55:17.669</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Durcheinander</category>
+        </categories>
+        <tags>
+            <tag>serien</tag>
+            <tag>Alles mögliche</tag>
+        </tags>
+        <answer>true</answer>
+    </card>
+    <card>
+        <type>MULITPLECHOICE</type>
+        <title>Erster Harry Potter Film</title>
+        <question>In welchem Jahr kam die erste Harry-Potter-Verfilmung in die Kinos?</question>
+        <rating>0</rating>
+        <uuid>ff13f024-4a0a-4e58-b675-e8293f0d494d</uuid>
+        <creationdate>2023-01-28 05:55:17.646</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Durcheinander</category>
+            <category>Jahre</category>
+        </categories>
+        <tags>
+            <tag>2000er</tag>
+            <tag>Alles mögliche</tag>
+        </tags>
+        <answers>
+            <answer correct="false">2005</answer>
+            <answer correct="false">2007</answer>
+            <answer correct="true">2001</answer>
+            <answer correct="false">2003</answer>
+        </answers>
+    </card>
+    <card>
+        <type>MULITPLECHOICE</type>
+        <title>Erstes Smartphone</title>
+        <question>Mag sein, dass das iPhone 2007 die Ära der Smartphones erst so richtig begründet hat. Aber das IBM Simon (hier in der Mitte) war tatsächlich das allererste Smartphone mit Touch Display. Wann kam es auf den Markt??</question>
+        <rating>0</rating>
+        <uuid>4c654baf-3351-466c-bf4b-66b1dd476af0</uuid>
+        <creationdate>2023-01-28 05:55:17.632</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Technik</category>
+            <category>Schule</category>
+        </categories>
+        <tags>
+            <tag>Google Earth</tag>
+            <tag>Technikmarken</tag>
+        </tags>
+        <answers>
+            <answer correct="false">1989</answer>
+            <answer correct="true">1994</answer>
+            <answer correct="false">2001</answer>
+        </answers>
+    </card>
+    <card>
+        <type>MULITPLECHOICE</type>
+        <title>Fußball WM Deutschland</title>
+        <question>Wer gewann 2006 bei der Fußball-WM in Deutschland den Weltmeistertitel??</question>
+        <rating>0</rating>
+        <uuid>a24eac60-e44b-46c5-bf87-224f09cd6988</uuid>
+        <creationdate>2023-01-28 05:55:17.646</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Durcheinander</category>
+            <category>Jahre</category>
+        </categories>
+        <tags>
+            <tag>2000er</tag>
+            <tag>Alles mögliche</tag>
+        </tags>
+        <answers>
+            <answer correct="false">Deutschland</answer>
+            <answer correct="false">Spanien</answer>
+            <answer correct="false">Russland</answer>
+            <answer correct="true">Italien</answer>
+        </answers>
+    </card>
+    <card>
+        <type>TRUEFALSE</type>
+        <title>GoT</title>
+        <question>Der Königserbe aus Staffel 1 GoT hieß Joffrey</question>
+        <rating>0</rating>
+        <uuid>776b4b01-8141-4e59-a1c6-c589330b4218</uuid>
+        <creationdate>2023-01-28 05:55:17.669</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Durcheinander</category>
+        </categories>
+        <tags>
+            <tag>serien</tag>
+            <tag>Alles mögliche</tag>
+        </tags>
+        <answer>true</answer>
+    </card>
+    <card>
+        <type>TRUEFALSE</type>
+        <title>Greys Anatomy</title>
+        <question>Chandra Wilson spielt in Greys Anatomy Arizona Robbins</question>
+        <rating>0</rating>
+        <uuid>16ba48d7-9823-4277-803b-1e4208384fae</uuid>
+        <creationdate>2023-01-28 05:55:17.669</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Durcheinander</category>
+        </categories>
+        <tags>
+            <tag>serien</tag>
+            <tag>Alles mögliche</tag>
+        </tags>
+        <answer>false</answer>
+    </card>
+    <card>
+        <type>TRUEFALSE</type>
+        <title>HIMYM</title>
+        <question>Neil Patrick Harris spielt in HIMYM den Frauenhelden Marshall</question>
+        <rating>0</rating>
+        <uuid>54019eb5-4cd5-4f88-8f3d-c0d105d4b097</uuid>
+        <creationdate>2023-01-28 05:55:17.669</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Durcheinander</category>
+        </categories>
+        <tags>
+            <tag>serien</tag>
+            <tag>Alles mögliche</tag>
+        </tags>
+        <answer>false</answer>
+    </card>
+    <card>
+        <type>TRUEFALSE</type>
+        <title>HTTP</title>
+        <question>http steht für Hypertext Transfer Protocol</question>
+        <rating>0</rating>
+        <uuid>fe0054c9-3dd3-4b03-8c50-94946a0523ec</uuid>
+        <creationdate>2023-01-28 05:55:17.632</creationdate>
+        <references>
+            <ref>ctg;8b9d817a-95ec-4a6d-92e6-56a76d0d0e3d;random random</ref>
+            <ref>crd;31042731-134c-47da-81aa-138a38e43d21;Weird card I found on the street</ref>
+            <ref>htm;https://www.google.de;Some obscure searchengine </ref>
+            <ref>fil;./pom.xml;the krabby patty secret formula</ref>
+        </references>
+        <categories>
+            <category>Technik</category>
+            <category>Schule</category>
+        </categories>
+        <tags>
+            <tag>Google Earth</tag>
+            <tag>Technikmarken</tag>
+        </tags>
+        <answer>false</answer>
+    </card>
+    <card>
+        <type>IMAGETEST</type>
+        <title>ImageTestCardTitle0</title>
+        <question>Some Image Test Question</question>
+        <rating>0</rating>
+        <uuid>31042731-134c-47da-81aa-138a38e43d21</uuid>
+        <creationdate>2023-01-28 05:55:17.032</creationdate>
+        <references>
+            <ref/>
+        </references>
+        <categories>
+            <category>Random</category>
+        </categories>
+        <tags>
+            <tag>toll</tag>
+            <tag>cool</tag>
+        </tags>
+        <answer>Correct Image Test Answer</answer>
+    </card>
+    <card>
+        <type>IMAGETEST</type>
+        <title>ImageTestCardTitle1</title>
+        <question>Some Image Test Question</question>
+        <rating>0</rating>
+        <uuid>1ef5b2d2-c294-4468-ae52-f313f2a01da1</uuid>
+        <creationdate>2023-01-28 05:55:17.032</creationdate>
+        <references>
+            <ref/>
+        </references>
+        <categories>
+            <category>Random</category>
+        </categories>
+        <tags>
+            <tag>toll</tag>
+            <tag>cool</tag>
+        </tags>
+        <answer>Correct Image Test Answer</answer>
+    </card>
+    <card>
+        <type>IMAGETEST</type>
+        <title>ImageTestCardTitle10</title>
+        <question>Some Image Test Question</question>
+        <rating>0</rating>
+        <uuid>c0ed7d06-21b5-4dc8-aeab-fb3ad9224c2c</uuid>
+        <creationdate>2023-01-28 05:55:17.032</creationdate>
+        <references>
+            <ref/>
+        </references>
+        <categories>
+            <category>Random</category>
+        </categories>
+        <tags>
+            <tag>toll</tag>
+            <tag>cool</tag>
+        </tags>
+        <answer>Correct Image Test Answer</answer>
+    </card>
+    <card>
+        <type>IMAGETEST</type>
+        <title>ImageTestCardTitle11</title>
+        <question>Some Image Test Question</question>
+        <rating>0</rating>
+        <uuid>48bba850-3fd6-4fca-943c-385def16e3a6</uuid>
+        <creationdate>2023-01-28 05:55:17.032</creationdate>
+        <references>
+            <ref/>
+        </references>
+        <categories>
+            <category>Random</category>
+        </categories>
+        <tags>
+            <tag>toll</tag>
+            <tag>cool</tag>
+        </tags>
+        <answer>Correct Image Test Answer</answer>
+    </card>
+</cards>
