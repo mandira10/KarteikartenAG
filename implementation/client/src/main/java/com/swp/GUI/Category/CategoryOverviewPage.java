@@ -35,6 +35,7 @@ public class CategoryOverviewPage extends Page
     private CategoryList pCategoryList;
     private Button pDeleteCategoriesButton;
     private Button pAddToDeckButton;
+    private Button pExportButton;
     private boolean bReverseOrder;
 
     private static final CategoryController categoryController = CategoryController.getInstance();
@@ -49,31 +50,33 @@ public class CategoryOverviewPage extends Page
 
         MenuOptions menu = (MenuOptions)findChildByID("menu");
 
+        // Tree Button
         Button treeButton = (Button)findChildByID("treeviewbutton");
-        treeButton.onClick((RenderGUI gui) -> {
-            ((ViewCategoryTreePage)PageManager.viewPage(PAGES.CATEGORY_TREE)).reset();
-        });
+        treeButton.onClick((RenderGUI gui) -> { ((ViewCategoryTreePage)PageManager.viewPage(PAGES.CATEGORY_TREE)).reset(); });
 
+        // New Button
         Button newButton = (Button)findChildByID("addcategorybutton");
-        newButton.onClick((RenderGUI gui) -> {
-            ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category(),true);
-        });
+        newButton.onClick((RenderGUI gui) -> { ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(new Category(),true); });
+
+        // Delete Button
         pDeleteCategoriesButton = (Button)findChildByID("deletecategoriesbutton");
-        pDeleteCategoriesButton.onClick((RenderGUI gui) -> {
-            deleteCategories(pCategoryList.getSelectedCategories());
-        });
+        pDeleteCategoriesButton.onClick((RenderGUI gui) -> { deleteCategories(pCategoryList.getSelectedCategories()); });
         pDeleteCategoriesButton.hide(true);
 
+        // Add to deck Button
         pAddToDeckButton = (Button)findChildByID("addtodeckbutton");
-        pAddToDeckButton.onClick((RenderGUI gui) -> {
-            addToDeck();
-        });
+        pAddToDeckButton.onClick((RenderGUI gui) -> { addToDeck(); });
         pAddToDeckButton.hide(true);
+
+        // Export Button
+        pExportButton = (Button)findChildByID("exportbutton");
+        pExportButton.onClick((RenderGUI gui) -> { exportCards(); });
+        pExportButton.hide(true);
 
         pCanvas = findChildByID("canvas");
         pCategoryList = new CategoryList(new ivec2(0, 0), new ivec2(100, 100), new CategoryListSelectmodeCallback() {
-            @Override public void enterSelectmod() { pDeleteCategoriesButton.hide(false); pAddToDeckButton.hide(false); menu.resize(); }
-            @Override public void exitSelectmod()  { pDeleteCategoriesButton.hide(true);  pAddToDeckButton.hide(true);  menu.resize(); }
+            @Override public void enterSelectmod() { pExportButton.hide(false); pDeleteCategoriesButton.hide(false); pAddToDeckButton.hide(false); menu.resize(); }
+            @Override public void exitSelectmod()  { pExportButton.hide(true);  pDeleteCategoriesButton.hide(true);  pAddToDeckButton.hide(true);  menu.resize(); }
         });
         pCategoryList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCategoryList);
@@ -155,6 +158,17 @@ public class CategoryOverviewPage extends Page
 
     private void exportCards()
     {
-        ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(null);
+        
+        CategoryController.getInstance().getCardsInCategories(pCategoryList.getSelectedCategories(), new DataCallback<CardOverview>() {
+            @Override protected void onInfo(String msg) {}
+            @Override protected void onSuccess(List<CardOverview> cards) {
+                ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(cards);
+            }
+
+            @Override protected void onFailure(String msg) 
+            {
+                NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);
+            }
+        });
     }
 }

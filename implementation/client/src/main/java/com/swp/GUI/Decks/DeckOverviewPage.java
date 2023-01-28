@@ -11,12 +11,9 @@ import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.Cards.CardExportPage;
 import com.swp.GUI.Extras.DeckList;
 import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.Searchbar;
-import com.swp.GUI.Extras.DeckList.DeckListCallback;
-import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;
@@ -102,10 +99,5 @@ public class DeckOverviewPage extends Page
         {
             /*By Content*/  case 0: StudySystemController.getInstance().getStudySystemBySearchTerms(searchterm, commoncallback);  break;
         }  
-    }
-
-    private void exportCards()
-    {
-        ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(null);
     }
 }

@@ -13,11 +13,14 @@ import com.gumse.gui.XML.XMLGUI.XMLGUICreator;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.filesystem.XML.XMLNode;
+import com.gumse.tools.Output;
 
 public class MenuOptions extends RenderGUI
 {
     private Button pOptionsButton;
     private Speechbubble pBubble;
+    private List<RenderGUI> alEntries;
+    private boolean bLock;
     private static final int GAP_SIZE = 20;
 
     public MenuOptions(ivec2 pos, ivec2 size)
@@ -25,6 +28,8 @@ public class MenuOptions extends RenderGUI
         this.sType = "MenuOptions";
         this.vPos.set(pos);
         this.vSize.set(size);
+        this.alEntries = new ArrayList<>();
+        this.bLock = false;
 
 
         FontManager fonts = FontManager.getInstance();
@@ -50,13 +55,12 @@ public class MenuOptions extends RenderGUI
     protected void updateOnSizeChange() 
     {
         int xpos = vActualSize.x;
-        List<RenderGUI> allEntries = new ArrayList<>();
-        allEntries.addAll(pBubble.getChildren());
-        allEntries.addAll(getChildren());
         vChildren.clear();
         pBubble.getChildren().clear();
+        bLock = true;
 
-        for(RenderGUI child : allEntries)
+        int maxx = 0;
+        for(RenderGUI child : alEntries)
         {
             if(!child.getType().equals("button") || child.isHidden())
             {
@@ -67,12 +71,13 @@ public class MenuOptions extends RenderGUI
             Button entry = (Button)child;
             entry.setSize(new ivec2(entry.getBox().getTextSize().x + 20, 30));
             xpos -= entry.getSize().x + GAP_SIZE;
-            int maxx = 0;
-            if(xpos < 0)
+            if(xpos < pOptionsButton.getSize().x + GAP_SIZE)
             {
                 pBubble.addGUI(entry);
                 entry.getBox().getBox().hide(true);
                 entry.setPosition(new ivec2(0, (pBubble.numChildren() - 1) * 35));
+
+                Output.info(entry.getBox().getString() + " " + entry.getSize().x + " " + maxx);
                 if(entry.getSize().x > maxx)
                     maxx = entry.getSize().x;
             } 
@@ -87,6 +92,14 @@ public class MenuOptions extends RenderGUI
             pOptionsButton.hide(pBubble.numChildren() == 0);
             pBubble.reposition();
         }
+        bLock = false;
+    }
+
+    @Override
+    protected void updateOnAddGUI(RenderGUI gui) 
+    {
+        if(!bLock)
+            alEntries.add(gui);
     }
 
     @Override

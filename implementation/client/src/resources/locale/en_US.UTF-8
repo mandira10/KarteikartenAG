@@ -68,6 +68,7 @@ starttestbutton        = Start Test
 editdeckbutton         = Edit Deck
 deletedeckbutton       = Delete Deck
 removedeckbutton       = Remove Card(s)
+exportdeckbutton       = Export Deck
 deckprogress           = Progress
 deckentrycards         = Cards
 deckempty              = Empty

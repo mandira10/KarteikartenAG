@@ -9,7 +9,7 @@ import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.GUI.Cards.CardOverviewPage;
+import com.swp.GUI.Cards.CardExportPage;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
@@ -44,6 +44,10 @@ public class ViewSingleDeckPage extends Page
         //Edit button
         Button editButton = (Button)optionsMenu.findChildByID("editdeckbutton");
         editButton.onClick((RenderGUI gui) -> { ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(pDeck.getUuid()); });
+
+        //Export button
+        Button exportDeckButton = (Button)findChildByID("exportbutton");
+        exportDeckButton.onClick((RenderGUI gui) -> { exportCards();});
 
         //Delete button
         Button deleteDeckButton = (Button)findChildByID("deletedeckbutton");
@@ -129,5 +133,10 @@ public class ViewSingleDeckPage extends Page
 
             }
         });
+    }
+
+    private void exportCards()
+    {
+        ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(pCardList.getCards());
     }
 }

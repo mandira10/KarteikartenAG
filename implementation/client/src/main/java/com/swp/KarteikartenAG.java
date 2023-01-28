@@ -76,7 +76,7 @@ import lombok.extern.slf4j.Slf4j;
 //       - ImageTestCard            -- done
 //       - ImageDescCard            -- done
 //       - AudioCard
-//   - Export Cards Page
+//   - Export Cards Page            -- done
 //   - Add Single Cards to Deck     -- done
 //   - Add Cards to Deck by category-- done
 //   - Add icons to edit options
@@ -125,30 +125,13 @@ public class KarteikartenAG
 
         Output.init();
         Output.setCallback(new OutputCallback() {
-            @Override public void onInfo(String msg) 
-            {
-                log.info(msg);
-            }
-
-            @Override public void onWarn(String msg) 
-            {
-                log.warn(msg);
-            }
-
-            @Override public void onError(String msg) 
-            { 
-                log.error(msg);
-            }
-
-            @Override public void onFatal(String msg, int ret) 
-            {
+            @Override public void onInfo(String msg)  { log.info(msg); }
+            @Override public void onWarn(String msg)  { log.warn(msg); }
+            @Override public void onError(String msg) { log.error(msg); }
+            @Override public void onDebug(String msg) { log.debug(msg); }
+            @Override public void onFatal(String msg, int ret) {
                 log.error("Fatal: " + msg);
                 System.exit(ret);
-            }
-
-            @Override public void onDebug(String msg) 
-            {
-                log.debug(msg);
             }
         });
         Display.init();
@@ -204,11 +187,11 @@ public class KarteikartenAG
         TextBox fpsTextBox = null;
         if(Globals.DEBUG_BUILD)
         {
-            fpsTextBox = new TextBox("FPS: ", FontManager.getInstance().getDefaultFont(), new ivec2(100, 100), new ivec2(100, 30));
-            fpsTextBox.setPositionInPercent(true, true);
+            fpsTextBox = new TextBox("FPS: ", FontManager.getInstance().getDefaultFont(), new ivec2(0, 0), new ivec2(100, 30));
+            //fpsTextBox.setPositionInPercent(true, true);
             fpsTextBox.setColor(new vec4(0.0f, 0.0f, 0.0f, 0.3f));
             fpsTextBox.setAlignment(TextBox.Alignment.LEFT);
-            fpsTextBox.setOrigin(fpsTextBox.getSize());
+            //fpsTextBox.setOrigin(fpsTextBox.getSize());
             pMainGUI.addGUI(fpsTextBox);
         }
 
