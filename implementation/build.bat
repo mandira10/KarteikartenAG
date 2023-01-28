@@ -3,7 +3,10 @@
 set ARG=%1
 set ROOTDIR=%cd%
 
-mvn clean
+echo Cleaning..
+mvn clean -q
+
+echo Packaging..
 mvn package
 
-echo Finished creation of: KarteikartenAG
+echo Done, do ./run.bat to run this project
