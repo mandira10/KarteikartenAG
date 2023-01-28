@@ -92,6 +92,8 @@ public class SettingsPage extends Page
             }
         });
 
+        //PersistenceManager.changeH2Server("127.0.0.1:8082", "local-user", "local-user-password");
+
         this.setSizeInPercent(true, true);
         reposition();
     }
