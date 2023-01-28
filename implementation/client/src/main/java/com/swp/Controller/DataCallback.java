@@ -14,9 +14,7 @@ public abstract class DataCallback <E>
 
     public void callSuccess(List<E> data)
     {
-        Output.info("Calling success");
         threadPool.addTaskToMainThread(() -> { onSuccess(data); });
-        Output.info("Done Calling success");
     }
 
     public void callFailure(String msg)

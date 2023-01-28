@@ -31,7 +31,6 @@ public class ControllerThreadPool
 
     public void addTaskToMainThread(Runnable runnable)
     {
-        Output.info("Adding tast to queue " + pRunQueue.size());
         pRunQueue.add(runnable);
     }
 
