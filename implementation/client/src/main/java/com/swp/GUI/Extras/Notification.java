@@ -75,22 +75,27 @@ public class Notification extends RenderGUI
                 notificationIcon.setString("");
                 color = new vec4(0.7f, 0.22f, 0.22f, 1);
                 break;
+                
             case DEBUG:
                 notificationIcon.setString("");
                 color = new vec4(0.94f, 0.58f, 0.17f, 1);
                 break;
+
             case ERROR:
                 notificationIcon.setString("");
                 color = new vec4(0.91f, 0.3f, 0.24f, 1);
                 break;
+
             case INFO:
                 notificationIcon.setString("");
                 color = new vec4(0.65f, 0.78f, 0.9f, 1);
                 break;
+
             case WARNING:
                 notificationIcon.setString("");
                 color = new vec4(0.98f, 0.79f, 0.14f, 1);
                 break;
+
             case CONNECTION:
                 notificationIcon.setString("");
                 notificationIcon.setPosition(new ivec2(5, 7));

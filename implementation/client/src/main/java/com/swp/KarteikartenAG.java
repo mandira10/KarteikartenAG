@@ -34,6 +34,7 @@ import com.swp.GUI.Extras.ListOrder;
 import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.Controller.ControllerThreadPool;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -115,6 +116,7 @@ public class KarteikartenAG
 {
     private static GUI pMainGUI;
     private static final ivec2 iWindowSize = new ivec2(1000, 800);
+    private static final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
 
     public static void main(String[] args)
     {
@@ -192,7 +194,6 @@ public class KarteikartenAG
         XMLGUI.addGUIType("list-order", ListOrder.createFromXMLNode());
         
         Settings.getInstance().getLanguage().activate();
-        importTestData();
         KarteikartenAGGUI pKarteikartenAGGUI = KarteikartenAGGUI.getInstance();
         pKarteikartenAGGUI.setSize(new ivec2(100, 100));
         pKarteikartenAGGUI.setSizeInPercent(true, true);
@@ -214,6 +215,9 @@ public class KarteikartenAG
         pMainGUI.setSize(iWindowSize);
 
         PageManager.viewPage(PAGES.CARD_EXPORT);
+        threadPool.synchronizedTasks(true);
+        importTestData();
+        threadPool.synchronizedTasks(false);
 
         
         while(pMainWindow.isOpen())
@@ -223,6 +227,7 @@ public class KarteikartenAG
             pMainWindow.clear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             pMainGUI.render();
             pMainGUI.update();
+            threadPool.runQueue();
             if(fpsTextBox != null)
                 fpsTextBox.setString("FPS: " + (int)FPS.getFPS());
 

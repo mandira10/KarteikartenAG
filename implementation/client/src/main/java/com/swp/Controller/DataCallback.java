@@ -2,9 +2,30 @@ package com.swp.Controller;
 
 import java.util.List;
 
-public interface DataCallback <E>
+import com.gumse.tools.Output;
+
+public abstract class DataCallback <E>
 {
-    void onSuccess(List<E> data);
-    void onFailure(String msg);
-    void onInfo(String msg);
+    private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
+
+    protected abstract void onSuccess(List<E> data);
+    protected abstract void onFailure(String msg);
+    protected abstract void onInfo(String msg);
+
+    public void callSuccess(List<E> data)
+    {
+        Output.info("Calling success");
+        threadPool.addTaskToMainThread(() -> { onSuccess(data); });
+        Output.info("Done Calling success");
+    }
+
+    public void callFailure(String msg)
+    {
+        threadPool.addTaskToMainThread(() -> { onFailure(msg); });
+    }
+
+    public void callInfo(String msg)
+    {
+        threadPool.addTaskToMainThread(() -> { onInfo(msg); });
+    }
 }

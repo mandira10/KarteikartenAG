@@ -109,7 +109,7 @@ public class CardOverviewPage extends Page
             @Override public void onSuccess(List<CardOverview> data)
             {
                 iCurrentLastIndex += data.size();
-                pCardList.addCards(data);
+                pCardList.addCards(data, PAGES.CARD_OVERVIEW);
             }
 
             @Override public void onFailure(String msg) 
@@ -128,7 +128,7 @@ public class CardOverviewPage extends Page
         DataCallback<CardOverview> commoncallback = new DataCallback<CardOverview>() {
             @Override
             public void onSuccess(List<CardOverview> data) {
-                pCardList.addCards(data);
+                pCardList.addCards(data, PAGES.CARD_OVERVIEW);
             }
 
             @Override

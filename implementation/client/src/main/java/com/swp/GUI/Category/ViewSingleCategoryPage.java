@@ -77,7 +77,7 @@ public class ViewSingleCategoryPage extends Page
         CategoryController.getInstance().getCardsInCategory(this.pCategory, new DataCallback<CardOverview>() {
             @Override
             public void onSuccess(List<CardOverview> data) {
-                pCardList.addCards(data);
+                pCardList.addCards(data, PAGES.CATEGORY_SINGLEVIEW);
             }
 
             @Override

@@ -18,6 +18,7 @@ import com.swp.DataModel.CardOverview;
 import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.Extras.FileDialog;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
+import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
@@ -98,7 +99,7 @@ public class CardExportPage extends Page
     public void setCards(List<CardOverview> cards)
     {
         pCardList.reset();
-        pCardList.addCards(cards);
+        pCardList.addCards(cards, PAGES.CARD_EXPORT);
     }
 
     private void doExport()

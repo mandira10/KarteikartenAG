@@ -31,17 +31,19 @@ import java.util.List;
 
 public class ViewSingleCardPage extends Page
 {
-    RatingGUI pRatingGUI;
-    Card pCard;
-    RenderGUI pCanvas;
-    CardRenderer pCardRenderer;
-    Text pTagsText, pCategoriesText;
-    ReferencesGUI pReferences;
+    private RatingGUI pRatingGUI;
+    private Card pCard;
+    private RenderGUI pCanvas;
+    private CardRenderer pCardRenderer;
+    private Text pTagsText, pCategoriesText;
+    private ReferencesGUI pReferences;
+    private PAGES iLastPage;
 
     public ViewSingleCardPage()
     {
         super("View Card", "viewcardpage");
         this.vSize = new ivec2(100,100);
+        this.iLastPage = PAGES.CARD_OVERVIEW;
 
         addGUI(XMLGUI.loadFile("guis/cards/viewcardpage.xml"));
 
@@ -68,8 +70,7 @@ public class ViewSingleCardPage extends Page
                 pCard.setRating(rating); 
                 CardController.getInstance().updateCardData(pCard, false, new SingleDataCallback<Boolean>() {
                     @Override public void onSuccess(Boolean data) {}
-                    @Override public void onFailure(String msg) 
-                    {
+                    @Override public void onFailure(String msg) {
                         NotificationGUI.addNotification("Failed to submit rating: " + msg, NotificationType.ERROR, 5);
                     }
                 });
@@ -80,60 +81,36 @@ public class ViewSingleCardPage extends Page
         Button editButton = (Button)findChildByID("editbutton");
         if(editButton != null)
         {
-            editButton.onClick(new GUICallback() {
-                @Override public void run(RenderGUI gui) 
-                {
-                    EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
-                    page.editCard(pCard, false);
-                    PageManager.viewPage(PAGES.CARD_EDIT);
-                }
+            editButton.onClick((RenderGUI gui) -> {
+                EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
+                page.editCard(pCard, false);
+                PageManager.viewPage(PAGES.CARD_EDIT);
             });
         }
 
         Button backButton = (Button)findChildByID("backbutton");
-        if(backButton != null)
-        {
-            backButton.onClick(new GUICallback() {
-                @Override public void run(RenderGUI gui) 
-                {
-                    //PageManager.viewPage(PAGES.CARD_OVERVIEW);
-                    PageManager.viewLastPage();
-                }
-            });
-        }
+        backButton.onClick((RenderGUI gui) -> { PageManager.viewPage(iLastPage); });
 
         Button flipButton = (Button)findChildByID("flipcardbutton");
-        flipButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                pCardRenderer.flip();
-            }
-        });
+        flipButton.onClick((RenderGUI gui) -> { pCardRenderer.flip(); });
 
         Button referencesButton = (Button)findChildByID("referencesbutton");
-        referencesButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                pReferences.hide(!pReferences.isHidden());
-                pCardRenderer.hide(!pReferences.isHidden());
-                updateReferences();
-            }
+        referencesButton.onClick((RenderGUI gui) -> {
+            pReferences.hide(!pReferences.isHidden());
+            pCardRenderer.hide(!pReferences.isHidden());
+            updateReferences();
         });
 
         Button deleteButton = (Button)findChildByID("deletebutton");
-        deleteButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                deleteCard();
-            }
-        });
+        deleteButton.onClick((RenderGUI gui) -> { deleteCard(); });
         
         this.setSizeInPercent(true, true);
         reposition();
     }
 
-    public void setCard(Card card)
+    public void setCard(Card card, PAGES lastpage)
     {
+        iLastPage = lastpage;
         pCard = card;
         pCardRenderer.setCard(card);
         pRatingGUI.setRating(card.getRating());
@@ -181,16 +158,14 @@ public class ViewSingleCardPage extends Page
         pCardRenderer.hide(false);
     }
 
-    public void setCard(CardOverview cardoverview)
+    public void setCard(CardOverview cardoverview, PAGES lastpage)
     {
         CardController.getInstance().getCardByUUID(cardoverview.getUUUID(), new SingleDataCallback<Card>() {
-            @Override public void onSuccess(Card card) 
-            {
-                setCard(card);    
+            @Override public void onSuccess(Card card) {
+                setCard(card, lastpage);    
             }
 
-            @Override public void onFailure(String msg) 
-            {
+            @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);
             }
         });

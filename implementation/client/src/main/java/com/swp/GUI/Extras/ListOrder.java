@@ -54,8 +54,9 @@ public class ListOrder extends Button
             pSymbol.setCharacterHeight(25);
             addElement(pSymbol);
 
-            pName = new Text(name, FontManager.getInstance().getDefaultFont(), new ivec2(40, 0), 0);
+            pName = new Text("", FontManager.getInstance().getDefaultFont(), new ivec2(40, 0), 0);
             pName.setCharacterHeight(25);
+            pName.setLocaleID(name);
             addElement(pName);
 
             this.onHover(null, Mouse.GUM_CURSOR_HAND);
@@ -88,6 +89,12 @@ public class ListOrder extends Button
 
             resize();
             reposition();
+        }
+
+        @Override
+        protected void updateOnSizeChange() 
+        {
+            vSize.x = pName.getSize().x + 40;
         }
 
         public void setActive(boolean active)
@@ -146,6 +153,21 @@ public class ListOrder extends Button
     public void setCallback(ListOrderCallback callback)
     {
         this.pCallback = callback;
+    }
+
+    @Override
+    protected void updateOnSizeChange() 
+    {
+        if(alOptions == null)
+            return;
+        
+        int width = 0;
+        for(Option op : alOptions)
+        {
+            if(op.getSize().x > width)
+                width = op.getSize().x;
+        }
+        pBubble.setSize(new ivec2(width + 10, alOptions.size() * 40 - 5));
     }
 
     @Override

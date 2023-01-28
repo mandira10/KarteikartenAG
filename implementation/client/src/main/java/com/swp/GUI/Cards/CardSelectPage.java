@@ -16,6 +16,7 @@ import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
+import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.DataCallback;
 
 public class CardSelectPage extends Page 
@@ -103,7 +104,7 @@ public class CardSelectPage extends Page
             @Override public void onSuccess(List<CardOverview> data)
             {
                 iCurrentLastIndex += data.size();
-                pCardList.addCards(data);
+                pCardList.addCards(data, PAGES.REFERENCES_EDIT_PAGE);
             }
 
             @Override public void onFailure(String msg) 
@@ -123,7 +124,7 @@ public class CardSelectPage extends Page
 
         DataCallback<CardOverview> commoncallback = new DataCallback<CardOverview>() {
             @Override public void onSuccess(List<CardOverview> data) {
-                pCardList.addCards(data);
+                pCardList.addCards(data, PAGES.REFERENCES_EDIT_PAGE);
             }
 
             @Override public void onFailure(String msg) {

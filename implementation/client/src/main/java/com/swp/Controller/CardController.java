@@ -17,8 +17,10 @@ public class CardController {
 
     private static CardController cardController;
     private final CardLogic cardLogic = CardLogic.getInstance();
+    private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
 
-    public static CardController getInstance() {
+    public static CardController getInstance() 
+    {
         if (cardController == null)
             cardController = new CardController();
         return cardController;
@@ -33,23 +35,23 @@ public class CardController {
      * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCardsToShow(int begin, int end, DataCallback<CardOverview> callback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<CardOverview> cardsToShow = cardLogic.getCardOverview(begin, end);
 
                 if (cardsToShow.isEmpty()) {
                     log.info("Es wurden keine zugehörigen Karten gefunden");
-                    callback.onInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
+                    callback.callInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
                 }
                 else
-                    callback.onSuccess(cardsToShow);
+                    callback.callSuccess(cardsToShow);
 
             } catch (final Exception ex) {
                 log.error("Beim Suchen nach Karten ist ein Fehler {} aufgetreten"
                         , ex.getMessage());
-                callback.onFailure("Beim Abrufen der Karten ist ein Fehler aufgetreten");
+                callback.callFailure("Beim Abrufen der Karten ist ein Fehler aufgetreten");
             }
-         // }).start();
+        });
     }
 
     /**
@@ -60,26 +62,26 @@ public class CardController {
      * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCardsByTag(String tag, DataCallback<CardOverview> callback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<CardOverview> cardsForTag = cardLogic.getCardsByTag(tag);
 
                 if (cardsForTag.isEmpty()){
                     log.info("Es wurden keine Karten für den Tag gefunden");
-                    callback.onInfo(Locale.getCurrentLocale().getString("getcardsbytagempty"));
+                    callback.callInfo(Locale.getCurrentLocale().getString("getcardsbytagempty"));
                 }
                 else
-                    callback.onSuccess(cardsForTag);
+                    callback.callSuccess(cardsForTag);
 
             } catch (IllegalArgumentException ex) {
                 log.error("Der übergebene Wert war leer");
-                callback.onFailure(ex.getMessage());
+                callback.callFailure(ex.getMessage());
             }  catch (final Exception ex) {
                 log.error("Beim Suchen nach Karten mit Tag {} ist ein Fehler {} aufgetreten", tag
                         , ex);
-                callback.onFailure(Locale.getCurrentLocale().getString("getcardsbytagerror"));
+                callback.callFailure(Locale.getCurrentLocale().getString("getcardsbytagerror"));
             }
-         // }).start();
+        });
     }
 
     /**
@@ -89,19 +91,19 @@ public class CardController {
      * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getTagsToCard(Card card, DataCallback<Tag> callback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<Tag> tagsForCard = cardLogic.getTagsToCard(card);
 
                 if (tagsForCard.isEmpty()) {
                     log.info(Locale.getCurrentLocale().getString("gettagstocard"));
                 } else
-                    callback.onSuccess(tagsForCard);
+                    callback.callSuccess(tagsForCard);
             } catch (final Exception ex) {
                 log.error("Beim Suchen nach Tags der Karte {} ist ein Fehler {} aufgetreten", card.getUuid(), ex);
-                callback.onFailure(Locale.getCurrentLocale().getString("gettagstocarderror"));
+                callback.callFailure(Locale.getCurrentLocale().getString("gettagstocarderror"));
             }
-         // }).start();
+        });
     }
 
     /**
@@ -111,23 +113,23 @@ public class CardController {
      * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCardsBySearchterms(String searchterm, DataCallback<CardOverview> callback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<CardOverview> cardsForSearchTerms = cardLogic.getCardsBySearchterms(searchterm);
 
                 if (cardsForSearchTerms.isEmpty()) {
-                    callback.onInfo("Es gibt keine Karten für dieses Suchwort");
+                    callback.callInfo("Es gibt keine Karten für dieses Suchwort");
                     log.info(Locale.getCurrentLocale().getString("getcardsbysearchtermsempty"));
                 } else
-                    callback.onSuccess(cardsForSearchTerms);
+                    callback.callSuccess(cardsForSearchTerms);
             } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                callback.onFailure(ex.getMessage());
+                callback.callFailure(ex.getMessage());
             } catch (final Exception ex) {
                 log.error("Beim Suchen nach Karten mit dem Suchbegriff {} ist ein Fehler {} aufgetreten", searchterm, ex);
-                callback.onFailure(Locale.getCurrentLocale().getString("getcardsbysearchtermserror"));
+                callback.callFailure(Locale.getCurrentLocale().getString("getcardsbysearchtermserror"));
             }
-         // }).start();
+        });
     }
 
     /**
@@ -137,19 +139,19 @@ public class CardController {
      * @param singleDataCallback  Callback für die GUI, bei success passiert nichts, bei Fehler wird die Exception message an GUI weitergegeben.
      */
     public void deleteCard(Card card, SingleDataCallback<Boolean> singleDataCallback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 cardLogic.deleteCard(card);
-                singleDataCallback.onSuccess(true);
+                singleDataCallback.callSuccess(true);
             }catch (IllegalStateException ex) {
-                singleDataCallback.onFailure(ex.getMessage());
+                singleDataCallback.callFailure(ex.getMessage());
                 log.error("Null-Value übergeben");
             }
             catch (Exception ex) {
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("deletecarderror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletecarderror"));
                 log.error("Beim Löschen der Karte {} ist ein Fehler {} aufgetreten", card, ex);
             }
-         // }).start();
+        });
     }
 
     /**
@@ -159,18 +161,18 @@ public class CardController {
      * @param singleDataCallback  Callback für die GUI, bei success passiert nichts, bei Fehler wird die Exception message an GUI weitergegeben.
      */
     public void deleteCards(List<CardOverview> cards, SingleDataCallback<Boolean> singleDataCallback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 cardLogic.deleteCards(cards);
-                singleDataCallback.onSuccess(true);
+                singleDataCallback.callSuccess(true);
             }catch (IllegalStateException ex) {
-                singleDataCallback.onFailure(ex.getMessage());
+                singleDataCallback.callFailure(ex.getMessage());
                 log.error("Null-Value übergeben");
             } catch (Exception ex) {
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("deletecardserror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletecardserror"));
                 log.error("Beim Löschen der Karten {} ist ein Fehler {} aufgetreten", cards, ex);
             }
-         // }).start();
+        });
     }
 
     /**
@@ -181,23 +183,23 @@ public class CardController {
      *
      */
     public void getCardByUUID(String uuid, SingleDataCallback<Card> singleDataCallback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
-                singleDataCallback.onSuccess(cardLogic.getCardByUUID(uuid));
+                singleDataCallback.callSuccess(cardLogic.getCardByUUID(uuid));
             }  catch (IllegalArgumentException ex) {//übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                singleDataCallback.onFailure(ex.getMessage());
+                singleDataCallback.callFailure(ex.getMessage());
             }
             catch(NoResultException ex){
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("getcardbyuuidempty"
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("getcardbyuuidempty"
                 ));
                 log.error("Es wurde keine Karte zur UUID {} gefunden",uuid);
             }
             catch(Exception ex){
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("getcardbyuuiderror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("getcardbyuuiderror"));
                 log.error("Beim Abrufen der Karte ist ein Fehler {} aufgetreten",ex.getMessage());
             }
-         // }).start();
+        });
     }
 
 
@@ -209,15 +211,15 @@ public class CardController {
      * @param singleDataCallback  Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
     public void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 cardLogic.setTagsToCard(card, set);
-                singleDataCallback.onSuccess(true);
+                singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("settagstocarderror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("settagstocarderror"));
                 log.error("Beim Setzen der Tags für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());
             }
-         // }).start();
+        });
     }
 
     /**
@@ -228,24 +230,24 @@ public class CardController {
      * @param singleDataCallback  Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
     public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 cardLogic.updateCardData(cardToChange, neu);
-                singleDataCallback.onSuccess(true);
+                singleDataCallback.callSuccess(true);
             }
             catch (IllegalStateException ex) {
-                singleDataCallback.onFailure(ex.getMessage());
+                singleDataCallback.callFailure(ex.getMessage());
                 log.error("Karte nicht gefunden");
             }
             catch(IllegalArgumentException ex){ //Array in MultipleChoiceCard falsch
-                singleDataCallback.onFailure(ex.getMessage());
+                singleDataCallback.callFailure(ex.getMessage());
                 log.error("Index der Multiple Choice Card falsch");
             }
             catch (Exception ex) {
-                singleDataCallback.onFailure(String.format(Locale.getCurrentLocale().getString("updatecreatecarderror")));
+                singleDataCallback.callFailure(String.format(Locale.getCurrentLocale().getString("updatecreatecarderror")));
                 log.error("Beim Updaten/Speichern der Karte {} mit der ist ein Fehler {} aufgetreten",cardToChange.getUuid(),ex.getMessage());
             }
-         // }).start();
+        });
     }
 
     //ZUSATZ
@@ -258,15 +260,15 @@ public class CardController {
      * @param singleDataCallback  Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
     public void exportCards(List<CardOverview> cards, String destination, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) {
-        // new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 cardLogic.exportCards(cards, destination, filetype);
-                singleDataCallback.onSuccess(true);
+                singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("cardexporterror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("cardexporterror"));
                 log.error("Beim Exportieren der Karte(n) gab es einen Fehler {}" + ex.getMessage());
             }
-         // }).start();
+        });
     }
 
 }

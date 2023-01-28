@@ -60,7 +60,7 @@ public class KarteikartenAGGUI extends RenderGUI
         //PageManager.viewPage(PAGES.CARD_EDIT);
 
         ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
-        page.setCard(card);
+        page.setCard(card, PAGES.CARD_OVERVIEW);
         
         /*((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
 

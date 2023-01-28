@@ -118,7 +118,7 @@ public class CardList extends RenderGUI
         bIsInSelectmode = false;
     }
 
-    public void addCard(CardOverview cardoverview)
+    public void addCard(CardOverview cardoverview, PAGES lastpage)
     {
         GUICallback commoncallback = new GUICallback() {
             @Override public void run(RenderGUI gui) 
@@ -138,7 +138,7 @@ public class CardList extends RenderGUI
                 }
                 else
                 {
-                    ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(cardoverview);
+                    ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(cardoverview, lastpage);
                 }
             }
         };
@@ -161,10 +161,10 @@ public class CardList extends RenderGUI
         pList.addEntry(new ListCell[] { titlecell, creationcell, numdeckscell, checkcell }, cardoverview);  
     }
 
-    public void addCards(java.util.List<CardOverview> cardoverviews)
+    public void addCards(java.util.List<CardOverview> cardoverviews, PAGES lastpage)
     {
         for(CardOverview cardoverview : cardoverviews)
-            addCard(cardoverview);
+            addCard(cardoverview, lastpage);
     }
 
     public void reset()

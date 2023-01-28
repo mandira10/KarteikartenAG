@@ -4,6 +4,7 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Output;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
@@ -93,17 +94,15 @@ public class CategoryOverviewPage extends Page
     
     public void loadCategories()
     {
-        pCategoryList.reset();
         //bReverseOrder
         categoryController.getRootCategories(new DataCallback<Category>() {
             @Override public void onFailure(String msg) { NotificationGUI.addNotification(msg, NotificationType.ERROR, 5); }
             @Override public void onInfo(String msg) {}
-            @Override public void onSuccess(List<Category> data) 
+            @Override public void onSuccess(List<Category> categories) 
             {
-                for(Category cat : data)
-                {
+                pCategoryList.reset();
+                for(Category cat : categories)
                     pCategoryList.addCategory(cat, null);
-                }
             }
         });
     }
@@ -122,13 +121,11 @@ public class CategoryOverviewPage extends Page
             @Override public void onConfirm() 
             {  
                 CategoryController.getInstance().deleteCategories(categories, new SingleDataCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(Boolean data) {
+                    @Override public void onSuccess(Boolean data) {
 
                     }
 
-                    @Override
-                    public void onFailure(String msg) {
+                    @Override public void onFailure(String msg) {
                         NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
                     }
                 });

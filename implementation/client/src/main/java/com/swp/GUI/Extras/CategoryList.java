@@ -90,7 +90,7 @@ public class CategoryList extends RenderGUI
         updateSelectmode();
     }
 
-    public void addCategory(Category category, HierarchyListEntry<Category> listentry)
+    public synchronized void addCategory(Category category, HierarchyListEntry<Category> listentry)
     {
         if(listentry == null)
             listentry = pList.getRootEntry();
@@ -108,6 +108,7 @@ public class CategoryList extends RenderGUI
         });
 
         listentry.addEntry(entry);
+        pList.repositionEntries();
     }
 
     public List<Category> getSelectedCategories()

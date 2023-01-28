@@ -13,7 +13,6 @@ import com.gumse.maths.ivec2;
 import com.gumse.maths.vec2;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
-import com.gumse.tools.Output;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
@@ -250,27 +249,6 @@ public class ViewCategoryTreePage extends Page
             });
             parent.addGUI(node);
         }
-    }
-
-    private void deleteCategory()
-    {
-        ConfirmationGUI.openDialog("Are you sure that you want to delete this category?", new ConfirmationCallback() {
-            @Override public void onCancel() {}
-            @Override public void onConfirm() 
-            {  
-                CategoryController.getInstance().deleteCategory(pCategory, new SingleDataCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(Boolean data) {
-
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
-                    }
-                });
-                ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
-            }
-        });
+        pRootNode.repositionNode(0);
     }
 }

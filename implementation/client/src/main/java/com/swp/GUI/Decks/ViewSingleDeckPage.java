@@ -73,7 +73,7 @@ public class ViewSingleDeckPage extends Page
 
         StudySystemController.getInstance().getAllCardsInStudySystem(this.pDeck, new DataCallback<CardOverview>() {
             @Override public void onSuccess(List<CardOverview> data) {
-                pCardList.addCards(data);
+                pCardList.addCards(data, PAGES.DECK_SINGLEVIEW);
             }
 
             @Override public void onFailure(String msg) {

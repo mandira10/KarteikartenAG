@@ -22,7 +22,7 @@ public class CardReference extends ReferenceEntry
             CardController.getInstance().getCardByUUID(uuid, new SingleDataCallback<Card>() {
                 @Override public void onSuccess(Card card) 
                 {
-                    ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(card);
+                    ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(card, PAGES.CARD_OVERVIEW);
                 }
 
                 @Override public void onFailure(String msg) 

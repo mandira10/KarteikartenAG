@@ -59,6 +59,7 @@ public class EditCardPage extends Page
         this.vSize = new ivec2(100,100);
         this.pNewCard = null;
         this.aCategories = new ArrayList<>();
+        
 
 
         addGUI(XMLGUI.loadFile("guis/cards/cardeditpage.xml"));
@@ -264,7 +265,7 @@ public class EditCardPage extends Page
                         CategoryController.getInstance().setCategoriesToCard(pNewCard, aCategories, new SingleDataCallback<Boolean>() {
                             @Override public void onSuccess(Boolean data)
                             {
-                                ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(pNewCard);
+                                ((ViewSingleCardPage)PageManager.viewPage(PAGES.CARD_SINGLEVIEW)).setCard(pNewCard, PAGES.CARD_EDIT);
                             }
                 
                             @Override public void onFailure(String msg) 

@@ -13,12 +13,15 @@ import java.util.List;
 @Slf4j
 public class CategoryController {
     private static CategoryController categoryController;
-    CategoryLogic categoryLogic = CategoryLogic.getInstance();
+    private final CategoryLogic categoryLogic = CategoryLogic.getInstance();
+    private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
 
-    private CategoryController() {
+    private CategoryController() 
+    {
     }
 
-    public static CategoryController getInstance() {
+    public static CategoryController getInstance() 
+    {
         if (categoryController == null)
             categoryController = new CategoryController();
         return categoryController;
@@ -32,21 +35,21 @@ public class CategoryController {
      * @param singleDataCallback  Callback für die GUI gib bei Fehler die Exception message weiter
      */
     public void updateCategoryData(Category category, boolean neu, boolean nameChange, SingleDataCallback<Boolean> singleDataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 categoryLogic.updateCategoryData(category, neu, nameChange);
-                singleDataCallback.onSuccess(true);
+                singleDataCallback.callSuccess(true);
             }
             catch (IllegalStateException ex) {
-                singleDataCallback.onFailure(ex.getMessage());
+                singleDataCallback.callFailure(ex.getMessage());
                 log.error("Kategorie nicht gefunden");
             }
             catch (Exception ex) {
-                singleDataCallback.onFailure(String.format(Locale.getCurrentLocale().getString("categoryupdatesaveerror")));
+                singleDataCallback.callFailure(String.format(Locale.getCurrentLocale().getString("categoryupdatesaveerror")));
                 log.error("Beim Updaten/Speichern der Kategorie {} ist ein Fehler {} aufgetreten",category.getUuid(),ex.getMessage());
 
             }
-         //}).start();
+        });
     }
 
     /**
@@ -58,22 +61,22 @@ public class CategoryController {
      * @param singleDataCallback  Callback für die GUI, gibt bei Fehler die Exception message weiter
      */
     public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<String> singleDataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 if(categoryLogic.editCategoryHierarchy(category, parents, children)) //Selfreference?
-                singleDataCallback.onSuccess(Locale.getCurrentLocale().getString("selfreferenceerror"));
+                singleDataCallback.callSuccess(Locale.getCurrentLocale().getString("selfreferenceerror"));
 
                 else
-                singleDataCallback.onSuccess("");
+                singleDataCallback.callSuccess("");
             }
             catch(IllegalArgumentException ex){
-                singleDataCallback.onFailure(ex.getMessage());
+                singleDataCallback.callFailure(ex.getMessage());
             }
             catch (Exception ex) {
                 log.error("Beim Updaten der Kategorie ist der Fehler {} aufgetreten", ex.getMessage());
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("categoryhierarchyupdateerror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("categoryhierarchyupdateerror"));
             }
-         //}).start();
+        });
     }
 
     /**
@@ -83,19 +86,19 @@ public class CategoryController {
      * @param singleDataCallback Callback für die GUI, gibt bei Fehler die Exception message weiter
      */
     public void deleteCategory(Category category, SingleDataCallback<Boolean> singleDataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 categoryLogic.deleteCategory(category);
-                singleDataCallback.onSuccess(true);
+                singleDataCallback.callSuccess(true);
             } catch (IllegalStateException ex) { //übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                singleDataCallback.onFailure(ex.getMessage());
+                singleDataCallback.callFailure(ex.getMessage());
             }
             catch (Exception ex) {
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("deletecategoryerror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletecategoryerror"));
                 log.error("Beim Löschen der Kategorie {} ist ein Fehler {} aufgetreten", category, ex);
             }
-         //}).start();
+        });
     }
 
     /**
@@ -106,15 +109,15 @@ public class CategoryController {
      *
      */
     public void deleteCategories(List<Category> categories, SingleDataCallback<Boolean> singleDataCallback){
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 categoryLogic.deleteCategories(categories);
-                singleDataCallback.onSuccess(true);
+                singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("deletecategorieserror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletecategorieserror"));
                 log.error("Beim Löschen der Kategorien {} ist ein Fehler {} aufgetreten", categories, ex);
             }
-         //}).start();
+        });
     }
 
 
@@ -125,18 +128,18 @@ public class CategoryController {
      * @param dataCallback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getChildrenForCategory(Category parent, DataCallback<Category> dataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<Category> categoryChildren = categoryLogic.getChildrenForCategory(parent);
                 if (categoryChildren.isEmpty())
                     log.trace(Locale.getCurrentLocale().getString("catchildrenempty"));
 
-                dataCallback.onSuccess(categoryChildren);
+                dataCallback.callSuccess(categoryChildren);
             } catch (Exception ex) {
-                dataCallback.onFailure(Locale.getCurrentLocale().getString("catchilderror"));
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("catchilderror"));
                 log.error("Beim Beim Abrufen der Children für die Kategorie {} ist ein Fehler {} aufgetreten", parent, ex);
             }
-         //}).start();
+        });
     }
 
 
@@ -147,18 +150,18 @@ public class CategoryController {
      * @param dataCallback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getParentsForCategory(Category child, DataCallback<Category> dataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<Category> categoryParents = categoryLogic.getParentsForCategory(child);
                 if (categoryParents.isEmpty())
                     log.trace(Locale.getCurrentLocale().getString("catchildrenempty"));
 
-                dataCallback.onSuccess(categoryParents);
+                dataCallback.callSuccess(categoryParents);
             } catch (Exception ex) {
-                dataCallback.onFailure(Locale.getCurrentLocale().getString("catchilderror"));
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("catchilderror"));
                 log.error("Beim Beim Abrufen der Children für die Kategorie {} ist ein Fehler {} aufgetreten", child, ex);
             }
-         //}).start();
+        });
     }
 
     /**
@@ -168,22 +171,22 @@ public class CategoryController {
      * @param singleDataCallback  Callback für die GUI, gibt bei success Category an GUI weiter, bei Fehler die Exception message.
      */
     public void getCategoryByUUID(String uuid, SingleDataCallback<Category> singleDataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
-                singleDataCallback.onSuccess(categoryLogic.getCategoryByUUID(uuid));
+                singleDataCallback.callSuccess(categoryLogic.getCategoryByUUID(uuid));
             } catch (IllegalArgumentException ex) {//übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                singleDataCallback.onFailure(ex.getMessage());
+                singleDataCallback.callFailure(ex.getMessage());
             }
             catch(NoResultException ex){
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("categorybyuuidempty"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("categorybyuuidempty"));
                 log.error("Es wurde keine Kategorie zur UUID {} gefunden",uuid);
             }
             catch(Exception ex){
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("categorybyuuiderror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("categorybyuuiderror"));
                 log.error("Beim Abrufen der Kategorie ist ein Fehler {} aufgetreten",ex.getMessage());
             }
-         //}).start();
+        });
     }
 
 
@@ -195,15 +198,15 @@ public class CategoryController {
      * @param singleDataCallback  Callback für die GUI, gibt bei Fehler die Exception message an die GUI weiter.
      */
     public void setCategoriesToCard(Card card, List<Category> categories, SingleDataCallback<Boolean> singleDataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 categoryLogic.setCardToCategories(card, categories);
-                singleDataCallback.onSuccess(true);
+                singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
-                singleDataCallback.onFailure(Locale.getCurrentLocale().getString("setcategoriestocarderror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("setcategoriestocarderror"));
                 log.error("Beim Setzen der Kategorien für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());
             }
-         //}).start();
+        });
     }
 
 //OVERVIEW
@@ -216,25 +219,25 @@ public class CategoryController {
      * @param dataCallback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCardsInCategory(Category category, DataCallback<CardOverview> dataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<CardOverview> cards = categoryLogic.getCardsInCategory(category);
 
                 if (cards.isEmpty())
                     log.info(Locale.getCurrentLocale().getString("getcardincategoryempty"));
 
-                dataCallback.onSuccess(cards);
+                dataCallback.callSuccess(cards);
 
             } catch (IllegalStateException ex) { //übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                dataCallback.onFailure(ex.getMessage());
+                dataCallback.callFailure(ex.getMessage());
             }
             catch (final Exception ex) {
                 log.error("Beim Suchen nach Karten mit Kategorie {} ist ein Fehler {} aufgetreten", category
                         , ex);
-                dataCallback.onFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
             }
-         //}).start();
+        });
     }
 
     /**
@@ -246,24 +249,24 @@ public class CategoryController {
      * @param dataCallback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCardsInCategory(String category, DataCallback<CardOverview> dataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<CardOverview> cards = categoryLogic.getCardsInCategory(category);
 
                 if (cards.isEmpty())
-                    dataCallback.onInfo(Locale.getCurrentLocale().getString("getcardincategoryempty"));
+                    dataCallback.callInfo(Locale.getCurrentLocale().getString("getcardincategoryempty"));
 
-                dataCallback.onSuccess(cards);
+                dataCallback.callSuccess(cards);
 
             } catch (IllegalStateException ex) { //übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                dataCallback.onFailure(ex.getMessage());
+                dataCallback.callFailure(ex.getMessage());
             }  catch (final Exception ex) {
                 log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category
                         , ex);
-                dataCallback.onFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
             }
-         //}).start();
+        });
     }
 
 
@@ -274,23 +277,27 @@ public class CategoryController {
      */
     public void getCardsInCategories(List<Category> categories, DataCallback<CardOverview> dataCallback)
     {
-       // new Thread(() -> {
-        try {
-            List<CardOverview> cards = categoryLogic.getCardsInCategories(categories);
+        threadPool.exec(() -> {
+            try 
+            {
+                List<CardOverview> cards = categoryLogic.getCardsInCategories(categories);
 
-            if (cards.isEmpty())
-                dataCallback.onInfo(Locale.getCurrentLocale().getString("getcardsincategoryempty"));
+                if (cards.isEmpty())
+                    dataCallback.callInfo(Locale.getCurrentLocale().getString("getcardsincategoryempty"));
 
-            dataCallback.onSuccess(cards);
-
-        } catch (IllegalStateException ex) { //null
-            log.error("Der übergebene Wert war leer");
-            dataCallback.onFailure(ex.getMessage());
-        }  catch (final Exception ex) {
-            log.error("Beim Suchen nach Karten mit Kategorien ist ein Fehler {} aufgetreten", ex);
-            dataCallback.onFailure(Locale.getCurrentLocale().getString("getcardsincategoryerror"));
-        }
-     //}).start();
+                dataCallback.callSuccess(cards);
+            } 
+            catch (IllegalStateException ex) 
+            { //null
+                log.error("Der übergebene Wert war leer");
+                dataCallback.callFailure(ex.getMessage());
+            }  
+            catch (final Exception ex) 
+            {
+                log.error("Beim Suchen nach Karten mit Kategorien ist ein Fehler {} aufgetreten", ex);
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardsincategoryerror"));
+            }
+        });
     }
 
 
@@ -301,20 +308,20 @@ public class CategoryController {
      * @param dataCallback Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCategoriesToCard(Card card, DataCallback<Category> dataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<Category> categoriesForCard = categoryLogic.getCategoriesByCard(card);
 
                 if (categoriesForCard.isEmpty())
                     log.info(Locale.getCurrentLocale().getString("getcategoriestocardempty"));
 
-                dataCallback.onSuccess(categoriesForCard);
+                dataCallback.callSuccess(categoriesForCard);
 
             } catch (final Exception ex) {
                 log.error("Beim Suchen nach Kategorien für die Karte {} ist ein Fehler {} aufgetreten", card, ex);
-                dataCallback.onFailure(Locale.getCurrentLocale().getString("getcategoriestocarderror"));
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcategoriestocarderror"));
             }
-         //}).start();
+        });
     }
 
     /**
@@ -324,19 +331,19 @@ public class CategoryController {
      * @param dataCallback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getCategories(DataCallback<Category> dataCallback) {
-       //  new Thread(() -> {
+        threadPool.exec(() -> {
             try {
                 List<Category> categories = categoryLogic.getCategories();
 
                 if (categories.isEmpty())
                     log.info(Locale.getCurrentLocale().getString("getcatoriesempty"));
 
-                dataCallback.onSuccess(categories);
+                dataCallback.callSuccess(categories);
             } catch (Exception ex) {
                 log.error("Beim Suchen nach Kategorien  ist ein Fehler {} aufgetreten", ex);
-                dataCallback.onFailure(Locale.getCurrentLocale().getString("getcatorieserror"));
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcatorieserror"));
             }
-         //}).start();
+        });
     }
 
     /**
@@ -348,14 +355,14 @@ public class CategoryController {
      */
     public void getRootCategories(DataCallback<Category> dataCallback)
     {
-        // new Thread(() -> {
-        try {
-            dataCallback.onSuccess(categoryLogic.getRootCategories());
-        } catch (Exception ex) {
-            log.error("Beim Suchen nach Root-Kategorien  ist ein Fehler {} aufgetreten", ex);
-            dataCallback.onFailure(Locale.getCurrentLocale().getString("getrootcategorieserror"));
-        }
-     //}).start();
+        threadPool.exec(() -> {
+            try { dataCallback.callSuccess(categoryLogic.getRootCategories()); }
+            catch (Exception ex) 
+            {
+                log.error("Beim Suchen nach Root-Kategorien  ist ein Fehler {} aufgetreten", ex);
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("getrootcategorieserror"));
+            }
+        });
     }
 
 }
