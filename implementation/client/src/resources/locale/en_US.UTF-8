@@ -161,3 +161,35 @@ selfreferenceerror = Category to edit must not be self-referenced! Not added!
 descriptionLeitner = In the Leitner system, you learn in five boxes that have the following repetition: Box 1 = keep learning until successful, Box 2 = every day , Box 3 = every 3 days,Box 4 = weekly, Box 5 = bi-weekly.At the beginning all cards are in box 1. Depending on whether the card is correct, it is moved to the next box or if it is wrong, it is moved to the box before. If you don't study for a few days, you will be presented with all the cards that are due again, so this can be also several boxes.
 descriptionTiming = The TimingSystem measures the time you need for an answer, which determines when to repeat the question.
 descriptionVote = In VoteSystem you can give 1-5 stars for each question, 5 = very easy / 1 = very hard. The questions are submitted each time you learn based on the rating.
+
+# StudySystem Exceptions
+
+movecardtospecificboxempty = Card not found.
+movecardtospecificboxerror = An error occurred while moving card in a box.
+moveallcardsfordecktofirstboxempty = Card not found.
+moveallcardsfordecktofirstboxerror = An error occurred while moving card in first box.
+getallcardsinstudysystemempty = There are no cards for this StudySystem.
+getallcardsinstudysystemerror = An error occurred while getting all cards in StudySystem.
+giveanswererror = An error occurred while answering a card in StudySystem.
+giveratingerror = An error occurred while rating a card in StudySystem.
+givetimeerror = An error occurred while giving answer time for a card in StudySystem.
+finishtestandgetresulterror = An error occurred while ending the test.
+getnextcarderror = An error occurred while getting the next card for test.
+getprogresserror = An error occurred while getting the progress.
+numcardsindeckerror = An error occurred while retrieving the number of StudySystems.
+getstudysystembyuuidempty = UUID cannot be null.
+getstudysystembyuuidnoresult = No StudySystem could be found for this UUID.
+getstudysystembyuuiderror = An error occurred while retrieving the StudySystem by UUID.
+removecardsfromstudysystemempty = There is null variable while removing cards from StudySystem.
+removecardsfromstudysystemerror = An error occurred while removing cards in a StudySystem.
+deletestudysystemempty = There is null variable while deleting a StudySystem.
+deletestudysystemerror = An error occurred while deleting a StudySystem.
+deletedeckserror = An error occurred while deleting a list of StudySystems.
+getstudysystemsempty = There are currently no StudySystems.
+getstudysystemerror = An error occurred while getting StudySystems.
+getstudysystembysearchtermsempty = There are no StudySystems for this search term.
+getstudysystembysearchtermserror = An error occurred while getting StudySystems by search term.
+addcardstostudysystemerror = An error occurred when adding a list of cards in a StudySystem.
+updatedeckdataerror = An error occurred when updating StudySystem Data.
+addstudysystemtypeandupdateerror = An error occurred while adding and updating a StudySystemType.
+createboxtocardforcategory = An error occurred while creating box to card for category.

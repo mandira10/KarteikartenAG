@@ -331,7 +331,7 @@ public class StudySystemController {
             try {
                 List<StudySystem> studySystems = studySystemLogic.getStudySystems();
                 if (studySystems.isEmpty()) {
-                    dataCallback.callInfo("Es gibt derzeit studySystems");
+                    dataCallback.callInfo("Es gibt derzeit keine studySystems");
                 }
 
                 dataCallback.callSuccess(studySystems);

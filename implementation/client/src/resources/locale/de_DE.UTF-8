@@ -74,12 +74,12 @@ removecardsfromstudysystemerror = Beim Entfernen einer Karte in einem StudySyste
 deletestudysystemempty = Beim Löschen ein StudySystem hat Null Variable gegeben.
 deletestudysystemerror = Beim Löschen der StudySystem ist ein Fehler aufgetreten.
 deletedeckserror = Beim Löschen einer Liste von StudySystems ist ein Fehler aufgetreten.
-getstudysystemsempty = Es gibt derzeit studySystems.
+getstudysystemsempty = Es gibt derzeit keine studySystems.
 getstudysystemerror = Beim Bekommen StudySystems ist ein Fehler aufgetreten.
 getstudysystembysearchtermsempty = Es gibt keine studySystems zu diesem Suchbegriff.
 getstudysystembysearchtermserror = Beim Bekommen StudySystems nach Suchgriff ist ein Fehler aufgetreten.
 addcardstostudysystemerror = Beim Hinzufügen eine Liste von Karten in einem StudySystem ist ein Fehler aufgetreten.
 updatedeckdataerror = Beim Update StudySystem Data ist ein Fehler aufgetreten.
 addstudysystemtypeandupdateerror = Beim Hinzufügen und Update ein StudySystemType ist ein Fehler aufgetreten.
-createboxtocardforcategory = Beim Erstellen Box to Card für Kategorie ist ein Fehler aufgetreten.-
+createboxtocardforcategory = Beim Erstellen Box to Card für Kategorie ist ein Fehler aufgetreten.
 
