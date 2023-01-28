@@ -1,6 +1,7 @@
 package com.swp.DataModel.StudySystem;
 
 
+import com.gumse.gui.Locale;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -22,18 +23,18 @@ public class LeitnerSystem extends StudySystem
     /**
      * Konstruktor der Klasse LeitnerSystem.
      *
-     * @param name:       der Name des Systems
-     * @param cardOrder:  CardOrdner, um die Reihenfolge der Karten festzulegen
-     * @param visibility: Sichtbarkeit des Systems
+     * @param name       der Name des Systems
+     * @param cardOrder  CardOrdner, um die Reihenfolge der Karten festzulegen
      */
-    public LeitnerSystem(String name, CardOrder cardOrder, boolean visibility) {
-        super(name, cardOrder, StudySystemType.LEITNER, visibility);
+    public LeitnerSystem(String name, CardOrder cardOrder) {
+        super(name, cardOrder, StudySystemType.LEITNER);
         initStudySystemBoxes(5);
+        setDescription();
     }
 
 
     public LeitnerSystem() {
-        this("", CardOrder.ALPHABETICAL, false);
+        this("", CardOrder.ALPHABETICAL);
     }
 
 
@@ -43,6 +44,11 @@ public class LeitnerSystem extends StudySystem
         for (int i = 0; i < size; i++)
             this.boxes.add(new StudySystemBox(this,daysToLearn.get(i)));
 
+    }
+
+    @Override
+    public void setDescription(){
+        description = Locale.getCurrentLocale().getString("descriptionLeitner");
     }
 
 }

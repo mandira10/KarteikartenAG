@@ -375,23 +375,23 @@ public class TestDataClass {
 
         //TestData For Decks
 
-        StudySystem studySystem1 = new LeitnerSystem("Spanisch", StudySystem.CardOrder.ALPHABETICAL, false);
+        StudySystem studySystem1 = new LeitnerSystem("Spanisch", StudySystem.CardOrder.ALPHABETICAL);
         studySystemLogic.updateStudySystemData(null, studySystem1, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(spanischL,studySystem1);
 
-        StudySystem studySystem2 = new TimingSystem("Erdkunde", StudySystem.CardOrder.RANDOM, false,5);
+        StudySystem studySystem2 = new TimingSystem("Erdkunde", StudySystem.CardOrder.RANDOM,5);
         studySystemLogic.updateStudySystemData(null, studySystem2, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(erdkundeL,studySystem2);
 
-        StudySystem studySystem3 = new VoteSystem("Technik", StudySystem.CardOrder.ALPHABETICAL, false);
+        StudySystem studySystem3 = new VoteSystem("Technik", StudySystem.CardOrder.ALPHABETICAL);
         studySystemLogic.updateStudySystemData(null, studySystem3, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(technikL,studySystem3);
 
-        StudySystem studySystem4 = new LeitnerSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL, false);
+        StudySystem studySystem4 = new LeitnerSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL);
         studySystemLogic.updateStudySystemData(null, studySystem4, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(zweitausender,studySystem4);
 
-        StudySystem studySystem5 = new LeitnerSystem("Serien", StudySystem.CardOrder.ALPHABETICAL, false);
+        StudySystem studySystem5 = new LeitnerSystem("Serien", StudySystem.CardOrder.ALPHABETICAL);
         studySystemLogic.updateStudySystemData(null, studySystem5, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(serien,studySystem5);
 
