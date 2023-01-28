@@ -194,7 +194,7 @@ public class StudySystemController {
      * @param studySystem        Das StudySystem, das benötigt wird.
      * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void getProgress(StudySystem studySystem, SingleDataCallback<Float> singleDataCallback) {
+    public void getProgress(StudySystem studySystem, SingleDataCallback<Double> singleDataCallback) {
         threadPool.exec(() -> {
             try {
                 singleDataCallback.callSuccess(studySystemLogic.getProgress(studySystem));

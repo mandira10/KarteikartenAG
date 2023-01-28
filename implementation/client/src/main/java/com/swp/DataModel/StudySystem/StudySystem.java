@@ -39,7 +39,7 @@ public abstract class StudySystem implements Serializable
 
     protected int resultPoint = 0;
 
-    protected int progress;
+    protected double progress;
 
     /**
      * Enum für die CardOrder des Decks

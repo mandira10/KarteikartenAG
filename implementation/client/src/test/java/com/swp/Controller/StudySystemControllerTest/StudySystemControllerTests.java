@@ -479,9 +479,9 @@ public class StudySystemControllerTests {
         final String expected = "Ein Fehler ist aufgetreten";
         final String[] actual = new String[1];
         StudySystem studySystem = new StudySystem() {};
-        studySystemController.getProgress(studySystem,new SingleDataCallback<Float>() {
+        studySystemController.getProgress(studySystem,new SingleDataCallback<Double>() {
             @Override
-            public void onSuccess(Float s) {
+            public void onSuccess(Double s) {
             }
 
             @Override
@@ -496,13 +496,13 @@ public class StudySystemControllerTests {
 
     @Test
     public void getProgressTest(){
-        final float[] f = {0};
+        final double[] f = {0};
         when(studySystemMockLogic.getProgress(any(StudySystem.class))).thenReturn(f[0]);
-        final float[] f1 = new float[1];
+        final double[] f1 = new double[1];
         studySystemController.getProgress(new StudySystem() {
-        }, new SingleDataCallback<Float>() {
+        }, new SingleDataCallback<Double>() {
             @Override
-            public void onSuccess(Float data) {
+            public void onSuccess(Double data) {
                 f1[0] = data;
             }
 
