@@ -43,8 +43,10 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (IllegalStateException s) {
                 singleDataCallback.callFailure("Null Value Gegeben");
+                log.error("Card nicht gefunden");
             } catch (Exception exception) {
                 singleDataCallback.callFailure("Ein Fehler aufgetreten");
+                log.error("Bei MovingCard in einem Box ist ein Fehler aufgetreten");
             }
         });
     }
@@ -65,8 +67,14 @@ public class StudySystemController {
                     studySystemLogic.moveAllCardsForDeckToFirstBox(cards, studySystem);
                     singleDataCallback.callSuccess(true);
                 }
-            } catch (Exception e) {
+            }
+            catch (IllegalStateException e){
+                singleDataCallback.callFailure("Null Value Gegeben");
+                log.error("Card nicht gefunden");
+            }
+            catch (Exception e) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei MovingCard in erstem Box ist ein Fehler aufgetreten");
             }
         });
     }
@@ -90,6 +98,7 @@ public class StudySystemController {
                 }
             } catch (Exception ex) {
                 dataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei Bekommen alle Karte in StudySystem ist ein Fehler aufgetreten");
             }
         });
     }
@@ -109,6 +118,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (Exception e) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei Antworten einer Karte ist ein Fehler aufgetreten");
             }
         });
     }
@@ -128,6 +138,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (Exception e) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei Geben Rating für einer Karte ist ein Fehler aufgetreten");
             }
         });
     }
@@ -147,6 +158,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (Exception e) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei Geben Time für einer Karte ist ein Fehler aufgetreten");
             }
         });
     }
@@ -164,6 +176,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(studySystemLogic.finishTestAndGetResult(studySystem));
             } catch (Exception e) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei Beenden Test ist ein Fehler aufgetreten");
             }
         });
     }
@@ -183,6 +196,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(studySystemLogic.getNextCard(studySystem));
             } catch (Exception e) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei Bekommen nächste Karte ist ein Fehler aufgetreten");
             }
         });
     }
@@ -200,6 +214,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(studySystemLogic.getProgress(studySystem));
             } catch (Exception e) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei Bekommen Progress ist ein Fehler aufgetreten");
             }
         });
     }
@@ -233,10 +248,13 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(studySystemLogic.getStudySystemByUUID(uuid));
             } catch (IllegalArgumentException ex) {//übergebener Wert ist leer
                 singleDataCallback.callFailure("UUID darf nicht null sein");
+                log.error("UUID darf nicht null sein");
             } catch (NoResultException ex) {
                 singleDataCallback.callFailure("Es konnte kein studySystem zur UUID gefunden werden");
+                log.error("Es konnte kein StudySystem zur UUID gefunden werden");
             } catch (Exception ex) {
                 singleDataCallback.callFailure("Beim Abrufen des studySystems ist ein Fehler aufgetreten");
+                log.error("Beim Abrufen des StudySystems nach UUID ist ein Fehler aufgetreten");
             }
         });
     }
@@ -255,8 +273,10 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (IllegalStateException ex) {
                 singleDataCallback.callFailure("Null Variable gegeben");
+                log.error("Bei RemoveCard in einem StudySystem hat Null Variable Gegeben");
             } catch (Exception ex) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei RemoveCards in einem StudySystem ist ein Fehler aufgetreten");
             }
         });
     }
@@ -275,8 +295,10 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (IllegalStateException ex) {
                 singleDataCallback.callFailure(ex.getMessage());
+                log.error("Bei Löschen ein StudySystem hat Null Variable Gegeben");
             } catch (Exception ex) {
                 singleDataCallback.callFailure("Beim Löschen der StudySystem ist ein Fehler aufgetreten");
+                log.error("Beim Löschen der StudySystem ist ein Fehler aufgetreten");
             }
         });
     }
@@ -294,6 +316,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Beim Löschen einer Liste von StudySystems ist ein Fehler aufgetreten");
             }
         });
     }
@@ -314,6 +337,7 @@ public class StudySystemController {
                 dataCallback.callSuccess(studySystems);
             } catch (Exception ex) {
                 dataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Beim Bekommen StudySystems ist ein Fehler aufgetreten");
             }
         });
     }
@@ -334,6 +358,7 @@ public class StudySystemController {
                 dataCallback.callSuccess(studySystems);
             } catch (IllegalArgumentException ex) {
                 dataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Beim Bekommen StudySystems nach Suchgriff ist ein Fehler aufgetreten");
             }
         });
     }
@@ -359,7 +384,7 @@ public class StudySystemController {
                     singleDataCallback.callSuccess("");
                 }
             } catch (Exception ex) {
-                log.error(ex.getMessage());
+                log.error("Beim Hinzufügen eine Liste von Karten in einem StudySystem ist ein Fehler aufgetreten");
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
             }
         });
@@ -380,6 +405,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Bei Update StudySystem Data ist ein Fehler aufgetreten");
             }
         });
     }
@@ -397,6 +423,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Beim Hinzufügen und Update ein StudySystemType ist ein Fehler aufgetreten");
             }
         });
     }
@@ -416,6 +443,7 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
                 singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                log.error("Beim Erstellen Box to Card für Kategorie ist ein Fehler aufgetreten");
             }
         });
     }
