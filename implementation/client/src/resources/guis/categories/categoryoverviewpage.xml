@@ -9,7 +9,7 @@
         <button id="addcategorybutton"      size="100, 30" fontsize="20" locale-id="addcategorybutton" />
         <button id="treeviewbutton"         size="100, 30" fontsize="20" locale-id="viewtreebutton" />
         <button id="addtodeckbutton"        size="100, 30" fontsize="20" locale-id="addtodeckbutton" />
+        <button id="exportbutton"           size="120, 30" fontsize="20" locale-id="exportcategoriesbutton" />
         <button id="deletecategoriesbutton" size="120, 30" fontsize="20" locale-id="deletecategoriesbutton" color="#EB4D4B" />
-        <button id="exportbutton"           size="120, 30" fontsize="20" locale-id="exportbutton" />
     </menu>
 </gui-root>

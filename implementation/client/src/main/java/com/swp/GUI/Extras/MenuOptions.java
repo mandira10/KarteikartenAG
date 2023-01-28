@@ -77,7 +77,6 @@ public class MenuOptions extends RenderGUI
                 entry.getBox().getBox().hide(true);
                 entry.setPosition(new ivec2(0, (pBubble.numChildren() - 1) * 35));
 
-                Output.info(entry.getBox().getString() + " " + entry.getSize().x + " " + maxx);
                 if(entry.getSize().x > maxx)
                     maxx = entry.getSize().x;
             } 

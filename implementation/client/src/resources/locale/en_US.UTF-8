@@ -59,6 +59,7 @@ editcategorybutton     = Edit Cat.
 categorysearch         = Search Category
 categorylisttitle      = Categories
 deletecategoriesbutton = Delete Categories
+exportcategoriesbutton = Export Categories
 categorychildrenfield  = Children
 categoryparentsfield   = Parents
 
