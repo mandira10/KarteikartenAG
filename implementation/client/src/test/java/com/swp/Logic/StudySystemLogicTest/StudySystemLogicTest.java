@@ -594,6 +594,17 @@ public class StudySystemLogicTest {
     }
 
 
+    @Test
+    public void moveAllCardsForDeckToFirstBoxTestAlreadyExist(){
+        List<Card> list = new ArrayList<>();
+        Card card = new TrueFalseCard();
+        list.add(card);
+        StudySystem studySystem = new TimingSystem();
+        when(cardRepository.findCardByStudySystem(any(StudySystem.class),any(Card.class))).thenReturn(card);
+        List<Card> check = studySystemLogic.moveAllCardsForDeckToFirstBox(list,studySystem);
+        assertEquals(list,check);
+    }
+
 
 
 
