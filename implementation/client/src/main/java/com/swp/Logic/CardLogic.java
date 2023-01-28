@@ -174,13 +174,13 @@ public class CardLogic extends BaseLogic<Card>
             List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
             if (tagOld.isEmpty()) {
                 checkAndCreateTags(card, tagNew, tagOld);
-            } else if (new HashSet<>(tagOld).containsAll(tagNew)) {
+            } else if (tagOld.containsAll(tagNew)) {
                 if (tagOld.size() == tagNew.size()) {
                     //nothing to do
                 } else { //nur Löschen
                     checkAndRemoveTags(card, tagNew, tagOld);
                 }
-            } else if (new HashSet<>(tagNew).containsAll(tagOld)) {  // nur neue hinzufügen
+            } else if (tagNew.containsAll(tagOld)) {  // nur neue hinzufügen
                 checkAndCreateTags(card, tagNew, tagOld);
             } else { //neue und alte
                 checkAndCreateTags(card, tagNew, tagOld);
@@ -246,17 +246,13 @@ public class CardLogic extends BaseLogic<Card>
                     } catch (NoResultException ex) {
                         t = tagRepository.save(t);
                     }
-                    try {
-                        cardToTagRepository.findSpecificCardToTag(card, t);
-                        log.info("Tag {} wurde bereits zur Karte {} zugefügt", t.getVal(), card.getUuid());
-                    } catch (NoResultException ex) {
                         log.info("Tag {} wird zu Karte {} hinzugefügt", t.getVal(), card.getUuid());
                         cardToTagRepository.createCardToTag(card, t);
                     }
                 }
-            }
             return null;
-        });
+            });
+
     }
 
 

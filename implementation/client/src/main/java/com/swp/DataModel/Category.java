@@ -9,6 +9,7 @@ import org.hibernate.annotations.CascadeType;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -78,6 +79,12 @@ public class Category implements Serializable
         if (o == null || getClass() != o.getClass()) return false;
         Category cat = (Category) o;
         return name.equals(cat.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int prime = 31;
+        return prime + (name == null ? 0 : name.hashCode());
     }
 
 }
