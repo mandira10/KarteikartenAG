@@ -2,8 +2,10 @@ package com.swp;
 
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
@@ -15,6 +17,7 @@ import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Logic.StudySystemLogic;
+import com.swp.Persistence.Exporter.ExportFileType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -369,6 +372,7 @@ public class TestDataClass {
             });
         }
 
+
         //TestData For Decks
 
         StudySystem studySystem1 = new LeitnerSystem("Spanisch", StudySystem.CardOrder.ALPHABETICAL, false);
@@ -467,6 +471,19 @@ public class TestDataClass {
         categoryLogic.setCategoryHierarchy(biologie, childsBiologie, false);
         categoryLogic.setCategoryHierarchy(klasse11, childsklasse11, false);
         categoryLogic.setCategoryHierarchy(other2, others, false);
+
+        cardController.getCardsToShow(0, 2, new DataCallback<CardOverview>() {
+            @Override protected void onSuccess(List<CardOverview> data) 
+            {
+                cardController.exportCards(data, "./testexport.xml", ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
+                    @Override protected void onSuccess(Boolean data) {}
+                    @Override protected void onFailure(String msg) {}
+                });
+            }
+
+            @Override protected void onFailure(String msg) {}
+            @Override protected void onInfo(String msg) {}
+        });
     }
 
 

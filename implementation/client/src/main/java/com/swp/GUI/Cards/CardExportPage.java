@@ -88,6 +88,7 @@ public class CardExportPage extends Page
             }
             typebutton.getBox().setString(sym);
         });
+        iFileType = ExportFileType.EXPORT_PDF;
         pBubble.addGUI(filetypeOptions);
         pBubble.setSize(new ivec2(120, filetypeOptions.getSize().y + 30));
 

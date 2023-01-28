@@ -15,6 +15,7 @@ import com.gumse.shader.Shader;
 import com.gumse.shader.ShaderProgram;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
+import com.gumse.textures.Texture;
 import com.gumse.tools.FPS;
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
@@ -201,10 +202,13 @@ public class CardRenderer extends RenderGUI
         }
     }
 
-    @Override
-    protected void updateOnPosChange() 
+    public Texture getFrontTexture()
     {
-        //Output.info(String.valueOf(vPos.x));
-        //pCardModel.setPosition(new vec3((float)vPos.x / 10.0f, 1, 0));
+        return pFrontFramebuffer.getTexture();
+    }
+
+    public Texture getBackTexture()
+    {
+        return pBackFramebuffer.getTexture();
     }
 }

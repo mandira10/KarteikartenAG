@@ -1,5 +1,7 @@
 package com.swp.GUI;
 
+import java.util.ArrayList;
+
 import com.gumse.gui.GUI;
 import com.gumse.gui.Theme;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -7,8 +9,11 @@ import com.gumse.maths.*;
 import com.swp.DataModel.Settings.Setting;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
+import com.swp.Controller.CardController;
+import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Settings;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.Persistence.Exporter.ExportFileType;
 import com.swp.GUI.Cards.ViewSingleCardPage;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
