@@ -286,14 +286,12 @@ public class CategoryController {
                     dataCallback.callInfo(Locale.getCurrentLocale().getString("getcardsincategoryempty"));
 
                 dataCallback.callSuccess(cards);
-            } 
-            catch (IllegalStateException ex) 
-            { //null
+
+            } catch (IllegalStateException ex) { //null
                 log.error("Der übergebene Wert war leer");
                 dataCallback.callFailure(ex.getMessage());
-            }  
-            catch (final Exception ex) 
-            {
+            }  catch (final Exception ex) {
+                // wann wird von categoryLogic.getCardsInCategories() andere Exceptions als `IllegalStateException` geworfen?
                 log.error("Beim Suchen nach Karten mit Kategorien ist ein Fehler {} aufgetreten", ex);
                 dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardsincategoryerror"));
             }

@@ -47,7 +47,7 @@ public class CardRepository extends BaseRepository<Card> {
      * Teilstring im Inhalt hat.
      *
      * @param searchWords ein String nach dem im Inhalt aller Karten gesucht werden soll.
-     * @return Set<CardOverview> eine Menge von Karten, welche `searchWords` als Teilstring im Inhalt hat.
+     * @return List<CardOverview> eine List von Karten-Übersichten, welche `searchWords` als Teilstring im Inhalt hat.
      */
     public List<CardOverview> findCardsContaining(String searchWords) {
         return getEntityManager()
@@ -76,7 +76,7 @@ public class CardRepository extends BaseRepository<Card> {
      * Gibt es keine Karten in dieser Kategorie, so wird eine leere Liste zurückgegeben.
      *
      * @param category eine Kategorie
-     * @return Set<CardOverview> eine Menge von Karten-Übersichten, die der Kategorie zugeordnet sind.
+     * @return List<CardOverview> eine Menge von Karten-Übersichten, die der Kategorie zugeordnet sind.
      */
     public List<CardOverview> getCardsByCategory(Category category) {
         return getEntityManager()
@@ -91,7 +91,7 @@ public class CardRepository extends BaseRepository<Card> {
      * Gibt es keine Karten in dieser Kategorie, so wird eine leere Liste zurückgegeben.
      *
      * @param categoryName ein Kategorie-Name für die alle Karten gesucht werden sollen, die diesen haben.
-     * @return Set<CardOverview> eine Menge von Karten-Übersichten, welche der Kategorie zugeordnet sind.
+     * @return List<CardOverview> eine Menge von Karten-Übersichten, welche der Kategorie zugeordnet sind.
      */
     public List<CardOverview> getCardsByCategory(String categoryName) {
         return getEntityManager()
@@ -198,7 +198,7 @@ public class CardRepository extends BaseRepository<Card> {
      * Gibt es keine Karte mit dem angegebene Tag, so wird eine leere Liste zurückgegeben.
      *
      * @param tag ein Tag für den alle Karten gesucht werden sollen, die diesen haben.
-     * @return Set<Card> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
+     * @return List<CardOverview> eine Liste von Karten-Übersichten, welche in Verbindung zu dem Tag stehen.
      */
     public List<CardOverview> findCardsByTag(Tag tag) {
         return getEntityManager()
@@ -212,7 +212,7 @@ public class CardRepository extends BaseRepository<Card> {
      * Gibt es keine Karte mit dem angegebene Tag, so wird eine leere Liste zurückgegeben.
      *
      * @param tagName Teilstring der einem bestehenden Tag matchen sollte.
-     * @return Set<CardOverview> eine Menge von Karten, welche in Verbindung zu dem Tag stehen.
+     * @return List<CardOverview> eine Liste von Karten-Übersichten, welche in Verbindung zu dem Tag stehen.
      */
     public List<CardOverview> findCardsByTag(String tagName) {
         return getEntityManager()
