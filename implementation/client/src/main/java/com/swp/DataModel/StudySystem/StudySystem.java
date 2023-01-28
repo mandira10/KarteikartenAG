@@ -94,6 +94,16 @@ public abstract class StudySystem implements Serializable
     protected StudySystemType type;
 
     /**
+     * Boolean, ob ein Typ als Custom vorliegt. Kann für die GUI verwendet werden, um dieses anders darzustellen.
+     */
+    private boolean custom;
+
+    /**
+     * Textuelle Beschreibung des angepassten Lernsystems.
+     */
+    private String descriptionOfCustom;
+
+    /**
      * Basiskonstruktor des StudySystems mit Grundfunktionen, die jeder Typ hat. Wird in den einzelnen Subklassen über super aufgerufen.
      * @param name Name des Decks
      * @param cardOrder Initiale Reihenfolge der Karten bei Erstaufruf
@@ -115,7 +125,7 @@ public abstract class StudySystem implements Serializable
         this("", CardOrder.ALPHABETICAL, StudySystemType.LEITNER);
     }
 
-    protected void  initStudySystemBoxes(int size){}
+    protected void  initStudySystemBoxes(int size, int[] daysToRelearn){}
 
     /**
      * Methode für das Kopieren einer Karte. Hilfsmethode fürs

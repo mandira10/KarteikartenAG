@@ -2,6 +2,7 @@ package com.swp.DataModel.StudySystem;
 
 
 import com.gumse.gui.Locale;
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -20,6 +21,12 @@ import java.util.List;
 public class LeitnerSystem extends StudySystem
 {
 
+
+    @SuppressWarnings("JpaAttributeTypeInspection")
+    @Column
+    private int[] daysToRelearn;
+
+
     /**
      * Konstruktor der Klasse LeitnerSystem.
      *
@@ -28,8 +35,26 @@ public class LeitnerSystem extends StudySystem
      */
     public LeitnerSystem(String name, CardOrder cardOrder) {
         super(name, cardOrder, StudySystemType.LEITNER);
-        initStudySystemBoxes(5);
+        initStudySystemBoxes(5, new int[]{0,1,3,7,14});
+        setCustom(false);
         setDescription();
+    }
+
+
+    /**
+     * Konstruktor für ein custom Leitner System. Neben der Beschreibung wird hier auch noch die Anzahl der Boxen
+     * sowie die zugehörigen Lerntage festgelegt.
+     * @param name der Name des StudySystems
+     * @param cardOrder die initiale Lernreihenfolge
+     * @param boxes Die Anzahl der Boxen
+     * @param daysToRelearn die übergebenen Tage, wann gelernt werden soll
+     * @param description Die Beschreibung des Custom Systems
+     */
+    public LeitnerSystem(String name, CardOrder cardOrder, int boxes, int[] daysToRelearn, String description) {
+        super(name, cardOrder, StudySystemType.LEITNER);
+        initStudySystemBoxes(boxes,daysToRelearn);
+        setCustom(true);
+        setDescriptionOfCustom(description);
     }
 
 
@@ -39,10 +64,9 @@ public class LeitnerSystem extends StudySystem
 
 
     @Override
-    protected void  initStudySystemBoxes(int size) {
-        List<Integer> daysToLearn = Arrays.asList(new Integer[]{0,1,3,7,14}); //hardcoded not ideal
+    protected void  initStudySystemBoxes(int size, int[] daysToReLearn) {
         for (int i = 0; i < size; i++)
-            this.boxes.add(new StudySystemBox(this,daysToLearn.get(i)));
+            this.boxes.add(new StudySystemBox(this, daysToReLearn[i]));
 
     }
 

@@ -1,10 +1,19 @@
 package com.swp.DataModel.StudySystem;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Arrays;
+import java.util.List;
+
 /**
- * Klasse für das BasicSystem. Erbt alle Attribute vom StudySystem
+ * Klasse für das BasicSystem. Erbt alle Attribute vom StudySystem.
+ * Kann vom Nutzer erstellt werden und steht dann unter dem Reiter Custom als Lernsystem zur Verfügung.
  */
 
-// TODO
+@Getter
+@Setter
 public class BasicSystem extends StudySystem
 {
 
@@ -12,18 +21,14 @@ public class BasicSystem extends StudySystem
      * Konstruktor der Klasse BasicSystem.
      * @param name: der Name des Systems
      * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
-     * @param visibility: Sichtbarkeit des Systems
      */
-    public BasicSystem(String name, CardOrder cardOrder, boolean visibility) {
-        super(name, cardOrder, StudySystemType.CUSTOM, visibility);
+    public BasicSystem(String name, CardOrder cardOrder, int boxes, int[]daysforBoxes) {
+        super(name, cardOrder, StudySystemType.CUSTOM);
         this.boxes.add(new StudySystemBox(this));
     }
 
 
 
-    public BasicSystem(BasicSystem other) {
-        super(other);
-    }
 
     public BasicSystem() {
         //
