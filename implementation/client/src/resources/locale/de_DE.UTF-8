@@ -51,3 +51,35 @@ descriptionLeitner = Beim Leitner System lernt man in fünf Boxen, die folgende 
 descriptionTiming = Beim TimingSystem wird die Zeit gemessen, die du für eine Antwort brauchst und anhand dieser festgelegt, wann du die Frage wiederholen musst.
 descriptionVote = Beim VoteSystem kannst du für jede Frage 1-5 Sterne vergeben, 5 = sehr einfach - 1 = sehr schwer. Die Fragen werden bei jedem Lernen anhand des Ratings vorgelegt.
 
+# StudySystem Exceptions
+
+movecardtospecificboxempty = Card nicht gefunden.
+movecardtospecificboxerror = Beim MovingCard in einem Box ist ein Fehler aufgetreten.
+moveallcardsfordecktofirstboxempty = Card nicht gefunden.
+moveallcardsfordecktofirstboxerror = Beim Move Karte in erstem Box ist ein Fehler aufgetreten.
+getallcardsinstudysystemempty = Es gibt keine Karten zu diesem StudySystem.
+getallcardsinstudysystemerror = Beim Bekommen alle Karte in StudySystem ist ein Fehler aufgetreten.
+giveanswererror = Beim Antworten einer Karte ist ein Fehler aufgetreten.
+giveratingerror = Beim Geben Rating für einer Karte ist ein Fehler aufgetreten.
+givetimeerror = Beim Geben Time für einer Karte ist ein Fehler aufgetreten.
+finishtestandgetresulterror = Beim Beenden Test ist ein Fehler aufgetreten.
+getnextcarderror = Beim Bekommen nächste Karte ist ein Fehler aufgetreten.
+getprogresserror = Beim Bekommen Progress ist ein Fehler aufgetreten.
+numcardsindeckerror = Beim Abrufen von der Anzahl der studySystems ist ein Fehler aufgetreten.
+getstudysystembyuuidempty = UUID darf nicht null sein.
+getstudysystembyuuidnoresult = Es konnte kein StudySystem zur UUID gefunden werden.
+getstudysystembyuuiderror = Beim Abrufen des StudySystems nach UUID ist ein Fehler aufgetreten.
+removecardsfromstudysystemempty = Beim Entfernen einer Karte in einem StudySystem hat Null Variable gegeben.
+removecardsfromstudysystemerror = Beim Entfernen einer Karte in einem StudySystem ist ein Fehler aufgetreten.
+deletestudysystemempty = Beim Löschen ein StudySystem hat Null Variable gegeben.
+deletestudysystemerror = Beim Löschen der StudySystem ist ein Fehler aufgetreten.
+deletedeckserror = Beim Löschen einer Liste von StudySystems ist ein Fehler aufgetreten.
+getstudysystemsempty = Es gibt derzeit studySystems.
+getstudysystemerror = Beim Bekommen StudySystems ist ein Fehler aufgetreten.
+getstudysystembysearchtermsempty = Es gibt keine studySystems zu diesem Suchbegriff.
+getstudysystembysearchtermserror = Beim Bekommen StudySystems nach Suchgriff ist ein Fehler aufgetreten.
+addcardstostudysystemerror = Beim Hinzufügen eine Liste von Karten in einem StudySystem ist ein Fehler aufgetreten.
+updatedeckdataerror = Beim Update StudySystem Data ist ein Fehler aufgetreten.
+addstudysystemtypeandupdateerror = Beim Hinzufügen und Update ein StudySystemType ist ein Fehler aufgetreten.
+createboxtocardforcategory = Beim Erstellen Box to Card für Kategorie ist ein Fehler aufgetreten.-
+
