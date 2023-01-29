@@ -28,10 +28,6 @@ import static com.swp.Validator.checkNotNullOrBlank;
 @Getter
 @NamedQuery(name  = "Card.findCardByUUID",
             query = "SELECT c FROM Card c WHERE c.uuid = :uuid")
-@NamedQuery(name  = "Card.findByTitle",
-            query = "SELECT c FROM Card c WHERE c.title = :title ")
-//@NamedQuery(name = "Card.allCardsSortedByRating",
-//            query = "SELECT c FROM Card c ORDER BY c.rating DESC") //TODO FALSCH!
 public abstract class Card implements Serializable
 {
     /**

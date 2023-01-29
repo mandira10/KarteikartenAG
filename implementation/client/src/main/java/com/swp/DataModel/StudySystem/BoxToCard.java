@@ -14,6 +14,8 @@ import java.util.UUID;
 @Table(uniqueConstraints = @UniqueConstraint(name = "uniqueCardBox",columnNames = {"card_uuid","studySystemBox_id"}))
 @Getter
 @Setter
+@NamedQuery (name = "BoxToCard.allB2CByStudySystem",
+        query = "SELECT c FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
 @NamedQuery(name = "BoxToCard.allC2DByCard",
         query = "SELECT b2c.studySystemBox FROM BoxToCard b2c WHERE b2c.card = :card")
 @NamedQuery(name = "BoxToCard.allb2cByCard",
@@ -32,19 +34,21 @@ import java.util.UUID;
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.learnedNextAt < :now ORDER BY c.learnedNextAt ASC")
 @NamedQuery (name = "BoxToCard.numberOfLearnedCards",  query = "SELECT COUNT(distinct c.card) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'LEARNED'")
 
-
 @NamedQuery(name= "BoxToCard.initialCardsAlphabetical", query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question asc")
 @NamedQuery(name= "BoxToCard.initialCardsReversedAlphabetical", query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question desc")
 @NamedQuery (name = "BoxToCard.allByStudySystem",query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
-
+/**
+ * BoxToCard Klasse. Hier werden alle Karten zur spezifischen StudySystemBox gespeichert.
+ */
 public class BoxToCard {
 
 
-    @Id
+
     /**
      * Identifier und Primärschlüssel für
      * Karte-zu-studySystemBox Verbindung
      */
+    @Id
     protected final String id;
 
     /**
@@ -81,9 +85,10 @@ public class BoxToCard {
     @Column
     private Timestamp learnedNextAt;
 
-    @Column
-    private int boxNumber;
 
+    /**
+     * Rating für die BoxToCard. Wird beim Typ Vote gefüllt.
+     */
     @Column
     private int rating;
 
@@ -100,11 +105,10 @@ public class BoxToCard {
      * @param c: Karte
      * @param ssb: StudySystemBox
      */
-    public BoxToCard(Card c, StudySystemBox ssb,  int boxNumber)
+    public BoxToCard(Card c, StudySystemBox ssb)
     {
         this.card = c;
         this.studySystemBox = ssb;
-        this.boxNumber = boxNumber;
         this.id = UUID.randomUUID().toString();
         this.status = BoxToCard.CardStatus.NEW;
         this.learnedNextAt = new Timestamp(System.currentTimeMillis());

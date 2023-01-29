@@ -12,19 +12,34 @@ import com.gumse.gui.Locale;
 
 import java.util.*;
 
+/**
+ * CardController Klasse. Wird in der GUI für alle Funktionen zur Karte aufgerufen und
+ * gibt Ergebnisse an die GUI weiter.
+ */
 @Slf4j
 public class CardController {
-
+    /**
+     * Instanz von CardController
+     */
     private static CardController cardController;
-    private final CardLogic cardLogic = CardLogic.getInstance();
-    private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
 
+    /**
+     * Hilfsmethode. Wird genutzt, damit nicht mehrere Instanzen vom CardController entstehen.
+     *
+     * @return cardController Instanz, die benutzt werden kann.
+     */
     public static CardController getInstance() 
     {
         if (cardController == null)
             cardController = new CardController();
         return cardController;
     }
+
+    /**
+     * Benutze Logiken, auf die zugegriffen wird.
+     */
+    private final CardLogic cardLogic = CardLogic.getInstance();
+    private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
 
     /**
      * Wird in der CardOverviewPage verwendet, um die einzelnen Karten für die Seitenauswahl mitsamt Titel (wenn nicht vorhanden dann die Frage), Typ,
@@ -260,8 +275,6 @@ public class CardController {
      * @param singleDataCallback  Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
     public void exportCards(List<CardOverview> cards, String destination, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) {
-        threadPool.exec(() -> {
-            threadPool.addTaskToMainThread(() -> {
                 if(cardLogic.exportCards(cards, destination, filetype))
                 {
                     singleDataCallback.callSuccess(true);
@@ -271,8 +284,6 @@ public class CardController {
                     singleDataCallback.callFailure(Locale.getCurrentLocale().getString("cardexporterror"));
                     log.error("Beim Exportieren der Karte(n) gab es einen Fehler");
                 }
-            });
-        });
     }
 
 }

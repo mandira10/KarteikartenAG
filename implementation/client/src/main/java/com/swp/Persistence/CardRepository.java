@@ -1,13 +1,13 @@
 package com.swp.Persistence;
 
-import com.swp.DataModel.*;
-import com.swp.DataModel.StudySystem.BoxToCard;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.Tag;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
-
-import java.util.Collections;
 import java.util.List;
 
 @Slf4j

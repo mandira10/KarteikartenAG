@@ -118,7 +118,7 @@ public class TestStudySystemFunctions2 {
         assertEquals(1, studySystem1.getQuestionCount());
         assertEquals(3,testingBoxMockCards.size());
         BoxToCard boxToCard1 = studySystemLogic.getBoxToCard(erdkunde.get(0),studySystem1);
-        assertEquals(1,boxToCard1.getBoxNumber());
+        assertEquals(1,boxToCard1.getStudySystemBox().getBoxNumber());
         assertTrue(boxToCard1.getStatus().equals(BoxToCard.CardStatus.RELEARN));
 
         //Check date and reset
@@ -133,7 +133,7 @@ public class TestStudySystemFunctions2 {
         assertEquals(3,testingBoxMockCards.size());
         assertEquals(erdkunde.get(1),testingBoxMockCards.get(2));
         BoxToCard boxToCard2 = studySystemLogic.getBoxToCard(erdkunde.get(1),studySystem1);
-        assertEquals(0,boxToCard2.getBoxNumber());
+        assertEquals(0,boxToCard2.getStudySystemBox().getBoxNumber());
         assertTrue(boxToCard2.getStatus().equals(BoxToCard.CardStatus.RELEARN));
 
         cal.add(Calendar.DATE,0);
@@ -156,7 +156,7 @@ public class TestStudySystemFunctions2 {
         assertEquals(3,testingBoxMockCards.size());
         assertEquals(erdkunde.get(2),testingBoxMockCards.get(2));
 
-        assertEquals(0,boxToCard3.getBoxNumber());
+        assertEquals(0,boxToCard3.getStudySystemBox().getBoxNumber());
         assertTrue(boxToCard3.getStatus().equals(BoxToCard.CardStatus.RELEARN));
 
         cal.add(Calendar.DATE,0);
@@ -172,7 +172,7 @@ public class TestStudySystemFunctions2 {
         assertEquals(4, studySystem1.getQuestionCount());
         assertEquals(2,testingBoxMockCards.size());
 
-        assertEquals(4,boxToCard4.getBoxNumber());
+        assertEquals(4,boxToCard4.getStudySystemBox().getBoxNumber());
         assertTrue(boxToCard4.getStatus().equals(BoxToCard.CardStatus.RELEARN));
 
         //Check date and reset

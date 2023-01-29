@@ -57,7 +57,7 @@ public class CardRepositoryTest {
         Card card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2");
         StudySystem studySystem = new LeitnerSystem("Name", StudySystem.CardOrder.ALPHABETICAL);
         StudySystem notSavedStudySystem = new LeitnerSystem("Anderes", StudySystem.CardOrder.ALPHABETICAL);
-        BoxToCard cardToBox = new BoxToCard(card1, studySystem.getBoxes().get(0),0);
+        BoxToCard cardToBox = new BoxToCard(card1, studySystem.getBoxes().get(0));
 
         CardRepository.startTransaction();
         cardRepository.save(card1);

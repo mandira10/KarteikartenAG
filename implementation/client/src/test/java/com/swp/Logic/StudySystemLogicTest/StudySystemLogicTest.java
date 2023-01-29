@@ -222,9 +222,9 @@ public class StudySystemLogicTest {
         boxlist.add(studySystemBox2);
         boxlist.add(studySystemBox3);
         studySystem.setBoxes(boxlist);
-        BoxToCard boxToCard = new BoxToCard(card,studySystemBox,0);
+        BoxToCard boxToCard = new BoxToCard(card,studySystemBox);
         when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
-        int boxNumber = boxToCard.getBoxNumber();
+        int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
         int date = boxToCard.getLearnedNextAt().getDate();
         studySystemLogic.giveAnswer(studySystem,true);
 
@@ -263,13 +263,13 @@ public class StudySystemLogicTest {
         boxlist.add(studySystemBox3);
         boxlist.add(studySystemBox4);
         studySystem.setBoxes(boxlist);
-        BoxToCard boxToCard = new BoxToCard(card,studySystemBox4,4);
+        BoxToCard boxToCard = new BoxToCard(card,studySystemBox4);
         when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
-        int boxNumber = boxToCard.getBoxNumber();
+        int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
         Timestamp timestamp = boxToCard.getLearnedNextAt();
         studySystemLogic.giveAnswer(studySystem,true);
 
-        assertEquals(boxNumber,boxToCard.getBoxNumber());
+        assertEquals(boxNumber,boxToCard.getStudySystemBox().getBoxNumber());
         assertNotEquals(timestamp,boxToCard.getLearnedNextAt());
 
 
@@ -302,18 +302,18 @@ public class StudySystemLogicTest {
         boxlist.add(studySystemBox3);
         boxlist.add(studySystemBox4);
         studySystem.setBoxes(boxlist);
-        BoxToCard boxToCard = new BoxToCard(card,studySystemBox,0);
+        BoxToCard boxToCard = new BoxToCard(card,studySystemBox);
         when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
-        int boxNumber = boxToCard.getBoxNumber();
+        int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
         int date = boxToCard.getLearnedNextAt().getDate();
         studySystemLogic.giveAnswer(studySystem,false);
 
-        assertEquals(boxNumber,boxToCard.getBoxNumber());
+        assertEquals(boxNumber,boxToCard.getStudySystemBox().getBoxNumber());
         assertEquals(date,boxToCard.getLearnedNextAt().getDate());
 
     }
 
-    @Test
+    @Test //TODO adapt to new way
     public void giveAnswerTestLeitnerFalseBox4(){
         List<Card> list = new ArrayList<>();
         Card card = new TrueFalseCard();
@@ -339,13 +339,13 @@ public class StudySystemLogicTest {
         boxlist.add(studySystemBox3);
         boxlist.add(studySystemBox4);
         studySystem.setBoxes(boxlist);
-        BoxToCard boxToCard = new BoxToCard(card,studySystemBox4,4);
+        BoxToCard boxToCard = new BoxToCard(card,studySystemBox4);
         when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
-        int boxNumber = boxToCard.getBoxNumber();
+        int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
         Timestamp timestamp = boxToCard.getLearnedNextAt();
         studySystemLogic.giveAnswer(studySystem,false);
 
-        assertNotEquals(boxNumber,boxToCard.getBoxNumber());
+        assertEquals(boxNumber,boxToCard.getStudySystemBox().getBoxNumber());
         //assertNotEquals(timestamp,boxToCard.getLearnedNextAt());
 
     }
@@ -443,7 +443,7 @@ public class StudySystemLogicTest {
         boxlist.add(studySystemBox2);
         boxlist.add(studySystemBox3);
         studySystem.setBoxes(boxlist);
-        BoxToCard boxToCard = new BoxToCard(card,studySystemBox,0);
+        BoxToCard boxToCard = new BoxToCard(card,studySystemBox);
        int test = boxToCard.getRating();
         when(cardToBoxRepository.getSpecific(any(Card.class),any(StudySystem.class))).thenReturn(boxToCard);
         studySystemLogic.giveRating(studySystem, card, 5);

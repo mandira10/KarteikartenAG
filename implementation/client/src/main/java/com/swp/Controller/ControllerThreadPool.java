@@ -7,6 +7,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.gumse.tools.Output;
 
+/**
+ * ThreadPool für die Controllerfunktionen
+ */
 public class ControllerThreadPool
 {
     private ExecutorService pPool;

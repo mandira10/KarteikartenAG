@@ -45,21 +45,39 @@ public class CardOverview  {
     @Column(name = "uUUID")
     private String uUUID;
 
+    /**
+     * Anzahl der Decks, in der die Karte enthalten ist.
+     */
     @Column
     private int countDecks;
 
+    /**
+     * Erstellzeitpunkt der Karte.
+     */
     @Column
     private Timestamp cardCreated;
 
+    /**
+     * Titel der Karte, ist dieser leer wird die Frage angezeigt.
+     */
     @Column
     private String titelToShow;
+
+    /**
+     * Inhalt der Karte, wird beim Durchsuchen vom CardOverview verwendet.
+     */
     @Column
     private String content;
 
-
+    /**
+     * Leerer Konstruktor der Klasse
+     */
     public CardOverview(){}
 
-    //For Test reasons
+    /**
+     * Nicht leerer Konstruktor, wird nur für Testzwecke verwendet.
+     * @param uUUID: Gemockte UUID
+     */
     public CardOverview(String uUUID){
         this.uUUID = uUUID;
     }

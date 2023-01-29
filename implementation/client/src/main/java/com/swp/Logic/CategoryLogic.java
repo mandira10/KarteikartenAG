@@ -17,6 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 
+
+/**
+ * CategoryLogic Klasse, behandelt alle Category spezifischen Aufrufe.
+ * Erbt von der BaseLogic.
+ */
 @Slf4j
 public class CategoryLogic extends BaseLogic<Category> {
     /**
@@ -25,13 +30,9 @@ public class CategoryLogic extends BaseLogic<Category> {
     private CategoryLogic() {
         super(CategoryRepository.getInstance());
     }
-
-    private final CardRepository cardRepository = CardRepository.getInstance();
-    private final CategoryRepository categoryRepository = CategoryRepository.getInstance();
-    private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
-
-    private final CategoryHierarchyRepository categoryHierarchyRepository = CategoryHierarchyRepository.getInstance();
-
+    /**
+     * Instanz von CategoryLogic
+     */
     private static CategoryLogic categoryLogic;
 
     /**
@@ -44,6 +45,15 @@ public class CategoryLogic extends BaseLogic<Category> {
             categoryLogic = new CategoryLogic();
         return categoryLogic;
     }
+
+    /**
+     * Benutze Repositories, auf die zugegriffen wird.
+     */
+    private final CardRepository cardRepository = CardRepository.getInstance();
+    private final CategoryRepository categoryRepository = CategoryRepository.getInstance();
+    private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
+    private final CategoryHierarchyRepository categoryHierarchyRepository = CategoryHierarchyRepository.getInstance();
+
 
     /**
      * Gibt eine Kategorie anhand ihrer UUID wieder zurück. Weitergabe ans Repo.

@@ -4,6 +4,10 @@ import java.util.List;
 
 import com.gumse.tools.Output;
 
+/**
+ * Datacallback Klasse. Gibt die Rückgaben vom Controller an den MainThread weiter.
+ * @param <E> je nach Rückgabewert spezifisch
+ */
 public abstract class DataCallback <E>
 {
     private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();

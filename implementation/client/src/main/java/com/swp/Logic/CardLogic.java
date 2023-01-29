@@ -10,6 +10,12 @@ import java.util.*;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 
+
+
+/**
+ * CardLogic Klasse, behandelt alle Card spezifischen Aufrufe.
+ * Erbt von der BaseLogic.
+ */
 @Slf4j
 public class CardLogic extends BaseLogic<Card>
 {
@@ -20,18 +26,31 @@ public class CardLogic extends BaseLogic<Card>
         super(CardRepository.getInstance());
     }
 
-    private final CardRepository cardRepository = CardRepository.getInstance();
-    private final TagRepository tagRepository = TagRepository.getInstance();
-    private final CardToTagRepository cardToTagRepository = CardToTagRepository.getInstance();
-    private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
-
-    private final CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
+    /**
+     * Instanz von CardLogic
+     */
     private static CardLogic cardLogic;
+
+    /**
+     * Hilfsmethode. Wird genutzt, damit nicht mehrere Instanzen von CardLogic entstehen.
+     *
+     * @return cardLogic Instanz, die benutzt werden kann.
+     */
     public static CardLogic getInstance() {
         if (cardLogic == null)
             cardLogic = new CardLogic();
         return cardLogic;
     }
+
+    /**
+     * Benutze Repositories, auf die zugegriffen wird.
+     */
+    private final CardRepository cardRepository = CardRepository.getInstance();
+    private final TagRepository tagRepository = TagRepository.getInstance();
+    private final CardToTagRepository cardToTagRepository = CardToTagRepository.getInstance();
+    private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
+    private final CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
+
 
     /**
      * Wird in der CardOverviewPage verwendet, um die einzelnen Karten für die Seitenauswahl mitsamt Titel (wenn nicht vorhanden dann die Frage), Typ,
@@ -254,10 +273,6 @@ public class CardLogic extends BaseLogic<Card>
             });
 
     }
-
-
-
-    //ZUSATZ
 
     /**
      * Wird aufgerufen, um ausgewählte Karten zu exportieren. Wird an die Exporter Klasse weitergereicht.

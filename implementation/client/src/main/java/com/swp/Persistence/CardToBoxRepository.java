@@ -48,33 +48,11 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
      */
     public List<BoxToCard> getAllBoxToCardsForStudySystem(StudySystem studySystem) {
         return getEntityManager()
-                .createNamedQuery("BoxToCard.allByStudySystem", BoxToCard.class)
+                .createNamedQuery("BoxToCard.allB2CByStudySystem", BoxToCard.class)
                 .setParameter("studySystem", studySystem)
                 .getResultList();
     }
 
-    /**
-     * Erstellt eine neue `BoxToCard` Verbindung und persistiert sie in der Datenbank.
-     *
-     * @param card           eine Karte, die einem Lernsystem-Kasten zugeordnet werden soll.
-     * @param studySystemBox ein Lernsystem-Kasten, dem eine Karte zugeordnet werden soll.
-     */
-    public void createCardToBox(Card card, StudySystemBox studySystemBox, int box) {
-        getEntityManager().persist(new BoxToCard(card, studySystemBox, box));
-    }
-
-    /**
-     * Gibt für ein angegebenes Lernsystem die Anzahl der enthaltenen Karten zurück.
-     *
-     * @param studySystem das Lernsystem, für welches die zugeordneten Karten gezählt werden soll.
-     * @return die Anzahl der Karten im angegebene Lernsystem.
-     */
-    public int numCardsInStudySystem(StudySystem studySystem) {
-        return getEntityManager()
-                .createNamedQuery("BoxToCard.numCardsInStudySystem", int.class)
-                .setParameter("studySystem", studySystem.getUuid())
-                .getSingleResult();
-    }
 
     /**
      * Holt für eine Karte alle Karten-zu-LernsystemBox Verbindungen aus der Datenbank.
@@ -99,7 +77,7 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
      */
     public List<BoxToCard> getAllB2CForStudySystem(StudySystem studySystem) {
         return getEntityManager()
-                .createNamedQuery("BoxToCard.allB2CByStudySystem", BoxToCard.class)
+                .createNamedQuery("BoxToCard.allByStudySystem", BoxToCard.class)
                 .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }

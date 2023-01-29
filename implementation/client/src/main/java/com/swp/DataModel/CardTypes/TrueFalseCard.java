@@ -13,7 +13,6 @@ import lombok.Setter;
  * Klasse zum Erstellen von Karteikarten des Typs TrueFalseCard
  * Erbt die Grundeigenschaften der Klasse Card
  */
-
 @Getter
 @Setter
 @Entity
@@ -22,7 +21,7 @@ public class TrueFalseCard extends Card
 {
 
     /**
-     * Antwort der Karte
+     * Antwort der Karte, wird in Datenbank als String gespeichert.
      */
     @Column
     @Convert(converter = BooleanConverter.class)

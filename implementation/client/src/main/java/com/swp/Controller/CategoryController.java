@@ -10,22 +10,35 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+/**
+ * CategoryController Klasse. Wird in der GUI für alle Funktionen zur Kategorie aufgerufen und
+ * gibt Ergebnisse an die GUI weiter.
+ */
 @Slf4j
 public class CategoryController {
+    /**
+     * Instanz von CategoryController
+     */
     private static CategoryController categoryController;
-    private final CategoryLogic categoryLogic = CategoryLogic.getInstance();
-    private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
 
-    private CategoryController() 
-    {
-    }
-
+    /**
+     * Hilfsmethode. Wird genutzt, damit nicht mehrere Instanzen vom CategoryController entstehen.
+     *
+     * @return categoryController Instanz, die benutzt werden kann.
+     */
     public static CategoryController getInstance() 
     {
         if (categoryController == null)
             categoryController = new CategoryController();
         return categoryController;
     }
+
+    /**
+     * Benutze Logiken, auf die zugegriffen wird.
+     */
+    private final CategoryLogic categoryLogic = CategoryLogic.getInstance();
+    private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
+
 
     /**
      * Wird verwendet, um Data für eine Kategorie zu aktualisieren. Wird an die CategoryLogic weitergegeben.

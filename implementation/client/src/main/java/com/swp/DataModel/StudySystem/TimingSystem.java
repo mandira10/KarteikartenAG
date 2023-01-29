@@ -34,7 +34,9 @@ public class TimingSystem extends StudySystem
     public TimingSystem(String name, CardOrder cardOrder,int timeLimit){
         super(name,cardOrder,StudySystemType.TIMING);
         this.boxes.add(new StudySystemBox(this));
-        this.timeLimit = timeLimit;}
+        this.timeLimit = timeLimit;
+        setDescription();
+    }
 
     public TimingSystem() {
      this("",CardOrder.ALPHABETICAL,0);

@@ -163,7 +163,7 @@ public class TestStudySystemFunctions1 {
         assertEquals(1, studySystem2.getQuestionCount());
         assertEquals(3,testingBoxMockCards.size());
         BoxToCard boxToCard1 = studySystemLogic.getBoxToCard(erdkunde.get(0),studySystem2);
-        assertEquals(0,boxToCard1.getBoxNumber()); //no box moving, if true or false
+        assertEquals(0,boxToCard1.getStudySystemBox().getBoxNumber()); //no box moving, if true or false
         assertTrue(boxToCard1.getStatus().equals(BoxToCard.CardStatus.LEARNED));
 
         //Testfall 2: Antwort falsch
@@ -172,7 +172,7 @@ public class TestStudySystemFunctions1 {
         assertEquals(2, studySystem2.getQuestionCount());
         assertEquals(3,testingBoxMockCards.size());
         BoxToCard boxToCard2 = studySystemLogic.getBoxToCard(erdkunde.get(1),studySystem2);
-        assertEquals(0,boxToCard1.getBoxNumber()); //no box moving, if true or false
+        assertEquals(0,boxToCard1.getStudySystemBox().getBoxNumber()); //no box moving, if true or false
         assertTrue(boxToCard1.getStatus().equals(BoxToCard.CardStatus.LEARNED));
     }
 

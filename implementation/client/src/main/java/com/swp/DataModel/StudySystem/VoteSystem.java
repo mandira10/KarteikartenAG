@@ -24,6 +24,7 @@ public class VoteSystem extends StudySystem
     public VoteSystem(String name, CardOrder cardOrder) {
         super(name, cardOrder, StudySystemType.VOTE);
         this.boxes.add(new StudySystemBox(this));
+        setDescription();
     }
 
 

@@ -11,17 +11,21 @@ import lombok.Setter;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Klasse für das LeitnerSystem. Erbt alle Attribute vom StudySystem
- */
+
 @Entity
 @DiscriminatorValue("Leitner")
 @Getter
 @Setter
+/**
+ * Klasse für das LeitnerSystem. Erbt alle Attribute vom StudySystem
+ */
 public class LeitnerSystem extends StudySystem
 {
 
-
+    /**
+     * daysToRelearn, wird bei Custom Leitner Systemen in der GUI gesetzt
+     * und beim Lernen für die Wiederholung der Boxen verwendet.
+     */
     @SuppressWarnings("JpaAttributeTypeInspection")
     @Column
     private int[] daysToRelearn;
@@ -57,19 +61,28 @@ public class LeitnerSystem extends StudySystem
         setDescriptionOfCustom(description);
     }
 
-
+    /**
+     * Leerer Konstruktor der Klasse LeitnerSystem
+     */
     public LeitnerSystem() {
         this("", CardOrder.ALPHABETICAL);
     }
 
 
+    /**
+     * Überschreibt die initStudySystemBoxes Methode in StudySystem.
+     * Erstellt die Boxen und die setzt die Wiederholungstage.
+     */
     @Override
     protected void  initStudySystemBoxes(int size, int[] daysToReLearn) {
         for (int i = 0; i < size; i++)
-            this.boxes.add(new StudySystemBox(this, daysToReLearn[i]));
+            this.boxes.add(new StudySystemBox(this, daysToReLearn[i],i));
 
     }
 
+    /**
+     * Setzt die Beschreibung des Systems.
+     */
     @Override
     public void setDescription(){
         description = Locale.getCurrentLocale().getString("descriptionLeitner");

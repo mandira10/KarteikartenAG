@@ -1,5 +1,8 @@
 package com.swp.Controller;
-
+/**
+ * Singledatacallback Klasse. Gibt die Rückgaben vom Controller an den MainThread weiter.
+ * @param <E> je nach Rückgabewert spezifisch
+ */
 public abstract class SingleDataCallback <E>
 {
     private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();

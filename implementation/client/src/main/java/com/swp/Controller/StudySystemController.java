@@ -12,19 +12,35 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * StudySystemController Klasse. Wird in der GUI für alle Funktionen zur StudySystem aufgerufen und
+ * gibt Ergebnisse an die GUI weiter.
+ */
 @Slf4j
 public class StudySystemController {
-
+    /**
+     * Instanz von studySystemContoller
+     */
     private static StudySystemController studySystemController;
-    private final StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
-    private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
 
-    public static StudySystemController getInstance() 
+    /**
+     * Hilfsmethode. Wird genutzt, damit nicht mehrere Instanzen vom StudySystemController entstehen.
+     *
+     * @return studySystemController Instanz, die benutzt werden kann.
+     */
+    public static StudySystemController getInstance()
     {
         if (studySystemController == null)
             studySystemController = new StudySystemController();
         return studySystemController;
     }
+
+    /**
+     * Benutze Logiken, auf die zugegriffen wird.
+     */
+    private final StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
+    private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
+
 
 
     /**

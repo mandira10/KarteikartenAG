@@ -103,8 +103,8 @@ public class AddCategoriesToStudySystemTest {
         study1 = new LeitnerSystem("Study 1", StudySystem.CardOrder.ALPHABETICAL);
         study2 = new VoteSystem("Study 2", StudySystem.CardOrder.ALPHABETICAL);
 
-        boxToCard1 = new BoxToCard(card1, study1.getBoxes().get(0), 0);
-        boxToCard2 = new BoxToCard(card2, study2.getBoxes().get(0), 0);
+        boxToCard1 = new BoxToCard(card1, study1.getBoxes().get(0));
+        boxToCard2 = new BoxToCard(card2, study2.getBoxes().get(0));
 
         category1 = new Category("Kategorie 1");
         category2 = new Category("Kategorie 2");

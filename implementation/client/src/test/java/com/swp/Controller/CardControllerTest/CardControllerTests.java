@@ -31,15 +31,31 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
- * Testet die Controller Funktionen
+ * Testet die Controller Funktionen mithilfe von Komponententests.
  */
 public class CardControllerTests {
 
-    private CardLogic cardMockLogic;
+    /**
+     * CardController Instanz
+     */
     private CardController cardController = CardController.getInstance();
+
+    /**
+     * Gemockte CardLogic Instanz
+     */
+    private CardLogic cardMockLogic;
+
+    /**
+     * Attribute für die Spracheinstellung
+     */
     private Locale locale = new Locale("German", "de");
     private int i;
 
+    /**
+     * Before-Each Tests Methode.
+     * Die CardLogic wird gemockt und im Controller als gemockt gesetzt.
+     * Die Sprachvariable wird auf Deutsch eingestellt.
+     */
     @BeforeEach
     public void beforeEach(){
         cardMockLogic = mock(CardLogic.class);
@@ -62,6 +78,9 @@ public class CardControllerTests {
         });
     }
 
+    /**
+     * BeforeAll wird synchronizedTasks aufgerufen.
+     */
     @BeforeAll
     public static void before(){
         ControllerThreadPool.getInstance().synchronizedTasks(true);
@@ -700,27 +719,27 @@ public class CardControllerTests {
 
 
 
-//        @Test
-//        public void exportCardsFalse(){
-//            final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
-//            String filepath = "Test";
-//            when(cardMockLogic.exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML)).thenReturn(false);
-//            String expected = "Es gab Probleme beim Exportieren der Karten.";
-//            final String[] actual = new String[1];
-//            cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
-//                @Override
-//                public void onSuccess(Boolean data) {
-//
-//                }
-//
-//                @Override
-//                public void onFailure(String msg) {
-//                    actual[0] = msg;
-//                }
-//
-//            });
-//            assertEquals(expected, actual[0]);
-//        }
+        @Test
+        public void exportCardsFalse(){
+            final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
+            String filepath = "Test";
+            when(cardMockLogic.exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML)).thenReturn(false);
+            String expected = "Es gab Probleme beim Exportieren der Karten.";
+            final String[] actual = new String[1];
+            cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
+                @Override
+                public void onSuccess(Boolean data) {
+
+                }
+
+                @Override
+                public void onFailure(String msg) {
+                    actual[0] = msg;
+                }
+
+            });
+            assertEquals(expected, actual[0]);
+        }
 
 
         @Test
