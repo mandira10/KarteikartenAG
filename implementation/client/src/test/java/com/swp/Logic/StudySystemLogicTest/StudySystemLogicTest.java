@@ -250,7 +250,6 @@ public class StudySystemLogicTest {
         list.add(card4);
         StudySystem studySystem = new StudySystem() {
         };
-        studySystemLogic.testingBoxCards = list;
         studySystem.setType(StudySystem.StudySystemType.LEITNER);
         testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
@@ -327,7 +326,6 @@ public class StudySystemLogicTest {
         list.add(card4);
         StudySystem studySystem = new StudySystem() {
         };
-        studySystemLogic.testingBoxCards = list;
         studySystem.setType(StudySystem.StudySystemType.LEITNER);
         testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
@@ -466,36 +464,12 @@ public class StudySystemLogicTest {
     }
 
 
-    @Test
-    public void moveCardToBoxAndSaveTest(){
-
-        Card card = new TrueFalseCard();
-        StudySystem studySystem = new TimingSystem();
-        StudySystemBox studySystemBox = new StudySystemBox();
-        StudySystemBox studySystemBox2 = new StudySystemBox();
-        StudySystemBox studySystemBox3 = new StudySystemBox();
-        List<StudySystemBox> boxlist = new ArrayList<>();
-        boxlist.add(studySystemBox);
-        boxlist.add(studySystemBox2);
-        boxlist.add(studySystemBox3);
-        studySystem.setBoxes(boxlist);
-        BoxToCard boxToCard = new BoxToCard(card,studySystemBox,0);
-        BoxToCard check = new BoxToCard(card,studySystemBox2,1);
-        when(cardToBoxRepository.save(any(BoxToCard.class))).thenReturn(check);
-        studySystemLogic.moveCardToBoxAndSave(card,1,studySystem);
-        when(cardToBoxRepository.getSpecific(any(Card.class),any(StudySystem.class))).thenReturn(check);
-        studySystemLogic.getBoxToCard(card,studySystem);
-
-        assertNotEquals(boxToCard,check);
-        assertEquals(check.getCard(),boxToCard.getCard());
-    }
-
 
     @Test
     public void finishTestAndGetResultTestEmpty(){
         StudySystem studySystem = new TimingSystem();
         testingBoxMockCards = new ArrayList<>();
-        studySystemLogic.testingBoxCards = testingBoxMockCards;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         //TODO
 //        Exception exception = assertThrows(NoResultException.class, () -> {
 //            studySystemLogic.finishTestAndGetResult(studySystem);
@@ -515,7 +489,7 @@ public class StudySystemLogicTest {
         testingBoxMockCards.add(card);
         testingBoxMockCards.add(card2);
         studySystem.setQuestionCount(testingBoxMockCards.size()-1);
-        studySystemLogic.testingBoxCards = testingBoxMockCards;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         studySystem.setTrueAnswerCount(2);
         int expected = 100;
         double progress = 1;
@@ -539,7 +513,7 @@ public class StudySystemLogicTest {
         testingBoxMockCards.add(card2);
         testingBoxMockCards.add(card3);
         studySystem.setQuestionCount(1);
-        studySystemLogic.testingBoxCards = testingBoxMockCards;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         studySystem.setTrueAnswerCount(1);
         int expected = 33;
         double expected2 = 0.33;

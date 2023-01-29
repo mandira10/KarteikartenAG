@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.ExtensionMethod;
 
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -23,8 +24,6 @@ import java.util.UUID;
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
 @NamedQuery (name = "BoxToCard.allByBox",
         query = "SELECT c FROM BoxToCard c WHERE c.studySystemBox = :box")
-@NamedQuery (name = "BoxToCard.allByStudySystem",
-        query = "SELECT c FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
 @NamedQuery (name = "Card.ByStudySystem",
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.card = :card")
 @NamedQuery (name = "BoxToCard.allCardsSortedByRating",
@@ -32,6 +31,12 @@ import java.util.UUID;
 @NamedQuery (name = "BoxToCard.allCardNextLearnedAtOlderThanNowAscending",
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.learnedNextAt < :now ORDER BY c.learnedNextAt ASC")
 @NamedQuery (name = "BoxToCard.numberOfLearnedCards",  query = "SELECT COUNT(distinct c.card) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'LEARNED'")
+
+
+@NamedQuery(name= "BoxToCard.initialCardsAlphabetical", query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question asc")
+@NamedQuery(name= "BoxToCard.initialCardsReversedAlphabetical", query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question desc")
+@NamedQuery (name = "BoxToCard.allByStudySystem",query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
+
 public class BoxToCard {
 
 

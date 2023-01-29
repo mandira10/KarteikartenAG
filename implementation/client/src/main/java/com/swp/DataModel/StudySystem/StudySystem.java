@@ -33,13 +33,43 @@ public abstract class StudySystem implements Serializable
     @Setter(AccessLevel.NONE)
     private final String uuid;
 
+    /**
+     * Die Anzahl an gelernten Fragen für den
+     * aktuellen Lerndurchlauf. Wird beim Beenden
+     * oder Abbruch des Testings wieder auf 0 gesetzt.
+     * Dient der Berechnung des Ergebnisses (resultPoint, wird nicht in DB gespeichert) pro Lerndurchlauf.
+     */
+    protected int questionCount;
 
-    protected int questionCount = 0;
-    protected int trueAnswerCount = 0;
+    /**
+     * Die Anzahl an richtig beantworteten Fragen im
+     * aktuellen Lerndurchlauf. Wird beim Beenden
+     * oder Abbruch des Testings wieder auf 0 gesetzt.
+     * Dient der Berechnung des Ergebnisses (resultPoint, wird nicht in DB gespeichert) pro Lerndurchlauf.
+     */
+    protected int trueAnswerCount;
 
+    /**
+     * Der allgemeine Fortschritt des Lernens.
+     * Wird in der GUI je LernsystemDeck angezeigt und
+     * wird berechnet anhand des Statuses an gelernten Karten
+     * zu nicht gelernten / erneut zu lernenb Karten.
+     */
     protected double progress;
 
+    /**
+     * Beschreibung des Lernsystems und seiner Funktion.
+     * Wird im GUI verwendet, damit der Nutzer weiß,
+     * wie er lernt.
+     */
     protected String description;
+
+    /**
+     * Gibt an, ob das Lernsystem bereits gelernt wurde,
+     * wird im GUI für das Anpassen des Buttons benutzt und
+     * in der Logik beim Abrufen der Karten in getNextCard() aufgerufen.
+     */
+    protected boolean notLearnedYet;
 
     /**
      * Bezeichnung des StudySystems/Decks
@@ -113,7 +143,9 @@ public abstract class StudySystem implements Serializable
         this.cardOrder = cardOrder;
         this.name = name;
         this.type = type;
-
+        setTrueAnswerCount(0);
+        setQuestionCount(0);
+        setNotLearnedYet(true);
     }
 
     /**

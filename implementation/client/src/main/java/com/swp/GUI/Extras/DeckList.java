@@ -43,7 +43,7 @@ public class DeckList extends RenderGUI
             Text numcardsText = new Text("", defaultFont, new ivec2(10, 50), 0);
             numcardsText.setCharacterHeight(35);
 
-            int percentage = (int)(0); //(deck.getStudySystem().getProgress() * 100.0f);//TODO
+            int percentage = (int) (deck.getProgress());
             Text progressText = new Text(Locale.getCurrentLocale().getString("deckprogress") + ": " + percentage + "%", defaultFont, new ivec2(100, 10), 0);
             progressText.setPositionInPercent(true, false);
             progressText.setCharacterHeight(35);
@@ -60,6 +60,18 @@ public class DeckList extends RenderGUI
                         @Override
                         public void onSuccess(Integer data) {
                             numCards[0] = data;
+
+                            if (data > 0) {
+                                numcardsText.setString(numCards[0] + " " + Locale.getCurrentLocale().getString("deckentrycards"));
+                                iconText.setString("");
+                            } else {
+                                numcardsText.setString(Locale.getCurrentLocale().getString("deckempty"));
+                                iconText.setString("");
+                                iconText.setOrigin(new ivec2(50, 40));
+                            }
+                            addElement(progressText);
+                            addElement(numcardsText);
+                            addElement(iconText);
                         }
 
                         @Override
@@ -67,20 +79,7 @@ public class DeckList extends RenderGUI
                         //do nothing
                         }
                     });
-            if(numCards[0] > 0)
-            {
-                numcardsText.setString(numCards[0] + " " + Locale.getCurrentLocale().getString("deckentrycards"));
-                iconText.setString("");
-            }
-            else
-            {
-                numcardsText.setString(Locale.getCurrentLocale().getString("deckempty"));
-                iconText.setString("");
-                iconText.setOrigin(new ivec2(50, 40));
-            }
-            addElement(progressText);
-            addElement(numcardsText);
-            addElement(iconText);
+
 
             onHover(null, Mouse.GUM_CURSOR_HAND);
 

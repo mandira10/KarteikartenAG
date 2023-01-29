@@ -1,5 +1,7 @@
 package com.swp.Persistence;
 
+import com.swp.DataModel.Card;
+import com.swp.DataModel.StudySystem.StudySystem;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -35,10 +37,11 @@ public abstract class BaseRepository<T> {
     /**
      * Funktion um ein Object mit den Daten aus der abzugleichen.
      * Nach dem Aufruf ist `t` mit denselben Daten gefüllt, wie sie im Repository vorliegen.
+     *
      * @param t das zu aktualisierende Object vom Typ T (Repository-Typ).
      * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */
-    public void refresh(T t){
+    public void refresh(T t) {
         if (!isTransactionActive()) {
             throw new IllegalStateException("Es gibt keine aktive Transaktionen.");
         }
@@ -94,6 +97,7 @@ public abstract class BaseRepository<T> {
 
     /**
      * Funktion um zu prüfen, ob gerade eine Transaktion aktiv ist.
+     *
      * @return boolean, falls gerade eine aktive Transaktion vorliegt `true`, sonst `false`.
      */
     public static boolean isTransactionActive() {
@@ -101,10 +105,12 @@ public abstract class BaseRepository<T> {
     }
 
     // Allgemeine Funktionen für die Repositories (CRUD)
+
     /**
      * Funktion um alle gespeicherten Objekte des Repository-Typs aus der Datenbank zu holen.
-     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
+     *
      * @return List<T> eine Liste mit allen persistierten Objekten aus der Datenbank.
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */
     public List<T> getAll() throws IllegalStateException {
         if (!isTransactionActive()) {
@@ -118,6 +124,7 @@ public abstract class BaseRepository<T> {
 
     /**
      * Funktion um die Anzahl der persistierten Objekte des entsprechenden Repository-Typs zu bekommen.
+     *
      * @return int Anzahl der gespeicherten Objekte im Repository.
      */
     public int countAll() {
@@ -126,6 +133,7 @@ public abstract class BaseRepository<T> {
 
     /**
      * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu persistieren.
+     *
      * @param object das zu speichernde Objekt.
      * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */
@@ -138,9 +146,10 @@ public abstract class BaseRepository<T> {
 
     /**
      * Funktion um eine Liste von Objekten im Repository zu persistieren.
+     *
      * @param objects Liste der zu speichernden Objekte.
-     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      * @return List<T> eine Liste der attached Objects die gerade gespeichert wurden.
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */
     public List<T> save(List<T> objects) throws IllegalStateException {
         if (!isTransactionActive()) {
@@ -155,9 +164,10 @@ public abstract class BaseRepository<T> {
 
     /**
      * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu aktualisieren.
+     *
      * @param object das zu aktualisierende Objekt.
-     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      * @return T das attached Object vom Repository-Typ das gerade aktualisiert wurde.
+     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */
     public T update(T object) throws IllegalStateException {
         if (!isTransactionActive()) {
@@ -168,6 +178,7 @@ public abstract class BaseRepository<T> {
 
     /**
      * Funktion um ein Objekt des Repository-Typs aus dem entsprechenden Repository zu entfernen.
+     *
      * @param object das zu löschende Objekt.
      * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */
@@ -180,6 +191,7 @@ public abstract class BaseRepository<T> {
 
     /**
      * Funktion um eine Liste von Objekten im Repository zu entfernen.
+     *
      * @param objects Liste der zu löschenden Objekte.
      * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
      */

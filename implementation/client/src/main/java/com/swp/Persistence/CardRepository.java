@@ -1,11 +1,13 @@
 package com.swp.Persistence;
 
 import com.swp.DataModel.*;
+import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j
@@ -133,52 +135,6 @@ public class CardRepository extends BaseRepository<Card> {
     }
 
 
-    /**
-     * TOTEST EFE Hier sollen alle Karten zurückgegeben werden, die in der untersten Box sind bzw. alle, die vom Lerndatum dran sind (CardToBox) learnedAt in SORTIERTER FORM!
-     * Schau mal ob getDate() in H2 funktioniert, ansonsten lass dir das aktuelle Datum über System.currentTimeMillis ausgeben.
-     * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
-     *
-     * @param studySystem das zu durchsuchende Lernsystem.
-     * @return List<BoxToCard> eine Liste von Karten, sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
-     */
-    public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
-        return getEntityManager()
-                .createNamedQuery("BoxToCard.allCardNextLearnedAtOlderThanNowAscending", Card.class)
-                .setParameter("now", System.currentTimeMillis())
-                .setParameter("studySystem", studySystem.getUuid())
-                .getResultList();
-    }
-
-    /**
-     * Holt eine Liste von Karten aus der Datenbank, welche sich in einem angegebenen Lernsystem befinden.
-     * Es wird nach der benutzerdefinierten Bewertung für die Karten sortiert.
-     * Gibt es keine Karten in dem Lernsystem, so wird eine leere Liste zurückgegeben.
-     *
-     * @param studySystem das zu durchsuchende Lernsystem.
-     * @return List<Card> eine Liste von Karten in dem Lernsystem, sortiert nach ihrer Bewertung.
-     */
-    public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
-        //TOTEST gib mir alle Karten sortiert nach Rating fürs nächste Lernen, //TODO: wir haben zwei Ratingmöglichkeiten für Karten, das ist grad die falsche die verwendet wird
-        return getEntityManager()
-                .createNamedQuery("BoxToCard.allCardsSortedByRating", Card.class)
-                .setParameter("studySystem", studySystem.getUuid())
-                .getResultList();
-    }
-
-    /**
-     * Holt alle Karten für ein angegebenes Lernsystem aus der Datenbank.
-     * Gibt es keine Karten in dem Lernsystem, so wird eine leere Liste zurückgegeben.
-     *
-     * @param studySystem das zu durchsuchende Lernsystem.
-     * @return List<Card> eine Liste der Karten in dem Lernsystem.
-     */
-    public List<Card> getAllCardsForTimingSystem(StudySystem studySystem) {
-        //TOTEST gib mir alle Karten in diesem StudySystem for TimingSystem
-        return getEntityManager()
-                .createNamedQuery("BoxToCard.allCardsOfEveryBoxesOfTheStudySystem", Card.class)
-                .setParameter("studySystem", studySystem.getUuid())
-                .getResultList();
-    }
 
     /**
      * Holt für eine Liste von Karten-Übersichten die entsprechenden Karten aus der Datenbank.
@@ -227,6 +183,90 @@ public class CardRepository extends BaseRepository<Card> {
                 .createNamedQuery("BoxToCard.numberOfLearnedCards", Long.class)
                 .setParameter("studySystem", studySystem.getUuid())
                 .getSingleResult();
+    }
+
+    /**
+     * Gibt alle Karten beim Beginn vom Lernen nach der initialen angegebenen Kartenreihenfolge ALPHABETICAL zurück.
+     *
+     * @param studySystem Das StudySystem, das gelernt werden soll
+     * @return Liste mit Karten fürs Lernen
+     */
+    public List<Card> getAllCardsInitiallyOrderedAlphabetical(StudySystem studySystem) {
+        return getEntityManager().
+                createNamedQuery("BoxToCard.initialCardsAlphabetical", Card.class)
+                .setParameter("studySystem", studySystem.getUuid())
+                .getResultList();
+    }
+        /**
+         * Gibt alle Karten beim Beginn vom Lernen nach der initialen angegebenen Kartenreihenfolge ALPHABETICAL zurück.
+         *
+         * @param studySystem Das StudySystem, das gelernt werden soll
+         * @return Liste mit Karten fürs Lernen
+         */
+        public List<Card> getAllCardsInitiallyOrderedReversedAlphabetical(StudySystem studySystem){
+            return getEntityManager().
+                    createNamedQuery("BoxToCard.initialCardsReversedAlphabetical", Card.class)
+                    .setParameter("studySystem", studySystem.getUuid())
+                    .getResultList();
+        }
+            /**
+             * Gibt alle Karten beim Beginn vom Lernen nach der initialen angegebenen Kartenreihenfolge ALPHABETICAL zurück.
+             *
+             * @param studySystem Das StudySystem, das gelernt werden soll
+             * @return Liste mit Karten fürs Lernen
+             */
+            public List<Card> getAllCardsForStudySystem(StudySystem studySystem){
+                return getEntityManager().
+                        createNamedQuery("BoxToCard.allByStudySystem", Card.class)
+                        .setParameter("studySystem", studySystem.getUuid())
+                        .getResultList();
+            }
+
+    /**
+     * TOTEST EFE Hier sollen alle Karten zurückgegeben werden, die in der untersten Box sind bzw. alle, die vom Lerndatum dran sind (CardToBox) learnedAt in SORTIERTER FORM!
+     * Schau mal ob getDate() in H2 funktioniert, ansonsten lass dir das aktuelle Datum über System.currentTimeMillis ausgeben.
+     * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
+     *
+     * @param studySystem das zu durchsuchende Lernsystem.
+     * @return List<BoxToCard> eine Liste von Karten, sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
+     */
+    public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
+        return getEntityManager()
+                .createNamedQuery("BoxToCard.allCardNextLearnedAtOlderThanNowAscending", Card.class)
+                .setParameter("now", System.currentTimeMillis())
+                .setParameter("studySystem", studySystem.getUuid())
+                .getResultList();
+    }
+
+    /**
+     * Holt eine Liste von Karten aus der Datenbank, welche sich in einem angegebenen Lernsystem befinden.
+     * Es wird nach der benutzerdefinierten Bewertung für die Karten sortiert.
+     * Gibt es keine Karten in dem Lernsystem, so wird eine leere Liste zurückgegeben.
+     *
+     * @param studySystem das zu durchsuchende Lernsystem.
+     * @return List<Card> eine Liste von Karten in dem Lernsystem, sortiert nach ihrer Bewertung.
+     */
+    public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
+        //TOTEST gib mir alle Karten sortiert nach Rating fürs nächste Lernen, //TODO: wir haben zwei Ratingmöglichkeiten für Karten, das ist grad die falsche die verwendet wird
+        return getEntityManager()
+                .createNamedQuery("BoxToCard.allCardsSortedByRating", Card.class)
+                .setParameter("studySystem", studySystem.getUuid())
+                .getResultList();
+    }
+
+    /**
+     * Holt alle Karten für ein angegebenes Lernsystem aus der Datenbank.
+     * Gibt es keine Karten in dem Lernsystem, so wird eine leere Liste zurückgegeben.
+     *
+     * @param studySystem das zu durchsuchende Lernsystem.
+     * @return List<Card> eine Liste der Karten in dem Lernsystem.
+     */
+    public List<Card> getAllCardsForTimingSystem(StudySystem studySystem) {
+        //TOTEST gib mir alle Karten in diesem StudySystem for TimingSystem
+        return getEntityManager()
+                .createNamedQuery("BoxToCard.allCardsOfEveryBoxesOfTheStudySystem", Card.class)
+                .setParameter("studySystem", studySystem.getUuid())
+                .getResultList();
     }
 
 }

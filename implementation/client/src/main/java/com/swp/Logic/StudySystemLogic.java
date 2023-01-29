@@ -3,7 +3,6 @@ package com.swp.Logic;
 import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
-import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
@@ -14,10 +13,7 @@ import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 
@@ -38,8 +34,20 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
 
+    /**
+     * Hilfsattribut fürs Testing von Karten.
+     * Temporäre Liste aller Karten, die im aktuellen Lerndurchlauf gelernt werden sollen.
+     * Wird beim Beenden des Tests oder bei Abbruch wieder geleert.
+     */
+    private List<Card> testingBoxCards = new ArrayList<>();
 
-    public List<Card> testingBoxCards = new ArrayList<>(); //All current cards that need to be learned
+    /**
+     * Gibt an, ob ein Testdurchlauf gerade aktiv ist,
+     * wird in getNextCard() verwendet, damit keine neuen
+     * Karten gezogen werden, wenn der Lerndurchlauf fertig ist.
+     * Wird in finishTestAndGetResult wieder auf false gesetzt.
+     */
+    private boolean testingStarted = false;
 
 
 
@@ -49,7 +57,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     /**
      * Verschiebt spezifische Karte in eine Box des StudySystems. 
-     * @param cardToBox: Zu verschiebene Karte
+     * @param cardToBox: Zu verschiebende Karte
      * @param newBox: Index der Box, in den die Karte verschoben werden soll
      * @param studySystem Das StudySystem, das benötigt wird.
      */
@@ -59,24 +67,13 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 cardToBox.setStudySystemBox(studySystem.getBoxes().get(newBox));
     }
 
-    /**
-     * Verschiebt und speichert spezifische Karte in eine Box des StudySystems.
-     * @param card: Zu verschiebene Karte
-     * @param newBox: Index der Box, in den die Karte verschoben werden soll
-     * @param studySystem: Das StudySystem, das benötigt wird.
-     */
-    public void moveCardToBoxAndSave(Card card, int newBox, StudySystem studySystem) //Testet
-    {
-        BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
-        cardToBoxRepository.save(boxToCard);
-
-    }
 
 
     /**
-     * Wird nach der Erstellung eines neuen StudySystem verwendet und verschiebt alle Karten für das StudySystem in das erste Box.
-     * Vorher wird geprüft, ob die Karte bereits im StudySystem enthalten ist, wenn ja, wird sie nicht nochmal hinzugefügt und das GUI
-     * zeigt eine Sammlung aller Karten an, die nciht hinzugefügt worden sind.
+     * Wird nach der Erstellung eines neuen StudySystem verwendet und verschiebt alle Karten für das StudySystem in die erste Box.
+     * Vorher wird geprüft, ob die Karte bereits im StudySystem enthalten ist, wenn ja, wird sie nicht nochmal hinzugefügt und an den Controller
+     * zurückgespielt, so dass die GUI anzeigen kann, welche Karten nicht hinzugefügt werden konnten.
+     * Ruft Hilfsmethode moveCardToBoxAndSave auf.
      * @param cards: Karten, die StudySystem enthalten soll.
      * @param studySystem: Das StudySystem, das benötigt wird.
      */
@@ -97,9 +94,23 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
     /**
+     * Verschiebt und speichert eine neue Karte in einer Box des StudySystems.
+     * Hilfsmethode für das initiale Hinzufügen von Karten zu einem StudySystem, daher private.
+     * @param card: Zu verschiebene Karte
+     * @param newBox: Index der Box, in den die Karte verschoben werden soll
+     * @param studySystem: Das StudySystem, das benötigt wird.
+     */
+    private void moveCardToBoxAndSave(Card card, int newBox, StudySystem studySystem) //Testet
+    {
+        BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox), newBox);
+        cardToBoxRepository.save(boxToCard);
+
+    }
+    /**
      * Nach Beantwortung einer Frage wird die Antwort übergeben, so dass
      * je nach Antwort die Karte in den Boxen verschoben werden kann (Leitner System) oder
-     * die Karte aktualisiert wird je nach Antwort.
+     * die Karte aktualisiert wird je nach Antwort (Status wird auf gelernt/ erneut Lernen gesetzt) und
+     * die Karte fällt aus dem Lernstapel oder wird als neu zu lernen festgelegt.
      * @param studySystem Das StudySystem, das benötigt wird.
      * @param answer : Frage war richtig / falsch beantwortet
      */
@@ -108,7 +119,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         //setze Karte auf gelernt und entferne sie aus der testingBoxCards
         studySystem.incrementQuestionCount(); //Karte gelernt
         Card cardLearned = testingBoxCards.get(0); //Zieh dir aktuelle Karte
-        testingBoxCards.remove(cardLearned); //entferne Karte aus dem testingBoxCards (wenn Probleme, dann erst danach)
+        testingBoxCards.remove(cardLearned); //entferne Karte aus dem testingBoxCards
         BoxToCard boxToCard = getBoxToCard(cardLearned, studySystem);
 
             if (studySystem.getType() == StudySystem.StudySystemType.LEITNER) {
@@ -149,7 +160,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 }
             }
             execTransactional(() -> { //DB action starts here
-            studySystemRepository.update(studySystem);
+           // studySystemRepository.update(studySystem); needed??
             cardToBoxRepository.update(boxToCard);
             return true;
         });
@@ -177,33 +188,42 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return Karte die als nächstes gelernt werden soll
      */
     public Card getNextCard(StudySystem studySystem){
-        //TODO: initiale Reihenfolge der Karten fehlt
-        //TODO: Endlosschleife aktuell, muss noch angepasst werden
         return execTransactional(() -> {
-        if(testingBoxCards.isEmpty()) {
-            log.info("Rufe Karten für Lernsystem ab");
-                switch (studySystem.getType()) {
-                    case CUSTOM:
-                    case TIMING:
-                        testingBoxCards = cardRepository.getAllCardsForTimingSystem(studySystem);
-                    case LEITNER:
-                        testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem);
-                    case VOTE:
-                        testingBoxCards = cardRepository.getAllCardsSortedForVoteSystem(studySystem);
-
-                }
-                if (testingBoxCards.isEmpty()) { //falls immernoch empty nach dem Ziehen, dann gib das an das GUI weiter
-                    log.info("Keine Karten für Lernsystem gefunden");
-                    return null;
-                    //TODO check if it works that way, currently out of index exception
-                }
+        //Abfrage 1: StudySystem wurde noch nie gelernt, benutze initiale Kartenreihenfolge fürs StudySystem
+        if(testingBoxCards.isEmpty() && !testingStarted && studySystem.isNotLearnedYet()) {
+            log.info("Rufe Karten für Lernsystem mit initialer Kartenreihenfolge ab");
+            switch (studySystem.getCardOrder()) {
+                case ALPHABETICAL:
+                    testingBoxCards = cardRepository.getAllCardsInitiallyOrderedAlphabetical(studySystem);
+                case REVERSED_ALPHABETICAL:
+                    testingBoxCards = cardRepository.getAllCardsInitiallyOrderedReversedAlphabetical(studySystem);
+                case RANDOM:
+                    testingBoxCards = cardRepository.getAllCardsForStudySystem(studySystem);
+                    Collections.shuffle(testingBoxCards);
+            }
+            testingStarted = true;
+            studySystem.setNotLearnedYet(false);
         }
-                log.info("Rufe die nächste Karte zum Lernen ab");
-                Card cardToLearn = testingBoxCards.get(0);
-                log.info("{} wird übergeben", cardToLearn.getQuestion());
-                return cardToLearn;
+        else if(testingBoxCards.isEmpty() && !testingStarted) {
+            log.info("Rufe Karten für Lernsystem mit Kartenreihenfolge nach Lernsystemlogik ab");
+            switch (studySystem.getType()) {
+                case TIMING:
+                    testingBoxCards = cardRepository.getAllCardsForTimingSystem(studySystem);
+                case LEITNER:
+                    testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem);
+                case VOTE:
+                    testingBoxCards = cardRepository.getAllCardsSortedForVoteSystem(studySystem);
+            }
+            testingStarted = true;
+        }
+            else if (testingBoxCards.isEmpty()){
+                return null;
+            }
 
-
+            log.info("Rufe die nächste Karte zum Lernen ab");
+            Card cardToLearn = testingBoxCards.get(0);
+            log.info("{} wird übergeben", cardToLearn.getQuestion());
+            return cardToLearn;
         });
     }
 
@@ -256,10 +276,11 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 studySystem.setTrueAnswerCount(studySystem.getTrueAnswerCount()-1);
                 updateStudySystem(timingSystem);
             }
+        }
             else {
                 throw new IllegalStateException("Falsches StudySystem");
             }
-        }
+
     };
 
     /**
@@ -269,34 +290,38 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return ResultPoint von der Funktion calculateResultAndSave bekommen wird
      */
     public int finishTestAndGetResult(StudySystem studySystem) { // Testet
+        int numofCardsInTotal = getAllCardsInStudySystem(studySystem).size();
+        log.info("Anzahl aller Karten ist {}", numofCardsInTotal);
         //2 Szenarios
         //Szenario 1: nothing was learned
         int result = 0;
         if(studySystem.getTrueAnswerCount() == 0 || studySystem.getQuestionCount() == 0) {
             testingBoxCards.removeAll(testingBoxCards);
-            return result;
         }
         //everything else
-        else{
-            int numofCardsInTotal =numCardsInDeck(studySystem);
-            int numOfLearnedCards = getAllCardsLearnedInStudySystem(studySystem);
-            double progress = studySystem.getProgress();
-
-                result = (100 / studySystem.getQuestionCount() * studySystem.getTrueAnswerCount());
-                studySystem.setProgress(Math.round((double) numOfLearnedCards /numofCardsInTotal *  100));
-
-            if(!testingBoxCards.isEmpty()){
+        else {
+            result = ( studySystem.getTrueAnswerCount() / studySystem.getQuestionCount() * 100 );
+            if (!testingBoxCards.isEmpty()) {
                 testingBoxCards.removeAll(testingBoxCards); //remove for a fresh start
             }
+        }
         //reset variables for next learning
         studySystem.setTrueAnswerCount(0);
         studySystem.setQuestionCount(0);
+        testingStarted = false;
+        log.info("Speichere Progress in Database");
+         execTransactional(() -> {
+            int numOfLearnedCards = getAllCardsLearnedInStudySystem(studySystem);
+            log.info("Anzahl aller gelernten Karten ist {}", numOfLearnedCards);
+            studySystem.setProgress(Math.round((double) numOfLearnedCards / numofCardsInTotal *  100));
+            studySystemRepository.update(studySystem); //save in Database (!)
+            return 0;
+        });
+         return result;
         }
 
 
-        updateStudySystem(studySystem); //save in Database (!)
-        return result; //local variable, why should we save it in Database as we only need it for GUI
-    }
+
 
 
     /**
@@ -309,12 +334,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
     public int getAllCardsLearnedInStudySystem(StudySystem studySystem) {
-        return  execTransactional(() -> {
-                try{ return (cardRepository.getNumberOfLearnedCardsByStudySystem(studySystem)).intValue();}
+
+                try{ return cardRepository.getNumberOfLearnedCardsByStudySystem(studySystem).intValue();}
                 catch ( NoResultException ex){
                     return 0;
                 }
-        });
+
     }
 
     /**
@@ -464,7 +489,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return Anzahl der Karten
      */
     public Integer numCardsInDeck(StudySystem studySystem) { // Testet
-        return getAllCardsInStudySystem(studySystem).size();
+          return getAllCardsInStudySystem(studySystem).size();
     }
 
 
