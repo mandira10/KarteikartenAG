@@ -83,3 +83,25 @@ updatedeckdataerror = Beim Update StudySystem Data ist ein Fehler aufgetreten.
 addstudysystemtypeandupdateerror = Beim Hinzufügen und Update ein StudySystemType ist ein Fehler aufgetreten.
 createboxtocardforcategory = Beim Erstellen Box to Card für Kategorie ist ein Fehler aufgetreten.
 
+# Category Exceptions
+
+updatecategorydataempty = Kategorie nicht gefunden.
+updatecategorydataerror = Beim Updaten/Speichern der Kategorie ist ein Fehler aufgetreten.
+editcategoryhierarchyerror = Beim Updaten der Kategorie ist der Fehler aufgetreten.
+deletecategoryempty = Der übergebene Wert war leer.
+deletecategoryerror = Beim Löschen der Kategorie ist ein Fehler aufgetreten.
+deletecategorieserror = Beim Löschen der Kategorien ist ein Fehler aufgetreten.
+getchildrenforcategoryerror = Beim Beim Abrufen der Children für die Kategorie ist ein Fehler aufgetreten.
+getparentsforcategoryerror = Beim Beim Abrufen der Children für die Kategorie ist ein Fehler aufgetreten.
+getcategorybyuuidempty = Der übergebene Wert war leer.
+getcategorybyuuidnoresult = Es wurde keine Kategorie zur UUID gefunden.
+getcategorybyuuiderror = Beim Abrufen der Kategorie ist ein Fehler aufgetreten.
+setcategoriestocarderror = Beim Setzen der Kategorien für die Karte mit der UUID ist ein Fehler aufgetreten.
+getcardsincategoryempty = Der übergebene Wert war leer.
+getcardsincategoryerror = Beim Suchen nach Karten mit Kategorie ist ein Fehler aufgetreten.
+getcardsincategoriesempty = Der übergebene Wert war leer.
+getcardsincategorieserror = Beim Suchen nach Karten mit Kategorien ist ein Fehler aufgetreten.
+getcategoriestocarderror = Beim Suchen nach Kategorien für die Karte ist ein Fehler aufgetreten.
+getcategorieserror = Beim Suchen nach Kategorien  ist ein Fehler aufgetreten.
+getrootcategorieserror = Beim Suchen nach Root-Kategorien ist ein Fehler aufgetreten.
+
