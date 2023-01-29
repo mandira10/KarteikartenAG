@@ -193,3 +193,26 @@ addcardstostudysystemerror = An error occurred when adding a list of cards in a 
 updatedeckdataerror = An error occurred when updating StudySystem Data.
 addstudysystemtypeandupdateerror = An error occurred while adding and updating a StudySystemType.
 createboxtocardforcategory = An error occurred while creating box to card for category.
+
+
+# Category Exceptions
+
+updatecategorydataempty = Category not found.
+updatecategorydataerror = An error occurred while updating/saving the category.
+editcategoryhierarchyerror = An error occurred while updating the category.
+deletecategoryempty = The given value was empty.
+deletecategoryerror = An error occurred while deleting the category.
+deletecategorieserror = An error occurred while deleting the categories.
+getchildrenforcategoryerror = An error occurred while retrieving the children for the category.
+getparentsforcategoryerror = An error occurred while retrieving the children for the category.
+getcategorybyuuidempty = The given value was empty.
+getcategorybyuuidnoresult = No category for UUID was found.
+getcategorybyuuiderror = An error occurred while retrieving the category.
+setcategoriestocarderror = An error occurred while setting the categories for the card with the UUID.
+getcardsincategoryempty = The given value was empty.
+getcardsincategoryerror = An error occurred while searching for cards with a category.
+getcardsincategoriesempty = The given value was empty.
+getcardsincategorieserror = An error occurred while searching for cards with categories.
+getcategoriestocarderror = An error occurred while searching for categories for the card.
+getcategorieserror = An error occurred while searching for categories.
+getrootcategorieserror = An error occurred while searching for root categories.
