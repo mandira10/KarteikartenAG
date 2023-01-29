@@ -100,8 +100,8 @@ public class AddCategoriesToStudySystemTest {
         card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2");
         card3 = new TrueFalseCard("Frage 3", false, "Titel 3");
 
-        study1 = new LeitnerSystem("Study 1", StudySystem.CardOrder.ALPHABETICAL, false);
-        study2 = new VoteSystem("Study 2", StudySystem.CardOrder.ALPHABETICAL, false);
+        study1 = new LeitnerSystem("Study 1", StudySystem.CardOrder.ALPHABETICAL);
+        study2 = new VoteSystem("Study 2", StudySystem.CardOrder.ALPHABETICAL);
 
         boxToCard1 = new BoxToCard(card1, study1.getBoxes().get(0), 0);
         boxToCard2 = new BoxToCard(card2, study2.getBoxes().get(0), 0);

@@ -17,16 +17,10 @@ import java.util.UUID;
         query = "SELECT b2c.studySystemBox FROM BoxToCard b2c WHERE b2c.card = :card")
 @NamedQuery(name = "BoxToCard.allb2cByCard",
         query = "SELECT b2c FROM BoxToCard b2c WHERE b2c.card = :card")
-@NamedQuery(name = "BoxToCard.allB2CByStudySystem",
-        query = "SELECT b2c FROM BoxToCard b2c LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
 @NamedQuery(name = "BoxToCard.findSpecificC2C",
         query = "SELECT b2c FROM BoxToCard b2c  LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem and b2c.card = :card")
-@NamedQuery(name = "BoxToCard.numCardsInStudySystem",
-        query = "SELECT count(distinct c.id) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
-@NamedQuery(name = "BoxToCard.numstudySystemBoxsWithCard",
-        query = "SELECT count(distinct c.id) FROM BoxToCard c WHERE c.card = :card")
 @NamedQuery (name = "BoxToCard.allCardsOfEveryBoxesOfTheStudySystem",
-        query = "SELECT c FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
+        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
 @NamedQuery (name = "BoxToCard.allByBox",
         query = "SELECT c FROM BoxToCard c WHERE c.studySystemBox = :box")
 @NamedQuery (name = "BoxToCard.allByStudySystem",
@@ -34,10 +28,10 @@ import java.util.UUID;
 @NamedQuery (name = "Card.ByStudySystem",
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.card = :card")
 @NamedQuery (name = "BoxToCard.allCardsSortedByRating",
-        query = "SELECT c FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.rating ASC")
+        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.rating ASC")
 @NamedQuery (name = "BoxToCard.allCardNextLearnedAtOlderThanNowAscending",
-        query = "SELECT c FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.learnedNextAt < :now ORDER BY c.learnedNextAt ASC")
-
+        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.learnedNextAt < :now ORDER BY c.learnedNextAt ASC")
+@NamedQuery (name = "BoxToCard.numberOfLearnedCards",  query = "SELECT COUNT(distinct c.card) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'LEARNED'")
 public class BoxToCard {
 
 

@@ -129,7 +129,6 @@ public class EditDeckPage extends Page
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
         });
-        //TODO TBD: fügst du die ausgewählten Karten bei einem neuen Deck bereits in das neue StudySystem vom neuen Deck ein?
-        //DeckController.updateDeckData(pOldDeck, pNewDeck, boolean if new // CardSet wenn die von uns eingefügt werden sollen );
+
     }
 }

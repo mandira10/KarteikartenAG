@@ -142,9 +142,9 @@ public class AddTagsToCardTest {
         public void testCreateTagFunctionAllPossibilitiesForLogic() {
                 //SetUp der DB, eine Karte und ein Tag hinzufügen
                 cardLogic.updateCardData(card1,true); 
-                CardRepository.startTransaction();
+                TagRepository.startTransaction();
                 tagRepository.save(tagExisting);
-                CardRepository.commitTransaction();
+                TagRepository.commitTransaction();
 
                 final boolean[] addedSuccessfully = new boolean[5];
                 final String[] messageException = new String[5];

@@ -34,6 +34,8 @@ public class TestDeckPage extends Page
     private float fElapsedSeconds;
     private boolean bStopTime;
 
+    private Card pCardToLern;
+
     private StudySystemController studySystemController = StudySystemController.getInstance();
 
     public TestDeckPage()
@@ -62,7 +64,7 @@ public class TestDeckPage extends Page
             @Override public void run(int rating) 
             {
                 bNextCardAllowed = true;
-                studySystemController.giveRating(pDeck,rating, new SingleDataCallback<Boolean>() {
+                studySystemController.giveRating(pDeck, pCardToLern, rating, new SingleDataCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean data) {}
 
@@ -156,25 +158,19 @@ public class TestDeckPage extends Page
         this.lStartTime = System.nanoTime();
         this.bStopTime = false;
         pCanvas.destroyChildren();
-
+        final Card[] nextCard = new Card[1];
         studySystemController.getNextCard(pDeck,  new SingleDataCallback<Card>() {
             @Override
             public void onSuccess(Card data) {
-             Card nextCard = data;
-                if(nextCard == null)
-                {
-                    studySystemController.finishTestAndGetResult(pDeck, new SingleDataCallback<Integer>() {
-                        @Override
-                        public void onSuccess(Integer data) {
-
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-
-                        }
-                    });
-                    return;
+                pCardToLern = data;
+                if(pCardToLern == null){
+                    finishTest();
+                }
+                else{
+                    pTestGUI = new TestCardGUI(pCardToLern);
+                    pCanvas.addGUI(pTestGUI);
+                    reposition();
+                    resize();
                 }
             }
 
@@ -183,22 +179,13 @@ public class TestDeckPage extends Page
 
             }
         });
-        Card nextCard = null; // pDeck.getNextCard(0); TODO
-        if(nextCard == null)
-        {
-            finishTest();
-            return;
+
+
         }
 
-        pTestGUI = new TestCardGUI(nextCard);
-        pCanvas.addGUI(pTestGUI);
-        reposition();
-        resize();
-    }
 
     private void finishTest()
     {
-        //pDeck.getStudySystem().finishTest();//TODO
         ((TestDeckFinishPage)PageManager.viewPage(PAGES.DECK_TEST_FINAL)).setDeck(pDeck);
     }
 

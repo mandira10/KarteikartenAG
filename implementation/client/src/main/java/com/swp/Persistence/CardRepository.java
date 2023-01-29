@@ -1,10 +1,10 @@
 package com.swp.Persistence;
 
 import com.swp.DataModel.*;
-import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
+
 
 import java.util.List;
 
@@ -139,12 +139,13 @@ public class CardRepository extends BaseRepository<Card> {
      * Du brauchst auch einen join damit du vom StudySystem auf die zugehörige Boxen und dann die Karten kommst.
      *
      * @param studySystem das zu durchsuchende Lernsystem.
-     * @return List<BoxToCard> eine Liste von Karten (?), sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
+     * @return List<BoxToCard> eine Liste von Karten, sortiert nach ihrem nächst-anstehenden Lernzeitpunkt.
      */
     public List<Card> getAllCardsNeededToBeLearned(StudySystem studySystem) {
         return getEntityManager()
                 .createNamedQuery("BoxToCard.allCardNextLearnedAtOlderThanNowAscending", Card.class)
-                .setParameter("now", System.currentTimeMillis()) //TODO in der Query muss wahrscheinlich noch auf das StudySystem gefiltert werden
+                .setParameter("now", System.currentTimeMillis())
+                .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }
 
@@ -159,8 +160,8 @@ public class CardRepository extends BaseRepository<Card> {
     public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
         //TOTEST gib mir alle Karten sortiert nach Rating fürs nächste Lernen, //TODO: wir haben zwei Ratingmöglichkeiten für Karten, das ist grad die falsche die verwendet wird
         return getEntityManager()
-                .createNamedQuery("Card.allCardsSortedByRating", Card.class)
-                .setParameter("studySystem", studySystem)
+                .createNamedQuery("BoxToCard.allCardsSortedByRating", Card.class)
+                .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }
 
@@ -175,7 +176,7 @@ public class CardRepository extends BaseRepository<Card> {
         //TOTEST gib mir alle Karten in diesem StudySystem for TimingSystem
         return getEntityManager()
                 .createNamedQuery("BoxToCard.allCardsOfEveryBoxesOfTheStudySystem", Card.class)
-                .setParameter("studySystem", studySystem)
+                .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }
 
@@ -220,6 +221,14 @@ public class CardRepository extends BaseRepository<Card> {
                 .setParameter("tagName", "%" + tagName + "%")
                 .getResultList();
     }
+
+    public Long getNumberOfLearnedCardsByStudySystem(StudySystem studySystem) {
+        return getEntityManager()
+                .createNamedQuery("BoxToCard.numberOfLearnedCards", Long.class)
+                .setParameter("studySystem", studySystem.getUuid())
+                .getSingleResult();
+    }
+
 }
 
 
