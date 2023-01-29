@@ -58,7 +58,6 @@ public class TestStudySystemFunctions1 {
             locale.setString(id, value);
         });
 
-        //Karten 2: Spanisch
         erdkunde.add(new TextCard());
         erdkunde.add(new TrueFalseCard());
         erdkunde.add(new TextCard());

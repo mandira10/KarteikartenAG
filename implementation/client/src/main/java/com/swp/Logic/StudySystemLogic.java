@@ -195,11 +195,14 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             switch (studySystem.getCardOrder()) {
                 case ALPHABETICAL:
                     testingBoxCards = cardRepository.getAllCardsInitiallyOrderedAlphabetical(studySystem);
+                    break;
                 case REVERSED_ALPHABETICAL:
                     testingBoxCards = cardRepository.getAllCardsInitiallyOrderedReversedAlphabetical(studySystem);
+                    break;
                 case RANDOM:
                     testingBoxCards = cardRepository.getAllCardsForStudySystem(studySystem);
                     Collections.shuffle(testingBoxCards);
+                    break;
             }
             testingStarted = true;
             studySystem.setNotLearnedYet(false);
@@ -209,14 +212,18 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             switch (studySystem.getType()) {
                 case TIMING:
                     testingBoxCards = cardRepository.getAllCardsForTimingSystem(studySystem);
+                    break;
                 case LEITNER:
                     testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem);
+                    break;
                 case VOTE:
                     testingBoxCards = cardRepository.getAllCardsSortedForVoteSystem(studySystem);
+                    break;
             }
             testingStarted = true;
         }
-            else if (testingBoxCards.isEmpty()){
+        if (testingBoxCards.isEmpty()){
+            log.info("Keine Karten mehr zu lernen");
                 return null;
             }
 
