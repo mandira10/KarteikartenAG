@@ -432,7 +432,7 @@ public class StudySystemLogicTest {
         list.add(card4);
         StudySystem studySystem = new StudySystem() {
         };
-        studySystem.setType(StudySystem.StudySystemType.LEITNER);
+        studySystem.setType(StudySystem.StudySystemType.VOTE);
         testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         StudySystemBox studySystemBox = new StudySystemBox();
