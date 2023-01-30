@@ -69,8 +69,8 @@ public class StudySystemControllerTests {
 
     @Test
     public void getAllCardsInStudySystemTestEmptySet() {
-
-        doThrow(new IllegalStateException("Es gibt keine Karten zu diesem Deck.")).when(studySystemMockLogic).getAllCardsInStudySystem(any(StudySystem.class));
+        List<CardOverview> list = new ArrayList<>();
+        when(studySystemMockLogic.getAllCardsInStudySystem(any(StudySystem.class))).thenReturn(list);
         final String expected = "Es gibt keine Karten zu diesem Deck.";
         final String[] actual = new String[1];
         StudySystem studySystem = new LeitnerSystem();
@@ -210,8 +210,8 @@ public class StudySystemControllerTests {
     @Test
     public void getStudySystemsTestNull() {
         List<StudySystem> list = new ArrayList<>();
-        doThrow(new IllegalStateException("Es gibt derzeit keine studySystems")).when(studySystemMockLogic).getStudySystems();
-        final String expected = "Es gibt derzeit keine studySystems";
+        when(studySystemMockLogic.getStudySystems()).thenReturn(list);
+        final String expected = Locale.getCurrentLocale().getString("getstudysystemsempty");
         final String[] actual = new String[1];
         studySystemController.getStudySystems(new DataCallback<StudySystem>() {
             @Override
@@ -278,8 +278,9 @@ public class StudySystemControllerTests {
 
     @Test
     public void getStudySystemBySearchTermsNull() {
-        doThrow(new IllegalStateException("Es gibt keine studySystems zu diesem Suchbegriff")).when(studySystemMockLogic).getStudySystemsBySearchterm(anyString());
-        final String expected = "Es gibt keine studySystems zu diesem Suchbegriff";
+        List<StudySystem> list = new ArrayList<>();
+        when(studySystemMockLogic.getStudySystemsBySearchterm(anyString())).thenReturn(list);
+        final String expected = "Es gibt keine Decks zu diesem Suchbegriff.";
         final String[] actual = new String[1];
         studySystemController.getStudySystemBySearchTerms("Test", new DataCallback<StudySystem>() {
             @Override
@@ -518,9 +519,7 @@ public class StudySystemControllerTests {
     public void moveAllCardsForDeckToFirstBoxTestNull() {
         StudySystem studySystem = new LeitnerSystem();
         List<Card> card = new ArrayList<>();
-        //doThrow(new IllegalStateException("Null Value Gegeben")).when(studySystemMockLogic).moveAllCardsForDeckToFirstBox(card,studySystem);
-        IllegalStateException ex = new IllegalStateException();
-        String expected = ex.getMessage();
+        String expected = Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty");
         final String[] actual = new String[1];
         studySystemController.moveAllCardsForDeckToFirstBox(card, studySystem, new SingleDataCallback<Boolean>() {
             @Override

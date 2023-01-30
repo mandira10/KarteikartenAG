@@ -55,15 +55,12 @@ public class StudySystemController {
         threadPool.exec(() -> {
             try {
                 if (cards.isEmpty()) {
-                    throw new IllegalStateException();
+                    singleDataCallback.callFailure("Karte wurde nicht gefunden.");
+                    log.info(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty"));
                 } else {
                     studySystemLogic.moveAllCardsForDeckToFirstBox(cards, studySystem);
                     singleDataCallback.callSuccess(true);
                 }
-            }
-            catch (IllegalStateException e){
-                singleDataCallback.callFailure(e.getMessage());
-                log.error(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty"));
             }
             catch (Exception e) {
                 singleDataCallback.callFailure(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxerror"));
@@ -86,14 +83,11 @@ public class StudySystemController {
                 List<CardOverview> cards = studySystemLogic.getAllCardsInStudySystem(studySystem);
 
                 if (cards.isEmpty()) {
-                    throw new IllegalStateException();
+                    dataCallback.callInfo("Es gibt keine Karten zu diesem Deck.");
+                    log.error(Locale.getCurrentLocale().getString("getallcardsinstudysystemempty"));
                 } else {
                     dataCallback.callSuccess(cards);
                 }
-            }
-            catch (IllegalStateException ex){
-                dataCallback.callInfo(ex.getMessage());
-                log.error(Locale.getCurrentLocale().getString("getallcardsinstudysystemempty"));
             }
             catch (Exception ex) {
                 dataCallback.callFailure(Locale.getCurrentLocale().getString("getallcardsinstudysystemerror"));
@@ -314,7 +308,7 @@ public class StudySystemController {
                 List<StudySystem> studySystems = studySystemLogic.getStudySystems();
                 if (studySystems.isEmpty()) {
                     log.info("Es wurden keine zugehörigen Karten gefunden");
-                    dataCallback.callInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
+                    dataCallback.callInfo(Locale.getCurrentLocale().getString("getstudysystemsempty"));
                 }
                 dataCallback.callSuccess(studySystems);
             }
