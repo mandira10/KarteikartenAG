@@ -10,6 +10,7 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.*;
 import com.gumse.system.io.Mouse;
+import com.swp.DataModel.User;
 import com.swp.GUI.Cards.CardOverviewPage;
 import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
@@ -112,41 +113,7 @@ public class Sidebar extends RenderGUI
 
         pSmoothFloat = new SmoothFloat(0, 5, 0);
 
-        pBackground.addGUI(new SidebarItem('', "Home", new ivec2(0,10), new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                PageManager.viewPage(PAGES.LOGIN);
-            }
-        }));
-        pBackground.addGUI(new SidebarItem('', "Decks", new ivec2(0,120), new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
-            }
-        }));
-        pBackground.addGUI(new SidebarItem('', "Cards", new ivec2(0,230), new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
-            }
-        }));
-        pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,340), new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
-            }
-        }));
-
-
-        SidebarItem settingsItem = new SidebarItem('', "Settings", new ivec2(0, 100), new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                PageManager.viewPage(PAGES.SETTINGS);
-            }
-        });
-        settingsItem.setPositionInPercent(false, true);
-        settingsItem.setOrigin(new ivec2(0, 100));
-        pBackground.addGUI(settingsItem);
+        refresh();
 
 
         pBackground.onEnter(new GUICallback() {
@@ -165,6 +132,37 @@ public class Sidebar extends RenderGUI
 
         resize();
         reposition();
+    }
+
+    public void refresh()
+    {
+        int offset = -100;
+        if(!User.isLoggedIn())
+        {
+            pBackground.addGUI(new SidebarItem('', "Login", new ivec2(0,offset += 110), (RenderGUI gui) -> {
+                PageManager.viewPage(PAGES.LOGIN);
+            }));
+        }
+        else
+        {
+            pBackground.addGUI(new SidebarItem('', "Decks", new ivec2(0,offset += 110), (RenderGUI gui) -> {
+                ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
+            }));
+            pBackground.addGUI(new SidebarItem('', "Cards", new ivec2(0,offset += 110), (RenderGUI gui) -> {
+                ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
+            }));
+            pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,offset += 110), (RenderGUI gui) -> {
+                ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
+            }));
+        }
+
+
+        SidebarItem settingsItem = new SidebarItem('', "Settings", new ivec2(0, 100), (RenderGUI gui) -> {
+            PageManager.viewPage(PAGES.SETTINGS);
+        });
+        settingsItem.setPositionInPercent(false, true);
+        settingsItem.setOrigin(new ivec2(0, 100));
+        pBackground.addGUI(settingsItem);
     }
     
 

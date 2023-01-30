@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="mainsettings" size="40%, 100%" pos="0, 0" origin="0, 0">
-        <button id="generalbutton"  pos="10%, 10%" origin="0,    0" size="80%, 40" fontsize="30" locale-id="generalsettingsbutton"   />
-        <button id="serverbutton"   pos="10%, 10%" origin="0, -60" size="80%, 40" fontsize="30" locale-id="serversettingsbutton"    />
+        <button id="generalbutton"  pos="10%, 10%"  origin="0,    0" size="80%, 40" fontsize="30" locale-id="generalsettingsbutton"   />
+        <button id="serverbutton"   pos="10%, 10%"  origin="0, -60" size="80%, 40" fontsize="30" locale-id="serversettingsbutton"    />
+        <button id="logoutbutton"   pos="10%, 100%" origin="0, 70" size="80%, 40" fontsize="30" locale-id="logoutbutton"    />
     </gui>
     <box id="subsettingview" pos="40%, 0" size="60%, 100%">
     </box>

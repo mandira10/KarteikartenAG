@@ -16,6 +16,8 @@ import com.swp.DataModel.Language.Language;
 import com.swp.DataModel.Settings.Setting;
 import com.swp.GUI.KarteikartenAGGUI;
 import com.swp.GUI.Page;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.PageManager.PAGES;
 
 
 public class SettingsPage extends Page 
@@ -90,6 +92,14 @@ public class SettingsPage extends Page
             {
                 settings.setSetting(Setting.SERVER_PORT, complete);
             }
+        });
+
+        Button logoutButton = (Button)findChildByID("logoutbutton");
+        logoutButton.onClick((RenderGUI gui) -> {
+            PageManager.viewPage(PAGES.LOGIN);
+            KarteikartenAGGUI.getInstance().getSidebar().refresh();
+            settings.setSetting(Setting.USER_NAME, "null");
+            settings.setSetting(Setting.USER_PASSWD, "null");
         });
 
         //PersistenceManager.changeH2Server("127.0.0.1:8082", "local-user", "local-user-password");

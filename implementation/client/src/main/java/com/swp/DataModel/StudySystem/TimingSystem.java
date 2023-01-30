@@ -15,7 +15,6 @@ import lombok.Setter;
 @DiscriminatorValue("Timing")
 public class TimingSystem extends StudySystem
 {
-
     /**
      * Zeitlimit für jede Frage zu beantworten
      */
@@ -31,19 +30,22 @@ public class TimingSystem extends StudySystem
      * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
      * @param timeLimit: Zeitlimit für jede Frage zu beantworten
      */
-    public TimingSystem(String name, CardOrder cardOrder,int timeLimit){
+    public TimingSystem(String name, CardOrder cardOrder,int timeLimit)
+    {
         super(name,cardOrder,StudySystemType.TIMING);
         this.boxes.add(new StudySystemBox(this));
         this.timeLimit = timeLimit;
         setDescription();
     }
 
-    public TimingSystem() {
-     this("",CardOrder.ALPHABETICAL,0);
+    public TimingSystem() 
+    {
+        this("",CardOrder.ALPHABETICAL,0);
     }
 
     @Override
-    public void setDescription(){
+    public void setDescription()
+    {
         description = Locale.getCurrentLocale().getString("descriptionTiming");
     }
 }

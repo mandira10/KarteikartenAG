@@ -7,6 +7,8 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import com.swp.DataModel.Settings;
+import com.swp.DataModel.User;
+
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL11;
 import org.lwjgl.openal.ALC;
@@ -32,6 +34,7 @@ import com.swp.GUI.KarteikartenAGGUI;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.ListOrder;
 import com.swp.GUI.Extras.MenuOptions;
+import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.ControllerThreadPool;
@@ -63,7 +66,6 @@ import lombok.extern.slf4j.Slf4j;
 //       - ImageTestCard            -- done
 //       - ImageDescCard            -- done
 //       - AudioCard                -- done
-//   - Deck editpage                -- done
 //   - Show deck progress           -- done
 //   - Final testpage               -- done
 //   - Test rating                  -- done
@@ -104,6 +106,15 @@ import lombok.extern.slf4j.Slf4j;
 //   - Custom XML types             -- done
 //   - Check for mandatory fields
 //   - Change cardlist order        -- done
+//   - Fix deck tests               -- done
+//       - get correct answer       -- done
+//       - Timer auto cancel        -- done
+//   - Loginpage                    -- done
+//   - Settings logout              -- done
+//   - German language
+//   - Deck edit page
+//       - Time field
+//       - Custom studysystem
 
 // Missing:
 // - get categories by name
@@ -139,7 +150,7 @@ public class KarteikartenAG
         pMainWindow.setVerticalSync(true);
         pMainWindow.setMinimumSize(iWindowSize);
 
-        String usedCharacters = "";
+        String usedCharacters = "";
 		Font pFontAwesome = Font.loadFontFromResource("fonts/font-awesome6-free-solid-900.otf", usedCharacters);
         FontManager.getInstance().addFont(pFontAwesome, "FontAwesome");
 
@@ -175,6 +186,11 @@ public class KarteikartenAG
         XMLGUI.addGUIType("menu", MenuOptions.createFromXMLNode());
         XMLGUI.addGUIType("searchbar", Searchbar.createFromXMLNode());
         XMLGUI.addGUIType("list-order", ListOrder.createFromXMLNode());
+        XMLGUI.addGUIType("rating", RatingGUI.createFromXMLNode());
+        
+        //Check for saved login
+        User.loginUser(new User("username", "password"));
+        
         
         Settings.getInstance().getLanguage().activate();
         KarteikartenAGGUI pKarteikartenAGGUI = KarteikartenAGGUI.getInstance();
@@ -197,7 +213,7 @@ public class KarteikartenAG
 
         pMainGUI.setSize(iWindowSize);
 
-        PageManager.viewPage(PAGES.CARD_EXPORT);
+        PageManager.viewPage(PAGES.LOGIN);
         threadPool.synchronizedTasks(true);
         importTestData();
         threadPool.synchronizedTasks(false);
@@ -219,6 +235,7 @@ public class KarteikartenAG
             pMainWindow.getKeyboard().reset();
             FPS.update();
         }
+        threadPool.runQueue();
     }
 
 

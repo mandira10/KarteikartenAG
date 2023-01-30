@@ -125,4 +125,9 @@ public class KarteikartenAGGUI extends RenderGUI
     {
         return pLightTheme;
     }
+
+    public Sidebar getSidebar()
+    {
+        return pSidebar;
+    }
 }

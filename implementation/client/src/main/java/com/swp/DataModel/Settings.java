@@ -24,7 +24,9 @@ public class Settings
         DARK_THEME,
         LANGUAGE,
         SERVER_ADDRESS,
-        SERVER_PORT
+        SERVER_PORT,
+        USER_PASSWD,
+        USER_NAME
     };
 
     private Map<Setting, String> mSettings;
@@ -56,6 +58,8 @@ public class Settings
         mSettings.put(Setting.LANGUAGE,       loadSetting("general", "language",  "en"));
         mSettings.put(Setting.SERVER_ADDRESS, loadSetting("server",  "address",   "127.0.0.1"));
         mSettings.put(Setting.SERVER_PORT,    loadSetting("server",  "port",      "1234"));
+        mSettings.put(Setting.USER_NAME,      loadSetting("user",    "username",  ""));
+        mSettings.put(Setting.USER_PASSWD,    loadSetting("user",    "password",  ""));
     }
 
     /**
@@ -109,6 +113,8 @@ public class Settings
         pIni.put("general", "language",  getSetting(Setting.LANGUAGE));
         pIni.put("server",  "address",   getSetting(Setting.SERVER_ADDRESS));
         pIni.put("server",  "port",      getSetting(Setting.SERVER_PORT));
+        pIni.put("user",    "username",  getSetting(Setting.USER_NAME));
+        pIni.put("user",    "password",  getSetting(Setting.USER_PASSWD));
         try                   { pIni.store(); } 
         catch (IOException e) { Output.error("Failed to save settings"); }
     }

@@ -6,10 +6,13 @@ import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
+import com.gumse.gui.XML.XMLGUI.XMLGUICreator;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.Window;
+import com.gumse.system.filesystem.XML.XMLNode;
 import com.gumse.system.io.Mouse;
+import com.gumse.tools.Toolbox;
 
 public class RatingGUI extends RenderGUI
 {
@@ -113,4 +116,17 @@ public class RatingGUI extends RenderGUI
     // Getter
     // 
     public int getRating()            { return iActualRating; }
+
+
+
+    public static XMLGUICreator createFromXMLNode() 
+    {
+        return (XMLNode node) -> { 
+			int numstars = Toolbox.StringToInt(node.getAttribute("stars"));
+			int starsize = Toolbox.StringToInt(node.getAttribute("starsize"));
+			
+			RatingGUI ratinggui = new RatingGUI(new ivec2(0,0), starsize, numstars);
+			return ratinggui;
+        };
+    };
 }

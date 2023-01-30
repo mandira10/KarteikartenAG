@@ -24,7 +24,6 @@ cardorderfield         = Card Order:
 
 # Login
 loginbutton            = Login
-registerbutton         = Register
 remembermefield        = Remember me
 usernamefield          = Username
 passwordfield          = Password
@@ -74,6 +73,8 @@ deckprogress           = Progress
 deckentrycards         = Cards
 deckempty              = Empty
 decksearch             = Search Deck
+wascorrectbutton       = Answer was correct
+timelimitfield         = Timelimit
 
 # Search
 bycontentsearch        = By Content
@@ -87,6 +88,7 @@ darkthemesetting       = Dark Theme
 languagesetting        = Language
 serveraddresssetting   = Address
 serverportsetting      = Port
+logoutbutton           = Logout
 
 # Page headings
 loginpage              = Login

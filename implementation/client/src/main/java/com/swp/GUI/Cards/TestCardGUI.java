@@ -1,8 +1,14 @@
 package com.swp.GUI.Cards;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
 import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Radiobutton;
+import com.gumse.gui.Basics.RadiobuttonOption;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
@@ -21,6 +27,8 @@ import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import com.swp.DataModel.CardTypes.TextCard;
+import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.GUI.Extras.AudioGUI;
 
 public class TestCardGUI extends RenderGUI
@@ -29,11 +37,17 @@ public class TestCardGUI extends RenderGUI
     private TextBox pQuestionBox;
     private Scroller pQuestionScroller;
     private TextBox pCorrectAnswerBox;
+    private Predicate<Card> pAnswerCheckerFunc;
+    private String sActualAnswer;
+    private boolean bCurrentTrueFalseAnswer;
+    private static final vec4 FALSE_COLOR = new vec4(0.93f, 0.32f, 0.33f, 1);
+    private static final vec4 TRUE_COLOR  = new vec4(0.18f, 0.80f, 0.44f, 1);
 
     public TestCardGUI(Card card)
     {
         this.pCard = card;
         this.vSize = new ivec2(100, 100);
+        this.sActualAnswer = "";
 
         Font defaultFont = FontManager.getInstance().getDefaultFont();
 
@@ -75,7 +89,7 @@ public class TestCardGUI extends RenderGUI
         reposition();
     }
 
-    private void addAnswerTextField()
+    private TextField addAnswerTextField()
     {
         Font defaultFont = FontManager.getInstance().getDefaultFont();
         TextField answerField = new TextField("", defaultFont, new ivec2(5, 100), new ivec2(90, 50));
@@ -84,6 +98,8 @@ public class TestCardGUI extends RenderGUI
         answerField.setOrigin(new ivec2(0, 70));
         answerField.setHint("Answer");
         addGUI(answerField);
+
+        return answerField;
     }
 
     private void createAudioCardTest()
@@ -97,7 +113,11 @@ public class TestCardGUI extends RenderGUI
         audioGUI.setOrigin(new ivec2(0, -50));
         addGUI(audioGUI);
 
-        addAnswerTextField();
+        sActualAnswer = card.getAnswer();
+        TextField answerfield = addAnswerTextField();
+        pAnswerCheckerFunc = (Card acard) -> {
+            return answerfield.getString().equals(sActualAnswer);
+        };
     }
 
     private void createImageTestCardTest()
@@ -118,7 +138,11 @@ public class TestCardGUI extends RenderGUI
         cardImage.invertTexcoordY(true);
         addGUI(cardImage);
 
-        addAnswerTextField();
+        sActualAnswer = card.getAnswer();
+        TextField answerfield = addAnswerTextField();
+        pAnswerCheckerFunc = (Card acard) -> {
+            return answerfield.getString().equals(sActualAnswer);
+        };
     }
 
     private void createImageDescCardTest()
@@ -147,6 +171,7 @@ public class TestCardGUI extends RenderGUI
 
         int i = 1;
         int ypos = 0;
+        List<TextField> answerFields = new ArrayList<>();
         for(ImageDescriptionCardAnswer answer : card.getAnswers())
         {
             TextBox imageIndexBox = new TextBox(String.valueOf(i), defaultFont, new ivec2(answer.xpos, answer.ypos), new ivec2(20));
@@ -160,16 +185,47 @@ public class TestCardGUI extends RenderGUI
             answerField.setSizeInPercent(true, false);
             answerField.setMargin(new ivec2(-40, 0));
             scroller.addGUI(answerField);
+            answerFields.add(answerField);
 
             ypos += 40;
         }
         addGUI(scroller);
         scroller.resize();
+
+
+        sActualAnswer = "Incorrect";
+        pAnswerCheckerFunc = (Card acard) -> {
+            boolean correctAnswer = true;
+            for(int j = 0; j < answerFields.size(); j++)
+            {
+                ImageDescriptionCardAnswer acorrectAnswer = card.getAnswers()[j];
+                TextField currentAnswerField = answerFields.get(j);
+                
+                if(currentAnswerField.equals(acorrectAnswer.answertext))
+                {
+                    currentAnswerField.getBox().setTextColor(TRUE_COLOR);
+                    correctAnswer = false;
+                }
+                else
+                {
+                    currentAnswerField.getBox().setTextColor(FALSE_COLOR);
+                }
+                currentAnswerField.setString(acorrectAnswer.answertext);
+            }
+
+            return correctAnswer;
+        };
     }
 
     private void createTextCardTest()
     {
-        addAnswerTextField();
+        TextCard card = (TextCard)pCard;
+
+        sActualAnswer = card.getAnswer();
+        TextField answerfield = addAnswerTextField();
+        pAnswerCheckerFunc = (Card acard) -> {
+            return answerfield.getString().equals(sActualAnswer);
+        };
     }
 
     private void createMultipleChoiceCardTest()
@@ -185,14 +241,40 @@ public class TestCardGUI extends RenderGUI
         addGUI(answerScroller);
 
         Radiobutton radiobutton = new Radiobutton(new ivec2(0, 0), 100, defaultFont, 30);
+        List<RadiobuttonOption> options = new ArrayList<>();
+        
         for(String answer : card.getAnswers())
-            radiobutton.addOption(answer);
+            options.add(radiobutton.addOption(answer));
         radiobutton.setSizeInPercent(true, false);
         answerScroller.addGUI(radiobutton);
+
+        List<Integer> correctAnswers = Arrays.stream(card.getCorrectAnswers()).boxed().toList();
+
+        sActualAnswer = "Incorrect";
+        pAnswerCheckerFunc = (Card acard) -> {
+            boolean correctAnswer = true;
+            for(int i = 0; i < options.size(); i++)
+            {
+                RadiobuttonOption option = options.get(i);
+                if(correctAnswers.contains(i))
+                {
+                    option.getTextBox().setTextColor(TRUE_COLOR);
+                    if(!option.isSelected())
+                        correctAnswer = false;
+                }
+                else
+                {
+                    option.getTextBox().setTextColor(FALSE_COLOR);
+                }
+            }
+
+            return correctAnswer;
+        };
     }
 
     private void createTrueFalseCardTest()
     {
+        TrueFalseCard card = (TrueFalseCard)pCard;
         Font defaultFont = FontManager.getInstance().getDefaultFont();
 
         Button trueButton = new Button(new ivec2(50, 100), new ivec2(100, 50), "True", defaultFont);
@@ -200,43 +282,43 @@ public class TestCardGUI extends RenderGUI
         trueButton.setOrigin(new ivec2(110, 70));
         addGUI(trueButton);
 
+        bCurrentTrueFalseAnswer = false;
+
         Button falseButton = new Button(new ivec2(50, 100), new ivec2(100, 50), "False", defaultFont);
         falseButton.setPositionInPercent(true, true);
         falseButton.setOrigin(new ivec2(-10, 70));
 
-        trueButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  {
-                falseButton.setColor(new vec4(0.2f, 0.2f, 0.2f, 1.0f));
-                trueButton.setColor(GUI.getTheme().accentColor);
-            }
+        trueButton.onClick((RenderGUI gui) -> {
+            falseButton.setColor(new vec4(0.2f, 0.2f, 0.2f, 1.0f));
+            trueButton.setColor(GUI.getTheme().accentColor);
+            bCurrentTrueFalseAnswer = true;
         });
-        falseButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  {
-                trueButton.setColor(new vec4(0.2f, 0.2f, 0.2f, 1.0f));
-                falseButton.setColor(GUI.getTheme().accentColor);
-            }
+        falseButton.onClick((RenderGUI gui) -> {
+            trueButton.setColor(new vec4(0.2f, 0.2f, 0.2f, 1.0f));
+            falseButton.setColor(GUI.getTheme().accentColor);
+            bCurrentTrueFalseAnswer = false;
         });
         addGUI(falseButton);
+
+        sActualAnswer = card.isAnswer() ? "True" : "False";
+        pAnswerCheckerFunc = (Card acard) -> {
+            return bCurrentTrueFalseAnswer == card.isAnswer();
+        };
     }
 
     public boolean checkAnswers()
     {
-        boolean isAnswerCorrect = false;
-        //
-        // DO ANSWER CHECKING
-        //
-        isAnswerCorrect = true;
-
+        boolean isAnswerCorrect = pAnswerCheckerFunc != null && pAnswerCheckerFunc.test(pCard);
 
         if(isAnswerCorrect)
         {
-            pCorrectAnswerBox.setTextColor(new vec4(0.18f, 0.8f, 0.44f, 1));
+            pCorrectAnswerBox.setTextColor(TRUE_COLOR);
             pCorrectAnswerBox.setString("Correct");
         }
         else
         {
-            pCorrectAnswerBox.setTextColor(new vec4(0.93f, 0.32f, 0.33f, 1));
-            pCorrectAnswerBox.setString("Actual Answer here");
+            pCorrectAnswerBox.setTextColor(FALSE_COLOR);
+            pCorrectAnswerBox.setString(sActualAnswer);
         }
 
 

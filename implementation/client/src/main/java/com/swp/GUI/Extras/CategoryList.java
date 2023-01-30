@@ -109,6 +109,7 @@ public class CategoryList extends RenderGUI
 
         listentry.addEntry(entry);
         pList.repositionEntries();
+        pList.selectEntry(null);
     }
 
     public List<Category> getSelectedCategories()
