@@ -65,9 +65,10 @@ public class EditImageTestCard extends RenderGUI
                 pImageButton.setSize(new ivec2((int)(size * aspect), size));
             }
 
-            pCard.setImage(filepath);
+            pCard.setImage(new byte[loadTex.getData().remaining()]);
         }
     }
+
 
     public void setCard(ImageTestCard card)
     {

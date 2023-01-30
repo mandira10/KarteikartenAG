@@ -1,5 +1,7 @@
 package com.swp.GUI.Cards.EditCardPages;
 
+import java.nio.ByteBuffer;
+
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Font.FontManager;
@@ -65,7 +67,7 @@ public class EditImageDescriptionCardAnswersPage extends Page
         if(!card.getImage().equals(""))
         {
             Texture tex = new Texture();
-            tex.load(card.getImage(), getClass());
+            tex.loadMemory(ByteBuffer.wrap(card.getImage()));
             pImageBox.setTexture(tex);
             pImageBox.setColor(new vec4(1, 1, 1, 1));
         }

@@ -24,12 +24,12 @@ public class ImageDescriptionCard extends Card
     /**
      * Bilddatei für die Frage. Wird als ByteArray gespeichert.
      */
-    //@Lob
-    //@Column
-    //private Byte[] imageBytes;
-
+    @Lob
     @Column
-    private String image; //Not optimal
+    private byte[] image; //Not optimal
+
+    //@Column
+    //private String image; 
 
     /**
      * Antwort der Frage
@@ -43,7 +43,10 @@ public class ImageDescriptionCard extends Card
      */
     public ImageDescriptionCard()
     {
-        this("", new ImageDescriptionCardAnswer[] {}, "", "");
+        this.question = "";
+        this.image = null;
+        this.answers = null;
+        this.title = "";
     }
 
     /**
@@ -52,7 +55,7 @@ public class ImageDescriptionCard extends Card
      * @param image: Bild für die Karte
      * @param title Optionaler Titel der Karte
      */
-    public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, String image)
+    public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, byte[] image)
     {
         super(CardType.IMAGEDESC);
         setTitle(title);
