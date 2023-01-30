@@ -70,17 +70,6 @@ public class LeitnerSystem extends StudySystem
 
 
     /**
-     * Überschreibt die initStudySystemBoxes Methode in StudySystem.
-     * Erstellt die Boxen und die setzt die Wiederholungstage.
-     */
-    @Override
-    protected void  initStudySystemBoxes(int size, int[] daysToReLearn) {
-        for (int i = 0; i < size; i++)
-            this.boxes.add(new StudySystemBox(this, daysToReLearn[i],i));
-
-    }
-
-    /**
      * Setzt die Beschreibung des Systems.
      */
     @Override
