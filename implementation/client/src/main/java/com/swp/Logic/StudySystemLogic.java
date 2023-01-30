@@ -93,6 +93,9 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param studySystem: Das StudySystem, das benötigt wird.
      */
     public List<Card> moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem) {
+        if (cards.isEmpty()) {
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty"));
+        }
         return execTransactional(() ->
         {
             List<Card> existingCards = new ArrayList<>();
@@ -160,7 +163,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
                     } else {
                         changeCardDueDate(boxToCard);
-                        boxToCard.setStatus(BoxToCard.CardStatus.LEARNED);
+                        boxToCard.setStatus(BoxToCard.CardStatus.SKILLED);
                     }
                 }
                 else { //answer was false, set card to new box
@@ -181,7 +184,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 if (answer) {
                     studySystem.incrementTrueCount();
                     log.info("Setze True Count +1");
-                    boxToCard.setStatus(BoxToCard.CardStatus.LEARNED);
+                    boxToCard.setStatus(BoxToCard.CardStatus.SKILLED);
                     ++box; //set to Box 1 where all cards are learned
                     moveCardToBox(boxToCard, box, studySystem);
                 }

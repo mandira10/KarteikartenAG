@@ -391,7 +391,7 @@ public class TestDataClass {
         studySystemLogic.updateStudySystemData(null, studySystem3, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(technikL,studySystem3);
 
-        StudySystem studySystem4 = new LeitnerSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL);
+        StudySystem studySystem4 = new VoteSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL);
         studySystemLogic.updateStudySystemData(null, studySystem4, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(zweitausender,studySystem4);
 

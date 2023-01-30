@@ -200,6 +200,8 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @throws IllegalStateException falls eine der übergebenen Kategorien `null` ist.
      */
     public List<CardOverview> getCardsInCategories(List<Category> categories) throws IllegalStateException {
+        if (categories == null || categories.isEmpty())
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("categorynullerror"));
         List<CardOverview> cardsToCategories = new ArrayList<>();
         for (Category c : categories) {
             if (c == null) {
