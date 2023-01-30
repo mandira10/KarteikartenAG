@@ -228,7 +228,7 @@ public class StudySystemController {
         threadPool.exec(() -> {
             try {
                 singleDataCallback.callSuccess(studySystemLogic.getStudySystemByUUID(uuid));
-            } catch (IllegalArgumentException ex) {//übergebener Wert ist leer
+            } catch (IllegalStateException ex) {//übergebener Wert ist leer
                 log.error(Locale.getCurrentLocale().getString("getstudysystembyuuidempty"));
                 singleDataCallback.callFailure(ex.getMessage());
             } catch (NoResultException ex) {

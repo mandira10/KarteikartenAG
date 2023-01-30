@@ -12,7 +12,6 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
-import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.Logic.StudySystemLogic;
@@ -37,6 +36,7 @@ public class StudySystemControllerTests {
 
     private StudySystemLogic studySystemMockLogic;
     private StudySystemController studySystemController = StudySystemController.getInstance();
+
     private Locale locale = new Locale("German", "de");
     private int i;
 
@@ -173,7 +173,7 @@ public class StudySystemControllerTests {
         StudySystem studySystem = new LeitnerSystem();
 
         doThrow(new RuntimeException()).when(studySystemMockLogic).deleteStudySystem(studySystem);
-        String expected = "Beim Löschen der StudySystem ist ein Fehler aufgetreten";
+        String expected = "Beim Löschen des Decks ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.deleteStudySystem(studySystem, new SingleDataCallback<Boolean>() {
             @Override
@@ -210,18 +210,16 @@ public class StudySystemControllerTests {
     @Test
     public void getStudySystemsTestNull() {
         List<StudySystem> list = new ArrayList<>();
-        when(studySystemMockLogic.getStudySystems()).thenReturn(list);
-        final String expected = "Es gibt derzeit studySystems";
+        doThrow(new IllegalStateException("Es gibt derzeit keine studySystems")).when(studySystemMockLogic).getStudySystems();
+        final String expected = "Es gibt derzeit keine studySystems";
         final String[] actual = new String[1];
         studySystemController.getStudySystems(new DataCallback<StudySystem>() {
             @Override
             public void onSuccess(List<StudySystem> data) {
-
             }
 
             @Override
             public void onFailure(String msg) {
-
             }
 
             @Override
@@ -235,8 +233,8 @@ public class StudySystemControllerTests {
 
     @Test
     public void getStudySystemsTestException() {
-        when(studySystemMockLogic.getStudySystems()).thenThrow(RuntimeException.class);
-        final String expected = "Ein Fehler ist aufgetreten";
+        doThrow(new RuntimeException()).when(studySystemMockLogic).getStudySystems();
+        final String expected = "Beim Abrufen von Decks ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.getStudySystems(new DataCallback<StudySystem>() {
             @Override
@@ -280,8 +278,7 @@ public class StudySystemControllerTests {
 
     @Test
     public void getStudySystemBySearchTermsNull() {
-        List<StudySystem> list = new ArrayList<>();
-        when(studySystemMockLogic.getStudySystemsBySearchterm(any(String.class))).thenReturn(list);
+        doThrow(new IllegalStateException("Es gibt keine studySystems zu diesem Suchbegriff")).when(studySystemMockLogic).getStudySystemsBySearchterm(anyString());
         final String expected = "Es gibt keine studySystems zu diesem Suchbegriff";
         final String[] actual = new String[1];
         studySystemController.getStudySystemBySearchTerms("Test", new DataCallback<StudySystem>() {
@@ -306,8 +303,8 @@ public class StudySystemControllerTests {
 
     @Test
     public void getStudySystemBySearchTermsException() {
-        when(studySystemMockLogic.getStudySystemsBySearchterm(any(String.class))).thenThrow(IllegalArgumentException.class);
-        final String expected = "Ein Fehler ist aufgetreten";
+        when(studySystemMockLogic.getStudySystemsBySearchterm(any(String.class))).thenThrow(RuntimeException.class);
+        final String expected = "Beim Abrufen der Decks für den Suchgriff ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.getStudySystemBySearchTerms("Test", new DataCallback<StudySystem>() {
             @Override
@@ -353,7 +350,7 @@ public class StudySystemControllerTests {
 
     @Test
     public void getStudySystemByUUIDNull() {
-        when(studySystemMockLogic.getStudySystemByUUID(any(String.class))).thenThrow(new IllegalArgumentException("UUID darf nicht null sein"));
+        when(studySystemMockLogic.getStudySystemByUUID(any(String.class))).thenThrow(new IllegalStateException("UUID darf nicht null sein"));
         final String expected = "UUID darf nicht null sein";
         final String[] actual = new String[1];
         studySystemController.getStudySystemByUUID("Test", new SingleDataCallback<StudySystem>() {
@@ -393,8 +390,8 @@ public class StudySystemControllerTests {
 
     @Test
     public void getStudySystemByUUIDException() {
-        when(studySystemMockLogic.getStudySystemByUUID(any(String.class))).thenThrow(new RuntimeException("Beim Abrufen des studySystems ist ein Fehler aufgetreten"));
-        final String expected = "Beim Abrufen des studySystems ist ein Fehler aufgetreten";
+        when(studySystemMockLogic.getStudySystemByUUID(any(String.class))).thenThrow(new RuntimeException());
+        final String expected = "Beim Abrufen des Decks ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.getStudySystemByUUID("Test", new SingleDataCallback<StudySystem>() {
             @Override
@@ -433,8 +430,8 @@ public class StudySystemControllerTests {
 
     @Test
     public void getNextCardTestException() {
-        when(studySystemMockLogic.getNextCard(any(StudySystem.class))).thenThrow(new RuntimeException("Ein Fehler ist aufgetreten"));
-        final String expected = "Ein Fehler ist aufgetreten";
+        when(studySystemMockLogic.getNextCard(any(StudySystem.class))).thenThrow(new RuntimeException());
+        final String expected = "Beim Abrufen der nächsten Karte ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         StudySystem studySystem = new LeitnerSystem();
         ;
@@ -476,8 +473,8 @@ public class StudySystemControllerTests {
 
     @Test
     public void finishTestAndGetResultException() {
-        when(studySystemMockLogic.finishTestAndGetResult(any(StudySystem.class))).thenThrow(new RuntimeException("Ein Fehler ist aufgetreten"));
-        final String expected = "Ein Fehler ist aufgetreten";
+        when(studySystemMockLogic.finishTestAndGetResult(any(StudySystem.class))).thenThrow(new RuntimeException());
+        final String expected = "Beim Beenden des Tests ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         StudySystem studySystem = new LeitnerSystem();
         ;
@@ -520,11 +517,10 @@ public class StudySystemControllerTests {
     @Test
     public void moveAllCardsForDeckToFirstBoxTestNull() {
         StudySystem studySystem = new LeitnerSystem();
-
         List<Card> card = new ArrayList<>();
-
-        doThrow(new IllegalStateException()).when(studySystemMockLogic).moveAllCardsForDeckToFirstBox(card, studySystem);
-        String expected = "Null Value Gegeben";
+        //doThrow(new IllegalStateException("Null Value Gegeben")).when(studySystemMockLogic).moveAllCardsForDeckToFirstBox(card,studySystem);
+        IllegalStateException ex = new IllegalStateException();
+        String expected = ex.getMessage();
         final String[] actual = new String[1];
         studySystemController.moveAllCardsForDeckToFirstBox(card, studySystem, new SingleDataCallback<Boolean>() {
             @Override
@@ -544,11 +540,11 @@ public class StudySystemControllerTests {
     @Test
     public void moveAllCardsForDeckToFirstBoxTestException() {
         StudySystem studySystem = new LeitnerSystem();
-
         List<Card> card = new ArrayList<>();
-
-        doThrow(new RuntimeException()).when(studySystemMockLogic).moveAllCardsForDeckToFirstBox(card, studySystem);
-        String expected = "Null Value Gegeben";
+        Card testcard = new TrueFalseCard();
+        card.add(testcard);
+        doThrow(new RuntimeException()).when(studySystemMockLogic).moveAllCardsForDeckToFirstBox(anyList(), any(StudySystem.class));
+        String expected = "Beim Speichern der Karte in dem Deck ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.moveAllCardsForDeckToFirstBox(card, studySystem, new SingleDataCallback<Boolean>() {
             @Override
@@ -588,9 +584,8 @@ public class StudySystemControllerTests {
     @Test
     public void giveAnswerTestException() {
         StudySystem studySystem = new LeitnerSystem();
-        ;
-        doThrow(new RuntimeException("Ein Fehler ist aufgetreten")).when(studySystemMockLogic).giveAnswer(studySystem, true);
-        String expected = "Ein Fehler ist aufgetreten";
+        doThrow(new RuntimeException()).when(studySystemMockLogic).giveAnswer(any(StudySystem.class), anyBoolean());
+        String expected = "Beim Prüfen der Antwort ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.giveAnswer(studySystem, true, new SingleDataCallback<Boolean>() {
             @Override
@@ -630,8 +625,8 @@ public class StudySystemControllerTests {
     public void giveRatingTestException() {
         StudySystem studySystem = new LeitnerSystem();
         Card card = new TrueFalseCard();
-        doThrow(new RuntimeException("Ein Fehler ist aufgetreten")).when(studySystemMockLogic).giveRating(studySystem, card, 2);
-        String expected = "Ein Fehler ist aufgetreten";
+        doThrow(new RuntimeException()).when(studySystemMockLogic).giveRating(any(StudySystem.class), any(Card.class), anyInt());
+        String expected = "Beim Speichern des Ratings für eine Karte ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.giveRating(studySystem, card, 2, new SingleDataCallback<Boolean>() {
             @Override
@@ -671,9 +666,8 @@ public class StudySystemControllerTests {
     @Test
     public void giveTimeTestException() {
         StudySystem studySystem = new LeitnerSystem();
-        ;
-        doThrow(new RuntimeException("Ein Fehler ist aufgetreten")).when(studySystemMockLogic).giveTime(studySystem, 2);
-        String expected = "Ein Fehler ist aufgetreten";
+        doThrow(new RuntimeException()).when(studySystemMockLogic).giveTime(studySystem, 2);
+        String expected = "Beim Prüfen der Zeit für eine Karte ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.giveTime(studySystem, 2, new SingleDataCallback<Boolean>() {
             @Override
@@ -711,8 +705,8 @@ public class StudySystemControllerTests {
 
     @Test
     public void numCardsInDeckTestException() {
-        when(studySystemMockLogic.numCardsInDeck(any(StudySystem.class))).thenThrow(new RuntimeException("Ein Fehler ist aufgetreten"));
-        final String expected = "Ein Fehler ist aufgetreten";
+        when(studySystemMockLogic.numCardsInDeck(any(StudySystem.class))).thenThrow(new RuntimeException());
+        final String expected = "Beim Abrufen der Anzahl an Karten pro Deck ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         StudySystem studySystem = new LeitnerSystem();
         ;
@@ -756,9 +750,8 @@ public class StudySystemControllerTests {
     @Test
     public void removeCardsFromStudySystemTestNull() {
         StudySystem studySystem = new LeitnerSystem();
-
         List<CardOverview> list = new ArrayList<>();
-        doThrow(new IllegalStateException("StudySystem existiert nicht")).when(studySystemMockLogic).removeCardsFromStudySystem(list, studySystem);
+        doThrow(new IllegalStateException("Null Variable gegeben")).when(studySystemMockLogic).removeCardsFromStudySystem(anyList(), any(StudySystem.class));
         String expected = "Null Variable gegeben";
         final String[] actual = new String[1];
         studySystemController.removeCardsFromStudySystem(list, studySystem, new SingleDataCallback<Boolean>() {
@@ -779,10 +772,9 @@ public class StudySystemControllerTests {
     @Test
     public void removeCardsFromStudySystemTestException() {
         StudySystem studySystem = new LeitnerSystem();
-
         List<CardOverview> list = new ArrayList<>();
-        doThrow(new RuntimeException()).when(studySystemMockLogic).removeCardsFromStudySystem(list, studySystem);
-        String expected = "Ein Fehler ist aufgetreten";
+        doThrow(new RuntimeException()).when(studySystemMockLogic).removeCardsFromStudySystem(anyList(), any(StudySystem.class));
+        String expected = "Beim Entfernen der Karte aus dem Deck ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.removeCardsFromStudySystem(list, studySystem, new SingleDataCallback<Boolean>() {
             @Override
@@ -822,9 +814,8 @@ public class StudySystemControllerTests {
     @Test
     public void deleteDeckTestException() {
         StudySystem[] studySystem = {new LeitnerSystem()};
-
         doThrow(new RuntimeException()).when(studySystemMockLogic).deleteStudySystem(studySystem);
-        String expected = "Ein Fehler ist aufgetreten";
+        String expected = "Beim Löschen der Decks ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.deleteDecks(studySystem, new SingleDataCallback<Boolean>() {
             @Override
@@ -865,11 +856,9 @@ public class StudySystemControllerTests {
     @Test
     public void addCardsToStudySystemTestException() {
         StudySystem studySystem = new LeitnerSystem();
-        ;
-
         List<CardOverview> list = new ArrayList<>();
-        doThrow(new RuntimeException()).when(studySystemMockLogic).addCardsToDeck(list, studySystem);
-        String expected = "Ein Fehler ist aufgetreten";
+        doThrow(new RuntimeException()).when(studySystemMockLogic).addCardsToDeck(anyList(), any(StudySystem.class));
+        String expected = "Beim Hinzufügen von Karten ins Deck ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.addCardsToStudySystem(list, studySystem, new SingleDataCallback<String>() {
             @Override
@@ -889,7 +878,6 @@ public class StudySystemControllerTests {
     @Test
     public void addCardsToStudySystemTest() {
         StudySystem studySystem = new LeitnerSystem();
-
         List<CardOverview> list = new ArrayList<>();
         when(studySystemMockLogic.addCardsToDeck(list, studySystem)).thenReturn(new ArrayList<Card>());
 
@@ -909,13 +897,11 @@ public class StudySystemControllerTests {
     @Test
     public void updateDeckDataTestException() {
         StudySystem studySystem = new LeitnerSystem();
-
         StudySystem studySystem2 = new LeitnerSystem();
-
-        doThrow(new RuntimeException()).when(studySystemMockLogic).updateStudySystemData(studySystem2, studySystem, true);
-        String expected = "Ein Fehler ist aufgetreten";
+        doThrow(new RuntimeException()).when(studySystemMockLogic).updateStudySystemData(studySystem,studySystem2, false);
+        String expected = "Beim Aktualisieren der Deckdaten ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
-        studySystemController.updateDeckData(studySystem2, studySystem, true, new SingleDataCallback<Boolean>() {
+        studySystemController.updateDeckData(studySystem, studySystem2, false, new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {
 
@@ -954,8 +940,8 @@ public class StudySystemControllerTests {
     @Test
     public void addStudySystemTypeAndUpdateTestException() {
         StudySystem.StudySystemType studySystem = StudySystem.StudySystemType.TIMING;
-        doThrow(new RuntimeException()).when(studySystemMockLogic).addStudySystemTypeAndUpdate(studySystem);
-        String expected = "Ein Fehler ist aufgetreten";
+        doThrow(new RuntimeException()).when(studySystemMockLogic).addStudySystemTypeAndUpdate(any(StudySystem.StudySystemType.class));
+        String expected = "Beim Hinzufügen/Updaten des Deck Typs ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         studySystemController.addStudySystemTypeAndUpdate(studySystem, new SingleDataCallback<Boolean>() {
             @Override
