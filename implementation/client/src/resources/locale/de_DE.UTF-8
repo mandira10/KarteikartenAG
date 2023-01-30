@@ -80,7 +80,7 @@ createboxtocardforcategory = Beim Erstellen Box to Card für Kategorie ist ein F
 
 # Category Exceptions
 
-updatecategorydataempty = Kategorie nicht gefunden.
+updatecategorydataempty = Kategorie wurde nicht gefunden.
 updatecategorydataerror = Beim Updaten/Speichern der Kategorie ist ein Fehler aufgetreten.
 editcategoryhierarchyerror = Beim Updaten der Kategorie ist der Fehler aufgetreten.
 deletecategoryempty = Der übergebene Wert war leer.
