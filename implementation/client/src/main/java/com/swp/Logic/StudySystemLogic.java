@@ -93,6 +93,9 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param studySystem: Das StudySystem, das benötigt wird.
      */
     public List<Card> moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem) {
+        if (cards.isEmpty()) {
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty"));
+        }
         return execTransactional(() ->
         {
             List<Card> existingCards = new ArrayList<>();
