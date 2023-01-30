@@ -313,14 +313,10 @@ public class StudySystemController {
             try {
                 List<StudySystem> studySystems = studySystemLogic.getStudySystems();
                 if (studySystems.isEmpty()) {
-                    throw new IllegalStateException();
+                    log.info("Es wurden keine zugehörigen Karten gefunden");
+                    dataCallback.callInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
                 }
-
                 dataCallback.callSuccess(studySystems);
-            }
-            catch (IllegalStateException ex){
-                dataCallback.callInfo(ex.getMessage());
-                log.error(Locale.getCurrentLocale().getString("getstudysystemsempty"));
             }
             catch (Exception ex) {
                 dataCallback.callFailure(Locale.getCurrentLocale().getString("getstudysystemserror"));
@@ -340,13 +336,10 @@ public class StudySystemController {
             try {
                 List<StudySystem> studySystems = studySystemLogic.getStudySystemsBySearchterm(searchterm);
                 if (studySystems.isEmpty()) {
-                    throw new IllegalStateException();
+                    log.info("Es wurden keine zugehörigen Karten gefunden");
+                    dataCallback.callInfo(Locale.getCurrentLocale().getString("getstudysystembysearchtermsempty"));
                 }
                 dataCallback.callSuccess(studySystems);
-            }
-            catch (IllegalStateException ex){
-                dataCallback.callInfo(ex.getMessage());
-                log.error(Locale.getCurrentLocale().getString("getstudysystembysearchtermsempty"));
             }
             catch (Exception ex) {
                 dataCallback.callFailure(Locale.getCurrentLocale().getString("getstudysystembysearchtermserror"));

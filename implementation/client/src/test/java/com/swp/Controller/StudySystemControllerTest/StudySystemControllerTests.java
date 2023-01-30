@@ -901,7 +901,7 @@ public class StudySystemControllerTests {
         doThrow(new RuntimeException()).when(studySystemMockLogic).updateStudySystemData(studySystem,studySystem2, false);
         String expected = "Beim Aktualisieren der Deckdaten ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
-        studySystemController.updateDeckData(studySystem, studySystem2, false, new SingleDataCallback<Boolean>() {
+        studySystemController.updateDeckData(studySystem,studySystem2,false, new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {
 
@@ -919,7 +919,6 @@ public class StudySystemControllerTests {
     @Test
     public void updateDeckDataTest() {
         StudySystem studySystem = new LeitnerSystem();
-
         StudySystem studySystem2 = new LeitnerSystem();
 
         doNothing().when(studySystemMockLogic).updateStudySystemData(studySystem2, studySystem, true);
