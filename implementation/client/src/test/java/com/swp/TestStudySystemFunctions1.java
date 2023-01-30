@@ -164,7 +164,7 @@ public class TestStudySystemFunctions1 {
         assertEquals(3,testingBoxMockCards.size());
         BoxToCard boxToCard1 = studySystemLogic.getBoxToCard(erdkunde.get(0),studySystem2);
         assertEquals(0,boxToCard1.getStudySystemBox().getBoxNumber()); //no box moving, if true or false
-        assertTrue(boxToCard1.getStatus().equals(BoxToCard.CardStatus.LEARNED));
+        assertTrue(boxToCard1.getStatus().equals(BoxToCard.CardStatus.SKILLED));
 
         //Testfall 2: Antwort falsch
         studySystemLogic.giveAnswer(studySystem2,false);
@@ -173,7 +173,7 @@ public class TestStudySystemFunctions1 {
         assertEquals(3,testingBoxMockCards.size());
         BoxToCard boxToCard2 = studySystemLogic.getBoxToCard(erdkunde.get(1),studySystem2);
         assertEquals(0,boxToCard1.getStudySystemBox().getBoxNumber()); //no box moving, if true or false
-        assertTrue(boxToCard1.getStatus().equals(BoxToCard.CardStatus.LEARNED));
+        assertTrue(boxToCard1.getStatus().equals(BoxToCard.CardStatus.SKILLED));
     }
 
 
@@ -186,10 +186,10 @@ public class TestStudySystemFunctions1 {
         BoxToCard boxToCard3 = studySystemLogic.getBoxToCard(erdkunde.get(2),studySystem4);
         BoxToCard boxToCard4 = studySystemLogic.getBoxToCard(erdkunde.get(3),studySystem4);
 
-        boxToCard1.setStatus(BoxToCard.CardStatus.LEARNED);
+        boxToCard1.setStatus(BoxToCard.CardStatus.SKILLED);
         boxToCard2.setStatus(BoxToCard.CardStatus.RELEARN);
-        boxToCard3.setStatus(BoxToCard.CardStatus.LEARNED);
-        boxToCard4.setStatus(BoxToCard.CardStatus.LEARNED);
+        boxToCard3.setStatus(BoxToCard.CardStatus.SKILLED);
+        boxToCard4.setStatus(BoxToCard.CardStatus.SKILLED);
 
         for(BoxToCard c : Arrays.asList(boxToCard1,boxToCard2,boxToCard3,boxToCard4)){
             studySystemLogic.updateCardToBox(c);
