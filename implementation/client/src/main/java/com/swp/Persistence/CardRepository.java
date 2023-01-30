@@ -269,6 +269,18 @@ public class CardRepository extends BaseRepository<Card> {
                 .getResultList();
     }
 
+    /**
+     * Methode, um die gelernten Karten in einem Vote/Timing System zu kriegen.
+     * Wird in finishTestAndGetResult aufgerufen.
+     * @param studySystem Das StudySystem für die die Karten abgerufen werden sollen
+     * @return Liste mit Karten in der spezifischen Box
+     */
+    public List<Card>  getAllCardsInLearnedBox(StudySystem studySystem) {
+        return getEntityManager()
+                .createNamedQuery("StudySystemBox.allByStudySystemBox", Card.class)
+                .setParameter("studySystem", studySystem.getUuid())
+                .getResultList();
+    }
 }
 
 

@@ -12,17 +12,12 @@ import java.util.*;
 @Setter
 @Table
 @Getter
-@NamedQuery(name = "StudySystemBox.allBoxes",
-        query = "SELECT s FROM StudySystemBox s")
-@NamedQuery(name = "StudySystemBox.allBoxesByStudySystem",
-        query = "SELECT s FROM StudySystemBox s WHERE s.studySystem = :studySystem")
-@NamedQuery(name = "StudySystemBox.findSpecificBox",
-        query = "SELECT s FROM StudySystemBox s WHERE s.id = :id")
 /**
  * StudySystemBox Klasse. Wird verwendet, wenn ein Lernsystem mehrere Boxen hat (z.B. Leitner),
  * deren Karten unterschiedlich oft gelernt werden.
  * Wird in BoxToCard an die spezifischen Karten gebunden.
  */
+@NamedQuery (name = "StudySystemBox.allByStudySystemBox",query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem and sbox.boxNumber = 1")
 public class StudySystemBox implements Serializable
 {
 

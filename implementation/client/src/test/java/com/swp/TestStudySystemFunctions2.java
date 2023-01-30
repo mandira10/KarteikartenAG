@@ -173,7 +173,7 @@ public class TestStudySystemFunctions2 {
         assertEquals(2,testingBoxMockCards.size());
 
         assertEquals(4,boxToCard4.getStudySystemBox().getBoxNumber());
-        assertTrue(boxToCard4.getStatus().equals(BoxToCard.CardStatus.RELEARN));
+        assertTrue(boxToCard4.getStatus().equals(BoxToCard.CardStatus.LEARNED));
 
         //Check date and reset
         cal.add(Calendar.DATE,14);

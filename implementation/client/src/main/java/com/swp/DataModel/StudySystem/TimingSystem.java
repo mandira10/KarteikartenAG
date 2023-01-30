@@ -26,6 +26,8 @@ public class TimingSystem extends StudySystem
 
     /**
      * Konstruktor der Klasse TimingSystem.
+     * Initialisiert 2 Boxen für das TimingSystem, die dazu verwendet werden,
+     * den Kartenfortschritt zu speichern.
      * @param name: der Name des Systems
      * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
      * @param timeLimit: Zeitlimit für jede Frage zu beantworten
@@ -33,7 +35,7 @@ public class TimingSystem extends StudySystem
     public TimingSystem(String name, CardOrder cardOrder,int timeLimit)
     {
         super(name,cardOrder,StudySystemType.TIMING);
-        this.boxes.add(new StudySystemBox(this));
+        initStudySystemBoxes(2,new int[]{0,0});
         this.timeLimit = timeLimit;
         setDescription();
     }
@@ -42,6 +44,7 @@ public class TimingSystem extends StudySystem
     {
         this("",CardOrder.ALPHABETICAL,0);
     }
+
 
     @Override
     public void setDescription()
