@@ -1,5 +1,6 @@
 package com.swp.Controller;
 
+import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
@@ -61,12 +62,13 @@ public class StudySystemController {
                 }
             }
             catch (IllegalStateException e){
-                singleDataCallback.callFailure("Null Value Gegeben");
-                log.error("Card nicht gefunden");
+                singleDataCallback.callFailure(e.getMessage());
+                log.error(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty"));
             }
             catch (Exception e) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
-                log.error("Bei MovingCard in erstem Box ist ein Fehler aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxerror"));
+                log.error(e.getMessage());
+
             }
         });
     }
@@ -84,12 +86,17 @@ public class StudySystemController {
                 List<CardOverview> cards = studySystemLogic.getAllCardsInStudySystem(studySystem);
 
                 if (cards.isEmpty()) {
-                    dataCallback.callInfo("Es gibt keine Karten zu diesem StudySystem");
+                    throw new IllegalStateException();
                 } else {
                     dataCallback.callSuccess(cards);
                 }
-            } catch (Exception ex) {
-                dataCallback.callFailure("Ein Fehler ist aufgetreten");
+            }
+            catch (IllegalStateException ex){
+                dataCallback.callInfo(ex.getMessage());
+                log.error(Locale.getCurrentLocale().getString("getallcardsinstudysystemempty"));
+            }
+            catch (Exception ex) {
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("getallcardsinstudysystemerror"));
                 log.error(ex.getMessage());
             }
         });
@@ -109,7 +116,7 @@ public class StudySystemController {
                 studySystemLogic.giveAnswer(studySystem, answer);
                 singleDataCallback.callSuccess(true);
             } catch (Exception e) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("giveanswererror"));
                 log.error(e.getMessage());
             }
         });
@@ -130,7 +137,7 @@ public class StudySystemController {
                 studySystemLogic.giveRating(studySystem, card, rating);
                 singleDataCallback.callSuccess(true);
             } catch (Exception e) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("giveratingerror"));
                 log.error(e.getMessage());
             }
         });
@@ -150,7 +157,7 @@ public class StudySystemController {
                 studySystemLogic.giveTime(studySystem, seconds);
                 singleDataCallback.callSuccess(true);
             } catch (Exception e) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("givetimeerror"));
                 log.error(e.getMessage());
             }
         });
@@ -168,7 +175,7 @@ public class StudySystemController {
             try {
                 singleDataCallback.callSuccess(studySystemLogic.finishTestAndGetResult(studySystem));
             } catch (Exception e) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("finishtestandgetresulterror"));
                 log.error(e.getMessage());
             }
         });
@@ -188,7 +195,7 @@ public class StudySystemController {
             try {
                 singleDataCallback.callSuccess(studySystemLogic.getNextCard(studySystem));
             } catch (Exception e) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("getnextcarderror"));
                 log.error(e.getMessage());
             }
         });
@@ -205,7 +212,7 @@ public class StudySystemController {
             try {
                 singleDataCallback.callSuccess(studySystemLogic.numCardsInDeck(studySystem));
             } catch (Exception ex) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("numcardsindeckerror"));
                 log.error(ex.getMessage());
             }
         });
@@ -222,13 +229,13 @@ public class StudySystemController {
             try {
                 singleDataCallback.callSuccess(studySystemLogic.getStudySystemByUUID(uuid));
             } catch (IllegalArgumentException ex) {//übergebener Wert ist leer
-                singleDataCallback.callFailure("UUID darf nicht null sein");
-                log.error(ex.getMessage());
+                log.error(Locale.getCurrentLocale().getString("getstudysystembyuuidempty"));
+                singleDataCallback.callFailure(ex.getMessage());
             } catch (NoResultException ex) {
-                singleDataCallback.callFailure("Es konnte kein studySystem zur UUID gefunden werden");
-                log.error(ex.getMessage());
+                log.error(Locale.getCurrentLocale().getString("getstudysystembyuuidnoresult"));
+                singleDataCallback.onFailure(ex.getMessage());
             } catch (Exception ex) {
-                singleDataCallback.callFailure("Beim Abrufen des studySystems ist ein Fehler aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("getstudysystembyuuiderror"));
                 log.error(ex.getMessage());
             }
         });
@@ -247,10 +254,10 @@ public class StudySystemController {
                 studySystemLogic.removeCardsFromStudySystem(list, studySystem);
                 singleDataCallback.callSuccess(true);
             } catch (IllegalStateException ex) {
-                singleDataCallback.callFailure("Null Variable gegeben");
-                log.error(ex.getMessage());
+                log.error("Null Variable gegeben");
+                singleDataCallback.onFailure(ex.getMessage());
             } catch (Exception ex) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("removecardsfromstudysystemerror"));
                 log.error(ex.getMessage());
             }
         });
@@ -270,9 +277,9 @@ public class StudySystemController {
                 singleDataCallback.callSuccess(true);
             } catch (IllegalStateException ex) {
                 singleDataCallback.callFailure(ex.getMessage());
-                log.error(ex.getMessage());
+                log.error("Null Variable gegeben");
             } catch (Exception ex) {
-                singleDataCallback.callFailure("Beim Löschen der StudySystem ist ein Fehler aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletestudysystemerror"));
                 log.error(ex.getMessage());
             }
         });
@@ -290,7 +297,7 @@ public class StudySystemController {
                 studySystemLogic.deleteStudySystem(studySystems);
                 singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletedeckserror"));
                 log.error(ex.getMessage());
             }
         });
@@ -306,12 +313,17 @@ public class StudySystemController {
             try {
                 List<StudySystem> studySystems = studySystemLogic.getStudySystems();
                 if (studySystems.isEmpty()) {
-                    dataCallback.callInfo("Es gibt derzeit keine studySystems");
+                    throw new IllegalStateException();
                 }
 
                 dataCallback.callSuccess(studySystems);
-            } catch (Exception ex) {
-                dataCallback.callFailure("Ein Fehler ist aufgetreten");
+            }
+            catch (IllegalStateException ex){
+                dataCallback.callInfo(ex.getMessage());
+                log.error(Locale.getCurrentLocale().getString("getstudysystemsempty"));
+            }
+            catch (Exception ex) {
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("getstudysystemserror"));
                 log.error(ex.getMessage());
             }
         });
@@ -328,11 +340,16 @@ public class StudySystemController {
             try {
                 List<StudySystem> studySystems = studySystemLogic.getStudySystemsBySearchterm(searchterm);
                 if (studySystems.isEmpty()) {
-                    dataCallback.callInfo("Es gibt keine studySystems zu diesem Suchbegriff");
+                    throw new IllegalStateException();
                 }
                 dataCallback.callSuccess(studySystems);
-            } catch (IllegalArgumentException ex) {
-                dataCallback.callFailure("Ein Fehler ist aufgetreten");
+            }
+            catch (IllegalStateException ex){
+                dataCallback.callInfo(ex.getMessage());
+                log.error(Locale.getCurrentLocale().getString("getstudysystembysearchtermsempty"));
+            }
+            catch (Exception ex) {
+                dataCallback.callFailure(Locale.getCurrentLocale().getString("getstudysystembysearchtermserror"));
                 log.error(ex.getMessage());
             }
         });
@@ -360,7 +377,7 @@ public class StudySystemController {
                 }
             } catch (Exception ex) {
                 log.error(ex.getMessage());
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("addcardstostudysystemerror"));
             }
         });
     }
@@ -379,7 +396,7 @@ public class StudySystemController {
                 studySystemLogic.updateStudySystemData(oldStudySystem, newStudySystem, neu);
                 singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("updatedeckdataerror"));
                 log.error(ex.getMessage());
             }
         });
@@ -397,7 +414,7 @@ public class StudySystemController {
                 studySystemLogic.addStudySystemTypeAndUpdate(type);
                 singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
-                singleDataCallback.callFailure("Ein Fehler ist aufgetreten");
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("addstudysystemtypeandupdateerror"));
                 log.error(ex.getMessage());
             }
         });
