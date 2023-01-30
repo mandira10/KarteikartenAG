@@ -70,13 +70,10 @@ public class StudySystemControllerTests {
     @Test
     public void getAllCardsInStudySystemTestEmptySet() {
 
-        List<CardOverview> list = new ArrayList<>();
-        when(studySystemMockLogic.getAllCardsInStudySystem(any(StudySystem.class))).thenReturn(list);
-        final String expected = "Es gibt keine Karten zu diesem StudySystem";
+        doThrow(new IllegalStateException("Es gibt keine Karten zu diesem Deck.")).when(studySystemMockLogic).getAllCardsInStudySystem(any(StudySystem.class));
+        final String expected = "Es gibt keine Karten zu diesem Deck.";
         final String[] actual = new String[1];
         StudySystem studySystem = new LeitnerSystem();
-
-
         studySystemController.getAllCardsInStudySystem(studySystem, new DataCallback<CardOverview>() {
             @Override
             public void onSuccess(List<CardOverview> data) {
@@ -127,7 +124,7 @@ public class StudySystemControllerTests {
     @Test
     public void getAllCardsInStudySystemTestException() {
         when(studySystemMockLogic.getAllCardsInStudySystem(any(StudySystem.class))).thenThrow(RuntimeException.class);
-        final String expected = "Ein Fehler ist aufgetreten";
+        final String expected = "Beim Abrufen aller Karten in Deck ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         StudySystem studySystem = new LeitnerSystem();
 
