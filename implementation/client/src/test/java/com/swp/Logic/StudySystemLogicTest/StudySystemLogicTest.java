@@ -135,15 +135,30 @@ public class StudySystemLogicTest {
 
     @Test
     public void updateStudySystemTestNeu(){
-       /* StudySystem oldStudySystem = new StudySystem() {
-        };
-        StudySystem newStudySystem = new StudySystem() {
-        };
+        StudySystem studySystem = new VoteSystem();
+        StudySystem studySystem1 = new TimingSystem();
+        when(studySystemRepository.save(studySystem1)).thenReturn(studySystem1);
+        studySystemLogic.updateStudySystemData(studySystem,studySystem1,true);
+        //TODO
+    }
 
-       doNothing().when(studySystemRepository).save(newStudySystem);
-       studySystemLogic.updateStudySystemData(oldStudySystem,newStudySystem,true);
-
-        */
+    @Test
+    public void updateStudySystemTestElseIfFalse(){
+        StudySystem oldstudySystem = new VoteSystem();
+        StudySystem newstudySystem = new TimingSystem();
+        List<CardOverview> cardsToStudySystem = new ArrayList<>();
+        List<Card> cards = new ArrayList<>();
+        CardOverview cardOverview = new CardOverview();
+        CardOverview cardOverview1 = new CardOverview();
+        Card card = new TrueFalseCard();
+        Card card1 = new TrueFalseCard();
+        cardsToStudySystem.add(cardOverview);
+        cardsToStudySystem.add(cardOverview1);
+        cards.add(card);
+        cards.add(card1);
+        when(cardRepository.findCardsByStudySystem(oldstudySystem)).thenReturn(cardsToStudySystem);
+        when(cardRepository.getAllCardsForCardOverview(cardsToStudySystem)).thenReturn(cards);
+        //studySystemLogic.updateStudySystemData(oldstudySystem,newstudySystem,false);
     }
 
 
