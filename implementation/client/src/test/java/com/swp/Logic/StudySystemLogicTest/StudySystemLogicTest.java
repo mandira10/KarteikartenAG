@@ -73,6 +73,8 @@ public class StudySystemLogicTest {
     public void getAllCardsInStudySystemTest(){
         List<CardOverview> list = new ArrayList<>();
         when(cardRepository.findCardsByStudySystem(any(StudySystem.class))).thenReturn(list);
+
+        //TODO ÄNDERN ZU RICHTIGEM KONSTRUKTOR
         StudySystem studySystem = new StudySystem() {};
 
         assertEquals(list, studySystemLogic.getAllCardsInStudySystem(studySystem));
@@ -108,6 +110,7 @@ public class StudySystemLogicTest {
 
     @Test
     public void getStudySystemByUUIDTest(){
+        //TODO ÄNDERN ZU RICHTIGEM KONSTRUKTOR
         StudySystem studySystem = new StudySystem() {};
         when(studySystemRepository.getStudySystemByUUID(anyString())).thenReturn(studySystem);
 
@@ -121,6 +124,8 @@ public class StudySystemLogicTest {
         BoxToCard boxToCard = new BoxToCard();
         when(cardToBoxRepository.getSpecific(any(Card.class),any(StudySystem.class))).thenReturn(boxToCard);
         Card card = new TrueFalseCard();
+
+        //TODO ÄNDERN ZU RICHTIGEM KONSTRUKTOR
         StudySystem studySystem = new StudySystem(){};
 
 
@@ -130,6 +135,7 @@ public class StudySystemLogicTest {
 
     @Test
     public void updateStudySystemTestNull(){
+        //TODO ÄNDERN ZU RICHTIGEM KONSTRUKTOR
         StudySystem studySystem = new StudySystem() {
         };
         StudySystem leer = null;
@@ -326,23 +332,29 @@ public class StudySystemLogicTest {
         list.add(card2);
         list.add(card3);
         list.add(card4);
-        StudySystem studySystem = new StudySystem() {
-        };
-        studySystem.setType(StudySystem.StudySystemType.LEITNER);
+        //FALSCH
+//        StudySystem studySystem = new StudySystem() {
+//        };
+//        studySystem.setType(StudySystem.StudySystemType.LEITNER);
+//        StudySystemBox studySystemBox = new StudySystemBox();
+//        StudySystemBox studySystemBox2 = new StudySystemBox();
+//        StudySystemBox studySystemBox3 = new StudySystemBox();
+//        StudySystemBox studySystemBox4 = new StudySystemBox();
+//        List<StudySystemBox> boxlist = new ArrayList<>();
+//        boxlist.add(studySystemBox);
+//        boxlist.add(studySystemBox2);
+//        boxlist.add(studySystemBox3);
+//        boxlist.add(studySystemBox4);
+
+        //Bentutz stattudessen den leeren LeitnerSystem Konstruktor, dann hast du die boxen bereits
         testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
-        StudySystemBox studySystemBox = new StudySystemBox();
-        StudySystemBox studySystemBox2 = new StudySystemBox();
-        StudySystemBox studySystemBox3 = new StudySystemBox();
-        StudySystemBox studySystemBox4 = new StudySystemBox();
-        List<StudySystemBox> boxlist = new ArrayList<>();
-        boxlist.add(studySystemBox);
-        boxlist.add(studySystemBox2);
-        boxlist.add(studySystemBox3);
-        boxlist.add(studySystemBox4);
+
         studySystem.setBoxes(boxlist);
-        BoxToCard boxToCard = new BoxToCard(card,studySystemBox4);
-        boxToCard.getStudySystemBox().setBoxNumber(4);
+
+        StudySystem leitner = new LeitnerSystem();
+        BoxToCard boxToCard = new BoxToCard(card,leitner.getBoxes().get(4));
+        //boxToCard.getStudySystemBox().setBoxNumber(4); not needed
         when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
         int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
         Timestamp timestamp = boxToCard.getLearnedNextAt();
@@ -352,7 +364,7 @@ public class StudySystemLogicTest {
 
         assertNotEquals(status,boxToCard.getStatus());
         assertEquals(boxNumber,boxToCard.getStudySystemBox().getBoxNumber());
-        //assertNotEquals(timestamp,boxToCard.getLearnedNextAt());
+        assertNotEquals(timestamp,boxToCard.getLearnedNextAt());
 
 
 
@@ -431,6 +443,7 @@ public class StudySystemLogicTest {
 
     @Test
     public void getNextCardTestCustomTiming(){
+        //TODO ÄNDERN ZU RICHTIGEM KONSTRUKTOR
         StudySystem studySystem = new StudySystem() {
         };
 
@@ -454,6 +467,8 @@ public class StudySystemLogicTest {
 
     @Test
     public void getNextCardTestLeitner(){
+
+        //TODO ÄNDERN ZU RICHTIGEM KONSTRUKTOR
         StudySystem studySystem = new StudySystem() {
         };
 
@@ -476,6 +491,8 @@ public class StudySystemLogicTest {
 
     @Test
     public void getNextCardTestVote(){
+
+        //TODO ÄNDERN ZU RICHTIGEM KONSTRUKTOR
         StudySystem studySystem = new StudySystem() {
         };
 
