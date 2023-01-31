@@ -27,7 +27,7 @@ public class ImageTestCard extends Card
      * Bild für die Karteikarte
      */
     @Column
-    private String image; //TODO
+    private byte[] image;
 
     /**
      * Zusätzliche Beschreibung zum Bild als Antwort
@@ -47,7 +47,10 @@ public class ImageTestCard extends Card
      */
     public ImageTestCard()
     {
-        this("","","","",false);
+        this.question = "";
+        this.image = null;
+        this.answer = null;
+        this.title = "";
     }
 
     /**
@@ -58,7 +61,7 @@ public class ImageTestCard extends Card
      * @param swapQA: Wechsel Frage/Antwort
      * @param title Optionaler Titel der Karte
      */
-    public ImageTestCard(String question, String answer, String image, String title, boolean swapQA)
+    public ImageTestCard(String question, String answer, byte[] image, String title, boolean swapQA)
     {
         super(CardType.IMAGETEST);
         setTitle(title);

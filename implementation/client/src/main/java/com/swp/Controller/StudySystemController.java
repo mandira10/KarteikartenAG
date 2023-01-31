@@ -54,13 +54,12 @@ public class StudySystemController {
     public void moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
         threadPool.exec(() -> {
             try {
-                if (cards.isEmpty()) {
-                    singleDataCallback.callFailure("Karte wurde nicht gefunden.");
-                    log.info(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty"));
-                } else {
                     studySystemLogic.moveAllCardsForDeckToFirstBox(cards, studySystem);
                     singleDataCallback.callSuccess(true);
                 }
+            catch(IllegalStateException e){
+                log.error(e.getMessage());
+                singleDataCallback.callFailure(e.getMessage());
             }
             catch (Exception e) {
                 singleDataCallback.callFailure(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxerror"));
@@ -81,13 +80,12 @@ public class StudySystemController {
         threadPool.exec(() -> {
             try {
                 List<CardOverview> cards = studySystemLogic.getAllCardsInStudySystem(studySystem);
+                if (cards.isEmpty())
+                      log.info("Es gibt aktuell noch keine Karten für das Deck");
 
-                if (cards.isEmpty()) {
-                    dataCallback.callInfo("Es gibt keine Karten zu diesem Deck.");
-                    log.error(Locale.getCurrentLocale().getString("getallcardsinstudysystemempty"));
-                } else {
+                else
                     dataCallback.callSuccess(cards);
-                }
+
             }
             catch (Exception ex) {
                 dataCallback.callFailure(Locale.getCurrentLocale().getString("getallcardsinstudysystemerror"));
@@ -307,8 +305,7 @@ public class StudySystemController {
             try {
                 List<StudySystem> studySystems = studySystemLogic.getStudySystems();
                 if (studySystems.isEmpty()) {
-                    log.info("Es wurden keine zugehörigen Karten gefunden");
-                    dataCallback.callInfo(Locale.getCurrentLocale().getString("getstudysystemsempty"));
+                    log.info("Es gibt noch keine Studysystems gefunden");
                 }
                 dataCallback.callSuccess(studySystems);
             }
@@ -330,10 +327,14 @@ public class StudySystemController {
             try {
                 List<StudySystem> studySystems = studySystemLogic.getStudySystemsBySearchterm(searchterm);
                 if (studySystems.isEmpty()) {
-                    log.info("Es wurden keine zugehörigen Karten gefunden");
+                    log.info("Es wurden keine zugehörigen StudySystems für den Suchterm gefunden gefunden");
                     dataCallback.callInfo(Locale.getCurrentLocale().getString("getstudysystembysearchtermsempty"));
                 }
                 dataCallback.callSuccess(studySystems);
+            }
+            catch (IllegalArgumentException ex){
+                dataCallback.callFailure(ex.getMessage());
+                log.error(ex.getMessage());
             }
             catch (Exception ex) {
                 dataCallback.callFailure(Locale.getCurrentLocale().getString("getstudysystembysearchtermserror"));

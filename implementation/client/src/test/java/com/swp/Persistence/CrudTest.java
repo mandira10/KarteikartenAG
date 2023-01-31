@@ -1,6 +1,7 @@
 package com.swp.Persistence;
 
 import com.gumse.gui.Locale;
+import com.gumse.textures.Texture;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
@@ -126,9 +127,11 @@ public class CrudTest {
 
     @Test
     public void CRUDwithoutTransaction() {
+        Texture loadTex = new Texture();
+        loadTex.loadFile("/path/to/image3.png", getClass());
         Card exampleCard = new ImageDescriptionCard("Bildbeschreibung 3?", new ImageDescriptionCardAnswer[]{
                 new ImageDescriptionCardAnswer("Beschreibung 3", 0, 1)
-        }, "Titel der Karte", "/path/to/image3.png");
+        }, "Titel der Karte",  new byte[loadTex.getData().remaining()]);
 
         on(cardRepository).set("entityManager", null);
         assertThrows(IllegalStateException.class, cardRepository::getAll);
@@ -377,29 +380,40 @@ public class CrudTest {
      */
     public List<Card> exampleCards() {
         List<Card> exampleCards = new ArrayList<>();
+        Texture images = new Texture();
+        images.loadFile("/path/to/image1.png", getClass());
+        byte[] img1 = new byte[images.getData().remaining()];
+        images.loadFile("/path/to/image2.png", getClass());
+        byte[] img2 = new byte[images.getData().remaining()];
+        images.loadFile("/path/to/image3.png", getClass());
+        byte[] img3 = new byte[images.getData().remaining()];
+        images.loadFile("/path/to/image4.png", getClass());
+        byte[] img4 = new byte[images.getData().remaining()];
+        images.loadFile("/path/to/image5.png", getClass());
+        byte[] img5 = new byte[images.getData().remaining()];
         Collections.addAll(exampleCards,
                 new AudioCard(new byte[]{4}, "Audio 1", "Frage 1", "Antwort 1", false),
                 new AudioCard(new byte[]{10}, "Audio 2", "Frage 2", "Antwort 2", true),
                 new AudioCard(new byte[]{100}, "Audio 3", "Frage 3", "Antwort 3", false),
                 new AudioCard(new byte[]{0}, "Audio 4", "Frage 4", "Antwort 4", true),
                 new AudioCard(new byte[]{1}, "Audio 5", "Frage 5", "Antwort 5", false),
-                new ImageDescriptionCard("Bildbeschreibung 1?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", "/path/to/image1.png"),
-                new ImageDescriptionCard("Bildbeschreibung 2?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", "/path/to/image2.png"),
+                new ImageDescriptionCard("Bildbeschreibung 1?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", img1),
+                new ImageDescriptionCard("Bildbeschreibung 2?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", img2),
                 new ImageDescriptionCard("Bildbeschreibung 3?", new ImageDescriptionCardAnswer[]{
                         new ImageDescriptionCardAnswer("Beschreibung 3", 0, 1)
-                }, "Titel der Karte", "/path/to/image3.png"),
+                }, "Titel der Karte", img3),
                 new ImageDescriptionCard("Bildbeschreibung 4?", new ImageDescriptionCardAnswer[]{
                         new ImageDescriptionCardAnswer("Beschreibung 4", 1, 2),
                         new ImageDescriptionCardAnswer("andere Beschreibung", 6, 1)
-                }, "Titel der Karte", "/path/to/image4.png"),
+                }, "Titel der Karte", img4),
                 new ImageDescriptionCard("Bildbeschreibung 5?", new ImageDescriptionCardAnswer[]{
                         new ImageDescriptionCardAnswer("Beschreibung", 1, 3)
-                }, "Titel der Karte", "/path/to/image5.png"),
-                new ImageTestCard("Image 1", "Antwort 1", "/path/to/image1.png", "Titel 1",false),
-                new ImageTestCard("Image 2", "Antwort 2", "/path/to/image2.png", "Titel 2",true),
-                new ImageTestCard("Image 3", "Antwort 3", "/path/to/image3.png", "Titel 3",false),
-                new ImageTestCard("Image 4", "Antwort 4", "/path/to/image4.png", "Titel 4",true),
-                new ImageTestCard("Image 5", "Antwort 5", "/path/to/image5.png", "Titel 5",false),
+                }, "Titel der Karte", img5),
+                new ImageTestCard("Image 1", "Antwort 1", img1, "Titel 1",false),
+                new ImageTestCard("Image 2", "Antwort 2", img2, "Titel 2",true),
+                new ImageTestCard("Image 3", "Antwort 3", img3, "Titel 3",false),
+                new ImageTestCard("Image 4", "Antwort 4",img4, "Titel 4",true),
+                new ImageTestCard("Image 5", "Antwort 5",img5, "Titel 5",false),
                 new MultipleChoiceCard("Multi 1", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{0,3}, "Titel 1"),
                 new MultipleChoiceCard("Multi 2", new String[]{"Antwort A", "Antwort B", "Antwort C",            }, new int[]{1,2}, "Titel 2"),
                 new MultipleChoiceCard("Multi 3!", new String[]{"Eine ungewöhnlich lange Antwort A", "Antwort [B]"}, new int[]{1}, "Titel 3"),

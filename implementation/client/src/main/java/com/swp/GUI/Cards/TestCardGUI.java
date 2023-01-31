@@ -1,5 +1,6 @@
 package com.swp.GUI.Cards;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -132,7 +133,7 @@ public class TestCardGUI extends RenderGUI
         cardImage.setPositionInPercent(true, true);
         cardImage.setSizeInPercent(true, true);
         Texture tex = new Texture();
-        tex.load(card.getImage(), getClass());
+        tex.loadMemory(ByteBuffer.wrap(card.getImage()));
         cardImage.setColor(new vec4(1, 1, 1, 1));
         cardImage.setTexture(tex);
         cardImage.invertTexcoordY(true);
@@ -159,7 +160,7 @@ public class TestCardGUI extends RenderGUI
         cardImage.setSizeInPercent(true, true);
 
         Texture tex = new Texture();
-        tex.load(card.getImage(), getClass());
+        tex.loadMemory(ByteBuffer.wrap(card.getImage()));
         cardImage.setColor(new vec4(1, 1, 1, 1));
         cardImage.setTexture(tex);
         cardImage.invertTexcoordY(true);

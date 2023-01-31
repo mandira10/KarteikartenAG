@@ -81,6 +81,8 @@ public class CardRepository extends BaseRepository<Card> {
      * @return List<CardOverview> eine Menge von Karten-Übersichten, die der Kategorie zugeordnet sind.
      */
     public List<CardOverview> getCardsByCategory(Category category) {
+        if (category == null)
+            throw new NullPointerException();
         return getEntityManager()
                 .createNamedQuery("CardToCategory.allCardsOfCategory", CardOverview.class)
                 .setParameter("category", category)

@@ -12,9 +12,9 @@ public abstract class DataCallback <E>
 {
     private final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
 
-    protected abstract void onSuccess(List<E> data);
-    protected abstract void onFailure(String msg);
-    protected abstract void onInfo(String msg);
+    public abstract void onSuccess(List<E> data);
+    public abstract void onFailure(String msg);
+    public abstract void onInfo(String msg);
 
     public void callSuccess(List<E> data)
     {

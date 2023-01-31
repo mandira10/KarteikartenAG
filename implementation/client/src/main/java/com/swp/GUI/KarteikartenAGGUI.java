@@ -6,6 +6,7 @@ import com.gumse.gui.GUI;
 import com.gumse.gui.Theme;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.*;
+import com.gumse.textures.Texture;
 import com.swp.DataModel.Settings.Setting;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
@@ -58,7 +59,9 @@ public class KarteikartenAGGUI extends RenderGUI
             new ImageDescriptionCardAnswer("Hand",         82, 58),
             new ImageDescriptionCardAnswer("Fuß",          62, 89),
         };
-        ImageDescriptionCard card = new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", "textures/orange-ket.png");
+        Texture loadTex = new Texture();
+        loadTex.loadFile("textures/orange-ket.png", getClass());
+        ImageDescriptionCard card = new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", new byte[loadTex.getData().remaining()]); 
 
         //EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
         //page.editCard(card);
