@@ -5,8 +5,8 @@
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
         <button id="cancelbutton"     pos="2.5%, 0"  origin="0, 0"   size="100, 30" fontsize="20" locale-id="cancelbutton" />
-        <button id="exportbutton"     pos="97.5%, 0" origin="120, 0" size="120, 30" fontsize="20" locale-id="exportbutton" />
-        <button id="typebutton"       pos="97.5%, 0" origin="170, 0" size="30, 30"  fontsize="20" />
-        <text   id="typetext"         pos="97.5%, 2" origin="220, 0" fontsize="25">PDF</text>
+        <button id="exportbutton"     pos="97.5%, 0" origin="160, 0" size="160, 30" fontsize="20" locale-id="exportbutton" />
+        <button id="typebutton"       pos="97.5%, 0" origin="210, 0" size="30, 30"  fontsize="20" />
+        <text   id="typetext"         pos="97.5%, 2" origin="260, 0" fontsize="25">PDF</text>
     </gui>
 </gui-root>

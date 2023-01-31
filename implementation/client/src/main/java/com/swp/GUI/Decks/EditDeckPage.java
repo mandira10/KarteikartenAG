@@ -1,5 +1,6 @@
 package com.swp.GUI.Decks;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Basics.TextField;
@@ -13,6 +14,7 @@ import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 
@@ -118,6 +120,12 @@ public class EditDeckPage extends Page
 
     private void applyChanges()
     {
+        if(pTitleField.getString().isEmpty())
+        {
+            NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatorytitle"), NotificationType.WARNING, 5);
+            return;
+        }
+
         StudySystemController.getInstance().updateDeckData(pOldDeck, pNewDeck, bNewDeck, new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {

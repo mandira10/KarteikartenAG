@@ -2,6 +2,7 @@ package com.swp.GUI.Category;
 
 import java.util.List;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextBox.Alignment;
@@ -14,6 +15,7 @@ import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Page;
@@ -153,6 +155,12 @@ public class EditCategoryPage extends Page
 
     private void applyChanges()
     {
+        if(pTitleField.getString().isEmpty())
+        {
+            NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatorytitle"), NotificationType.WARNING, 5);
+            return;
+        }
+        
         CategoryController.getInstance().updateCategoryData(pNewCategory,bIsNewCategory, nameChange, new SingleDataCallback<>() {
             @Override public void onSuccess(Boolean data) 
             {

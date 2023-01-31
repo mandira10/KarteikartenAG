@@ -2,8 +2,8 @@
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="canvas" size="95%, 80%" pos="2.5%, 10%">
     </gui>
-    <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="editcategorybutton"   pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="editcategorybutton" />
-        <button id="deletecategorybutton" pos="97.5%, 0" origin="220, 0" size="100, 30" fontsize="20" locale-id="deletecategorybutton" color="#EB4D4B" />
-    </gui>
+    <menu id="menu" size="100%, 50" margin="-160, 0" pos="160, 100%" origin="0, 50">
+        <button id="editcategorybutton"   size="100, 30" fontsize="20" locale-id="editcategorybutton" />
+        <button id="deletecategorybutton" size="100, 30" fontsize="20" locale-id="deletecategorybutton" color="#EB4D4B" />
+    </menu>
 </gui-root>

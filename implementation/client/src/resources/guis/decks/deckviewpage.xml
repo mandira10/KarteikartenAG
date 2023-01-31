@@ -2,11 +2,14 @@
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="canvas" size="95%, 80%" pos="2.5%, 10%">
     </gui>
-    <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="starttestbutton"  pos="2.5%,  0" origin="  0, 0" size="100, 30" fontsize="20" locale-id="starttestbutton" color="#73C991" />
-        <button id="editdeckbutton"   pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="editdeckbutton" />
-        <button id="exportbutton"     pos="97.5%, 0" origin="240, 0" size="120, 30" fontsize="20" locale-id="exportdeckbutton" />
-        <button id="deletedeckbutton" pos="97.5%, 0" origin="360, 0" size="100, 30" fontsize="20" locale-id="deletedeckbutton" color="#EB4D4B" />
-        <button id="removecardbutton" pos="97.5%, 0" origin="500, 0" size="120, 30" fontsize="20" locale-id="removedeckbutton" color="#EB4D4B" />
+
+    <gui id="leftmenu" size="100, 50" pos="20, 100%" origin="0, 50">
+        <button id="starttestbutton"  pos="0, 0" size="100, 30" fontsize="20" locale-id="starttestbutton" color="#73C991" />
     </gui>
+    <menu id="menu" size="100%, 50" margin="-160, 0" pos="160, 100%" origin="0, 50">
+        <button id="editdeckbutton"   size="100, 30" fontsize="20" locale-id="editdeckbutton" />
+        <button id="exportbutton"     size="120, 30" fontsize="20" locale-id="exportdeckbutton" />
+        <button id="deletedeckbutton" size="100, 30" fontsize="20" locale-id="deletedeckbutton" color="#EB4D4B" />
+        <button id="removecardbutton" size="120, 30" fontsize="20" locale-id="removedeckbutton" color="#EB4D4B" />
+    </menu>
 </gui-root>

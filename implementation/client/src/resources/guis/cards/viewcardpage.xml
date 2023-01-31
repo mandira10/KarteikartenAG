@@ -11,9 +11,11 @@
     <button id="flipcardbutton" pos="50%, 80%"  origin="310, 0"   size="300, 50" fontsize="30" locale-id="flipcardbutton" />
     <button id="referencesbutton" pos="50%, 80%"  origin="-10, 0"   size="300, 50" fontsize="30" locale-id="showreferencesbutton" />
     
-    <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
-        <button id="backbutton"   pos="2.5%, 0"  origin="0, 0"   size="100, 30" fontsize="20" locale-id="backbutton" />
-        <button id="deletebutton" pos="97.5%, 0" origin="220, 0" size="100, 30" fontsize="20" locale-id="deletecardbutton" color="#EB4D4B" />
-        <button id="editbutton"   pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="editcardbutton" />
+    <gui id="leftmenu" size="100, 50" pos="20, 100%" origin="0, 50">
+        <button id="backbutton" pos="0, 0" size="100, 30" fontsize="20" locale-id="backbutton" />
     </gui>
+    <menu id="menu" size="100%, 50" margin="-160, 0" pos="160, 100%" origin="0, 50">
+        <button id="editbutton"   size="100, 30" fontsize="20" locale-id="editcardbutton" />
+        <button id="deletebutton" size="100, 30" fontsize="20" locale-id="deletecardbutton" color="#EB4D4B" />
+    </menu>
 </gui-root>

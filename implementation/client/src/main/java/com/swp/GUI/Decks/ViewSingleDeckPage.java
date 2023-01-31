@@ -16,6 +16,7 @@ import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.Extras.ConfirmationGUI;
+import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.PageManager.PAGES;
@@ -36,13 +37,14 @@ public class ViewSingleDeckPage extends Page
         addGUI(XMLGUI.loadFile("guis/decks/deckviewpage.xml"));
         pCanvas = findChildByID("canvas");
 
-        RenderGUI optionsMenu = findChildByID("menu");
+        MenuOptions menu = (MenuOptions)findChildByID("menu");
+
         //Start test button
-        Button startButton = (Button)optionsMenu.findChildByID("starttestbutton");
+        Button startButton = (Button)findChildByID("starttestbutton");
         startButton.onClick((RenderGUI gui) -> { ((TestDeckPage)PageManager.viewPage(PAGES.DECK_TEST)).startTests(pDeck); });
 
         //Edit button
-        Button editButton = (Button)optionsMenu.findChildByID("editdeckbutton");
+        Button editButton = (Button)findChildByID("editdeckbutton");
         editButton.onClick((RenderGUI gui) -> { ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(pDeck.getUuid()); });
 
         //Export button
@@ -59,8 +61,8 @@ public class ViewSingleDeckPage extends Page
         removeCardsButton.hide(true);
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod()  { removeCardsButton.hide(false); }
-            @Override public void exitSelectmod()   { removeCardsButton.hide(true);  }
+            @Override public void enterSelectmod()  { removeCardsButton.hide(false); menu.resize(); }
+            @Override public void exitSelectmod()   { removeCardsButton.hide(true);  menu.resize(); }
         }, null);
         pCardList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCardList);

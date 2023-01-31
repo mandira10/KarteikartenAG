@@ -6,6 +6,14 @@ backbutton             = Back
 donebutton             = Done
 continuebutton         = Continue
 checkbutton            = Check
+nextbutton             = Next
+
+# Sidebar
+sidebarlogin           = Login
+sidebardecks           = Decks
+sidebarcards           = Cards
+sidebarcategories      = Categories
+sidebarsettings        = Settings
 
 # Edit pages
 titlefield             = Title:
@@ -27,6 +35,7 @@ loginbutton            = Login
 remembermefield        = Remember me
 usernamefield          = Username
 passwordfield          = Password
+loginmessage           = Successfully logged in
 
 # Card
 addcardbutton          = Add Card
@@ -113,6 +122,11 @@ testdeckpage           = Test Deck
 viewdeckpage           = View Deck
 editreferencespage     = Edit References
 
+# Mandatory fields
+mandatorytitle         = The title cannot be empty
+mandatoryanswer        = The answer cannot be empty
+mandatoryquestion      = The question cannot be empty
+
 # Card Exceptions
 getcardstoshowempty	= There are no cards yet.
 getcardstoshowerror = An error occurred while retrieving the cards.
@@ -165,7 +179,6 @@ descriptionTiming = The TimingSystem measures the time you need for an answer, w
 descriptionVote = In VoteSystem you can give 1-5 stars for each question, 5 = very easy / 1 = very hard. The questions are submitted each time you learn based on the rating.
 
 # StudySystem Exceptions
-
 movecardtospecificboxempty = Card not found.
 movecardtospecificboxerror = An error occurred while moving card in a box.
 moveallcardsfordecktofirstboxempty = Card not found.
@@ -198,7 +211,6 @@ createboxtocardforcategory = An error occurred while creating box to card for ca
 
 
 # Category Exceptions
-
 updatecategorydataempty = Category not found.
 updatecategorydataerror = An error occurred while updating/saving the category.
 editcategoryhierarchyerror = An error occurred while updating the category.

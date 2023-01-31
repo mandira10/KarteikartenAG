@@ -1,4 +1,131 @@
-addcardbutton = Karte Hinzufügen
+# General
+cancelbutton           = Abbrechen
+applybutton            = Übernehmen
+createbutton           = Erstellen
+backbutton             = Zurück
+donebutton             = Fertig
+continuebutton         = Fortsetzen
+checkbutton            = Prüfen
+nextbutton             = Weiter
+
+# Sidebar
+sidebarlogin           = Login
+sidebardecks           = Decks
+sidebarcards           = Karten
+sidebarcategories      = Kategorien
+sidebarsettings        = Einstellungen
+
+# Edit pages
+titlefield             = Titel:
+questionfield          = Frage:
+answerfield            = Antwort:
+answersfield           = Antworten:
+audiofield             = Audio:
+imagefield             = Bild:
+truefalsefield         = Wahr/Falsch:
+tagsfield              = Tags:
+categoriesfield        = Kategorien:
+namefield              = Name:
+editstudysystemheading = Lernsystem einstellungen
+studysystemfield       = Lernsystem:
+cardorderfield         = Kartenreihenfolge:
+
+# Login
+loginbutton            = Login
+remembermefield        = Remember me
+usernamefield          = Username
+passwordfield          = Passwort
+loginmessage           = Erfolgreich eingeloggt
+
+# Card
+addcardbutton          = Karte Hinzufügen
+editcardbutton         = Karte bearbeiten
+referencesbutton       = Referenzen
+deletecardbutton       = Karte Löschen
+deletecardsbutton      = Karte(n) Löschen
+flipcardbutton         = Karte umdrehen
+showreferencesbutton   = Zeige Referenzen
+addtodeckbutton        = Zu Deck hinzufügen
+uploadaudiobutton      = Zum öffnen klicken
+editanswersbutton      = Antworten bearbeiten
+openimagebutton        = Zum öffnen klicken
+exportbutton           = Karten exportieren
+cardsearch             = Karten suchen
+cardlisttitle          = Titel
+cardlistdate           = Erstellungsdatum
+cardlistdecks          = Decks
+alphabeticalorder      = Alphabetisch
+numdeckorder           = Nr. Decks
+dateorder              = Datum
+
+# Category
+addcategorybutton      = Kategorie hinzufügen
+viewtreebutton         = Baum Ansicht
+viewlistbutton         = Listen Ansicht
+deletecategorybutton   = Kategorie löschen
+editcategorybutton     = Kategorie bearbeiten
+categorysearch         = Kategorien suchen
+categorylisttitle      = Kategorien
+deletecategoriesbutton = Kategorie(n) löschen
+exportcategoriesbutton = Kategorie(n) exportieren
+categorychildrenfield  = Kinder
+categoryparentsfield   = Eltern
+
+# Deck
+adddeckbutton          = Deck hinzufügen
+starttestbutton        = Test starten
+editdeckbutton         = Deck bearbeiten
+deletedeckbutton       = Deck löschen
+removedeckbutton       = Karte(n) entfernen
+exportdeckbutton       = Deck exportieren
+deckprogress           = Fortschritt
+deckentrycards         = Karten
+deckempty              = Leer
+decksearch             = Decks suchen
+wascorrectbutton       = Antwort war korrekt
+timelimitfield         = Zeitlimit
+
+# Search
+bycontentsearch        = Nach Inhalt
+bytagsearch            = Nach Tags
+bycategorysearch       = Nach Kategorien
+
+# Settings
+serversettingsbutton   = Server
+generalsettingsbutton  = General
+darkthemesetting       = Dark Theme
+languagesetting        = Sprache
+serveraddresssetting   = Adresse
+serverportsetting      = Port
+logoutbutton           = Ausloggen
+
+# Page headings
+loginpage              = Login
+settingspage           = Einstellungen
+exportcardspage        = Karten exportieren
+cardoverviewpage       = Karten
+createcardpage         = Karte erstellen
+editcardpage           = Karte bearbeiten
+editanswerspage        = Anworten bearbeiten
+viewcardpage           = Karte anzeigen
+categoryoverviewpage   = Kategorien
+categoryselectionpage  = Kategorie auswahl
+editcategorypage       = Kategorie bearbeiten
+categorytreepage       = Kategorie Baum
+viewcategorypage       = Kategorie anzeigen
+createdeckpage         = Create Deck
+deckoverviewpage       = Decks
+deckselectionpage      = Deck Auswahl
+editdeckpage           = Deck bearbeiten
+testfinishpage         = Test beendet
+testdeckpage           = Deck Test
+viewdeckpage           = Deck anzeigen
+editreferencespage     = Referenzen bearbeiten
+
+# Mandatory fields
+mandatorytitle         = Der Titel darf nicht leer sein
+mandatoryanswer        = Die Antwort darf nicht leer sein
+mandatoryquestion      = Die Frage darf nicht leer sein
 
 # Card Exceptions
 getcardstoshowempty = Es gibt bisher noch keine Karten.
@@ -52,7 +179,6 @@ descriptionTiming = Beim TimingSystem wird die Zeit gemessen, die du für eine A
 descriptionVote = Beim VoteSystem kannst du für jede Frage 1-5 Sterne vergeben, 5 = sehr einfach - 1 = sehr schwer. Die Fragen werden bei jedem Lernen anhand des Ratings vorgelegt.
 
 # StudySystem Exceptions
-
 movecardtospecificboxempty = Karte wurde nicht gefunden.
 moveallcardsfordecktofirstboxempty = Karte wurde nicht gefunden.
 moveallcardsfordecktofirstboxerror = Beim Speichern der Karte in dem Deck ist ein Fehler aufgetreten.
@@ -79,7 +205,6 @@ addstudysystemtypeandupdateerror = Beim Hinzufügen/Updaten des Deck Typs ist ei
 createboxtocardforcategory = Beim Erstellen Box to Card für Kategorie ist ein Fehler aufgetreten.
 
 # Category Exceptions
-
 updatecategorydataempty = Kategorie wurde nicht gefunden.
 updatecategorydataerror = Beim Updaten/Speichern der Kategorie ist ein Fehler aufgetreten.
 editcategoryhierarchyerror = Beim Updaten der Kategorie ist der Fehler aufgetreten.

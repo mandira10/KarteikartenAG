@@ -3,6 +3,7 @@ package com.swp.GUI.Decks;
 import java.util.concurrent.TimeUnit;
 
 import com.gumse.gui.GUI;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -115,7 +116,6 @@ public class TestDeckPage extends Page
         this.lStartTime = System.nanoTime();
         this.bStopTime = false;
         this.bCurrentAnswer = false;
-        pCanvas.destroyChildren();
         pTimeText.setColor(GUI.getTheme().textColor);
         studySystemController.getNextCard(pDeck,  new SingleDataCallback<Card>() {
             @Override public void onSuccess(Card data) 
@@ -127,6 +127,7 @@ public class TestDeckPage extends Page
                 }
                 else
                 {
+                    pCanvas.destroyChildren();
                     pTestGUI = new TestCardGUI(pCardToLearn);
                     pCanvas.addGUI(pTestGUI);
                     reposition();
@@ -174,7 +175,7 @@ public class TestDeckPage extends Page
 
     public void checkAnswer()
     {
-        pCheckButton.setTitle("Next");
+        pCheckButton.setTitle(Locale.getCurrentLocale().getString("nextbutton"));
         bAnswerChecked = true;
         bNextCardAllowed = true;
         bStopTime = true;
@@ -208,7 +209,7 @@ public class TestDeckPage extends Page
     {
         pRatingGUI.hide(true);
         bAnswerChecked = false;
-        pCheckButton.setTitle("Check");
+        pCheckButton.setTitle(Locale.getCurrentLocale().getString("checkbutton"));
         studySystemController.giveAnswer(pDeck, answer, new SingleDataCallback<Boolean>() {
             @Override public void onSuccess(Boolean data) 
             { 

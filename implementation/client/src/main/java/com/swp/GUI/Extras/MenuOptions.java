@@ -69,7 +69,7 @@ public class MenuOptions extends RenderGUI
             }
             
             Button entry = (Button)child;
-            entry.setSize(new ivec2(entry.getBox().getTextSize().x + 20, 30));
+            entry.setSize(new ivec2(entry.getBox().getTextSize().x + 30, 30));
             xpos -= entry.getSize().x + GAP_SIZE;
             if(xpos < pOptionsButton.getSize().x + GAP_SIZE)
             {

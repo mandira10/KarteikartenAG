@@ -8,6 +8,7 @@ import java.nio.IntBuffer;
 
 import com.swp.DataModel.Settings;
 import com.swp.DataModel.User;
+import com.swp.DataModel.Settings.Setting;
 
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL11;
@@ -18,12 +19,10 @@ import org.lwjgl.openal.ALCCapabilities;
 
 import com.gumse.basics.Globals;
 import com.gumse.gui.GUI;
-import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.maths.vec4;
 import com.gumse.system.Display;
 import com.gumse.system.Window;
 import com.gumse.system.Window.WindowResizePosCallback;
@@ -111,10 +110,13 @@ import lombok.extern.slf4j.Slf4j;
 //       - Timer auto cancel        -- done
 //   - Loginpage                    -- done
 //   - Settings logout              -- done
-//   - German language
+//   - German language              -- done
 //   - Deck edit page
 //       - Time field
 //       - Custom studysystem
+//   - Fix notification gui         -- done
+//   - Auto add file extensions     -- done
+//   - Fix browser/fileexplorer
 
 // Missing:
 // - get categories by name
@@ -189,7 +191,7 @@ public class KarteikartenAG
         XMLGUI.addGUIType("rating", RatingGUI.createFromXMLNode());
         
         //Check for saved login
-        User.loginUser(new User("username", "password"));
+        User.loginUser(new User(Settings.getInstance().getSetting(Setting.USER_NAME), Settings.getInstance().getSetting(Setting.USER_PASSWD)));
         
         
         Settings.getInstance().getLanguage().activate();
@@ -200,24 +202,28 @@ public class KarteikartenAG
         
 
         //Debugging
-        TextBox fpsTextBox = null;
-        if(Globals.DEBUG_BUILD)
-        {
-            fpsTextBox = new TextBox("FPS: ", FontManager.getInstance().getDefaultFont(), new ivec2(0, 0), new ivec2(100, 30));
-            //fpsTextBox.setPositionInPercent(true, true);
-            fpsTextBox.setColor(new vec4(0.0f, 0.0f, 0.0f, 0.3f));
-            fpsTextBox.setAlignment(TextBox.Alignment.LEFT);
-            //fpsTextBox.setOrigin(fpsTextBox.getSize());
-            pMainGUI.addGUI(fpsTextBox);
-        }
+        //TextBox fpsTextBox = null;
+        //if(Globals.DEBUG_BUILD)
+        //{
+        //    fpsTextBox = new TextBox("FPS: ", FontManager.getInstance().getDefaultFont(), new ivec2(0, 0), new ivec2(100, 30));
+        //    //fpsTextBox.setPositionInPercent(true, true);
+        //    fpsTextBox.setColor(new vec4(0.0f, 0.0f, 0.0f, 0.3f));
+        //    fpsTextBox.setAlignment(TextBox.Alignment.LEFT);
+        //    //fpsTextBox.setOrigin(fpsTextBox.getSize());
+        //    pMainGUI.addGUI(fpsTextBox);
+        //}
 
         pMainGUI.setSize(iWindowSize);
-
-        PageManager.viewPage(PAGES.LOGIN);
+        
         threadPool.synchronizedTasks(true);
         importTestData();
         threadPool.synchronizedTasks(false);
 
+
+        if(User.isLoggedIn())
+            PageManager.viewPage(PAGES.DECK_OVERVIEW);
+        else
+            PageManager.viewPage(PAGES.LOGIN);
         
         while(pMainWindow.isOpen())
         {
@@ -227,8 +233,8 @@ public class KarteikartenAG
             pMainGUI.render();
             pMainGUI.update();
             threadPool.runQueue();
-            if(fpsTextBox != null)
-                fpsTextBox.setString("FPS: " + (int)FPS.getFPS());
+            //if(fpsTextBox != null)
+            //    fpsTextBox.setString("FPS: " + (int)FPS.getFPS());
 
             pMainWindow.finishRender();
             pMainWindow.getMouse().reset();

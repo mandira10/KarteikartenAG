@@ -2,10 +2,10 @@
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="form" size="95%, 80%" pos="2.5%, 10%">
         <text pos="10, 10" fontsize="30" locale-id="titlefield"></text>
-        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
+        <textfield id="titlefield" pos="200, 10" size="100%, 30" margin="-200, 0" fontsize="30" hint=""></textfield>
 
         <text pos="10, 160" fontsize="30" locale-id="timelimitfield"></text>
-        <textfield id="timelimitfield" pos="150, 160" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
+        <textfield id="timelimitfield" pos="200, 160" size="100%, 30" margin="-200, 0" fontsize="30" hint=""></textfield>
 
         <gui id="canvas" size="100%, 70%" pos="0, 200">
             <text pos="10, 10" fontsize="40" locale-id="editstudysystemheading"></text>

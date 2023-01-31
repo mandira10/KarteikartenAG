@@ -2,6 +2,7 @@ package com.swp.GUI;
 
 import com.gumse.basics.SmoothFloat;
 import com.gumse.gui.GUI;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
@@ -38,7 +39,8 @@ public class Sidebar extends RenderGUI
             pSymbol.getBox().hide(true);
             addElement(pSymbol);
 
-            pTitle = new Text(title, FontManager.getInstance().getDefaultFont(), new ivec2(120, 50 - 15), 0);
+            pTitle = new Text(Locale.getCurrentLocale().getString(title), FontManager.getInstance().getDefaultFont(), new ivec2(120, 50 - 15), 0);
+            pTitle.setLocaleID(title);
             pTitle.setCharacterHeight(30);
             pTitle.hide(true);
             addElement(pTitle);
@@ -136,28 +138,30 @@ public class Sidebar extends RenderGUI
 
     public void refresh()
     {
+        pBackground.destroyChildren();
+        
         int offset = -100;
         if(!User.isLoggedIn())
         {
-            pBackground.addGUI(new SidebarItem('', "Login", new ivec2(0,offset += 110), (RenderGUI gui) -> {
+            pBackground.addGUI(new SidebarItem('', "sidebarlogin", new ivec2(0,offset += 110), (RenderGUI gui) -> {
                 PageManager.viewPage(PAGES.LOGIN);
             }));
         }
         else
         {
-            pBackground.addGUI(new SidebarItem('', "Decks", new ivec2(0,offset += 110), (RenderGUI gui) -> {
+            pBackground.addGUI(new SidebarItem('', "sidebardecks", new ivec2(0,offset += 110), (RenderGUI gui) -> {
                 ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
             }));
-            pBackground.addGUI(new SidebarItem('', "Cards", new ivec2(0,offset += 110), (RenderGUI gui) -> {
+            pBackground.addGUI(new SidebarItem('', "sidebarcards", new ivec2(0,offset += 110), (RenderGUI gui) -> {
                 ((CardOverviewPage)PageManager.viewPage(PAGES.CARD_OVERVIEW)).loadCards(0, 30);
             }));
-            pBackground.addGUI(new SidebarItem('', "Categories", new ivec2(0,offset += 110), (RenderGUI gui) -> {
+            pBackground.addGUI(new SidebarItem('', "sidebarcategories", new ivec2(0,offset += 110), (RenderGUI gui) -> {
                 ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
             }));
         }
 
 
-        SidebarItem settingsItem = new SidebarItem('', "Settings", new ivec2(0, 100), (RenderGUI gui) -> {
+        SidebarItem settingsItem = new SidebarItem('', "sidebarsettings", new ivec2(0, 100), (RenderGUI gui) -> {
             PageManager.viewPage(PAGES.SETTINGS);
         });
         settingsItem.setPositionInPercent(false, true);
@@ -171,7 +175,7 @@ public class Sidebar extends RenderGUI
     {
         if(pSmoothFloat.update())
         {
-            int boxSize = (int)(150 * pSmoothFloat.get());
+            int boxSize = (int)(200 * pSmoothFloat.get());
             pBackground.setSize(new ivec2(100 + boxSize, 100));
             for(int i = 0; i < pBackground.numChildren(); i++)
             {

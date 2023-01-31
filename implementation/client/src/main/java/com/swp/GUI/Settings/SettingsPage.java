@@ -12,6 +12,7 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.swp.DataModel.Settings;
+import com.swp.DataModel.User;
 import com.swp.DataModel.Language.Language;
 import com.swp.DataModel.Settings.Setting;
 import com.swp.GUI.KarteikartenAGGUI;
@@ -96,13 +97,12 @@ public class SettingsPage extends Page
 
         Button logoutButton = (Button)findChildByID("logoutbutton");
         logoutButton.onClick((RenderGUI gui) -> {
-            PageManager.viewPage(PAGES.LOGIN);
-            KarteikartenAGGUI.getInstance().getSidebar().refresh();
+            User.logout();
             settings.setSetting(Setting.USER_NAME, "null");
             settings.setSetting(Setting.USER_PASSWD, "null");
+            PageManager.viewPage(PAGES.LOGIN);
+            KarteikartenAGGUI.getInstance().getSidebar().refresh();
         });
-
-        //PersistenceManager.changeH2Server("127.0.0.1:8082", "local-user", "local-user-password");
 
         this.setSizeInPercent(true, true);
         reposition();

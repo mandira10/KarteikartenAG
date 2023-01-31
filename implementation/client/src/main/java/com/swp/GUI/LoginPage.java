@@ -2,11 +2,11 @@ package com.swp.GUI;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextField;
+import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.*;
-import com.swp.DataModel.Settings;
-import com.swp.DataModel.Settings.Setting;
+import com.swp.DataModel.User;
 
 public class LoginPage extends Page
 {
@@ -18,13 +18,19 @@ public class LoginPage extends Page
         addGUI(XMLGUI.loadFile("guis/loginpage.xml"));
         TextField usernamefield = (TextField)findChildByID("usernamefield");
         TextField passwordfield = (TextField)findChildByID("passwordfield");
+        TextFieldInputCallback callback = new TextFieldInputCallback() {
+            @Override public void enter(String complete) {
+                login(usernamefield.getString(), passwordfield.getString());
+            }
+            @Override public void input(String input, String complete) {}  
+        };
+
+        usernamefield.setCallback(callback);
+        passwordfield.setCallback(callback);
 
         Button loginButton = (Button)findChildByID("loginbutton");
         loginButton.onClick((RenderGUI gui) -> {
-            //Do login request and do:
-            //Settings.getInstance().setSetting(Setting.USER_NAME, usernamefield.getString());
-            //Settings.getInstance().setSetting(Setting.USER_PASSWD, passwordfield.getString());
-            //on success
+            login(usernamefield.getString(), passwordfield.getString());
         });
 
 
@@ -32,4 +38,9 @@ public class LoginPage extends Page
         reposition();
         resize();
     }    
+
+    private void login(String username, String password)
+    {
+        User.loginUser(new User(username, password));
+    }
 }

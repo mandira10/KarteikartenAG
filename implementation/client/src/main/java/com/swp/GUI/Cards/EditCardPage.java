@@ -3,6 +3,7 @@ package com.swp.GUI.Cards;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
@@ -26,6 +27,7 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
@@ -60,8 +62,6 @@ public class EditCardPage extends Page
         this.pNewCard = null;
         this.aCategories = new ArrayList<>();
         
-
-
         addGUI(XMLGUI.loadFile("guis/cards/cardeditpage.xml"));
 
         pCanvas = findChildByID("canvas");
@@ -146,7 +146,9 @@ public class EditCardPage extends Page
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
 
-        }); }
+        }); 
+    }
+
     public void editCard(Card card, boolean newcard)
     {
         if(card == null)
@@ -180,19 +182,13 @@ public class EditCardPage extends Page
 
         pTagList.reset();
         CardController.getInstance().getTagsToCard(pNewCard, new DataCallback<Tag>() {
-            @Override
-            public void onSuccess(List<Tag> data) {
+            @Override public void onInfo(String msg) {}
+            @Override public void onSuccess(List<Tag> data) {
                 updateTags(data);
             }
 
-            @Override
-            public void onFailure(String msg) {
-            NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
-            }
-
-            @Override
-            public void onInfo(String msg) {
-
+            @Override public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
         });
 
@@ -256,6 +252,12 @@ public class EditCardPage extends Page
 
     private void applyChanges()
     {
+        if(pQuestionField.getString().isEmpty())
+        {
+            NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryquestion"), NotificationType.WARNING, 5);
+            return;
+        }
+        
         CardController.getInstance().updateCardData(pNewCard, bIsNewCard, new SingleDataCallback<Boolean>() {
             @Override public void onSuccess(Boolean data) 
             {
