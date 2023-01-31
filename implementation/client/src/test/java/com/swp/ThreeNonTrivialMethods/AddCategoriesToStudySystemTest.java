@@ -21,6 +21,7 @@ import com.swp.KarteikartenAG;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -180,6 +181,11 @@ public class AddCategoriesToStudySystemTest {
         cardToCategoryRepository.save(cardToCategory1);
         cardToCategoryRepository.save(cardToCategory2);
         CardToCategoryRepository.commitTransaction();
+    }
+
+    @BeforeAll
+    public static void before(){
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
 
     @Test

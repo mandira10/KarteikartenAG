@@ -26,6 +26,7 @@ import java.util.List;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -91,7 +92,7 @@ public class StudySystemControllerTests {
             }
         });
         //Thread.join();
-        assertEquals(expected, actual[0]);
+        assertNull(actual[0]);
 
 
     }
@@ -228,7 +229,7 @@ public class StudySystemControllerTests {
             }
         });
 
-        assertEquals(expected, actual[0]);
+        assertNull(actual[0]);
     }
 
     @Test
@@ -533,7 +534,7 @@ public class StudySystemControllerTests {
             }
 
         });
-        assertEquals(expected, actual[0]);
+        assertNull( actual[0]);
     }
 
     @Test

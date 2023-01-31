@@ -114,7 +114,12 @@ public class CardController {
                     log.info(Locale.getCurrentLocale().getString("gettagstocard"));
                 } else
                     callback.callSuccess(tagsForCard);
-            } catch (final Exception ex) {
+            }
+                catch (final IllegalStateException ex) {
+                    callback.callFailure(ex.getMessage());
+                    log.error("Null-Value übergeben");
+                }
+             catch (final Exception ex) {
                 log.error("Beim Suchen nach Tags der Karte {} ist ein Fehler {} aufgetreten", card.getUuid(), ex);
                 callback.callFailure(Locale.getCurrentLocale().getString("gettagstocarderror"));
             }
@@ -230,9 +235,15 @@ public class CardController {
             try {
                 cardLogic.setTagsToCard(card, set);
                 singleDataCallback.callSuccess(true);
+            } catch (IllegalArgumentException ex) {
+                singleDataCallback.callFailure(ex.getMessage());
+                log.error("Leerer Tag-String übergeben");
+            } catch (IllegalStateException ex) {
+                singleDataCallback.callFailure(ex.getMessage());
+                log.error("Null-Value übergeben");
             } catch (Exception ex) {
                 singleDataCallback.callFailure(Locale.getCurrentLocale().getString("settagstocarderror"));
-                log.error("Beim Setzen der Tags für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());
+                log.error("Beim Setzen der Tags für die Karte mit der UUID {} ist ein Fehler {} aufgetreten", card.getUuid(), ex.getMessage());
             }
         });
     }

@@ -296,7 +296,7 @@ public class CategoryController {
                 List<CardOverview> cards = categoryLogic.getCardsInCategories(categories);
 
                 if (cards.isEmpty())
-                    dataCallback.callInfo(Locale.getCurrentLocale().getString("getcardsincategoryempty"));
+                    dataCallback.callInfo(Locale.getCurrentLocale().getString("getcardsincategoriesempty"));
 
                 dataCallback.callSuccess(cards);
 

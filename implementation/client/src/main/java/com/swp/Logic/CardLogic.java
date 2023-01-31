@@ -152,6 +152,9 @@ public class CardLogic extends BaseLogic<Card>
      * @return eine Liste von Tag
      */
     public List<Tag> getTagsToCard(Card card) {
+        if (card == null)
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("cardnullerror"));
+
         return execTransactional(() -> tagRepository.getTagsToCard(card));
     }
 
@@ -181,15 +184,9 @@ public class CardLogic extends BaseLogic<Card>
      * @param tagNew: die Liste von Tags
      */
     public void setTagsToCard(Card card, List<Tag> tagNew) {
-        /*
-        execTransactional(() -> {
-            cardRepository.refresh(card);
-            card.setAssignedTags(tagNew.stream().map(t -> new CardToTag(card, t)).toList());
-            cardRepository.update(card);
-            return null;
-        });
-         */
-        if(!tagNew.isEmpty()) {
+        if(card == null){
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("cardnullerror"));
+        }
             List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
             if (tagOld.isEmpty()) {
                 checkAndCreateTags(card, tagNew, tagOld);
@@ -205,7 +202,7 @@ public class CardLogic extends BaseLogic<Card>
                 checkAndCreateTags(card, tagNew, tagOld);
                 checkAndRemoveTags(card, tagNew, tagOld);
             }
-        }
+
     }
 
     /* Mit `cardRepository.update(card.setAssignedTags(List<Tag>))` kann man eine angepasste Karte
@@ -246,19 +243,12 @@ public class CardLogic extends BaseLogic<Card>
      * @param tagNew: die angegebene Liste von Tags zu vergleichen und hinzufügen
      */
     private void checkAndCreateTags(Card card, List<Tag> tagNew, List<Tag> tagOld) {
-        /*
-        execTransactional(() -> {
-            card.setAssignedTags(tagNew.stream().map(t -> new CardToTag(card, t)).toList());
-            cardRepository.update(card);
-            return null;
-        });
-         */
         execTransactional(() -> {
             for (Tag t : tagNew) {
                 if (!tagOld.isEmpty() && tagOld.contains(t)) {
                     log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getVal(), card.getUuid());
                 } else {
-                    checkNotNullOrBlank(t,"Tag",true);
+                    checkNotNullOrBlank(t.getVal(),"Tag",true);
                     try {
                         t = tagRepository.findTag(t.getVal());
                         log.info("Tag mit Namen {} bereits in Datenbank enthalten", t.getVal());

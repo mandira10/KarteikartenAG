@@ -784,7 +784,7 @@ public class CategoryControllerTests {
     public void getRootCategoriesTestNormalException(){
         Card card = new TrueFalseCard();
         when(categoryMockLogic.getRootCategories()).thenThrow(RuntimeException.class);
-        final String expected = "Beim Abrufen der KategorieHierarchie ist ein Fehler aufgetreten.";
+        final String expected = "Beim Suchen nach Root-Kategorien ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.getRootCategories(new DataCallback<Category>() {
             @Override

@@ -7,16 +7,17 @@ import com.swp.Controller.CardController;
 import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
-import com.swp.DataModel.Card;
+import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;
+import com.swp.Persistence.CardToBoxRepository;
+import com.swp.Persistence.CardToTagRepository;
 import com.swp.Persistence.TagRepository;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -24,13 +25,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 /**
  * In dieser Testklasse werden alle Methoden getestet, welche bei dem nicht-trivialen Anwendungsfall 'N3-8' Karteikarte Schlagwörter (Tags)
  * zuordnen involviert sind.
  * In der GUI können bei Erstellen oder bei Bearbeiten einer Karte die Tags angepasst werden.
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddTagsToCardTest {
 
 
@@ -71,17 +75,20 @@ public class AddTagsToCardTest {
         - cardToTagRepository.findSpecificCardToTag
         - cardToTagRepository.createCardToTag
         - cardToTagRepository.delete
+
+        Zum Abrufen:
+        - tagRepository.getTagsToCard(card)
          */
 
 
         CardController cardController;
         CardLogic cardLogic;
-        CardRepository cardRepository;
         TagRepository tagRepository;
+        CardToTagRepository cardToTagRepository;
 
         //Testinstanz Card
         Card card1 = new TrueFalseCard("Testfrage für Tags 1",false, "Testtitel für Testtags1");
-        
+        Card card2 = new TrueFalseCard("Testfrage für Tags 2",false, "Testtitel für Testtags2");
         //Testinstanz Tag bereits in DB enthalten
         Tag tagExisting = new Tag("tagExisting");
 
@@ -101,7 +108,7 @@ public class AddTagsToCardTest {
             cardController = CardController.getInstance();
             cardLogic = CardLogic.getInstance();
             tagRepository = TagRepository.getInstance();
-
+            cardToTagRepository = CardToTagRepository.getInstance();
 
                 Locale.setCurrentLocale(locale);
                 String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
@@ -139,12 +146,15 @@ public class AddTagsToCardTest {
          *            TagToAdd1 und TagToAdd3 gelöscht werden.
          */
         @Test
+        @Order(0)
         public void testCreateTagFunctionAllPossibilitiesForLogic() {
                 //SetUp der DB, eine Karte und ein Tag hinzufügen
                 cardLogic.updateCardData(card1,true); 
                 TagRepository.startTransaction();
                 tagRepository.save(tagExisting);
                 TagRepository.commitTransaction();
+                DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
+                SingleDataCallback<Boolean> mockSingleDataCallback = mock(SingleDataCallback.class);
 
                 final boolean[] addedSuccessfully = new boolean[5];
                 final String[] messageException = new String[5];
@@ -153,7 +163,7 @@ public class AddTagsToCardTest {
                 
                 //Testfall 1: Karte hat noch keine Tags und soll nun 2 hinzugefügt bekommen.
                 assertTrue(cardLogic.getTagsToCard(card1).isEmpty());
-
+                on(cardController).set("cardLogic",cardLogic);
                 Tag tagToAdd1 = new Tag("TestTag1");
                 Tag tagToAdd2 = new Tag("TestTag2");
                 ArrayList<Tag> tags = new ArrayList<>() {
@@ -177,8 +187,6 @@ public class AddTagsToCardTest {
                 });
                 assertNull(messageException[0]);
                 assertTrue(addedSuccessfully[0]);
-
-
 
 
                 cardController.getTagsToCard(card1, new DataCallback<Tag>() {
@@ -383,38 +391,189 @@ public class AddTagsToCardTest {
                 assertEquals(tag4,tagToAdd3);
         }
 
-
-        /**
-         * Testet die Funktionalität in der GUI für die Tag-Bearbeitung. Initiales Laden der Tags zur Karte.
-         * Prüfung Karte mit Tags, Karte ohne Tags
-         */
+        @Order(1)
         @Test
-        public void testFunctionGetTagsGUI() {}
+        public void ControllerGetTagsToCardCardNull() {
+                Card card =null;
+                DataCallback<Tag> mockDataCallback = mock(DataCallback.class);
+                assertDoesNotThrow(() -> cardController.getTagsToCard(card, mockDataCallback));
+                verify(mockDataCallback, times(1))
+                        .callFailure(Locale.getCurrentLocale().getString("cardnullerror"));
+        }
 
-        /**
-         * Testet die Funktionalität in der GUI für die Tag-Bearbeitung bei Error, wenn Tags geladen werden.
-         */
         @Test
-        public void testFunctionGUIGetTagsException() {}
+        public void ControllerGetTagsToCardException() {
+                CardLogic cardMockLogic = mock(CardLogic.class);
+                CardController cardController1 = CardController.getInstance();
+                on(cardController1).set("cardLogic",cardMockLogic);
+                when(cardMockLogic.getTagsToCard(card2)).thenThrow(new RuntimeException("Mock Error"));
+                DataCallback<Tag> mockDataCallback = mock(DataCallback.class);
+                assertDoesNotThrow(() -> cardController1.getTagsToCard(card2, mockDataCallback));
+                verify(mockDataCallback, times(1))
+                        .callFailure(Locale.getCurrentLocale().getString("gettagstocarderror"));
+        }
 
-        /**
-         * Testet die Funktionalität in der GUI für die Tag-Bearbeitung. Setzen neuer Tags.
-         * Prüfung leere Liste, Liste mit Tags. Alles weitere bereits getestet.
-         */
         @Test
-        public void testFunctionSetTagsGUI() {}
+        public void ControllerGetEmptyList() {
+                cardLogic.updateCardData(card2,true);
+                DataCallback<Tag> mockDataCallback = mock(DataCallback.class);
+                assertDoesNotThrow(() -> cardController.getTagsToCard(card2, mockDataCallback));
+        }
 
-        /**
-         * Testet die Funktionalität in der GUI für die Tag-Bearbeitung bei Error, wenn neue Tags gesetzt werden.
-         */
         @Test
-        public void testFunctionGUISetTagsException() {}
+        public void ControllerSetTagsToCardCardNull() {
+                Card card =null;
+                SingleDataCallback<Boolean> sMockDataCallback = mock(SingleDataCallback.class);
+                assertDoesNotThrow(() -> cardController.setTagsToCard(card, new ArrayList<>(), sMockDataCallback));
+                verify(sMockDataCallback, times(1))
+                        .callFailure(Locale.getCurrentLocale().getString("cardnullerror"));
+        }
 
-        //TODO: incorporate GUI Testing and Controller Exceptions there
+        @Test
+        public void ControllerSetTagsToCardException() {
+                ArrayList<Tag> tags = new ArrayList<>();
+                CardLogic cardMockLogic = mock(CardLogic.class);
+                CardController cardController1 = CardController.getInstance();
+                on(cardController1).set("cardLogic",cardMockLogic);
+                doThrow(new RuntimeException("Mock")).when(cardMockLogic).setTagsToCard(card2,tags);
+                SingleDataCallback<Boolean> sMockDataCallback = mock(SingleDataCallback.class);
+                assertDoesNotThrow(() -> cardController1.setTagsToCard(card2, tags, sMockDataCallback));
+                verify(sMockDataCallback, times(1))
+                        .callFailure(Locale.getCurrentLocale().getString("settagstocarderror"));
+                reset(cardMockLogic);
+        }
+
+
+        
+        @Test
+        public void LogicEmptyOrNullTag() {
+                Card card = null;
+                assertThrows(IllegalStateException.class, () -> cardLogic.getTagsToCard(card));
+        }
+
+        @Test
+        public void LogicNullCard() {
+                Tag tag = new Tag("");
+                assertThrows(IllegalArgumentException.class, () -> cardLogic.setTagsToCard(card2, Arrays.asList(tag)));
+                Tag tag1 = new Tag(null);
+                assertThrows(IllegalArgumentException.class, () -> cardLogic.setTagsToCard(card2, Arrays.asList(tag1)));
+                Card card = null;
+                assertThrows(IllegalStateException.class, () -> cardLogic.setTagsToCard(card,Arrays.asList(tag1)));
+        }
+
+        @Test
+        public void LogicRepoExceptionGetTagsToCard(){
+                TagRepository tagMockRepo = mock(TagRepository.class);
+                CardLogic cardLogic1 = CardLogic.getInstance();
+                on(cardLogic1).set("tagRepository", tagMockRepo);
+                when(tagMockRepo.getTagsToCard(card2)).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
+                assertThrows(RuntimeException.class, () -> cardLogic1.getTagsToCard(card2));
+                reset(tagMockRepo);
+        }
+
+        @Test
+        public void LogicRepoExceptionSaveTag(){
+                TagRepository tagMockRepo = mock(TagRepository.class);
+                CardLogic cardLogic1 = CardLogic.getInstance();
+                on(cardLogic1).set("tagRepository", tagMockRepo);
+                when(tagMockRepo.findTag("tagExisting")).thenThrow(new NoResultException());
+                when(tagMockRepo.save(tagExisting)).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
+                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2, Arrays.asList(tagExisting)));
+                reset(tagMockRepo);
+        }
+
+        @Test
+        public void LogicRepoExceptionFindTag(){
+                TagRepository tagMockRepo = mock(TagRepository.class);
+                CardLogic cardLogic1 = CardLogic.getInstance();
+                on(cardLogic1).set("tagRepository", tagMockRepo);
+                when(tagMockRepo.findTag("tagExisting")).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
+                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2, Arrays.asList(tagExisting)));
+                reset(tagMockRepo);
+        }
+
+        @Test
+        public void LogicRepoExceptionCreateCardToTag(){
+                TagRepository tagMockRepo = mock(TagRepository.class);
+                CardToTagRepository cardToTagMockRepo = mock(CardToTagRepository.class);
+                CardLogic cardLogic1 = CardLogic.getInstance();
+                on(cardLogic1).set("tagRepository", tagMockRepo);
+                on(cardLogic1).set("cardToTagRepository", cardToTagMockRepo);
+                when(tagMockRepo.findTag("tagExisting")).thenReturn(tagExisting);
+                when(cardToTagMockRepo.createCardToTag(card2,tagExisting)).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
+                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2, Arrays.asList(tagExisting)));
+                reset(tagMockRepo);
+                reset(cardToTagMockRepo);
+        }
+
+        @Test
+        public void LogicRepoExceptionfindSpecificCardToTag(){
+                TagRepository tagMockRepo = mock(TagRepository.class);
+                CardToTagRepository cardToTagMockRepo = mock(CardToTagRepository.class);
+                CardLogic cardLogic1 = CardLogic.getInstance();
+                on(cardLogic1).set("tagRepository", tagMockRepo);
+                on(cardLogic1).set("cardToTagRepository", cardToTagMockRepo);
+                List<Tag> existingTags = Arrays.asList(tagExisting);
+                List<Tag> newTags = new ArrayList<>();
+                when(tagMockRepo.getTagsToCard(card2)).thenReturn(existingTags);
+                when(cardToTagMockRepo.findSpecificCardToTag(card2,tagExisting)).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
+                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2,newTags));
+                reset(tagMockRepo);
+                reset(cardToTagMockRepo);
+        }
+
+        @Test
+        public void LogicRepoExceptionDelete(){
+                TagRepository tagMockRepo = mock(TagRepository.class);
+                CardToTagRepository cardToTagMockRepo = mock(CardToTagRepository.class);
+                CardLogic cardLogic1 = CardLogic.getInstance();
+                on(cardLogic1).set("tagRepository", tagMockRepo);
+                on(cardLogic1).set("cardToTagRepository", cardToTagMockRepo);
+                List<Tag> existingTags = Arrays.asList(tagExisting);
+                List<Tag> newTags = new ArrayList<>();
+                CardToTag cardToTag = new CardToTag(card2,tagExisting);
+                when(tagMockRepo.getTagsToCard(card2)).thenReturn(existingTags);
+                when(cardToTagMockRepo.findSpecificCardToTag(card2,tagExisting)).thenReturn(cardToTag);
+                doThrow(new RuntimeException("gemockter Datenbankfehler")).when(cardToTagMockRepo).delete(cardToTag);
+                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2,newTags));
+                reset(tagMockRepo);
+                reset(cardToTagMockRepo);
+        }
+
+        @Test
+        public void PersistenceTagNotFound() {
+                TagRepository.startTransaction();
+                assertThrows(NoResultException.class, () -> tagRepository.findTag(""));
+                TagRepository.commitTransaction();
+        }
+        @Test
+        public void PersistenceCardToTagNotFound() {
+                TagRepository.startTransaction();
+                assertThrows(NoResultException.class, () -> cardToTagRepository.findSpecificCardToTag(null,null));
+                TagRepository.commitTransaction();
+        }
+
+        @Test
+        public void PersistenceCardToTagsEmpty() {
+                cardLogic.updateCardData(card2,true);
+                TagRepository.startTransaction();
+                assertDoesNotThrow(() -> tagRepository.getTagsToCard(card2));
+                assertTrue(tagRepository.getTagsToCard(card2).isEmpty());
+                TagRepository.commitTransaction();
+        }
 
 
 
+        @Test
+        public void PersistenceNoTransaction() {
+                assertThrows(NullPointerException.class, () -> tagRepository.getTagsToCard(card1));
+                assertThrows(NullPointerException.class, () -> tagRepository.findTag("keine Transaktion!"));
+                assertThrows(NullPointerException.class, () -> cardToTagRepository.findSpecificCardToTag(card1,tagExisting));
+                assertThrows(NullPointerException.class, () -> cardToTagRepository.createCardToTag(card1,tagExisting));
+                assertThrows(IllegalStateException.class, () -> tagRepository.save(tagExisting));
+                assertThrows(IllegalStateException.class, () -> cardToTagRepository.delete(new CardToTag()));
 
+        }
 
 
 }

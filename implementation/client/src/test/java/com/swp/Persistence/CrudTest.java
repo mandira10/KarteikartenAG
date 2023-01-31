@@ -4,6 +4,7 @@ import com.gumse.gui.Locale;
 import com.gumse.textures.Texture;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardTypes.*;
@@ -13,6 +14,7 @@ import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +34,11 @@ public class CrudTest {
     private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
     private Locale locale = new Locale("German", "de");
     private int i;
+
+    @BeforeAll
+    public static void before(){
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
+    }
     @BeforeEach
     void setup(){
         CardRepository.startTransaction();
