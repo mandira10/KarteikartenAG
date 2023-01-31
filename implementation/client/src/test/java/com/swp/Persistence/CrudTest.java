@@ -9,8 +9,10 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
+import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.StudySystemBox;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
 import jakarta.persistence.NoResultException;
@@ -52,6 +54,10 @@ public class CrudTest {
         CardToCategoryRepository.startTransaction();
         cardToCategoryRepository.delete(cardToCategoryRepository.getAll());
         CardToCategoryRepository.commitTransaction();
+
+        CardToBoxRepository.startTransaction();
+        cardToBoxRepository.delete(cardToBoxRepository.getAll());
+        CardToBoxRepository.commitTransaction();
 
         Locale.setCurrentLocale(locale);
         String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
@@ -363,8 +369,48 @@ public class CrudTest {
 
     @Test
     public void cardToBoxCrudTest() {
+    
+        // Daten
+        Card cardA = new MultipleChoiceCard("Multi 1", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{0,3}, "Titel 1");
+        Card cardB = new TextCard("Textfrage", "Antwort", "Titel");
+        StudySystemBox boxA = new StudySystemBox();
+        StudySystemBox boxB = new StudySystemBox();
+        BoxToCard aa = new BoxToCard(cardA, boxA);
+        BoxToCard ab = new BoxToCard(cardA, boxB);
+        BoxToCard bb = new BoxToCard(cardB, boxB);
+        List<BoxToCard> allB2Cs = new ArrayList<>();
+        Collections.addAll(allB2Cs, aa,ab,bb);
+
+        // Create
+        List<BoxToCard> persistedB2Cs = new ArrayList<>();
+        CardToBoxRepository.startTransaction();
+        assertEquals(0, cardToBoxRepository.countAll());
+        for (BoxToCard b2c : allB2Cs) {
+            persistedB2Cs.add(cardToBoxRepository.save(b2c));
+        }assertEquals(allB2Cs.size(), cardToBoxRepository.countAll());
+        CardToBoxRepository.commitTransaction();
+
+        // Read
+        CardToBoxRepository.startTransaction();
+        List<BoxToCard> readB2Cs = cardToBoxRepository.getAll();
+        CardToBoxRepository.commitTransaction();
+        assertEquals(allB2Cs.size(), readB2Cs.size());
+        //assertTrue(readB2Cs.containsAll(persistedB2Cs));
+
+        // Update (CardToBox hat keine setter. Card und Box sind final)
+
+        // Delete
+        BoxToCard deletedB2C = persistedB2Cs.get(0);
+        CardToBoxRepository.startTransaction();
+        deletedB2C = cardToBoxRepository.getSpecificBox(deletedB2C.getCard(), deletedB2C.getStudySystemBox());
+        cardToBoxRepository.delete(deletedB2C);
+        //assertEquals(allB2Cs.size()-1, cardToBoxRepository.countAll());
+        CardToBoxRepository.commitTransaction();
+
+
         
-    }
+
+        }
 
 
 
@@ -479,4 +525,19 @@ public class CrudTest {
         );
         return exampleCategories;
     }
+
+//    public List<StudySystemBox> exampleBoxes() {
+//        List<StudySystemBox> exampleBoxes = new ArrayList<>();
+//        Collections.addAll(exampleBoxes,
+//                new StudySystemBox(1),
+//                new StudySystemBox("Box 2"),
+//                new StudySystemBox("Box 3"),
+//                new StudySystemBox("Box 4"),
+//                new StudySystemBox("Box 5")
+//        );
+//        return exampleBoxes;
+//    }
+
+
+
 }
