@@ -137,7 +137,7 @@ public class TestDeckPage extends Page
 
             @Override public void onFailure(String msg) 
             {
-
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,10);
             }
         });
     }

@@ -236,6 +236,9 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     Collections.shuffle(testingBoxCards);
                 }
             }
+            if(testingBoxCards.isEmpty()){ //no cards learnable, no cards in studysystem yet
+                throw new NoResultException(Locale.getCurrentLocale().getString("studysystemlearningerror"));
+            }
             testingStarted = true;
             studySystem.setNotLearnedYet(false);
         }
@@ -257,6 +260,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         if (testingBoxCards.isEmpty()){
             log.info("Keine Karten mehr zu lernen");
                 return null;
+                //TODO separate info
             }
 
             log.info("Rufe die nächste Karte zum Lernen ab");

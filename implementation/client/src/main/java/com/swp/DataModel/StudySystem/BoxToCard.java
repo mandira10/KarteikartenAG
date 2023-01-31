@@ -32,7 +32,7 @@ import java.util.UUID;
 
 @NamedQuery (name = "BoxToCard.numberOfLearnedCards",
         query = "SELECT COUNT(distinct c.card) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
-                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'LEARNED'")
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'SKILLED'")
 
 /**
  * Queries für das initiale Lernen bei Random
