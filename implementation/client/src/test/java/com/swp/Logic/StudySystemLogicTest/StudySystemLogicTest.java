@@ -350,17 +350,16 @@ public class StudySystemLogicTest {
         testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
 
-        studySystem.setBoxes(boxlist);
 
         StudySystem leitner = new LeitnerSystem();
         BoxToCard boxToCard = new BoxToCard(card,leitner.getBoxes().get(4));
         //boxToCard.getStudySystemBox().setBoxNumber(4); not needed
-        when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
+        when(cardToBoxRepository.getSpecific(card,leitner)).thenReturn(boxToCard);
         int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
         Timestamp timestamp = boxToCard.getLearnedNextAt();
         boxToCard.setStatus(BoxToCard.CardStatus.RELEARN);
         BoxToCard.CardStatus status = boxToCard.getStatus();
-        studySystemLogic.giveAnswer(studySystem,true);
+        studySystemLogic.giveAnswer(leitner,true);
 
         assertNotEquals(status,boxToCard.getStatus());
         assertEquals(boxNumber,boxToCard.getStudySystemBox().getBoxNumber());
