@@ -2,6 +2,7 @@ package com.swp.Logic;
 
 import com.gumse.gui.Locale;
 import com.swp.DataModel.*;
+import com.swp.GUI.Extras.ListOrder;
 import com.swp.Persistence.*;
 import com.swp.Persistence.Exporter.ExportFileType;
 import jakarta.persistence.NoResultException;
@@ -61,6 +62,33 @@ public class CardLogic extends BaseLogic<Card>
      */
     public List<CardOverview> getCardOverview(int begin, int end) {
         return execTransactional(() -> cardRepository.getCardOverview(begin, end));
+    }
+
+    public List<CardOverview> getCardOverview(int begin, int end, ListOrder.Order iOrder, boolean bReverseOrder) {
+        return execTransactional(() -> {
+            List<CardOverview> cards = new ArrayList<>();
+            switch (iOrder) {
+                case ALPHABETICAL -> {
+                    if (!bReverseOrder)
+                        cards = cardRepository.getCardOverview(begin, end, "c.titelToShow", "asc");
+                    else
+                        cards = cardRepository.getCardOverview(begin, end, "c.titelToShow", "desc");
+                }
+                case DATE -> {
+                    if (!bReverseOrder)
+                        cards = cardRepository.getCardOverview(begin, end, "c.cardCreated", "asc");
+                    else
+                        cards = cardRepository.getCardOverview(begin, end, "c.cardCreated", "desc");
+                }
+                case NUM_DECKS -> {
+                    if (!bReverseOrder)
+                        cards = cardRepository.getCardOverview(begin, end, "c.countDecks", "asc");
+                    else
+                        cards = cardRepository.getCardOverview(begin, end, "c.countDecks", "desc");
+                }
+            }
+            return cards;
+        });
     }
 
     /**
@@ -278,4 +306,6 @@ public class CardLogic extends BaseLogic<Card>
 
         return new Exporter(filetype).export(cardlist, destination);
     }
+
+
 }

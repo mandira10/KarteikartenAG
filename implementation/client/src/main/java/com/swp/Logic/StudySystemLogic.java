@@ -3,6 +3,7 @@ package com.swp.Logic;
 import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
@@ -167,6 +168,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     }
                 }
                 else { //answer was false, set card to new box
+                    boxToCard.setStatus(BoxToCard.CardStatus.RELEARN);
                     if (box > 0) { //avoid index out of bound exception
                         --box;
                         moveCardToBox(boxToCard, box, studySystem);
@@ -176,9 +178,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     }
                     if (box == 0)
                         testingBoxCards.add(cardLearned);
-                    boxToCard.setStatus(BoxToCard.CardStatus.RELEARN);
                 }
-
             }
             else {
                 if (answer) {
@@ -194,7 +194,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 }
             }
             execTransactional(() -> { //DB action starts here
-           // studySystemRepository.update(studySystem); needed??
             cardToBoxRepository.update(boxToCard);
             return true;
         });
@@ -229,9 +228,9 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             log.info("Rufe Karten für Lernsystem mit initialer Kartenreihenfolge ab");
             switch (studySystem.getCardOrder()) {
                 case ALPHABETICAL ->
-                        testingBoxCards = cardRepository.getAllCardsInitiallyOrderedAlphabetical(studySystem);
+                        testingBoxCards = cardRepository.getAllCardsInitiallyOrdered(studySystem, "asc");
                 case REVERSED_ALPHABETICAL ->
-                        testingBoxCards = cardRepository.getAllCardsInitiallyOrderedReversedAlphabetical(studySystem);
+                        testingBoxCards = cardRepository.getAllCardsInitiallyOrdered(studySystem, "desc");
                 case RANDOM -> {
                     testingBoxCards = cardRepository.getAllCardsForStudySystem(studySystem);
                     Collections.shuffle(testingBoxCards);

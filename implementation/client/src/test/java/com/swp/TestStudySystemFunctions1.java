@@ -11,6 +11,7 @@ import com.swp.DataModel.StudySystem.*;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.StudySystemLogic;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -20,7 +21,6 @@ import java.util.*;
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TestStudySystemFunctions1 {
 
     public StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
@@ -38,8 +38,8 @@ public class TestStudySystemFunctions1 {
 
     List testingBoxMockCards;
 
-    @BeforeAll
-    public void beforeAll(){
+    @BeforeEach
+    public void beforeEach(){
         locale = new Locale("German", "de");
         Locale.setCurrentLocale(locale);
         String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
@@ -83,7 +83,7 @@ public class TestStudySystemFunctions1 {
         for (Card c : erdkunde) {
             cardLogic.updateCardData(c, true);
         }
-         studySystem1 = new LeitnerSystem("Erdkunde", StudySystem.CardOrder.ALPHABETICAL);
+        studySystem1 = new LeitnerSystem("Erdkunde", StudySystem.CardOrder.ALPHABETICAL);
         studySystemLogic.updateStudySystemData(null, studySystem1, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(erdkunde, studySystem1);
 
@@ -100,6 +100,8 @@ public class TestStudySystemFunctions1 {
         studySystemLogic.moveAllCardsForDeckToFirstBox(erdkunde, studySystem4);
 
     }
+
+
 
     @Test
     public void getNextCardsForLeitnerSystem() {
@@ -124,6 +126,7 @@ public class TestStudySystemFunctions1 {
         Card card = studySystemLogic.getNextCard(studySystem1);
         assertNotNull(card);
     }
+
 
     @Test
     public void testDueDate(){

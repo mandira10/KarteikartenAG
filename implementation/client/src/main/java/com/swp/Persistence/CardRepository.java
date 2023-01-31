@@ -43,6 +43,13 @@ public class CardRepository extends BaseRepository<Card> {
                 .setFirstResult(from).setMaxResults(to - from).getResultList();
     }
 
+    public List<CardOverview> getCardOverview(int from, int to, String orderBy, String order) throws AssertionError {
+        assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
+        return getEntityManager()
+                .createQuery("SELECT c FROM CardOverview c ORDER BY " + orderBy +" " + order, CardOverview.class)
+                .setFirstResult(from).setMaxResults(to - from).getResultList();
+    }
+
     /**
      * Holt aus der Datenbank eine Liste von Karten-Übersichten.
      * Es wird danach gefiltert, ob die Karte das angegebene Suchwort als
@@ -188,29 +195,20 @@ public class CardRepository extends BaseRepository<Card> {
     }
 
     /**
-     * Gibt alle Karten beim Beginn vom Lernen nach der initialen angegebenen Kartenreihenfolge ALPHABETICAL zurück.
+     * Gibt alle Karten beim Beginn vom Lernen nach der initialen angegebenen Kartenreihenfolge alphabetical/
+     * reversed alphabetical wider.
      *
      * @param studySystem Das StudySystem, das gelernt werden soll
+     * @param order Reihenfolge der Karten
      * @return Liste mit Karten fürs Lernen
      */
-    public List<Card> getAllCardsInitiallyOrderedAlphabetical(StudySystem studySystem) {
+    public List<Card> getAllCardsInitiallyOrdered(StudySystem studySystem, String order) {
         return getEntityManager().
-                createNamedQuery("BoxToCard.initialCardsAlphabetical", Card.class)
+                createQuery("SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question " + order, Card.class)
                 .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }
-        /**
-         * Gibt alle Karten beim Beginn vom Lernen nach der initialen angegebenen Kartenreihenfolge ALPHABETICAL zurück.
-         *
-         * @param studySystem Das StudySystem, das gelernt werden soll
-         * @return Liste mit Karten fürs Lernen
-         */
-        public List<Card> getAllCardsInitiallyOrderedReversedAlphabetical(StudySystem studySystem){
-            return getEntityManager().
-                    createNamedQuery("BoxToCard.initialCardsReversedAlphabetical", Card.class)
-                    .setParameter("studySystem", studySystem.getUuid())
-                    .getResultList();
-        }
+
             /**
              * Gibt alle Karten beim Beginn vom Lernen nach der initialen angegebenen Kartenreihenfolge ALPHABETICAL zurück.
              *
