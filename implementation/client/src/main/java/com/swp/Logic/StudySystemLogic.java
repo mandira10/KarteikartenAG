@@ -225,7 +225,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         return execTransactional(() -> {
         //Abfrage 1: StudySystem wurde noch nie gelernt, benutze initiale Kartenreihenfolge fürs StudySystem
         if(testingBoxCards.isEmpty() && !testingStarted && studySystem.isNotLearnedYet()) {
-            log.info("Rufe Karten für Lernsystem mit initialer Kartenreihenfolge ab");
+            log.info("Rufe Karten für Lernsystem mit initialer Kartenreihenfolge ab: {}", studySystem.getCardOrder());
             switch (studySystem.getCardOrder()) {
                 case ALPHABETICAL ->
                         testingBoxCards = cardRepository.getAllCardsInitiallyOrdered(studySystem, "asc");
@@ -441,7 +441,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 throw new IllegalArgumentException("New Study System can't be null");
             } else if (neu) {
                 studySystemRepository.save(newStudySystem);
-            } else if (oldStudySystem != null && newStudySystem.getType().equals(oldStudySystem.getType())) {
+            } else if (oldStudySystem != null && !newStudySystem.getType().equals(oldStudySystem.getType())) {
                 resetStudySystem(oldStudySystem, newStudySystem);
             } else {
                 studySystemRepository.update(newStudySystem);
@@ -455,15 +455,13 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * d.h. alle Karten werden wieder in Box 1 gepackt.
      */
     private void resetStudySystem(StudySystem oldStudyS, StudySystem newStudyS) {
-        execTransactional(() -> {
             //first get all Cards for specific deck
             List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudyS);
             List<Card> cards = cardRepository.getAllCardsForCardOverview(cardsToStudySystem);
             //then move them to the other StudySystem
             moveAllCardsForDeckToFirstBox(cards,newStudyS);
             deleteStudySystem(oldStudyS);
-            return true;
-        });
+
     }
 
     /**

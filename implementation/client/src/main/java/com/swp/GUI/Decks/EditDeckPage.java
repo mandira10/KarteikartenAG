@@ -12,6 +12,7 @@ import com.gumse.tools.Output;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.GUI.Category.ViewSingleCategoryPage;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Notification.NotificationType;
@@ -129,7 +130,7 @@ public class EditDeckPage extends Page
         StudySystemController.getInstance().updateDeckData(pOldDeck, pNewDeck, bNewDeck, new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {
-
+                ((ViewSingleDeckPage) PageManager.viewPage(PageManager.PAGES.DECK_SINGLEVIEW)).setDeck(pNewDeck);
             }
 
             @Override

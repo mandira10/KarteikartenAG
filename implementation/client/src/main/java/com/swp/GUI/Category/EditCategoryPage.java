@@ -171,7 +171,7 @@ public class EditCategoryPage extends Page
                             NotificationGUI.addNotification(data, Notification.NotificationType.INFO,10);
 
 
-                        PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW);
+                        ((ViewSingleCategoryPage)PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW)).setCategory(pNewCategory);
                     }
         
                     @Override public void onFailure(String msg) {
