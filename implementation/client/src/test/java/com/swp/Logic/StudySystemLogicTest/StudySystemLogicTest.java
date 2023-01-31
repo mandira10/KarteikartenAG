@@ -593,6 +593,47 @@ public class StudySystemLogicTest {
     }
 
 
+    @Test
+    public void calculateProgressTestNotLeitner(){
+        StudySystem studySystem = new VoteSystem();
+        List<CardOverview> listfull = new ArrayList<>();
+        CardOverview card  = new CardOverview();
+        CardOverview card1 = new CardOverview();
+        listfull.add(card);
+        listfull.add(card1);
+        when(cardRepository.findCardsByStudySystem(studySystem)).thenReturn(listfull);
+        Long value = 1L;
+        when(cardRepository.getNumberOfLearnedCardsByStudySystem(any(StudySystem.class))).thenReturn(value);
+        int expected = 50;
+        studySystemLogic.calculateProgress(studySystem);
+        assertEquals(expected,studySystem.getProgress());
+    }
+
+    @Test
+    public void calculateProgressTestLeitner(){
+        StudySystem studySystem = new LeitnerSystem();
+        List<CardOverview> listfull = new ArrayList<>();
+        CardOverview card  = new CardOverview();
+        CardOverview card1 = new CardOverview();
+        CardOverview card2 = new CardOverview();
+        listfull.add(card);
+        listfull.add(card1);
+        listfull.add(card2);
+        when(cardRepository.findCardsByStudySystem(studySystem)).thenReturn(listfull);
+        Long value = 2L;
+        when(cardRepository.getNumberOfLearnedCardsByStudySystem(any(StudySystem.class))).thenReturn(value);
+        List<Long> progressPerBox = new ArrayList<>();
+        progressPerBox.add(1L);
+        progressPerBox.add(0L);
+        progressPerBox.add(1L);
+        progressPerBox.add(0L);
+        when(studySystemRepository.getProgressForLeitner(studySystem)).thenReturn(progressPerBox);
+        int expected = 17;
+        studySystemLogic.calculateProgress(studySystem);
+        assertEquals(expected,studySystem.getProgress());
+    }
+
+
 
 
 

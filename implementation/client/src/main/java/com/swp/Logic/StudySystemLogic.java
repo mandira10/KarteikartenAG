@@ -367,7 +367,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
 
-    private void calculateProgress(StudySystem studySystem) {
+    public void calculateProgress(StudySystem studySystem) {
         int numCardsInToTal = getAllCardsInStudySystemToReturn(studySystem).size();
         int numOfLearnedCards = getAllCardsLearnedInStudySystem(studySystem);
         log.info("Anzahl aller gelernten Karten ist {}", numOfLearnedCards);
