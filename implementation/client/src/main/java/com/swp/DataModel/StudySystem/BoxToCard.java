@@ -32,18 +32,11 @@ import java.util.UUID;
 
 @NamedQuery (name = "BoxToCard.numberOfLearnedCards",
         query = "SELECT COUNT(distinct c.card) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
-                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'LEARNED'")
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'SKILLED'")
 
 /**
- * Queries für das initiale Lernen
+ * Queries für das initiale Lernen bei Random
  */
-@NamedQuery(name= "BoxToCard.initialCardsAlphabetical",
-        query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
-                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question asc")
-
-@NamedQuery(name= "BoxToCard.initialCardsReversedAlphabetical",
-        query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
-                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question desc")
 
 @NamedQuery (name = "BoxToCard.allByStudySystem",query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox " +
         "ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")

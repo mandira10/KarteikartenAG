@@ -186,7 +186,11 @@ public class StudySystemController {
         threadPool.exec(() -> {
             try {
                 singleDataCallback.callSuccess(studySystemLogic.getNextCard(studySystem));
-            } catch (Exception e) {
+            }catch (NoResultException e) {
+                singleDataCallback.callFailure(e.getMessage());
+                log.error(e.getMessage());
+            }
+            catch (Exception e) {
                 singleDataCallback.callFailure(Locale.getCurrentLocale().getString("getnextcarderror"));
                 log.error(e.getMessage());
             }

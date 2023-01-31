@@ -4,6 +4,7 @@ package com.swp.Controller;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Tag;
+import com.swp.GUI.Extras.ListOrder;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter.ExportFileType;
 import jakarta.persistence.NoResultException;
@@ -53,6 +54,27 @@ public class CardController {
         threadPool.exec(() -> {
             try {
                 List<CardOverview> cardsToShow = cardLogic.getCardOverview(begin, end);
+
+                if (cardsToShow.isEmpty()) {
+                    log.info("Es wurden keine zugehörigen Karten gefunden");
+                    callback.callInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
+                }
+                else
+                    callback.callSuccess(cardsToShow);
+
+            } catch (final Exception ex) {
+                log.error("Beim Suchen nach Karten ist ein Fehler {} aufgetreten"
+                        , ex.getMessage());
+                callback.callFailure("Beim Abrufen der Karten ist ein Fehler aufgetreten");
+            }
+        });
+    }
+
+    public void getCardsToShow(int begin, int end, ListOrder.Order iOrder, boolean bReverseOrder, DataCallback<CardOverview> callback)
+     {
+        threadPool.exec(() -> {
+            try {
+                List<CardOverview> cardsToShow = cardLogic.getCardOverview(begin, end, iOrder, bReverseOrder);
 
                 if (cardsToShow.isEmpty()) {
                     log.info("Es wurden keine zugehörigen Karten gefunden");
@@ -296,6 +318,7 @@ public class CardController {
                     log.error("Beim Exportieren der Karte(n) gab es einen Fehler");
                 }
     }
+
 
 }
 

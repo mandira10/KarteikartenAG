@@ -208,5 +208,5 @@ addcardstostudysystemerror = Beim Hinzufügen von Karten ins Deck ist ein Fehler
 addstudysystemtypeandupdateerror = Beim Hinzufügen/Updaten des Deck Typs ist ein Fehler aufgetreten.
 createboxtocardforcategory = Beim Erstellen Box to Card für Kategorie ist ein Fehler aufgetreten.
 updatedeckdataerror = Beim Aktualisieren der Deckdaten ist ein Fehler aufgetreten.
-
+studysystemlearningerror = Es gibt aktuell keine Karten in diesem Deck. Füge welche hinzu, um das Lernen zu starten.
 

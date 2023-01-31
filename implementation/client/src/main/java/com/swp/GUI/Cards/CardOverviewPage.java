@@ -101,11 +101,15 @@ public class CardOverviewPage extends Page
             pCardList.reset();
         }
 
-        // Use order:
-        //iOrder 
-        //bReverseOrder
+        if(iOrder == null){ //first start of GUI
+            iOrder =  Order.ALPHABETICAL;
+            bReverseOrder = false;
+        }
 
-        CardController.getInstance().getCardsToShow(from, to, new DataCallback<CardOverview>() {
+
+
+
+        CardController.getInstance().getCardsToShow(from, to, iOrder, bReverseOrder, new DataCallback<CardOverview>() {
             @Override public void onSuccess(List<CardOverview> data)
             {
                 iCurrentLastIndex += data.size();

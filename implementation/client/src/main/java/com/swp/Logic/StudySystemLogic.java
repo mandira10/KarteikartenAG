@@ -3,6 +3,7 @@ package com.swp.Logic;
 import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
@@ -167,6 +168,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     }
                 }
                 else { //answer was false, set card to new box
+                    boxToCard.setStatus(BoxToCard.CardStatus.RELEARN);
                     if (box > 0) { //avoid index out of bound exception
                         --box;
                         moveCardToBox(boxToCard, box, studySystem);
@@ -176,9 +178,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     }
                     if (box == 0)
                         testingBoxCards.add(cardLearned);
-                    boxToCard.setStatus(BoxToCard.CardStatus.RELEARN);
                 }
-
             }
             else {
                 if (answer) {
@@ -194,7 +194,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 }
             }
             execTransactional(() -> { //DB action starts here
-           // studySystemRepository.update(studySystem); needed??
             cardToBoxRepository.update(boxToCard);
             return true;
         });
@@ -226,16 +225,19 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         return execTransactional(() -> {
         //Abfrage 1: StudySystem wurde noch nie gelernt, benutze initiale Kartenreihenfolge fürs StudySystem
         if(testingBoxCards.isEmpty() && !testingStarted && studySystem.isNotLearnedYet()) {
-            log.info("Rufe Karten für Lernsystem mit initialer Kartenreihenfolge ab");
+            log.info("Rufe Karten für Lernsystem mit initialer Kartenreihenfolge ab: {}", studySystem.getCardOrder());
             switch (studySystem.getCardOrder()) {
                 case ALPHABETICAL ->
-                        testingBoxCards = cardRepository.getAllCardsInitiallyOrderedAlphabetical(studySystem);
+                        testingBoxCards = cardRepository.getAllCardsInitiallyOrdered(studySystem, "asc");
                 case REVERSED_ALPHABETICAL ->
-                        testingBoxCards = cardRepository.getAllCardsInitiallyOrderedReversedAlphabetical(studySystem);
+                        testingBoxCards = cardRepository.getAllCardsInitiallyOrdered(studySystem, "desc");
                 case RANDOM -> {
                     testingBoxCards = cardRepository.getAllCardsForStudySystem(studySystem);
                     Collections.shuffle(testingBoxCards);
                 }
+            }
+            if(testingBoxCards.isEmpty()){ //no cards learnable, no cards in studysystem yet
+                throw new NoResultException(Locale.getCurrentLocale().getString("studysystemlearningerror"));
             }
             testingStarted = true;
             studySystem.setNotLearnedYet(false);
@@ -258,6 +260,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         if (testingBoxCards.isEmpty()){
             log.info("Keine Karten mehr zu lernen");
                 return null;
+                //TODO separate info
             }
 
             log.info("Rufe die nächste Karte zum Lernen ab");
@@ -442,7 +445,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 throw new IllegalArgumentException("New Study System can't be null");
             } else if (neu) {
                 studySystemRepository.save(newStudySystem);
-            } else if (oldStudySystem != null && newStudySystem.getType().equals(oldStudySystem.getType())) {
+            } else if (oldStudySystem != null && !newStudySystem.getType().equals(oldStudySystem.getType())) {
                 resetStudySystem(oldStudySystem, newStudySystem);
             } else {
                 studySystemRepository.update(newStudySystem);
@@ -456,15 +459,13 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * d.h. alle Karten werden wieder in Box 1 gepackt.
      */
     private void resetStudySystem(StudySystem oldStudyS, StudySystem newStudyS) {
-        execTransactional(() -> {
             //first get all Cards for specific deck
             List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudyS);
             List<Card> cards = cardRepository.getAllCardsForCardOverview(cardsToStudySystem);
             //then move them to the other StudySystem
             moveAllCardsForDeckToFirstBox(cards,newStudyS);
             deleteStudySystem(oldStudyS);
-            return true;
-        });
+
     }
 
     /**
