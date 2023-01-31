@@ -197,12 +197,13 @@ removecardsfromstudysystemerror = Beim Entfernen der Karte aus dem Deck ist ein 
 deletestudysystemerror = Beim Löschen des Decks ist ein Fehler aufgetreten.
 deletedeckserror = Beim Löschen der Decks ist ein Fehler aufgetreten.
 getstudysystemsempty = Es gibt derzeit (noch) keine Decks.
-getstudysystemerror = Beim Abrufen von Decks ist ein Fehler aufgetreten.
+getstudysystemserror = Beim Abrufen von Decks ist ein Fehler aufgetreten.
 getstudysystembysearchtermsempty = Es gibt keine Decks zu diesem Suchbegriff.
 getstudysystembysearchtermserror = Beim Abrufen der Decks für den Suchgriff ist ein Fehler aufgetreten.
 addcardstostudysystemerror = Beim Hinzufügen von Karten ins Deck ist ein Fehler aufgetreten.
 addstudysystemtypeandupdateerror = Beim Hinzufügen/Updaten des Deck Typs ist ein Fehler aufgetreten.
 createboxtocardforcategory = Beim Erstellen Box to Card für Kategorie ist ein Fehler aufgetreten.
+updatedeckdataerror = Beim Aktualisieren der Deckdaten ist ein Fehler aufgetreten.
 
 # Category Exceptions
 updatecategorydataempty = Kategorie wurde nicht gefunden.

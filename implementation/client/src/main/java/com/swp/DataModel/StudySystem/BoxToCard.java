@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.ExtensionMethod;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -16,27 +17,52 @@ import java.util.UUID;
 @Setter
 @NamedQuery (name = "BoxToCard.allB2CByStudySystem",
         query = "SELECT c FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
-@NamedQuery(name = "BoxToCard.allC2DByCard",
-        query = "SELECT b2c.studySystemBox FROM BoxToCard b2c WHERE b2c.card = :card")
+
 @NamedQuery(name = "BoxToCard.allb2cByCard",
         query = "SELECT b2c FROM BoxToCard b2c WHERE b2c.card = :card")
+
 @NamedQuery(name = "BoxToCard.findSpecificC2C",
         query = "SELECT b2c FROM BoxToCard b2c  LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem and b2c.card = :card")
-@NamedQuery (name = "BoxToCard.allCardsOfEveryBoxesOfTheStudySystem",
-        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
-@NamedQuery (name = "BoxToCard.allByBox",
-        query = "SELECT c FROM BoxToCard c WHERE c.studySystemBox = :box")
+
 @NamedQuery (name = "Card.ByStudySystem",
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.card = :card")
-@NamedQuery (name = "BoxToCard.allCardsSortedByRating",
-        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.rating ASC")
-@NamedQuery (name = "BoxToCard.allCardNextLearnedAtOlderThanNowAscending",
-        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.learnedNextAt < :now ORDER BY c.learnedNextAt ASC")
-@NamedQuery (name = "BoxToCard.numberOfLearnedCards",  query = "SELECT COUNT(distinct c.card) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'LEARNED'")
 
-@NamedQuery(name= "BoxToCard.initialCardsAlphabetical", query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question asc")
-@NamedQuery(name= "BoxToCard.initialCardsReversedAlphabetical", query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question desc")
-@NamedQuery (name = "BoxToCard.allByStudySystem",query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
+@NamedQuery (name = "BoxToCard.numberOfLearnedCards",
+        query = "SELECT COUNT(distinct c.card) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'LEARNED'")
+
+/**
+ * Queries für das initiale Lernen
+ */
+@NamedQuery(name= "BoxToCard.initialCardsAlphabetical",
+        query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question asc")
+
+@NamedQuery(name= "BoxToCard.initialCardsReversedAlphabetical",
+        query= "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question desc")
+
+@NamedQuery (name = "BoxToCard.allByStudySystem",query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox " +
+        "ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
+
+/**
+ * Queries für das Relearning von Systemen.
+ */
+@NamedQuery (name = "BoxToCard.allCardNextLearnedAtOlderThanNowAscending",
+        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem " +
+                "WHERE s.uuid = :studySystem AND c.learnedNextAt < CURRENT_TIMESTAMP() " +
+                "ORDER BY c.learnedNextAt ASC, c.status asc")
+
+@NamedQuery (name = "BoxToCard.allCardsOfEveryBoxesOfTheStudySystem",
+        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.status")
+
+@NamedQuery (name = "BoxToCard.allCardsSortedByRating",
+        query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.status ASC, c.rating ASC")
+
+
 /**
  * BoxToCard Klasse. Hier werden alle Karten zur spezifischen StudySystemBox gespeichert.
  */
@@ -53,10 +79,13 @@ public class BoxToCard {
 
     /**
      * Enum des CardStatus
+     * Skilled: Karte wurde erfolgreich gelernt
+     * Relearn: Karte muss neu gelernt werden
+     * New: Karte ist neu
      */
     public enum CardStatus
     {
-        LEARNED,
+        SKILLED,
         RELEARN,
         NEW
     }
@@ -111,7 +140,7 @@ public class BoxToCard {
         this.studySystemBox = ssb;
         this.id = UUID.randomUUID().toString();
         this.status = BoxToCard.CardStatus.NEW;
-        this.learnedNextAt = new Timestamp(System.currentTimeMillis());
+        this.learnedNextAt = Timestamp.valueOf(LocalDate.now().atStartOfDay());
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.swp.GUI.Cards.CardRenderer;
 
+import java.nio.ByteBuffer;
+
 import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextBox.Alignment;
@@ -121,7 +123,7 @@ public class CardTypesRenderer
         imageBox.setSizeInPercent(false, true);
 
         Texture tex = new Texture();
-        tex.load(card.getImage(), CardTypesRenderer.class);
+        tex.loadMemory(ByteBuffer.wrap(card.getImage()));
         imageBox.setTexture(tex);
         imageBox.setColor(new vec4(1, 1, 1, 1));
         imageBox.invertTexcoordY(true);
@@ -137,7 +139,7 @@ public class CardTypesRenderer
         imageBox.setSizeInPercent(false, true);
 
         Texture tex = new Texture();
-        tex.load(card.getImage(), CardTypesRenderer.class);
+        tex.load(card.getImage().toString(), CardTypesRenderer.class);
         imageBox.setTexture(tex);
         imageBox.setColor(new vec4(1, 1, 1, 1));
         imageBox.invertTexcoordY(true);

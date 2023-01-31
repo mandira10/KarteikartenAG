@@ -155,7 +155,15 @@ public abstract class StudySystem implements Serializable
         this("", CardOrder.ALPHABETICAL, StudySystemType.LEITNER);
     }
 
-    protected void  initStudySystemBoxes(int size, int[] daysToRelearn){}
+    /**
+     * Basisfunktion für das Initialisieren von StudySystemBoxes.
+     * @param size Anzahl der Boxen
+     * @param daysToRelearn Tage zum Relearnen (wird nur bei Custom LeitnerSystem gesetzt)
+     */
+    protected void  initStudySystemBoxes(int size, int[] daysToRelearn){
+        for (int i = 0; i < size; i++)
+            this.boxes.add(new StudySystemBox(this, daysToRelearn[i],i));
+    }
 
     /**
      * Methode für das Kopieren einer Karte. Hilfsmethode fürs

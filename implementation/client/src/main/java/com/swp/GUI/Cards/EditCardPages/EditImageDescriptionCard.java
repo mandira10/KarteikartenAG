@@ -1,5 +1,7 @@
 package com.swp.GUI.Cards.EditCardPages;
 
+import java.nio.ByteBuffer;
+
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -61,7 +63,11 @@ public class EditImageDescriptionCard extends RenderGUI
                 pImageButton.setSize(new ivec2((int)(size * aspect), size));
             }
 
-            pCard.setImage(filepath);
+            // pCard.loadTex.getData();
+            pCard.setImage(new byte[loadTex.getData().remaining()]);
+            //image'in datasını alıcam
+            //image'in datasının byte[] olması lazım
+            //resmi  oluşturuyorureturnleyipm
         }
     }
 
@@ -72,7 +78,7 @@ public class EditImageDescriptionCard extends RenderGUI
         if(!card.getImage().equals(""))
         {
             Texture tex = new Texture();
-            tex.load(card.getImage(), getClass());
+            tex.loadMemory(ByteBuffer.wrap(card.getImage()));
             pImageButton.getBox().setTexture(tex);
             //pImageButton.getBox().setColor(new vec4(1, 1, 1, 1));
         }

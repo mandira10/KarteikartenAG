@@ -159,12 +159,14 @@ public class CategoryOverviewPage extends Page
     private void exportCards()
     {
         CategoryController.getInstance().getCardsInCategories(pCategoryList.getSelectedCategories(), new DataCallback<CardOverview>() {
-            @Override protected void onInfo(String msg) {}
-            @Override protected void onSuccess(List<CardOverview> cards) {
+            @Override
+            public void onInfo(String msg) {}
+            @Override public void onSuccess(List<CardOverview> cards) {
                 ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(cards);
             }
 
-            @Override protected void onFailure(String msg) 
+            @Override
+            public void onFailure(String msg)
             {
                 NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);
             }

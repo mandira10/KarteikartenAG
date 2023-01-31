@@ -1,5 +1,6 @@
 package com.swp.Persistence;
 
+import com.gumse.textures.Texture;
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.StudySystem.BoxToCard;
@@ -163,14 +164,16 @@ public class CardRepositoryTest {
     // Hilfsfunktionen um einen Test-Datensatz an Instanzen zu haben
     public List<Card> exampleCards() {
         List<Card> exampleCards = new ArrayList<>();
+        Texture loadTex = new Texture();
+        loadTex.loadFile("/path/to/image.png", getClass());
         //TODO Karten mit Inhalt füllen
         Collections.addAll(exampleCards,
                 new AudioCard(),
                 new AudioCard(),
                 new AudioCard(),
                 new AudioCard(),
-                new AudioCard(),
-                new ImageDescriptionCard("Sind das komische Fragen?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", "/path/to/image.png"),
+                new AudioCard(),    
+                new ImageDescriptionCard("Sind das komische Fragen?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", new byte[loadTex.getData().remaining()]),
                 new ImageDescriptionCard(),
                 new ImageDescriptionCard(),
                 new ImageDescriptionCard(),

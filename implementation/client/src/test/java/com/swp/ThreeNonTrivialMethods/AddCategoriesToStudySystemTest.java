@@ -2,9 +2,9 @@ package com.swp.ThreeNonTrivialMethods;
 
 import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
-import com.swp.Controller.CardController;
-import com.swp.Controller.CategoryController;
-import com.swp.Controller.DataCallback;
+import com.gumse.tools.Output;
+import com.gumse.tools.Toolbox;
+import com.swp.Controller.*;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToCategory;
@@ -12,14 +12,14 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Category;
-import com.swp.DataModel.StudySystem.BoxToCard;
-import com.swp.DataModel.StudySystem.LeitnerSystem;
-import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.VoteSystem;
+import com.swp.DataModel.StudySystem.*;
 import com.swp.GUI.Cards.CardOverviewPage;
 import com.swp.GUI.Category.CategoryOverviewPage;
+import com.swp.GUI.Decks.DeckSelectPage;
 import com.swp.GUI.PageManager;
+import com.swp.KarteikartenAG;
 import com.swp.Logic.CategoryLogic;
+import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -34,7 +34,7 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 import static org.joor.Reflect.on;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -76,9 +76,11 @@ public class AddCategoriesToStudySystemTest {
         Für die Verbindung der Karten zum Lernsystem-Kasten und Updaten der Verbindung werden nur die BaseRepositoy
         Methoden verwendet.
      */
+    @Mock
+    Logger mockLogger = mock(Logger.class);
 
     private Card card1, card2, card3;
-    private StudySystem study1, study2;
+    private StudySystem study1, study2, study3;
     private BoxToCard boxToCard1, boxToCard2;
     private Category category1, category2, category3;
     private CardToCategory cardToCategory1, cardToCategory2;
@@ -90,18 +92,46 @@ public class AddCategoriesToStudySystemTest {
     private CardToCategoryRepository cardToCategoryRepository;
 
     private CategoryOverviewPage categoryOverviewPage;
+    @InjectMocks
     private CategoryController categoryController;
+    @InjectMocks
     private CategoryLogic categoryLogic;
+
+    private DeckSelectPage deckSelectPage;
+    @InjectMocks
+    private StudySystemController studySystemController;
+    @InjectMocks
+    private StudySystemLogic studySystemLogic;
+
+    private final Locale locale = new Locale("German", "de");
+    int i;
 
 
     @BeforeEach
     public void setup() {
+        Locale.setCurrentLocale(locale);
+        String fileContent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
+        i = 0;
+        fileContent.lines().forEach((String line) -> {
+            i++;
+            if(line.replaceAll("\\s","").isEmpty() || line.charAt(0) == '#')
+                return;
+
+            String[] args = line.split("= ");
+            if(args.length < 1)
+                Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
+            String id = args[0].replaceAll("\\s","");
+            String value = args[1];
+            locale.setString(id, value);
+        });
+
         card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1");
         card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2");
         card3 = new TrueFalseCard("Frage 3", false, "Titel 3");
 
         study1 = new LeitnerSystem("Study 1", StudySystem.CardOrder.ALPHABETICAL);
         study2 = new VoteSystem("Study 2", StudySystem.CardOrder.ALPHABETICAL);
+        study3 = new TimingSystem("Study 3", StudySystem.CardOrder.RANDOM, 10);
 
         boxToCard1 = new BoxToCard(card1, study1.getBoxes().get(0));
         boxToCard2 = new BoxToCard(card2, study2.getBoxes().get(0));
@@ -117,7 +147,11 @@ public class AddCategoriesToStudySystemTest {
         studySystemRepository = StudySystemRepository.getInstance();
         cardToBoxRepository = CardToBoxRepository.getInstance();
         categoryRepository = CategoryRepository.getInstance();
+        categoryController = CategoryController.getInstance();
+        categoryLogic = CategoryLogic.getInstance();
         cardToCategoryRepository = CardToCategoryRepository.getInstance();
+        studySystemController = StudySystemController.getInstance();
+        studySystemLogic = StudySystemLogic.getInstance();
 
         CardRepository.startTransaction();
         cardRepository.save(card1);
@@ -128,6 +162,7 @@ public class AddCategoriesToStudySystemTest {
         StudySystemRepository.startTransaction();
         studySystemRepository.save(study1);
         studySystemRepository.save(study2);
+        studySystemRepository.save(study3);
         StudySystemRepository.commitTransaction();
 
         CardToCategoryRepository.startTransaction();
@@ -156,35 +191,36 @@ public class AddCategoriesToStudySystemTest {
         List<Category> selectedCategories = new ArrayList<>();
         selectedCategories.add(category1);
         selectedCategories.add(category2);
+        List<CardOverview> cardsInCategories = new ArrayList<>();
+
+        StudySystem selectedStudySystem = study3;
 
         DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
 
         assertDoesNotThrow(() -> categoryController.getCardsInCategories(selectedCategories,mockDataCallback));
+        /* verify(mockDataCallback).callSuccess(anyList().stream().forEach(o -> {
+            o = (CardOverview) o;
+            cardsInCategories.add((CardOverview) o);
+            assertTrue(Objects.equals(((CardOverview) o).getUUUID(), card1.getUuid())
+                    || Objects.equals(((CardOverview) o).getUUUID(), card2.getUuid()));
+        })); */
         verify(mockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
             public boolean matches(List<CardOverview> overviews) {
-                overviews.stream().map(o -> o.getUUUID()).allMatch(id -> {
-                    return Objects.equals(card1.getUuid(), id) || Objects.equals(card2.getUuid(), id);
+                overviews.stream().forEach(o -> {
+                    cardsInCategories.add(o);
+                    assertTrue(Objects.equals(o.getUUUID(), card1.getUuid())
+                            || Objects.equals(o.getUUUID(), card2.getUuid()));
                 });
-                return false;
+                return true;
             }
         }));
 
         // Jetzt wäre man in der GUI in der Lernsystem-Auswahl Ansicht.
+        SingleDataCallback<String> mockCallback = mock(SingleDataCallback.class);
+        assertDoesNotThrow(() -> studySystemController.addCardsToStudySystem(cardsInCategories, selectedStudySystem, mockCallback));
+        //verify(mockCallback).callSuccess(anyString());
     }
-
-
-
-    @Mock
-    Logger mockLogger = mock(Logger.class);
-    DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
-    CategoryLogic mockCategoryLogic = mock(CategoryLogic.class);
-
-    @InjectMocks
-    CardOverviewPage cardOverviewPage;
-    //CategoryController categoryController;
-    //CategoryLogic categoryLogic;
-    //CategoryRepository categoryRepository;
 
     @Test
     @Disabled
@@ -210,96 +246,115 @@ public class AddCategoriesToStudySystemTest {
 
     @Test
     @Disabled
-    public void ControllerLogicException() throws Exception {
-        categoryController = CategoryController.getInstance();
-
+    public void ControllerLogicStateException() {
         List<Category> categories = new ArrayList<>();
-        categories.add(new Category("Test"));
+        categories.add(category1);
 
-        // Exception von der Logic (aktuell kann sowas von der Logic nicht ausgelöst werden)
-        /*
-        when(mockCategoryLogic.getCardsInCategories(categories)).thenThrow(Exception.class);
-        verify(mockLog, times(1))
-                .error(contains("Beim Suchen nach Karten mit Kategorien ist ein Fehler"));
-        verify(mockDataCallback, times(1))
-                .onFailure(Locale.getCurrentLocale().getString("getcardsincategoryerror"));
-        categoryController.getCardsInCategories(categories, mockDataCallback);
-         */
-
+        DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
+        CategoryLogic mockCategoryLogic = mock(CategoryLogic.class);
         // IllegalStateException von der Logic
         when(mockCategoryLogic.getCardsInCategories(categories)).thenThrow(IllegalStateException.class);
+        on(categoryController).set("categoryLogic", mockCategoryLogic);
+        //on(categoryController).set("log", mockLogger);
         assertDoesNotThrow(() -> categoryController.getCardsInCategories(categories, mockDataCallback));
         verify(mockLogger, times(1))
-                .error(contains("Der übergebene Wert war leer"));
-        //verify(mockDataCallback, times(1))
-        //        .onFailure(any(String.class));
+                .error("Der übergebene Wert war leer");
+        verify(mockDataCallback, times(1))
+                .onFailure(any(String.class));
     }
 
     @Test
     @Disabled
-    public void ControllerEmptyList() {
-        CategoryLogic mockCategoryLogic = mock(CategoryLogic.class);
-        DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
-        Logger mockLog = mock(Logger.class);
-        Locale mockLocale = mock(Locale.class);
-
-        CategoryController categoryController = CategoryController.getInstance();
-        on(categoryController).set("categoryLogic", mockCategoryLogic);
-
+    public void ControllerNoCardsInCategory() {
         List<Category> categories = new ArrayList<>();
+        categories.add(category3);
 
+        DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
+        assertDoesNotThrow(() -> categoryController.getCardsInCategories(categories, mockDataCallback));
+        verify(mockDataCallback, times(1))
+                .onInfo(Locale.getCurrentLocale().getString("getcardsincategoryempty"));
+    }
+
+    @Test
+    public void ControllerList() {
+        List<Category> categories = new ArrayList<>();
+        categories.add(category1);
+        categories.add(category2);
+
+        DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
+        CategoryLogic mockCategoryLogic = mock(CategoryLogic.class);
+        on(categoryController).set("categoryLogic", mockCategoryLogic);
         // Leere Liste von der Logic
-        //when(mockLocale.getCurrentLocale()).thenReturn(new Locale("deutsch","de_DE")); // kann keine statischen Methoden mocken.
-        when(mockCategoryLogic.getCardsInCategories(categories)).thenReturn(new ArrayList<>()); // NullPointerException, weil Locale.getCurrentLocale() null zurückgibt (für DataCallback.onInfo Text)
+        when(mockCategoryLogic.getCardsInCategories(categories)).thenReturn(new ArrayList<>());
 
-        categoryController.getCardsInCategories(categories, mockDataCallback);
+        assertDoesNotThrow(() -> categoryController.getCardsInCategories(categories, mockDataCallback));
         //verify(mockDataCallback, times(1))
         //        .onInfo(anyString());
     }
 
     @Test
-    @Disabled
-    public void ControllerList() {
-    }
-
-    @Test
-    @Disabled
     public void ControllerDuplicateList() {
+        List<Category> categories = new ArrayList<>();
+        categories.add(category1);
+        categories.add(category1);
+        categories.add(category2);
+
+        DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
+        assertDoesNotThrow(() -> categoryController.getCardsInCategories(categories, mockDataCallback));
+        //verify(mockDataCallback, times(1))
+        //        .onInfo(anyString());
     }
 
     @Test
-    @Disabled
-    public void LogicEmptyList() {
+    public void LogicEmptyOrNullList() {
+        assertThrows(IllegalStateException.class, () -> categoryLogic.getCardsInCategories(new ArrayList<>()));
+        List<Category> categories = new ArrayList<>();
+        categories.add(null);
+        assertThrows(IllegalStateException.class, () -> categoryLogic.getCardsInCategories(categories));
+        categories.remove(0);
+        categories.add(category1);
+        categories.add(null);
+        assertThrows(IllegalStateException.class, () -> categoryLogic.getCardsInCategories(categories));
     }
 
     @Test
-    @Disabled
-    public void LogicList() {
-    }
-
-    @Test
-    @Disabled
     public void LogicRepoException() {
+        List<Category> categories = new ArrayList<>();
+        categories.add(category1);
+        categories.add(category2);
+
+        CardRepository mockCardRepository = mock(CardRepository.class);
+        on(categoryLogic).set("cardRepository", mockCardRepository);
+        when(mockCardRepository.getCardsByCategory(category1)).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
+        assertThrows(RuntimeException.class, () -> categoryLogic.getCardsInCategories(categories));
     }
 
     @Test
-    @Disabled
-    public void PersistenceEmptyList() {
+    public void PersistenceCategory() {
+        CardRepository.startTransaction();
+        assertTrue(cardRepository.getCardsByCategory(category1).size() == 1);
+        CardRepository.commitTransaction();
     }
 
     @Test
-    @Disabled
-    public void PersistenceList() {
+    public void PersistenceCategoryNoCards() {
+        CardRepository.startTransaction();
+        assertDoesNotThrow(() -> cardRepository.getCardsByCategory(category3));
+        assertTrue(cardRepository.getCardsByCategory(category3).isEmpty());
+        CardRepository.commitTransaction();
     }
 
     @Test
-    @Disabled
-    public void PersistenceInvalidList() {
+    public void PersistenceInvalidCategory() {
+        CardRepository.startTransaction();
+        assertThrows(NullPointerException.class, () -> cardRepository.getCardsByCategory((Category) null));
+        CardRepository.commitTransaction();
     }
 
     @Test
-    @Disabled
     public void PersistenceNoTransaction() {
+        assertThrows(NullPointerException.class, () -> cardRepository.getCardsByCategory("keine Transaktion!"));
+        assertThrows(NullPointerException.class, () -> studySystemRepository.addCardToBox(null));
     }
 
     /**

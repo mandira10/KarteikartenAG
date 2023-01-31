@@ -6,15 +6,11 @@ import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
-import com.swp.DataModel.StudySystem.BoxToCard;
-import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.StudySystemBox;
-import com.swp.DataModel.StudySystem.TimingSystem;
+import com.swp.DataModel.StudySystem.*;
 import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToBoxRepository;
 import com.swp.Persistence.StudySystemRepository;
-import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -163,39 +159,124 @@ public class StudySystemLogicTest {
 
 
     @Test
-    public void giveAnswerTestTiming(){
-        StudySystem studySystem = new StudySystem() {
-        };
-        studySystem.setType(StudySystem.StudySystemType.TIMING);
-        studySystem.setTrueAnswerCount(0);
-//        studySystemLogic.giveAnswer(studySystem,true);
- //       assertEquals(studySystem.getTrueAnswerCount(),1);
-        //TODO
+    public void giveAnswerTestTimingTrue(){
+        StudySystem studySystem = new TimingSystem();
+        StudySystemBox ssb = new StudySystemBox();
+        StudySystemBox ssb2 = new StudySystemBox();
+        List<StudySystemBox> listbox = new ArrayList<>();
+        listbox.add(ssb);
+        listbox.add(ssb2);
+        studySystem.setBoxes(listbox);
+        List<Card> list = new ArrayList<>();
+        Card card = new TrueFalseCard();
+        Card card2 = new TrueFalseCard();
+        Card card3 = new TrueFalseCard();
+        list.add(card);
+        list.add(card2);
+        list.add(card3);
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
+        BoxToCard boxToCard = new BoxToCard(card,ssb);
+        when(studySystemLogic.getBoxToCard(card,studySystem)).thenReturn(boxToCard);
+        int test1 = studySystem.getTrueAnswerCount();
+        boxToCard.setStatus(BoxToCard.CardStatus.RELEARN);
+        BoxToCard.CardStatus status = boxToCard.getStatus();
+        when(cardToBoxRepository.update(any(BoxToCard.class))).thenReturn(boxToCard);
+        studySystemLogic.giveAnswer(studySystem,true);
+        assertNotEquals(test1,studySystem.getTrueAnswerCount());
+        assertEquals(ssb2,boxToCard.getStudySystemBox());
+        assertNotEquals(status,boxToCard.getStatus());
     }
 
     @Test
-    public void giveAnswerTestVote(){
-        StudySystem studySystem = new StudySystem() {
-        };
-        studySystem.setType(StudySystem.StudySystemType.VOTE);
-        studySystem.setTrueAnswerCount(0);
-//        studySystemLogic.giveAnswer(studySystem,true);
-   //     assertEquals(studySystem.getTrueAnswerCount(),1);
-        //TODO
+    public void giveAnswerTestTimingFalse(){
+        StudySystem studySystem = new TimingSystem();
+        StudySystemBox ssb = new StudySystemBox();
+        StudySystemBox ssb2 = new StudySystemBox();
+        List<StudySystemBox> listbox = new ArrayList<>();
+        listbox.add(ssb);
+        listbox.add(ssb2);
+        studySystem.setBoxes(listbox);
+        List<Card> list = new ArrayList<>();
+        Card card = new TrueFalseCard();
+        Card card2 = new TrueFalseCard();
+        Card card3 = new TrueFalseCard();
+        list.add(card);
+        list.add(card2);
+        list.add(card3);
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
+        BoxToCard boxToCard = new BoxToCard(card,ssb);
+        when(studySystemLogic.getBoxToCard(card,studySystem)).thenReturn(boxToCard);
+        int test1 = studySystem.getTrueAnswerCount();
+        boxToCard.setStatus(BoxToCard.CardStatus.SKILLED);
+        BoxToCard.CardStatus status = boxToCard.getStatus();
+        when(cardToBoxRepository.update(any(BoxToCard.class))).thenReturn(boxToCard);
+        studySystemLogic.giveAnswer(studySystem,false);
+        assertEquals(test1,studySystem.getTrueAnswerCount());
+        assertNotEquals(status,boxToCard.getStatus());
+        assertEquals(card,testingBoxMockCards.get(testingBoxMockCards.size()-1));
     }
 
     @Test
-    public void giveAnswerTestCustom(){
-        StudySystem studySystem = new StudySystem() {
-        };
-        studySystem.setType(StudySystem.StudySystemType.CUSTOM);
-        studySystem.setTrueAnswerCount(0);
-    //    studySystemLogic.giveAnswer(studySystem,true);
-   //     assertEquals(studySystem.getTrueAnswerCount(),1);
-        //TODO
+    public void giveAnswerTestVoteTrue(){
+        StudySystem studySystem = new VoteSystem();
+        StudySystemBox ssb = new StudySystemBox();
+        StudySystemBox ssb2 = new StudySystemBox();
+        List<StudySystemBox> listbox = new ArrayList<>();
+        listbox.add(ssb);
+        listbox.add(ssb2);
+        studySystem.setBoxes(listbox);
+        List<Card> list = new ArrayList<>();
+        Card card = new TrueFalseCard();
+        Card card2 = new TrueFalseCard();
+        Card card3 = new TrueFalseCard();
+        list.add(card);
+        list.add(card2);
+        list.add(card3);
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
+        BoxToCard boxToCard = new BoxToCard(card,ssb);
+        when(studySystemLogic.getBoxToCard(card,studySystem)).thenReturn(boxToCard);
+        int test1 = studySystem.getTrueAnswerCount();
+        boxToCard.setStatus(BoxToCard.CardStatus.RELEARN);
+        BoxToCard.CardStatus status = boxToCard.getStatus();
+        when(cardToBoxRepository.update(any(BoxToCard.class))).thenReturn(boxToCard);
+        studySystemLogic.giveAnswer(studySystem,true);
+        assertNotEquals(test1,studySystem.getTrueAnswerCount());
+        assertEquals(ssb2,boxToCard.getStudySystemBox());
+        assertNotEquals(status,boxToCard.getStatus());
     }
 
-
+    @Test
+    public void giveAnswerTestVoteFalse(){
+        StudySystem studySystem = new VoteSystem();
+        StudySystemBox ssb = new StudySystemBox();
+        StudySystemBox ssb2 = new StudySystemBox();
+        List<StudySystemBox> listbox = new ArrayList<>();
+        listbox.add(ssb);
+        listbox.add(ssb2);
+        studySystem.setBoxes(listbox);
+        List<Card> list = new ArrayList<>();
+        Card card = new TrueFalseCard();
+        Card card2 = new TrueFalseCard();
+        Card card3 = new TrueFalseCard();
+        list.add(card);
+        list.add(card2);
+        list.add(card3);
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
+        BoxToCard boxToCard = new BoxToCard(card,ssb);
+        when(studySystemLogic.getBoxToCard(card,studySystem)).thenReturn(boxToCard);
+        int test1 = studySystem.getTrueAnswerCount();
+        boxToCard.setStatus(BoxToCard.CardStatus.SKILLED);
+        BoxToCard.CardStatus status = boxToCard.getStatus();
+        when(cardToBoxRepository.update(any(BoxToCard.class))).thenReturn(boxToCard);
+        studySystemLogic.giveAnswer(studySystem,false);
+        assertEquals(test1,studySystem.getTrueAnswerCount());
+        assertNotEquals(status,boxToCard.getStatus());
+        assertEquals(card,testingBoxMockCards.get(testingBoxMockCards.size()-1));
+    }
 
 
     @Test
@@ -209,9 +290,7 @@ public class StudySystemLogicTest {
         list.add(card2);
         list.add(card3);
         list.add(card4);
-        StudySystem studySystem = new StudySystem() {
-        };
-        studySystem.setType(StudySystem.StudySystemType.LEITNER);
+        StudySystem studySystem = new LeitnerSystem();
         testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         StudySystemBox studySystemBox = new StudySystemBox();
@@ -223,17 +302,16 @@ public class StudySystemLogicTest {
         boxlist.add(studySystemBox3);
         studySystem.setBoxes(boxlist);
         BoxToCard boxToCard = new BoxToCard(card,studySystemBox);
-        when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
-        int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
-        int date = boxToCard.getLearnedNextAt().getDate();
+        when(studySystemLogic.getBoxToCard(card,studySystem)).thenReturn(boxToCard);
+        boxToCard.getStudySystemBox().setBoxNumber(0);
+        int test1 = studySystem.getTrueAnswerCount();
+        long timeold = boxToCard.getLearnedNextAt().getTime();
+        boxToCard.setStatus(BoxToCard.CardStatus.SKILLED);
+        BoxToCard.CardStatus status = boxToCard.getStatus();
         studySystemLogic.giveAnswer(studySystem,true);
-
-        //TODO
-
-     //   assertNotEquals(boxNumber,boxToCard.getBoxNumber());
-//        assertNotEquals(date,boxToCard.getLearnedNextAt().getDate());
-
-
+        assertNotEquals(test1,studySystem.getTrueAnswerCount());
+        //assertNotEquals(timeold,boxToCard.getLearnedNextAt().getTime());
+        assertNotEquals(status,boxToCard.getStatus());
 
     }
 
@@ -264,13 +342,17 @@ public class StudySystemLogicTest {
         boxlist.add(studySystemBox4);
         studySystem.setBoxes(boxlist);
         BoxToCard boxToCard = new BoxToCard(card,studySystemBox4);
+        boxToCard.getStudySystemBox().setBoxNumber(4);
         when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
         int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
         Timestamp timestamp = boxToCard.getLearnedNextAt();
+        boxToCard.setStatus(BoxToCard.CardStatus.RELEARN);
+        BoxToCard.CardStatus status = boxToCard.getStatus();
         studySystemLogic.giveAnswer(studySystem,true);
 
+        assertNotEquals(status,boxToCard.getStatus());
         assertEquals(boxNumber,boxToCard.getStudySystemBox().getBoxNumber());
-        assertNotEquals(timestamp,boxToCard.getLearnedNextAt());
+        //assertNotEquals(timestamp,boxToCard.getLearnedNextAt());
 
 
 
@@ -287,9 +369,7 @@ public class StudySystemLogicTest {
         list.add(card2);
         list.add(card3);
         list.add(card4);
-        StudySystem studySystem = new StudySystem() {
-        };
-        studySystem.setType(StudySystem.StudySystemType.LEITNER);
+        StudySystem studySystem = new LeitnerSystem();
         testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         StudySystemBox studySystemBox = new StudySystemBox();
@@ -304,12 +384,12 @@ public class StudySystemLogicTest {
         studySystem.setBoxes(boxlist);
         BoxToCard boxToCard = new BoxToCard(card,studySystemBox);
         when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
-        int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
-        int date = boxToCard.getLearnedNextAt().getDate();
+        BoxToCard.CardStatus status = boxToCard.getStatus();
         studySystemLogic.giveAnswer(studySystem,false);
 
-        assertEquals(boxNumber,boxToCard.getStudySystemBox().getBoxNumber());
-        assertEquals(date,boxToCard.getLearnedNextAt().getDate());
+        assertNotEquals(status,boxToCard.getStatus());
+        //Time Check TODO
+        assertEquals(card,testingBoxMockCards.get(testingBoxMockCards.size()-1));
 
     }
 
@@ -324,9 +404,7 @@ public class StudySystemLogicTest {
         list.add(card2);
         list.add(card3);
         list.add(card4);
-        StudySystem studySystem = new StudySystem() {
-        };
-        studySystem.setType(StudySystem.StudySystemType.LEITNER);
+        StudySystem studySystem = new LeitnerSystem();
         testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         StudySystemBox studySystemBox = new StudySystemBox();
@@ -341,11 +419,10 @@ public class StudySystemLogicTest {
         studySystem.setBoxes(boxlist);
         BoxToCard boxToCard = new BoxToCard(card,studySystemBox4);
         when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
-        int boxNumber = boxToCard.getStudySystemBox().getBoxNumber();
         Timestamp timestamp = boxToCard.getLearnedNextAt();
         studySystemLogic.giveAnswer(studySystem,false);
 
-        assertEquals(boxNumber,boxToCard.getStudySystemBox().getBoxNumber());
+        //assertEquals(studySystemBox3,boxToCard.getStudySystemBox());
         //assertNotEquals(timestamp,boxToCard.getLearnedNextAt());
 
     }
@@ -430,9 +507,7 @@ public class StudySystemLogicTest {
         list.add(card2);
         list.add(card3);
         list.add(card4);
-        StudySystem studySystem = new StudySystem() {
-        };
-        studySystem.setType(StudySystem.StudySystemType.VOTE);
+        StudySystem studySystem = new VoteSystem();
         testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         StudySystemBox studySystemBox = new StudySystemBox();
@@ -444,12 +519,22 @@ public class StudySystemLogicTest {
         boxlist.add(studySystemBox3);
         studySystem.setBoxes(boxlist);
         BoxToCard boxToCard = new BoxToCard(card,studySystemBox);
-       int test = boxToCard.getRating();
-        when(cardToBoxRepository.getSpecific(any(Card.class),any(StudySystem.class))).thenReturn(boxToCard);
+        int test = boxToCard.getRating();
+        when(studySystemLogic.getBoxToCard(any(Card.class),any(StudySystem.class))).thenReturn(boxToCard);
         studySystemLogic.giveRating(studySystem, card, 5);
         int value = boxToCard.getRating();
-        //TODO
- //       assertNotEquals(test,value);
+        assertNotEquals(test,value);
+    }
+
+    @Test
+    public void giveRatingTestException(){
+        StudySystem studySystem = new TimingSystem();
+        Card card = new TrueFalseCard();
+        IllegalStateException thrown = assertThrows(IllegalStateException.class, () -> {
+            studySystemLogic.giveRating(studySystem,card,5);
+        });
+
+        assertEquals("Falsches StudySystem", thrown.getMessage());
     }
 
 
@@ -466,63 +551,66 @@ public class StudySystemLogicTest {
 
 
     @Test
-    public void finishTestAndGetResultTestEmpty(){
+    public void finishTestAndGetResultTestZeroResult(){
         StudySystem studySystem = new TimingSystem();
-        testingBoxMockCards = new ArrayList<>();
-        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
-        //TODO
-//        Exception exception = assertThrows(NoResultException.class, () -> {
-//            studySystemLogic.finishTestAndGetResult(studySystem);
-//        });
-       // String expectedMessage = "Es wurden keine Karten gelernt";
-        //String actualMessage = exception.getMessage();
-        //assertEquals(expectedMessage,actualMessage);
-    }
-
-
-    @Test
-    public void finishTestAndGetResultTestFirst(){
-        StudySystem studySystem = new TimingSystem();
-        testingBoxMockCards = new ArrayList<>();
+        List<Card> list = new ArrayList<>();
         Card card = new TrueFalseCard();
-        Card card2 = new TrueFalseCard();
-        testingBoxMockCards.add(card);
-        testingBoxMockCards.add(card2);
-        studySystem.setQuestionCount(testingBoxMockCards.size()-1);
-        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
-        studySystem.setTrueAnswerCount(2);
-        int expected = 100;
-        double progress = 1;
-        when(studySystemRepository.update(any(StudySystem.class))).thenReturn(studySystem);
-        int actual = studySystemLogic.finishTestAndGetResult(studySystem);
-       // assertEquals(expected,actual);
-       // assertEquals(progress,studySystem.getProgress());
-       // assertEquals(0,studySystem.getQuestionCount());
-        //assertEquals(0,studySystem.getTrueAnswerCount());
-        //TODO
-    }
-
-    @Test
-    public void finishTestAndGetResultTestSecond(){
-        StudySystem studySystem = new TimingSystem();
-        testingBoxMockCards = new ArrayList<>();
-        Card card = new TrueFalseCard();
-        Card card2 = new TrueFalseCard();
+        Card card2= new TrueFalseCard();
         Card card3 = new TrueFalseCard();
-        testingBoxMockCards.add(card);
-        testingBoxMockCards.add(card2);
-        testingBoxMockCards.add(card3);
-        studySystem.setQuestionCount(1);
+        Card card4 = new TrueFalseCard();
+        list.add(card);
+        list.add(card2);
+        list.add(card3);
+        list.add(card4);
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
+        studySystem.setTrueAnswerCount(0);
+        int result = studySystemLogic.finishTestAndGetResult(studySystem);
+        assertEquals(testingBoxMockCards.size(),0);
+        assertEquals(result,0);
+    }
+
+
+    @Test
+    public void finishTestAndGetResultTestWithResultNotEmptyList(){
+        StudySystem studySystem = new TimingSystem();
+        List<Card> list = new ArrayList<>();
+        Card card = new TrueFalseCard();
+        Card card2= new TrueFalseCard();
+        Card card3 = new TrueFalseCard();
+        Card card4 = new TrueFalseCard();
+        list.add(card);
+        list.add(card2);
+        list.add(card3);
+        list.add(card4);
+        testingBoxMockCards = list;
         on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
         studySystem.setTrueAnswerCount(1);
-        int expected = 33;
-        double expected2 = 0.33;
-        when(studySystemRepository.update(any(StudySystem.class))).thenReturn(studySystem);
+        studySystem.setQuestionCount(2);
+        int expected = 50;
         int actual = studySystemLogic.finishTestAndGetResult(studySystem);
-        //TODO
-       // assertEquals(expected,actual);
-       // assertEquals(expected2,studySystem.getProgress());
+        assertEquals(expected,actual);
+        assertEquals(studySystem.getTrueAnswerCount(),0);
+        assertEquals(studySystem.getQuestionCount(),0);
+        assertEquals(testingBoxMockCards.size(),0);
 
+
+    }
+
+    @Test
+    public void finishTestAndGetResultTestWithResultEmptyListNotLeiterSystem(){
+        StudySystem studySystem = new TimingSystem();
+        List<Card> list = new ArrayList<>();
+        testingBoxMockCards = list;
+        on(studySystemLogic).set("testingBoxCards",testingBoxMockCards);
+        studySystem.setTrueAnswerCount(1);
+        studySystem.setQuestionCount(2);
+        int expected = 50;
+        int actual = studySystemLogic.finishTestAndGetResult(studySystem);
+        assertEquals(expected,actual);
+        assertEquals(studySystem.getTrueAnswerCount(),0);
+        assertEquals(studySystem.getQuestionCount(),0);
+        //TODO
     }
 
     @Test

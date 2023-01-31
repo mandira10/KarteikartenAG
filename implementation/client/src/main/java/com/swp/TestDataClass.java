@@ -1,5 +1,6 @@
 package com.swp;
 
+import com.gumse.textures.Texture;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
@@ -71,8 +72,11 @@ public class TestDataClass {
 
         List<Card> randomL = new ArrayList<>();
         //randomL.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[]{}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
-        for(int i = 0; i < 100; i++)
-            randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", "textures/orange-ket.png", "ImageTestCardTitle" + i, false));
+        for(int i = 0; i < 100; i++) {
+            Texture loadTex = new Texture();
+            loadTex.loadFile("textures/orange-ket.png", TestDataClass.class);
+            randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", new byte[loadTex.getData().remaining()], "ImageTestCardTitle" + i, false));
+        }
 
         String testReferences = 
             "ctg;" + randomCategory.getUuid() + ";random random\n" +
@@ -387,7 +391,7 @@ public class TestDataClass {
         studySystemLogic.updateStudySystemData(null, studySystem3, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(technikL,studySystem3);
 
-        StudySystem studySystem4 = new LeitnerSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL);
+        StudySystem studySystem4 = new VoteSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL);
         studySystemLogic.updateStudySystemData(null, studySystem4, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(zweitausender,studySystem4);
 
