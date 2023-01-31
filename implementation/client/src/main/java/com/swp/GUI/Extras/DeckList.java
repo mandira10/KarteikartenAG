@@ -17,6 +17,10 @@ import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.StudySystem;
 
+/**
+ * DeckList wird dazu verwendet um 
+ * eine gegebene liste von Decks anzuzeigen.
+ */
 public class DeckList extends RenderGUI
 {
     public interface DeckListCallback

@@ -14,6 +14,11 @@ import com.gumse.system.filesystem.XML.XMLNode;
 import com.gumse.system.io.Mouse;
 import com.gumse.tools.Toolbox;
 
+/**
+ * RatingGUI wird zur Bewertung von Karten 
+ * verwendet und stellt eine gegebene 
+ * Anzahl an Sternen dar.
+ */
 public class RatingGUI extends RenderGUI
 {
     public interface RateCallback { void run(int rating); }

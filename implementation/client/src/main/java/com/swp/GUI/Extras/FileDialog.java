@@ -3,14 +3,19 @@ package com.swp.GUI.Extras;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryStack;
 
-import com.gumse.tools.Output;
-
 import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 
 import java.io.File;
 
 public class FileDialog 
 {
+    /**
+     * Öffnet den Dateidialog des jeweiligen Betriebssystems,
+     * um eine Datei zu öffnen
+     * @param title        Der titel des Dialogs
+     * @param description  Die beschreibung des Dialogs
+     * @param allowedTypes Eine liste an erlaubten Dateiendungen
+     */
     public static String openFile(String title, String description, String[] allowedTypes)
     {
         MemoryStack stack = MemoryStack.stackPush();
@@ -33,6 +38,14 @@ public class FileDialog
         return result;
     }
 
+
+    /**
+     * Öffnet den Dateidialog des jeweiligen Betriebssystems,
+     * um eine Datei zu speichern
+     * @param title        Der titel des Dialogs
+     * @param description  Die beschreibung des Dialogs
+     * @param allowedTypes Eine liste an erlaubten Dateiendungen
+     */
     public static String saveFile(String title, String description, String[] allowedTypes)
     {
         MemoryStack stack = MemoryStack.stackPush();

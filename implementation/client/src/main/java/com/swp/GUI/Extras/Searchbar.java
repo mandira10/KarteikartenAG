@@ -14,6 +14,11 @@ import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.filesystem.XML.XMLNode;
 
+/**
+ * Searchbar wird von den Overviewpages 
+ * verwendet um nach Karten/Kategorien/Decks 
+ * zu suchen.
+ */
 public class Searchbar extends RenderGUI
 {
     public interface SearchbarCallback

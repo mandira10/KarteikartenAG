@@ -11,6 +11,10 @@ import com.gumse.maths.vec4;
 import com.gumse.tools.Output;
 import com.gumse.tools.FPS;
 
+/**
+ * Eine Notification für 
+ * die NotificationGUI Klasse
+ */
 public class Notification extends RenderGUI
 {
     public enum NotificationType

@@ -4,6 +4,11 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.swp.GUI.Extras.Notification.NotificationType;
 
+/**
+ * NotificationGUI zeigt Benachrichtigungen, an welche
+ * Global zu jeder Zeit hinzugefügt werden können.
+ * Es darf nur eine Instanz existieren
+ */
 public class NotificationGUI extends RenderGUI
 {
     private static NotificationGUI pInstance;

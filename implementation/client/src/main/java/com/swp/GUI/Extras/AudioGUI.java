@@ -22,6 +22,11 @@ import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 import com.gumse.tools.Output;
 
+/**
+ * AudioGUI wird dazu verwendet um 
+ * eine Audio datei mittels einem GUI element 
+ * abzuspielen und zu pausieren.
+ */
 public class AudioGUI extends RenderGUI
 {
     private Box pBackground;

@@ -1,5 +1,6 @@
 # General
 cancelbutton           = Abbrechen
+confirmbutton          = Ja
 applybutton            = Übernehmen
 createbutton           = Erstellen
 backbutton             = Zurück

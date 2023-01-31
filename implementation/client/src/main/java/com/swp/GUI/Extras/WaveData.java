@@ -13,6 +13,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL10;
 
+/**
+ * WaveData wird dazu verwendet WAV 
+ * dateien zu lesen und in ein von 
+ * OpenAL verständliches Format
+ * umzuwandeln.
+ */
 public class WaveData {
 
 	final int format;

@@ -19,6 +19,10 @@ import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.ViewSingleCardPage;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * CardList wird dazu verwendet um 
+ * eine gegebene liste von Karten anzuzeigen.
+ */
 public class CardList extends RenderGUI
 {
     public interface CardListSelectmodeCallback

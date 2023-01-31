@@ -15,6 +15,10 @@ import com.swp.GUI.PageManager;
 import com.swp.GUI.Category.ViewSingleCategoryPage;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * CategoryList wird dazu verwendet um 
+ * eine gegebene liste von Kategorien anzuzeigen.
+ */
 public class CategoryList extends RenderGUI
 {
     public interface CategoryListCallback

@@ -13,8 +13,13 @@ import com.gumse.gui.XML.XMLGUI.XMLGUICreator;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.system.filesystem.XML.XMLNode;
-import com.gumse.tools.Output;
 
+/**
+ * MenuOptions wird verwendet um alle Optionen, 
+ * welche sich unten rechts befinden automatisch 
+ * anzupassen und bei einem overflow in einem 
+ * separaten menü zu bündeln
+ */
 public class MenuOptions extends RenderGUI
 {
     private Button pOptionsButton;

@@ -103,7 +103,7 @@ import lombok.extern.slf4j.Slf4j;
 //   - Threedots optionsmenu        -- done
 //   - Auto resizing menubar        -- done
 //   - Custom XML types             -- done
-//   - Check for mandatory fields
+//   - Check for mandatory fields   -- done?
 //   - Change cardlist order        -- done
 //   - Fix deck tests               -- done
 //       - get correct answer       -- done
@@ -112,11 +112,12 @@ import lombok.extern.slf4j.Slf4j;
 //   - Settings logout              -- done
 //   - German language              -- done
 //   - Deck edit page
-//       - Time field
+//       - Time field               -- done?
 //       - Custom studysystem
 //   - Fix notification gui         -- done
 //   - Auto add file extensions     -- done
 //   - Fix browser/fileexplorer
+//   - javadoc
 
 // Missing:
 // - get categories by name

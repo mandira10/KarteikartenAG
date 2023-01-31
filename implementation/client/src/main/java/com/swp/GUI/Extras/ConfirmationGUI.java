@@ -1,6 +1,7 @@
 package com.swp.GUI.Extras;
 
 import com.gumse.gui.GUI;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextBox.Alignment;
@@ -11,6 +12,10 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 
+/**
+ * ConfirmationGUI wird dazu verwendet um 
+ * einen Bestätigungsdialog zu öffnen.
+ */
 public class ConfirmationGUI extends Box
 {
     public interface ConfirmationCallback
@@ -22,6 +27,8 @@ public class ConfirmationGUI extends Box
     private static ConfirmationGUI pInstance;
     private ConfirmationCallback pCallback;
     private TextBox pDialogTextBox;
+    private Button pCancelButton;
+    private Button pConfirmButton;
 
     private ConfirmationGUI()
     {
@@ -32,7 +39,6 @@ public class ConfirmationGUI extends Box
         dialogBox.setCornerRadius(new vec4(7));
         dialogBox.setPositionInPercent(true, true);
         dialogBox.setOrigin(new ivec2(250, 125));
-        dialogBox.setColor(GUI.getTheme().primaryColor);
         addElement(dialogBox);
 
         Font defaultFont = FontManager.getInstance().getDefaultFont();
@@ -46,34 +52,27 @@ public class ConfirmationGUI extends Box
         pDialogTextBox.setAlignment(Alignment.CENTER);
         dialogBox.addGUI(pDialogTextBox);
 
-        Button confirmButton = new Button(new ivec2(100, 100), new ivec2(120, 40), "Confirm", defaultFont);
-        confirmButton.setPositionInPercent(true, true);
-        confirmButton.setOrigin(new ivec2(140, 60));
-        confirmButton.setColor(GUI.getTheme().accentColor);
-        confirmButton.setCornerRadius(new vec4(10));
-        confirmButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                pCallback.onConfirm();
-                pInstance.hide(true);
-            }
+        pConfirmButton = new Button(new ivec2(100, 100), new ivec2(140, 40), Locale.getCurrentLocale().getString("confirmbutton"), defaultFont);
+        pConfirmButton.setLocaleID("confirmbutton");
+        pConfirmButton.setPositionInPercent(true, true);
+        pConfirmButton.setOrigin(new ivec2(160, 60));
+        pConfirmButton.onClick((RenderGUI gui) -> {
+            pCallback.onConfirm();
+            pInstance.hide(true);
         });
-        dialogBox.addGUI(confirmButton);
+        dialogBox.addGUI(pConfirmButton);
 
-        Button cancelButton = new Button(new ivec2(100, 100), new ivec2(120, 40), "Cancel", defaultFont);
-        cancelButton.setPositionInPercent(true, true);
-        cancelButton.setOrigin(new ivec2(280, 60));
-        cancelButton.setColor(GUI.getTheme().primaryColor);
-        cancelButton.setCornerRadius(new vec4(10));
-        cancelButton.getBox().getBox().setBorderThickness(3);
-        cancelButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                pCallback.onCancel();
-                pInstance.hide(true);
-            }
+        pCancelButton = new Button(new ivec2(100, 100), new ivec2(140, 40), Locale.getCurrentLocale().getString("cancelbutton"), defaultFont);
+        pCancelButton.setLocaleID("cancelbutton");
+        pCancelButton.setPositionInPercent(true, true);
+        pCancelButton.setOrigin(new ivec2(320, 60));
+        pCancelButton.setColor(GUI.getTheme().primaryColor);
+        pCancelButton.getBox().getBox().setBorderThickness(3);
+        pCancelButton.onClick((RenderGUI gui) -> {
+            pCallback.onCancel();
+            pInstance.hide(true);
         });
-        dialogBox.addGUI(cancelButton);
+        dialogBox.addGUI(pCancelButton);
 
         hide(true);
         setSizeInPercent(true, true);
@@ -100,5 +99,11 @@ public class ConfirmationGUI extends Box
     public static void openDialog(String str, ConfirmationCallback callback)
     {
         getInstance().showConfirmationDialog(str, callback);
+    }
+
+    @Override
+    protected void updateOnThemeChange() {
+        pCancelButton.setColor(GUI.getTheme().primaryColor);
+        pConfirmButton.setColor(GUI.getTheme().accentColor);
     }
 }
