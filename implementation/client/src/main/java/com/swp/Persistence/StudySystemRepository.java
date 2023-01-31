@@ -79,4 +79,11 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
                 .setParameter("name", "%" + searchterm + "%")
                 .getResultList();
     }
+
+    public List<Long> getProgressForLeitner(StudySystem studySystem){
+        return getEntityManager()
+                .createNamedQuery("StudySystemBox.progressLeitner", Long.class)
+                .setParameter("studysystem", studySystem.getUuid())
+                .getResultList();
+    }
 }

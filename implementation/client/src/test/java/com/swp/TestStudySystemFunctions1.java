@@ -63,6 +63,22 @@ public class TestStudySystemFunctions1 {
         erdkunde.add(new TextCard());
         erdkunde.add(new MultipleChoiceCard());
         erdkunde.add(new MultipleChoiceCard());
+        erdkunde.add(new TextCard());
+        erdkunde.add(new TrueFalseCard());
+        erdkunde.add(new TextCard());
+        erdkunde.add(new MultipleChoiceCard());
+        erdkunde.add(new MultipleChoiceCard());
+        erdkunde.add(new TextCard());
+        erdkunde.add(new TrueFalseCard());
+        erdkunde.add(new TextCard());
+        erdkunde.add(new MultipleChoiceCard());
+        erdkunde.add(new MultipleChoiceCard());
+        erdkunde.add(new MultipleChoiceCard());
+        erdkunde.add(new TextCard());
+        erdkunde.add(new TrueFalseCard());
+        erdkunde.add(new TextCard());
+        erdkunde.add(new MultipleChoiceCard());
+        erdkunde.add(new MultipleChoiceCard());
 
         for (Card c : erdkunde) {
             cardLogic.updateCardData(c, true);
@@ -75,7 +91,7 @@ public class TestStudySystemFunctions1 {
         studySystemLogic.updateStudySystemData(null, studySystem2, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(erdkunde, studySystem2);
 
-        studySystem3 = new VoteSystem("Erdkunde2", StudySystem.CardOrder.RANDOM);
+        studySystem3 = new LeitnerSystem("Erdkunde2", StudySystem.CardOrder.RANDOM);
         studySystemLogic.updateStudySystemData(null, studySystem3, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(erdkunde, studySystem3);
 
@@ -197,5 +213,43 @@ public class TestStudySystemFunctions1 {
 
         assertEquals(3,studySystemLogic.getAllCardsLearnedInStudySystem(studySystem4));
         assertEquals(5,studySystemLogic.numCardsInDeck(studySystem4));
+    }
+
+    @Test
+    public void testLeitnerProgress(){
+
+        //21 cards
+
+        for (int i = 0; i<3; i++) {
+            BoxToCard b2c =   studySystemLogic.getBoxToCard(erdkunde.get(i),studySystem3);
+            studySystemLogic.moveCardToBox(b2c,1,studySystem3);
+            studySystemLogic.updateCardToBox(b2c);
+        }
+
+        for (int i = 3; i< 7; i++) {
+            BoxToCard b2c =   studySystemLogic.getBoxToCard(erdkunde.get(i),studySystem3);
+            studySystemLogic.moveCardToBox(b2c,2,studySystem3);
+            studySystemLogic.updateCardToBox(b2c);
+        }
+        for (int i = 7; i< 12; i++) {
+            BoxToCard b2c =   studySystemLogic.getBoxToCard(erdkunde.get(i),studySystem3);
+            studySystemLogic.moveCardToBox(b2c,3,studySystem3);
+            studySystemLogic.updateCardToBox(b2c);
+        }
+        for (int i = 12; i< 18; i++) {
+            BoxToCard b2c =   studySystemLogic.getBoxToCard(erdkunde.get(i),studySystem3);
+            studySystemLogic.moveCardToBox(b2c,4,studySystem3);
+            studySystemLogic.updateCardToBox(b2c);
+        }
+        int progress = 3*1+4*2+5*3+6*4;
+
+       studySystemLogic.finishTestAndGetResult(studySystem3);
+        assertEquals(Math.round((double) progress / (21*5) * 100),studySystem3.getProgress());
+
+
+
+
+
+
     }
 }

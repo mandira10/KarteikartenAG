@@ -91,7 +91,7 @@ public class TestStudySystemFunctions2 {
         studySystemLogic.updateStudySystemData(null, studySystem3, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(erdkunde, studySystem3);
 
-        studySystem4 = new VoteSystem("Erdkunde8", StudySystem.CardOrder.RANDOM);
+        studySystem4 = new LeitnerSystem("Erdkunde8", StudySystem.CardOrder.RANDOM);
         studySystemLogic.updateStudySystemData(null, studySystem4, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(erdkunde, studySystem4);
 
@@ -228,5 +228,7 @@ public class TestStudySystemFunctions2 {
         assertEquals(0,studySystem3.getQuestionCount());
         reset(cardMockRepo);
     }
+
+
 
 }

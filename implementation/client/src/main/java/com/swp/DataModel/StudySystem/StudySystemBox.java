@@ -17,7 +17,16 @@ import java.util.*;
  * deren Karten unterschiedlich oft gelernt werden.
  * Wird in BoxToCard an die spezifischen Karten gebunden.
  */
-@NamedQuery (name = "StudySystemBox.allByStudySystemBox",query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem and sbox.boxNumber = 1")
+@NamedQuery (name = "StudySystemBox.allByStudySystemBox",query = "SELECT c.card FROM BoxToCard c " +
+        "LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s " +
+        "ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem and sbox.boxNumber = 1")
+@NamedQuery (name = "StudySystemBox.progressLeitner",
+        query  = "SELECT (COUNT(DISTINCT b2c.card) * sbox.boxNumber) as progressPerBox " +
+                "FROM StudySystemBox sbox " +
+                "LEFT JOIN BoxToCard b2c on b2c.studySystemBox = sbox.id LEFT JOIN StudySystem st on sbox.studySystem = st.uuid " +
+                "WHERE st.uuid = :studysystem " +
+                "group by sbox.boxNumber, st.name")
+
 public class StudySystemBox implements Serializable
 {
 

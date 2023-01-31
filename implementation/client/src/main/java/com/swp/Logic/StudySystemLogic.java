@@ -366,9 +366,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
           });
     }
 
-    private List<Card> getAllCardsInLearnedBox(StudySystem studySystem) {
-        return cardRepository.getAllCardsInLearnedBox(studySystem);
-    }
 
     private void calculateProgress(StudySystem studySystem) {
         int numCardsInToTal = getAllCardsInStudySystemToReturn(studySystem).size();
@@ -377,7 +374,11 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         log.info("Anzahl aller Karten ist {}", numCardsInToTal);
 
         if(studySystem.getType() == StudySystem.StudySystemType.LEITNER){
-            //TODO set Box to Card
+            List<Long> progressPerBox = studySystemRepository.getProgressForLeitner(studySystem);
+            int sum = progressPerBox.stream().mapToInt(Long::intValue).sum();
+            log.info("Summe des Progresses per Box ist: {}", sum);
+           studySystem.setProgress(Math.round((double) sum / (numCardsInToTal * progressPerBox.size()) * 100 ));
+           log.info("Progress Leinter ist {}", studySystem.getProgress());
         }
         else {
             studySystem.setProgress(Math.round((double) numOfLearnedCards / numCardsInToTal * 100));
