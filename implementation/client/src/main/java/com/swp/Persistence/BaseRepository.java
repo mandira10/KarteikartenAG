@@ -20,8 +20,6 @@ public abstract class BaseRepository<T> {
     // Objekt zur Synchronisation von mehreren potenziell parallelen Transaktionen
     public static final Object transaction = new Object();
 
-    private static EntityManagerFactory emf = PersistenceManager.emFactory;
-
     @Getter(AccessLevel.PROTECTED)
     private static EntityManager entityManager;
 
@@ -56,7 +54,7 @@ public abstract class BaseRepository<T> {
         if (entityManager != null && entityManager.isOpen()) {
             throw new IllegalStateException("Eine Transaktion ist noch aktiv.");
         }
-        entityManager = emf.createEntityManager();
+        entityManager = PersistenceManager.getEntityManager();
         entityManager.getTransaction().begin();
         criteriaBuilder = entityManager.getCriteriaBuilder();
     }

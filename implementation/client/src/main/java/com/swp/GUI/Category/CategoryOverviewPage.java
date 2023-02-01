@@ -98,8 +98,7 @@ public class CategoryOverviewPage extends Page
     
     public void loadCategories()
     {
-        //bReverseOrder
-        categoryController.getRootCategories(new DataCallback<Category>() {
+        categoryController.getRootCategories(bReverseOrder, new DataCallback<Category>() {
             @Override public void onFailure(String msg) { NotificationGUI.addNotification(msg, NotificationType.ERROR, 5); }
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Category> categories) 
@@ -113,9 +112,25 @@ public class CategoryOverviewPage extends Page
     
     public void loadCategories(String searchterm)
     {
-        //TODO
+
         pCategoryList.reset();
-        //pCategoryList.addCategories(CategoryController.getCategoriesBySearchterm(searchterm));
+
+       categoryController.getCategoriesBySearchterm(searchterm, new DataCallback<Category>() {
+           @Override
+           public void onSuccess(List<Category> data) {
+              // pCategoryList.addCategories TODO wie machen wir das mit der Hierarchie?? Oder soll das nur für Roots sein? Dann muss ich das noch umschreiben
+           }
+
+           @Override
+           public void onFailure(String msg) {
+            NotificationGUI.addNotification(msg,NotificationType.ERROR,10);
+           }
+
+           @Override
+           public void onInfo(String msg) {
+
+           }
+       });
     }
 
     private void deleteCategories(List<Category> categories)

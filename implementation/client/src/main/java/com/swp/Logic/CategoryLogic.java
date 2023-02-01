@@ -460,9 +460,15 @@ public class CategoryLogic extends BaseLogic<Category> {
      *
      * @return Liste mit bestehenden Categories
      */
-    public List<Category> getRootCategories() {
-        return execTransactional(() -> categoryRepository.getRoots());
+    public List<Category> getRootCategories(boolean bReverseOrder) {
+        return execTransactional(() -> {
+            if (bReverseOrder)
+              return   categoryRepository.getRoots("desc");
 
+            else
+               return categoryRepository.getRoots("asc");
+
+        });
     }
 
     /**
@@ -477,5 +483,16 @@ public class CategoryLogic extends BaseLogic<Category> {
                 cardToCategoryRepository.delete(cardToCategoryRepository.getSpecific(c, category));
             return null;
         });
+    }
+    /**
+     * Methode wird verwendet, um passende Kategorien für die angegebenen Suchwörter zu identifizieren. Prüft zunächst,
+     * dass der übergebene Tag nicht null oder leer ist und gibt die Funktion dann an das Category Repository weiter.
+     *
+     * @param searchterm Eingegebenes Suchwort
+     * @return Set der Karten, die Suchwörter enthalten.
+     */
+    public List<Category> getCategoriesBySearchterms(String searchterm) {
+        checkNotNullOrBlank(searchterm, Locale.getCurrentLocale().getString("searchterm"), true);
+        return execTransactional(() -> categoryRepository.findCategoriesContaining(searchterm));
     }
 }

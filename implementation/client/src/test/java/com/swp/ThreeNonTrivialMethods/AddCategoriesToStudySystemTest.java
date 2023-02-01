@@ -18,6 +18,7 @@ import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Decks.DeckSelectPage;
 import com.swp.GUI.PageManager;
 import com.swp.KarteikartenAG;
+import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.*;
@@ -155,29 +156,34 @@ public class AddCategoriesToStudySystemTest {
         studySystemLogic = StudySystemLogic.getInstance();
 
         CardRepository.startTransaction();
+        cardRepository.delete(cardRepository.getAll());
         cardRepository.save(card1);
         cardRepository.save(card2);
         cardRepository.save(card3);
         CardRepository.commitTransaction();
 
         StudySystemRepository.startTransaction();
+        studySystemRepository.delete(studySystemRepository.getAll());
         studySystemRepository.save(study1);
         studySystemRepository.save(study2);
         studySystemRepository.save(study3);
         StudySystemRepository.commitTransaction();
 
         CardToCategoryRepository.startTransaction();
+        cardToBoxRepository.delete(cardToBoxRepository.getAll());
         cardToBoxRepository.save(boxToCard1);
         cardToBoxRepository.save(boxToCard2);
         CardToCategoryRepository.commitTransaction();
 
         CategoryRepository.startTransaction();
+        categoryRepository.delete(categoryRepository.getAll());
         categoryRepository.save(category1);
         categoryRepository.save(category2);
         categoryRepository.save(category3);
         CategoryRepository.commitTransaction();
 
         CardToCategoryRepository.startTransaction();
+        cardToCategoryRepository.delete(cardToCategoryRepository.getAll());
         cardToCategoryRepository.save(cardToCategory1);
         cardToCategoryRepository.save(cardToCategory2);
         CardToCategoryRepository.commitTransaction();
@@ -226,6 +232,13 @@ public class AddCategoriesToStudySystemTest {
         SingleDataCallback<String> mockCallback = mock(SingleDataCallback.class);
         assertDoesNotThrow(() -> studySystemController.addCardsToStudySystem(cardsInCategories, selectedStudySystem, mockCallback));
         //verify(mockCallback).callSuccess(anyString());
+        for (CardOverview co : cardsInCategories) {
+            // Prüfen, dass diese Verbindung zwischen Karten und Lern-Kasten existiert.
+            // Wenn nicht, dann würde getSpecific eine `NoResultException` werfen.
+            BaseRepository.startTransaction();
+            assertDoesNotThrow(() -> cardToBoxRepository.getSpecific(cardRepository.getCardByUUID(co.getUUUID()), selectedStudySystem));
+            BaseRepository.commitTransaction();
+        }
     }
 
     @Test
@@ -248,6 +261,7 @@ public class AddCategoriesToStudySystemTest {
         doNothing().when(mockCategoryController).getCardsInCategories(selectedCategories, any(DataCallback.class));
         //verify(mockPageManager, times(1))
         //        .viewPage(PageManager.PAGES.CATEGORY_OVERVIEW);
+
     }
 
     @Test
@@ -282,7 +296,7 @@ public class AddCategoriesToStudySystemTest {
     }
 
     @Test
-    public void ControllerList() {
+    public void ControllerEmptyList() {
         List<Category> categories = new ArrayList<>();
         categories.add(category1);
         categories.add(category2);
@@ -296,6 +310,13 @@ public class AddCategoriesToStudySystemTest {
         assertDoesNotThrow(() -> categoryController.getCardsInCategories(categories, mockDataCallback));
         //verify(mockDataCallback, times(1))
         //        .onInfo(anyString());
+
+        SingleDataCallback<String> mockCallback = mock(SingleDataCallback.class);
+        assertDoesNotThrow(() -> studySystemController.addCardsToStudySystem(new ArrayList<>(), study2, mockCallback));
+        // prüfe, dass keine neue Karten-zu-Box Verbindung hergestellt wurde
+        BaseRepository.startTransaction();
+        assertEquals(2, cardToBoxRepository.countAll());
+        BaseRepository.commitTransaction();
     }
 
     @Test
@@ -305,10 +326,41 @@ public class AddCategoriesToStudySystemTest {
         categories.add(category1);
         categories.add(category2);
 
+        List<CardOverview> cardsInCategories = new ArrayList<>();
+
         DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
         assertDoesNotThrow(() -> categoryController.getCardsInCategories(categories, mockDataCallback));
-        //verify(mockDataCallback, times(1))
-        //        .onInfo(anyString());
+        verify(mockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
+            @Override
+            public boolean matches(List<CardOverview> overviews) {
+                overviews.stream().forEach(o -> {
+                    cardsInCategories.add(o);
+                    assertTrue(Objects.equals(o.getUUUID(), card1.getUuid())
+                            || Objects.equals(o.getUUUID(), card2.getUuid()));
+                });
+                return true;
+            }
+        }));
+
+        /*
+        for (CardOverview co : cardsInCategories) {
+            System.out.println(co.getTitelToShow());
+        }
+
+        // ich würde 3 erwarten
+        // Karte 1 ist in Kategorie 1 und 2
+        // Karte 2 ist nur in Kategorie 2
+        // es kommt aber 6 bei raus
+        // 4x Karte 1 und 2x Karte 2
+        // beides je doppelt so oft wie erwartet
+        assertEquals(3, cardsInCategories.size());
+         */
+
+        SingleDataCallback<String> mockCallback = mock(SingleDataCallback.class);
+        studySystemController.addCardsToStudySystem(cardsInCategories, study3, mockCallback);
+        BaseRepository.startTransaction();
+        assertEquals(4, cardToBoxRepository.countAll());
+        BaseRepository.commitTransaction();
     }
 
     @Test

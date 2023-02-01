@@ -1,6 +1,7 @@
 package com.swp.Persistence;
 
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.CategoryHierarchy;
 import jakarta.persistence.NoResultException;
@@ -103,9 +104,24 @@ public class CategoryRepository extends BaseRepository<Category> {
      *
      * @return eine Liste von Wurzel-Kategorien.
      */
-    public List<Category> getRoots() {
+    public List<Category> getRoots(String order) {
         return getEntityManager()
-      .createQuery("SELECT c  FROM Category c WHERE NOT EXISTS (SELECT ch.child FROM CategoryHierarchy ch WHERE ch.child = c.uuid)", Category.class)
+      .createQuery("SELECT c  FROM Category c WHERE NOT EXISTS (SELECT ch.child FROM CategoryHierarchy ch WHERE ch.child = c.uuid) ORDER BY c.name " +  order, Category.class)
+                .getResultList();
+    }
+
+    /**
+     * Holt aus der Datenbank eine Liste von Kategorien.
+     * Es wird danach gefiltert, ob die Kategorie das angegebene Suchwort als
+     * Teilstring im Inhalt hat.
+     *
+     * @param terms ein String nach dem im Inhalt aller Karten gesucht werden soll.
+     * @return List<Category> eine List von Kategorien, welche `terms` als Teilstring im Inhalt hat.
+     */
+    public List<Category> findCategoriesContaining(String terms){
+        return getEntityManager()
+                .createNamedQuery("Category.findCategoriesByContent", Category.class)
+                .setParameter("content", "%" + terms + "%")
                 .getResultList();
     }
 

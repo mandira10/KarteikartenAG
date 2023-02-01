@@ -21,9 +21,11 @@ import java.util.UUID;
 @Entity
 @Table
 @NamedQuery(name = "Category.findByName",
-        query = "SELECT c FROM Category c WHERE c.name = :name")
+        query = "SELECT ca FROM Category ca WHERE ca.name = :name")
 @NamedQuery(name = "Category.findByUUID",
-        query = "SELECT c FROM Category c WHERE c.uuid = :uuid")
+        query = "SELECT ca FROM Category ca WHERE ca.uuid = :uuid")
+@NamedQuery(name  = "Category.findCategoriesByContent",
+        query = "SELECT ca FROM Category ca WHERE LOWER(ca.name) LIKE LOWER(:name)")
 public class Category implements Serializable
 {
     /**

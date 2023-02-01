@@ -738,9 +738,9 @@ public class CategoryControllerTests {
     @Test
     public void getRootCategoriesTestEmptySet(){
         final List<Category> list = new ArrayList<>();
-        when(categoryMockLogic.getRootCategories()).thenReturn(list);
+        when(categoryMockLogic.getRootCategories(false)).thenReturn(list);
         final String[] actual = new String[1];
-        categoryController.getRootCategories(new DataCallback<Category>() {
+        categoryController.getRootCategories(false, new DataCallback<Category>() {
             @Override
             public void onSuccess(List<Category> data) {
             }
@@ -760,10 +760,10 @@ public class CategoryControllerTests {
     @Test
     public void getRootCategoriesTestWithReturningList(){
         final List<Category> list = Arrays.asList(new Category("tag1"), new Category("tag2"));
-        when(categoryMockLogic.getRootCategories()).thenReturn(list);
+        when(categoryMockLogic.getRootCategories(false)).thenReturn(list);
         final List<Category> expected = list;
         final List<Category>[] actual = new List[1];
-        categoryController.getRootCategories(new DataCallback<Category>() {
+        categoryController.getRootCategories(false, new DataCallback<Category>() {
             @Override
             public void onSuccess(List<Category> data) {
                 actual[0] = data;
@@ -783,10 +783,10 @@ public class CategoryControllerTests {
     @Test
     public void getRootCategoriesTestNormalException(){
         Card card = new TrueFalseCard();
-        when(categoryMockLogic.getRootCategories()).thenThrow(RuntimeException.class);
+        when(categoryMockLogic.getRootCategories(false)).thenThrow(RuntimeException.class);
         final String expected = "Beim Suchen nach Root-Kategorien ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
-        categoryController.getRootCategories(new DataCallback<Category>() {
+        categoryController.getRootCategories(false, new DataCallback<Category>() {
             @Override
             public void onSuccess(List<Category> data) {
             }

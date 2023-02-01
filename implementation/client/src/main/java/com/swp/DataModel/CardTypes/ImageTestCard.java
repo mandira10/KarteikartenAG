@@ -87,7 +87,7 @@ public class ImageTestCard extends Card
      * @param answer: zu setzende Antwort
      */
     public void setAnswer(String answer) {
-        this.answer = checkNotNullOrBlank(answer,Locale.getCurrentLocale().getString("answer"),false);
+        this.answer = answer;
     }
 
     /**

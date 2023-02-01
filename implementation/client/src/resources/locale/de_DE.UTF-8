@@ -193,6 +193,9 @@ getcatorieserror = Beim Suchen nach Kategorien ist ein Fehler aufgetreten.
 getrootcategorieserror = Beim Abrufen der KategorieHierarchie ist ein Fehler aufgetreten.
 multiplechoicecarderror = Index der korrekten Antworten muss innerhalb der Antwortmöglichkeiten liegen!
 selfreferenceerror = Kategorie darf nicht selbstreferenziert werden! Nicht hinzugefügt!
+getcateoriesbysearchtermserror = Es gab einen Fehler beim Abrufen der Kategorien für das Suchwort.
+getcateoriesbysearchtermsempty = Keine Kategorien für dieses Suchwort gefunden.
+
 
 # Description StudySystems
 descriptionLeitner = Beim Leitner System lernt man in fünf Boxen, die folgende Wiederholung haben: Box 1 = solange zu lernen bis erfolgreich, Box 2 = jeden Tag , Box 3 = alle 3 Tage,Box 4 = wöchentlich, Box 5 = zweiwöchentlich.Am Anfang befinden sich alle Karten in Box 1. Je nachdem ob die Karte richtig ist, wird sie in eine Box nach hinten oder bei falsch in eine Box nach vorne verschoben. Lernst du ein paar Tage nicht, so bekommst du alle Karten vorgelegt, die wieder fällig sind, im Zweifel also mehrere Boxen.
