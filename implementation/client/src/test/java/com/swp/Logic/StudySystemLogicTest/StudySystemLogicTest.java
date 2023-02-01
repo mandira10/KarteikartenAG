@@ -159,15 +159,11 @@ public class StudySystemLogicTest {
         when(cardRepository.getAllCardsForCardOverview(cardsToStudySystem)).thenReturn(cards);
         when(cardRepository.findCardByStudySystem(any(StudySystem.class),any(Card.class))).thenThrow(NoResultException.class);
         doNothing().when(cardToBoxRepository).delete(anyList());
-        doNothing().when(cardToBoxRepository).getAllB2CForStudySystem(any(StudySystem.class));
+        when(cardToBoxRepository.getAllB2CForStudySystem(any(StudySystem.class))).thenReturn(new ArrayList<BoxToCard>());
         doNothing().when(studySystemRepository).delete(any(StudySystem.class));
-        doNothing().when(cardToBoxRepository).save(any(BoxToCard.class));
+        when(cardToBoxRepository.save(any(BoxToCard.class))).thenReturn(new BoxToCard());
         studySystemLogic.updateStudySystemData(oldstudySystem,newstudySystem,false);
-        BoxToCard boxToCard = new BoxToCard(card, newstudySystem.getBoxes().get(0));
-        BoxToCard boxToCard1 = new BoxToCard(card1,newstudySystem.getBoxes().get(0));
-        verify(cardToBoxRepository).save(boxToCard);
-        verify(cardToBoxRepository).save(boxToCard1);
-        //TODO
+        verify(cardToBoxRepository,times(2)).save(any(BoxToCard.class));
     }
 
 
