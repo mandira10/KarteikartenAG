@@ -444,7 +444,11 @@ public class StudySystemController {
     public void resetLearnStatus(StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
         threadPool.exec(() -> {
             try {
-               //TODO
+                studySystemLogic.resetLearnStatus(studySystem);
+
+                if(singleDataCallback != null)
+                    singleDataCallback.callSuccess(true);
+
             } catch (Exception ex) {
                 singleDataCallback.callFailure(Locale.getCurrentLocale().getString("TODO"));
                 log.error(ex.getMessage());

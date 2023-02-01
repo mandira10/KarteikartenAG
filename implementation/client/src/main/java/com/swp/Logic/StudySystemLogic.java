@@ -77,7 +77,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param newBox: Index der Box, in den die Karte verschoben werden soll
      * @param studySystem Das StudySystem, das benötigt wird.
      */
-    public void moveCardToBox(BoxToCard cardToBox, int newBox, StudySystem studySystem) //Testet
+    public void moveCardToBox(BoxToCard cardToBox, int newBox, StudySystem studySystem)
     {
         cardToBox.setStudySystemBox(studySystem.getBoxes().get(newBox));
         log.info("Card moved to box {}" , newBox);
@@ -86,31 +86,13 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
 
     /**
-     * Wird nach der Erstellung eines neuen StudySystem verwendet und verschiebt alle Karten für das StudySystem in die erste Box.
-     * Vorher wird geprüft, ob die Karte bereits im StudySystem enthalten ist, wenn ja, wird sie nicht nochmal hinzugefügt und an den Controller
-     * zurückgespielt, so dass die GUI anzeigen kann, welche Karten nicht hinzugefügt werden konnten.
-     * Ruft Hilfsmethode moveCardToBoxAndSave auf.
+     * Wird nach der Erstellung eines neuen StudySystem verwendet, Hauptfunktion erfolgt über moveAllCardToFirstBoxNoExec.
      * @param cards: Karten, die StudySystem enthalten soll.
      * @param studySystem: Das StudySystem, das benötigt wird.
      */
     public List<Card> moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem) {
-        if (cards.isEmpty()) {
-            throw new IllegalStateException(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty"));
-        }
-        return execTransactional(() ->
-        {
-            List<Card> existingCards = new ArrayList<>();
-        for(Card c : cards)
-            try{
-                Card card = cardRepository.findCardByStudySystem(studySystem,c);
-                log.info("Karte bereits Teil des StudySystems");
-                existingCards.add(card);
-            }
-            catch(NoResultException ex){
-                moveCardToBoxAndSave(c,0,studySystem);
-            }
-        return existingCards;
-    });
+        return execTransactional(() -> moveAllCardsForDeckToFirstBoxNoExec(cards,studySystem));
+
     }
 
     /**
@@ -369,7 +351,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             else {
                 //wenn alle Karten gelernt worden sind, dann setze alle vom Timing/Vote System wieder auf Box 0
                 if(!studySystem.getType().equals(StudySystem.StudySystemType.LEITNER)){
-                    removeAllCardsBackToFirstBox(studySystem);
+                    moveAllCardsBackToFirstBoxForRelearning(studySystem);
                 }
             }
         }
@@ -386,7 +368,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
          return (int) result;
         }
 
-    private void removeAllCardsBackToFirstBox(StudySystem studySystem) {
+    /**
+     * Wird aufgerufen, wenn ein StudySystem des Typs Vote/Timing fertig gelernt wurde.
+     * Alle Karten werden wieder in Box 0 gesetzt, verlieren aber nicht ihren Status.
+     * @param studySystem Das StudySystem, wo die Karten verschoben werden sollen.
+     */
+    private void moveAllCardsBackToFirstBoxForRelearning(StudySystem studySystem) {
           execTransactional(() -> {
               List<Card> cardsToMoveBack = cardRepository.getAllCardsInLearnedBox(studySystem);
               moveAllCardsToDeck0(cardsToMoveBack,studySystem);
@@ -484,7 +471,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     /**
      * Wird aufgerufen, wenn ein StudySystem im EditModus geändert wurde und setzt das gesamte Deck zurück,
      * d.h. alle Karten werden wieder in Box 1 gepackt.
-     * //TODO Teil der Methode rausnehmen, so dass Methode auch bei einem normalen Reset verwendet werden kann
      */
     public void resetStudySystem(StudySystem oldStudyS, StudySystem newStudyS) {
             //first get all Cards for specific deck
@@ -615,6 +601,28 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
       return execTransactional(() ->  cardToBoxRepository.getSpecific(card, studySystem));
     }
 
+    /**
+     * Wird verwendet, wenn ein Nutzer beschließt seinen StudySystem Lernfortschritt zurückzusetzen.
+     * @param studySystem das zurückzusetzende StudySystem
+     */
+    public void resetLearnStatus(StudySystem studySystem) {
+
+            execTransactional(() -> {
+                List<CardOverview> cardsToMoveBack = getAllCardsInStudySystemToReturn(studySystem);
+                for(Card c : cardRepository.getAllCardsForCardOverview(cardsToMoveBack)) {
+                    BoxToCard cardToBox = cardToBoxRepository.getSpecific(c,studySystem);
+                    cardToBox.setStatus(BoxToCard.CardStatus.NEW); //reset status
+                    cardToBox.setRating(0); //reset rating
+                    moveCardToBox(cardToBox,0,studySystem);
+                    cardToBoxRepository.update(cardToBox);
+                }
+                    studySystem.setProgress(0); //reset progress
+                    studySystem.setNotLearnedYet(true); //handle as new
+                    studySystemRepository.update(studySystem);
+
+                return null;
+            });
+        }
 
 }
 

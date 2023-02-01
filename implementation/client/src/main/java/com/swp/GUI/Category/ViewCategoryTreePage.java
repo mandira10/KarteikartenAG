@@ -15,15 +15,11 @@ import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
-import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Category;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
-import com.swp.GUI.Extras.ConfirmationGUI;
-import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
-import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 
 public class ViewCategoryTreePage extends Page
@@ -212,7 +208,7 @@ public class ViewCategoryTreePage extends Page
         pRootNode = new TreeNode(ROOT_NODE, true);
         pCanvas.addGUI(pRootNode);
 
-        CategoryController.getInstance().getRootCategories(new DataCallback<Category>() {
+        CategoryController.getInstance().getRootCategories(false, new DataCallback<Category>() {
             @Override public void onFailure(String msg) {}
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Category> categories) 

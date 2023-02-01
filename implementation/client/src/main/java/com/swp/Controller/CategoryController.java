@@ -4,7 +4,6 @@ import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
-import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.Logic.CategoryLogic;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
@@ -386,19 +385,20 @@ public class CategoryController {
     }
 
     /**
-     * Lädt alle Categories welche keine Parent-Categories haben als Liste. 
+     * Lädt alle Categories welche keine Parent-Categories haben als Liste.
      * Wird weitergegeben an die CategoryLogic.
      * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
-     * @param dataCallback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      *
+     * @param bReverseOrder
+     * @param dataCallback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
-    public void getRootCategories(DataCallback<Category> dataCallback)
+    public void getRootCategories(boolean bReverseOrder, DataCallback<Category> dataCallback)
     {
         threadPool.exec(() -> {
             try 
             { 
                 if(dataCallback != null)
-                    dataCallback.callSuccess(categoryLogic.getRootCategories()); 
+                    dataCallback.callSuccess(categoryLogic.getRootCategories(bReverseOrder));
             }
             catch (Exception ex) 
             {
@@ -430,6 +430,26 @@ public class CategoryController {
                 if(singleDataCallback != null)
                     singleDataCallback.callFailure(Locale.getCurrentLocale().getString("TODO"));
                 log.error(ex.getMessage());
+            }
+        });
+    }
+
+    public void getCategoriesBySearchterm(String searchterm, DataCallback<Category> callback) {
+        threadPool.exec(() -> {
+            try {
+                List<Category> catForSearchTerms = categoryLogic.getCategoriesBySearchterms(searchterm);
+
+                if (catForSearchTerms.isEmpty()) {
+                    callback.callInfo("Es gibt keine Kategorien für dieses Suchwort");
+                    log.info(Locale.getCurrentLocale().getString("getcateoriesbysearchtermsempty"));
+                } else
+                    callback.callSuccess(catForSearchTerms);
+            } catch (IllegalArgumentException ex) { //übergebener Wert ist leer
+                log.error("Der übergebene Wert war leer");
+                callback.callFailure(ex.getMessage());
+            } catch (final Exception ex) {
+                log.error("Beim Suchen nach Karten mit dem Suchbegriff {} ist ein Fehler {} aufgetreten", searchterm, ex);
+                callback.callFailure(Locale.getCurrentLocale().getString("getcateoriesbysearchtermserror"));
             }
         });
     }

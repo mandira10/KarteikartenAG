@@ -191,6 +191,8 @@ getcatorieserror = An error occurred while retrieving categories.
 getrootcategorieserror = An error occurred while retrieving category hierarchy.
 multiplechoicecarderror = Indexes of correctAnswers has to be within valid range of array 'answers'!
 selfreferenceerror = Category to edit must not be self-referenced! Not added!
+getcateoriesbysearchtermserror = An error occured while fetching categories for the searchterm.
+getcateoriesbysearchtermsempty = No Categories were found for the searchterm.
 
 # Description StudySystems
 descriptionLeitner = In the Leitner system, you learn in five boxes that have the following repetition: Box 1 = keep learning until successful, Box 2 = every day , Box 3 = every 3 days,Box 4 = weekly, Box 5 = bi-weekly.At the beginning all cards are in box 1. Depending on whether the card is correct, it is moved to the next box or if it is wrong, it is moved to the box before. If you don't study for a few days, you will be presented with all the cards that are due again, so this can be also several boxes.
