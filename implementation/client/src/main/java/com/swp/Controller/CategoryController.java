@@ -4,6 +4,7 @@ import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
+import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.Logic.CategoryLogic;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
@@ -372,6 +373,28 @@ public class CategoryController {
             {
                 log.error("Beim Suchen nach Root-Kategorien  ist ein Fehler {} aufgetreten", ex);
                 dataCallback.callFailure(Locale.getCurrentLocale().getString("getrootcategorieserror"));
+            }
+        });
+    }
+
+    /**
+     * Wird verwendet, um eine Liste von Karten in einer Kategorie zu löschen. Wird an die CategoryLogic weitergegeben.
+     *
+     * @param singleDataCallback  wird verwendet, um mögliche Fehler abzufangen.
+     * @param category          Die Kategorie, bei der die Karten gelöscht werden sollen
+     * @param list                die Liste der zu löschenden Karten
+     */
+    public void removeCardsFromStudySystem(List<CardOverview> list, Category category, SingleDataCallback<Boolean> singleDataCallback) {
+        threadPool.exec(() -> {
+            try {
+                categoryLogic.removeCardsFromCategory(list, category);
+                singleDataCallback.callSuccess(true);
+            } catch (IllegalStateException ex) {
+                log.error("Null Variable gegeben");
+                singleDataCallback.onFailure(ex.getMessage());
+            } catch (Exception ex) {
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("TODO"));
+                log.error(ex.getMessage());
             }
         });
     }

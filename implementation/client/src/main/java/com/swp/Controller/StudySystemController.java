@@ -395,25 +395,22 @@ public class StudySystemController {
     }
 
     /**
-     * Wird verwendet, um ein komplett neues StudySystem anzulegen. Wird an die StudySystemLogic weitergegeben.
+     * Mithilfe der Methode werden alle Karten aus dem StudySystem zurück auf "New" gesetzt und der Progress zurückgesetzt.
+     * Sollten sich Karten in Box 1 (bei Timing/Vote) oder 2-n befinden (bei Leitner) werden diese zurück in Box 0 verschoben
      *
-     * @param type               Typ des StudySystems
+     * @param studySystem Das zurückzusetzende StudySystem
      * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void addStudySystemTypeAndUpdate(StudySystem.StudySystemType type, SingleDataCallback<Boolean> singleDataCallback) {
+    public void resetLearnStatus(StudySystem studySystem, SingleDataCallback<Boolean> singleDataCallback) {
         threadPool.exec(() -> {
             try {
-                studySystemLogic.addStudySystemTypeAndUpdate(type);
-                singleDataCallback.callSuccess(true);
+               //TODO
             } catch (Exception ex) {
-                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("addstudysystemtypeandupdateerror"));
+                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("TODO"));
                 log.error(ex.getMessage());
             }
         });
     }
-
-
-
 
 
 

@@ -457,8 +457,9 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     /**
      * Wird aufgerufen, wenn ein StudySystem im EditModus geändert wurde und setzt das gesamte Deck zurück,
      * d.h. alle Karten werden wieder in Box 1 gepackt.
+     * //TODO Teil der Methode rausnehmen, so dass Methode auch bei einem normalen Reset verwendet werden kann
      */
-    private void resetStudySystem(StudySystem oldStudyS, StudySystem newStudyS) {
+    public void resetStudySystem(StudySystem oldStudyS, StudySystem newStudyS) {
             //first get all Cards for specific deck
             List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudyS);
             List<Card> cards = cardRepository.getAllCardsForCardOverview(cardsToStudySystem);

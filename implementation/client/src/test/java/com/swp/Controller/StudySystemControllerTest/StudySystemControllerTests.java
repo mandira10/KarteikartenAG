@@ -934,44 +934,6 @@ public class StudySystemControllerTests {
         });
     }
 
-    //
-
-    @Test
-    public void addStudySystemTypeAndUpdateTestException() {
-        StudySystem.StudySystemType studySystem = StudySystem.StudySystemType.TIMING;
-        doThrow(new RuntimeException()).when(studySystemMockLogic).addStudySystemTypeAndUpdate(any(StudySystem.StudySystemType.class));
-        String expected = "Beim Hinzufügen/Updaten des Deck Typs ist ein Fehler aufgetreten.";
-        final String[] actual = new String[1];
-        studySystemController.addStudySystemTypeAndUpdate(studySystem, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-        });
-        assertEquals(expected, actual[0]);
-    }
-
-    @Test
-    public void addStudySystemTypeAndUpdateTest() {
-        StudySystem.StudySystemType studySystem = StudySystem.StudySystemType.TIMING;
-        doNothing().when(studySystemMockLogic).addStudySystemTypeAndUpdate(studySystem);
-
-        studySystemController.addStudySystemTypeAndUpdate(studySystem, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-            }
-        });
-    }
 
 }
 

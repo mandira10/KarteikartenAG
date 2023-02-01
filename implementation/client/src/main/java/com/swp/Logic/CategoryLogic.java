@@ -466,4 +466,7 @@ public class CategoryLogic extends BaseLogic<Category> {
     }
 
 
+    public void removeCardsFromCategory(List<CardOverview> list, Category category) {
+        //TODO analog zu Deck function
+    }
 }
