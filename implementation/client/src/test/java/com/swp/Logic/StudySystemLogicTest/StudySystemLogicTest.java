@@ -11,6 +11,7 @@ import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToBoxRepository;
 import com.swp.Persistence.StudySystemRepository;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -144,8 +145,8 @@ public class StudySystemLogicTest {
 
     @Test
     public void updateStudySystemTestElseIfFalse(){
-        StudySystem oldstudySystem = new VoteSystem();
-        StudySystem newstudySystem = new TimingSystem();
+        StudySystem oldstudySystem = new LeitnerSystem();
+        StudySystem newstudySystem = new LeitnerSystem();
         List<CardOverview> cardsToStudySystem = new ArrayList<>();
         List<Card> cards = new ArrayList<>();
         CardOverview cardOverview = new CardOverview();
@@ -158,7 +159,9 @@ public class StudySystemLogicTest {
         cards.add(card1);
         when(cardRepository.findCardsByStudySystem(oldstudySystem)).thenReturn(cardsToStudySystem);
         when(cardRepository.getAllCardsForCardOverview(cardsToStudySystem)).thenReturn(cards);
+        when(cardRepository.findCardByStudySystem(any(StudySystem.class),any(Card.class))).thenThrow(NoResultException.class);
         //studySystemLogic.updateStudySystemData(oldstudySystem,newstudySystem,false);
+        //TODO
     }
 
 
