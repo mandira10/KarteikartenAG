@@ -1,7 +1,9 @@
 package com.swp.DataModel.CardTypes;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -9,6 +11,13 @@ import java.util.UUID;
 @Entity
 @Table
 @NoArgsConstructor
+@Getter
+@Setter
+@NamedQueries({
+        @NamedQuery(name = "ImageDescriptionCardAnswer.allByParent", query = "SELECT a FROM ImageDescriptionCardAnswer a WHERE a.parent = :parent"),
+        @NamedQuery(name = "ImageDescriptionCardAnswer.allByParentAndText", query = "SELECT a FROM ImageDescriptionCardAnswer a WHERE a.parent = :parent AND a.answertext = :text"),
+        @NamedQuery(name = "ImageDescriptionCardAnswer.allByParentAndPosition", query = "SELECT a FROM ImageDescriptionCardAnswer a WHERE a.parent = :parent AND a.xpos = :xpos AND a.ypos = :ypos")
+})
 public class ImageDescriptionCardAnswer //C++ Struct
 {
     /**

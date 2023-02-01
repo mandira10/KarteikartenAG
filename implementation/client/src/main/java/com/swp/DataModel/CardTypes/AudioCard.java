@@ -5,6 +5,7 @@ import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,7 @@ public class AudioCard extends Card
     /**
      * Die AudioFile für die Karte
      */
+    @Lob
     @Column
     private byte[] audio;
 
