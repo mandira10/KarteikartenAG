@@ -398,7 +398,7 @@ public class CrudTest {
         // Delete
         BoxToCard deletedB2C = persistedB2Cs.get(0);
         CardToBoxRepository.startTransaction();
-        deletedB2C = cardToBoxRepository.getSpecific(deletedB2C.getCard(), deletedB2C.getStudySystemBox());
+        //deletedB2C = cardToBoxRepository.getSpecific(deletedB2C.getCard(), deletedB2C.getStudySystemBox());
         cardToBoxRepository.delete(deletedB2C);
         //assertEquals(allB2Cs.size()-1, cardToBoxRepository.countAll());
         CardToBoxRepository.commitTransaction();

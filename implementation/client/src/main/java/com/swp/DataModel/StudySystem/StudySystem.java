@@ -22,8 +22,6 @@ import java.util.*;
         query = "SELECT s FROM StudySystem s WHERE LOWER(s.name) LIKE LOWER(:name)")
 @NamedQuery(name  = "StudySystem.getStudySystemByUUID",
         query = "SELECT s FROM StudySystem s WHERE s.uuid = :uuid")
-@NamedQuery(name  = "StudySystem.findSpecificC2C",
-        query = "SELECT c2c FROM BoxToCard c2c WHERE c2c.studySystem = :studySystem AND c2c.studySystemBox = :studySystemBox AND c2c.card = :card")
 public abstract class StudySystem implements Serializable
 {
 
