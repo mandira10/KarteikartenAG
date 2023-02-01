@@ -48,6 +48,10 @@ public class ViewSingleDeckPage extends Page
         Button editButton = (Button)findChildByID("editdeckbutton");
         editButton.onClick((RenderGUI gui) -> { ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(pDeck.getUuid()); });
 
+        //Edit button
+        Button resetProgressButton = (Button)findChildByID("resetbutton");
+        resetProgressButton.onClick((RenderGUI gui) -> { resetProgress(); });
+
         //Export button
         Button exportDeckButton = (Button)findChildByID("exportbutton");
         exportDeckButton.onClick((RenderGUI gui) -> { exportCards();});
@@ -141,5 +145,24 @@ public class ViewSingleDeckPage extends Page
     private void exportCards()
     {
         ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(pCardList.getCards());
+    }
+
+    private void resetProgress()
+    {
+        ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("confirmresetdeck"), new ConfirmationCallback() {
+            @Override public void onCancel() {}
+            @Override public void onConfirm() 
+            {  
+                StudySystemController.getInstance().resetLearnStatus(pDeck, new SingleDataCallback<Boolean>() {
+                    @Override public void onSuccess(Boolean data) {
+                    }
+
+                    @Override public void onFailure(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                    }
+                });
+
+            }
+        });
     }
 }

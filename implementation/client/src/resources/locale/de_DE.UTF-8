@@ -89,6 +89,7 @@ deckempty              = Leer
 decksearch             = Decks suchen
 wascorrectbutton       = Antwort war korrekt
 timelimitfield         = Zeitlimit
+resetdeckbutton        = Fortschritt zurücksetzen
 
 # Search
 bycontentsearch        = Nach Inhalt
@@ -137,6 +138,7 @@ confirmaddtodeck       = Wollen sie ihre Karten zu dem Deck $ hinzufügen?
 confirmdeletedeck      = Sind sie sicher, dass sie dieses Deck löschen wollen?
 confirmremovecardsdeck = Sind sie sicher, dass sie $ Karte(n) aus diesem Deck löschen wollen?
 confirmpause           = Wollen sie den Test pausieren?
+confirmresetdeck       = Sind sie sicher, dass sie ihren Fortschritt verwerfen wollen?
 
 # Mandatory fields
 mandatorytitle         = Der Titel darf nicht leer sein

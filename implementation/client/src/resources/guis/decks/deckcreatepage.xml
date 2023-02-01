@@ -4,7 +4,6 @@
         <item>Leitner</item>
         <item>Timing</item>
         <item>Voting</item>
-        <item>Custom</item>
     </dropdown>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
         <button id="cancelbutton" pos="2.5%, 0"  origin="0, 0"   size="100, 30" fontsize="20" locale-id="cancelbutton" />

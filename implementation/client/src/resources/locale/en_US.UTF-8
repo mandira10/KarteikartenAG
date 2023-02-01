@@ -89,6 +89,7 @@ deckempty              = Empty
 decksearch             = Search Deck
 wascorrectbutton       = Answer was correct
 timelimitfield         = Timelimit
+resetdeckbutton        = Reset Progress
 
 # Search
 bycontentsearch        = By Content
@@ -137,6 +138,7 @@ confirmaddtodeck       = Do you want to add your card(s) to $?
 confirmdeletedeck      = Are you sure that you want to delete this deck?
 confirmremovecardsdeck = Are you sure that you want to remove $ card(s) from this deck?
 confirmpause           = Are you sure that you want to Pause?
+confirmresetdeck       = Are you sure that you want to reset you Progress?
 
 # Mandatory fields
 mandatorytitle         = The title cannot be empty

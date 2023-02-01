@@ -5,6 +5,7 @@
 
     <gui id="leftmenu" size="100, 50" pos="20, 100%" origin="0, 50">
         <button id="starttestbutton"  pos="0, 0" size="100, 30" fontsize="20" locale-id="starttestbutton" color="#73C991" />
+        <button id="resetbutton"      pos="120, 0" size="200, 30" fontsize="20" locale-id="resetdeckbutton" />
     </gui>
     <menu id="menu" size="100%, 50" margin="-160, 0" pos="160, 100%" origin="0, 50">
         <button id="editdeckbutton"   size="100, 30" fontsize="20" locale-id="editdeckbutton" />

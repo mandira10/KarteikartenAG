@@ -1,13 +1,18 @@
 package com.swp.GUI.Cards.EditCardPages;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
-import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Output;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.TextCard;
+import com.swp.GUI.Extras.Notification.NotificationType;
+import com.swp.GUI.Extras.NotificationGUI;
 
-public class EditTextCard extends RenderGUI
+public class EditTextCard extends EditCardGUI
 {
     TextCard pCard;
     TextField pAnswerField;
@@ -32,9 +37,27 @@ public class EditTextCard extends RenderGUI
         resize();
     }
 
-    public void setCard(TextCard card)
+    @Override 
+    public void setCard(Card card) 
     {
-        pCard = card;
+        if(card.getType() != CardType.TEXT)
+        {
+            Output.error("Wrong card type given!");
+            return;
+        }
+        
+        this.pCard = (TextCard)card;
         pAnswerField.setString(pCard.getAnswer());
+    }
+
+    @Override
+    public boolean checkMandatory() 
+    {
+        if(pAnswerField.getString().isEmpty())
+        {
+            NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryanswer"), NotificationType.WARNING, 5);
+            return false;
+        }
+        return true;
     }
 }

@@ -2,17 +2,23 @@ package com.swp.GUI.Cards.EditCardPages;
 
 import java.nio.ByteBuffer;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.textures.Texture;
+import com.gumse.tools.Output;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.FileDialog;
+import com.swp.GUI.Extras.Notification.NotificationType;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.PageManager.PAGES;
 
-public class EditImageDescriptionCard extends RenderGUI
+public class EditImageDescriptionCard extends EditCardGUI
 {
     private Button pImageButton, pAnswersButton;
     private ImageDescriptionCard pCard;
@@ -69,16 +75,33 @@ public class EditImageDescriptionCard extends RenderGUI
         }
     }
 
-
-    public void setCard(ImageDescriptionCard card)
+    @Override 
+    public void setCard(Card card) 
     {
-        this.pCard = card;
-        if(!card.getImage().equals(""))
+        if(card.getType() != CardType.IMAGEDESC)
+        {
+            Output.error("Wrong card type given!");
+            return;
+        }
+        
+        this.pCard = (ImageDescriptionCard)card;
+        if(!pCard.getImage().equals(""))
         {
             Texture tex = new Texture();
-            tex.loadMemory(ByteBuffer.wrap(card.getImage()));
+            tex.loadMemory(ByteBuffer.wrap(pCard.getImage()));
             pImageButton.getBox().setTexture(tex);
             //pImageButton.getBox().setColor(new vec4(1, 1, 1, 1));
         }
+    }
+
+    @Override
+    public boolean checkMandatory() 
+    {
+        if(pCard.getAnswers().length == 0)
+        {
+            NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryanswer"), NotificationType.WARNING, 5);
+            return false;
+        }
+        return true;
     }
 }

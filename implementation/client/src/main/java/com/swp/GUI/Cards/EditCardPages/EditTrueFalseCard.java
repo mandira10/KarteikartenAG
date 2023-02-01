@@ -1,12 +1,14 @@
 package com.swp.GUI.Cards.EditCardPages;
 
 import com.gumse.gui.Basics.Switch;
-import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Output;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 
-public class EditTrueFalseCard extends RenderGUI
+public class EditTrueFalseCard extends EditCardGUI
 {
     private TrueFalseCard pCard;
     private Switch pTrueFalseSwitch;
@@ -27,9 +29,22 @@ public class EditTrueFalseCard extends RenderGUI
         resize();
     }
 
-    public void setCard(TrueFalseCard card)
+    @Override 
+    public void setCard(Card card) 
     {
-        this.pCard = card;
+        if(card.getType() != CardType.TRUEFALSE)
+        {
+            Output.error("Wrong card type given!");
+            return;
+        }
+        
+        this.pCard = (TrueFalseCard)card;
         pTrueFalseSwitch.tick(pCard.isAnswer());
+    }
+
+    @Override
+    public boolean checkMandatory() 
+    {
+        return true;
     }
 }

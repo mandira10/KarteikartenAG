@@ -1,7 +1,6 @@
 package com.swp.GUI.Cards.EditCardPages;
 
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
-
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
@@ -9,10 +8,15 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.textures.Texture;
+import com.gumse.tools.Output;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.GUI.Extras.FileDialog;
+import com.swp.GUI.Extras.Notification.NotificationType;
+import com.swp.GUI.Extras.NotificationGUI;
 
-public class EditImageTestCard extends RenderGUI
+public class EditImageTestCard extends EditCardGUI
 {
     private Button pImageButton;
     private TextField pAnswerField;
@@ -69,10 +73,27 @@ public class EditImageTestCard extends RenderGUI
         }
     }
 
-
-    public void setCard(ImageTestCard card)
+    @Override 
+    public void setCard(Card card) 
     {
-        this.pCard = card;
+        if(card.getType() != CardType.IMAGETEST)
+        {
+            Output.error("Wrong card type given!");
+            return;
+        }
+        
+        this.pCard = (ImageTestCard)card;
         pAnswerField.setString(pCard.getAnswer());
+    }
+
+    @Override
+    public boolean checkMandatory() 
+    {
+        if(pAnswerField.getString().isEmpty())
+        {
+            NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryanswer"), NotificationType.WARNING, 5);
+            return false;
+        }
+        return true;
     }
 }

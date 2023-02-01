@@ -40,12 +40,7 @@ import com.swp.Controller.SingleDataCallback;
 
 public class EditCardPage extends Page
 {
-    private EditTextCard pEditTextCardPage;
-    private EditTrueFalseCard pEditTrueFalseCardPage;
-    private EditMultipleChoiceCard pEditMultipleChoiceCardPage;
-    private EditImageTestCard pEditImageTestCardPage;
-    private EditAudioCard pEditAudioCardPage;
-    private EditImageDescriptionCard pEditImageDescriptionCardPage;
+    private EditCardGUI pEditCard;
 
     private Card pNewCard;
     private List<Category> aCategories;
@@ -66,7 +61,7 @@ public class EditCardPage extends Page
 
         pCanvas = findChildByID("canvas");
         
-        pEditTextCardPage = new EditTextCard();
+        /*pEditTextCardPage = new EditTextCard();
         pCanvas.addGUI(pEditTextCardPage);
 
         pEditTrueFalseCardPage = new EditTrueFalseCard();
@@ -82,7 +77,7 @@ public class EditCardPage extends Page
         pCanvas.addGUI(pEditImageDescriptionCardPage);
 
         pEditAudioCardPage = new EditAudioCard();
-        pCanvas.addGUI(pEditAudioCardPage);
+        pCanvas.addGUI(pEditAudioCardPage);*/
 
         pTitlefield = (TextField)findChildByID("titlefield");
         pTitlefield.setCallback(new TextFieldInputCallback() { 
@@ -193,45 +188,19 @@ public class EditCardPage extends Page
             }
         });
 
+        pCanvas.destroyChildren();
         switch(pNewCard.getType())
         {
-            case TRUEFALSE:      
-                setPage(pEditTrueFalseCardPage);
-                pEditTrueFalseCardPage.setCard((TrueFalseCard)pNewCard);
-                break;
-
-            case IMAGETEST:      
-                setPage(pEditImageTestCardPage);
-                pEditImageTestCardPage.setCard((ImageTestCard)pNewCard);
-                break;
-
-            case IMAGEDESC:      
-                setPage(pEditImageDescriptionCardPage);
-                pEditImageDescriptionCardPage.setCard((ImageDescriptionCard)pNewCard); 
-                break;
-
-            case MULITPLECHOICE: 
-                setPage(pEditMultipleChoiceCardPage);
-                pEditMultipleChoiceCardPage.setCard((MultipleChoiceCard)pNewCard);
-                break;
-
-            case TEXT:           
-                setPage(pEditTextCardPage);
-                pEditTextCardPage.setCard((TextCard)pNewCard);
-                break;
-
-            case AUDIO:          
-                setPage(pEditAudioCardPage);
-                pEditAudioCardPage.setCard((AudioCard)pNewCard);
-                break;
+            case TRUEFALSE:      pEditCard = new EditTrueFalseCard();        break;
+            case IMAGETEST:      pEditCard = new EditImageTestCard();        break;
+            case IMAGEDESC:      pEditCard = new EditImageDescriptionCard(); break;
+            case MULITPLECHOICE: pEditCard = new EditMultipleChoiceCard();   break;
+            case TEXT:           pEditCard = new EditTextCard();             break;
+            case AUDIO:          pEditCard = new EditAudioCard();            break;
         }
-    }
-
-    private void setPage(RenderGUI page)
-    {
-        for(RenderGUI child : pCanvas.getChildren())
-            child.hide(true);
-        page.hide(false);
+        pEditCard.setCard(card);
+        pCanvas.addGUI(pEditCard);
+        resize();
     }
 
     public void updateCategories(List<Category> categories)
@@ -258,6 +227,9 @@ public class EditCardPage extends Page
             NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryquestion"), NotificationType.WARNING, 5);
             return;
         }
+
+        if(!pEditCard.checkMandatory())
+            return;
         
         CardController.getInstance().updateCardData(pNewCard, bIsNewCard, new SingleDataCallback<Boolean>() {
             @Override public void onSuccess(Boolean data) 

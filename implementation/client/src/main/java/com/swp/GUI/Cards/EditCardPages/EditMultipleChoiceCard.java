@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Font.FontManager;
@@ -12,10 +13,14 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Output;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.GUI.Cards.EditCardPages.EditMultipleChoiceCardAnswerEntry.AnswerEntryCallback;
+import com.swp.GUI.Extras.Notification.NotificationType;
+import com.swp.GUI.Extras.NotificationGUI;
 
-public class EditMultipleChoiceCard extends RenderGUI
+public class EditMultipleChoiceCard extends EditCardGUI
 {
     private Button pAddEntryButton;
     private Scroller pContextScroller;
@@ -80,19 +85,6 @@ public class EditMultipleChoiceCard extends RenderGUI
         pContextScroller.addGUI(pAddEntryButton);
     }
 
-    public void setCard(MultipleChoiceCard card)
-    {
-        this.pCard = card;
-        pContextScroller.destroyChildren();
-        createAddButton();
-
-        List<Integer> correctAnswers = Arrays.stream(pCard.getCorrectAnswers()).boxed().toList();
-        for(int i = 0; i < pCard.getAnswers().length; i++)
-        {
-            addEntry(pCard.getAnswers()[i], correctAnswers.contains(i));
-        }
-    }
-
     private void overrideCarddata()
     {
         List<String> answers = new ArrayList<>();
@@ -114,5 +106,44 @@ public class EditMultipleChoiceCard extends RenderGUI
 
         pCard.setAnswers(answers.toArray(new String[0])); //https://shipilev.net/blog/2016/arrays-wisdom-ancients/
         pCard.setCorrectAnswers(correctanswers.stream().filter(Objects::nonNull).mapToInt(Integer::intValue).toArray());
+    }
+
+    @Override 
+    public void setCard(Card card) 
+    {
+        if(card.getType() != CardType.MULITPLECHOICE)
+        {
+            Output.error("Wrong card type given!");
+            return;
+        }
+        
+        this.pCard = (MultipleChoiceCard)card;
+        pContextScroller.destroyChildren();
+        createAddButton();
+
+        List<Integer> correctAnswers = Arrays.stream(pCard.getCorrectAnswers()).boxed().toList();
+        for(int i = 0; i < pCard.getAnswers().length; i++)
+        {
+            addEntry(pCard.getAnswers()[i], correctAnswers.contains(i));
+        }
+    }
+
+    @Override
+    public boolean checkMandatory() 
+    {
+        if(pCard.getAnswers().length == 0)
+        {
+            NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryanswer"), NotificationType.WARNING, 5);
+            return false;
+        }
+        for(String answer : pCard.getAnswers())
+        {
+            if(answer.isEmpty())
+            {
+                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryanswer"), NotificationType.WARNING, 5);
+                return false;
+            }
+        }
+        return true;
     }
 }

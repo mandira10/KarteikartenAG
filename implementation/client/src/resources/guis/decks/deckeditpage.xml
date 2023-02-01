@@ -19,7 +19,6 @@
             <item>Leitner</item>
             <item>Timing</item>
             <item>Vote</item>
-            <item>Custom</item>
         </dropdown>
 
         <!-- In order to render it after everything else -->

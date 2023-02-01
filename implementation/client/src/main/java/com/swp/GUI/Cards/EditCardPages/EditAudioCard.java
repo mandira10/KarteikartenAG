@@ -4,13 +4,16 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.tools.Output;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.GUI.Extras.AudioGUI;
 import com.swp.GUI.Extras.FileDialog;
 
 import java.io.FileInputStream;
 
-public class EditAudioCard extends RenderGUI
+public class EditAudioCard extends EditCardGUI
 {
     private Button pUploadButton;
     private AudioCard pCard;
@@ -36,12 +39,6 @@ public class EditAudioCard extends RenderGUI
         reposition();
     }
 
-    public void setCard(AudioCard card)
-    {
-        pCard = card;
-        pAudioGUI.loadAudio(pCard.getAudio());
-    }
-
 
     private void selectAudioFile()
     {
@@ -53,5 +50,24 @@ public class EditAudioCard extends RenderGUI
 
             pCard.setAudio(null);
         }
+    }
+
+    @Override 
+    public void setCard(Card card) 
+    {
+        if(card.getType() != CardType.AUDIO)
+        {
+            Output.error("Wrong card type given!");
+            return;
+        }
+        
+        pCard = (AudioCard)card;
+        pAudioGUI.loadAudio(pCard.getAudio());
+    }
+
+    @Override
+    public boolean checkMandatory() 
+    {
+        return true;
     }
 }
