@@ -24,9 +24,6 @@ import java.util.UUID;
 @NamedQuery(name = "BoxToCard.findSpecificC2C",
         query = "SELECT b2c FROM BoxToCard b2c  LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem and b2c.card = :card")
 
-@NamedQuery(name = "BoxToCard.findSpecificC2B",
-        query = "SELECT b2c FROM BoxToCard b2c  LEFT JOIN StudySystemBox sbox ON sbox.id = b2c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem and b2c.card = :card")
-
 @NamedQuery (name = "Card.ByStudySystem",
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND c.card = :card")
 

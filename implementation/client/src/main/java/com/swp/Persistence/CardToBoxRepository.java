@@ -85,11 +85,12 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
                 .getSingleResult();
     }
 
-    public BoxToCard getSpecificBox(Card card, StudySystemBox studySystemBox) throws NoResultException {
+
+    public BoxToCard getSpecific(Card card, StudySystemBox studySystemBox) throws NoResultException {
         return getEntityManager()
                 .createNamedQuery("BoxToCard.findSpecificC2C", BoxToCard.class)
                 .setParameter("card", card)
-                .setParameter("studySystemBox", studySystemBox)
+                .setParameter("studySystem", studySystemBox.getStudySystem().getUuid())
                 .getSingleResult();
     }
 
