@@ -113,6 +113,31 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     });
     }
 
+    /**
+     * Wird nach der Erstellung eines neuen StudySystem verwendet und verschiebt alle Karten für das StudySystem in die erste Box.
+     * Vorher wird geprüft, ob die Karte bereits im StudySystem enthalten ist, wenn ja, wird sie nicht nochmal hinzugefügt und an den Controller
+     * zurückgespielt, so dass die GUI anzeigen kann, welche Karten nicht hinzugefügt werden konnten.
+     * Ruft Hilfsmethode moveCardToBoxAndSave auf.
+     * @param cards: Karten, die StudySystem enthalten soll.
+     * @param studySystem: Das StudySystem, das benötigt wird.
+     */
+    public List<Card> moveAllCardsForDeckToFirstBoxNoExec(List<Card> cards, StudySystem studySystem) {
+        if (cards.isEmpty()) {
+            throw new IllegalStateException(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty"));
+        }
+        List<Card> existingCards = new ArrayList<>();
+        for(Card c : cards)
+            try{
+                Card card = cardRepository.findCardByStudySystem(studySystem,c);
+                log.info("Karte bereits Teil des StudySystems");
+                existingCards.add(card);
+            }
+            catch(NoResultException ex){
+                moveCardToBoxAndSave(c,0,studySystem);
+            }
+        return existingCards;
+    }
+
 
     public void moveAllCardsToDeck0(List<Card> cards, StudySystem studySystem){
           for (Card c : cards){
@@ -454,6 +479,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         });
     }
 
+
+
     /**
      * Wird aufgerufen, wenn ein StudySystem im EditModus geändert wurde und setzt das gesamte Deck zurück,
      * d.h. alle Karten werden wieder in Box 1 gepackt.
@@ -464,8 +491,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudyS);
             List<Card> cards = cardRepository.getAllCardsForCardOverview(cardsToStudySystem);
             //then move them to the other StudySystem
-            moveAllCardsForDeckToFirstBox(cards,newStudyS);
-            deleteStudySystem(oldStudyS);
+            moveAllCardsForDeckToFirstBoxNoExec(cards,newStudyS);
+            deleteStudySystemNoExec(oldStudyS);
 
     }
 
@@ -484,6 +511,21 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             studySystemRepository.delete(studySystem);
             return null;
         });
+    }
+
+    /**
+     * Wird verwendet, um ein StudySystem zu löschen. .
+     * @param studySystem: StudySystem zu löschen.
+     */
+    public void deleteStudySystemNoExec(StudySystem studySystem) { // Testet
+        if(studySystem == null){
+            throw new IllegalStateException("TODO");
+        }
+        log.info("Lösche alle Card To Boxes zum StudySystem");
+        cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForStudySystem(studySystem));
+        log.info("Lösche StudySystem");
+        studySystemRepository.delete(studySystem);
+
     }
 
     /**
@@ -506,7 +548,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
     /**
-     * Wird verwendet, um eine Liste von Karten in einem StudySystem zu löschen. .
+     * Wird verwendet, um eine Liste von Karten in einem StudySystem zu löschen.
      * @param studySystem: Das StudySystem, das benötigt wird.
      * @param cards: die Liste der Karten zu löschen
      */

@@ -44,8 +44,6 @@ public class StudySystemLogicTest {
 
     @BeforeEach
     public void beforeEach(){
-
-
         studySystemRepository = mock(StudySystemRepository.class);
         cardRepository = mock(CardRepository.class);
         cardToBoxRepository = mock(CardToBoxRepository.class);
@@ -145,8 +143,8 @@ public class StudySystemLogicTest {
 
     @Test
     public void updateStudySystemTestElseIfFalse(){
-        StudySystem oldstudySystem = new LeitnerSystem();
-        StudySystem newstudySystem = new LeitnerSystem();
+        StudySystem oldstudySystem = new VoteSystem();
+        StudySystem newstudySystem = new TimingSystem();
         List<CardOverview> cardsToStudySystem = new ArrayList<>();
         List<Card> cards = new ArrayList<>();
         CardOverview cardOverview = new CardOverview();
@@ -160,7 +158,15 @@ public class StudySystemLogicTest {
         when(cardRepository.findCardsByStudySystem(oldstudySystem)).thenReturn(cardsToStudySystem);
         when(cardRepository.getAllCardsForCardOverview(cardsToStudySystem)).thenReturn(cards);
         when(cardRepository.findCardByStudySystem(any(StudySystem.class),any(Card.class))).thenThrow(NoResultException.class);
-        //studySystemLogic.updateStudySystemData(oldstudySystem,newstudySystem,false);
+        doNothing().when(cardToBoxRepository).delete(anyList());
+        doNothing().when(cardToBoxRepository).getAllB2CForStudySystem(any(StudySystem.class));
+        doNothing().when(studySystemRepository).delete(any(StudySystem.class));
+        doNothing().when(cardToBoxRepository).save(any(BoxToCard.class));
+        studySystemLogic.updateStudySystemData(oldstudySystem,newstudySystem,false);
+        BoxToCard boxToCard = new BoxToCard(card, newstudySystem.getBoxes().get(0));
+        BoxToCard boxToCard1 = new BoxToCard(card1,newstudySystem.getBoxes().get(0));
+        verify(cardToBoxRepository).save(boxToCard);
+        verify(cardToBoxRepository).save(boxToCard1);
         //TODO
     }
 

@@ -65,9 +65,7 @@ public class EditImageDescriptionCard extends RenderGUI
 
             // pCard.loadTex.getData();
             pCard.setImage(new byte[loadTex.getData().remaining()]);
-            //image'in datasını alıcam
-            //image'in datasının byte[] olması lazım
-            //resmi  oluşturuyorureturnleyipm
+
         }
     }
 
