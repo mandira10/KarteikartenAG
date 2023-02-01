@@ -548,7 +548,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
     /**
-     * Wird verwendet, um eine Liste von Karten in einem StudySystem zu löschen. .
+     * Wird verwendet, um eine Liste von Karten in einem StudySystem zu löschen.
      * @param studySystem: Das StudySystem, das benötigt wird.
      * @param cards: die Liste der Karten zu löschen
      */

@@ -465,8 +465,17 @@ public class CategoryLogic extends BaseLogic<Category> {
 
     }
 
-
-    public void removeCardsFromCategory(List<CardOverview> list, Category category) {
-        //TODO analog zu Deck function
+    /**
+     *  Wird verwendet, um eine Liste von Karten in einer Kategorie zu löschen.
+     * @param cards: Die zu löschenden Karten aus der Kategorie
+     * @param category: Die Kategorie, für die die Karten gelöscht werden sollen
+     */
+    public void removeCardsFromCategory(List<CardOverview> cards, Category category) {
+        execTransactional(() -> {
+            List<Card> cards1 = cardRepository.getAllCardsForCardOverview(cards);
+            for(Card c: cards1)
+                cardToCategoryRepository.delete(cardToCategoryRepository.getSpecific(c, category));
+            return null;
+        });
     }
 }
