@@ -170,8 +170,10 @@ public class EditCategoryPage extends Page
                         if(data != "")
                             NotificationGUI.addNotification(data, Notification.NotificationType.INFO,10);
 
-
-                        ((ViewSingleCategoryPage)PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW)).setCategory(pNewCategory);
+                        if(bIsNewCategory)
+                            ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
+                        else
+                            ((ViewSingleCategoryPage)PageManager.viewPage(PAGES.CATEGORY_SINGLEVIEW)).setCategory(pNewCategory);
                     }
         
                     @Override public void onFailure(String msg) {

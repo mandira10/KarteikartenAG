@@ -17,6 +17,7 @@ import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.Extras.ConfirmationGUI;
+import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.PageManager.PAGES;
@@ -37,6 +38,8 @@ public class ViewSingleCategoryPage extends Page
         addGUI(XMLGUI.loadFile("guis/categories/categoryviewpage.xml"));
         pCanvas = findChildByID("canvas");
 
+
+        MenuOptions menu = (MenuOptions)findChildByID("menu");
         Button editButton = (Button)findChildByID("editcategorybutton");
         editButton.onClick((RenderGUI gui) -> {
             ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(pCategory,false);
@@ -57,10 +60,12 @@ public class ViewSingleCategoryPage extends Page
             @Override public void enterSelectmod() 
             {    
                 removeCardsButton.hide(false);
+                menu.resize();
             }
             @Override public void exitSelectmod() 
             {   
                 removeCardsButton.hide(true);
+                menu.resize();
             }
         }, null);
         pCardList.setSizeInPercent(true, true);
