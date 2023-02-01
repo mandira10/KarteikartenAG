@@ -26,7 +26,6 @@ import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
-import com.swp.Logic.CategoryLogic;
 
 import java.util.List;
 
@@ -112,25 +111,21 @@ public class CategoryOverviewPage extends Page
     
     public void loadCategories(String searchterm)
     {
+        categoryController.getCategoriesBySearchterm(searchterm, new DataCallback<Category>() {
+            @Override public void onSuccess(List<Category> categories) {
+                pCategoryList.reset();
+                for(Category cat : categories)
+                    pCategoryList.addCategory(cat, null);
+            }
 
-        pCategoryList.reset();
+            @Override public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg,NotificationType.ERROR,10);
+            }
 
-       categoryController.getCategoriesBySearchterm(searchterm, new DataCallback<Category>() {
-           @Override
-           public void onSuccess(List<Category> data) {
-              // pCategoryList.addCategories TODO wie machen wir das mit der Hierarchie?? Oder soll das nur für Roots sein? Dann muss ich das noch umschreiben
-           }
+            @Override public void onInfo(String msg) {
 
-           @Override
-           public void onFailure(String msg) {
-            NotificationGUI.addNotification(msg,NotificationType.ERROR,10);
-           }
-
-           @Override
-           public void onInfo(String msg) {
-
-           }
-       });
+            }
+        });
     }
 
     private void deleteCategories(List<Category> categories)
