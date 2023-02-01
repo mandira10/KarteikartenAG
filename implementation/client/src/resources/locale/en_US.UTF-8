@@ -129,13 +129,13 @@ editreferencespage     = Edit References
 
 # Confirmations
 confirmdeletecard      = Are you sure that you want to delete this card?
-confirmdeletecards     = Are you sure that you want to delete $ cards?
+confirmdeletecards     = Are you sure that you want to delete $ card(s)?
 confirmcategorydelete  = Are you sure that you want to delete this category?
-confirmremovecardscat  = Are you sure that you want to remove $ cards from this catgory?
+confirmremovecardscat  = Are you sure that you want to remove $ card(s) from this catgory?
 confirmdeletecategories= Are you sure that you want to delete $ categories?
-confirmaddtodeck       = Do you want to add your cards to $?
+confirmaddtodeck       = Do you want to add your card(s) to $?
 confirmdeletedeck      = Are you sure that you want to delete this deck?
-confirmremovecardsdeck = Are you sure that you want to remove $ cards from this deck?
+confirmremovecardsdeck = Are you sure that you want to remove $ card(s) from this deck?
 confirmpause           = Are you sure that you want to Pause?
 
 # Mandatory fields

@@ -129,13 +129,13 @@ editreferencespage     = Referenzen bearbeiten
 
 # Confirmations
 confirmdeletecard      = Sind sie sicher, dass sie diese Karte löschen wollen?
-confirmdeletecards     = Sind sie sicher, dass sie $ Karten löschen wollen?
+confirmdeletecards     = Sind sie sicher, dass sie $ Karte(n) löschen wollen?
 confirmcategorydelete  = Sind sie sicher, dass sie diese Kategorie löschen wollen?
-confirmremovecardscat  = Sind sie sicher, dass sie $ Karten aus dieser Kategorie löschen wollen?
-confirmdeletecategories= Sind sie sicher, dass sie $ Kategorien löschen wollen?
+confirmremovecardscat  = Sind sie sicher, dass sie $ Karte(n) aus dieser Kategorie löschen wollen?
+confirmdeletecategories= Sind sie sicher, dass sie $ Kategorie(n) löschen wollen?
 confirmaddtodeck       = Wollen sie ihre Karten zu dem Deck $ hinzufügen?
 confirmdeletedeck      = Sind sie sicher, dass sie dieses Deck löschen wollen?
-confirmremovecardsdeck = Sind sie sicher, dass sie $ Karten aus diesem Deck löschen wollen?
+confirmremovecardsdeck = Sind sie sicher, dass sie $ Karte(n) aus diesem Deck löschen wollen?
 confirmpause           = Wollen sie den Test pausieren?
 
 # Mandatory fields

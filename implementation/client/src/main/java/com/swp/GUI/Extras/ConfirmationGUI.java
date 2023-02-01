@@ -56,6 +56,7 @@ public class ConfirmationGUI extends Box
         pConfirmButton.setLocaleID("confirmbutton");
         pConfirmButton.setPositionInPercent(true, true);
         pConfirmButton.setOrigin(new ivec2(160, 60));
+        pConfirmButton.setColor(GUI.getTheme().accentColor);
         pConfirmButton.onClick((RenderGUI gui) -> {
             pCallback.onConfirm();
             pInstance.hide(true);
