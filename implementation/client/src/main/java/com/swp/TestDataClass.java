@@ -5,6 +5,7 @@ import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
+import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.*;
@@ -33,8 +34,7 @@ public class TestDataClass {
     {
         final CategoryController categoryController = CategoryController.getInstance();
         final CardController cardController = CardController.getInstance();
-        final CategoryLogic categoryLogic = CategoryLogic.getInstance();
-        final StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
+        final StudySystemController studySystemController = StudySystemController.getInstance();
 
         Category randomCategory = new Category("Random");
         Category schuleCategory = new Category("Schule");
@@ -59,13 +59,8 @@ public class TestDataClass {
 
         for (Category category : new Category[]{randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory}) {
             categoryController.updateCategoryData(category, true, false, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
             });
         }
 
@@ -380,24 +375,24 @@ public class TestDataClass {
         //TestData For Decks
 
         StudySystem studySystem1 = new LeitnerSystem("Spanisch", StudySystem.CardOrder.ALPHABETICAL);
-        studySystemLogic.updateStudySystemData(null, studySystem1, true);
-        studySystemLogic.moveAllCardsForDeckToFirstBox(spanischL,studySystem1);
+        studySystemController.updateStudySystemData(null, studySystem1, true, null);
+        studySystemController.moveAllCardsForDeckToFirstBox(spanischL,studySystem1, null);
 
         StudySystem studySystem2 = new TimingSystem("Erdkunde", StudySystem.CardOrder.RANDOM,5);
-        studySystemLogic.updateStudySystemData(null, studySystem2, true);
-        studySystemLogic.moveAllCardsForDeckToFirstBox(erdkundeL,studySystem2);
+        studySystemController.updateStudySystemData(null, studySystem2, true, null);
+        studySystemController.moveAllCardsForDeckToFirstBox(erdkundeL,studySystem2, null);
 
         StudySystem studySystem3 = new VoteSystem("Technik", StudySystem.CardOrder.ALPHABETICAL);
-        studySystemLogic.updateStudySystemData(null, studySystem3, true);
-        studySystemLogic.moveAllCardsForDeckToFirstBox(technikL,studySystem3);
+        studySystemController.updateStudySystemData(null, studySystem3, true, null);
+        studySystemController.moveAllCardsForDeckToFirstBox(technikL,studySystem3, null);
 
         StudySystem studySystem4 = new VoteSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL);
-        studySystemLogic.updateStudySystemData(null, studySystem4, true);
-        studySystemLogic.moveAllCardsForDeckToFirstBox(zweitausender,studySystem4);
+        studySystemController.updateStudySystemData(null, studySystem4, true, null);
+        studySystemController.moveAllCardsForDeckToFirstBox(zweitausender, studySystem4, null);
 
         StudySystem studySystem5 = new LeitnerSystem("Serien", StudySystem.CardOrder.ALPHABETICAL);
-        studySystemLogic.updateStudySystemData(null, studySystem5, true);
-        studySystemLogic.moveAllCardsForDeckToFirstBox(serien,studySystem5);
+        studySystemController.updateStudySystemData(null, studySystem5, true, null);
+        studySystemController.moveAllCardsForDeckToFirstBox(serien,studySystem5, null);
 
 
 
@@ -430,7 +425,10 @@ public class TestDataClass {
             }
         };
         for (Category c : categories) {
-            categoryLogic.updateCategoryData(c,true, false);
+            categoryController.updateCategoryData(c, true, false, new SingleDataCallback<Boolean>() {
+                @Override public void onSuccess(Boolean data) {}
+                @Override public void onFailure(String msg) {}
+            });
         }
         List<Category> childKunst = new ArrayList<>() {
             {
@@ -469,12 +467,10 @@ public class TestDataClass {
                 add(other3);
             }
         };
-        categoryLogic.setCategoryHierarchy(kunst, parentsKunst, true);
-        categoryLogic.setCategoryHierarchy(kunst, childKunst, false);
-        categoryLogic.setCategoryHierarchy(biologie, parentsBiologie, true);
-        categoryLogic.setCategoryHierarchy(biologie, childsBiologie, false);
-        categoryLogic.setCategoryHierarchy(klasse11, childsklasse11, false);
-        categoryLogic.setCategoryHierarchy(other2, others, false);
+        categoryController.editCategoryHierarchy(kunst, parentsKunst, childKunst, null);
+        categoryController.editCategoryHierarchy(biologie, parentsBiologie, childsBiologie, null);
+        categoryController.editCategoryHierarchy(klasse11, new ArrayList<Category>(), childsklasse11, null);
+        categoryController.editCategoryHierarchy(other2, new ArrayList<Category>(), others, null);
 
         //cardController.getCardsToShow(0, 16, new DataCallback<CardOverview>() {
         //    @Override protected void onSuccess(List<CardOverview> data) 

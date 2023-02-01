@@ -7,6 +7,7 @@ import jakarta.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.swp.Controller.SingleDataCallback;
 
@@ -35,6 +36,11 @@ public class PersistenceManager
      */
     public static void changeH2Server(String host, String port, String user, String password, SingleDataCallback<Boolean> callback) 
     {
+        if(host == null || host.isEmpty())
+        {
+            runLocalH2Server(user, password, callback);
+            return;
+        }
         Output.info("Logging in as " + user + " [" + password + "] onto " + host + ":" + port);
         emFactory = null;
 
@@ -48,7 +54,7 @@ public class PersistenceManager
         try { emFactory = Persistence.createEntityManagerFactory(PU_NAME, persistenceOptions); }
         catch(Exception e)
         {
-            runLocalH2Server(user, password, callback);
+            callback.callFailure(Locale.getCurrentLocale().getString("serverconnectionfailed") + ": " + host + ":" + port);
             return;
         }
         callback.callSuccess(true);
@@ -75,7 +81,7 @@ public class PersistenceManager
         try { emFactory = Persistence.createEntityManagerFactory(PU_NAME, persistenceOptions); }
         catch(Exception e)
         {
-            callback.callFailure(e.getMessage());
+            callback.callFailure(Locale.getCurrentLocale().getString("serverstartfailed"));
             return;
         }
         callback.callSuccess(true);

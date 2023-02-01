@@ -175,13 +175,13 @@ public class EditCategoryPage extends Page
                     }
         
                     @Override public void onFailure(String msg) {
-                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR, 5);
                     }
                 });
             }
 
             @Override public void onFailure(String msg) {
-                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR, 5);
             }
         });
     }

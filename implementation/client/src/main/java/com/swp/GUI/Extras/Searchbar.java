@@ -32,6 +32,7 @@ public class Searchbar extends RenderGUI
     private SearchbarCallback pCallback;
     private Speechbubble pBubble;
     private int iCurrentSearchOption;
+    private Radiobutton pSearchOptions;
 
     public Searchbar(ivec2 pos, ivec2 size, String localeid, String[] optionlocaleids)
     {
@@ -67,24 +68,23 @@ public class Searchbar extends RenderGUI
         pOptionsButton.onClick((RenderGUI gui) -> { pBubble.show(); });
         addElement(pOptionsButton);
 
-        pBubble = new Speechbubble(new ivec2(size.y / 2, 0), new ivec2(200, 120), Side.ABOVE);
+        pBubble = new Speechbubble(new ivec2(size.y / 2, 0), new ivec2(100, 120), Side.ABOVE);
         pBubble.setColor(vec4.sub(GUI.getTheme().primaryColor, 0.06f));
         pBubble.onClick((RenderGUI gui) -> { /*Prevent clickthrough*/ });
         pBubble.hide(true);
         pOptionsButton.addGUI(pBubble);
 
-        Radiobutton searchOptions = new Radiobutton(new ivec2(20, 20), 100, fonts.getDefaultFont(), 20);
-        for(String locale : optionlocaleids)
-            searchOptions.addOption("", locale, "");
-        
-        searchOptions.select(iCurrentSearchOption);
-        searchOptions.singleSelect(true);
-        searchOptions.setSizeInPercent(true, false);
-        searchOptions.onSelect((int index, String content) -> {
+        pSearchOptions = new Radiobutton(new ivec2(20, 20), 150, fonts.getDefaultFont(), 20);
+        pSearchOptions.singleSelect(true);
+        pSearchOptions.setSizeInPercent(true, false);
+        pSearchOptions.onSelect((int index, String content) -> {
             iCurrentSearchOption = index;
         });
-        pBubble.addGUI(searchOptions);
-        pBubble.setSize(new ivec2(200, searchOptions.getSize().y + 30));
+        pBubble.addGUI(pSearchOptions);
+        for(String locale : optionlocaleids)
+            pSearchOptions.addOption("", locale, "");
+        pSearchOptions.select(iCurrentSearchOption);
+        pBubble.setSize(new ivec2(200, pSearchOptions.getSize().y + 30));
 
         pSubmitButton = new Button(new ivec2(100, 0), new ivec2(size.y * 2, size.y), "", fonts.getFont("FontAwesome"));
         pSubmitButton.setOrigin(new ivec2(size.y * 2, 0));
@@ -111,6 +111,7 @@ public class Searchbar extends RenderGUI
         pInputField.setCornerRadius(new vec4(GUI.getTheme().cornerRadius.x, 0, 0, GUI.getTheme().cornerRadius.w));
         pSubmitButton.setCornerRadius(new vec4(0, GUI.getTheme().cornerRadius.y, GUI.getTheme().cornerRadius.z, 0));
         pBubble.setColor(vec4.sub(GUI.getTheme().primaryColor, 0.06f));
+        pBubble.setSize(new ivec2(200, pSearchOptions.getSize().y + 30));
     }
 
     public static XMLGUICreator createFromXMLNode() 

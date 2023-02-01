@@ -10,6 +10,6 @@
         <button id="editdeckbutton"   size="100, 30" fontsize="20" locale-id="editdeckbutton" />
         <button id="exportbutton"     size="120, 30" fontsize="20" locale-id="exportdeckbutton" />
         <button id="deletedeckbutton" size="100, 30" fontsize="20" locale-id="deletedeckbutton" color="#EB4D4B" />
-        <button id="removecardbutton" size="120, 30" fontsize="20" locale-id="removedeckbutton" color="#EB4D4B" />
+        <button id="removecardbutton" size="120, 30" fontsize="20" locale-id="removecardsbutton" color="#EB4D4B" />
     </menu>
 </gui-root>

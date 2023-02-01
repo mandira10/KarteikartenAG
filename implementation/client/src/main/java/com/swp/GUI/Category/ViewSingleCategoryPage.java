@@ -1,5 +1,6 @@
 package com.swp.GUI.Category;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -36,33 +37,34 @@ public class ViewSingleCategoryPage extends Page
         addGUI(XMLGUI.loadFile("guis/categories/categoryviewpage.xml"));
         pCanvas = findChildByID("canvas");
 
+        Button editButton = (Button)findChildByID("editcategorybutton");
+        editButton.onClick((RenderGUI gui) -> {
+            ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(pCategory,false);
+        });
+
+        Button deleteButton = (Button)findChildByID("deletecategorybutton");
+        deleteButton.onClick((RenderGUI gui) -> {
+            deleteCategory();
+        });
+
+        Button removeCardsButton = (Button)findChildByID("removecardbutton");
+        removeCardsButton.onClick((RenderGUI gui) -> {
+            removeCards();
+        });
+        removeCardsButton.hide(true);
+
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
             @Override public void enterSelectmod() 
             {    
+                removeCardsButton.hide(false);
             }
             @Override public void exitSelectmod() 
             {   
+                removeCardsButton.hide(true);
             }
         }, null);
         pCardList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCardList);
-
-        RenderGUI optionsMenu = findChildByID("menu");
-        Button editButton = (Button)optionsMenu.findChildByID("editcategorybutton");
-        editButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                ((EditCategoryPage)PageManager.viewPage(PAGES.CATEGORY_EDIT)).editCategory(pCategory,false);
-            }
-        });
-
-        Button deleteButton = (Button)optionsMenu.findChildByID("deletecategorybutton");
-        deleteButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                deleteCategory();
-            }
-        });
 
 
         this.setSizeInPercent(true, true);
@@ -96,7 +98,7 @@ public class ViewSingleCategoryPage extends Page
 
     private void deleteCategory()
     {
-        ConfirmationGUI.openDialog("Are you sure that you want to delete this category?", new ConfirmationCallback() {
+        ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("confirmcategorydelete"), new ConfirmationCallback() {
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
@@ -112,6 +114,29 @@ public class ViewSingleCategoryPage extends Page
                     }
                 });
                 ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();
+            }
+        });
+    }
+
+    private void removeCards()
+    {
+        int numCards = pCardList.getSelection().size();
+        ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("confirmremovecardscat").replace("$", String.valueOf(numCards)), new ConfirmationCallback() {
+            @Override public void onCancel() {}
+            @Override public void onConfirm() 
+            {  
+                CategoryController.getInstance().removeCardsFromStudySystem(pCardList.getSelection(), pCategory, new SingleDataCallback<Boolean>() {
+                    @Override
+                    public void onSuccess(Boolean data) {
+                       setCategory(pCategory);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                    }
+                });
+
             }
         });
     }

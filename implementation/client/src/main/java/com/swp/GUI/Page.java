@@ -1,5 +1,6 @@
 package com.swp.GUI;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
@@ -8,7 +9,9 @@ import com.gumse.maths.vec4;
 
 public class Page extends RenderGUI
 {
-    Text pNameText;
+    private Text pNameText;
+    private String sLocaleID;
+
     public Page(String name, String localeid)
     {
         pNameText = new Text(name, FontManager.getInstance().getDefaultFont(), new ivec2(100, 3), 0);
@@ -17,6 +20,7 @@ public class Page extends RenderGUI
         pNameText.setOrigin(new ivec2(pNameText.getSize().x + 10, 0));
         pNameText.setColor(new vec4(0.15f, 0.15f, 0.15f, 1.0f));
         pNameText.setLocaleID(localeid);
+        sLocaleID = localeid;
         addElement(pNameText);
     }
 
@@ -31,6 +35,7 @@ public class Page extends RenderGUI
     @Override
     protected void updateOnThemeChange() 
     {
+        pNameText.setString(Locale.getCurrentLocale().getString(sLocaleID));
         pNameText.setOrigin(new ivec2(pNameText.getSize().x + 10, 0));
     }
 }

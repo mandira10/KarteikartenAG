@@ -56,8 +56,8 @@ public class Settings
 
         mSettings.put(Setting.DARK_THEME,     loadSetting("general", "darktheme", "true"));
         mSettings.put(Setting.LANGUAGE,       loadSetting("general", "language",  "en"));
-        mSettings.put(Setting.SERVER_ADDRESS, loadSetting("server",  "address",   "127.0.0.1"));
-        mSettings.put(Setting.SERVER_PORT,    loadSetting("server",  "port",      "8082"));
+        mSettings.put(Setting.SERVER_ADDRESS, loadSetting("server",  "address",   ""));
+        mSettings.put(Setting.SERVER_PORT,    loadSetting("server",  "port",      ""));
         mSettings.put(Setting.USER_NAME,      loadSetting("user",    "username",  "null"));
         mSettings.put(Setting.USER_PASSWD,    loadSetting("user",    "password",  "null"));
         saveSettings();

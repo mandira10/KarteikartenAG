@@ -2,6 +2,7 @@ package com.swp.GUI.Cards;
 
 import java.util.List;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -160,7 +161,7 @@ public class CardOverviewPage extends Page
     public void deleteCards()
     {
         int numCards = pCardList.getSelection().size();
-        ConfirmationGUI.openDialog("Are you sure that you want to delete " + String.valueOf(numCards) + " cards?", new ConfirmationCallback() {
+        ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("confirmdeletecards").replace("$", String.valueOf(numCards)), new ConfirmationCallback() {
             @Override public void onConfirm() 
             {  
                 CardController.getInstance().deleteCards(pCardList.getSelection(), new SingleDataCallback<Boolean>() {

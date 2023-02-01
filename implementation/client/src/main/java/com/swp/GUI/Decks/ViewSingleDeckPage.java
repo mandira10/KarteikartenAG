@@ -1,5 +1,6 @@
 package com.swp.GUI.Decks;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -97,7 +98,7 @@ public class ViewSingleDeckPage extends Page
 
     private void deleteDeck()
     {
-        ConfirmationGUI.openDialog("Are you sure that you want to delete this deck?", new ConfirmationCallback() {
+        ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("confirmdeletedeck"), new ConfirmationCallback() {
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
@@ -117,7 +118,7 @@ public class ViewSingleDeckPage extends Page
     private void removeCards()
     {
         int numCards = pCardList.getSelection().size();
-        ConfirmationGUI.openDialog("Are you sure that you want to remove " + String.valueOf(numCards) + " cards from this deck?", new ConfirmationCallback() {
+        ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("confirmremovecardsdeck").replace("$", String.valueOf(numCards)), new ConfirmationCallback() {
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  

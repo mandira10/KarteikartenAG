@@ -127,17 +127,14 @@ public class EditDeckPage extends Page
             return;
         }
 
-        StudySystemController.getInstance().updateDeckData(pOldDeck, pNewDeck, bNewDeck, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {
+        StudySystemController.getInstance().updateStudySystemData(pOldDeck, pNewDeck, bNewDeck, new SingleDataCallback<Boolean>() {
+            @Override public void onSuccess(Boolean data) {
                 ((ViewSingleDeckPage) PageManager.viewPage(PageManager.PAGES.DECK_SINGLEVIEW)).setDeck(pNewDeck);
             }
 
-            @Override
-            public void onFailure(String msg) {
+            @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
         });
-
     }
 }

@@ -6,7 +6,7 @@
     
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
         <rating id="ratinggui"        pos="50%, 0"   origin="50%, 0" stars="5" starsize="20" />
-        <button id="cancelbutton"     pos="2.5%, 0"  origin="  0, 0" size="100, 30" fontsize="20" locale-id="cancelbutton" />
+        <button id="pausebutton"      pos="2.5%, 0"  origin="  0, 0" size="100, 30" fontsize="20" locale-id="pausebutton" />
         <button id="checkbutton"      pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="checkbutton" />
         <button id="wascorrectbutton" pos="97.5%, 0" origin="300, 0" size="180, 30" fontsize="20" locale-id="wascorrectbutton" />
     </gui>

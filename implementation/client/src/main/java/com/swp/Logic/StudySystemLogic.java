@@ -79,8 +79,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public void moveCardToBox(BoxToCard cardToBox, int newBox, StudySystem studySystem) //Testet
     {
-                cardToBox.setStudySystemBox(studySystem.getBoxes().get(newBox));
-                log.info("Card moved to box {}" , newBox);
+        cardToBox.setStudySystemBox(studySystem.getBoxes().get(newBox));
+        log.info("Card moved to box {}" , newBox);
     }
 
 

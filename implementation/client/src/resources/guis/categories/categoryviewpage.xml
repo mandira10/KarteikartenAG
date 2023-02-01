@@ -5,5 +5,6 @@
     <menu id="menu" size="100%, 50" margin="-160, 0" pos="160, 100%" origin="0, 50">
         <button id="editcategorybutton"   size="100, 30" fontsize="20" locale-id="editcategorybutton" />
         <button id="deletecategorybutton" size="100, 30" fontsize="20" locale-id="deletecategorybutton" color="#EB4D4B" />
+        <button id="removecardbutton"     size="120, 30" fontsize="20" locale-id="removecardsbutton" color="#EB4D4B" />
     </menu>
 </gui-root>

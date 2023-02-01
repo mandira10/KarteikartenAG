@@ -64,6 +64,7 @@ public class SettingsPage extends Page
 
             settings.getLanguage().activate();
             KarteikartenAGGUI.getInstance().updateTheme();
+            KarteikartenAGGUI.getInstance().resize();
         });
 
 
@@ -78,21 +79,19 @@ public class SettingsPage extends Page
         TextField serveraddressField = (TextField)serverSettings.findChildByID("serveraddressfield");
         serveraddressField.setString(settings.getSetting(Setting.SERVER_ADDRESS));
         serveraddressField.setCallback(new TextFieldInputCallback() {
-            @Override public void input(String input, String complete) {}
-            @Override public void enter(String complete) 
-            {
+            @Override public void input(String input, String complete) {
                 settings.setSetting(Setting.SERVER_ADDRESS, complete);
             }
+            @Override public void enter(String complete) {}
         });
 
         TextField serverportField = (TextField)serverSettings.findChildByID("serverportfield");
         serverportField.setString(settings.getSetting(Setting.SERVER_PORT));
         serverportField.setCallback(new TextFieldInputCallback() {
-            @Override public void input(String input, String complete) {}
-            @Override public void enter(String complete) 
-            {
+            @Override public void input(String input, String complete) {
                 settings.setSetting(Setting.SERVER_PORT, complete);
             }
+            @Override public void enter(String complete) {}
         });
 
         Button logoutButton = (Button)findChildByID("logoutbutton");
@@ -111,6 +110,7 @@ public class SettingsPage extends Page
     @Override
     protected void updateOnThemeChange() 
     {
+        super.updateOnThemeChange();
         pSubsettingBox.setColor(vec4.sub(GUI.getTheme().backgroundColor, new vec4(0.2f, 0.2f, 0.2f, 0.0f)));
     }
 }

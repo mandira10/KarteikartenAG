@@ -2,6 +2,7 @@ package com.swp.GUI.Decks;
 
 import java.util.List;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -80,7 +81,7 @@ public class DeckSelectPage extends Page
     
     private void selectDeck(StudySystem deck)
     {
-        ConfirmationGUI.openDialog("Do you want to add your cards to " + String.valueOf(deck.getName()) + "?", new ConfirmationCallback() {
+        ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("confirmaddtodeck").replace("$", String.valueOf(deck.getName())), new ConfirmationCallback() {
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  

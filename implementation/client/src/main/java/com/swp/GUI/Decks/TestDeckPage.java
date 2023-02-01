@@ -73,8 +73,8 @@ public class TestDeckPage extends Page
         });
         optionsMenu.addGUI(pRatingGUI);
 
-        Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
-        cancelButton.onClick((RenderGUI gui) -> { cancelTest(); });
+        Button pauseButton = (Button)optionsMenu.findChildByID("pausebutton");
+        pauseButton.onClick((RenderGUI gui) -> { pauseTest(); });
 
         pAnswerOverrideButton = (Button)findChildByID("wascorrectbutton");
         pAnswerOverrideButton.onClick((RenderGUI gui) -> { giveAnswer(true); });
@@ -148,9 +148,9 @@ public class TestDeckPage extends Page
         ((TestDeckFinishPage)PageManager.viewPage(PAGES.DECK_TEST_FINAL)).setDeck(pDeck);
     }
 
-    private void cancelTest()
+    private void pauseTest()
     {
-        ConfirmationGUI.openDialog("Are you sure that you want to Cancel?", new ConfirmationCallback() {
+        ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("confirmpause"), new ConfirmationCallback() {
             @Override public void onCancel() {}
             @Override public void onConfirm() {
                 finishTest();

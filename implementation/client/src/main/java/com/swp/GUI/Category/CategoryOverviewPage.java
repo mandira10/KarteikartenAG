@@ -1,5 +1,6 @@
 package com.swp.GUI.Category;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
@@ -119,7 +120,7 @@ public class CategoryOverviewPage extends Page
 
     private void deleteCategories(List<Category> categories)
     {
-        ConfirmationGUI.openDialog("Are you sure that you want to delete " + categories.size() + " categories?", new ConfirmationCallback() {
+        ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("confirmdeletecategories").replace("$", String.valueOf(categories.size())), new ConfirmationCallback() {
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  

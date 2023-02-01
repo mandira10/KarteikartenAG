@@ -77,18 +77,19 @@ public class CategoryController {
     public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<String> singleDataCallback) {
         threadPool.exec(() -> {
             try {
-                if(categoryLogic.editCategoryHierarchy(category, parents, children)) //Selfreference?
-                singleDataCallback.callSuccess(Locale.getCurrentLocale().getString("selfreferenceerror"));
-
-                else
-                singleDataCallback.callSuccess("");
+                if(categoryLogic.editCategoryHierarchy(category, parents, children) && singleDataCallback != null) //Selfreference?
+                        singleDataCallback.callSuccess(Locale.getCurrentLocale().getString("selfreferenceerror"));
+                else if(singleDataCallback != null)
+                    singleDataCallback.callSuccess("");
             }
             catch(IllegalArgumentException ex){
-                singleDataCallback.callFailure(ex.getMessage());
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(ex.getMessage());
             }
             catch (Exception ex) {
                 log.error("Beim Updaten der Kategorie ist der Fehler {} aufgetreten", ex.getMessage());
-                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("categoryhierarchyupdateerror"));
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(Locale.getCurrentLocale().getString("categoryhierarchyupdateerror"));
             }
         });
     }
@@ -103,13 +104,16 @@ public class CategoryController {
         threadPool.exec(() -> {
             try {
                 categoryLogic.deleteCategory(category);
-                singleDataCallback.callSuccess(true);
+                if(singleDataCallback != null)
+                    singleDataCallback.callSuccess(true);
             } catch (IllegalStateException ex) { //übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                singleDataCallback.callFailure(ex.getMessage());
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(ex.getMessage());
             }
             catch (Exception ex) {
-                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletecategoryerror"));
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletecategoryerror"));
                 log.error("Beim Löschen der Kategorie {} ist ein Fehler {} aufgetreten", category, ex);
             }
         });
@@ -126,9 +130,11 @@ public class CategoryController {
         threadPool.exec(() -> {
             try {
                 categoryLogic.deleteCategories(categories);
-                singleDataCallback.callSuccess(true);
+                if(singleDataCallback != null)
+                    singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
-                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletecategorieserror"));
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(Locale.getCurrentLocale().getString("deletecategorieserror"));
                 log.error("Beim Löschen der Kategorien {} ist ein Fehler {} aufgetreten", categories, ex);
             }
         });
@@ -148,9 +154,11 @@ public class CategoryController {
                 if (categoryChildren.isEmpty())
                     log.trace(Locale.getCurrentLocale().getString("catchildrenempty"));
 
-                dataCallback.callSuccess(categoryChildren);
+                if(dataCallback != null)
+                    dataCallback.callSuccess(categoryChildren);
             } catch (Exception ex) {
-                dataCallback.callFailure(Locale.getCurrentLocale().getString("catchilderror"));
+                if(dataCallback != null)
+                    dataCallback.callFailure(Locale.getCurrentLocale().getString("catchilderror"));
                 log.error("Beim Beim Abrufen der Children für die Kategorie {} ist ein Fehler {} aufgetreten", parent, ex);
             }
         });
@@ -170,9 +178,11 @@ public class CategoryController {
                 if (categoryParents.isEmpty())
                     log.trace(Locale.getCurrentLocale().getString("catchildrenempty"));
 
-                dataCallback.callSuccess(categoryParents);
+                if(dataCallback != null)
+                    dataCallback.callSuccess(categoryParents);
             } catch (Exception ex) {
-                dataCallback.callFailure(Locale.getCurrentLocale().getString("catchilderror"));
+                if(dataCallback != null)
+                    dataCallback.callFailure(Locale.getCurrentLocale().getString("catchilderror"));
                 log.error("Beim Beim Abrufen der Children für die Kategorie {} ist ein Fehler {} aufgetreten", child, ex);
             }
         });
@@ -187,17 +197,21 @@ public class CategoryController {
     public void getCategoryByUUID(String uuid, SingleDataCallback<Category> singleDataCallback) {
         threadPool.exec(() -> {
             try {
-                singleDataCallback.callSuccess(categoryLogic.getCategoryByUUID(uuid));
+                if(singleDataCallback != null)
+                    singleDataCallback.callSuccess(categoryLogic.getCategoryByUUID(uuid));
             } catch (IllegalArgumentException ex) {//übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                singleDataCallback.callFailure(ex.getMessage());
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(ex.getMessage());
             }
             catch(NoResultException ex){
-                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("categorybyuuidempty"));
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(Locale.getCurrentLocale().getString("categorybyuuidempty"));
                 log.error("Es wurde keine Kategorie zur UUID {} gefunden",uuid);
             }
             catch(Exception ex){
-                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("categorybyuuiderror"));
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(Locale.getCurrentLocale().getString("categorybyuuiderror"));
                 log.error("Beim Abrufen der Kategorie ist ein Fehler {} aufgetreten",ex.getMessage());
             }
         });
@@ -215,9 +229,11 @@ public class CategoryController {
         threadPool.exec(() -> {
             try {
                 categoryLogic.setCardToCategories(card, categories);
-                singleDataCallback.callSuccess(true);
+                if(singleDataCallback != null)
+                    singleDataCallback.callSuccess(true);
             } catch (Exception ex) {
-                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("setcategoriestocarderror"));
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(Locale.getCurrentLocale().getString("setcategoriestocarderror"));
                 log.error("Beim Setzen der Kategorien für die Karte mit der UUID {} ist ein Fehler {} aufgetreten",card.getUuid(), ex.getMessage());
             }
         });
@@ -240,16 +256,18 @@ public class CategoryController {
                 if (cards.isEmpty())
                     log.info(Locale.getCurrentLocale().getString("getcardincategoryempty"));
 
-                dataCallback.callSuccess(cards);
+                if(dataCallback != null)
+                    dataCallback.callSuccess(cards);
 
             } catch (IllegalStateException ex) { //übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                dataCallback.callFailure(ex.getMessage());
+                if(dataCallback != null)
+                    dataCallback.callFailure(ex.getMessage());
             }
             catch (final Exception ex) {
-                log.error("Beim Suchen nach Karten mit Kategorie {} ist ein Fehler {} aufgetreten", category
-                        , ex);
-                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
+                log.error("Beim Suchen nach Karten mit Kategorie {} ist ein Fehler {} aufgetreten", category, ex);
+                if(dataCallback != null)
+                    dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
             }
         });
     }
@@ -267,18 +285,20 @@ public class CategoryController {
             try {
                 List<CardOverview> cards = categoryLogic.getCardsInCategory(category);
 
-                if (cards.isEmpty())
+                if (cards.isEmpty() && dataCallback != null)
                     dataCallback.callInfo(Locale.getCurrentLocale().getString("getcardincategoryempty"));
 
-                dataCallback.callSuccess(cards);
+                if(dataCallback != null)
+                    dataCallback.callSuccess(cards);
 
             } catch (IllegalStateException ex) { //übergebener Wert ist leer
                 log.error("Der übergebene Wert war leer");
-                dataCallback.callFailure(ex.getMessage());
+                if(dataCallback != null)
+                    dataCallback.callFailure(ex.getMessage());
             }  catch (final Exception ex) {
-                log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category
-                        , ex);
-                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
+                log.error("Beim Suchen nach Karten mit der Kategorie {} ist ein Fehler {} aufgetreten", category, ex);
+                if(dataCallback != null)
+                    dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
             }
         });
     }
@@ -296,18 +316,21 @@ public class CategoryController {
             {
                 List<CardOverview> cards = categoryLogic.getCardsInCategories(categories);
 
-                if (cards.isEmpty())
+                if (cards.isEmpty() && dataCallback != null)
                     dataCallback.callInfo(Locale.getCurrentLocale().getString("getcardsincategoriesempty"));
 
-                dataCallback.callSuccess(cards);
+                if(dataCallback != null)
+                    dataCallback.callSuccess(cards);
 
             } catch (IllegalStateException ex) { //null
                 log.error("Der übergebene Wert war leer");
-                dataCallback.callFailure(ex.getMessage());
+                if(dataCallback != null)
+                    dataCallback.callFailure(ex.getMessage());
             }  catch (final Exception ex) {
                 // wann wird von categoryLogic.getCardsInCategories() andere Exceptions als `IllegalStateException` geworfen?
                 log.error("Beim Suchen nach Karten mit Kategorien ist ein Fehler {} aufgetreten", ex);
-                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardsincategoryerror"));
+                if(dataCallback != null)
+                    dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardsincategoryerror"));
             }
         });
     }
@@ -327,11 +350,13 @@ public class CategoryController {
                 if (categoriesForCard.isEmpty())
                     log.info(Locale.getCurrentLocale().getString("getcategoriestocardempty"));
 
-                dataCallback.callSuccess(categoriesForCard);
+                if(dataCallback != null)
+                    dataCallback.callSuccess(categoriesForCard);
 
             } catch (final Exception ex) {
                 log.error("Beim Suchen nach Kategorien für die Karte {} ist ein Fehler {} aufgetreten", card, ex);
-                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcategoriestocarderror"));
+                if(dataCallback != null)
+                    dataCallback.callFailure(Locale.getCurrentLocale().getString("getcategoriestocarderror"));
             }
         });
     }
@@ -350,10 +375,12 @@ public class CategoryController {
                 if (categories.isEmpty())
                     log.info(Locale.getCurrentLocale().getString("getcatoriesempty"));
 
-                dataCallback.callSuccess(categories);
+                if(dataCallback != null)
+                    dataCallback.callSuccess(categories);
             } catch (Exception ex) {
                 log.error("Beim Suchen nach Kategorien  ist ein Fehler {} aufgetreten", ex);
-                dataCallback.callFailure(Locale.getCurrentLocale().getString("getcatorieserror"));
+                if(dataCallback != null)
+                    dataCallback.callFailure(Locale.getCurrentLocale().getString("getcatorieserror"));
             }
         });
     }
@@ -368,11 +395,16 @@ public class CategoryController {
     public void getRootCategories(DataCallback<Category> dataCallback)
     {
         threadPool.exec(() -> {
-            try { dataCallback.callSuccess(categoryLogic.getRootCategories()); }
+            try 
+            { 
+                if(dataCallback != null)
+                    dataCallback.callSuccess(categoryLogic.getRootCategories()); 
+            }
             catch (Exception ex) 
             {
                 log.error("Beim Suchen nach Root-Kategorien  ist ein Fehler {} aufgetreten", ex);
-                dataCallback.callFailure(Locale.getCurrentLocale().getString("getrootcategorieserror"));
+                if(dataCallback != null)
+                    dataCallback.callFailure(Locale.getCurrentLocale().getString("getrootcategorieserror"));
             }
         });
     }
@@ -388,15 +420,17 @@ public class CategoryController {
         threadPool.exec(() -> {
             try {
                 categoryLogic.removeCardsFromCategory(list, category);
-                singleDataCallback.callSuccess(true);
+                if(singleDataCallback != null)
+                    singleDataCallback.callSuccess(true);
             } catch (IllegalStateException ex) {
                 log.error("Null Variable gegeben");
-                singleDataCallback.onFailure(ex.getMessage());
+                if(singleDataCallback != null)
+                    singleDataCallback.onFailure(ex.getMessage());
             } catch (Exception ex) {
-                singleDataCallback.callFailure(Locale.getCurrentLocale().getString("TODO"));
+                if(singleDataCallback != null)
+                    singleDataCallback.callFailure(Locale.getCurrentLocale().getString("TODO"));
                 log.error(ex.getMessage());
             }
         });
     }
-
 }

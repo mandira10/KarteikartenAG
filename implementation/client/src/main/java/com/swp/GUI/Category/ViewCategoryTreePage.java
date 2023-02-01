@@ -235,7 +235,7 @@ public class ViewCategoryTreePage extends Page
             TreeNode node = new TreeNode(categories.get(i).getName(), parent == pRootNode);
             CategoryController.getInstance().getChildrenForCategory(category, new DataCallback<Category>() {
                 @Override public void onFailure(String msg) { 
-                    NotificationGUI.addNotification("Couldn't get children for category " + category.getName() + ": " + msg, NotificationType.ERROR, 5);
+                    NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);
                 }
                 @Override public void onInfo(String msg) {}
                 @Override public void onSuccess(List<Category> categories)

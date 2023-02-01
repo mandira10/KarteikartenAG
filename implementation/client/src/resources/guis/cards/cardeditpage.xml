@@ -2,20 +2,20 @@
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="form" size="95%, 80%" pos="2.5%, 10%">
         <text pos="10, 10" fontsize="30" locale-id="titlefield"></text>
-        <textfield id="titlefield" pos="150, 10" size="100%, 30" margin="-150, 0" fontsize="30" hint="(Optional)"></textfield>
+        <textfield id="titlefield" pos="200, 10" size="100%, 30" margin="-200, 0" fontsize="30" hint="(Optional)"></textfield>
 
         <text pos="10, 60" fontsize="30" locale-id="questionfield"></text>
-        <textfield id="questionfield" pos="150, 60" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
+        <textfield id="questionfield" pos="200, 60" size="100%, 30" margin="-200, 0" fontsize="30" hint=""></textfield>
 
         <gui id="canvas" size="100%, 100%" pos="0, 110" margin="0, -130">
 
         </gui>
 
         <text pos="10, 350" fontsize="30" locale-id="tagsfield"></text>
-        <gui id="tagslist" pos="150, 350" size="100%, 30" margin="-150, 0"></gui>
+        <gui id="tagslist" pos="200, 350" size="100%, 30" margin="-200, 0"></gui>
 
         <text pos="10, 500" fontsize="30" locale-id="categoriesfield"></text>
-        <textbox id="categorylist" fontsize="20" pos="150, 500" size="100%, 30" margin="-190, 0"></textbox>
+        <textbox id="categorylist" fontsize="20" pos="200, 500" size="100%, 30" margin="-240, 0"></textbox>
         <button title="" font="FontAwesome" fontsize="20" id="editcategoriesbutton" pos="100%, 500" size="30, 30" origin="30, 0"></button>
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">

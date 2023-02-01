@@ -115,6 +115,7 @@ public class EditCardPage extends Page
             return new Tag(name);
         });
         pTagList.setSizeInPercent(true, false);
+        pTagList.setLocaleID("cardtaglist");
         taglistcontainer.addGUI(pTagList);
 
         pCategoriesBox = (TextBox)findChildByID("categorylist");

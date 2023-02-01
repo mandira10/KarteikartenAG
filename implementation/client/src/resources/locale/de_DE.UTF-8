@@ -8,6 +8,7 @@ donebutton             = Fertig
 continuebutton         = Fortsetzen
 checkbutton            = Prüfen
 nextbutton             = Weiter
+pausebutton            = Pause
 
 # Sidebar
 sidebarlogin           = Login
@@ -24,7 +25,7 @@ answersfield           = Antworten:
 audiofield             = Audio:
 imagefield             = Bild:
 truefalsefield         = Wahr/Falsch:
-tagsfield              = Tags:
+tagsfield              = Schlagwörter:
 categoriesfield        = Kategorien:
 namefield              = Name:
 editstudysystemheading = Lernsystem einstellungen
@@ -37,6 +38,8 @@ remembermefield        = Remember me
 usernamefield          = Username
 passwordfield          = Passwort
 loginmessage           = Erfolgreich eingeloggt
+serverconnectionfailed = Verbindung mit dem angegebenen Server ist fehlgeschlagen
+serverstartfailed      = Konnte keinen lokalen H2 Server starten
 
 # Card
 addcardbutton          = Karte Hinzufügen
@@ -58,6 +61,7 @@ cardlistdecks          = Decks
 alphabeticalorder      = Alphabetisch
 numdeckorder           = Nr. Decks
 dateorder              = Datum
+cardtaglist            = Schlagwort hinzufügen
 
 # Category
 addcategorybutton      = Kategorie hinzufügen
@@ -77,7 +81,7 @@ adddeckbutton          = Deck hinzufügen
 starttestbutton        = Test starten
 editdeckbutton         = Deck bearbeiten
 deletedeckbutton       = Deck löschen
-removedeckbutton       = Karte(n) entfernen
+removecardsbutton      = Karte(n) entfernen
 exportdeckbutton       = Deck exportieren
 deckprogress           = Fortschritt
 deckentrycards         = Karten
@@ -122,6 +126,17 @@ testfinishpage         = Test beendet
 testdeckpage           = Deck Test
 viewdeckpage           = Deck anzeigen
 editreferencespage     = Referenzen bearbeiten
+
+# Confirmations
+confirmdeletecard      = Sind sie sicher, dass sie diese Karte löschen wollen?
+confirmdeletecards     = Sind sie sicher, dass sie $ Karten löschen wollen?
+confirmcategorydelete  = Sind sie sicher, dass sie diese Kategorie löschen wollen?
+confirmremovecardscat  = Sind sie sicher, dass sie $ Karten aus dieser Kategorie löschen wollen?
+confirmdeletecategories= Sind sie sicher, dass sie $ Kategorien löschen wollen?
+confirmaddtodeck       = Wollen sie ihre Karten zu dem Deck $ hinzufügen?
+confirmdeletedeck      = Sind sie sicher, dass sie dieses Deck löschen wollen?
+confirmremovecardsdeck = Sind sie sicher, dass sie $ Karten aus diesem Deck löschen wollen?
+confirmpause           = Wollen sie den Test pausieren?
 
 # Mandatory fields
 mandatorytitle         = Der Titel darf nicht leer sein
