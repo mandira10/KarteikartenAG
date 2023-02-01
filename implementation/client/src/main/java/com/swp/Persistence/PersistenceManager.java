@@ -21,7 +21,7 @@ public class PersistenceManager
         emFactory = Persistence.createEntityManagerFactory(PU_NAME);
     }
 
-    public EntityManager getEntityManager()
+    public static EntityManager getEntityManager()
     {
         return emFactory.createEntityManager();
     }
