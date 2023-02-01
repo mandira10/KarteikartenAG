@@ -63,7 +63,7 @@ public class CardToBoxRepository extends BaseRepository<BoxToCard> {
      */
     public List<BoxToCard> getAllB2CForStudySystem(StudySystem studySystem) {
         return getEntityManager()
-                .createNamedQuery("BoxToCard.allByStudySystem", BoxToCard.class)
+                .createNamedQuery("BoxToCard.allB2CByStudySystem", BoxToCard.class)
                 .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }

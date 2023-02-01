@@ -474,7 +474,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public void deleteStudySystem(StudySystem studySystem) { // Testet
         if(studySystem == null){
-            throw new IllegalStateException("Karte existiert nicht");
+            throw new IllegalStateException("TODO");
         }
         execTransactional(() -> {
             log.info("Lösche alle Card To Boxes zum StudySystem");
