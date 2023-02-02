@@ -5,6 +5,7 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.StudySystem.BoxToCard;
+import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.Persistence.CardRepository;
@@ -447,6 +448,11 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             } else if (oldStudySystem != null && !newStudySystem.getType().equals(oldStudySystem.getType())) {
                 resetStudySystem(oldStudySystem, newStudySystem);
             } else {
+                if(newStudySystem.getType().equals(StudySystem.StudySystemType.LEITNER)){
+                    LeitnerSystem system = (LeitnerSystem) newStudySystem;
+                    if(system.getDaysToRelearn().length != 5)
+                        system.resetStudySystemBoxes(system.getDaysToRelearn().length, system.getDaysToRelearn());
+                }
                 studySystemRepository.update(newStudySystem);
             }
             return true;
