@@ -1,7 +1,9 @@
 package com.swp.Persistence;
 
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.*;
+import com.swp.DataModel.Language.German;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
@@ -10,6 +12,7 @@ import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
 
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -19,7 +22,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StudySystemRepositoryTest {
-    
+
+    @BeforeAll
+    public static void before()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+        German.getInstance().activate();
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
+    }
+
+
     // Repositories die getestet werden
     private final StudySystemRepository studySystemRepository = StudySystemRepository.getInstance();
 
@@ -84,11 +96,11 @@ public class StudySystemRepositoryTest {
         new TimingSystem("Timing 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL, 1),
         new TimingSystem("Timing 4", StudySystem.CardOrder.RANDOM, 100),
         new TimingSystem("Timing 5", StudySystem.CardOrder.ALPHABETICAL, 5),
-        new VoteSystem("Vote 1", StudySystem.CardOrder.RANDOM),
-        new VoteSystem("Vote 2", StudySystem.CardOrder.ALPHABETICAL),
-        new VoteSystem("Vote 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL),
-        new VoteSystem("Vote 4", StudySystem.CardOrder.RANDOM),
-        new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL)
+        new VoteSystem("Vote 1", StudySystem.CardOrder.RANDOM,7),
+        new VoteSystem("Vote 2", StudySystem.CardOrder.ALPHABETICAL,7),
+        new VoteSystem("Vote 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL,5),
+        new VoteSystem("Vote 4", StudySystem.CardOrder.RANDOM,4),
+        new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL,2)
     );
 
         return exampleStudySystems2;

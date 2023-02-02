@@ -223,11 +223,11 @@ public class TestDataClass {
         studySystemController.updateStudySystemData(null, studySystem2, true, null);
         studySystemController.moveAllCardsForDeckToFirstBox(erdkundeL,studySystem2, null);
 
-        StudySystem studySystem3 = new VoteSystem("Technik", StudySystem.CardOrder.ALPHABETICAL);
+        StudySystem studySystem3 = new VoteSystem("Technik", StudySystem.CardOrder.ALPHABETICAL,7);
         studySystemController.updateStudySystemData(null, studySystem3, true, null);
         studySystemController.moveAllCardsForDeckToFirstBox(technikL,studySystem3, null);
 
-        StudySystem studySystem4 = new VoteSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL);
+        StudySystem studySystem4 = new VoteSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL,5);
         studySystemController.updateStudySystemData(null, studySystem4, true, null);
         studySystemController.moveAllCardsForDeckToFirstBox(zweitausender, studySystem4, null);
 

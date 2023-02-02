@@ -4,10 +4,14 @@ package com.swp.Logic.CardLogicTest;
 import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.Language.German;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;
+import com.swp.Persistence.PersistenceManager;
 import com.swp.Persistence.TagRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -35,28 +39,20 @@ public class FilterSearchTermsLogicTagTest {
     private Locale locale = new Locale("German", "de");
     private int i;
 
+    @BeforeAll
+    public static void before()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+        German.getInstance().activate();
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
+    }
+
     @BeforeEach
     public void beforeEach(){
         cardRepMock = mock(CardRepository.class);
         tagRepMock = mock(TagRepository.class);
         on(cardLogic).set("cardRepository",cardRepMock);
 
-        Locale.setCurrentLocale(locale);
-        String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
-
-        i = 0;
-        filecontent.lines().forEach((String line) -> {
-            i++;
-            if(line.replaceAll("\\s","").isEmpty() || line.charAt(0) == '#')
-                return;
-
-            String[] args = line.split("= ");
-            if(args.length < 1)
-                Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
-            String id = args[0].replaceAll("\\s","");
-            String value = args[1];
-            locale.setString(id, value);
-        });
     }
 
     @Test

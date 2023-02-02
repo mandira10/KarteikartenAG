@@ -16,6 +16,7 @@ import lombok.Setter;
 public class VoteSystem extends StudySystem
 {
 
+    private int stars;
     /**
      * Konstruktor der Klasse VoteSystem.
      * Initialisiert 2 Boxen für das VoteSystem, die dazu verwendet werden,
@@ -23,15 +24,16 @@ public class VoteSystem extends StudySystem
      * @param name: der Name des Systems
      * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
      */
-    public VoteSystem(String name, CardOrder cardOrder) {
+    public VoteSystem(String name, CardOrder cardOrder, int stars) {
         super(name, cardOrder, StudySystemType.VOTE);
         initStudySystemBoxes(2,new int[]{0,0});
+        this.stars = stars;
     }
 
 
     public VoteSystem() 
     {
-       this("", CardOrder.ALPHABETICAL);
+       this("", CardOrder.ALPHABETICAL,5);
     }
 
 

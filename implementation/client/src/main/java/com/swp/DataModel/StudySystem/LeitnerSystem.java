@@ -40,24 +40,6 @@ public class LeitnerSystem extends StudySystem
     public LeitnerSystem(String name, CardOrder cardOrder) {
         super(name, cardOrder, StudySystemType.LEITNER);
         initStudySystemBoxes(5, new int[]{0,1,3,7,14});
-        setCustom(false);
-    }
-
-
-    /**
-     * Konstruktor für ein custom Leitner System. Neben der Beschreibung wird hier auch noch die Anzahl der Boxen
-     * sowie die zugehörigen Lerntage festgelegt.
-     * @param name der Name des StudySystems
-     * @param cardOrder die initiale Lernreihenfolge
-     * @param boxes Die Anzahl der Boxen
-     * @param daysToRelearn die übergebenen Tage, wann gelernt werden soll
-     * @param description Die Beschreibung des Custom Systems
-     */
-    public LeitnerSystem(String name, CardOrder cardOrder, int boxes, int[] daysToRelearn, String description) {
-        super(name, cardOrder, StudySystemType.LEITNER);
-        initStudySystemBoxes(boxes,daysToRelearn);
-        setCustom(true);
-        setDescriptionOfCustom(description);
     }
 
     /**
@@ -65,6 +47,19 @@ public class LeitnerSystem extends StudySystem
      */
     public LeitnerSystem() {
         this("", CardOrder.ALPHABETICAL);
+    }
+
+    public void resetStudySystemBoxes(int size, int[] daysToRelearn){
+        if(size>5){
+            for(int i = 5; i < size; i++){
+                this.boxes.add(new StudySystemBox(this, daysToRelearn[i],i));
+            }
+        }
+        else {
+            for(int i = 4; i > size; i--){
+                this.boxes.remove(i);
+            }
+        }
     }
 
 }

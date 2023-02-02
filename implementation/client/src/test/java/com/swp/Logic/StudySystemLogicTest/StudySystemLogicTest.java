@@ -3,16 +3,21 @@ package com.swp.Logic.StudySystemLogicTest;
 import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
+import com.swp.DataModel.Language.German;
 import com.swp.DataModel.StudySystem.*;
 import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToBoxRepository;
+import com.swp.Persistence.PersistenceManager;
 import com.swp.Persistence.StudySystemRepository;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Timestamp;
@@ -28,6 +33,7 @@ import static org.mockito.Mockito.*;
 /**
  * Testet die Logik Funktionen
  */
+
 public class StudySystemLogicTest {
 
     private StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
@@ -35,7 +41,13 @@ public class StudySystemLogicTest {
     private CardRepository cardRepository;
     private CardToBoxRepository cardToBoxRepository;
     private List<Card> testingBoxMockCards ;
-
+    @BeforeAll
+    public static void before()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+        German.getInstance().activate();
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
+    }
 
 
     private Locale locale = new Locale("German", "de");

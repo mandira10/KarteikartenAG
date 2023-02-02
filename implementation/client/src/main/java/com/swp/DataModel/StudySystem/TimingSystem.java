@@ -28,7 +28,7 @@ public class TimingSystem extends StudySystem {
      * Initialisiert 2 Boxen für das TimingSystem, die dazu verwendet werden,
      * den Kartenfortschritt zu speichern.
      *
-     * @param name:      der Name des Systems
+     * @param name: der Name des Systems
      * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
      * @param timeLimit: Zeitlimit für jede Frage zu beantworten
      */
@@ -38,8 +38,13 @@ public class TimingSystem extends StudySystem {
         this.timeLimit = timeLimit;
     }
 
+    /**
+     * Leerer Konstruktor für das Initialiseren eines Standardlernsystems.
+     * Wird in der GUI aufgerufen. Übergibt standardmäßig 30 Sekunden als Timelimit, kann
+     * vom User angepasst werden.
+     */
     public TimingSystem() {
-        this("", CardOrder.ALPHABETICAL, 0);
+        this("", CardOrder.ALPHABETICAL, 30);
     }
 
 

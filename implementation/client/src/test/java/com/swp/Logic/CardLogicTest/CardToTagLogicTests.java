@@ -1,14 +1,18 @@
 package com.swp.Logic.CardLogicTest;
 
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.CardTypes.TextCard;
+import com.swp.DataModel.Language.German;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToTagRepository;
+import com.swp.Persistence.PersistenceManager;
 import com.swp.Persistence.TagRepository;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -30,7 +34,13 @@ public class CardToTagLogicTests {
     private CardToTagRepository cardToTagRepMock;
     private CardLogic cardLogic = CardLogic.getInstance();
 
-
+    @BeforeAll
+    public static void before()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+        German.getInstance().activate();
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
+    }
     @BeforeEach
     public void beforeEach(){
         cardRepMock = mock(CardRepository.class);

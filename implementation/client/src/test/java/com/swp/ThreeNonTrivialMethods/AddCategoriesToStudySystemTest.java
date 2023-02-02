@@ -10,6 +10,7 @@ import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Category;
+import com.swp.DataModel.Language.German;
 import com.swp.DataModel.StudySystem.*;
 import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Decks.DeckSelectPage;
@@ -131,7 +132,7 @@ public class AddCategoriesToStudySystemTest {
         card3 = new TrueFalseCard("Frage 3", false, "Titel 3");
 
         study1 = new LeitnerSystem("Study 1", StudySystem.CardOrder.ALPHABETICAL);
-        study2 = new VoteSystem("Study 2", StudySystem.CardOrder.ALPHABETICAL);
+        study2 = new VoteSystem("Study 2", StudySystem.CardOrder.ALPHABETICAL,1);
         study3 = new TimingSystem("Study 3", StudySystem.CardOrder.RANDOM, 10);
 
         boxToCard1 = new BoxToCard(card1, study1.getBoxes().get(0));
@@ -194,9 +195,13 @@ public class AddCategoriesToStudySystemTest {
     }
 
     @BeforeAll
-    public static void before(){
+    public static void before()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+        German.getInstance().activate();
         ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
+
 
     @Test
     @Disabled

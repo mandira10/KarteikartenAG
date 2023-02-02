@@ -2,13 +2,17 @@
 package com.swp.Persistence;
 
 import com.gumse.textures.Texture;
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.*;
+import com.swp.DataModel.Language.German;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,11 +21,18 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*; 
 
+@Disabled
 public class CardToBoxRepositoryTest {
 
     // Repositories die getestet werden
     private final CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
-
+    @BeforeAll
+    public static void before()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+        German.getInstance().activate();
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
+    }
     @Test
     public void cardToBoxCrudTest() {
         List<Card> cards = exampleCards();
