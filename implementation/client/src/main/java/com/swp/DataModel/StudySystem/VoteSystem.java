@@ -26,7 +26,6 @@ public class VoteSystem extends StudySystem
     public VoteSystem(String name, CardOrder cardOrder) {
         super(name, cardOrder, StudySystemType.VOTE);
         initStudySystemBoxes(2,new int[]{0,0});
-        setDescription();
     }
 
 
@@ -34,9 +33,5 @@ public class VoteSystem extends StudySystem
        this("",CardOrder.ALPHABETICAL);
     }
 
-    @Override
-    public void setDescription(){
-        description = Locale.getCurrentLocale().getString("descriptionVote");
-    }
 
 }

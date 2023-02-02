@@ -57,12 +57,6 @@ public abstract class StudySystem implements Serializable
      */
     protected double progress;
 
-    /**
-     * Beschreibung des Lernsystems und seiner Funktion.
-     * Wird im GUI verwendet, damit der Nutzer weiß,
-     * wie er lernt.
-     */
-    protected String description;
 
     /**
      * Gibt an, ob das Lernsystem bereits gelernt wurde,
@@ -206,5 +200,4 @@ public abstract class StudySystem implements Serializable
         return name.equals(studySystem.name);
     }
 
-    public void setDescription(){}
 }

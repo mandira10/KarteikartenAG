@@ -41,7 +41,6 @@ public class LeitnerSystem extends StudySystem
         super(name, cardOrder, StudySystemType.LEITNER);
         initStudySystemBoxes(5, new int[]{0,1,3,7,14});
         setCustom(false);
-        setDescription();
     }
 
 
@@ -66,15 +65,6 @@ public class LeitnerSystem extends StudySystem
      */
     public LeitnerSystem() {
         this("", CardOrder.ALPHABETICAL);
-    }
-
-
-    /**
-     * Setzt die Beschreibung des Systems.
-     */
-    @Override
-    public void setDescription(){
-        description = Locale.getCurrentLocale().getString("descriptionLeitner");
     }
 
 }

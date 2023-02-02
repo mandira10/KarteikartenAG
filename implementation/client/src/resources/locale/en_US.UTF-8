@@ -99,9 +99,9 @@ random                 = Random
 leitner                = Leitner
 timing                 = Timing
 voting                 = Voting
-leitnerdesc            = Leitner Description TODO
-votingdesc             = Voting Description TODO
-timingdesc             = Timing Description TODO
+leitnerdesc            = Leitner Description: In the Leitner system, you learn in five boxes that have the following repetition: Box 1 = keep learning until successful, Box 2 = every day , Box 3 = every 3 days,Box 4 = weekly, Box 5 = bi-weekly.At the beginning all cards are in box 1. Depending on whether the card is correct, it is moved to the next box or if it is wrong, it is moved to the box before. If you don't study for a few days, you will be presented with all the cards that are due again, so this can be also several boxes.
+timingdesc             = Timing Description: The TimingSystem measures the time you need for an answer, which determines when to repeat the question.
+votingdesc             = Voting Description: In VoteSystem you can give 1-5 stars for each question, 5 = very easy / 1 = very hard. The questions are submitted each time you learn based on the rating.
 
 # Search
 bycontentsearch        = By Content
@@ -207,11 +207,6 @@ multiplechoicecarderror = Indexes of correctAnswers has to be within valid range
 selfreferenceerror = Category to edit must not be self-referenced! Not added!
 getcateoriesbysearchtermserror = An error occured while fetching categories for the searchterm.
 getcateoriesbysearchtermsempty = No Categories were found for the searchterm.
-
-# Description StudySystems
-descriptionLeitner = In the Leitner system, you learn in five boxes that have the following repetition: Box 1 = keep learning until successful, Box 2 = every day , Box 3 = every 3 days,Box 4 = weekly, Box 5 = bi-weekly.At the beginning all cards are in box 1. Depending on whether the card is correct, it is moved to the next box or if it is wrong, it is moved to the box before. If you don't study for a few days, you will be presented with all the cards that are due again, so this can be also several boxes.
-descriptionTiming = The TimingSystem measures the time you need for an answer, which determines when to repeat the question.
-descriptionVote = In VoteSystem you can give 1-5 stars for each question, 5 = very easy / 1 = very hard. The questions are submitted each time you learn based on the rating.
 
 # StudySystem Exceptions
 movecardtospecificboxempty = Card not found.

@@ -606,22 +606,26 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public void resetLearnStatus(StudySystem studySystem) {
 
+        if (studySystem.getProgress() > 0) { //make sure action is needed
             execTransactional(() -> {
                 List<CardOverview> cardsToMoveBack = getAllCardsInStudySystemToReturn(studySystem);
-                for(Card c : cardRepository.getAllCardsForCardOverview(cardsToMoveBack)) {
-                    BoxToCard cardToBox = cardToBoxRepository.getSpecific(c,studySystem);
+                for (Card c : cardRepository.getAllCardsForCardOverview(cardsToMoveBack)) {
+                    BoxToCard cardToBox = cardToBoxRepository.getSpecific(c, studySystem);
                     cardToBox.setStatus(BoxToCard.CardStatus.NEW); //reset status
                     cardToBox.setRating(0); //reset rating
-                    moveCardToBox(cardToBox,0,studySystem);
+                    moveCardToBox(cardToBox, 0, studySystem);
                     cardToBoxRepository.update(cardToBox);
                 }
-                    studySystem.setProgress(0); //reset progress
-                    studySystem.setNotLearnedYet(true); //handle as new
-                    studySystemRepository.update(studySystem);
+                studySystem.setProgress(0); //reset progress
+                studySystem.setNotLearnedYet(true); //handle as new
+                studySystemRepository.update(studySystem);
 
                 return null;
             });
         }
-
+        else{
+            log.info("Kein Zurücksetzen notwendig, da Fortschritt 0 ist");
+        }
+    }
 }
 
