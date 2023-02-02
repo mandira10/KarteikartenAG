@@ -37,15 +37,15 @@ public class TestDataClass {
         Category spanischCategory = new Category("Spanisch");
         Category erdkundeCategory = new Category("Erdkunde");
 
+
+        for (Category category : new Category[]{randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory})
+            categoryController.updateCategoryData(category, true, false, null);
         categoryController.editCategoryHierarchy(schuleCategory, new ArrayList<Category>(), new ArrayList<Category>() {
             {
                 add(spanischCategory);
                 add(erdkundeCategory);
             }
         }, null);
-
-        for (Category category : new Category[]{randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory})
-            categoryController.updateCategoryData(category, true, false, null);
 
 
         List<Card> randomL = new ArrayList<>();

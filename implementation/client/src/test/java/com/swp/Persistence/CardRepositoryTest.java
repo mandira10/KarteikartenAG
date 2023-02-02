@@ -174,42 +174,50 @@ public class CardRepositoryTest
     // Hilfsfunktionen um einen Test-Datensatz an Instanzen zu haben
     public List<Card> exampleCards() {
         List<Card> exampleCards = new ArrayList<>();
-        Texture loadTex = new Texture();
-        loadTex.loadFile("/path/to/image.png", getClass());
-        //TODO Karten mit Inhalt füllen
+        byte[] img1 = new byte[]{(byte) 1024};
+        byte[] img2 = new byte[]{(byte) 4096};
+        byte[] img3 = new byte[]{(byte) 8192};
+        byte[] img4 = new byte[]{(byte) 16384};
+        byte[] img5 = new byte[]{(byte) 32768};
         Collections.addAll(exampleCards,
-                new AudioCard(),
-                new AudioCard(),
-                new AudioCard(),
-                new AudioCard(),
-                new AudioCard(),    
-                new ImageDescriptionCard("Sind das komische Fragen?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", new byte[loadTex.getData().remaining()]),
-                new ImageDescriptionCard(),
-                new ImageDescriptionCard(),
-                new ImageDescriptionCard(),
-                new ImageDescriptionCard(),
-                new ImageTestCard(),
-                new ImageTestCard(),
-                new ImageTestCard(),
-                new ImageTestCard(),
-                new ImageTestCard(),
-                new MultipleChoiceCard("Frage 1", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{0,3}, "Titel 1"),
-                new MultipleChoiceCard("Frage 2", new String[]{"Antwort A", "Antwort B", "Antwort C",            }, new int[]{1,2}, "Titel 2"),
-                new MultipleChoiceCard("Frage 3!", new String[]{"Eine ungewöhnlich lange Antwort A", "Antwort [B]"}, new int[]{1}, "Titel 3"),
-                new MultipleChoiceCard("Frage 2^2", new String[]{"SQL als Antwort...", "", "Antwort'); DROP TABLE Card"}, new int[]{1}, "Titel 4"),
-                new MultipleChoiceCard("Frage 0b0101", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{2,0}, "Titel 5"),
-                new TextCard("Frage", "Antwort", "Titel"),
-                new TextCard("Frage 2", "Antwort auf die Frage", "Titel XY"),
-                new TextCard(),
-                new TextCard(),
-                new TextCard(),
-                new TrueFalseCard(),
-                new TrueFalseCard(),
-                new TrueFalseCard(),
-                new TrueFalseCard(),
-                new TrueFalseCard()
+                new AudioCard(new byte[]{4}, "Audio 1", "Frage 1", "Antwort 1", false),
+                new AudioCard(new byte[]{10}, "Audio 2", "Frage 2", "Antwort 2", true),
+                new AudioCard(new byte[]{100}, "Audio 3", "Frage 3", "Antwort 3", false),
+                new AudioCard(new byte[]{0}, "Audio 4", "Frage 4", "Antwort 4", true),
+                new AudioCard(new byte[]{1}, "Audio 5", "Frage 5", "Antwort 5", false),
+                new ImageDescriptionCard("Bildbeschreibung 1?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", img1),
+                new ImageDescriptionCard("Bildbeschreibung 2?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", img2),
+                new ImageDescriptionCard("Bildbeschreibung 3?", new ImageDescriptionCardAnswer[]{
+                        new ImageDescriptionCardAnswer("Beschreibung 3", 0, 1)
+                }, "Titel der Karte", img3),
+                new ImageDescriptionCard("Bildbeschreibung 4?", new ImageDescriptionCardAnswer[]{
+                        new ImageDescriptionCardAnswer("Beschreibung 4", 1, 2),
+                        new ImageDescriptionCardAnswer("andere Beschreibung", 6, 1)
+                }, "Titel der Karte", img4),
+                new ImageDescriptionCard("Bildbeschreibung 5?", new ImageDescriptionCardAnswer[]{
+                        new ImageDescriptionCardAnswer("Beschreibung", 1, 3)
+                }, "Titel der Karte", img5),
+                new ImageTestCard("Image 1", "Antwort 1", img1, "Titel 1",false),
+                new ImageTestCard("Image 2", "Antwort 2", img2, "Titel 2",true),
+                new ImageTestCard("Image 3", "Antwort 3", img3, "Titel 3",false),
+                new ImageTestCard("Image 4", "Antwort 4",img4, "Titel 4",true),
+                new ImageTestCard("Image 5", "Antwort 5",img5, "Titel 5",false),
+                new MultipleChoiceCard("Multi 1", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{0,3}, "Titel 1"),
+                new MultipleChoiceCard("Multi 2", new String[]{"Antwort A", "Antwort B", "Antwort C",            }, new int[]{1,2}, "Titel 2"),
+                new MultipleChoiceCard("Multi 3!", new String[]{"Eine ungewöhnlich lange Antwort A", "Antwort [B]"}, new int[]{1}, "Titel 3"),
+                new MultipleChoiceCard("Multi 2^2", new String[]{"SQL als Antwort...", "", "Antwort'); DROP TABLE Card"}, new int[]{1}, "Titel 4"),
+                new MultipleChoiceCard("Multi 0b0101", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{2,0}, "Titel 5"),
+                new TextCard("Textfrage", "Antwort", "Titel"),
+                new TextCard("Textfrage 2", "Antwort auf 2", "Titel 2"),
+                new TextCard("Textfrage 3", "Antwort auf 3", "Titel 3"),
+                new TextCard("Textfrage 4", "Antwort auf 4", "Titel 4"),
+                new TextCard("Textfrage 5", "Antwort auf 5", "Titel 5"),
+                new TrueFalseCard("WahrFalsch 1", false, "Titel 1"),
+                new TrueFalseCard("WahrFalsch 2", true, "Titel 2"),
+                new TrueFalseCard("WahrFalsch 3", false, "Titel 3"),
+                new TrueFalseCard("WahrFalsch 4", true, "Titel 4"),
+                new TrueFalseCard("WahrFalsch 5", false, "Titel 5")
         );
-
         return exampleCards;
     }
 }

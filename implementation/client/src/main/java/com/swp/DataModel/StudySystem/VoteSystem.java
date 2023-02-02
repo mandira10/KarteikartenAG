@@ -29,6 +29,9 @@ public class VoteSystem extends StudySystem
         this.stars = stars;
     }
 
+    public VoteSystem(String name, CardOrder cardOrder) {
+        this(name, cardOrder,5);
+    }
 
     public VoteSystem() 
     {
