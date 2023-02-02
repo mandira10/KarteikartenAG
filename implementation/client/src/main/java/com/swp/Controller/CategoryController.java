@@ -238,7 +238,6 @@ public class CategoryController {
         });
     }
 
-//OVERVIEW
 
     /**
      * Nutzung für Display einzelner Karten im CardGUI
@@ -433,6 +432,13 @@ public class CategoryController {
             }
         });
     }
+
+    /**
+     * Wird verwendet, um Kategorien nach einem bestimmten Suchwort zu durchsuchen.
+     * Wird an die CategoryLogic weitergegeben.
+     * @param searchterm Der zu durchsuchende Suchterm
+     * @param callback wird verwendet, um mögliche Fehler abzufangen
+     */
 
     public void getCategoriesBySearchterm(String searchterm, DataCallback<Category> callback) {
         threadPool.exec(() -> {

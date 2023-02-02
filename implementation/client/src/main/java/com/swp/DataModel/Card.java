@@ -95,15 +95,15 @@ public abstract class Card implements Serializable
 
 
     /**
-     * Box, in der die Karte gespeichert ist.
+     * assigned Tags zur Karte
      */
-    //@ManyToOne
-    //@JoinColumn(name = "studySystembox_id")
-    //protected StudySystemBox box;
     @OneToMany(mappedBy = "card")
     @Cascade({CascadeType.ALL})
     protected List<CardToTag> assignedTags;
 
+    /**
+     * assigned Kategorien zur Karte
+     */
     @OneToMany(mappedBy = "card")
     @Cascade({CascadeType.ALL})
     protected List<CardToCategory> assignedCategories;
@@ -134,20 +134,6 @@ public abstract class Card implements Serializable
     }
 
 
-    /**
-     * Copy Konstruktor
-     */
-    /*public Card(Card other)
-    {
-        this.uuid     = other.getUuid();
-        this.title    = other.getTitle();
-        this.rating    = other.getRating();
-        this.references = other.getReferences();
-        this.creationDate = other.getCreationDate();
-        this.nextLearnedAt = other.getNextLearnedAt();
-        this.content = other.content;
-    }*/
-
     public void setContent(){}
 
     /**
@@ -176,10 +162,6 @@ public abstract class Card implements Serializable
      */
     public String getAnswerString() { return ""; }
 
-    //TODO raus
-    public List<Tag> getTagValues() {
-        return this.getAssignedTags().stream().map(CardToTag::getTag).toList();
-    }
 
     @Override
     public boolean equals(Object o) {

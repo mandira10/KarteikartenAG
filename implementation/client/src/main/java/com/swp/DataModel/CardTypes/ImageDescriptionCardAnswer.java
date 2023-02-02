@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Klasse für die ImageDescriptionCard.
+ */
 @Entity
 @Table
 @NoArgsConstructor

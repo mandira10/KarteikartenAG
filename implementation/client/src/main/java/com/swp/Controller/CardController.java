@@ -298,7 +298,6 @@ public class CardController {
         });
     }
 
-    //ZUSATZ
 
     /**
      * Wird aufgerufen, um ausgewählte Karten zu exportieren. Wird an die CardLogic weitergereicht.

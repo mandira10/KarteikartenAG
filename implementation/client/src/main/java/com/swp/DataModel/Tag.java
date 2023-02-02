@@ -17,7 +17,6 @@ import java.util.Objects;
 @Table
 @Getter
 @Setter
-//@NoArgsConstructor
 @NamedQuery(name = "Tag.findTagByName",
         query = "SELECT t FROM Tag t WHERE LOWER(t.val) LIKE LOWER(:text)")
 public class Tag implements Serializable
@@ -29,9 +28,6 @@ public class Tag implements Serializable
     @Column(name = "TAG_VALUE")
     private String val;
 
-    @OneToMany(mappedBy="tag")
-    @Cascade(CascadeType.DELETE)
-    private List<CardToTag> cards;
 
     /**
      * Konstruktor der Klasse Tag
@@ -42,6 +38,9 @@ public class Tag implements Serializable
         this.val = val;
     }
 
+    /**
+     * No Arg Konstruktor
+     */
     public Tag() {
         this.val = "NoArgConstructor-Tag?!";
     }

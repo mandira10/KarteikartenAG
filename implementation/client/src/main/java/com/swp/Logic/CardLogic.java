@@ -54,7 +54,7 @@ public class CardLogic extends BaseLogic<Card>
 
 
     /**
-     * Wird in der CardOverviewPage verwendet, um die einzelnen Karten für die Seitenauswahl mitsamt Titel (wenn nicht vorhanden dann die Frage), Typ,
+     * Wird verwendet, um die einzelnen Karten für die Seitenauswahl mitsamt Titel (wenn nicht vorhanden dann die Frage), Typ,
      * Anzahl der Decks und ihrem Erstellzeitpunkt anzuzeigen. Gibt die Methode an das CardRepository weiter.
      * @param begin: Seitenauswahl Anfangswert
      * @param end: Seitenauswahl Endwert
@@ -63,6 +63,17 @@ public class CardLogic extends BaseLogic<Card>
     public List<CardOverview> getCardOverview(int begin, int end) {
         return execTransactional(() -> cardRepository.getCardOverview(begin, end));
     }
+
+    /**
+     * Wird in der CardOverviewPage verwendet, um die einzelnen Karten für die Seitenauswahl mitsamt Titel (wenn nicht vorhanden dann die Frage), Typ,
+     * Anzahl der Decks und ihrem Erstellzeitpunkt anzuzeigen. Gibt die Methode an das CardRepository weiter.
+     *
+     * @param begin Seitenauswahl Anfangswert
+     * @param end: Seitenauswahl Endwert
+     * @param iOrder: Parameter der zum Sortieren verwendet werden soll
+     * @param bReverseOrder: Gibt Sortierung an
+     * @return anzuzeigende Karten
+     */
 
     public List<CardOverview> getCardOverview(int begin, int end, ListOrder.Order iOrder, boolean bReverseOrder) {
         return execTransactional(() -> {
@@ -100,8 +111,6 @@ public class CardLogic extends BaseLogic<Card>
     public List<CardOverview> getCardsByTag(String tagName) {
         checkNotNullOrBlank(tagName, "Tag",true);
         return execTransactional(() -> cardRepository.findCardsByTag(tagName));
-        //return execTransactional(() -> cardRepository.findCardsByTag(
-        //        tagRepository.findTag(tagName)));
     }
 
     /**
@@ -299,7 +308,6 @@ public class CardLogic extends BaseLogic<Card>
      */
     public boolean exportCards(List<CardOverview> cards, String destination, ExportFileType filetype) 
     {
-        //TODO
         List<Card> cardlist = new ArrayList<>();
         for(CardOverview ov : cards)
             cardlist.add(getCardByUUID(ov.getUUUID()));

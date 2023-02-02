@@ -38,7 +38,6 @@ public class Category implements Serializable
      * UUID der Kategorie
      */
     @Id
-    //@GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "CATEGORY_ID")
     @Setter(AccessLevel.NONE)
     private final String uuid;

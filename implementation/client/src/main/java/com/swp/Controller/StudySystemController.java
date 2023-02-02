@@ -192,8 +192,7 @@ public class StudySystemController {
      *
      * @param studySystem        Das StudySystem, das benötigt wird.
      * @param singleDataCallback wird verwendet, um mögliche Fehler abzufangen.
-     *                           //TODO  javadoc, ich würde sagen wir brauchen hier die Box noch, damit wir wissen, woraus wir die nächste Karte ziehen
-     */
+       */
     public void getNextCard(StudySystem studySystem, SingleDataCallback<Card> singleDataCallback) {
         threadPool.exec(() -> {
             try {

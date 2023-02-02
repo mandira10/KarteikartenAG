@@ -41,7 +41,6 @@ public class CardToTag implements Serializable
      * Karte-zu-Tag Verbindung.
      */
     @Id
-    //@GeneratedValue
     protected final String id;
 
     /**

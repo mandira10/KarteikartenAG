@@ -79,16 +79,6 @@ public class CategoryLogic extends BaseLogic<Category> {
 
 
     /**
-     * Gibt für eine einzelne Kategorie die Anzahl ihrer Karten wieder. Weitergabe getCardsInCategory.
-     *
-     * @param category Die Kategorie für die die Anzahl abgerufen werden soll
-     * @return Anzahl der Karten als int-Wert
-     */
-    public int numCardsInCategory(Category category) {
-        return getCardsInCategory(category).size();
-    }
-
-    /**
      * Updated/Saved eine einzelne Kategorie mit ihren Daten. Nach Aufschlüsselung erfolgt Weitergabe ans Repository.
      *
      * @param category Die upzudatende Kategorie
@@ -158,17 +148,6 @@ public class CategoryLogic extends BaseLogic<Category> {
         }
     }
 
-    /**
-     * Löscht einzelne CardToCategories.
-     *
-     * @param c2d Die zu löschende Instanz
-     */
-    public void deleteCardToCategory(CardToCategory c2d) {
-        execTransactional(() -> {
-            cardToCategoryRepository.delete(c2d);
-            return true;
-        });
-    }
 
     /**
      * Sucht für eine Kategoriebezeichnung die zugehörigen Karten. Prüft zunächst, ob der String null ist

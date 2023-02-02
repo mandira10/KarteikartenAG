@@ -92,7 +92,7 @@ public class BoxToCard {
     private final Card card;
 
     /**
-     * Zugehörige Box der Karte, kann angepasst werden.
+     * Zugehörige Box der Karte, kann gewechselt werden
      */
     @ManyToOne
     @JoinColumn(name = "studySystemBox_id")
