@@ -107,11 +107,11 @@ public class CategoryController extends Controller
     {
         String categoriesstr = categories != null ? categories.toString() : "";
         callLogicFuncInThread(
-            () -> { categoryLogic.deleteCategories(categories); return true; }, 
-            "", 
-            "", 
+            () -> { categoryLogic.deleteCategories(categories); return true; },
+            "",
+            "",
             "deletecategorieserror",
-            "Beim Löschen den Kategorien "+categoriesstr+" ist ein Fehler $ aufgetreten", 
+            "Beim Löschen den Kategorien "+categoriesstr+" ist ein Fehler $ aufgetreten",
             callback);
     }
 
@@ -274,11 +274,11 @@ public class CategoryController extends Controller
     public void getCategories(DataCallback<Category> callback) 
     {
         callLogicFuncInThread(
-            () -> { return categoryLogic.getCategories(); }, 
-            "getcatoriesempty", 
-            "", 
+            categoryLogic::getCategories,
+            "getcatoriesempty",
+            "",
             "getcatorieserror",
-            "Beim holen von Kategorien ist ein Fehler $ aufgetreten", 
+            "Beim holen von Kategorien ist ein Fehler $ aufgetreten",
             callback);
     }
 
@@ -287,17 +287,17 @@ public class CategoryController extends Controller
      * Wird weitergegeben an die CategoryLogic.
      * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
      *
-     * @param bReverseOrder
+     * @param bReverseOrder sortiert die Rückgabe entsprechend (true/desc und false/asc)
      * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
      */
     public void getRootCategories(boolean bReverseOrder, DataCallback<Category> callback)
     {
         callLogicFuncInThread(
             () -> { return categoryLogic.getRootCategories(bReverseOrder); }, 
-            "", 
-            "", 
+            "",
+            "",
             "getrootcategorieserror",
-            "Beim holen der Root-Kategorien ist ein Fehler $ aufgetreten", 
+            "Beim holen der Root-Kategorien ist ein Fehler $ aufgetreten",
             callback);
     }
 
