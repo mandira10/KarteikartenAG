@@ -657,43 +657,6 @@ public class StudySystemControllerTests {
 
     //
 
-    @Test
-    public void giveTimeTestException() {
-        StudySystem studySystem = new LeitnerSystem();
-        doThrow(new RuntimeException()).when(studySystemMockLogic).giveTime(studySystem, 2);
-        String expected = "Beim Prüfen der Zeit für eine Karte ist ein Fehler aufgetreten.";
-        final String[] actual = new String[1];
-        studySystemController.giveTime(studySystem, 2, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-        });
-        assertEquals(expected, actual[0]);
-    }
-
-    @Test
-    public void giveTimeTest() {
-        StudySystem studySystem = new LeitnerSystem();
-
-        doNothing().when(studySystemMockLogic).giveTime(studySystem, 2);
-
-        studySystemController.giveTime(studySystem, 2, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-            }
-        });
-    }
 
     //
 

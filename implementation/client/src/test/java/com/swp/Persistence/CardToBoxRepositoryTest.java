@@ -6,6 +6,7 @@ import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.StudySystem.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
