@@ -329,7 +329,7 @@ public class CategoryController {
                 // wann wird von categoryLogic.getCardsInCategories() andere Exceptions als `IllegalStateException` geworfen?
                 log.error("Beim Suchen nach Karten mit Kategorien ist ein Fehler {} aufgetreten", ex);
                 if(dataCallback != null)
-                    dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardsincategoryerror"));
+                    dataCallback.callFailure(Locale.getCurrentLocale().getString("getcardsincategorieserror"));
             }
         });
     }
