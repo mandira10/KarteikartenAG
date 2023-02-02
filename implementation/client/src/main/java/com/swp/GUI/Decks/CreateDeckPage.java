@@ -1,5 +1,6 @@
 package com.swp.GUI.Decks;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -30,14 +31,17 @@ public class CreateDeckPage extends Page
         submitButton.onClick(new GUICallback() {
             @Override public void run(RenderGUI gui) 
             {
-                Output.info(typeDropdown.getTitle());
-                switch(typeDropdown.getTitle())
-                {
-                    case "Leitner": ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(new LeitnerSystem(), true); break;
-                    case "Timing":  ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(new TimingSystem(), true);  break;
-                    case "Voting":  ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(new VoteSystem(), true);    break;
-                    default:        NotificationGUI.addNotification("Please specify a decktype", NotificationType.INFO, 5);    break;
-                }
+                String str = typeDropdown.getTitle();
+
+                if(str.equals(Locale.getCurrentLocale().getString("leitner")))
+                    ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(new LeitnerSystem(), true);
+                else if(str.equals(Locale.getCurrentLocale().getString("voting")))
+                    ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(new VoteSystem(), true);   
+                else if(str.equals(Locale.getCurrentLocale().getString("timing")))
+                    ((EditDeckPage)PageManager.viewPage(PAGES.DECK_EDIT)).editDeck(new TimingSystem(), true); 
+                else
+                    NotificationGUI.addNotification("Please specify a decktype", NotificationType.INFO, 5);
+
             }
         });
 

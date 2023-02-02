@@ -90,6 +90,7 @@ decksearch             = Search Deck
 wascorrectbutton       = Answer was correct
 timelimitfield         = Timelimit (Sec.)
 leitnerboxesfield      = Number of Boxes
+leitnerdaysfield       = Relearn after n days
 votingfield            = Number of Stars
 resetdeckbutton        = Reset Progress
 alphabetical           = Alphabetical
