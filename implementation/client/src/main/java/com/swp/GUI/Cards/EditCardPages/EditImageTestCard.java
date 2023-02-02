@@ -60,16 +60,16 @@ public class EditImageTestCard extends EditCardGUI
 
         if(filepath != null && !filepath.equals(""))
         {
-            Texture loadTex = new Texture();
-            if(loadTex.loadFile(filepath, getClass()))
+            if(pCard.loadImageFile(filepath))
             {
+                Texture loadTex = new Texture();
+                loadTex.loadMemory(pCard.getImage());
+
                 pImageButton.getBox().setTexture(loadTex);
                 float aspect = (float)loadTex.getSize().x / (float)loadTex.getSize().y;
                 int size = pImageButton.getSize().y;
                 pImageButton.setSize(new ivec2((int)(size * aspect), size));
             }
-
-            pCard.setImage(new byte[loadTex.getData().remaining()]);
         }
     }
 
@@ -83,6 +83,12 @@ public class EditImageTestCard extends EditCardGUI
         }
         
         this.pCard = (ImageTestCard)card;
+        if(pCard.getImage() != null)
+        {
+            Texture loadTex = new Texture();
+            loadTex.loadMemory(pCard.getImage());
+            pImageButton.getBox().setTexture(loadTex);
+        }
         pAnswerField.setString(pCard.getAnswer());
     }
 

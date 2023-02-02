@@ -123,7 +123,8 @@ public class CardTypesRenderer
         imageBox.setSizeInPercent(false, true);
 
         Texture tex = new Texture();
-        tex.loadMemory(ByteBuffer.wrap(card.getImage()));
+        if(card.getImage() != null)
+            tex.loadMemory(card.getImage());
         imageBox.setTexture(tex);
         imageBox.setColor(new vec4(1, 1, 1, 1));
         imageBox.invertTexcoordY(true);
@@ -139,7 +140,8 @@ public class CardTypesRenderer
         imageBox.setSizeInPercent(false, true);
 
         Texture tex = new Texture();
-        tex.load(card.getImage().toString(), CardTypesRenderer.class);
+        if(card.getImage() != null)
+            tex.loadMemory(card.getImage());
         imageBox.setTexture(tex);
         imageBox.setColor(new vec4(1, 1, 1, 1));
         imageBox.invertTexcoordY(true);

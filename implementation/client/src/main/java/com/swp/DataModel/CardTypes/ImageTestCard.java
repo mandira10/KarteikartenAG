@@ -1,5 +1,10 @@
 package com.swp.DataModel.CardTypes;
 
+import java.nio.ByteBuffer;
+
+import org.lwjgl.system.MemoryUtil;
+
+import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -82,6 +87,19 @@ public class ImageTestCard extends Card
      */
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public boolean loadImageFile(String filepath)
+    {
+        ByteBuffer imageBuffer = Toolbox.loadFileToByteBuffer(filepath, getClass());  
+        if(imageBuffer == null)
+            return false;    
+
+        image = new byte[imageBuffer.remaining()];
+        imageBuffer.get(image);
+        MemoryUtil.memFree(imageBuffer);
+
+        return true;
     }
 
     /**

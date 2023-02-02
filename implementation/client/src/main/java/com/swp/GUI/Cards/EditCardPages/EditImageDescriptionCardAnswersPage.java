@@ -1,6 +1,7 @@
 package com.swp.GUI.Cards.EditCardPages;
 
-import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
@@ -11,7 +12,6 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.textures.Texture;
-import com.gumse.tools.Output;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.GUI.Page;
@@ -24,6 +24,7 @@ public class EditImageDescriptionCardAnswersPage extends Page
     private Box pImageBox;
     private Scroller pContextScroller;
     private Button pAddEntryButton;
+    private ImageDescriptionCard pCard;
 
     public EditImageDescriptionCardAnswersPage()
     {
@@ -36,7 +37,7 @@ public class EditImageDescriptionCardAnswersPage extends Page
         pImageBox.invertTexcoordY(true);
         pContextScroller = (Scroller)findChildByID("canvas");
         
-        creatAddButton();
+        createAddButton();
 
         Button applyButton = (Button)findChildByID("applybutton");
         applyButton.onClick(new GUICallback() {
@@ -63,16 +64,17 @@ public class EditImageDescriptionCardAnswersPage extends Page
     {
         pContextScroller.destroyChildren();
         pImageBox.destroyChildren();
+        pCard = card;
 
-        if(!card.getImage().equals(""))
+        if(card.getImage() != null)
         {
             Texture tex = new Texture();
-            tex.loadMemory(ByteBuffer.wrap(card.getImage()));
+            tex.loadMemory(card.getImage());
             pImageBox.setTexture(tex);
             pImageBox.setColor(new vec4(1, 1, 1, 1));
         }
 
-        creatAddButton();
+        createAddButton();
         for(ImageDescriptionCardAnswer answer : card.getAnswers())
         {
             addEntry(answer.answertext, new ivec2(answer.xpos, answer.ypos));
@@ -94,7 +96,7 @@ public class EditImageDescriptionCardAnswersPage extends Page
         pAddEntryButton.setPosition(new ivec2(100, i * 40));
     }
 
-    private void creatAddButton()
+    private void createAddButton()
     {
         pAddEntryButton = new Button(new ivec2(100, 40), new ivec2(30), "+", FontManager.getInstance().getDefaultFont());
         pAddEntryButton.setPositionInPercent(true, false);
@@ -127,13 +129,20 @@ public class EditImageDescriptionCardAnswersPage extends Page
 
     private void applyChanges()
     {
+        List<ImageDescriptionCardAnswer> answers = new ArrayList<>();
         for(RenderGUI child : pContextScroller.getChildren())
         {
             if(child.getType().equals("EditImageDescriptionCardAnswerEntry"))
             {
                 EditImageDescriptionCardAnswerEntry entry = (EditImageDescriptionCardAnswerEntry)child;
-                Output.info(entry.getAnswerString() + " " + entry.getIndexBox().getUserDefinedPosition().toString());
+                answers.add(new ImageDescriptionCardAnswer(entry.getAnswerString(), entry.getIndexBox().getUserDefinedPosition().x, entry.getIndexBox().getUserDefinedPosition().y));
             }
         }
+
+        ImageDescriptionCardAnswer ansarr[] = new ImageDescriptionCardAnswer[answers.size()];
+        answers.toArray(ansarr);
+        pCard.setAnswers(ansarr);
+
+        PageManager.viewPage(PAGES.CARD_EDIT);
     }
 }

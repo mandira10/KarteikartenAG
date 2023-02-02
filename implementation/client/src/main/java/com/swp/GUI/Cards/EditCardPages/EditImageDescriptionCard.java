@@ -1,7 +1,5 @@
 package com.swp.GUI.Cards.EditCardPages;
 
-import java.nio.ByteBuffer;
-
 import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -29,23 +27,14 @@ public class EditImageDescriptionCard extends EditCardGUI
         addGUI(XMLGUI.loadFile("guis/cards/edit/editimagedesccardpage.xml"));
 
         pImageButton = (Button)findChildByID("imagebox");
-
         pImageButton.getBox().getBox().invertTexcoordY(true);
-        pImageButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                selectImageFile();
-            }
-        });
+        pImageButton.onClick((RenderGUI gui) -> { selectImageFile(); });
 
         pAnswersButton = (Button)findChildByID("answersbutton");
-        pAnswersButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                EditImageDescriptionCardAnswersPage page = (EditImageDescriptionCardAnswersPage)PageManager.getPage(PAGES.CARD_IMAGE_ANSWERS);
-                page.setCard(pCard);
-                PageManager.viewPage(PAGES.CARD_IMAGE_ANSWERS);
-            }
+        pAnswersButton.onClick((RenderGUI gui) -> {
+            EditImageDescriptionCardAnswersPage page = (EditImageDescriptionCardAnswersPage)PageManager.getPage(PAGES.CARD_IMAGE_ANSWERS);
+            page.setCard(pCard);
+            PageManager.viewPage(PAGES.CARD_IMAGE_ANSWERS);
         });
 
         
@@ -60,18 +49,16 @@ public class EditImageDescriptionCard extends EditCardGUI
 
         if(filepath != null && !filepath.equals(""))
         {
-            Texture loadTex = new Texture();
-            if(loadTex.loadFile(filepath, getClass()))
+            if(pCard.loadImageFile(filepath))
             {
+                Texture loadTex = new Texture();
+                loadTex.loadMemory(pCard.getImage());
+
                 pImageButton.getBox().setTexture(loadTex);
                 float aspect = (float)loadTex.getSize().x / (float)loadTex.getSize().y;
                 int size = pImageButton.getSize().y;
                 pImageButton.setSize(new ivec2((int)(size * aspect), size));
             }
-
-            // pCard.loadTex.getData();
-            pCard.setImage(new byte[loadTex.getData().remaining()]);
-
         }
     }
 
@@ -88,9 +75,8 @@ public class EditImageDescriptionCard extends EditCardGUI
         if(pCard.getImage() != null)
         {
             Texture tex = new Texture();
-            tex.loadMemory(ByteBuffer.wrap(pCard.getImage()));
+            tex.loadMemory(pCard.getImage());
             pImageButton.getBox().setTexture(tex);
-            //pImageButton.getBox().setColor(new vec4(1, 1, 1, 1));
         }
     }
 

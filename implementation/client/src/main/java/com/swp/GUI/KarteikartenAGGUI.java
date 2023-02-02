@@ -1,21 +1,11 @@
 package com.swp.GUI;
 
-import java.util.ArrayList;
-
 import com.gumse.gui.GUI;
 import com.gumse.gui.Theme;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.*;
-import com.gumse.textures.Texture;
 import com.swp.DataModel.Settings.Setting;
-import com.swp.DataModel.CardTypes.ImageDescriptionCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
-import com.swp.Controller.CardController;
-import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Settings;
-import com.swp.GUI.PageManager.PAGES;
-import com.swp.Persistence.Exporter.ExportFileType;
-import com.swp.GUI.Cards.ViewSingleCardPage;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
 
@@ -52,42 +42,12 @@ public class KarteikartenAGGUI extends RenderGUI
             GUI.setTheme(pLightTheme);
         updateTheme();
 
-        ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
-            new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),
-            new ImageDescriptionCardAnswer("Orange",       61, 26),
-            new ImageDescriptionCardAnswer("Nase",         40, 67),
-            new ImageDescriptionCardAnswer("Hand",         82, 58),
-            new ImageDescriptionCardAnswer("Fuß",          62, 89),
-        };
-        Texture loadTex = new Texture();
-        loadTex.loadFile("textures/orange-ket.png", getClass());
-        ImageDescriptionCard card = new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", new byte[loadTex.getData().remaining()]); 
-
-        //EditCardPage page = (EditCardPage)PageManager.getPage(PAGES.CARD_EDIT);
-        //page.editCard(card);
-        //PageManager.viewPage(PAGES.CARD_EDIT);
-
-        ViewSingleCardPage page = (ViewSingleCardPage)PageManager.getPage(PAGES.CARD_SINGLEVIEW);
-        page.setCard(card, PAGES.CARD_OVERVIEW);
-        
-        /*((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
-
-        PageManager.viewPage(PAGES.CATEGORY_OVERVIEW);*/
-
 
         pConfirmations = ConfirmationGUI.getInstance();
         addElement(pConfirmations);
         
         pNotifications = NotificationGUI.getInstance();
         addElement(pNotifications);
-
-
-        //NotificationGUI.addNotification("Info Message with a little more text test test test test test test test", NotificationType.INFO, 5);
-        //NotificationGUI.addNotification("Warning Message", NotificationType.WARNING, 10);
-        //NotificationGUI.addNotification("Error Message", NotificationType.ERROR, 5);
-        //NotificationGUI.addNotification("Critical Error Message", NotificationType.CRITICAL, 5);
-        //NotificationGUI.addNotification("Debug Message", NotificationType.DEBUG, 3);
-        //NotificationGUI.addNotification("Some Connection Message/Error", NotificationType.CONNECTION, 3);
 
         pSidebar = new Sidebar();
         pSidebar.setSize(new ivec2(60, 100));

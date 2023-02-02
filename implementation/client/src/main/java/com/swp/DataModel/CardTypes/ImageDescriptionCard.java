@@ -1,13 +1,16 @@
 package com.swp.DataModel.CardTypes;
 
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.lwjgl.system.MemoryUtil;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs ImageDescriptionCard
@@ -26,7 +29,7 @@ public class ImageDescriptionCard extends Card
      */
     @Lob
     @Column
-    private byte[] image; //Not optimal
+    private byte[] image;
 
     //@Column
     //private String image; 
@@ -90,6 +93,19 @@ public class ImageDescriptionCard extends Card
         }
 
         return retstr;
+    }
+
+    public boolean loadImageFile(String filepath)
+    {
+        ByteBuffer imageBuffer = Toolbox.loadFileToByteBuffer(filepath, getClass());  
+        if(imageBuffer == null)
+            return false;    
+
+        image = new byte[imageBuffer.remaining()];
+        imageBuffer.get(image);
+        MemoryUtil.memFree(imageBuffer);
+
+        return true;
     }
 
     @Override
