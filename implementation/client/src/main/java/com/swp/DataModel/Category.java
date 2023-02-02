@@ -25,7 +25,7 @@ import java.util.UUID;
 @NamedQuery(name = "Category.findByUUID",
         query = "SELECT ca FROM Category ca WHERE ca.uuid = :uuid")
 @NamedQuery(name  = "Category.findCategoriesByContent",
-        query = "SELECT ca FROM Category ca WHERE LOWER(ca.name) LIKE LOWER(:name)")
+        query = "SELECT ca FROM Category ca WHERE LOWER(ca.name) LIKE LOWER(:content)")
 public class Category implements Serializable
 {
     /**

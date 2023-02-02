@@ -85,4 +85,8 @@ public class StudySystemBox implements Serializable
     public StudySystemBox() {
         this.id = UUID.randomUUID().toString();
     }
+
+    public Object getUuid() {
+        return null;
+    }
 }
