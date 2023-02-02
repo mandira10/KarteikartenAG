@@ -500,11 +500,11 @@ public class CrudTest {
                 new TimingSystem("Timing 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL, 1),
                 new TimingSystem("Timing 4", StudySystem.CardOrder.RANDOM, 100),
                 new TimingSystem("Timing 5", StudySystem.CardOrder.ALPHABETICAL, 5),
-                new VoteSystem("Vote 1", StudySystem.CardOrder.RANDOM),
-                new VoteSystem("Vote 2", StudySystem.CardOrder.ALPHABETICAL),
-                new VoteSystem("Vote 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL),
-                new VoteSystem("Vote 4", StudySystem.CardOrder.RANDOM),
-                new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL)
+                new VoteSystem("Vote 1", StudySystem.CardOrder.RANDOM,5),
+                new VoteSystem("Vote 2", StudySystem.CardOrder.ALPHABETICAL,5),
+                new VoteSystem("Vote 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL,5),
+                new VoteSystem("Vote 4", StudySystem.CardOrder.RANDOM,5),
+                new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL,5)
         );
 
         return exampleStudySystems;
