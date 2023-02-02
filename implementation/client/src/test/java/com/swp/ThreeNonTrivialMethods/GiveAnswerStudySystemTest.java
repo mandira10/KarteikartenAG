@@ -70,13 +70,9 @@ public class GiveAnswerStudySystemTest {
         cardRepository.getAllCardsSortedForVoteSystem
         */
 
-    private Locale locale = new Locale("German", "de");
-    private int i;
-
     StudySystemController studySystemController;
     StudySystemLogic studySystemLogic;
     CardLogic cardLogic;
-    StudySystemLogic studysystemMock;
     CardToBoxRepository cardToBoxRepository;
     CardToBoxRepository cardToBoxMockRepo  = mock(CardToBoxRepository.class);
     CardRepository cardRepository;

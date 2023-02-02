@@ -167,7 +167,7 @@ public class CardToBoxRepositoryTest {
         Collections.addAll(exampleStudy,
                 new LeitnerSystem("Leitner 1", StudySystem.CardOrder.ALPHABETICAL),
                 new TimingSystem("Timing 2", StudySystem.CardOrder.ALPHABETICAL, 30),
-                new VoteSystem("Vote 3", StudySystem.CardOrder.RANDOM)
+                new VoteSystem("Vote 3", StudySystem.CardOrder.RANDOM,5)
             );
         return exampleStudy;
     }

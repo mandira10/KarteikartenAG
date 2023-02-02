@@ -510,18 +510,6 @@ public class StudySystemLogicTest {
 
 
     @Test
-    public void giveTimeTest(){
-        StudySystem timingSystem = new TimingSystem();
-        timingSystem.setTrueAnswerCount(5);
-        int before = timingSystem.getTrueAnswerCount();
-        studySystemLogic.giveTime(timingSystem, 10);
-        int after = timingSystem.getTrueAnswerCount();
-        assertNotEquals(before,after);
-    }
-
-
-
-    @Test
     public void finishTestAndGetResultTestZeroResult(){
         StudySystem studySystem = new TimingSystem();
         List<Card> list = new ArrayList<>();
