@@ -191,15 +191,6 @@ public class TestDeckPage extends Page
                 pRatingGUI.hide(false);
                 break;
 
-            case TIMING:
-                studySystemController.giveTime(pDeck, ((int) fElapsedSeconds), new SingleDataCallback<Boolean>() {
-                    @Override public void onSuccess(Boolean data) {}
-                    @Override public void onFailure(String msg) {
-                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
-                    }
-                });
-                break;
-
             default:
                 break;
         }

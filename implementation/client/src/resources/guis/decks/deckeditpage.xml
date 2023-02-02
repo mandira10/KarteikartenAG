@@ -4,13 +4,8 @@
         <text pos="10, 10" fontsize="30" locale-id="titlefield"></text>
         <textfield id="titlefield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
 
-        <gui id="leitnersettings" size="100%, 50%" pos="0, 200">
-            <text pos="10, 10" fontsize="30" locale-id="leitnerboxesfield"></text>
-            <textfield id="leitnerboxesfield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
-
-            <text pos="10, 50" fontsize="30" locale-id="leitnerdaysfield"></text>
-            <textfield id="leitnerdaysfield" pos="300, 50" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
-        </gui>
+        <scroller id="leitnersettings" size="100%, 50%" pos="0, 200">
+        </scroller>
 
         <gui id="votingsettings" size="100%, 50%" pos="0, 200">
             <text pos="10, 10" fontsize="30" locale-id="votingfield"></text>

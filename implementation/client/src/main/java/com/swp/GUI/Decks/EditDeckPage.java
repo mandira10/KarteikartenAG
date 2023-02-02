@@ -3,13 +3,16 @@ package com.swp.GUI.Decks;
 import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
+import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
+import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Output;
+import com.gumse.tools.Toolbox;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
@@ -22,6 +25,8 @@ import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.GUI.Cards.EditCardPages.EditMultipleChoiceCardAnswerEntry;
+import com.swp.GUI.Cards.EditCardPages.EditMultipleChoiceCardAnswerEntry.AnswerEntryCallback;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 
@@ -33,10 +38,13 @@ public class EditDeckPage extends Page
     private boolean bIsNewDeck;
     private StudySystem pOldDeck;
     private TextField pTitleField;
-    private RenderGUI pLeitnersettings;
+    private TextField pTimingField;
+    private TextField pVotingField;
+    private Scroller pLeitnersettings;
     private RenderGUI pVotingsettings;
     private RenderGUI pTimingsettings;
     private TextBox pStudysystemdesc;
+    private Button pAddEntryButton;
 
     public EditDeckPage()
     {
@@ -45,8 +53,9 @@ public class EditDeckPage extends Page
         
         addGUI(XMLGUI.loadFile("guis/decks/deckeditpage.xml"));
 
+        findChildByID("scroller");
         
-        pLeitnersettings = findChildByID("leitnersettings");
+        pLeitnersettings = (Scroller)findChildByID("leitnersettings");
         pVotingsettings = findChildByID("votingsettings");
         pTimingsettings = findChildByID("timingsettings");
         pLeitnersettings.hide(true);
@@ -55,30 +64,21 @@ public class EditDeckPage extends Page
         pStudysystemdesc = (TextBox)findChildByID("studysystemdesc");
         pStudysystemdesc.getBox().hide(true);
 
-        TextField votingfield = (TextField)findChildByID("votingfield");
-        votingfield.setCallback(new TextFieldInputCallback() {
+        pVotingField = (TextField)findChildByID("votingfield");
+        pVotingField.setCallback(new TextFieldInputCallback() {
             @Override public void enter(String complete) {}
             @Override public void input(String input, String complete) 
             {   
-                //TODO Set voting system num stars
+                ((VoteSystem)pNewDeck).setStars(Toolbox.StringToInt(complete));
             }
         });
 
-        TextField timingfield = (TextField)findChildByID("timelimitfield");
-        timingfield.setCallback(new TextFieldInputCallback() {
+        pTimingField = (TextField)findChildByID("timelimitfield");
+        pTimingField.setCallback(new TextFieldInputCallback() {
             @Override public void enter(String complete) {}
             @Override public void input(String input, String complete) 
-            {   
-                //TODO Set timing system time
-            }
-        });
-
-        TextField leitnerfield = (TextField)findChildByID("leitnerboxesfield");
-        leitnerfield.setCallback(new TextFieldInputCallback() {
-            @Override public void enter(String complete) {}
-            @Override public void input(String input, String complete) 
-            {   
-                //TODO Set leitner system num boxes
+            {
+                ((TimingSystem)pNewDeck).setTimeLimit(Toolbox.StringToFloat(complete));
             }
         });
 
@@ -116,8 +116,54 @@ public class EditDeckPage extends Page
             selectSystem(StudySystemType.NONE, str);
         });
 
+        createAddButton();
+
         this.setSizeInPercent(true, true);
         reposition();
+    }
+
+
+    private void reallignEntries()
+    {
+        int yoffset = -40; // First child is pAddEntryButton
+        for(RenderGUI child : pLeitnersettings.getChildren())
+        {
+            child.setPosition(new ivec2(0, yoffset));
+            yoffset += 40;
+        }
+        pAddEntryButton.setPosition(new ivec2(100, yoffset));
+    }
+
+    public void addEntry(String answer, boolean iscorrect)
+    {
+        EditMultipleChoiceCardAnswerEntry entry = new EditMultipleChoiceCardAnswerEntry(answer, iscorrect, new AnswerEntryCallback() {
+            @Override public void onRemove(EditMultipleChoiceCardAnswerEntry entry) 
+            {
+                pLeitnersettings.removeChild(entry);
+                reallignEntries();
+                //overrideCarddata();
+            }
+
+            @Override public void onChange(EditMultipleChoiceCardAnswerEntry entry) 
+            {
+                //overrideCarddata();
+            }
+        });
+
+        pLeitnersettings.addGUI(entry);
+        reallignEntries();
+    }
+
+    private void createAddButton()
+    {
+        pAddEntryButton = new Button(new ivec2(100, 40), new ivec2(30), "+", FontManager.getInstance().getDefaultFont());
+        pAddEntryButton.setPositionInPercent(true, false);
+        pAddEntryButton.getBox().setTextSize(28);
+        pAddEntryButton.setOrigin(new ivec2(30, 0));
+        pAddEntryButton.onClick((RenderGUI gui) -> {
+            addEntry("", false);
+        });
+        pLeitnersettings.addGUI(pAddEntryButton);
     }
 
     
@@ -191,25 +237,39 @@ public class EditDeckPage extends Page
         {
             pLeitnersettings.hide(false);
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("leitnerdesc"));
-            StudySystem tmpDeck = pNewDeck;
-            pNewDeck = new LeitnerSystem();
-            pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+            if(type == StudySystemType.NONE)
+            {
+                StudySystem tmpDeck = pNewDeck;
+                pNewDeck = new LeitnerSystem();
+                pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+            }
+            pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("leitner"));
         }
         else if(name.equals(Locale.getCurrentLocale().getString("voting")) || type == StudySystemType.VOTE)
         {
             pVotingsettings.hide(false);
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("votingdesc"));
-            StudySystem tmpDeck = pNewDeck;
-            pNewDeck = new VoteSystem();
-            pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+            if(type == StudySystemType.NONE)
+            {
+                StudySystem tmpDeck = pNewDeck;
+                pNewDeck = new VoteSystem();
+                pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+            }
+            pVotingField.setString(String.valueOf(((VoteSystem)pNewDeck).getStars()));
+            pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("voting"));
         }
         else if(name.equals(Locale.getCurrentLocale().getString("timing")) || type == StudySystemType.TIMING)
         {
             pTimingsettings.hide(false);
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("timingdesc"));
-            StudySystem tmpDeck = pNewDeck;
-            pNewDeck = new TimingSystem();
-            pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+            if(type == StudySystemType.NONE)
+            {
+                StudySystem tmpDeck = pNewDeck;
+                pNewDeck = new TimingSystem();
+                pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+            }
+            pTimingField.setString(String.valueOf(((TimingSystem)pNewDeck).getTimeLimit()));
+            pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("timing"));
         }
     }
 }

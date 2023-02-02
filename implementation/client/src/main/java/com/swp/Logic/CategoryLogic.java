@@ -435,6 +435,7 @@ public class CategoryLogic extends BaseLogic<Category> {
      * Wird weitergegeben an das CategoryRepository.
      * Werden zudem verwendet, um die Baumstruktur der Categories anzuzeigen
      *
+     * @param bReverseOrder sortiert die Rückgabe entsprechend (true/desc und false/asc)
      * @return Liste mit bestehenden Categories
      */
     public List<Category> getRootCategories(boolean bReverseOrder) {
