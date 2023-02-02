@@ -205,9 +205,6 @@ public class CategoryLogic extends BaseLogic<Category> {
             throw new IllegalStateException(Locale.getCurrentLocale().getString("categorynullerror"));
         List<CardOverview> cardsToCategories = new ArrayList<>();
         for (Category c : categories) {
-            if (c == null) {
-                throw new IllegalStateException(Locale.getCurrentLocale().getString("categorynullerror"));
-            }
             cardsToCategories.addAll(getCardsInCategory(c));
         }
         // Die zurückgegebene Liste kann Karten mehrfach enthalten, wenn sie mehreren Kategorien zugeordnet war.

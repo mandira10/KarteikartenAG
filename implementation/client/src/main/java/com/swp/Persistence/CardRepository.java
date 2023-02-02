@@ -245,8 +245,7 @@ public class CardRepository extends BaseRepository<Card> {
      * @return List<Card> eine Liste von Karten in dem Lernsystem, sortiert nach ihrer Bewertung.
      */
     public List<Card> getAllCardsSortedForVoteSystem(StudySystem studySystem) {
-        //TOTEST gib mir alle Karten sortiert nach Rating fürs nächste Lernen, //TODO: wir haben zwei Ratingmöglichkeiten für Karten, das ist grad die falsche die verwendet wird
-        return getEntityManager()
+             return getEntityManager()
                 .createNamedQuery("BoxToCard.allCardsSortedByRating", Card.class)
                 .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
@@ -260,9 +259,8 @@ public class CardRepository extends BaseRepository<Card> {
      * @return List<Card> eine Liste der Karten in dem Lernsystem.
      */
     public List<Card> getAllCardsForTimingSystem(StudySystem studySystem) {
-        //TOTEST gib mir alle Karten in diesem StudySystem for TimingSystem
         return getEntityManager()
-                .createNamedQuery("BoxToCard.allCardsOfEveryBoxesOfTheStudySystem", Card.class)
+                .createNamedQuery("BoxToCard.allCardsForTiming", Card.class)
                 .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }

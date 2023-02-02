@@ -266,8 +266,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         }
         if (testingBoxCards.isEmpty()){
             log.info("Keine Karten mehr zu lernen");
-                return null;
-                //TODO separate info
+                return null; //wird im GUI abgerufen und finishTestAndGetResult aufgerufen.
             }
 
             log.info("Rufe die nächste Karte zum Lernen ab");

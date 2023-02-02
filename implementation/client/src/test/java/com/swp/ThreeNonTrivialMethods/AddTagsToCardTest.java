@@ -18,6 +18,7 @@ import com.swp.Persistence.CardToTagRepository;
 import com.swp.Persistence.TagRepository;
 import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.*;
+import org.mockito.ArgumentMatcher;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ import static org.mockito.Mockito.*;
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddTagsToCardTest {
-
 
         /*
         GUI:
@@ -148,19 +148,16 @@ public class AddTagsToCardTest {
         @Test
         @Order(0)
         public void testCreateTagFunctionAllPossibilitiesForLogic() {
+                //mock DataCallback
+                DataCallback<Tag> mockDataCallback = mock(DataCallback.class);
+                SingleDataCallback<Boolean> mockSingleDataCallback = mock(SingleDataCallback.class);
+
                 //SetUp der DB, eine Karte und ein Tag hinzufügen
                 cardLogic.updateCardData(card1,true); 
                 TagRepository.startTransaction();
                 tagRepository.save(tagExisting);
                 TagRepository.commitTransaction();
-                DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
-                SingleDataCallback<Boolean> mockSingleDataCallback = mock(SingleDataCallback.class);
-
-                final boolean[] addedSuccessfully = new boolean[5];
-                final String[] messageException = new String[5];
-                final String[] infoException = new String[5];
-                final List<Tag>[] tagsForCardInDatabase = new List[]{new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),new ArrayList<>()};
-                
+                 
                 //Testfall 1: Karte hat noch keine Tags und soll nun 2 hinzugefügt bekommen.
                 assertTrue(cardLogic.getTagsToCard(card1).isEmpty());
                 on(cardController).set("cardLogic",cardLogic);
@@ -174,221 +171,159 @@ public class AddTagsToCardTest {
                 };
 
 
-                cardController.setTagsToCard(card1, tags, new SingleDataCallback<Boolean>() {
-                        @Override
-                        public void onSuccess(Boolean bol) {
-                                addedSuccessfully[0] = bol;
+
+                assertDoesNotThrow(() -> cardController.setTagsToCard(card1, tags, mockSingleDataCallback));
+                verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
+
+                        @Override public boolean matches(Boolean aBoolean) {
+                                assertTrue(aBoolean);
+                                return true;
                         }
+                }));
 
+
+
+                assertDoesNotThrow(() -> cardController.getTagsToCard(card1, mockDataCallback));
+                verify(mockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Tag>>() {
                         @Override
-                        public void onFailure(String msg) {
-                                messageException[0] = msg;
+                        public boolean matches(List<Tag> tags) {
+                                assertEquals(2,tags.size());
+                                assertTrue(tags.stream().anyMatch(f -> f.getVal().equals(tagToAdd1.getVal())));
+                                assertTrue(tags.stream().anyMatch(f -> f.getVal().equals(tagToAdd2.getVal())));
+                                return true;
                         }
-                });
-                assertNull(messageException[0]);
-                assertTrue(addedSuccessfully[0]);
+                }));
 
+                reset(mockDataCallback);
+                reset(mockSingleDataCallback);
 
-                cardController.getTagsToCard(card1, new DataCallback<Tag>() {
+                //Testfall 2: Karte hat nun 2 Tags, kriegt diese erneut übermittelt.
+                assertDoesNotThrow(() ->  cardController.setTagsToCard(card1, tags, mockSingleDataCallback));
+                verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
+
+                        @Override public boolean matches(Boolean aBoolean) {
+                                assertTrue(aBoolean);
+                                return true;
+                        }
+                }));
+
+                assertDoesNotThrow(() -> cardController.getTagsToCard(card1, mockDataCallback));
+                verify(mockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Tag>>() {
                         @Override
-                        public void onSuccess(List<Tag> data) {
-                                tagsForCardInDatabase[0] = data;
+                        public boolean matches(List<Tag> tags) {
+                                assertEquals(2,tags.size());
+                                //prüfe ob Tags die gleichen sind
+                                Tag tag1 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd1.getVal())).findFirst().get();
+                                Tag tag2 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd2.getVal())).findFirst().get();
+                                assertEquals(tag1,tagToAdd1);
+                                assertEquals(tag2,tagToAdd2);
+                                return true;
                         }
+                }));
 
-                        @Override
-                        public void onFailure(String msg) {
-                                messageException[0] = msg;
-                        }
-
-                        @Override
-                        public void onInfo(String msg) {
-                                infoException[0] = msg;
-                        }
-                });
-                assertEquals(2, tagsForCardInDatabase[0].size());
-                assertNull(messageException[0]);
-                assertNull(infoException[0]);
-
-                //Testfall 2: Karte hat noch nun 2 Tags, kriegt diese erneut übermittelt.
-                cardController.setTagsToCard(card1, tags, new SingleDataCallback<Boolean>() {
-                        @Override
-                        public void onSuccess(Boolean bol) {
-                                addedSuccessfully[1] = bol;
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-                                messageException[1] = msg;
-                        }
-                });
-                assertNull(messageException[1]);
-                assertTrue(addedSuccessfully[1]);
-
-                cardController.getTagsToCard(card1, new DataCallback<Tag>() {
-                        @Override
-                        public void onSuccess(List<Tag> data) {
-                                tagsForCardInDatabase[1] = data;
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-                                messageException[1] = msg;
-                        }
-
-                        @Override
-                        public void onInfo(String msg) {
-                                infoException[1] = msg;
-                        }
-                });
-                assertEquals(2, tagsForCardInDatabase[1].size());
-                assertNull(messageException[1]);
-                assertNull(infoException[1]);
-
-                //Prüfe, dass Tags die gleichen vals haben wie die bestehenden und die gleichen sind.
-                Tag tag1 = tagsForCardInDatabase[1].stream().filter(tag -> tag.getVal().equals(tagToAdd1.getVal())).findFirst().get();
-                Tag tag2 = tagsForCardInDatabase[1].stream().filter(tag -> tag.getVal().equals(tagToAdd2.getVal())).findFirst().get();
-                assertEquals(tag1,tagToAdd1);
-                assertEquals(tag2,tagToAdd2);
-
-
+                reset(mockDataCallback);
+                reset(mockSingleDataCallback);
+                
                 //Testfall 3: Karte hat weiterhin 2 Tags, kriegt nun 2 neue (tagToAdd3, tagToAdd4) mit den 2 alten übermittelt, wobei einer vom Namen her bereits Teil der DB ist (tagToAdd3).
                 Tag tagToAdd3 = new Tag("tagExisting");
                 Tag tagToAdd4 = new Tag("TestTag3");
                 Tag tagToAdd5 = new Tag("TestTag2");
                 List<Tag> tagsNewToAdd = Arrays.asList( tagToAdd1,tagToAdd5,tagToAdd3,tagToAdd4);
-                cardController.setTagsToCard(card1, tagsNewToAdd, new SingleDataCallback<Boolean>() {
-                        @Override
-                        public void onSuccess(Boolean bol) {
-                                addedSuccessfully[2] = bol;
+                List<Tag> finalTagsNewToAdd = tagsNewToAdd;
+                assertDoesNotThrow(() -> cardController.setTagsToCard(card1, finalTagsNewToAdd,mockSingleDataCallback));
+                verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
+
+                        @Override public boolean matches(Boolean aBoolean) {
+                                assertTrue(aBoolean);
+                                return true;
                         }
+                }));
 
+                assertDoesNotThrow(() -> cardController.getTagsToCard(card1, mockDataCallback));
+                verify(mockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Tag>>() {
                         @Override
-                        public void onFailure(String msg) {
-                                messageException[2] = msg;
+                        public boolean matches(List<Tag> tags) {
+                                assertEquals(4, tags.size());
+                                //Prüfe, dass Tags die gleichen vals haben wie die bestehenden und die gleichen sind.
+                                Tag tag1 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd1.getVal())).findFirst().get();
+                                Tag tag2 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd2.getVal())).findFirst().get();
+                                Tag tag3 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd3.getVal())).findFirst().get();
+                                Tag tag4 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd4.getVal())).findFirst().get();
+                                assertEquals(tag1,tagToAdd1);
+                                assertEquals(tag2,tagToAdd2);
+                                assertEquals(tag3,tagToAdd3);
+                                assertEquals(tag4,tagToAdd4);
+                                return true;
                         }
-                });
-                assertNull(messageException[2]);
-                assertTrue(addedSuccessfully[2]);
+                }));
 
-                cardController.getTagsToCard(card1, new DataCallback<Tag>() {
-                        @Override
-                        public void onSuccess(List<Tag> data) {
-                                tagsForCardInDatabase[2] = data;
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-                                messageException[2] = msg;
-                        }
-
-                        @Override
-                        public void onInfo(String msg) {
-                                infoException[2] = msg;
-                        }
-                });
-                assertEquals(4, tagsForCardInDatabase[2].size());
-                assertNull(messageException[2]);
-                assertNull(infoException[2]);
-
-                //Prüfe, dass Tags die gleichen vals haben wie die bestehenden und die gleichen sind.
-                tag1 = tagsForCardInDatabase[2].stream().filter(tag -> tag.getVal().equals(tagToAdd1.getVal())).findFirst().get();
-                tag2 = tagsForCardInDatabase[2].stream().filter(tag -> tag.getVal().equals(tagToAdd2.getVal())).findFirst().get();
-                Tag tag3 = tagsForCardInDatabase[2].stream().filter(tag -> tag.getVal().equals(tagToAdd3.getVal())).findFirst().get();
-                Tag tag4 = tagsForCardInDatabase[2].stream().filter(tag -> tag.getVal().equals(tagToAdd4.getVal())).findFirst().get();
-                assertEquals(tag1,tagToAdd1);
-                assertEquals(tag2,tagToAdd2);
-                assertEquals(tag3,tagToAdd3);
-                assertEquals(tag4,tagToAdd4);
-
-
+                reset(mockDataCallback);
+                reset(mockSingleDataCallback);
+                
                 //Testfall 4: Karte hat nun 4 Tags, TagToAdd1 und TagToAdd3 sollen nun wieder aus der Kartenverbindung entfernt werden.
                 tagsNewToAdd = Arrays.asList( tagToAdd2,tagToAdd4);
-                cardController.setTagsToCard(card1, tagsNewToAdd, new SingleDataCallback<Boolean>() {
-                        @Override
-                        public void onSuccess(Boolean bol) {
-                                addedSuccessfully[3] = bol;
+                List<Tag> finalTagsNewToAdd1 = tagsNewToAdd;
+                assertDoesNotThrow(() ->cardController.setTagsToCard(card1, finalTagsNewToAdd1, mockSingleDataCallback));
+                verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
+
+                        @Override public boolean matches(Boolean aBoolean) {
+                                assertTrue(aBoolean);
+                                return true;
                         }
+                }));
 
+                assertDoesNotThrow(() -> cardController.getTagsToCard(card1, mockDataCallback));
+                verify(mockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Tag>>() {
                         @Override
-                        public void onFailure(String msg) {
-                                messageException[3] = msg;
+                        public boolean matches(List<Tag> tags) {
+                                assertEquals(2, tags.size());
+
+                                //Prüfe, dass Tags die gleichen vals haben wie die bestehenden und die gleichen sind.
+                                assertTrue(tags.stream().noneMatch(tag -> tag.getVal().equals(tagToAdd1.getVal())));
+                                assertTrue(tags.stream().noneMatch(tag -> tag.getVal().equals(tagToAdd3.getVal())));
+                                Tag tag2 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd2.getVal())).findFirst().get();
+                                Tag tag4 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd4.getVal())).findFirst().get();
+                                assertEquals(tag2,tagToAdd2);
+                                assertEquals(tag4,tagToAdd4);
+                                return true;
                         }
-                });
-                assertNull(messageException[3]);
-                assertTrue(addedSuccessfully[3]);
+                }));
 
-                cardController.getTagsToCard(card1, new DataCallback<Tag>() {
-                        @Override
-                        public void onSuccess(List<Tag> data) {
-                                tagsForCardInDatabase[3] = data;
-                        }
-
-                        @Override
-                        public void onFailure(String msg) {
-                                messageException[3] = msg;
-                        }
-
-                        @Override
-                        public void onInfo(String msg) {
-                                infoException[3] = msg;
-                        }
-                });
-                assertEquals(2, tagsForCardInDatabase[3].size());
-                assertNull(messageException[3]);
-                assertNull(infoException[3]);
-
-                //Prüfe, dass Tags die gleichen vals haben wie die bestehenden und die gleichen sind.
-                assertTrue(tagsForCardInDatabase[3].stream().noneMatch(tag -> tag.getVal().equals(tagToAdd1.getVal())));
-                assertTrue(tagsForCardInDatabase[3].stream().noneMatch(tag -> tag.getVal().equals(tagToAdd3.getVal())));
-                tag2 = tagsForCardInDatabase[3].stream().filter(tag -> tag.getVal().equals(tagToAdd2.getVal())).findFirst().get();
-                tag4 = tagsForCardInDatabase[3].stream().filter(tag -> tag.getVal().equals(tagToAdd4.getVal())).findFirst().get();
-                assertEquals(tag2,tagToAdd2);
-                assertEquals(tag4,tagToAdd4);
-
-                //Testfall 5: Karte hat TagToAdd1 und TagToAdd3 im Inventar, TagToAdd2 und TagToAdd4 sollen nun wieder hinzugefügt werden, während 
+                reset(mockDataCallback);
+                reset(mockSingleDataCallback);
+                
+                //Testfall 5: Karte hat TagToAdd1 und TagToAdd3 im Inventar, TagToAdd2 und TagToAdd4 sollen nun wieder hinzugefügt werden, während
                 //TagToAdd1 und TagToAdd3 gelöscht werden.
                 tagsNewToAdd = Arrays.asList( tagToAdd1,tagToAdd3);
-                cardController.setTagsToCard(card1, tagsNewToAdd, new SingleDataCallback<Boolean>() {
-                        @Override
-                        public void onSuccess(Boolean bol) {
-                                addedSuccessfully[4] = bol;
-                        }
+                List<Tag> finalTagsNewToAdd2 = tagsNewToAdd;
+                assertDoesNotThrow(() ->  cardController.setTagsToCard(card1, finalTagsNewToAdd2, mockSingleDataCallback));
+                verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
 
-                        @Override
-                        public void onFailure(String msg) {
-                                messageException[4] = msg;
+                        @Override public boolean matches(Boolean aBoolean) {
+                                assertTrue(aBoolean);
+                                return true;
                         }
-                });
-                assertNull(messageException[4]);
-                assertTrue(addedSuccessfully[4]);
+                }));
 
-                cardController.getTagsToCard(card1, new DataCallback<Tag>() {
-                        @Override
-                        public void onSuccess(List<Tag> data) {
-                                tagsForCardInDatabase[4] = data;
-                        }
+                assertDoesNotThrow(() -> cardController.getTagsToCard(card1, mockDataCallback));
+                verify(mockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Tag>>() {
+                @Override
+                public boolean matches(List<Tag> tags) {
+                        assertEquals(2, tags.size());
 
-                        @Override
-                        public void onFailure(String msg) {
-                                messageException[4] = msg;
-                        }
+                        //Prüfe, dass Tags die gleichen vals haben wie die bestehenden und die gleichen sind.
+                        assertTrue(tags.stream().noneMatch(tag -> tag.getVal().equals(tagToAdd2.getVal())));
+                        assertTrue(tags.stream().noneMatch(tag -> tag.getVal().equals(tagToAdd4.getVal())));
+                        Tag tag1 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd1.getVal())).findFirst().get();
+                        Tag tag3 = tags.stream().filter(tag -> tag.getVal().equals(tagToAdd3.getVal())).findFirst().get();
+                        assertEquals(tag1,tagToAdd1);
+                        assertEquals(tag3,tagToAdd3);
+                        return true;
+                }
+        }));
 
-                        @Override
-                        public void onInfo(String msg) {
-                                infoException[4] = msg;
-                        }
-                });
-                assertEquals(2, tagsForCardInDatabase[4].size());
-                assertNull(messageException[4]);
-                assertNull(infoException[4]);
 
-                //Prüfe, dass Tags die gleichen vals haben wie die bestehenden und die gleichen sind.
-                assertTrue(tagsForCardInDatabase[4].stream().noneMatch(tag -> tag.getVal().equals(tagToAdd2.getVal())));
-                assertTrue(tagsForCardInDatabase[4].stream().noneMatch(tag -> tag.getVal().equals(tagToAdd4.getVal())));
-                tag2 = tagsForCardInDatabase[4].stream().filter(tag -> tag.getVal().equals(tagToAdd1.getVal())).findFirst().get();
-                tag4 = tagsForCardInDatabase[4].stream().filter(tag -> tag.getVal().equals(tagToAdd3.getVal())).findFirst().get();
-                assertEquals(tag2,tagToAdd1);
-                assertEquals(tag4,tagToAdd3);
+
         }
 
         @Order(1)

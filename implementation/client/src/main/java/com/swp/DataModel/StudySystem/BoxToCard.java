@@ -47,13 +47,13 @@ import java.util.UUID;
                 "WHERE s.uuid = :studySystem AND c.learnedNextAt < CURRENT_TIMESTAMP() " +
                 "ORDER BY c.learnedNextAt ASC, c.status asc")
 
-@NamedQuery (name = "BoxToCard.allCardsOfEveryBoxesOfTheStudySystem",
+@NamedQuery (name = "BoxToCard.allCardsForTiming",
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
-                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.status")
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND sbox.boxNumber = 0 ORDER BY c.status ASC")
 
 @NamedQuery (name = "BoxToCard.allCardsSortedByRating",
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
-                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.status ASC, c.rating ASC")
+                "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND sbox.boxNumber = 0 ORDER BY c.status ASC, c.rating ASC")
 
 
 /**
