@@ -1,14 +1,11 @@
 package com.swp.DataModel.CardTypes;
 
-import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
-
-import static com.swp.Validator.checkNotNullOrBlank;
 
 
 /**
@@ -47,10 +44,7 @@ public class ImageTestCard extends Card
      */
     public ImageTestCard()
     {
-        this.question = "";
-        this.image = null;
-        this.answer = null;
-        this.title = "";
+        this("", "", null, "", false);
     }
 
     /**

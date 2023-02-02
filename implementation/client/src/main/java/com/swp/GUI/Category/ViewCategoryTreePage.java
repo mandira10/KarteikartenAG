@@ -213,7 +213,7 @@ public class ViewCategoryTreePage extends Page
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Category> categories) 
             {
-                addCategories(pRootNode, categories.subList(6, categories.size()));
+                addCategories(pRootNode, categories);
             }
         });
 

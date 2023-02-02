@@ -88,8 +88,19 @@ deckentrycards         = Cards
 deckempty              = Empty
 decksearch             = Search Deck
 wascorrectbutton       = Answer was correct
-timelimitfield         = Timelimit
+timelimitfield         = Timelimit (Sec.)
+leitnerboxesfield      = Number of Boxes
+votingfield            = Number of Stars
 resetdeckbutton        = Reset Progress
+alphabetical           = Alphabetical
+reversealphabetical    = Reverse Alphabetical
+random                 = Random
+leitner                = Leitner
+timing                 = Timing
+voting                 = Voting
+leitnerdesc            = Leitner Description TODO
+votingdesc             = Voting Description TODO
+timingdesc             = Timing Description TODO
 
 # Search
 bycontentsearch        = By Content

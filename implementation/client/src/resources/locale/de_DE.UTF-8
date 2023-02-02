@@ -88,8 +88,19 @@ deckentrycards         = Karten
 deckempty              = Leer
 decksearch             = Decks suchen
 wascorrectbutton       = Antwort war korrekt
-timelimitfield         = Zeitlimit
+timelimitfield         = Zeitlimit (Sek.)
+leitnerboxesfield      = Anzahl der Boxen
+votingfield            = Anzahl der Sterne
 resetdeckbutton        = Fortschritt zurücksetzen
+alphabetical           = Alphabetisch
+reversealphabetical    = Umgekehrt Alphabetisch
+random                 = Zufällig
+leitner                = Leitner
+timing                 = Auf Zeit
+voting                 = Bewertung
+leitnerdesc            = Leitner Beschreibung TODO
+votingdesc             = Bewertung Beschreibung TODO
+timingdesc             = Auf Zeit Beschreibung TODO
 
 # Search
 bycontentsearch        = Nach Inhalt

@@ -1,9 +1,7 @@
 package com.swp.Persistence;
 
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
-import com.swp.DataModel.CategoryHierarchy;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -106,7 +104,7 @@ public class CategoryRepository extends BaseRepository<Category> {
      */
     public List<Category> getRoots(String order) {
         return getEntityManager()
-      .createQuery("SELECT c  FROM Category c WHERE NOT EXISTS (SELECT ch.child FROM CategoryHierarchy ch WHERE ch.child = c.uuid) ORDER BY c.name " +  order, Category.class)
+                .createQuery("SELECT c  FROM Category c WHERE NOT EXISTS (SELECT ch.child FROM CategoryHierarchy ch WHERE ch.child = c.uuid) ORDER BY c.name " +  order, Category.class)
                 .getResultList();
     }
 
@@ -124,8 +122,4 @@ public class CategoryRepository extends BaseRepository<Category> {
                 .setParameter("content", "%" + terms + "%")
                 .getResultList();
     }
-
-
-
-
 }

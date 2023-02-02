@@ -1,6 +1,5 @@
 package com.swp.DataModel.CardTypes;
 
-import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -8,8 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
-
-import static com.swp.Validator.checkNotNullOrBlank;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs AudioCard.
@@ -46,7 +43,7 @@ public class AudioCard extends Card
      */
     public AudioCard()
     {
-        this(null, "AudioCard", "", "", false);
+        this(null, "", "", "", false);
     }
 
     /**

@@ -43,10 +43,7 @@ public class ImageDescriptionCard extends Card
      */
     public ImageDescriptionCard()
     {
-        this.question = "";
-        this.image = null;
-        this.answers = null;
-        this.title = "";
+        this("", new ImageDescriptionCardAnswer[] {}, "", null);
     }
 
     /**

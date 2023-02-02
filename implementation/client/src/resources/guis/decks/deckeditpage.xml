@@ -2,31 +2,39 @@
 <gui-root pos="0, 0" size="100%, 100%">
     <gui id="form" size="95%, 80%" pos="2.5%, 10%">
         <text pos="10, 10" fontsize="30" locale-id="titlefield"></text>
-        <textfield id="titlefield" pos="200, 10" size="100%, 30" margin="-200, 0" fontsize="30" hint=""></textfield>
+        <textfield id="titlefield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
 
-        <text pos="10, 160" fontsize="30" locale-id="timelimitfield"></text>
-        <textfield id="timelimitfield" pos="200, 160" size="100%, 30" margin="-200, 0" fontsize="30" hint=""></textfield>
-
-        <gui id="canvas" size="100%, 70%" pos="0, 200">
-            <text pos="10, 10" fontsize="40" locale-id="editstudysystemheading"></text>
-            <text pos="10, 80" fontsize="30" locale-id="namefield"></text>
-            <textfield id="titlefield" pos="150, 80" size="100%, 30" margin="-150, 0" fontsize="30" hint=""></textfield>
+        <gui id="leitnersettings" size="100%, 50%" pos="0, 200">
+            <text pos="10, 10" fontsize="30" locale-id="leitnerboxesfield"></text>
+            <textfield id="leitnerboxesfield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
         </gui>
+
+        <gui id="votingsettings" size="100%, 50%" pos="0, 200">
+            <text pos="10, 10" fontsize="30" locale-id="votingfield"></text>
+            <textfield id="votingfield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
+        </gui>
+
+        <gui id="timingsettings" size="100%, 50%" pos="0, 200">
+            <text pos="10, 10" fontsize="30" locale-id="timelimitfield"></text>
+            <textfield id="timelimitfield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
+        </gui>
+
+        <textbox align="left" fontsize="30" id="studysystemdesc" size="100%, 35" pos="0, 60%" linebreaks="true">StudySystem Description</textbox>
 
         <!-- In order to render it after everything else -->
         <text pos="10, 110" fontsize="30" locale-id="studysystemfield"></text>
-        <dropdown id="studysystemdd" pos="100%, 110" size="200, 30" origin="200, 0" fontsize="25">
-            <item>Leitner</item>
-            <item>Timing</item>
-            <item>Vote</item>
+        <dropdown id="studysystemdd" pos="100%, 110" size="250, 30" origin="250, 0" fontsize="25">
+            <item locale-id="leitner"></item>
+            <item locale-id="timing"></item>
+            <item locale-id="voting"></item>
         </dropdown>
 
         <!-- In order to render it after everything else -->
         <text pos="10, 60" fontsize="30" locale-id="cardorderfield"></text>
-        <dropdown id="cardorderdd" pos="100%, 60" size="200, 30" origin="200, 0" fontsize="25">
-            <item>Alphabetical</item>
-            <item>Reversed Alphabetical</item>
-            <item>Random</item>
+        <dropdown id="cardorderdd" pos="100%, 60" size="250, 30" origin="250, 0" fontsize="25">
+            <item locale-id="alphabetical"></item>
+            <item locale-id="reversealphabetical"></item>
+            <item locale-id="random"></item>
         </dropdown>
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">

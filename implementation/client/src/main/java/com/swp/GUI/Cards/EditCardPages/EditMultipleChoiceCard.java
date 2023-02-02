@@ -126,6 +126,12 @@ public class EditMultipleChoiceCard extends EditCardGUI
         {
             addEntry(pCard.getAnswers()[i], correctAnswers.contains(i));
         }
+        pContextScroller.updateContent();
+    }
+
+    @Override
+    protected void updateOnSizeChange() {
+        pContextScroller.updateContent();
     }
 
     @Override

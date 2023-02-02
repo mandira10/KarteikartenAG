@@ -85,7 +85,7 @@ public class EditImageDescriptionCard extends EditCardGUI
         }
         
         this.pCard = (ImageDescriptionCard)card;
-        if(!pCard.getImage().equals(""))
+        if(pCard.getImage() != null)
         {
             Texture tex = new Texture();
             tex.loadMemory(ByteBuffer.wrap(pCard.getImage()));

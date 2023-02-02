@@ -200,6 +200,7 @@ public class EditCardPage extends Page
         }
         pEditCard.setCard(card);
         pCanvas.addGUI(pEditCard);
+        pCanvas.updateTheme();
         resize();
     }
 

@@ -330,5 +330,6 @@ public class TestCardGUI extends RenderGUI
     public void updateOnSizeChange()
     {
         pQuestionBox.setSize(new ivec2(100, pQuestionBox.getText().getSize().y));
+        pQuestionScroller.updateContent();
     }
 }

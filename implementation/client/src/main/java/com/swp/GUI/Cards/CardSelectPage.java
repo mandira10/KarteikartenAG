@@ -49,12 +49,13 @@ public class CardSelectPage extends Page
                     pReturnFunc.run(pCardList.getSelection().get(0)); 
             }
             @Override public void exitSelectmod()  { }
-        }, (RenderGUI gui) -> {
-            if(iCurrentLastIndex != -1)
-                loadCards(iCurrentLastIndex, iCurrentLastIndex + 30);
         });
         pCardList.setSizeInPercent(true, true);
         pCardList.setSelectMode(true);
+        pCardList.onBottomHit((RenderGUI gui) -> {
+            if(iCurrentLastIndex != -1)
+                loadCards(iCurrentLastIndex, iCurrentLastIndex + 30);
+        });
         canvas.addGUI(pCardList);
 
         RenderGUI optionsMenu = findChildByID("menu");

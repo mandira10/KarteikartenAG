@@ -67,11 +67,12 @@ public class CardOverviewPage extends Page
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
             @Override public void enterSelectmod() { exportCardsButton.hide(false); deleteCardButton.hide(false); addToDeckButton.hide(false); menu.resize(); }
             @Override public void exitSelectmod()  { exportCardsButton.hide(true);  deleteCardButton.hide(true);  addToDeckButton.hide(true);  menu.resize(); }
-        }, (RenderGUI gui) -> {
+        });
+        pCardList.setSizeInPercent(true, true);
+        pCardList.onBottomHit((RenderGUI gui) -> {
             if(iCurrentLastIndex != -1)
                 loadCards(iCurrentLastIndex, iCurrentLastIndex + 30);
         });
-        pCardList.setSizeInPercent(true, true);
         canvas.addGUI(pCardList);
 
         pSearchbar = (Searchbar)findChildByID("searchbar");

@@ -67,7 +67,7 @@ public class ViewSingleCategoryPage extends Page
                 removeCardsButton.hide(true);
                 menu.resize();
             }
-        }, null);
+        });
         pCardList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCardList);
 

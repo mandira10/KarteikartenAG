@@ -32,7 +32,6 @@ public abstract class Language
             String id = args[0].replaceAll("\\s","");
             String value = args[1];
             locale.setString(id, value);
-            Output.info(id + " " + value);
         });
     }
 

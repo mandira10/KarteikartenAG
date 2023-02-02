@@ -46,7 +46,7 @@ public class CardExportPage extends Page
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
             @Override public void enterSelectmod() {}
             @Override public void exitSelectmod()  {}
-        }, null);
+        });
         pCardList.setSizeInPercent(true, true);
         canvas.addGUI(pCardList);
 
