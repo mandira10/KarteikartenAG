@@ -1,7 +1,6 @@
 package com.swp.Persistence;
 
 import com.gumse.gui.Locale;
-import com.gumse.textures.Texture;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.Controller.ControllerThreadPool;
@@ -9,12 +8,7 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
-import com.swp.DataModel.StudySystem.BoxToCard;
-import com.swp.DataModel.StudySystem.LeitnerSystem;
-import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.StudySystemBox;
-import com.swp.DataModel.StudySystem.TimingSystem;
-import com.swp.DataModel.StudySystem.VoteSystem;
+import com.swp.DataModel.StudySystem.*;
 import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,10 +33,19 @@ public class CrudTest {
 
     @BeforeAll
     public static void before(){
+        PersistenceManager.init("KarteikartenDBTest");
         ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
     @BeforeEach
     void setup(){
+        CardToBoxRepository.startTransaction();
+        cardToBoxRepository.delete(cardToBoxRepository.getAll());
+        CardToBoxRepository.commitTransaction();
+
+        CardToCategoryRepository.startTransaction();
+        cardToCategoryRepository.delete(cardToCategoryRepository.getAll());
+        CardToCategoryRepository.commitTransaction();
+
         CardRepository.startTransaction();
         cardRepository.delete(cardRepository.getAll());
         CardRepository.commitTransaction();
@@ -51,13 +54,9 @@ public class CrudTest {
         categoryRepository.delete(categoryRepository.getAll());
         CategoryRepository.commitTransaction();
 
-        CardToCategoryRepository.startTransaction();
-        cardToCategoryRepository.delete(cardToCategoryRepository.getAll());
-        CardToCategoryRepository.commitTransaction();
-
-        CardToBoxRepository.startTransaction();
-        cardToBoxRepository.delete(cardToBoxRepository.getAll());
-        CardToBoxRepository.commitTransaction();
+        StudySystemRepository.startTransaction();
+        studySystemRepository.delete(studySystemRepository.getAll());
+        StudySystemRepository.commitTransaction();
 
         Locale.setCurrentLocale(locale);
         String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
@@ -140,11 +139,9 @@ public class CrudTest {
 
     @Test
     public void CRUDwithoutTransaction() {
-        Texture loadTex = new Texture();
-        loadTex.loadFile("/path/to/image3.png", getClass());
         Card exampleCard = new ImageDescriptionCard("Bildbeschreibung 3?", new ImageDescriptionCardAnswer[]{
                 new ImageDescriptionCardAnswer("Beschreibung 3", 0, 1)
-        }, "Titel der Karte",  new byte[loadTex.getData().remaining()]);
+        }, "Titel der Karte",  new byte[]{(byte) 65535});
 
         on(cardRepository).set("entityManager", null);
         assertThrows(IllegalStateException.class, cardRepository::getAll);
@@ -369,8 +366,9 @@ public class CrudTest {
         // Daten
         Card cardA = new MultipleChoiceCard("Multi 1", new String[]{"Antwort A", "Antwort B", "Antwort C", "Antwort D"}, new int[]{0,3}, "Titel 1");
         Card cardB = new TextCard("Textfrage", "Antwort", "Titel");
-        StudySystemBox boxA = new StudySystemBox();
-        StudySystemBox boxB = new StudySystemBox();
+        StudySystem study = new LeitnerSystem("Titel", StudySystem.CardOrder.ALPHABETICAL);
+        StudySystemBox boxA = study.getBoxes().get(0);
+        StudySystemBox boxB = study.getBoxes().get(1);
         BoxToCard aa = new BoxToCard(cardA, boxA);
         BoxToCard ab = new BoxToCard(cardA, boxB);
         BoxToCard bb = new BoxToCard(cardB, boxB);
@@ -378,6 +376,15 @@ public class CrudTest {
         Collections.addAll(allB2Cs, aa,ab,bb);
 
         // Create
+        CardRepository.startTransaction();
+        cardRepository.save(cardA);
+        cardRepository.save(cardB);
+        CardRepository.commitTransaction();
+
+        StudySystemRepository.startTransaction();
+        studySystemRepository.save(study);
+        StudySystemRepository.commitTransaction();
+
         List<BoxToCard> persistedB2Cs = new ArrayList<>();
         CardToBoxRepository.startTransaction();
         assertEquals(0, cardToBoxRepository.countAll());
@@ -429,17 +436,11 @@ public class CrudTest {
      */
     public List<Card> exampleCards() {
         List<Card> exampleCards = new ArrayList<>();
-        Texture images = new Texture();
-        images.loadFile("/path/to/image1.png", getClass());
-        byte[] img1 = new byte[images.getData().remaining()];
-        images.loadFile("/path/to/image2.png", getClass());
-        byte[] img2 = new byte[images.getData().remaining()];
-        images.loadFile("/path/to/image3.png", getClass());
-        byte[] img3 = new byte[images.getData().remaining()];
-        images.loadFile("/path/to/image4.png", getClass());
-        byte[] img4 = new byte[images.getData().remaining()];
-        images.loadFile("/path/to/image5.png", getClass());
-        byte[] img5 = new byte[images.getData().remaining()];
+        byte[] img1 = new byte[]{(byte) 1024};
+        byte[] img2 = new byte[]{(byte) 4096};
+        byte[] img3 = new byte[]{(byte) 8192};
+        byte[] img4 = new byte[]{(byte) 16384};
+        byte[] img5 = new byte[]{(byte) 32768};
         Collections.addAll(exampleCards,
                 new AudioCard(new byte[]{4}, "Audio 1", "Frage 1", "Antwort 1", false),
                 new AudioCard(new byte[]{10}, "Audio 2", "Frage 2", "Antwort 2", true),
@@ -499,11 +500,11 @@ public class CrudTest {
                 new TimingSystem("Timing 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL, 1),
                 new TimingSystem("Timing 4", StudySystem.CardOrder.RANDOM, 100),
                 new TimingSystem("Timing 5", StudySystem.CardOrder.ALPHABETICAL, 5),
-                new VoteSystem("Vote 1", StudySystem.CardOrder.RANDOM),
-                new VoteSystem("Vote 2", StudySystem.CardOrder.ALPHABETICAL),
-                new VoteSystem("Vote 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL),
-                new VoteSystem("Vote 4", StudySystem.CardOrder.RANDOM),
-                new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL)
+                new VoteSystem("Vote 1", StudySystem.CardOrder.RANDOM,5),
+                new VoteSystem("Vote 2", StudySystem.CardOrder.ALPHABETICAL,5),
+                new VoteSystem("Vote 3", StudySystem.CardOrder.REVERSED_ALPHABETICAL,5),
+                new VoteSystem("Vote 4", StudySystem.CardOrder.RANDOM,5),
+                new VoteSystem("Vote 5", StudySystem.CardOrder.ALPHABETICAL,5)
         );
 
         return exampleStudySystems;

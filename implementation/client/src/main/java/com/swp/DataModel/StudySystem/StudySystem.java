@@ -115,15 +115,6 @@ public abstract class StudySystem implements Serializable
     @Getter
     protected StudySystemType type;
 
-    /**
-     * Boolean, ob ein Typ als Custom vorliegt. Kann für die GUI verwendet werden, um dieses anders darzustellen.
-     */
-    private boolean custom;
-
-    /**
-     * Textuelle Beschreibung des angepassten Lernsystems.
-     */
-    private String descriptionOfCustom;
 
     /**
      * Basiskonstruktor des StudySystems mit Grundfunktionen, die jeder Typ hat. Wird in den einzelnen Subklassen über super aufgerufen.

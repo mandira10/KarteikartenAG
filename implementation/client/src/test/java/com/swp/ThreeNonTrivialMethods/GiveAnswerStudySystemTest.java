@@ -9,14 +9,12 @@ import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
+import com.swp.DataModel.Language.German;
 import com.swp.DataModel.StudySystem.*;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.StudySystemLogic;
-import com.swp.Persistence.CardRepository;
-import com.swp.Persistence.CardToBoxRepository;
-import com.swp.Persistence.CardToTagRepository;
-import com.swp.Persistence.TagRepository;
+import com.swp.Persistence.*;
 import jakarta.persistence.NoResultException;
 import org.glassfish.jaxb.runtime.v2.runtime.unmarshaller.XsiNilLoader;
 import org.junit.jupiter.api.*;
@@ -94,9 +92,13 @@ public class GiveAnswerStudySystemTest {
 
 
     @BeforeAll
-    public static void before() {
+    public static void before()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+        German.getInstance().activate();
         ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
+
 
     @BeforeEach
     public void setup() {
@@ -104,23 +106,6 @@ public class GiveAnswerStudySystemTest {
         studySystemLogic = StudySystemLogic.getInstance();
         cardLogic = CardLogic.getInstance();
         cardToBoxRepository = CardToBoxRepository.getInstance();
-
-        Locale.setCurrentLocale(locale);
-        String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
-
-        i = 0;
-        filecontent.lines().forEach((String line) -> {
-            i++;
-            if (line.replaceAll("\\s", "").isEmpty() || line.charAt(0) == '#')
-                return;
-
-            String[] args = line.split("= ");
-            if (args.length < 1)
-                Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
-            String id = args[0].replaceAll("\\s", "");
-            String value = args[1];
-            locale.setString(id, value);
-        });
 
         testingCardsForStudySystem.add(new TextCard());
         testingCardsForStudySystem.add(new TrueFalseCard());
@@ -655,7 +640,7 @@ public class GiveAnswerStudySystemTest {
             cardLogic.updateCardData(c, true);
         }
 
-        StudySystem studySystem7 = new VoteSystem("Random3", StudySystem.CardOrder.RANDOM);
+        StudySystem studySystem7 = new VoteSystem("Random3", StudySystem.CardOrder.RANDOM,5);
         studySystemLogic.updateStudySystemData(null, studySystem7, true);
 
         //Test Lernsystem ohne Karten
@@ -996,7 +981,7 @@ public class GiveAnswerStudySystemTest {
         SingleDataCallback<Boolean> mockSingleDataCallback1 = mock(SingleDataCallback.class);
 
         //createStudySystem
-        StudySystem studySystem10 = new VoteSystem("VoteNotNew", StudySystem.CardOrder.ALPHABETICAL);
+        StudySystem studySystem10 = new VoteSystem("VoteNotNew", StudySystem.CardOrder.ALPHABETICAL,5);
         studySystem10.setNotLearnedYet(false);
         studySystemLogic.updateStudySystemData(null, studySystem10, true);
         studySystemLogic.moveAllCardsForDeckToFirstBox(testingCardsForStudySystem, studySystem10);

@@ -12,9 +12,11 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
+import com.swp.DataModel.Language.German;
 import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter;
+import com.swp.Persistence.PersistenceManager;
 import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,29 +62,16 @@ public class CardControllerTests {
     public void beforeEach(){
         cardMockLogic = mock(CardLogic.class);
         on(cardController).set("cardLogic",cardMockLogic);
-        Locale.setCurrentLocale(locale);
-        String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
-
-        i = 0;
-        filecontent.lines().forEach((String line) -> {
-            i++;
-            if(line.replaceAll("\\s","").isEmpty() || line.charAt(0) == '#')
-                return;
-
-            String[] args = line.split("= ");
-            if(args.length < 1)
-                Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
-            String id = args[0].replaceAll("\\s","");
-            String value = args[1];
-            locale.setString(id, value);
-        });
     }
 
     /**
      * BeforeAll wird synchronizedTasks aufgerufen.
      */
     @BeforeAll
-    public static void before(){
+    public static void before()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+        German.getInstance().activate();
         ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
 

@@ -9,6 +9,7 @@ import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +29,7 @@ public class ImageTestCard extends Card
     /**
      * Bild für die Karteikarte
      */
+    @Lob
     @Column
     private byte[] image;
 

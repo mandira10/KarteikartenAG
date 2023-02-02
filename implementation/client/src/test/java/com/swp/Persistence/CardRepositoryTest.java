@@ -1,8 +1,10 @@
 package com.swp.Persistence;
 
 import com.gumse.textures.Texture;
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.*;
+import com.swp.DataModel.Language.German;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
@@ -21,13 +23,13 @@ public class CardRepositoryTest
 {
     // Repositories die getestet werden
     private final CardRepository cardRepository = CardRepository.getInstance();
-
     @BeforeAll
-    public static void beforeAll()
+    public static void before()
     {
         PersistenceManager.init("KarteikartenDBTest");
+        German.getInstance().activate();
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
-
     @Test
     public void cardCrudTest() {
         List<Card> cards = exampleCards();
