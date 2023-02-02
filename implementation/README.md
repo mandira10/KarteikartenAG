@@ -4,6 +4,12 @@ SWP WS-2022
 ## Installation
 Im Repository befindet sich ein git submodule, dass initialisiert werden muss.
 ```sh
+git clone --recurse-submodules git@gitlab.informatik.uni-bremen.de:wete/swpws2022_karteikartenag.git
+```
+
+Oder
+
+```sh
 git clone git@gitlab.informatik.uni-bremen.de:wete/swpws2022_karteikartenag.git
 git submodule update --init --remote --recursive
 ```
