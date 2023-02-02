@@ -1,31 +1,23 @@
 package com.swp.ThreeNonTrivialMethods;
 
 import com.gumse.gui.Locale;
-import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.Controller.*;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToCategory;
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.*;
-import com.swp.GUI.Cards.CardOverviewPage;
 import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Decks.DeckSelectPage;
 import com.swp.GUI.PageManager;
-import com.swp.KarteikartenAG;
-import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.*;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -33,7 +25,9 @@ import org.slf4j.Logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,6 +40,7 @@ import static org.mockito.Mockito.*;
  * In der GUI können mehrere Kategorien ausgewählt und ihre Karten einem Karteikasten
  * zugefügt werden.
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddCategoriesToStudySystemTest {
 
     /*
@@ -108,6 +103,10 @@ public class AddCategoriesToStudySystemTest {
     private final Locale locale = new Locale("German", "de");
     int i;
 
+    @BeforeAll
+    public static void beforeAll() {
+        PersistenceManager.init("KarteikartenDBTest");
+    }
 
     @BeforeEach
     public void setup() {
@@ -155,35 +154,40 @@ public class AddCategoriesToStudySystemTest {
         studySystemController = StudySystemController.getInstance();
         studySystemLogic = StudySystemLogic.getInstance();
 
-        CardRepository.startTransaction();
+        // delete
+        BaseRepository.startTransaction();
+        cardToBoxRepository.delete(cardToBoxRepository.getAll());
+        cardToCategoryRepository.delete(cardToCategoryRepository.getAll());
         cardRepository.delete(cardRepository.getAll());
+        studySystemRepository.delete(studySystemRepository.getAll());
+        categoryRepository.delete(categoryRepository.getAll());
+        BaseRepository.commitTransaction();
+
+        // create
+        CardRepository.startTransaction();
         cardRepository.save(card1);
         cardRepository.save(card2);
         cardRepository.save(card3);
         CardRepository.commitTransaction();
 
         StudySystemRepository.startTransaction();
-        studySystemRepository.delete(studySystemRepository.getAll());
         studySystemRepository.save(study1);
         studySystemRepository.save(study2);
         studySystemRepository.save(study3);
         StudySystemRepository.commitTransaction();
 
-        CardToCategoryRepository.startTransaction();
-        cardToBoxRepository.delete(cardToBoxRepository.getAll());
-        cardToBoxRepository.save(boxToCard1);
-        cardToBoxRepository.save(boxToCard2);
-        CardToCategoryRepository.commitTransaction();
-
         CategoryRepository.startTransaction();
-        categoryRepository.delete(categoryRepository.getAll());
         categoryRepository.save(category1);
         categoryRepository.save(category2);
         categoryRepository.save(category3);
         CategoryRepository.commitTransaction();
 
         CardToCategoryRepository.startTransaction();
-        cardToCategoryRepository.delete(cardToCategoryRepository.getAll());
+        cardToBoxRepository.save(boxToCard1);
+        cardToBoxRepository.save(boxToCard2);
+        CardToCategoryRepository.commitTransaction();
+
+        CardToCategoryRepository.startTransaction();
         cardToCategoryRepository.save(cardToCategory1);
         cardToCategoryRepository.save(cardToCategory2);
         CardToCategoryRepository.commitTransaction();
@@ -319,6 +323,7 @@ public class AddCategoriesToStudySystemTest {
         BaseRepository.commitTransaction();
     }
 
+    @Order(0)
     @Test
     public void ControllerDuplicateList() {
         List<Category> categories = new ArrayList<>();
@@ -363,6 +368,7 @@ public class AddCategoriesToStudySystemTest {
         BaseRepository.commitTransaction();
     }
 
+    @Order(0)
     @Test
     public void LogicEmptyOrNullList() {
         assertThrows(IllegalStateException.class, () -> categoryLogic.getCardsInCategories(new ArrayList<>()));
