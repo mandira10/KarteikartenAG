@@ -23,7 +23,7 @@ public class ImageDescriptionCardAnswer //C++ Struct
     /**
      * Zugehörige ImageDescriptionCard
      */
-    //@ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_ID")
     private ImageDescriptionCard parent;
 
