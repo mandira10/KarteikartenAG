@@ -5,17 +5,14 @@ import com.gumse.textures.Texture;
 import com.swp.DataModel.*;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.StudySystem.BoxToCard;
-import com.swp.DataModel.StudySystem.LeitnerSystem;
-import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
-import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*; 
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CardToBoxRepositoryTest {
 

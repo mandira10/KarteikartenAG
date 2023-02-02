@@ -182,7 +182,6 @@ category = Category
 cardnullerror = Card does not exist
 
 # Category Exceptions
-
 categorynullerror = Category does not exist
 categorywithnameexistsalready = Category with name already exists!
 categoryupdatesaveerror= Category could not be saved or updated.
@@ -191,6 +190,8 @@ deletecategoryerror = An error occurred while deleting the card.
 deletecategorieserror = An error occurred while deleting the cards.
 catchildrenempty = No children for this category available.
 catchilderror = An error occurred while retrieving the children for the category.
+catparentsempty = No parents for this category available.
+catparenterror = An error occurred while retrieving the parents for the category.
 categorybyuuidempty = No category could be found for the UUID.
 categorybyuuiderror = An error occurred while getting the category.
 setcategoriestocarderror = An error occurred while adding the categories to the card.

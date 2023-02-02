@@ -82,14 +82,16 @@ public abstract class Controller
             catch (IllegalArgumentException | IllegalStateException ex) 
             {
                 log.error("Der übergebene Wert war leer oder null");
-                failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback);
+                if(ex.getMessage() != null)
+                    failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback);
             }  
             catch (final Exception ex) 
             {
-                failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback);
+                if(ex.getMessage() != null)
+                    failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback);
             }
 
-            if(datalist.isEmpty()) 
+            if(datalist == null || datalist.isEmpty())
             {
                 info(infolocale, infolog, callback);
                 return;
@@ -107,11 +109,17 @@ public abstract class Controller
             catch (IllegalArgumentException | IllegalStateException ex) 
             {
                 log.error("Der übergebene Wert war leer oder null");
-                failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback);
+                if(ex.getMessage() != null)
+                    failure(failurelocale, 
+                        failurelog.isEmpty() ?  failurelog.replace("$", ex.getMessage()) : ex.getMessage(), 
+                        callback);
             }  
             catch (final Exception ex) 
             {
-                failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback);
+                if(ex.getMessage() != null)
+                    failure(failurelocale, 
+                        failurelog.isEmpty() ?  failurelog.replace("$", ex.getMessage()) : ex.getMessage(), 
+                        callback);
             }
 
             if(data == null) 

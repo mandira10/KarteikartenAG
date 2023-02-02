@@ -164,7 +164,7 @@ public class CardController extends Controller
     public void getCardByUUID(String uuid, SingleDataCallback<Card> singleDataCallback) 
     {
         callLogicFuncInThread(
-            () -> { return cardLogic.getCardByUUID(uuid); }, 
+            () -> cardLogic.getCardByUUID(uuid),
             "getcardbyuuidempty", 
             "Es wurde keine Karte zur UUID "+uuid+" gefunden",
             "getcardbyuuiderror",
@@ -200,12 +200,13 @@ public class CardController extends Controller
      */
     public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback) 
     {
+        String uuid = cardToChange != null ? cardToChange.getUuid() : "";
         callLogicFuncInThread(
             () -> { cardLogic.updateCardData(cardToChange, neu); return true; }, 
             "", 
             "",
             "updatecreatecarderror",
-            "Beim Updaten/Speichern der Karte "+cardToChange.getUuid()+" mit der ist ein Fehler $ aufgetreten", 
+            "Beim Updaten/Speichern der Karte "+uuid+" mit der ist ein Fehler $ aufgetreten",
             singleDataCallback);
     }
 

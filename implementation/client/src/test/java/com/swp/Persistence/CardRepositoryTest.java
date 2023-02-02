@@ -6,8 +6,8 @@ import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.StudySystemBox;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,9 +17,16 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class CardRepositoryTest {
+public class CardRepositoryTest
+{
     // Repositories die getestet werden
     private final CardRepository cardRepository = CardRepository.getInstance();
+
+    @BeforeAll
+    public static void beforeAll()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+    }
 
     @Test
     public void cardCrudTest() {
@@ -53,7 +60,8 @@ public class CardRepositoryTest {
     }
 
     @Test
-    public void getCardsByStudySystem() {
+    public void getCardsByStudySystem()
+    {
         Card card1 = new TextCard("Frage 1", "Antwort 1", "Titel 1");
         Card card2 = new TextCard("Frage 2", "Antwort 2", "Titel 2");
         StudySystem studySystem = new LeitnerSystem("Name", StudySystem.CardOrder.ALPHABETICAL);

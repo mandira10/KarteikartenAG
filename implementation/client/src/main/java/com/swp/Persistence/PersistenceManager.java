@@ -14,7 +14,7 @@ import com.swp.Controller.SingleDataCallback;
 public class PersistenceManager 
 {
     private static String puName;
-    protected static EntityManagerFactory emFactory = null;
+    private static EntityManagerFactory emFactory = null;
 
     public static void init() { init("KarteikartenDB"); }
     public static void init(String puname)

@@ -167,8 +167,8 @@ public class EditCategoryPage extends Page
                 CategoryController.getInstance().editCategoryHierarchy(pNewCategory, aParents, aChildren, new SingleDataCallback<>() {
                     @Override public void onSuccess(String data)
                     {
-                        if(data != "")
-                            NotificationGUI.addNotification(data, Notification.NotificationType.INFO,10);
+                        if(data.isEmpty())
+                            NotificationGUI.addNotification(data, Notification.NotificationType.INFO, 10);
 
                         if(bIsNewCategory)
                             ((CategoryOverviewPage)PageManager.viewPage(PAGES.CATEGORY_OVERVIEW)).loadCategories();

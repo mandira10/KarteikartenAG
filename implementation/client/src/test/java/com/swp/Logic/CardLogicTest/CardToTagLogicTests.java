@@ -1,5 +1,6 @@
 package com.swp.Logic.CardLogicTest;
 
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.CardTypes.TextCard;
@@ -7,8 +8,10 @@ import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToTagRepository;
+import com.swp.Persistence.PersistenceManager;
 import com.swp.Persistence.TagRepository;
 import jakarta.persistence.NoResultException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -30,6 +33,12 @@ public class CardToTagLogicTests {
     private CardToTagRepository cardToTagRepMock;
     private CardLogic cardLogic = CardLogic.getInstance();
 
+
+    @BeforeAll
+    public static void beforeAll()
+    {
+        PersistenceManager.init("KarteikartenDBTest");
+    }
 
     @BeforeEach
     public void beforeEach(){
@@ -88,7 +97,7 @@ public class CardToTagLogicTests {
 
         //Karte hat noch keine Tags
         when(tagRepMock.getTagsToCard(card1)).thenReturn(tagsToReturn);
-        //TagToAdd ist noch nciht in Datenbank gespeichert, mocke das Speichern
+        //TagToAdd ist noch nicht in Datenbank gespeichert, mocke das Speichern
         when(tagRepMock.findTag(tagToAdd.getVal())).thenThrow(NoResultException.class);
         when(tagRepMock.save(tagToAdd)).thenReturn(tagToAdd);
         //TagToAdd1 ist bereits gespeichert und kann verwendet werden

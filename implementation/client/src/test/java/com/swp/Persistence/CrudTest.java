@@ -162,7 +162,7 @@ public class CrudTest {
     public void accessWithoutTransaction() {
         on(cardRepository).set("entityManager", null);
         assertThrows(IllegalStateException.class, cardRepository::getAll);
-        on(cardRepository).set("entityManager", PersistenceManager.emFactory.createEntityManager());
+        on(cardRepository).set("entityManager", PersistenceManager.getEntityManager());
         assertThrows(IllegalStateException.class, cardRepository::getAll);
         on(cardRepository).set("entityManager", null);
     }
@@ -171,7 +171,7 @@ public class CrudTest {
     public void commitWithoutTransaction() {
         on(cardRepository).set("entityManager", null);
         assertThrows(IllegalStateException.class, CardRepository::commitTransaction);
-        on(cardRepository).set("entityManager", PersistenceManager.emFactory.createEntityManager());
+        on(cardRepository).set("entityManager", PersistenceManager.getEntityManager());
         assertThrows(IllegalStateException.class, CardRepository::commitTransaction);
         on(cardRepository).set("entityManager", null);
     }
@@ -189,7 +189,7 @@ public class CrudTest {
     public void isTransactionActive() {
         on(cardRepository).set("entityManager", null);
         assertFalse(CardRepository.isTransactionActive());
-        on(cardRepository).set("entityManager",PersistenceManager.emFactory.createEntityManager());
+        on(cardRepository).set("entityManager",PersistenceManager.getEntityManager());
         assertFalse(CardRepository.isTransactionActive());
         on(cardRepository).set("entityManager", null);
         //on(cardRepository).set("entityManager",PersistenceManager.emFactory.createEntityManager().getTransaction());
