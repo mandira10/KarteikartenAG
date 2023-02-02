@@ -8,7 +8,6 @@ import com.gumse.maths.ivec2;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
-import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;

@@ -3,7 +3,6 @@ package com.swp.Logic;
 import java.util.*;
 
 import com.gumse.gui.Locale;
-import com.gumse.tools.Output;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToCategory;
@@ -129,7 +128,7 @@ public class CategoryLogic extends BaseLogic<Category> {
         }
         execTransactional(() -> {
             cardToCategoryRepository
-                    .delete(cardToCategoryRepository.getAllC2CForCategory(category));
+                    .delete(CardToCategoryRepository.getAllC2CForCategory(category));
             categoryHierarchyRepository.delete(categoryHierarchyRepository.getAllChildrenAndParentsForCategory(category));
             categoryRepository.delete(category);
             //TODO alle Parents und Childs der Kategorie müssen noch gelöscht werden generell oder? TODO in CategoryRepo

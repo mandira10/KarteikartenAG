@@ -1,7 +1,5 @@
 package com.swp.GUI.Cards.CardRenderer;
 
-import java.nio.ByteBuffer;
-
 import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextBox.Alignment;

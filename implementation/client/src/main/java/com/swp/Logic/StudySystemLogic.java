@@ -3,7 +3,6 @@ package com.swp.Logic;
 import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
-import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
@@ -250,6 +249,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     break;
                 case VOTE:
                     testingBoxCards = cardRepository.getAllCardsSortedForVoteSystem(studySystem);
+                    break;
+                default:
                     break;
             }
             testingStarted = true;

@@ -8,8 +8,6 @@ import java.nio.IntBuffer;
 
 import com.swp.DataModel.Settings;
 import com.swp.DataModel.User;
-import com.swp.DataModel.CardTypes.ImageDescriptionCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.DataModel.Settings.Setting;
 
 import org.lwjgl.openal.AL;
@@ -18,7 +16,6 @@ import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALC10;
 import org.lwjgl.openal.ALC11;
 import org.lwjgl.openal.ALCCapabilities;
-import org.lwjgl.system.MemoryUtil;
 
 import com.gumse.basics.Globals;
 import com.gumse.gui.GUI;
@@ -29,9 +26,7 @@ import com.gumse.maths.ivec2;
 import com.gumse.system.Display;
 import com.gumse.system.Window;
 import com.gumse.system.Window.WindowResizePosCallback;
-import com.gumse.textures.Texture;
 import com.gumse.tools.Output;
-import com.gumse.tools.Toolbox;
 import com.gumse.tools.Output.OutputCallback;
 import com.gumse.tools.FPS;
 import com.swp.GUI.KarteikartenAGGUI;
@@ -42,7 +37,6 @@ import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Persistence.PersistenceManager;
-import com.swp.GUI.Cards.EditCardPage;
 import com.swp.Controller.ControllerThreadPool;
 
 import lombok.extern.slf4j.Slf4j;
@@ -87,7 +81,6 @@ import lombok.extern.slf4j.Slf4j;
 //   - Export Cards Page            -- done
 //   - Add Single Cards to Deck     -- done
 //   - Add Cards to Deck by category-- done
-//   - Add icons to edit options
 //   - Finalize Editpages           -- done
 //       - TextCard                 -- done
 //       - MultiCard                -- done
@@ -110,7 +103,7 @@ import lombok.extern.slf4j.Slf4j;
 //   - Threedots optionsmenu        -- done
 //   - Auto resizing menubar        -- done
 //   - Custom XML types             -- done
-//   - Check for mandatory fields   -- done?
+//   - Check for mandatory fields   -- done
 //   - Change cardlist order        -- done
 //   - Fix deck tests               -- done
 //       - get correct answer       -- done
@@ -118,9 +111,10 @@ import lombok.extern.slf4j.Slf4j;
 //   - Loginpage                    -- done
 //   - Settings logout              -- done
 //   - German language              -- done
-//   - Deck edit page
-//       - Time field               -- done?
-//       - Custom studysystem
+//   - Deck edit page               -- done
+//       - Time field               -- done
+//       - Vote field               -- done
+//       - Leitner fields           -- done
 //   - Fix notification gui         -- done
 //   - Auto add file extensions     -- done
 //   - Fix browser/fileexplorer
@@ -235,25 +229,6 @@ public class KarteikartenAG
             PageManager.viewPage(PAGES.LOGIN);
 
         
-
-        //TESTING
-        ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
-            new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),
-            new ImageDescriptionCardAnswer("Orange",       61, 26),
-            new ImageDescriptionCardAnswer("Nase",         40, 67),
-            new ImageDescriptionCardAnswer("Hand",         82, 58),
-            new ImageDescriptionCardAnswer("Fuß",          62, 89),
-        };
-        Texture loadTex = new Texture();
-        ByteBuffer imageBuffer = Toolbox.loadResourceToByteBuffer("textures/orange-ket.png", KarteikartenAG.class);
-        loadTex.loadMemory(imageBuffer);
-        
-        byte[] imgdata = new byte[imageBuffer.remaining()];
-        imageBuffer.get(imgdata);
-        MemoryUtil.memFree(imageBuffer);
-        ImageDescriptionCard card = new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", imgdata); 
-        ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(card, false);
-        
         while(pMainWindow.isOpen())
         {
             Display.pollEvents();
@@ -271,6 +246,7 @@ public class KarteikartenAG
             FPS.update();
         }
         threadPool.runQueue();
+        PersistenceManager.close();
     }
 
 

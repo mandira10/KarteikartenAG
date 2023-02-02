@@ -30,14 +30,17 @@ public abstract class Language
             if(args.length < 1)
                 Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
             String id = args[0].replaceAll("\\s","");
-            String value = args[1];
+            String value = combineStrings(args);
             locale.setString(id, value);
         });
     }
 
     private String combineStrings(String[] strs)
     {
-        return ""; //TODO
+        String retstr = "";
+        for(int i = 1; i < strs.length; i++)
+            retstr += strs[i];
+        return retstr;
     }
 
     public void activate()

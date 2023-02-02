@@ -44,7 +44,7 @@ public class PersistenceManager
             return;
         }
         Output.info("Logging in as " + user + " [" + password + "] onto " + host + ":" + port);
-        emFactory = null;
+        emFactory.close();
 
         Map<String,String> persistenceOptions = new HashMap<String, String>();
         persistenceOptions.put("jakarta.persistence.jdbc.url", "jdbc:h2:tcp://" + host + ":" + port);
@@ -71,7 +71,7 @@ public class PersistenceManager
     public static void runLocalH2Server(String user, String password, SingleDataCallback<Boolean> callback) 
     {
         Output.info("Logging in as " + user + " [" + password + "] onto localhost");
-        emFactory = null;
+        emFactory.close();
 
         Map<String,String> persistenceOptions = new HashMap<String, String>();
         persistenceOptions.put("jakarta.persistence.jdbc.url", "jdbc:h2:./db/karteikarten-ag.h2;AUTO_SERVER=TRUE");
@@ -87,6 +87,24 @@ public class PersistenceManager
             return;
         }
         callback.callSuccess(true);
+    }
+
+    public static void demoServer(SingleDataCallback<Boolean> callback) 
+    {
+        emFactory.close();
+
+        try { emFactory = Persistence.createEntityManagerFactory("demo"); }
+        catch(Exception e)
+        {
+            callback.callFailure(Locale.getCurrentLocale().getString("serverconnectionfailed"));
+            return;
+        }
+        callback.callSuccess(true);
+    }
+
+    public static void close()
+    {
+        emFactory.close();
     }
 
 }

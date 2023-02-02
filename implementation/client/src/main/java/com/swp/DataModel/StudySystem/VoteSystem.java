@@ -1,6 +1,5 @@
 package com.swp.DataModel.StudySystem;
 
-import com.gumse.gui.Locale;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -26,7 +25,7 @@ public class VoteSystem extends StudySystem
      */
     public VoteSystem(String name, CardOrder cardOrder, int stars) {
         super(name, cardOrder, StudySystemType.VOTE);
-        initStudySystemBoxes(2,new int[]{0,0});
+        initStudySystemBoxes(new int[]{0,0});
         this.stars = stars;
     }
 

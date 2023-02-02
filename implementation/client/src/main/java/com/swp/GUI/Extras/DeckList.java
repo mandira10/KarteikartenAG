@@ -40,7 +40,7 @@ public class DeckList extends RenderGUI
             Font defaultFont = FontManager.getInstance().getDefaultFont();
             Font fontAwesome = FontManager.getInstance().getFont("FontAwesome");
             
-            Text deckName = new Text(deck.getName() + " - " + deck.getType().name(), defaultFont, new ivec2(10,10), 0);
+            Text deckName = new Text(deck.getName() + " - " + deck.getType().toString(), defaultFont, new ivec2(10,10), 0);
             deckName.setCharacterHeight(35);
             addElement(deckName);
 

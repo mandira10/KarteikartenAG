@@ -4,20 +4,20 @@
         <text pos="10, 10" fontsize="30" locale-id="titlefield"></text>
         <textfield id="titlefield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
 
-        <scroller id="leitnersettings" size="100%, 50%" pos="0, 200">
+        <scroller id="leitnersettings" size="100%, 40%" pos="10, 200" margin="-10, 0">
         </scroller>
 
-        <gui id="votingsettings" size="100%, 50%" pos="0, 200">
-            <text pos="10, 10" fontsize="30" locale-id="votingfield"></text>
-            <textfield id="votingfield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
+        <gui id="votingsettings" size="100%, 40%" pos="10, 200">
+            <text pos="0, 10" fontsize="30" locale-id="votingfield"></text>
+            <textfield id="votingfield" pos="290, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
         </gui>
 
-        <gui id="timingsettings" size="100%, 50%" pos="0, 200">
-            <text pos="10, 10" fontsize="30" locale-id="timelimitfield"></text>
-            <textfield id="timelimitfield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
+        <gui id="timingsettings" size="100%, 40%" pos="10, 200">
+            <text pos="0, 10" fontsize="30" locale-id="timelimitfield"></text>
+            <textfield id="timelimitfield" pos="290, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
         </gui>
 
-        <textbox align="left" fontsize="20" id="studysystemdesc" size="100%, 130" pos="0, 60%" linebreaks="true">StudySystem Description</textbox>
+        <textbox align="left" fontsize="20" id="studysystemdesc" size="100%, 130" pos="0, 70%" linebreaks="true">StudySystem Description</textbox>
 
         <!-- In order to render it after everything else -->
         <text pos="10, 110" fontsize="30" locale-id="studysystemfield"></text>

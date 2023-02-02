@@ -5,7 +5,6 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Output;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
@@ -98,6 +97,7 @@ public class CategoryOverviewPage extends Page
     
     public void loadCategories()
     {
+        pCategoryList.reset();
         categoryController.getRootCategories(bReverseOrder, new DataCallback<Category>() {
             @Override public void onFailure(String msg) { NotificationGUI.addNotification(msg, NotificationType.ERROR, 5); }
             @Override public void onInfo(String msg) {}
@@ -112,6 +112,7 @@ public class CategoryOverviewPage extends Page
     
     public void loadCategories(String searchterm)
     {
+        pCategoryList.reset();
         categoryController.getCategoriesBySearchterm(searchterm, new DataCallback<Category>() {
             @Override public void onSuccess(List<Category> categories) {
                 pCategoryList.reset();

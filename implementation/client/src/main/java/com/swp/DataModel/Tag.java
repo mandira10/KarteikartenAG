@@ -3,12 +3,8 @@ package com.swp.DataModel;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Klasse für einen Tag für Karteikarten

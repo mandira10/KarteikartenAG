@@ -107,8 +107,16 @@ public abstract class StudySystem implements Serializable
         LEITNER,
         TIMING,
         VOTE,
-        NONE
+        NONE;
+
+        @Override
+        public String toString() 
+        {
+            String ret = super.toString();
+            return ret.substring(0, 1).toUpperCase() + ret.substring(1).toLowerCase();
+        }
     }
+    
     /**
      * Festgelegter Typ des Systems
      */
@@ -145,8 +153,8 @@ public abstract class StudySystem implements Serializable
      * @param size Anzahl der Boxen
      * @param daysToRelearn Tage zum Relearnen (wird nur bei Custom LeitnerSystem gesetzt)
      */
-    protected void  initStudySystemBoxes(int size, int[] daysToRelearn){
-        for (int i = 0; i < size; i++)
+    protected void  initStudySystemBoxes(int[] daysToRelearn){
+        for (int i = 0; i < daysToRelearn.length; i++)
             this.boxes.add(new StudySystemBox(this, daysToRelearn[i],i));
     }
 

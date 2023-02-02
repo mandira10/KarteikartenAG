@@ -33,6 +33,11 @@ public class LoginPage extends Page
             login(usernamefield.getString(), passwordfield.getString());
         });
 
+        Button demoButton = (Button)findChildByID("demobutton");
+        demoButton.onClick((RenderGUI gui) -> {
+            demo();
+        });
+
 
         this.setSizeInPercent(true, true);
         reposition();
@@ -42,5 +47,10 @@ public class LoginPage extends Page
     private void login(String username, String password)
     {
         User.loginUser(new User(username, password));
+    } 
+
+    private void demo()
+    {
+        User.demoUser();
     }
 }

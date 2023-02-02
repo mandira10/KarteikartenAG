@@ -1,6 +1,5 @@
 package com.swp.DataModel.StudySystem;
 
-import com.gumse.gui.Locale;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -34,7 +33,7 @@ public class TimingSystem extends StudySystem {
      */
     public TimingSystem(String name, CardOrder cardOrder, int timeLimit) {
         super(name, cardOrder, StudySystemType.TIMING);
-        initStudySystemBoxes(2, new int[]{0, 0});
+        initStudySystemBoxes(new int[]{0, 0});
         this.timeLimit = timeLimit;
     }
 

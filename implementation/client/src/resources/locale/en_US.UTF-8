@@ -9,6 +9,7 @@ continuebutton         = Continue
 checkbutton            = Check
 nextbutton             = Next
 pausebutton            = Pause
+box                    = Box
 
 # Sidebar
 sidebarlogin           = Login

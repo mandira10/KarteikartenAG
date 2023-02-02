@@ -1,5 +1,8 @@
 package com.swp.GUI.Decks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
@@ -21,12 +24,12 @@ import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
 import com.swp.DataModel.StudySystem.StudySystem.CardOrder;
 import com.swp.DataModel.StudySystem.StudySystem.StudySystemType;
+import com.swp.DataModel.StudySystem.StudySystemBox;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
-import com.swp.GUI.Cards.EditCardPages.EditMultipleChoiceCardAnswerEntry;
-import com.swp.GUI.Cards.EditCardPages.EditMultipleChoiceCardAnswerEntry.AnswerEntryCallback;
+import com.swp.GUI.Decks.EditLeitnerDayEntry.EntryCallback;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 
@@ -126,27 +129,30 @@ public class EditDeckPage extends Page
     private void reallignEntries()
     {
         int yoffset = -40; // First child is pAddEntryButton
+        int i = 0;
         for(RenderGUI child : pLeitnersettings.getChildren())
         {
             child.setPosition(new ivec2(0, yoffset));
+            if(child.getType().equals("EditLeitnerDayEntry"))
+                ((EditLeitnerDayEntry)child).setDayNumber(++i);
             yoffset += 40;
         }
         pAddEntryButton.setPosition(new ivec2(100, yoffset));
     }
 
-    public void addEntry(String answer, boolean iscorrect)
+    public void addEntry(int days)
     {
-        EditMultipleChoiceCardAnswerEntry entry = new EditMultipleChoiceCardAnswerEntry(answer, iscorrect, new AnswerEntryCallback() {
-            @Override public void onRemove(EditMultipleChoiceCardAnswerEntry entry) 
+        EditLeitnerDayEntry entry = new EditLeitnerDayEntry(days, pLeitnersettings.numChildren(), new EntryCallback() {
+            @Override public void onRemove(EditLeitnerDayEntry entry) 
             {
                 pLeitnersettings.removeChild(entry);
                 reallignEntries();
-                //overrideCarddata();
+                saveLeitnerboxes();
             }
 
-            @Override public void onChange(EditMultipleChoiceCardAnswerEntry entry) 
+            @Override public void onChange(EditLeitnerDayEntry entry) 
             {
-                //overrideCarddata();
+                saveLeitnerboxes();
             }
         });
 
@@ -161,9 +167,27 @@ public class EditDeckPage extends Page
         pAddEntryButton.getBox().setTextSize(28);
         pAddEntryButton.setOrigin(new ivec2(30, 0));
         pAddEntryButton.onClick((RenderGUI gui) -> {
-            addEntry("", false);
+            addEntry(5);
         });
         pLeitnersettings.addGUI(pAddEntryButton);
+    }
+
+    private void saveLeitnerboxes()
+    {
+        LeitnerSystem system = (LeitnerSystem)pNewDeck;
+        List<StudySystemBox> boxes = new ArrayList<>();
+        List<Integer> daysToRelearn = new ArrayList<>();
+        for(RenderGUI child : pLeitnersettings.getChildren())
+        {
+            if(child.getType().equals("EditLeitnerDayEntry"))
+            {
+                EditLeitnerDayEntry entry = (EditLeitnerDayEntry)child;
+                daysToRelearn.add(entry.getDays());
+                boxes.add(new StudySystemBox(system, entry.getDays(), boxes.size()));
+            }
+        }
+        system.setDaysToRelearn(daysToRelearn.stream().mapToInt(Integer::intValue).toArray());
+        system.setBoxes(boxes);
     }
 
     
@@ -243,6 +267,12 @@ public class EditDeckPage extends Page
                 pNewDeck = new LeitnerSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());
             }
+            pLeitnersettings.destroyChildren();
+            createAddButton();
+            for(int days : ((LeitnerSystem)pNewDeck).getDaysToRelearn())
+                addEntry(days);
+            reallignEntries();
+
             pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("leitner"));
         }
         else if(name.equals(Locale.getCurrentLocale().getString("voting")) || type == StudySystemType.VOTE)

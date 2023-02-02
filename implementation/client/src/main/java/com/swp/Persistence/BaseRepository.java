@@ -1,10 +1,6 @@
 package com.swp.Persistence;
 
-import com.gumse.tools.Output;
-import com.swp.DataModel.Card;
-import com.swp.DataModel.StudySystem.StudySystem;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;

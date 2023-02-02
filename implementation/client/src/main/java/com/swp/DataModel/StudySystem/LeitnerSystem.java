@@ -1,15 +1,11 @@
 package com.swp.DataModel.StudySystem;
 
 
-import com.gumse.gui.Locale;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 @Entity
@@ -39,7 +35,8 @@ public class LeitnerSystem extends StudySystem
      */
     public LeitnerSystem(String name, CardOrder cardOrder) {
         super(name, cardOrder, StudySystemType.LEITNER);
-        initStudySystemBoxes(5, new int[]{0,1,3,7,14});
+        daysToRelearn = new int[]{0,1,3,7,14};
+        initStudySystemBoxes(daysToRelearn);
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.swp.DataModel;
 
 
-import com.gumse.gui.Locale;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,8 +13,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-
-import static com.swp.Validator.checkNotNullOrBlank;
 
 /**
  * Abstrakte Superklasse für die Karten. Enthält die einzelnen Kartentypen sowie

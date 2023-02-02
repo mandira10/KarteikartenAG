@@ -3,7 +3,6 @@ package com.swp.Persistence;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.StudySystemBox;
 import jakarta.persistence.NoResultException;
 
 import java.util.List;

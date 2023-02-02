@@ -19,8 +19,7 @@
             sollte nur Anfangs zum Testen drin sein,
             weil bei jedem Start neue/leere Tabellen erzeugt werden
             -->
-            <property name="jakarta.persistence.schema-generation.database.action"
-                value="drop-and-create"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="org.hibernate.dialect" value="h2"/>
         </properties>
     </persistence-unit>
@@ -28,20 +27,21 @@
         <class>org.hibernate.jpa.HibernatePersistenceProvider</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver" />
-            <!--
-            die folgenden 3 Eigenschaften für Server-Betrieb überschreiben/umkonfigurieren
-            -->
-            <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:h2:mem:default" />
-            <!--                      value="jdbc:h2:~/.swpws2022/karteikarten-ag.h2;AUTO_SERVER=TRUE" />-->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:default" />
             <property name="jakarta.persistence.jdbc.user" value="local-user" />
             <property name="jakarta.persistence.jdbc.password" value="local-user-password" />
-            <!--
-            sollte nur Anfangs zum Testen drin sein,
-            weil bei jedem Start neue/leere Tabellen erzeugt werden
-            -->
-            <property name="jakarta.persistence.schema-generation.database.action"
-                      value="drop-and-create"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="org.hibernate.dialect" value="h2"/>
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="demo" transaction-type="RESOURCE_LOCAL">
+        <class>org.hibernate.jpa.HibernatePersistenceProvider</class>
+        <properties>
+            <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:mem:default" />
+            <property name="jakarta.persistence.jdbc.user" value="Demo User" />
+            <property name="jakarta.persistence.jdbc.password" value="none" />
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="org.hibernate.dialect" value="h2"/>
         </properties>
     </persistence-unit>

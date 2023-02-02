@@ -36,7 +36,6 @@ public class TestDeckPage extends Page
     private boolean bAnswerChecked, bNextCardAllowed, bCurrentAnswer;
     private boolean bStopTime;
     private long lStartTime, lTimeLimit;
-    private float fElapsedSeconds;
     private Card pCardToLearn;
     private Button pCheckButton, pAnswerOverrideButton;
     private RatingGUI pRatingGUI;

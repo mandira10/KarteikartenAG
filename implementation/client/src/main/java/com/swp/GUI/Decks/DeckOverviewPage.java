@@ -12,7 +12,6 @@ import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.DeckList;
-import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.PageManager.PAGES;
 
@@ -39,7 +38,6 @@ public class DeckOverviewPage extends Page
         pDeckList.setSizeInPercent(true, true);
         pCanvas.addGUI(pDeckList);
         
-        MenuOptions menu = (MenuOptions)findChildByID("menu");
         Button newButton = (Button)findChildByID("adddeckbutton");
         newButton.onClick((RenderGUI gui) -> { PageManager.viewPage(PAGES.DECK_CREATE); });
 

@@ -24,7 +24,6 @@ import com.swp.GUI.Extras.NotificationGUI;
 
 public class ViewCategoryTreePage extends Page
 {
-    private Category pCategory;
     private RenderGUI pCanvas;
     private TreeNode pRootNode;
     private ivec2 v2MouseOffset;

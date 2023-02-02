@@ -2,6 +2,8 @@ package com.swp.DataModel;
 
 
 import com.gumse.gui.Locale;
+import com.swp.TestDataClass;
+import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Settings.Setting;
 import com.swp.GUI.Extras.Notification.NotificationType;
@@ -45,6 +47,28 @@ public class User
                 PageManager.viewPage(PAGES.DECK_OVERVIEW);
             }
         });
+    }
+
+    public static void demoUser()
+    {
+        pLoggedInUser = new User("Demo User", "none");
+        PersistenceManager.demoServer(new SingleDataCallback<Boolean>() {
+            @Override protected void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, NotificationType.CONNECTION, 7);
+                logout();
+            }
+            @Override protected void onSuccess(Boolean data) 
+            {
+                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("loginmessage"), NotificationType.INFO, 7);
+                KarteikartenAGGUI.getInstance().getSidebar().refresh();
+                PageManager.viewPage(PAGES.DECK_OVERVIEW);
+            }
+        });
+
+
+        ControllerThreadPool.getInstance().synchronizedTasks(true);
+        TestDataClass.importTestData();
+        ControllerThreadPool.getInstance().synchronizedTasks(false);
     }
 
 

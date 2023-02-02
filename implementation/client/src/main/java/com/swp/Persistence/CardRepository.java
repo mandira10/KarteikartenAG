@@ -6,12 +6,11 @@ import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.Tag;
 import jakarta.persistence.NoResultException;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-@Slf4j
-public class CardRepository extends BaseRepository<Card> {
+public class CardRepository extends BaseRepository<Card> 
+{
     private CardRepository() {
         super(Card.class);
     }
