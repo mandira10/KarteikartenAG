@@ -5,6 +5,7 @@ import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
+import com.gumse.maths.vec4;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
@@ -42,6 +43,7 @@ public class ViewSingleDeckPage extends Page
 
         //Start test button
         Button startButton = (Button)findChildByID("starttestbutton");
+        startButton.getBox().setTextColor(new vec4(0,0,0,1));
         startButton.onClick((RenderGUI gui) -> { ((TestDeckPage)PageManager.viewPage(PAGES.DECK_TEST)).startTests(pDeck); });
 
         //Edit button

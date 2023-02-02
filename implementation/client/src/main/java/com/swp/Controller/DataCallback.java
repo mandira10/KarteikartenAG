@@ -2,8 +2,6 @@ package com.swp.Controller;
 
 import java.util.List;
 
-import com.gumse.tools.Output;
-
 /**
  * Datacallback Klasse. Gibt die Rückgaben vom Controller an den MainThread weiter.
  * @param <E> je nach Rückgabewert spezifisch

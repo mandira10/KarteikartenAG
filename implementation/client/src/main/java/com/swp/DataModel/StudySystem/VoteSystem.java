@@ -29,8 +29,9 @@ public class VoteSystem extends StudySystem
     }
 
 
-    public VoteSystem() {
-       this("",CardOrder.ALPHABETICAL);
+    public VoteSystem() 
+    {
+       this("", CardOrder.ALPHABETICAL);
     }
 
 

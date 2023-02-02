@@ -41,6 +41,7 @@ import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.PageManager.PAGES;
+import com.swp.Persistence.PersistenceManager;
 import com.swp.GUI.Cards.EditCardPage;
 import com.swp.Controller.ControllerThreadPool;
 
@@ -143,6 +144,7 @@ public class KarteikartenAG
         Globals.DEBUG_BUILD = true;
         System.setProperty("java.awt.headless", "true");
 
+        PersistenceManager.init();
         Output.init();
         Output.setCallback(new OutputCallback() {
             @Override public void onInfo(String msg)  { log.info(msg); }

@@ -15,7 +15,8 @@ import java.util.List;
  * gibt Ergebnisse an die GUI weiter.
  */
 @Slf4j
-public class CategoryController {
+public class CategoryController extends Controller
+{
     /**
      * Instanz von CategoryController
      */
@@ -47,22 +48,15 @@ public class CategoryController {
      * @param neu  Ob, die Kategorie neue oder nicht ist zu verstehen
      * @param singleDataCallback  Callback für die GUI gib bei Fehler die Exception message weiter
      */
-    public void updateCategoryData(Category category, boolean neu, boolean nameChange, SingleDataCallback<Boolean> singleDataCallback) {
-        threadPool.exec(() -> {
-            try {
-                categoryLogic.updateCategoryData(category, neu, nameChange);
-                singleDataCallback.callSuccess(true);
-            }
-            catch (IllegalStateException ex) {
-                singleDataCallback.callFailure(ex.getMessage());
-                log.error("Kategorie nicht gefunden");
-            }
-            catch (Exception ex) {
-                singleDataCallback.callFailure(String.format(Locale.getCurrentLocale().getString("categoryupdatesaveerror")));
-                log.error("Beim Updaten/Speichern der Kategorie {} ist ein Fehler {} aufgetreten",category.getUuid(),ex.getMessage());
-
-            }
-        });
+    public void updateCategoryData(Category category, boolean neu, boolean nameChange, SingleDataCallback<Boolean> callback) 
+    {
+        callLogicFuncInThread(
+            () -> { categoryLogic.updateCategoryData(category, neu, nameChange); return true; }, 
+            "getcardstoshowempty", 
+            "Es wurden keine zugehörigen Karten gefunden", 
+            "categoryupdatesaveerror", // Beim Abrufen der Karten ist ein Fehler aufgetreten
+            "Beim Updaten/Speichern der Kategorie "+category.getUuid()+" ist ein Fehler $ aufgetreten", 
+            callback);
     }
 
     /**
@@ -345,7 +339,7 @@ public class CategoryController {
             try {
                 List<Category> categoriesForCard = categoryLogic.getCategoriesByCard(card);
 
-                if (categoriesForCard.isEmpty())
+                if(categoriesForCard.isEmpty())
                     log.info(Locale.getCurrentLocale().getString("getcategoriestocardempty"));
 
                 if(dataCallback != null)
@@ -370,7 +364,7 @@ public class CategoryController {
             try {
                 List<Category> categories = categoryLogic.getCategories();
 
-                if (categories.isEmpty())
+                if(categories.isEmpty())
                     log.info(Locale.getCurrentLocale().getString("getcatoriesempty"));
 
                 if(dataCallback != null)

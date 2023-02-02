@@ -12,9 +12,13 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
+import com.swp.DataModel.Language.German;
+import com.swp.DataModel.Language.Language;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.Logic.StudySystemLogic;
+import com.swp.Persistence.PersistenceManager;
+
 import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +32,10 @@ import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
@@ -38,33 +46,19 @@ public class StudySystemControllerTests {
     private StudySystemLogic studySystemMockLogic;
     private StudySystemController studySystemController = StudySystemController.getInstance();
 
-    private Locale locale = new Locale("German", "de");
-    private int i;
-
     @BeforeEach
-    public void beforeEach() {
+    public void beforeEach() 
+    {
         studySystemMockLogic = mock(StudySystemLogic.class);
         on(studySystemController).set("studySystemLogic", studySystemMockLogic);
-        Locale.setCurrentLocale(locale);
-        String filecontent = Toolbox.loadResourceAsString("locale/de_DE.UTF-8", getClass());
-        i = 0;
-        filecontent.lines().forEach((String line) -> {
-            i++;
-            if (line.replaceAll("\\s", "").isEmpty() || line.charAt(0) == '#')
-                return;
-
-            String[] args = line.split("= ");
-            if (args.length < 1)
-                Output.error("Locale resource for language " + locale.getLanguage() + " is missing a definition at line " + i);
-            String id = args[0].replaceAll("\\s", "");
-            String value = args[1];
-            locale.setString(id, value);
-        });
     }
 
     @BeforeAll
-    public static void before() {
+    public static void before() 
+    {
+        PersistenceManager.init("KarteikartenDBTest");
         ControllerThreadPool.getInstance().synchronizedTasks(true);
+        German.getInstance().activate();
     }
 
 

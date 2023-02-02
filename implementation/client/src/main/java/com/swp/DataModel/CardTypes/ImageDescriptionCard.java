@@ -28,7 +28,7 @@ public class ImageDescriptionCard extends Card
      * Bilddatei für die Frage. Wird als ByteArray gespeichert.
      */
     @Lob
-    @Column
+    @Column(columnDefinition="BLOB NOT NULL", length=30000)
     private byte[] image;
 
     //@Column

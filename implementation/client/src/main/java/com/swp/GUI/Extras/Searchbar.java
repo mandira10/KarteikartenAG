@@ -77,13 +77,13 @@ public class Searchbar extends RenderGUI
         pSearchOptions = new Radiobutton(new ivec2(20, 20), 150, fonts.getDefaultFont(), 20);
         pSearchOptions.singleSelect(true);
         pSearchOptions.setSizeInPercent(true, false);
-        pSearchOptions.onSelect((int index, String content) -> {
-            iCurrentSearchOption = index;
-        });
         pBubble.addGUI(pSearchOptions);
         for(String locale : optionlocaleids)
             pSearchOptions.addOption("", locale, "");
         pSearchOptions.select(iCurrentSearchOption);
+        pSearchOptions.onSelect((int index, String content) -> {
+            iCurrentSearchOption = index;
+        });
         pBubble.setSize(new ivec2(200, pSearchOptions.getSize().y + 30));
 
         pSubmitButton = new Button(new ivec2(100, 0), new ivec2(size.y * 2, size.y), "", fonts.getFont("FontAwesome"));

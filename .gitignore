@@ -18,3 +18,4 @@ swp-abgabe*.pdf
 !.gitlab-ci.yml
 implementation/client/dependency-reduced-pom.xml
 implementation/settings.ini
+implementation/db/*

@@ -7,6 +7,8 @@ import com.swp.Persistence.*;
 import com.swp.Persistence.Exporter.ExportFileType;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
 import java.util.*;
 
 import static com.swp.Validator.checkNotNullOrBlank;
@@ -305,14 +307,20 @@ public class CardLogic extends BaseLogic<Card>
      * Wird aufgerufen, um ausgewählte Karten zu exportieren. Wird an die Exporter Klasse weitergereicht.
      * @param cards Set an Karten, die exportiert werden sollen
      * @param filetype Exporttyp der Karten
+     * @throws IOException
      */
     public boolean exportCards(List<CardOverview> cards, String destination, ExportFileType filetype) 
     {
         List<Card> cardlist = new ArrayList<>();
         for(CardOverview ov : cards)
             cardlist.add(getCardByUUID(ov.getUUUID()));
+        
+        if(!new Exporter(filetype).export(cardlist, destination))
+        {
+            throw new IllegalStateException("Failed to export cards");
+        }
 
-        return new Exporter(filetype).export(cardlist, destination);
+        return true;
     }
 
 

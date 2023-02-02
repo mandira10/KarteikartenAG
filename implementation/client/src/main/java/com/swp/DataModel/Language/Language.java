@@ -35,6 +35,11 @@ public abstract class Language
         });
     }
 
+    private String combineStrings(String[] strs)
+    {
+        return ""; //TODO
+    }
+
     public void activate()
     {
         Locale.setCurrentLocale(locale);

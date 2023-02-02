@@ -22,7 +22,7 @@
             <textfield id="timelimitfield" pos="300, 10" size="100%, 30" margin="-300, 0" fontsize="30" hint=""></textfield>
         </gui>
 
-        <textbox align="left" fontsize="30" id="studysystemdesc" size="100%, 35" pos="0, 60%" linebreaks="true">StudySystem Description</textbox>
+        <textbox align="left" fontsize="20" id="studysystemdesc" size="100%, 130" pos="0, 60%" linebreaks="true">StudySystem Description</textbox>
 
         <!-- In order to render it after everything else -->
         <text pos="10, 110" fontsize="30" locale-id="studysystemfield"></text>

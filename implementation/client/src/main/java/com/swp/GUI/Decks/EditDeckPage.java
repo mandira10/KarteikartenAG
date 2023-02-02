@@ -17,6 +17,7 @@ import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
 import com.swp.DataModel.StudySystem.StudySystem.CardOrder;
+import com.swp.DataModel.StudySystem.StudySystem.StudySystemType;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Notification.NotificationType;
@@ -112,33 +113,7 @@ public class EditDeckPage extends Page
         //Studysystem dropdown
         pStudySystemDropdown = (Dropdown)findChildByID("studysystemdd");
         pStudySystemDropdown.onSelection((String str) -> {
-            pLeitnersettings.hide(true);
-            pVotingsettings.hide(true);
-            pTimingsettings.hide(true);
-            if(str.equals(Locale.getCurrentLocale().getString("leitner")))
-            {
-                pLeitnersettings.hide(false);
-                pStudysystemdesc.setString(Locale.getCurrentLocale().getString("leitnerdesc"));
-                StudySystem tmpDeck = pNewDeck;
-                pNewDeck = new LeitnerSystem();
-                pNewDeck.setCardOrder(tmpDeck.getCardOrder());
-            }
-            else if(str.equals(Locale.getCurrentLocale().getString("voting")))
-            {
-                pVotingsettings.hide(false);
-                pStudysystemdesc.setString(Locale.getCurrentLocale().getString("votingdesc"));
-                StudySystem tmpDeck = pNewDeck;
-                pNewDeck = new VoteSystem();
-                pNewDeck.setCardOrder(tmpDeck.getCardOrder());
-            }
-            else if(str.equals(Locale.getCurrentLocale().getString("timing")))
-            {
-                pTimingsettings.hide(false);
-                pStudysystemdesc.setString(Locale.getCurrentLocale().getString("timingdesc"));
-                StudySystem tmpDeck = pNewDeck;
-                pNewDeck = new TimingSystem();
-                pNewDeck.setCardOrder(tmpDeck.getCardOrder());
-            }
+            selectSystem(StudySystemType.NONE, str);
         });
 
         this.setSizeInPercent(true, true);
@@ -172,27 +147,7 @@ public class EditDeckPage extends Page
         bIsNewDeck = newdeck;
 
         pTitleField.setString(pNewDeck.getName());
-        switch(pNewDeck.getType())
-        {
-            case LEITNER: 
-                pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("leitner")); 
-                pLeitnersettings.hide(false);
-                pStudysystemdesc.setString(Locale.getCurrentLocale().getString("leitnerdesc"));
-                break;
-
-            case TIMING:  
-                pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("timing"));  
-                pTimingsettings.hide(false);
-                pStudysystemdesc.setString(Locale.getCurrentLocale().getString("timingdesc"));
-                break;
-
-            case VOTE:    
-                pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("voting"));  
-                pVotingsettings.hide(false);
-                pStudysystemdesc.setString(Locale.getCurrentLocale().getString("votingdesc"));
-                break;
-            default:      Output.error("Unknown Studysystem type!"); break;
-        }
+        selectSystem(pNewDeck.getType(), "");
 
         switch(pNewDeck.getCardOrder())
         {
@@ -225,5 +180,36 @@ public class EditDeckPage extends Page
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
             }
         });
+    }
+
+    void selectSystem(StudySystem.StudySystemType type, String name)
+    {
+        pLeitnersettings.hide(true);
+        pVotingsettings.hide(true);
+        pTimingsettings.hide(true);
+        if(name.equals(Locale.getCurrentLocale().getString("leitner")) || type == StudySystemType.LEITNER)
+        {
+            pLeitnersettings.hide(false);
+            pStudysystemdesc.setString(Locale.getCurrentLocale().getString("leitnerdesc"));
+            StudySystem tmpDeck = pNewDeck;
+            pNewDeck = new LeitnerSystem();
+            pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+        }
+        else if(name.equals(Locale.getCurrentLocale().getString("voting")) || type == StudySystemType.VOTE)
+        {
+            pVotingsettings.hide(false);
+            pStudysystemdesc.setString(Locale.getCurrentLocale().getString("votingdesc"));
+            StudySystem tmpDeck = pNewDeck;
+            pNewDeck = new VoteSystem();
+            pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+        }
+        else if(name.equals(Locale.getCurrentLocale().getString("timing")) || type == StudySystemType.TIMING)
+        {
+            pTimingsettings.hide(false);
+            pStudysystemdesc.setString(Locale.getCurrentLocale().getString("timingdesc"));
+            StudySystem tmpDeck = pNewDeck;
+            pNewDeck = new TimingSystem();
+            pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+        }
     }
 }

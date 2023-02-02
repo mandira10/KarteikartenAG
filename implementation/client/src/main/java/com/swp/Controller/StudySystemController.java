@@ -17,7 +17,8 @@ import java.util.stream.Collectors;
  * gibt Ergebnisse an die GUI weiter.
  */
 @Slf4j
-public class StudySystemController {
+public class StudySystemController extends Controller
+{
     /**
      * Instanz von studySystemContoller
      */

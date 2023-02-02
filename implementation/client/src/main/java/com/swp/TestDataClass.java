@@ -1,13 +1,10 @@
 package com.swp;
 
-import com.gumse.textures.Texture;
+import com.gumse.tools.Toolbox;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
-import com.swp.Controller.DataCallback;
-import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
@@ -15,14 +12,12 @@ import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
 import com.swp.DataModel.Tag;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.Logic.CategoryLogic;
-import com.swp.Logic.StudySystemLogic;
-import com.swp.Persistence.Exporter.ExportFileType;
 
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.lwjgl.system.MemoryUtil;
 
 /**
  * Klasse speist einzelne Testdaten in die GUI bei Start ein.
@@ -47,30 +42,20 @@ public class TestDataClass {
                 add(spanischCategory);
                 add(erdkundeCategory);
             }
-        }, new SingleDataCallback<String>() {
-            @Override
-            public void onFailure(String msg) {
-            }
+        }, null);
 
-            @Override
-            public void onSuccess(String data) {
-            }
-        });
-
-        for (Category category : new Category[]{randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory}) {
-            categoryController.updateCategoryData(category, true, false, new SingleDataCallback<Boolean>() {
-                @Override public void onSuccess(Boolean data) {}
-                @Override public void onFailure(String msg) {}
-            });
-        }
+        for (Category category : new Category[]{randomCategory, schuleCategory, technikCategory, spanischCategory, erdkundeCategory})
+            categoryController.updateCategoryData(category, true, false, null);
 
 
         List<Card> randomL = new ArrayList<>();
-        //randomL.add(new ImageDescriptionCard("Some Image Description Question", new ImageDescriptionCardAnswer[]{}, "ImageDescriptionTitle", "textures/orange-ket.png", false));
+        ByteBuffer imageBuffer = Toolbox.loadResourceToByteBuffer("textures/orange-ket.png", KarteikartenAG.class);
+        byte[] imgdata = new byte[imageBuffer.remaining()];
+        imageBuffer.get(imgdata);
+        MemoryUtil.memFree(imageBuffer);
+
         for(int i = 0; i < 100; i++) {
-            Texture loadTex = new Texture();
-            loadTex.loadFile("textures/orange-ket.png", TestDataClass.class);
-            randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", new byte[loadTex.getData().remaining()], "ImageTestCardTitle" + i, false));
+            randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", imgdata, "ImageTestCardTitle" + i, false));
         }
 
         String testReferences = 
@@ -80,43 +65,19 @@ public class TestDataClass {
             "fil;./pom.xml;the krabby patty secret formula";
 
         for (Card c : randomL) {
-            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            cardController.updateCardData(c, true, null);
             cardController.setTagsToCard(c, new ArrayList<>() {
                 {
                     add(new Tag("toll"));
                     add(new Tag("cool"));
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
 
             categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(randomCategory);
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
         }
 
 
@@ -130,44 +91,20 @@ public class TestDataClass {
 
         for (Card c : erdkundeL) {
             c.setReferences(testReferences);
-            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            cardController.updateCardData(c, true, null);
             cardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("Deutschland"));
                     add(new Tag("Australien"));
                     add(new Tag("Länder"));
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
             categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(erdkundeCategory);
                     add(schuleCategory);
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
         }
 
 
@@ -179,44 +116,20 @@ public class TestDataClass {
 
         for (Card c : spanischL) {
             c.setReferences(testReferences);
-            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            cardController.updateCardData(c, true, null);
             cardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("Essen"));
                     add(new Tag("Anderes"));
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
 
             categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(spanischCategory);
                     add(schuleCategory);
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
         }
 
 
@@ -229,44 +142,20 @@ public class TestDataClass {
 
         for (Card c : technikL) {
             c.setReferences(testReferences);
-            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            cardController.updateCardData(c, true, null);
             cardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("Google Earth"));
                     add(new Tag("Technikmarken"));
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
 
             categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(technikCategory);
                     add(schuleCategory);
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
         }
 
         List<Card> zweitausender = new ArrayList<>();
@@ -281,44 +170,20 @@ public class TestDataClass {
 
         for (Card c : zweitausender) {
             c.setReferences(testReferences);
-            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            cardController.updateCardData(c, true, null);
             cardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("2000er"));
                     add(new Tag("Alles mögliche"));
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
 
             categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(new Category("Durcheinander"));
                     add(new Category("Jahre"));
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
         }
 
         List<Card> serien = new ArrayList<>();
@@ -332,43 +197,19 @@ public class TestDataClass {
 
         for (Card c : serien) {
             c.setReferences(testReferences);
-            CardController.getInstance().updateCardData(c, true, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            cardController.updateCardData(c, true, null);
             cardController.setTagsToCard(c, new ArrayList<Tag>() {
                 {
                     add(new Tag("serien"));
                     add(new Tag("Alles mögliche"));
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
 
             categoryController.setCategoriesToCard(c, new ArrayList<Category>() {
                 {
                     add(new Category("Durcheinander"));
                 }
-            }, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-            });
+            }, null);
         }
 
 
@@ -397,7 +238,6 @@ public class TestDataClass {
 
 
         //TestData for Hierarchy
-
         Category gymnasium = new Category("Gymnasium");
         Category oberschule = new Category("Oberschule");
         Category kunst = new Category("Kunst");
@@ -424,12 +264,9 @@ public class TestDataClass {
                 add(other3);
             }
         };
-        for (Category c : categories) {
-            categoryController.updateCategoryData(c, true, false, new SingleDataCallback<Boolean>() {
-                @Override public void onSuccess(Boolean data) {}
-                @Override public void onFailure(String msg) {}
-            });
-        }
+        for (Category c : categories)
+            categoryController.updateCategoryData(c, true, false, null);
+
         List<Category> childKunst = new ArrayList<>() {
             {
                 add(klasse11);

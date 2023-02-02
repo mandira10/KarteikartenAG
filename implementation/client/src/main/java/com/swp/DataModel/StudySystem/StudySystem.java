@@ -106,7 +106,8 @@ public abstract class StudySystem implements Serializable
     {
         LEITNER,
         TIMING,
-        VOTE
+        VOTE,
+        NONE
     }
     /**
      * Festgelegter Typ des Systems

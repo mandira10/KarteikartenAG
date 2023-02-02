@@ -13,12 +13,14 @@ import com.swp.Controller.SingleDataCallback;
 
 public class PersistenceManager 
 {
-    private static final String PU_NAME = "KarteikartenDB";
-    protected static EntityManagerFactory emFactory;
+    private static String puName;
+    protected static EntityManagerFactory emFactory = null;
 
-    static 
+    public static void init() { init("KarteikartenDB"); }
+    public static void init(String puname)
     {
-        emFactory = Persistence.createEntityManagerFactory(PU_NAME);
+        puName = puname;
+        emFactory = Persistence.createEntityManagerFactory(puName);
     }
 
     public static EntityManager getEntityManager()
@@ -51,7 +53,7 @@ public class PersistenceManager
         persistenceOptions.put("jakarta.persistence.jdbc.driver", "org.h2.Driver");
         persistenceOptions.put("org.hibernate.dialect", "h2");
 
-        try { emFactory = Persistence.createEntityManagerFactory(PU_NAME, persistenceOptions); }
+        try { emFactory = Persistence.createEntityManagerFactory(puName, persistenceOptions); }
         catch(Exception e)
         {
             callback.callFailure(Locale.getCurrentLocale().getString("serverconnectionfailed") + ": " + host + ":" + port);
@@ -72,13 +74,13 @@ public class PersistenceManager
         emFactory = null;
 
         Map<String,String> persistenceOptions = new HashMap<String, String>();
-        persistenceOptions.put("jakarta.persistence.jdbc.url", "jdbc:h2:~/.swpws2022/karteikarten-ag.h2;AUTO_SERVER=TRUE");
+        persistenceOptions.put("jakarta.persistence.jdbc.url", "jdbc:h2:./db/karteikarten-ag.h2;AUTO_SERVER=TRUE");
         persistenceOptions.put("jakarta.persistence.jdbc.user", user);
         persistenceOptions.put("jakarta.persistence.jdbc.password", password);
         persistenceOptions.put("jakarta.persistence.jdbc.driver", "org.h2.Driver");
         persistenceOptions.put("org.hibernate.dialect", "h2");
 
-        try { emFactory = Persistence.createEntityManagerFactory(PU_NAME, persistenceOptions); }
+        try { emFactory = Persistence.createEntityManagerFactory(puName, persistenceOptions); }
         catch(Exception e)
         {
             callback.callFailure(Locale.getCurrentLocale().getString("serverstartfailed"));
