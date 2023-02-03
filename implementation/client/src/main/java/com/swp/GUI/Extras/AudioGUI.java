@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -38,6 +39,8 @@ public class AudioGUI extends RenderGUI
     private mat4 m4PlayPauseMatrix;
     private boolean bIsPlaying;
     private int iSourceID;
+    private float fDuration;
+    private long lStartTime;
 
     private static VertexArrayObject pPauseVAO = null, pPlayVAO = null;
 
@@ -136,6 +139,17 @@ public class AudioGUI extends RenderGUI
         renderPlayPause();
     }
 
+    @Override
+    public void updateextra() 
+    {
+        if(bIsPlaying)
+        {
+            long convert = TimeUnit.SECONDS.convert(System.nanoTime() - lStartTime, TimeUnit.NANOSECONDS);
+            if(convert > fDuration)
+                stop();
+        }
+    }
+
     private void renderPlayPause()
     {
         GUIShader.getShaderProgram().use();
@@ -161,6 +175,7 @@ public class AudioGUI extends RenderGUI
 
     public void play()
     {
+        this.lStartTime = System.nanoTime();
         AL11.alSourcePlay(iSourceID);
         bIsPlaying = true;
     }
@@ -191,6 +206,7 @@ public class AudioGUI extends RenderGUI
         int audiobuffer = AL11.alGenBuffers();
         WaveData data = WaveData.create(audio);
         AL11.alBufferData(audiobuffer, data.format, data.data, data.samplerate);
+        fDuration = data.getDurationInSeconds();
         data.dispose();
 
         //Source

@@ -30,6 +30,7 @@ public class WaveData {
 
 	private final AudioInputStream audioStream;
 	private final byte[] dataArray;
+    private double durationInSeconds;
 
 	private WaveData(AudioInputStream stream) 
     {
@@ -41,6 +42,9 @@ public class WaveData {
 		this.totalBytes = (int) (stream.getFrameLength() * bytesPerFrame);
 		this.data = BufferUtils.createByteBuffer(totalBytes);
 		this.dataArray = new byte[totalBytes];
+        long frames = stream.getFrameLength();
+        durationInSeconds = frames / audioFormat.getFrameRate();  
+
 		loadData();
 	}
 
@@ -91,4 +95,8 @@ public class WaveData {
 		}
 	}
 
+    public float getDurationInSeconds()
+    {
+        return (float)durationInSeconds;
+    }
 }

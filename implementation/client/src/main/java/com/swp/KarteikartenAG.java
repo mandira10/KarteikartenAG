@@ -71,13 +71,13 @@ import lombok.extern.slf4j.Slf4j;
 //   - Test rating                  -- done
 //   - Studysystem editpage         -- done
 //   - Studysystem dropdown         -- done
-//   - Finalize Viewpages
+//   - Finalize Viewpages           -- done
 //       - TextCard                 -- done
 //       - MultiCard                -- done
 //       - TrueFalseCard            -- done
 //       - ImageTestCard            -- done
 //       - ImageDescCard            -- done
-//       - AudioCard
+//       - AudioCard                -- done
 //   - Export Cards Page            -- done
 //   - Add Single Cards to Deck     -- done
 //   - Add Cards to Deck by category-- done

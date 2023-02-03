@@ -12,11 +12,14 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
+import com.swp.DataModel.Card.CardType;
+import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardRenderer.CardRenderer;
+import com.swp.GUI.Extras.AudioGUI;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
@@ -39,6 +42,8 @@ public class ViewSingleCardPage extends Page
     private Text pTagsText, pCategoriesText;
     private ReferencesGUI pReferences;
     private PAGES iLastPage;
+    private Button pFlipButton;
+    private AudioGUI pAudioGUI;
 
     public ViewSingleCardPage()
     {
@@ -61,6 +66,8 @@ public class ViewSingleCardPage extends Page
         pReferences.setSizeInPercent(true, true);
         pReferences.hide(true);
         pCanvas.addGUI(pReferences);
+
+        pAudioGUI = new AudioGUI(new ivec2(0, 0), new ivec2(0,0));
 
         pRatingGUI = new RatingGUI(new ivec2(100, 70), 30, 5);
         pRatingGUI.setPositionInPercent(true, false);
@@ -92,8 +99,7 @@ public class ViewSingleCardPage extends Page
         Button backButton = (Button)findChildByID("backbutton");
         backButton.onClick((RenderGUI gui) -> { PageManager.viewPage(iLastPage); });
 
-        Button flipButton = (Button)findChildByID("flipcardbutton");
-        flipButton.onClick((RenderGUI gui) -> { pCardRenderer.flip(); });
+        pFlipButton = (Button)findChildByID("flipcardbutton");
 
         Button referencesButton = (Button)findChildByID("referencesbutton");
         referencesButton.onClick((RenderGUI gui) -> {
@@ -154,6 +160,18 @@ public class ViewSingleCardPage extends Page
 
             }
         });
+
+        if(pCard.getType() == CardType.AUDIO)
+        {
+            pFlipButton.setTitle(Locale.getCurrentLocale().getString("playaudiocardbutton"));
+            pAudioGUI.loadAudio(((AudioCard)pCard).getAudio());
+            pFlipButton.onClick((RenderGUI gui) -> { pAudioGUI.play(); });
+        }
+        else
+        {
+            pFlipButton.setTitle(Locale.getCurrentLocale().getString("flipcardbutton"));
+            pFlipButton.onClick((RenderGUI gui) -> { pCardRenderer.flip(); });
+        }
 
         pReferences.hide(true);
         pCardRenderer.hide(false);
