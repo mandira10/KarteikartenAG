@@ -305,7 +305,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param studySystem Das StudySystem, das benötigt wird.
      * @return ResultPoint von der Funktion calculateResultAndSave bekommen wird
      */
-    public int finishTestAndGetResult(StudySystem studySystem) { // Testet
+    public int finishTestAndGetResult(StudySystem studySystem) { 
         double result;
         if(studySystem.getTrueAnswerCount() == 0 || studySystem.getQuestionCount() == 0) {
             testingBoxCards.removeAll(testingBoxCards);
@@ -457,8 +457,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
 
-
-
+    /**
+     * Hilfsmethode für das Resetten / Ändern der Boxenanzahl eines StudySystems. Gibt die alten Karten aus dem StudySystem  auf
+     * und löscht das alte StudySystem danach, indem die delete Funktion aufgerufen wird.
+     * @param oldStudySystem das zu löschende StudySystem
+     * @return Karten (wenn vorhanden), die zum Deck gehören
+     */
     private List<CardOverview> getCardsFromOldStudySystemAndDelete(StudySystem oldStudySystem) {
         return execTransactional(() -> {
             List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudySystem);
@@ -529,7 +533,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param searchterm: Suchbegriff um nach zu suchen.
      * @return eine Liste von StudySystem
      */
-    public List<StudySystem> getStudySystemsBySearchterm(String searchterm) { // Testet
+    public List<StudySystem> getStudySystemsBySearchterm(String searchterm) { 
         checkNotNullOrBlank(searchterm);
         return execTransactional(() -> studySystemRepository.findStudySystemsContaining(searchterm));
     }
@@ -578,7 +582,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return Karten
      */
 
-    public List<Card> getCardsForCardOverview(List<CardOverview>cards){ // Testet
+    public List<Card> getCardsForCardOverview(List<CardOverview>cards){ 
        return execTransactional(() -> cardRepository.getAllCardsForCardOverview(cards));
     }
 
@@ -588,7 +592,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param uuid: UUID des StudySystem
      * @return Zugehöriges StudySystem
      */
-    public StudySystem getStudySystemByUUID(String uuid) { // Testet
+    public StudySystem getStudySystemByUUID(String uuid) { 
         checkNotNullOrBlank(uuid);
         return execTransactional(() -> studySystemRepository.getStudySystemByUUID(uuid));
     }
@@ -598,7 +602,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param studySystem: studySystem, um die Anzahl der Karten darin zu suchen
      * @return Anzahl der Karten
      */
-    public Integer numCardsInDeck(StudySystem studySystem) { // Testet
+    public Integer numCardsInDeck(StudySystem studySystem) { 
           return getAllCardsInStudySystem(studySystem).size();
     }
 
@@ -609,7 +613,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param card: Für Box zu suchen
      * @return gefundenes BoxToCard
      */
-    public BoxToCard getBoxToCard(Card card,  StudySystem studySystem) { // Testet
+    public BoxToCard getBoxToCard(Card card,  StudySystem studySystem) { 
       return execTransactional(() ->  cardToBoxRepository.getSpecific(card, studySystem));
     }
 
