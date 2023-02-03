@@ -57,7 +57,7 @@ public class CategoryControllerTests {
     @Test
     public void updateCategoryDataExceptionTest(){
         final Category cat = new Category("Test");
-        doThrow(new RuntimeException()).when(categoryMockLogic).updateCategoryData(cat,true,false);
+        doThrow(new RuntimeException("Test")).when(categoryMockLogic).updateCategoryData(cat,true,false);
         String expected = "Kategorie konnte nicht gespeichert oder geupdatet werden.";
         final String[] actual = new String[1];
         categoryController.updateCategoryData(cat,true,false, new SingleDataCallback<>() {
@@ -77,7 +77,7 @@ public class CategoryControllerTests {
     @Test
     public void updateCategoryDataNullTest(){
         final Category cat = null;
-        doThrow(new IllegalStateException("Kategorie existiert nicht")).when(categoryMockLogic).updateCategoryData(cat,true,false);
+        doThrow(new IllegalStateException("categorynullerror")).when(categoryMockLogic).updateCategoryData(cat,true,false);
         String expected = "Kategorie existiert nicht";
         final String[] actual = new String[1];
         categoryController.updateCategoryData(cat, true,false, new SingleDataCallback<>() {
@@ -117,7 +117,7 @@ public class CategoryControllerTests {
     @Test
     public void deleteCategoryTestNull(){
         Category cat = new Category("Test");
-        doThrow(new IllegalStateException("Kategorie existiert nicht")).when(categoryMockLogic).deleteCategory(cat);
+        doThrow(new IllegalStateException("categorynullerror")).when(categoryMockLogic).deleteCategory(cat);
         String expected = "Kategorie existiert nicht";
         final String[] actual = new String[1];
         categoryController.deleteCategory(cat, new SingleDataCallback<>() {
@@ -138,7 +138,7 @@ public class CategoryControllerTests {
     @Test
     public void deleteCategoryTestException(){
         Category cat = new Category("Test");
-        doThrow(new RuntimeException()).when(categoryMockLogic).deleteCategory(cat);
+        doThrow(new RuntimeException("test")).when(categoryMockLogic).deleteCategory(cat);
         String expected = "Beim Löschen der Kategorie ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.deleteCategory(cat, new SingleDataCallback<>() {
@@ -201,7 +201,7 @@ public class CategoryControllerTests {
     @Test
     public void deleteCategoriesTestException(){
         final List<Category> list = Arrays.asList(new Category("T"),new Category("C"));
-        doThrow(new RuntimeException()).when(categoryMockLogic).deleteCategories(list);
+        doThrow(new RuntimeException("Test")).when(categoryMockLogic).deleteCategories(list);
         String expected = "Beim Löschen der Kategorien ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.deleteCategories(list, new SingleDataCallback<>() {
@@ -284,7 +284,7 @@ public class CategoryControllerTests {
 
     @Test
     public void getCardsInCategoryTestNormalException(){
-        when(categoryMockLogic.getCardsInCategory(any(String.class))).thenThrow(RuntimeException.class);
+        when(categoryMockLogic.getCardsInCategory(any(String.class))).thenThrow(new RuntimeException("Test"));
         final String expected = "Beim Suchen nach Karten für die Kategorie ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.getCardsInCategory("Test", new DataCallback<>() {
@@ -306,7 +306,7 @@ public class CategoryControllerTests {
 
     @Test
     public void getCardsInCategoryTestIllegalArgumentException(){
-        when(categoryMockLogic.getCardsInCategory("")).thenThrow(new IllegalStateException("Kategorie darf nicht leer sein!"));
+        when(categoryMockLogic.getCardsInCategory("")).thenThrow(new IllegalStateException("nonempty"));
         final String expected = "Kategorie darf nicht leer sein!";
         final String[] actual = new String[1];
         categoryController.getCardsInCategory("", new DataCallback<>() {
@@ -376,7 +376,7 @@ public class CategoryControllerTests {
     @Test
     public void getCardsInCategory2TestNormalException(){
         Category cat = new Category("Test");
-        when(categoryMockLogic.getCardsInCategory(cat)).thenThrow(RuntimeException.class);
+        when(categoryMockLogic.getCardsInCategory(cat)).thenThrow(new RuntimeException("test"));
         final String expected = "Beim Suchen nach Karten für die Kategorie ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.getCardsInCategory(cat, new DataCallback<CardOverview>() {
@@ -399,7 +399,7 @@ public class CategoryControllerTests {
     @Test
     public void getCardsInCategory2TestNullException(){
         Category cat = null;
-        when(categoryMockLogic.getCardsInCategory(cat)).thenThrow(new IllegalStateException(String.format("Kategorie existiert nicht")));
+        when(categoryMockLogic.getCardsInCategory(cat)).thenThrow(new IllegalStateException(("categorynullerror")));
         final String expected = "Kategorie existiert nicht";
         final String[] actual = new String[1];
         categoryController.getCardsInCategory(cat, new DataCallback<CardOverview>() {
@@ -470,7 +470,7 @@ public class CategoryControllerTests {
     @Test
     public void getCardsInCategoriesTestNormalException(){
         final List<Category> catLit = Arrays.asList(new Category("T"), new Category("L"));
-        when(categoryMockLogic.getCardsInCategories(catLit)).thenThrow(RuntimeException.class);
+        when(categoryMockLogic.getCardsInCategories(catLit)).thenThrow(new RuntimeException("Test"));
         final String expected = "Beim Suchen nach Karten für die Kategorien ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.getCardsInCategories(catLit, new DataCallback<CardOverview>() {
@@ -493,7 +493,7 @@ public class CategoryControllerTests {
     @Test
     public void getCardsInCategoriesTestNullException(){
         final List<Category> catLit = Arrays.asList(null, new Category("L"));
-        when(categoryMockLogic.getCardsInCategories(catLit)).thenThrow(new IllegalStateException(String.format("Kategorie existiert nicht")));
+        when(categoryMockLogic.getCardsInCategories(catLit)).thenThrow(new IllegalStateException("categorynullerror"));
         final String expected = "Kategorie existiert nicht";
         final String[] actual = new String[1];
         categoryController.getCardsInCategories(catLit, new DataCallback<CardOverview>() {
@@ -564,7 +564,7 @@ public class CategoryControllerTests {
     @Test
     public void getCategoriesToCardTestNormalException(){
         Card card = new TrueFalseCard();
-        when(categoryMockLogic.getCategoriesByCard(card)).thenThrow(RuntimeException.class);
+        when(categoryMockLogic.getCategoriesByCard(card)).thenThrow(new RuntimeException("Test"));
         final String expected = "Beim Suchen nach Kategorien für die Karte ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.getCategoriesToCard(card, new DataCallback<Category>() {
@@ -634,7 +634,7 @@ public class CategoryControllerTests {
     @Test
     public void getChildrenForCategoryTestNormalException(){
         Category cat = new Category("T");
-        when(categoryMockLogic.getChildrenForCategory(cat)).thenThrow(RuntimeException.class);
+        when(categoryMockLogic.getChildrenForCategory(cat)).thenThrow(new RuntimeException("test"));
         final String expected = "Beim Abrufen der Children für die Kategorie ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.getChildrenForCategory(cat, new DataCallback<Category>() {
@@ -660,6 +660,7 @@ public class CategoryControllerTests {
         final List<Category> list = new ArrayList<>();
         when(categoryMockLogic.getCategories()).thenReturn(list);
         final String[] actual = new String[1];
+        String expected = "Keine Kategorien vorhanden.";
         categoryController.getCategories(new DataCallback<Category>() {
             @Override
             public void onSuccess(List<Category> data) {
@@ -674,7 +675,7 @@ public class CategoryControllerTests {
                 actual[0] = msg;
             }
         });
-        assertNull(actual[0]);
+        assertEquals(expected,actual[0]);
     }
 
     @Test
@@ -703,7 +704,7 @@ public class CategoryControllerTests {
     @Test
     public void getCategoriesTestNormalException(){
         Card card = new TrueFalseCard();
-        when(categoryMockLogic.getCategories()).thenThrow(RuntimeException.class);
+        when(categoryMockLogic.getCategories()).thenThrow(new RuntimeException("Test"));
         final String expected = "Beim Suchen nach Kategorien ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.getCategories(new DataCallback<Category>() {
@@ -771,7 +772,7 @@ public class CategoryControllerTests {
     @Test
     public void getRootCategoriesTestNormalException(){
         Card card = new TrueFalseCard();
-        when(categoryMockLogic.getRootCategories(false)).thenThrow(RuntimeException.class);
+        when(categoryMockLogic.getRootCategories(false)).thenThrow(new RuntimeException("te"));
         final String expected = "Beim Suchen nach Root-Kategorien ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.getRootCategories(false, new DataCallback<Category>() {
@@ -793,8 +794,8 @@ public class CategoryControllerTests {
 
     @Test
     public void getCategoryByUUIDTestNoResultException(){
-        when(categoryMockLogic.getCategoryByUUID(any(String.class))).thenThrow(new NoResultException());
-        final String expected = "Es konnte keine Kategorie zur UUID gefunden werden.";
+        when(categoryMockLogic.getCategoryByUUID(any(String.class))).thenThrow(new NoResultException("Test"));
+        final String expected = "Es konnte nichts gefunden werden.";
         final String[] actual = new String[1];
         categoryController.getCategoryByUUID("Test", new SingleDataCallback<Category>() {
             @Override
@@ -813,7 +814,7 @@ public class CategoryControllerTests {
 
     @Test
     public void getCategoryByUUIDTestException(){
-        when(categoryMockLogic.getCategoryByUUID(any(String.class))).thenThrow(new RuntimeException());
+        when(categoryMockLogic.getCategoryByUUID(any(String.class))).thenThrow(new RuntimeException("Test"));
         final String expected = "Beim Abrufen der Kategorie ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.getCategoryByUUID("Test", new SingleDataCallback<Category>() {
@@ -853,8 +854,8 @@ public class CategoryControllerTests {
 
     @Test
     public void getCategoryByUUIDTestNullUUID(){
-        when(categoryMockLogic.getCategoryByUUID(any(String.class))).thenThrow(new IllegalArgumentException("UUID darf nicht null sein"));
-        final String expected = "UUID darf nicht null sein";
+        when(categoryMockLogic.getCategoryByUUID(any(String.class))).thenThrow(new IllegalArgumentException("nonnull"));
+        final String expected = "ID darf nicht null sein!";
         final String[] actual = new String[1];
         categoryController.getCategoryByUUID("Test", new SingleDataCallback<Category>() {
             @Override
@@ -877,7 +878,7 @@ public class CategoryControllerTests {
     public void setCategoriesToCardTestException(){
         final Card card = new TrueFalseCard();
         final List<Category> list = Arrays.asList(new Category("Test"), new Category("Test1"), new Category("Test3"));
-        doThrow(new RuntimeException()).when(categoryMockLogic).setCardToCategories(card,list);
+        doThrow(new RuntimeException("Test")).when(categoryMockLogic).setCardToCategories(card,list);
         String expected = "Beim Hinzufügen der Kategorien zu der Karte ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         categoryController.setCategoriesToCard(card,list, new SingleDataCallback<>() {
@@ -919,7 +920,7 @@ public class CategoryControllerTests {
         final Category cat = new Category("Test");
         final List<Category> parents = Arrays.asList(new Category("Parent1"),new Category("Parent2"));
         final List<Category> childs = Arrays.asList(new Category("Childs1"),new Category("Childs2"));
-        doThrow(new RuntimeException()).when(categoryMockLogic).editCategoryHierarchy(
+        doThrow(new RuntimeException("Test")).when(categoryMockLogic).editCategoryHierarchy(
                 cat,parents,childs);
         String expected = "Beim Updaten der Hierarchie ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];

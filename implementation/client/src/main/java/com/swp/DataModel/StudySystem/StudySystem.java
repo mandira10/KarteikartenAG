@@ -150,7 +150,6 @@ public abstract class StudySystem implements Serializable
 
     /**
      * Basisfunktion für das Initialisieren von StudySystemBoxes.
-     * @param size Anzahl der Boxen
      * @param daysToRelearn Tage zum Relearnen (wird nur bei Custom LeitnerSystem gesetzt)
      */
     protected void  initStudySystemBoxes(int[] daysToRelearn){
@@ -169,21 +168,6 @@ public abstract class StudySystem implements Serializable
         StudySystem retStudySystem = studySystem;
         return retStudySystem;
     }
-
-    /**
-     * Copy Konstruktor
-     */
-    public StudySystem(StudySystem other)
-    {
-        this.uuid        = other.getUuid();
-        this.name        = other.getName();
-        this.type        = other.getType();
-        this.boxes      =   other.getBoxes();
-        this.cardOrder   = other.getCardOrder();
-        this.trueAnswerCount = other.getTrueAnswerCount();
-        this.questionCount = other.getQuestionCount();
-    }
-
 
 
     public void incrementQuestionCount(){questionCount++;}

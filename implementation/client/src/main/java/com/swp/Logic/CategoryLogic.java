@@ -62,7 +62,7 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @return Kategorie mit entsprechender UUID
      */
     public Category getCategoryByUUID(String uuid) {
-        checkNotNullOrBlank(uuid, "UUID", true);
+        checkNotNullOrBlank(uuid);
         return execTransactional(() -> categoryRepository.findByUUID(uuid));
     }
 
@@ -85,14 +85,14 @@ public class CategoryLogic extends BaseLogic<Category> {
      */
     public void updateCategoryData(Category category, boolean neu, boolean nameChange) {
         if (category == null) {
-            throw new IllegalStateException(Locale.getCurrentLocale().getString("categorynullerror"));
+            throw new IllegalStateException("categorynullerror");
         }
         if (neu) {
             execTransactional(() -> {
                 try {
                     Category catExists = categoryRepository.find(category.getName());
                     if (catExists != null) {
-                        throw new IllegalArgumentException(Locale.getCurrentLocale().getString("categorywithnameexistsalready"));
+                        throw new IllegalArgumentException("categorywithnameexistsalready");
                     }
                 } catch (NoResultException ex) {
                     categoryRepository.save(category);
@@ -105,7 +105,7 @@ public class CategoryLogic extends BaseLogic<Category> {
                     try {
                         Category catExists = categoryRepository.find(category.getName());
                         if (catExists != null) {
-                            throw new IllegalArgumentException(Locale.getCurrentLocale().getString("categorywithnameexistsalready"));
+                            throw new IllegalArgumentException("categorywithnameexistsalready");
                         }
                     } catch (NoResultException ex) {
                         categoryRepository.save(category);
@@ -155,7 +155,7 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @return Liste an Karten mit Kategorie
      */
     public List<CardOverview> getCardsInCategory(String categoryName) {
-        checkNotNullOrBlank(categoryName, Locale.getCurrentLocale().getString("category"), true);
+        checkNotNullOrBlank(categoryName);
         return execTransactional(() -> cardRepository.getCardsByCategory(categoryName));
     }
 
@@ -469,7 +469,7 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @return Set der Karten, die Suchwörter enthalten.
      */
     public List<Category> getCategoriesBySearchterms(String searchterm) {
-        checkNotNullOrBlank(searchterm, Locale.getCurrentLocale().getString("searchterm"), true);
+        checkNotNullOrBlank(searchterm);
         return execTransactional(() -> categoryRepository.findCategoriesContaining(searchterm));
     }
 }

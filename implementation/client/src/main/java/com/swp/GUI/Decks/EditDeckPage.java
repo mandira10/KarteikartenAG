@@ -263,9 +263,11 @@ public class EditDeckPage extends Page
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("leitnerdesc"));
             if(type == StudySystemType.NONE)
             {
+                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.INFO,5);
                 StudySystem tmpDeck = pNewDeck;
                 pNewDeck = new LeitnerSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+                pNewDeck.setName(tmpDeck.getName());
             }
             pLeitnersettings.destroyChildren();
             createAddButton();
@@ -281,9 +283,11 @@ public class EditDeckPage extends Page
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("votingdesc"));
             if(type == StudySystemType.NONE)
             {
+                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.INFO,5);
                 StudySystem tmpDeck = pNewDeck;
                 pNewDeck = new VoteSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+                pNewDeck.setName(tmpDeck.getName());
             }
             pVotingField.setString(String.valueOf(((VoteSystem)pNewDeck).getStars()));
             pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("voting"));
@@ -294,9 +298,11 @@ public class EditDeckPage extends Page
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("timingdesc"));
             if(type == StudySystemType.NONE)
             {
+                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.INFO,5);
                 StudySystem tmpDeck = pNewDeck;
                 pNewDeck = new TimingSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());
+                pNewDeck.setName(tmpDeck.getName());
             }
             pTimingField.setString(String.valueOf(((TimingSystem)pNewDeck).getTimeLimit()));
             pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("timing"));

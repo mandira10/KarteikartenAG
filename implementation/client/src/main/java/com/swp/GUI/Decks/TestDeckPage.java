@@ -120,8 +120,9 @@ public class TestDeckPage extends Page
             @Override public void onSuccess(Card data) 
             {
                 pCardToLearn = data;
-                if(pCardToLearn == null)
+                if(pCardToLearn.getQuestion().equals(""))
                 {
+                    pCardToLearn = null;
                     finishTest();
                 }
                 else
@@ -137,6 +138,7 @@ public class TestDeckPage extends Page
             @Override public void onFailure(String msg) 
             {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,10);
+                PageManager.viewPage(PAGES.DECK_SINGLEVIEW);
             }
         });
     }

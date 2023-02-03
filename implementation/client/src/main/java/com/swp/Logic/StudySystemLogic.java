@@ -3,6 +3,7 @@ package com.swp.Logic;
 import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
@@ -103,7 +104,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public List<Card> moveAllCardsForDeckToFirstBoxNoExec(List<Card> cards, StudySystem studySystem) {
         if (cards.isEmpty()) {
-            throw new IllegalStateException(Locale.getCurrentLocale().getString("moveallcardsfordecktofirstboxempty"));
+            log.error("Es gibt keine Karten");
+            throw new IllegalStateException("moveallcardsfordecktofirstboxempty");
         }
         List<Card> existingCards = new ArrayList<>();
         for(Card c : cards)
@@ -111,9 +113,11 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 Card card = cardRepository.findCardByStudySystem(studySystem,c);
                 log.info("Karte bereits Teil des StudySystems");
                 existingCards.add(card);
+                log.info("Karte bereits in StudySystem enthalten");
             }
             catch(NoResultException ex){
                 moveCardToBoxAndSave(c,0,studySystem);
+                log.info("Speichere Karte als neue BoxToCard ab");
             }
         return existingCards;
     }
@@ -125,7 +129,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param newBox: Index der Box, in den die Karte verschoben werden soll
      * @param studySystem: Das StudySystem, das benötigt wird.
      */
-    private void moveCardToBoxAndSave(Card card, int newBox, StudySystem studySystem) //Testet
+    private void moveCardToBoxAndSave(Card card, int newBox, StudySystem studySystem)
     {
         BoxToCard boxToCard = new BoxToCard(card, studySystem.getBoxes().get(newBox));
         cardToBoxRepository.save(boxToCard);
@@ -233,7 +237,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                 }
             }
             if(testingBoxCards.isEmpty()){ //no cards learnable, no cards in studysystem yet
-                throw new NoResultException(Locale.getCurrentLocale().getString("studysystemlearningerror"));
+                throw new IllegalStateException("studysystemlearningerror");
             }
             testingStarted = true;
             studySystem.setNotLearnedYet(false);
@@ -245,6 +249,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     testingBoxCards = cardRepository.getAllCardsForTimingSystem(studySystem);
                     break;
                 case LEITNER:
+                    log.info("Test");
                     testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem);
                     break;
                 case VOTE:
@@ -254,10 +259,14 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     break;
             }
             testingStarted = true;
+            if(testingBoxCards.isEmpty()){ //no cards learnable as no cards are due
+                log.info("test");
+                throw new IllegalStateException("studysystemnocardsdue");
+            }
         }
         if (testingBoxCards.isEmpty()){
             log.info("Keine Karten mehr zu lernen");
-                return null; //wird im GUI abgerufen und finishTestAndGetResult aufgerufen.
+                return new TextCard();
             }
 
             log.info("Rufe die nächste Karte zum Lernen ab");
@@ -282,7 +291,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             execTransactional(() -> cardToBoxRepository.update(boxToCard));
         }
         else{
-            throw new IllegalStateException("Falsches StudySystem");
+            throw new IllegalStateException("studysystemnullfalsetype");
         }
     };
 
@@ -291,25 +300,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     }
 
 
-    /**
-     * Wird verwendet, um eine Antwortzeit vom Benutzer für TimingStudySystem zu bekommen.
-     *
-     * @param studySystem Das StudySystem, das benötigt wird.
-     * @param seconds     : Antwortzeit vom Benutzer für die Frage
-     */
-    public void giveTime(StudySystem studySystem, float seconds) { //Testet
-        if(studySystem.getType() == StudySystem.StudySystemType.TIMING){
-            TimingSystem timingSystem = (TimingSystem) studySystem;
-            if(seconds > timingSystem.getTimeLimit()){
-                studySystem.setTrueAnswerCount(studySystem.getTrueAnswerCount()-1);
-                execTransactional(() -> studySystemRepository.update(studySystem));
-            }
-        }
-            else {
-                throw new IllegalStateException("Falsches StudySystem");
-            }
-
-    };
 
     /**
      * Wird verwendet, um den Test zu beenden und Ergebnispunkt zu berechnen
@@ -441,38 +431,55 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param neu Ist true, wenn das StudySystem neu angelegt wurde
      */
     public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu) {
-        execTransactional(() -> {
             if (newStudySystem == null) {
-                throw new IllegalArgumentException("New Study System can't be null");
+                throw new IllegalArgumentException("studysystemnullerror");
             } else if (neu) {
-                studySystemRepository.save(newStudySystem);
+                execTransactional(() -> {
+                studySystemRepository.save(newStudySystem); return true; });
             } else if (oldStudySystem != null && !newStudySystem.getType().equals(oldStudySystem.getType())) {
-                resetStudySystem(oldStudySystem, newStudySystem);
+                log.info("Versuche das StudySystem zu wechseln");
+                List<CardOverview> cardsFromOldStudySystem = getCardsFromOldStudySystemAndDelete(oldStudySystem);
+                resetStudySystem(cardsFromOldStudySystem, newStudySystem);
+
             } else {
+                execTransactional(() -> {
                 if(newStudySystem.getType().equals(StudySystem.StudySystemType.LEITNER)){
                     LeitnerSystem system = (LeitnerSystem) newStudySystem;
                     if(system.getDaysToRelearn().length != 5)
                         system.resetStudySystemBoxes(system.getDaysToRelearn().length, system.getDaysToRelearn());
                 }
                 studySystemRepository.update(newStudySystem);
+                return true;
+            });
             }
-            return true;
-        });
+
     }
 
+    private List<CardOverview> getCardsFromOldStudySystemAndDelete(StudySystem oldStudySystem) {
+        return execTransactional(() -> {
+            List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudySystem);
+            deleteStudySystemNoExec(oldStudySystem);
+            return cardsToStudySystem;
+        });
+    }
 
 
     /**
      * Wird aufgerufen, wenn ein StudySystem im EditModus geändert wurde und setzt das gesamte Deck zurück,
      * d.h. alle Karten werden wieder in Box 1 gepackt.
      */
-    public void resetStudySystem(StudySystem oldStudyS, StudySystem newStudyS) {
-            //first get all Cards for specific deck
-            List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudyS);
-            List<Card> cards = cardRepository.getAllCardsForCardOverview(cardsToStudySystem);
+    private void resetStudySystem(List<CardOverview> studySystemCards, StudySystem newStudyS) {
+       execTransactional(() -> {
+            log.info("Versuche das neue StudySystem {} zu speichern", newStudyS.getName());
+            studySystemRepository.save(newStudyS);
+            log.info("Wandle die Karten aus CardOverview in Karten um");
+            List<Card> cards = cardRepository.getAllCardsForCardOverview(studySystemCards);
             //then move them to the other StudySystem
-            moveAllCardsForDeckToFirstBoxNoExec(cards,newStudyS);
-            deleteStudySystemNoExec(oldStudyS);
+            log.info("Setze alle Karten für neues StudySystem in Box 0");
+            moveAllCardsForDeckToFirstBoxNoExec(cards, newStudyS);
+            return null;
+        });
+
 
     }
 
@@ -482,13 +489,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public void deleteStudySystem(StudySystem studySystem) {
         if(studySystem == null){
-            throw new IllegalStateException("Karte existiert nicht");
+            throw new IllegalStateException("studysystemnullerror");
         }
         execTransactional(() -> {
-            log.info("Lösche alle Card To Boxes zum StudySystem");
-            cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForStudySystem(studySystem));
-            log.info("Lösche StudySystem");
-            studySystemRepository.delete(studySystem);
+           deleteStudySystemNoExec(studySystem);
             return null;
         });
     }
@@ -497,10 +501,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * Wird verwendet, um ein StudySystem zu löschen. .
      * @param studySystem: StudySystem zu löschen.
      */
-    public void deleteStudySystemNoExec(StudySystem studySystem) {
-        if(studySystem == null){
-            throw new IllegalStateException("TODO");
-        }
+    private void deleteStudySystemNoExec(StudySystem studySystem) {
         log.info("Lösche alle Card To Boxes zum StudySystem");
         cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForStudySystem(studySystem));
         log.info("Lösche StudySystem");
@@ -523,7 +524,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return eine Liste von StudySystem
      */
     public List<StudySystem> getStudySystemsBySearchterm(String searchterm) { // Testet
-        checkNotNullOrBlank(searchterm, Locale.getCurrentLocale().getString("searchterm"),true);
+        checkNotNullOrBlank(searchterm);
         return execTransactional(() -> studySystemRepository.findStudySystemsContaining(searchterm));
     }
 
@@ -536,8 +537,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     {
         List<Card> cards1 = getCardsForCardOverview(cards);
         execTransactional(() -> {
-            for(Card c: cards1)
-                cardToBoxRepository.delete(cardToBoxRepository.getSpecific(c, studySystem));
+            for(Card c: cards1){
+
+                if(c == null)
+                    throw new IllegalStateException("cardnullerror");
+
+                cardToBoxRepository.delete(cardToBoxRepository.getSpecific(c, studySystem));}
             return null; // Lambda braucht immer einen return
         });
     }
@@ -549,7 +554,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      */
     public List<Card> addCardsToDeck(List<CardOverview> cards, StudySystem studySystem) {
         if(studySystem == null){
-            throw new IllegalStateException("Karte existiert nicht");
+            throw new IllegalStateException("studysystemnullerror");
         }
             List<Card> cards1 = getCardsForCardOverview(cards);
             List<Card> existingCardsInStudySystem = moveAllCardsForDeckToFirstBox(cards1,studySystem);
@@ -578,7 +583,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return Zugehöriges StudySystem
      */
     public StudySystem getStudySystemByUUID(String uuid) { // Testet
-        checkNotNullOrBlank(uuid, "UUID",true);
+        checkNotNullOrBlank(uuid);
         return execTransactional(() -> studySystemRepository.getStudySystemByUUID(uuid));
     }
 

@@ -46,13 +46,14 @@ public class CategoryController extends Controller
      */
     public void updateCategoryData(Category category, boolean neu, boolean nameChange, SingleDataCallback<Boolean> callback) 
     {
+        String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
-            () -> { categoryLogic.updateCategoryData(category, neu, nameChange); return true; }, 
+            () -> { categoryLogic.updateCategoryData(category, neu, nameChange); return true; },
             "getcardstoshowempty", 
             "Es wurden keine zugehörigen Karten gefunden", 
             "categoryupdatesaveerror",
-            "Beim Updaten/Speichern der Kategorie "+category.getUuid()+" ist ein Fehler $ aufgetreten", 
-            callback);
+            "Beim Updaten/Speichern der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten",
+            callback,"");
     }
 
     /**
@@ -75,7 +76,7 @@ public class CategoryController extends Controller
             "", 
             "categoryhierarchyupdateerror",
             "Beim Updaten der Kategorie ist der Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
     /**
@@ -93,7 +94,7 @@ public class CategoryController extends Controller
             "", 
             "deletecategoryerror",
             "Beim Löschen der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
     /**
@@ -112,7 +113,7 @@ public class CategoryController extends Controller
             "",
             "deletecategorieserror",
             "Beim Löschen den Kategorien "+categoriesstr+" ist ein Fehler $ aufgetreten",
-            callback);
+            callback,"");
     }
 
 
@@ -127,11 +128,11 @@ public class CategoryController extends Controller
         String categoryname = parent != null ? parent.getName() : "";
         callLogicFuncInThread(
             () -> { return categoryLogic.getChildrenForCategory(parent); }, 
-            "catchildrenempty", 
+            "",
             "", 
             "catchilderror",
             "Beim Beim Abrufen der Children für die Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
 
@@ -146,11 +147,11 @@ public class CategoryController extends Controller
         String categoryname = child != null ? child.getName() : "";
         callLogicFuncInThread(
             () -> { return categoryLogic.getParentsForCategory(child); }, 
-            "catparentrenempty", 
+            "",
             "", 
             "catparenterror",
             "Beim Beim Abrufen der Parents für die Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
     /**
@@ -167,7 +168,7 @@ public class CategoryController extends Controller
             "Es wurde keine Kategorie zur UUID "+uuid+" gefunden", 
             "categorybyuuiderror",
             "Beim Abrufen der Kategorie "+uuid+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"UUID");
     }
 
 
@@ -187,7 +188,7 @@ public class CategoryController extends Controller
             "", 
             "setcategoriestocarderror",
             "Beim Setzen der Kategorien für die Karte mit der UUID "+uuid+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
 
@@ -203,11 +204,11 @@ public class CategoryController extends Controller
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
             () -> { return categoryLogic.getCardsInCategory(category); }, 
-            "getcardincategoryempty", 
+            "",
             "", 
             "getcardincategoryerror",
             "Beim Suchen nach Karten mit Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
     /**
@@ -226,7 +227,7 @@ public class CategoryController extends Controller
             "", 
             "getcardincategoryerror",
             "Beim Suchen nach Karten mit Kategorie "+category+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"category");
     }
 
 
@@ -243,7 +244,7 @@ public class CategoryController extends Controller
             "", 
             "getcardsincategorieserror",
             "Beim Suchen nach Karten mit Kategorien ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
 
@@ -258,11 +259,11 @@ public class CategoryController extends Controller
         String cardname = card != null ? card.toString() : "";
         callLogicFuncInThread(
             () -> { return categoryLogic.getCategoriesByCard(card); }, 
-            "getcategoriestocardempty", 
+            "",
             "", 
             "getcategoriestocarderror",
             "Beim Suchen nach Kategorien für die Karte "+cardname+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
     /**
@@ -279,7 +280,7 @@ public class CategoryController extends Controller
             "",
             "getcatorieserror",
             "Beim holen von Kategorien ist ein Fehler $ aufgetreten",
-            callback);
+            callback,"");
     }
 
     /**
@@ -298,7 +299,7 @@ public class CategoryController extends Controller
             "",
             "getrootcategorieserror",
             "Beim holen der Root-Kategorien ist ein Fehler $ aufgetreten",
-            callback);
+            callback,"");
     }
 
     /**
@@ -317,7 +318,7 @@ public class CategoryController extends Controller
             "", 
             "TODO",
             "Beim entfernen der Karten aus der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
     /**
@@ -335,6 +336,6 @@ public class CategoryController extends Controller
             "", 
             "getcateoriesbysearchtermserror",
             "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,searchterm);
     }
 }

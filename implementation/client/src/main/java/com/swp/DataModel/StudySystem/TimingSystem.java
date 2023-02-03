@@ -17,10 +17,6 @@ public class TimingSystem extends StudySystem {
      * Zeitlimit für jede Frage zu beantworten
      */
     private float timeLimit = 0;
-    /**
-     * Tatsächliche Antwortzeit für eine Frage
-     */
-    private float answerTime = 0;
 
     /**
      * Konstruktor der Klasse TimingSystem.

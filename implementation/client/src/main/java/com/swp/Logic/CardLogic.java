@@ -111,7 +111,7 @@ public class CardLogic extends BaseLogic<Card>
      * @return Set der Karten, die den Tag enthalten
      */
     public List<CardOverview> getCardsByTag(String tagName) {
-        checkNotNullOrBlank(tagName, "Tag",true);
+        checkNotNullOrBlank(tagName);
         return execTransactional(() -> cardRepository.findCardsByTag(tagName));
     }
 
@@ -124,7 +124,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public List<CardOverview> getCardsBySearchterms(String terms)
     {
-        checkNotNullOrBlank(terms, Locale.getCurrentLocale().getString("searchterm"), true);
+        checkNotNullOrBlank(terms);
         return execTransactional(() -> cardRepository.findCardsContaining(terms));
     }
 
@@ -136,7 +136,7 @@ public class CardLogic extends BaseLogic<Card>
     public void deleteCard(Card card)
     {
         if(card == null){
-            throw new IllegalStateException(Locale.getCurrentLocale().getString("cardnullerror"));
+            throw new IllegalStateException("cardnullerror");
         }
         execTransactional(() -> {
             log.info("Lösche alle Card To Categories zur Karte");
@@ -171,7 +171,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public Card getCardByUUID(String uuid)
     {
-        checkNotNullOrBlank(uuid, "UUID",true);
+        checkNotNullOrBlank(uuid);
         return execTransactional(() -> cardRepository.getCardByUUID(uuid));
     }
 
@@ -287,7 +287,7 @@ public class CardLogic extends BaseLogic<Card>
                 if (!tagOld.isEmpty() && tagOld.contains(t)) {
                     log.info("Tag {} bereits für Karte {} in CardToTag enthalten, kein erneutes Hinzufügen notwendig", t.getVal(), card.getUuid());
                 } else {
-                    checkNotNullOrBlank(t.getVal(),"Tag",true);
+                    checkNotNullOrBlank(t.getVal());
                     try {
                         t = tagRepository.findTag(t.getVal());
                         log.info("Tag mit Namen {} bereits in Datenbank enthalten", t.getVal());
@@ -317,7 +317,7 @@ public class CardLogic extends BaseLogic<Card>
         
         if(!new Exporter(filetype).export(cardlist, destination))
         {
-            throw new IllegalStateException("Failed to export cards");
+            throw new RuntimeException("Failed to export cards");
         }
 
         return true;

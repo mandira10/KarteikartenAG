@@ -1,5 +1,6 @@
 package com.swp.DataModel.StudySystem;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -15,7 +16,9 @@ import lombok.Setter;
 public class VoteSystem extends StudySystem
 {
 
+    @Column
     private int stars;
+
     /**
      * Konstruktor der Klasse VoteSystem.
      * Initialisiert 2 Boxen für das VoteSystem, die dazu verwendet werden,

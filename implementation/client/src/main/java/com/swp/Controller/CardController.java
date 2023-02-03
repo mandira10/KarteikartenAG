@@ -52,9 +52,9 @@ public class CardController extends Controller
             () -> { return cardLogic.getCardOverview(begin, end); }, 
             "getcardstoshowempty", 
             "Es wurden keine zugehörigen Karten gefunden", 
-            "TODO", // Beim Abrufen der Karten ist ein Fehler aufgetreten
-            "Beim Suchen nach Karten ist ein Fehler $ aufgetreten", 
-            callback);
+            "getcardstoshowerror", // Beim Abrufen der Karten ist ein Fehler aufgetreten
+            "Beim Suchen nach Karten ist ein Fehler $ aufgetreten",
+            callback,"");
     }
 
     public void getCardsToShow(int begin, int end, ListOrder.Order iOrder, boolean bReverseOrder, DataCallback<CardOverview> callback)
@@ -64,8 +64,8 @@ public class CardController extends Controller
             "getcardstoshowempty", 
             "Es wurden keine zugehörigen Karten gefunden", 
             "TODO", // Beim Abrufen der Karten ist ein Fehler aufgetreten
-            "Beim Suchen nach Karten ist ein Fehler $ aufgetreten", 
-            callback);
+            "Beim Suchen nach Karten ist ein Fehler $ aufgetreten",
+            callback,"");
     }
 
     /**
@@ -82,8 +82,8 @@ public class CardController extends Controller
             "getcardsbytagempty", 
             "Es wurden keine Karten für den Tag gefunden", 
             "getcardsbytagerror",
-            "Beim Suchen nach Karten mit Tag " + tag + " ist ein Fehler $ aufgetreten", 
-            callback);
+            "Beim Suchen nach Karten mit Tag " + tag + " ist ein Fehler $ aufgetreten",
+            callback,"tag");
     }
 
     /**
@@ -95,12 +95,12 @@ public class CardController extends Controller
     public void getTagsToCard(Card card, DataCallback<Tag> callback)
     {
         callLogicFuncInThread(
-            () -> { return cardLogic.getTagsToCard(card); }, 
-            "gettagstocard", 
-            "", 
+            () -> { return cardLogic.getTagsToCard(card); },
+            "",
+            "gettagstocardempty",
             "gettagstocarderror",
             "Beim Suchen nach Tags der Karte "+ card.getUuid() +" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"");
     }
 
     /**
@@ -112,12 +112,12 @@ public class CardController extends Controller
     public void getCardsBySearchterms(String searchterm, DataCallback<CardOverview> callback) 
     {
         callLogicFuncInThread(
-            () -> { return cardLogic.getCardsBySearchterms(searchterm); }, 
+            () -> { return cardLogic.getCardsBySearchterms(searchterm); },
             "getcardsbysearchtermsempty", 
             "Es gibt keine Karten für dieses Suchwort",
             "getcardsbysearchtermserror",
             "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten", 
-            callback);
+            callback,"searchterm");
     }
 
     /**
@@ -134,7 +134,7 @@ public class CardController extends Controller
             "Es gibt keine Karten für dieses Suchwort",
             "deletecarderror",
             "Beim Löschen der Karte "+card.toString()+" ist ein Fehler $ aufgetreten", 
-            singleDataCallback);
+            singleDataCallback,"");
     }
 
     /**
@@ -151,7 +151,7 @@ public class CardController extends Controller
             "",
             "deletecardserror",
             "Beim Löschen der Karten "+cards.toString()+" ist ein Fehler $ aufgetreten", 
-            singleDataCallback);
+            singleDataCallback,"");
     }
 
     /**
@@ -169,7 +169,7 @@ public class CardController extends Controller
             "Es wurde keine Karte zur UUID "+uuid+" gefunden",
             "getcardbyuuiderror",
             "Beim Abrufen der Karte ist ein Fehler $ aufgetreten", 
-            singleDataCallback);
+            singleDataCallback,"UUID");
     }
 
 
@@ -188,7 +188,7 @@ public class CardController extends Controller
             "",
             "settagstocarderror",
             "Beim Setzen der Tags für die Karte mit der UUID "+card.getUuid()+" ist ein Fehler $ aufgetreten", 
-            singleDataCallback);
+            singleDataCallback,"");
     }
 
     /**
@@ -207,7 +207,7 @@ public class CardController extends Controller
             "",
             "updatecreatecarderror",
             "Beim Updaten/Speichern der Karte "+uuid+" mit der ist ein Fehler $ aufgetreten",
-            singleDataCallback);
+            singleDataCallback,"");
     }
 
 
@@ -226,7 +226,7 @@ public class CardController extends Controller
             "",
             "cardexporterror",
             "Beim Exportieren der Karte(n) gab es einen Fehler $", 
-            singleDataCallback);
+            singleDataCallback,"");
     }
 
 

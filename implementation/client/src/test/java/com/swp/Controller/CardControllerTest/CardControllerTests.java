@@ -125,8 +125,8 @@ public class CardControllerTests {
 
     @Test
     public void getCardsToShowTestException(){
-        when(cardMockLogic.getCardOverview(any(Integer.class),any(Integer.class))).thenThrow(RuntimeException.class);
-        final String expected = "Beim Abrufen der Karten ist ein Fehler aufgetreten";
+        when(cardMockLogic.getCardOverview(any(Integer.class),any(Integer.class))).thenThrow(new RuntimeException("Test"));
+        final String expected = "Beim Abrufen der Karten ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         cardController.getCardsToShow(2, 3, new DataCallback<CardOverview>() {
             @Override
@@ -152,7 +152,7 @@ public class CardControllerTests {
     public void getCardsByTagTestEmptySet(){
         final List<CardOverview> list = new ArrayList<>();
         when(cardMockLogic.getCardsByTag(any(String.class))).thenReturn(list);
-        final String expected = "Es gibt keine Karten für diesen Tag.";
+        final String expected = "Es gibt keine Karten für dieses Schlagwort.";
         final String[] actual = new String[1];
         cardController.getCardsByTag("Test", new DataCallback<CardOverview>() {
             @Override
@@ -196,8 +196,8 @@ public class CardControllerTests {
 
     @Test
     public void getCardsByTagTestNormalException(){
-        when(cardMockLogic.getCardsByTag(any(String.class))).thenThrow(RuntimeException.class);
-        final String expected = "Beim Suchen nach Karten für den Tag ist ein Fehler aufgetreten.";
+        when(cardMockLogic.getCardsByTag(any(String.class))).thenThrow(new RuntimeException("Test"));
+        final String expected = "Beim Suchen nach Karten für das Schlagwort ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         cardController.getCardsByTag("Test", new DataCallback<CardOverview>() {
             @Override
@@ -218,8 +218,8 @@ public class CardControllerTests {
 
     @Test
     public void getCardsByTagTestIllegalArgumentException(){
-        when(cardMockLogic.getCardsByTag("")).thenThrow(new IllegalArgumentException(String.format("Tag darf nicht leer sein!")));
-        final String expected = "Tag darf nicht leer sein!";
+        when(cardMockLogic.getCardsByTag("")).thenThrow( new IllegalArgumentException("nonempty"));
+        final String expected = "Schlagwort darf nicht leer sein!";
         final String[] actual = new String[1];
         cardController.getCardsByTag("", new DataCallback<CardOverview>() {
             @Override
@@ -288,8 +288,8 @@ public class CardControllerTests {
     @Test
     public void getTagsToCardTestNormalException(){
         Card card = new TrueFalseCard();
-        when(cardMockLogic.getTagsToCard(card)).thenThrow(RuntimeException.class);
-        final String expected = "Beim Suchen nach Tags für die Karte ist ein Fehler aufgetreten.";
+        when(cardMockLogic.getTagsToCard(card)).thenThrow(new RuntimeException("Test"));
+        final String expected = "Beim Suchen nach Schlagwörtern für die Karte ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         cardController.getTagsToCard(card, new DataCallback<Tag>() {
             @Override
@@ -312,7 +312,7 @@ public class CardControllerTests {
     public void getCardsBySearchtermsTestEmptySet(){
         final List<CardOverview> list = new ArrayList<>();
         when(cardMockLogic.getCardsBySearchterms(any(String.class))).thenReturn(list);
-        final String expected = "Es gibt keine Karten für dieses Suchwort";
+        final String expected = "Keine Karten für das Suchwort gefunden.";
         final String[] actual = new String[1];
         cardController.getCardsBySearchterms("Test", new DataCallback<CardOverview>() {
             @Override
@@ -356,7 +356,7 @@ public class CardControllerTests {
 
     @Test
     public void getCardsBySearchtermsTestNormalException(){
-        when(cardMockLogic.getCardsBySearchterms(any(String.class))).thenThrow(RuntimeException.class);
+        when(cardMockLogic.getCardsBySearchterms(any(String.class))).thenThrow(new RuntimeException("Test"));
         final String expected = "Beim Suchen nach Karten mit dem Suchbegriff ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         cardController.getCardsBySearchterms("Test", new DataCallback<CardOverview>() {
@@ -378,7 +378,7 @@ public class CardControllerTests {
 
     @Test
     public void getCardsBySearchtermsTestIllegalArgumentException(){
-        when(cardMockLogic.getCardsBySearchterms("")).thenThrow(new IllegalArgumentException(String.format("Suchbegriff darf nicht leer sein!")));
+        when(cardMockLogic.getCardsBySearchterms("")).thenThrow(new IllegalArgumentException("nonempty"));
         final String expected = "Suchbegriff darf nicht leer sein!";
         final String[] actual = new String[1];
         cardController.getCardsBySearchterms("", new DataCallback<CardOverview>() {
@@ -402,7 +402,7 @@ public class CardControllerTests {
     @Test
     public void deleteCardTestNull(){
         Card card = new TrueFalseCard();
-        doThrow(new IllegalStateException("Karte existiert nicht")).when(cardMockLogic).deleteCard(card);
+        doThrow(new IllegalStateException("cardnullerror")).when(cardMockLogic).deleteCard(card);
         String expected = "Karte existiert nicht";
         final String[] actual = new String[1];
         cardController.deleteCard(card, new SingleDataCallback<Boolean>() {
@@ -423,7 +423,7 @@ public class CardControllerTests {
     @Test
     public void deleteCardTestException(){
         Card card = new TrueFalseCard();
-        doThrow(new RuntimeException()).when(cardMockLogic).deleteCard(card);
+        doThrow(new RuntimeException("Test")).when(cardMockLogic).deleteCard(card);
         String expected = "Beim Löschen der Karte ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         cardController.deleteCard(card, new SingleDataCallback<Boolean>() {
@@ -486,7 +486,7 @@ public class CardControllerTests {
         @Test
     public void deleteCardsTestException(){
             final List<CardOverview> list = Arrays.asList(new CardOverview(),new CardOverview());
-            doThrow(new RuntimeException()).when(cardMockLogic).deleteCards(list);
+            doThrow(new RuntimeException("test")).when(cardMockLogic).deleteCards(list);
             String expected = "Beim Löschen der Karten ist ein Fehler aufgetreten.";
             final String[] actual = new String[1];
             cardController.deleteCards(list, new SingleDataCallback<Boolean>() {
@@ -525,8 +525,8 @@ public class CardControllerTests {
 
     @Test
     public void getCardByUUIDTestNoResultException(){
-        when(cardMockLogic.getCardByUUID(any(String.class))).thenThrow(new NoResultException());
-        final String expected = "Es konnte keine Karte zur UUID gefunden werden.";
+        when(cardMockLogic.getCardByUUID(any(String.class))).thenThrow(new NoResultException("Es "));
+        final String expected = "Es konnte nichts gefunden werden.";
         final String[] actual = new String[1];
         cardController.getCardByUUID("Test", new SingleDataCallback<Card>() {
             @Override
@@ -545,7 +545,7 @@ public class CardControllerTests {
 
     @Test
     public void getCardByUUIDTestException(){
-        when(cardMockLogic.getCardByUUID(any(String.class))).thenThrow(new RuntimeException());
+        when(cardMockLogic.getCardByUUID(any(String.class))).thenThrow(new RuntimeException("test"));
         final String expected = "Beim Abrufen der Karte ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         cardController.getCardByUUID("Test", new SingleDataCallback<Card>() {
@@ -585,8 +585,8 @@ public class CardControllerTests {
 
     @Test
     public void getCardByUUIDTestNullUUID(){
-        when(cardMockLogic.getCardByUUID(any(String.class))).thenThrow(new IllegalArgumentException("UUID darf nicht null sein"));
-        final String expected = "UUID darf nicht null sein";
+        when(cardMockLogic.getCardByUUID(any(String.class))).thenThrow(new IllegalArgumentException("nonnull"));
+        final String expected = "ID darf nicht null sein!";
         final String[] actual = new String[1];
         cardController.getCardByUUID("Test", new SingleDataCallback<Card>() {
             @Override
@@ -609,8 +609,8 @@ public class CardControllerTests {
     public void setTagsToCardTestException(){
         final Card card = new TrueFalseCard();
         final List<Tag> list = Arrays.asList(new Tag("Test"), new Tag("Test1"), new Tag("Test3"));
-        doThrow(new RuntimeException()).when(cardMockLogic).setTagsToCard(card,list);
-        String expected = "Beim Hinzufügen der Tags zu der Karte ist ein Fehler aufgetreten.";
+        doThrow(new RuntimeException("Test")).when(cardMockLogic).setTagsToCard(card,list);
+        String expected = "Beim Hinzufügen der Schlagwörter zu der Karte ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
         cardController.setTagsToCard(card,list, new SingleDataCallback<Boolean>() {
             @Override
@@ -649,7 +649,7 @@ public class CardControllerTests {
     @Test
     public void updateCardDataException(){
         final Card card = new TrueFalseCard();
-        doThrow(new RuntimeException()).when(cardMockLogic).updateCardData(card,true);
+        doThrow(new RuntimeException("Test")).when(cardMockLogic).updateCardData(card,true);
         String expected = "Karte konnte nicht gespeichert oder geupdatet werden.";
         final String[] actual = new String[1];
         cardController.updateCardData(card,true, new SingleDataCallback<Boolean>() {
@@ -669,7 +669,7 @@ public class CardControllerTests {
     @Test
     public void updateCardDataNull(){
         final Card card = null;
-        doThrow(new IllegalStateException("Karte existiert nicht")).when(cardMockLogic).updateCardData(card,true);
+        doThrow(new IllegalStateException("cardnullerror")).when(cardMockLogic).updateCardData(card,true);
         String expected = "Karte existiert nicht";
         final String[] actual = new String[1];
         cardController.updateCardData(card, true, new SingleDataCallback<Boolean>() {
@@ -712,7 +712,7 @@ public class CardControllerTests {
         public void exportCardsFalse(){
             final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
             String filepath = "Test";
-            when(cardMockLogic.exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML)).thenReturn(false);
+            when(cardMockLogic.exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML)).thenThrow(new RuntimeException("Test"));
             String expected = "Es gab Probleme beim Exportieren der Karten.";
             final String[] actual = new String[1];
             cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {

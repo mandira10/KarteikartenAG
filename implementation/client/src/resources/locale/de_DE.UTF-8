@@ -101,13 +101,13 @@ random                             = Zufällig
 leitner                            = Leitner
 timing                             = Auf Zeit
 voting                             = Bewertung
-leitnerdesc                        = Leitner Beschreibung: Beim Leitner System lernt man in fünf Boxen, die folgende Wiederholung haben: Box 1 = solange zu lernen bis erfolgreich, Box 2 = jeden Tag , Box 3 = alle 3 Tage,Box 4 = wöchentlich, Box 5 = zweiwöchentlich.Am Anfang befinden sich alle Karten in Box 1. Je nachdem ob die Karte richtig ist, wird sie in eine Box nach hinten oder bei falsch in eine Box nach vorne verschoben. Lernst du ein paar Tage nicht, so bekommst du alle Karten vorgelegt, die wieder fällig sind, im Zweifel also mehrere Boxen.
-votingdesc                         = Bewertung Beschreibung: Beim VoteSystem kannst du für jede Frage 1-5 Sterne vergeben, 5 = sehr einfach - 1 = sehr schwer. Die Fragen werden bei jedem Lernen anhand des Ratings vorgelegt.
-timingdesc                         = Auf Zeit Beschreibung: Beim TimingSystem wird die Zeit gemessen, die du für eine Antwort brauchst und anhand dieser festgelegt, wann du die Frage wiederholen musst.
+leitnerdesc                        = Leitner Beschreibung: Beim Leitner System lernt man in mehreren Boxen, deren Fälligkeit du selbst bestimmen kannst. Anfangs sind alle Karten in Box 1. Wenn du die Karte richtig beantwortest, wird sie eine Box nach hinten gesetzt und bekommt die angegebene Fälligkeit der Box. Wenn sie falsch ist, wird sie eine Box nach vorne gewechselt.
+votingdesc                         = Bewertung Beschreibung: Beim VoteSystem kannst du für jede Frage Sterne vergeben, 1 = sehr schwer, dein Maximum = sehr einfach. Die Fragen werden bei jedem Lernen anhand des Ratings vorgelegt.
+timingdesc                         = Auf Zeit Beschreibung: Beim TimingSystem wird die Zeit gemessen, die du für eine Antwort brauchst. Dein Zeitlimit (Sekunden) bestimmt, wie lange du Zeit hast, die Frage zu beantworten. Schaffst du das Limit nicht, wird die Antwort als falsch bewertet.
 
 # Search
 bycontentsearch                    = Nach Inhalt
-bytagsearch                        = Nach Tags
+bytagsearch                        = Nach Schlagwörtern
 bycategorysearch                   = Nach Kategorien
 
 # Settings
@@ -162,17 +162,17 @@ mandatoryquestion                  = Die Frage darf nicht leer sein
 # Card Exceptions
 getcardstoshowempty                = Es gibt bisher noch keine Karten.
 getcardstoshowerror                = Beim Abrufen der Karten ist ein Fehler aufgetreten.
-getcardsbytagempty                 = Es gibt keine Karten für diesen Tag.
-getcardsbytagerror                 = Beim Suchen nach Karten für den Tag ist ein Fehler aufgetreten.
-gettagstocard                      = Es wurden keine Tags für die Karte gefunden.
-gettagstocarderror                 = Beim Suchen nach Tags für die Karte ist ein Fehler aufgetreten.
+getcardsbytagempty                 = Es gibt keine Karten für dieses Schlagwort.
+getcardsbytagerror                 = Beim Suchen nach Karten für das Schlagwort ist ein Fehler aufgetreten.
+gettagstocard                      = Es wurden keine Schlagwörter für die Karte gefunden.
+gettagstocarderror                 = Beim Suchen nach Schlagwörtern für die Karte ist ein Fehler aufgetreten.
 getcardsbysearchtermsempty         = Keine Karten für das Suchwort gefunden.
 getcardsbysearchtermserror         = Beim Suchen nach Karten mit dem Suchbegriff ist ein Fehler aufgetreten.
 deletecarderror                    = Beim Löschen der Karte ist ein Fehler aufgetreten.
 deletecardserror                   = Beim Löschen der Karten ist ein Fehler aufgetreten.
 getcardbyuuidempty                 = Es konnte keine Karte zur UUID gefunden werden.
 getcardbyuuiderror                 = Beim Abrufen der Karte ist ein Fehler aufgetreten.
-settagstocarderror                 = Beim Hinzufügen der Tags zu der Karte ist ein Fehler aufgetreten.
+settagstocarderror                 = Beim Hinzufügen der Schlagwörter zu der Karte ist ein Fehler aufgetreten.
 updatecreatecarderror              = Karte konnte nicht gespeichert oder geupdatet werden.
 cardexporterror                    = Es gab Probleme beim Exportieren der Karten.
 nonnull                            = darf nicht null sein!
@@ -182,6 +182,10 @@ question                           = Question
 searchterm                         = Suchbegriff
 category                           = Kategorie
 cardnullerror                      = Karte existiert nicht
+UUID                               = ID
+tag                                 = Schlagwort
+
+noresultexception                   = Es konnte nichts gefunden werden.
 
 #Category Exceptions
 categorynullerror                  = Kategorie existiert nicht
@@ -238,3 +242,8 @@ addstudysystemtypeandupdateerror   = Beim Hinzufügen/Updaten des Deck Typs ist 
 createboxtocardforcategory         = Beim Erstellen Box to Card für Kategorie ist ein Fehler aufgetreten.
 updatedeckdataerror                = Beim Aktualisieren der Deckdaten ist ein Fehler aufgetreten.
 studysystemlearningerror           = Es gibt aktuell keine Karten in diesem Deck. Füge welche hinzu, um das Lernen zu starten.
+studysystemnocardsdue	           = Es gibt aktuell keine fälligen Karten zum Lernen.
+studysyschangewarning              = Wenn Sie den Typ des StudySystems nachträglich wechseln, dann verlieren sie Ihren Lernfortschritt.
+studysystemaddcardsinfo		   = Karten bereits im Deck enthalten, nicht hinzugefügt:
+studysystemnullerror                      = Deck existiert nicht
+studysystemnullfalsetype                     = Falscher StudySystemTyp.

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.gumse.gui.Locale;
 
+import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,26 +22,34 @@ public abstract class Controller
         T callFunc();
     }
 
-    protected <T> void failure(String localeid, String logstr, DataCallback<T> callback)
+    protected <T> void failure(String localeid, String logstr, DataCallback<T> callback, String name)
     {
         if(!logstr.isEmpty())
             log.error(logstr);
         else
             log.error(Locale.getCurrentLocale().getString(localeid));
 
-        if(callback != null)
+        if(callback != null) {
+            if (!name.isEmpty())
+                callback.callFailure(Locale.getCurrentLocale().getString(name) + " " + Locale.getCurrentLocale().getString(localeid));
+            else
             callback.callFailure(Locale.getCurrentLocale().getString(localeid));
+        }
     }
 
-    protected <T> void failure(String localeid, String logstr, SingleDataCallback<T> callback)
+    protected <T> void failure(String localeid, String logstr, SingleDataCallback<T> callback, String name)
     {
         if(!logstr.isEmpty())
             log.error(logstr);
         else
             log.error(Locale.getCurrentLocale().getString(localeid));
 
-        if(callback != null)
-            callback.callFailure(Locale.getCurrentLocale().getString(localeid));
+        if(callback != null) {
+            if (!name.isEmpty())
+                callback.callFailure(Locale.getCurrentLocale().getString(name) + " " + Locale.getCurrentLocale().getString(localeid));
+            else
+                callback.callFailure(Locale.getCurrentLocale().getString(localeid));
+        }
     }
 
     protected <T> void success(DataCallback<T> callback, List<T> data)
@@ -62,7 +71,7 @@ public abstract class Controller
         else
             log.info(Locale.getCurrentLocale().getString(localeid));
 
-        if(callback != null)
+        if(!localeid.isEmpty() && callback != null)
             callback.callInfo(Locale.getCurrentLocale().getString(localeid));
     }
 
@@ -74,61 +83,72 @@ public abstract class Controller
             log.info(Locale.getCurrentLocale().getString(localeid));
     }
 
-    protected <T> void callLogicFuncInThread(LogicFunc<T> func, String infolocale, String infolog, String failurelocale, String failurelog, DataCallback<T> callback)
+    protected <T> void callLogicFuncInThread(LogicFunc<T> func, String infolocale, String infolog, String failurelocale, String failurelog, DataCallback<T> callback,String name)
     {
         threadPool.exec(() -> {
             List<T> datalist = null;
-            try  { datalist = func.callFunc(); } 
+            try  { datalist = func.callFunc();
+
+                if(datalist == null || datalist.isEmpty())
+                {
+                    info(infolocale, infolog, callback);
+                    return;
+                }
+                success(callback, datalist);
+            }
             catch (IllegalArgumentException | IllegalStateException ex) 
             {
                 log.error("Der übergebene Wert war leer oder null");
                 if(ex.getMessage() != null)
-                    failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback);
+                    failure(ex.getMessage(), failurelog.replace("$", ex.getMessage()), callback,name);
             }  
             catch (final Exception ex) 
             {
                 if(ex.getMessage() != null)
-                    failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback);
+                    failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback,"");
             }
 
-            if(datalist == null || datalist.isEmpty())
-            {
-                info(infolocale, infolog, callback);
-                return;
-            }
-            
-            success(callback, datalist);
         });
     }
 
-    protected <T> void callLogicFuncInThread(SingleLogicFunc<T> func, String infolocale, String infolog, String failurelocale, String failurelog, SingleDataCallback<T> callback)
+    protected <T> void callLogicFuncInThread(SingleLogicFunc<T> func, String infolocale, String infolog, String failurelocale, String failurelog, SingleDataCallback<T> callback,String name)
     {
         threadPool.exec(() -> {
             T data = null;
-            try  { data = func.callFunc(); } 
+            try  {
+                data = func.callFunc();
+
+                if(data == null)
+                {
+                    info(infolocale, infolog, callback);
+                    return;
+
+                }
+                success(callback, data);
+            }
             catch (IllegalArgumentException | IllegalStateException ex) 
             {
                 log.error("Der übergebene Wert war leer oder null");
                 if(ex.getMessage() != null)
-                    failure(failurelocale, 
+                    failure(ex.getMessage(),
                         failurelog.isEmpty() ?  failurelog.replace("$", ex.getMessage()) : ex.getMessage(), 
-                        callback);
-            }  
+                        callback,name);
+            }
+            catch (NoResultException ex)
+            {
+                if(ex.getMessage() != null)
+                    failure("noresultexception",
+                            failurelog.isEmpty() ?  failurelog.replace("$", ex.getMessage()) : ex.getMessage(),
+                            callback,"");
+            }
             catch (final Exception ex) 
             {
                 if(ex.getMessage() != null)
                     failure(failurelocale, 
                         failurelog.isEmpty() ?  failurelog.replace("$", ex.getMessage()) : ex.getMessage(), 
-                        callback);
+                        callback,"");
             }
 
-            if(data == null) 
-            {
-                info(infolocale, infolog, callback);
-                return;
-            }
-            
-            success(callback, data);
         });
     }
 };

@@ -12,38 +12,16 @@ import com.swp.Controller.SingleDataCallback;
  */
 public class Validator 
 {
-    public static <T> T checkNotNullOrBlank(final T object, final String name, boolean internal) 
+    public static <T> T checkNotNullOrBlank(final T object)
     {
         if (object == null) {
-            if(internal)
-                throw new IllegalArgumentException(String.format("%s "+ Locale.getCurrentLocale().getString("nonnull"), name));
-            else
-            getDataCallback().callFailure(String.format("%s "+ Locale.getCurrentLocale().getString("nonnull"), name));
+                throw new IllegalArgumentException("nonnull");
         }
-        if (object instanceof String string && string.isBlank()) {//TODO
-            if(internal)
-                throw new IllegalArgumentException(String.format("%s "+ Locale.getCurrentLocale().getString("nonempty"), name));
-            else
-            getDataCallback().callFailure(String.format("%s "+ Locale.getCurrentLocale().getString("nonnull"), name));
+        if (object instanceof String string && string.isBlank()) {
+
+                throw new IllegalArgumentException("nonempty");
         }
         return object;
-    }
-
-
-    private static SingleDataCallback<Object> getDataCallback() 
-    {
-        SingleDataCallback<Object> callback = new SingleDataCallback<>() {
-            @Override
-            public void onSuccess(Object data) {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR, 5);
-            }
-        };
-        return callback;
     }
 
 }

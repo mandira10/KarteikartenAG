@@ -101,9 +101,9 @@ random                             = Random
 leitner                            = Leitner
 timing                             = Timing
 voting                             = Voting
-leitnerdesc                        = Leitner Description: In the Leitner system, you learn in five boxes that have the following repetition: Box 1 = keep learning until successful, Box 2 = every day , Box 3 = every 3 days,Box 4 = weekly, Box 5 = bi-weekly.At the beginning all cards are in box 1. Depending on whether the card is correct, it is moved to the next box or if it is wrong, it is moved to the box before. If you don't study for a few days, you will be presented with all the cards that are due again, so this can be also several boxes.
-timingdesc                         = Timing Description: The TimingSystem measures the time you need for an answer, which determines when to repeat the question.
-votingdesc                         = Voting Description: In VoteSystem you can give 1-5 stars for each question, 5 = very easy / 1 = very hard. The questions are submitted each time you learn based on the rating.
+leitnerdesc                        = Leitner Description: In the Leitner system you learn in several boxes, whose due date you can determine yourself. Initially, all cards are in box 1. If you answer the card correctly, it is moved one box on top and gets the indicated due date of the box. If it is wrong, it will be moved one box forward.
+timingdesc                         = Timing Description: The timing system measures the time it takes you to answer a question. Your time limit (seconds) determines how long you have to answer the question. If you don't make the limit, the answer will be scored as wrong.
+votingdesc                         = Voting Description: In VoteSystem you can give stars for each question, 1 = very hard, your maximum = very easy. The questions are submitted each time you learn based on the rating.
 
 # Search
 bycontentsearch                    = By Content
@@ -182,6 +182,10 @@ question                           = Question
 searchterm                         = Searchterm
 category                           = Category
 cardnullerror                      = Card does not exist
+UUID                               = ID
+tag                                 = Tag
+
+noresultexception                   = Nothing was found
 
 # Category Exceptions
 categorynullerror                  = Category does not exist
@@ -241,3 +245,8 @@ addcardstostudysystemerror         = An error occurred when adding a list of car
 updatedeckdataerror                = An error occurred when updating Deck Data.
 addstudysystemtypeandupdateerror   = An error occurred while adding and updating a DeckType.
 createboxtocardforcategory         = An error occurred while creating box to card for category.
+studysystemlearningerror           = There are currently no cards in this deck. Add some to start the testing.
+studysystemnocardsdue	           = Currently there are no cards due in this deck.
+studysyschangewarning              = If you change the type retroactively, the progress will be resettet to 0.
+studysystemaddcardsinfo		   = Cards already part of deck, not inserted:
+studysystemnullerror                      = Deck does not exist
