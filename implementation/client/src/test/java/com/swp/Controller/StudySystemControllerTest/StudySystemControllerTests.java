@@ -362,6 +362,22 @@ public class StudySystemControllerTests {
     }
 
     @Test
+    public void getStudySystemByUUIDEmpty(){
+        String uuid = "";
+        studySystemController.getStudySystemByUUID(uuid, new SingleDataCallback<StudySystem>() {
+            @Override
+            protected void onSuccess(StudySystem data) {
+
+            }
+
+            @Override
+            protected void onFailure(String msg) {
+
+            }
+        });
+    }
+
+    @Test
     public void getStudySystemByUUIDTestNoResultException() {
         when(studySystemMockLogic.getStudySystemByUUID(any(String.class))).thenThrow(new NoResultException("Es konnte kein studySystem zur UUID gefunden werden"));
         final String expected = "Es konnte nichts gefunden werden.";
@@ -804,7 +820,25 @@ public class StudySystemControllerTests {
         });
     }
 
-    //
+    @Test
+    public void addCardsToStudySystemTestNotEmpty() {
+        StudySystem studySystem = new LeitnerSystem();
+        List<CardOverview> list = new ArrayList<>();
+        list.add(new CardOverview());
+        when(studySystemMockLogic.addCardsToDeck(list, studySystem)).thenReturn(new ArrayList<Card>());
+
+        studySystemController.addCardsToStudySystem(list, studySystem, new SingleDataCallback<String>() {
+            @Override
+            public void onSuccess(String data) {
+            }
+
+            @Override
+            public void onFailure(String msg) {
+            }
+        });
+    }
+
+
 
 
     @Test
@@ -887,6 +921,27 @@ public class StudySystemControllerTests {
             }
         });
     }
+
+    @Test
+    public void resetLearnStatusTest() {
+        StudySystem studySystem = new LeitnerSystem();
+
+        studySystemController.resetLearnStatus(studySystem, new SingleDataCallback<Boolean>() {
+            @Override
+            protected void onSuccess(Boolean data) {
+
+            }
+
+            @Override
+            protected void onFailure(String msg) {
+
+            }
+        });
+
+        verify(studySystemMockLogic).resetLearnStatus(studySystem);
+    }
+
+
 
 
 }

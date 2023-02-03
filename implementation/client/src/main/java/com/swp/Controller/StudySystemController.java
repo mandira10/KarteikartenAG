@@ -187,7 +187,7 @@ public class StudySystemController extends Controller
         callLogicFuncInThread(
             () -> { return studySystemLogic.getStudySystemByUUID(uuid); },
             "getstudysystembyuuidnoresult",
-            "",
+            "getstudysystembyuuidempty",
             "getstudysystembyuuiderror",
             "$",
             callback,"UUID");
