@@ -4,6 +4,7 @@ import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
+import com.swp.GUI.Extras.ListOrder;
 import com.swp.Logic.CategoryLogic;
 
 import java.util.List;
@@ -228,6 +229,28 @@ public class CategoryController extends Controller
             "getcardincategoryerror",
             "Beim Suchen nach Karten mit Kategorie "+category+" ist ein Fehler $ aufgetreten", 
             callback,"category");
+    }
+
+    /**
+     * Nutzung für Filterfunktion für den User. Category wird als String übergeben und durch die CategoryLogik geprüft
+     * ob der String richtig ist und ob es überhaupt eine Kategorie für die Karte gibt.
+     * Gibt eine sortierte Liste von Karten wider.
+     * Wird an die CategoryLogic weitergegeben.
+     *
+     * @param category  Die Kategorie, zu der die Karten abgerufen werden sollen
+     * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
+     * @param order Der Parameter nach dem die Karten sortiert werden
+     * @param reverseorder Gibt die Sortierreihenfolge an
+     */
+    public void getCardsInCategory(String category, DataCallback<CardOverview> callback, ListOrder.Order order, boolean reverseorder)
+    {
+        callLogicFuncInThread(
+                () -> { return categoryLogic.getCardsInCategory(category,order,reverseorder); },
+                "getcardincategoryempty",
+                "",
+                "getcardincategoryerror",
+                "Beim Suchen nach Karten mit Kategorie "+category+" ist ein Fehler $ aufgetreten",
+                callback,"category");
     }
 
 

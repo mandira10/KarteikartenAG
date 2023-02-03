@@ -146,9 +146,9 @@ public class CardOverviewPage extends Page
 
         switch(option)
         {
-            /*By Content*/  case 0: CardController.getInstance().getCardsBySearchterms(str, commoncallback);  break;
-            /*By Tag*/      case 1: CardController.getInstance().getCardsByTag(str, commoncallback);          break;
-            /*By Category*/ case 2: CategoryController.getInstance().getCardsInCategory(str, commoncallback); break;
+            /*By Content*/  case 0: CardController.getInstance().getCardsBySearchterms(str, commoncallback, iOrder, bReverseOrder);  break;
+            /*By Tag*/      case 1: CardController.getInstance().getCardsByTag(str, commoncallback, iOrder, bReverseOrder);          break;
+            /*By Category*/ case 2: CategoryController.getInstance().getCardsInCategory(str, commoncallback, iOrder, bReverseOrder); break;
         }
 
         reposition();

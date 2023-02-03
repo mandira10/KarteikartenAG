@@ -65,6 +65,23 @@ public class CardRepository extends BaseRepository<Card>
     }
 
     /**
+     * Holt aus der Datenbank eine Liste von Karten-Übersichten in sortierter Form.
+     * Es wird danach gefiltert, ob die Karte das angegebene Suchwort als
+     * Teilstring im Inhalt hat.
+     *
+     * @param searchWords ein String nach dem im Inhalt aller Karten gesucht werden soll.
+     * @param orderBy Gibt den Parameter an, wonach sortiert werden soll
+     * @param order Gibt an in welche Reihenfolge sortiert werden soll
+     * @return List<CardOverview> eine List von Karten-Übersichten, welche `searchWords` als Teilstring im Inhalt hat.
+     */
+    public List<CardOverview> findCardsContaining(String searchWords, String orderBy, String order) {
+        return getEntityManager()
+                .createQuery("SELECT co FROM CardOverview co WHERE LOWER(co.content) LIKE LOWER(:content) ORDER BY " + orderBy + " " + order, CardOverview.class)
+                .setParameter("content", "%" + searchWords + "%")
+                .getResultList();
+    }
+
+    /**
      * Holt anhand der übergebenen UUID aus der Datenbank eine Karte.
      *
      * @param uuid eine Karten-UUID als String.
@@ -92,6 +109,21 @@ public class CardRepository extends BaseRepository<Card>
         return getEntityManager()
                 .createNamedQuery("CardToCategory.allCardsOfCategory", CardOverview.class)
                 .setParameter("category", category)
+                .getResultList();
+    }
+
+    /**
+     * Der Funktion `getCardsByCategory` wird ein Kategorie-Name übergeben.
+     * Es werden alle Karten zurückgegeben, die dieser Kategorie zugeordnet sind in sortierter Form.
+     * Gibt es keine Karten in dieser Kategorie, so wird eine leere Liste zurückgegeben.
+     *
+     * @param categoryName ein Kategorie-Name für die alle Karten gesucht werden sollen, die diesen haben.
+     * @return List<CardOverview> eine Menge von Karten-Übersichten, welche der Kategorie zugeordnet sind.
+     */
+    public List<CardOverview> getCardsByCategory(String categoryName, String orderBy, String order) {
+        return getEntityManager()
+                .createQuery("SELECT co FROM CardOverview co LEFT JOIN CardToCategory c2c ON c2c.card = co.uUUID LEFT JOIN Category cat on c2c.category = cat.uuid where LOWER(cat.name) LIKE LOWER(:categoryName) ORDER BY " + orderBy + " " +order, CardOverview.class)
+                .setParameter("categoryName", "%" + categoryName + "%")
                 .getResultList();
     }
 
@@ -157,6 +189,36 @@ public class CardRepository extends BaseRepository<Card>
                 .getResultList();
     }
 
+    /**
+     * Holt aus der Datenbank eine Liste von Karten, welche einen angegebenen Tag zugeordnet haben.
+     * Gibt es keine Karte mit dem angegebene Tag, so wird eine leere Liste zurückgegeben.
+     *
+     * @param tagName Teilstring der einem bestehenden Tag matchen sollte.
+     * @return List<CardOverview> eine Liste von Karten-Übersichten, welche in Verbindung zu dem Tag stehen.
+     */
+    public List<CardOverview> findCardsByTag(String tagName) {
+        return getEntityManager()
+                .createNamedQuery("CardOverview.allCardsWithTagName", CardOverview.class)
+                .setParameter("tagName", "%" + tagName + "%")
+                .getResultList();
+    }
+
+    /**
+     * Holt aus der Datenbank eine Liste von Karten, welche einen angegebenen Tag zugeordnet haben in sortierter Form.
+     * Gibt es keine Karte mit dem angegebene Tag, so wird eine leere Liste zurückgegeben.
+     *
+     * @param tagName Teilstring der einem bestehenden Tag matchen sollte.
+     * @param orderBy Gibt den Parameter an, wonach sortiert werden soll
+     * @param order Gibt an in welche Reihenfolge sortiert werden soll
+     * @return List<CardOverview> eine Liste von Karten-Übersichten, welche in Verbindung zu dem Tag stehen.
+     */
+    public List<CardOverview> findCardsByTag(String tagName, String orderBy, String order) {
+            return getEntityManager()
+                    .createQuery("SELECT co FROM CardOverview co LEFT JOIN CardToTag c2t ON c2t.card = co.uUUID WHERE LOWER(c2t.tag.val) LIKE LOWER(:tagName) ORDER BY " + orderBy + " " + order, CardOverview.class)
+                    .setParameter("tagName", "%" + tagName + "%")
+                    .getResultList();
+
+    }
 
     /**
      * Holt aus der Datenbank eine Liste von Karten, welche einen angegebenen Tag zugeordnet haben.
@@ -172,19 +234,7 @@ public class CardRepository extends BaseRepository<Card>
                 .getResultList();
     }
 
-    /**
-     * Holt aus der Datenbank eine Liste von Karten, welche einen angegebenen Tag zugeordnet haben.
-     * Gibt es keine Karte mit dem angegebene Tag, so wird eine leere Liste zurückgegeben.
-     *
-     * @param tagName Teilstring der einem bestehenden Tag matchen sollte.
-     * @return List<CardOverview> eine Liste von Karten-Übersichten, welche in Verbindung zu dem Tag stehen.
-     */
-    public List<CardOverview> findCardsByTag(String tagName) {
-        return getEntityManager()
-                .createNamedQuery("CardOverview.allCardsWithTagName", CardOverview.class)
-                .setParameter("tagName", "%" + tagName + "%")
-                .getResultList();
-    }
+
 
     public Long getNumberOfLearnedCardsByStudySystem(StudySystem studySystem) {
         return getEntityManager()
@@ -276,6 +326,9 @@ public class CardRepository extends BaseRepository<Card>
                 .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }
+
+
+
 }
 
 

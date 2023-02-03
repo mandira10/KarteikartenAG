@@ -57,10 +57,22 @@ public class CardController extends Controller
             callback,"");
     }
 
-    public void getCardsToShow(int begin, int end, ListOrder.Order iOrder, boolean bReverseOrder, DataCallback<CardOverview> callback)
+    /**
+     * Wird in der CardOverviewPage verwendet, um die einzelnen Karten für die Seitenauswahl mitsamt Titel (wenn nicht vorhanden dann die Frage), Typ,
+     * Anzahl der Decks und ihrem Erstellzeitpunkt anzuzeigen. Gibt die Methode an die CardLogic weiter.
+     * Gibt eine sortierte Liste von Karten wieder.
+     *
+     * @param begin  Seitenauswahl Anfangswert
+     * @param end  Seitenauswahl Endwert
+     * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
+     * @param order Der Parameter nach dem die Karten sortiert werden
+     * @param reverseOrder Gibt die Sortierreihenfolge an
+     */
+
+    public void getCardsToShow(int begin, int end, ListOrder.Order order, boolean reverseOrder, DataCallback<CardOverview> callback)
     {
         callLogicFuncInThread(
-            () -> { return cardLogic.getCardOverview(begin, end, iOrder, bReverseOrder); }, 
+            () -> { return cardLogic.getCardOverview(begin, end, order, reverseOrder); },
             "getcardstoshowempty", 
             "Es wurden keine zugehörigen Karten gefunden", 
             "TODO", // Beim Abrufen der Karten ist ein Fehler aufgetreten
@@ -71,19 +83,40 @@ public class CardController extends Controller
     /**
      * Nutzung für Display einzelner Karten in Filterfunktion in OverviewPage verwendet.
      * Wird an die CardLogic weitergegeben.
+     * Gibt eine sortierte Liste von Karten wieder.
      *
      * @param tag  Der Tag, zu dem die Karten abgerufen werden sollen
      * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
+     * @param order Der Parameter nach dem die Karten sortiert werden
+     * @param reverseorder Gibt die Sortierreihenfolge an
      */
-    public void getCardsByTag(String tag, DataCallback<CardOverview> callback) 
+    public void getCardsByTag(String tag, DataCallback<CardOverview> callback, ListOrder.Order order, boolean reverseorder)
     {
         callLogicFuncInThread(
-            () -> { return cardLogic.getCardsByTag(tag); }, 
+            () -> { return cardLogic.getCardsByTag(tag, order, reverseorder); },
             "getcardsbytagempty", 
             "Es wurden keine Karten für den Tag gefunden", 
             "getcardsbytagerror",
             "Beim Suchen nach Karten mit Tag " + tag + " ist ein Fehler $ aufgetreten",
             callback,"tag");
+    }
+
+    /**
+     * Nutzung für Display einzelner Karten in Filterfunktion in OverviewPage verwendet.
+     * Wird an die CardLogic weitergegeben.
+     *
+     * @param tag  Der Tag, zu dem die Karten abgerufen werden sollen
+     * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
+     */
+    public void getCardsByTag(String tag, DataCallback<CardOverview> callback)
+    {
+        callLogicFuncInThread(
+                () -> { return cardLogic.getCardsByTag(tag); },
+                "getcardsbytagempty",
+                "Es wurden keine Karten für den Tag gefunden",
+                "getcardsbytagerror",
+                "Beim Suchen nach Karten mit Tag " + tag + " ist ein Fehler $ aufgetreten",
+                callback,"tag");
     }
 
     /**
@@ -106,20 +139,41 @@ public class CardController extends Controller
 
     /**
      * Nutzung für Display bestimmter Karten bei CardOverviewPage. Wird an die CardLogic weitergegeben.
+     * Gibt eine sortierte Liste von Karten wieder.
      *
      * @param searchterm Übergebener String mit dem Suchwort
      * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
+     * @param order Der Parameter nach dem die Karten sortiert werden
+     * @param reverseorder Gibt die Sortierreihenfolge an
      */
-    public void getCardsBySearchterms(String searchterm, DataCallback<CardOverview> callback) 
+    public void getCardsBySearchterms(String searchterm, DataCallback<CardOverview> callback, ListOrder.Order order, boolean reverseorder)
     {
         callLogicFuncInThread(
-            () -> { return cardLogic.getCardsBySearchterms(searchterm); },
+            () -> { return cardLogic.getCardsBySearchterms(searchterm, order, reverseorder); },
             "getcardsbysearchtermsempty", 
             "Es gibt keine Karten für dieses Suchwort",
             "getcardsbysearchtermserror",
             "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten", 
             callback,"searchterm");
     }
+
+    /**
+     * Nutzung für Display bestimmter Karten bei CardOverviewPage. Wird an die CardLogic weitergegeben.
+     *
+     * @param searchterm Übergebener String mit dem Suchwort
+     * @param callback  Callback für die GUI, gibt bei success Liste an Daten weiter, bei Fehler die Exception message.
+     */
+    public void getCardsBySearchterms(String searchterm, DataCallback<CardOverview> callback)
+    {
+        callLogicFuncInThread(
+                () -> { return cardLogic.getCardsBySearchterms(searchterm); },
+                "getcardsbysearchtermsempty",
+                "Es gibt keine Karten für dieses Suchwort",
+                "getcardsbysearchtermserror",
+                "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten",
+                callback,"searchterm");
+    }
+
 
     /**
      * Dient dem Löschen einzelner Karten. Wird an die CardLogic weitergegeben.

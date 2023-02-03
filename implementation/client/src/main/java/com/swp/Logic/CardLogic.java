@@ -71,29 +71,29 @@ public class CardLogic extends BaseLogic<Card>
      *
      * @param begin Seitenauswahl Anfangswert
      * @param end: Seitenauswahl Endwert
-     * @param iOrder: Parameter der zum Sortieren verwendet werden soll
-     * @param bReverseOrder: Gibt Sortierung an
+     * @param order: Parameter der zum Sortieren verwendet werden soll
+     * @param reverseOrder: Gibt Sortierung an
      * @return anzuzeigende Karten
      */
 
-    public List<CardOverview> getCardOverview(int begin, int end, ListOrder.Order iOrder, boolean bReverseOrder) {
+    public List<CardOverview> getCardOverview(int begin, int end, ListOrder.Order order, boolean reverseOrder) {
         return execTransactional(() -> {
             List<CardOverview> cards = new ArrayList<>();
-            switch (iOrder) {
+            switch (order) {
                 case ALPHABETICAL -> {
-                    if (!bReverseOrder)
+                    if (!reverseOrder)
                         cards = cardRepository.getCardOverview(begin, end, "c.titelToShow", "asc");
                     else
                         cards = cardRepository.getCardOverview(begin, end, "c.titelToShow", "desc");
                 }
                 case DATE -> {
-                    if (!bReverseOrder)
+                    if (!reverseOrder)
                         cards = cardRepository.getCardOverview(begin, end, "c.cardCreated", "asc");
                     else
                         cards = cardRepository.getCardOverview(begin, end, "c.cardCreated", "desc");
                 }
                 case NUM_DECKS -> {
-                    if (!bReverseOrder)
+                    if (!reverseOrder)
                         cards = cardRepository.getCardOverview(begin, end, "c.countDecks", "asc");
                     else
                         cards = cardRepository.getCardOverview(begin, end, "c.countDecks", "desc");
@@ -121,11 +121,67 @@ public class CardLogic extends BaseLogic<Card>
      * @param terms Suchwörter, die durch ein Leerzeichen voneinander getrennt sind
      * @return Set der Karten, die Suchwörter enthalten.
      */
-    public List<CardOverview> getCardsBySearchterms(String terms)
-    {
+    public List<CardOverview> getCardsBySearchterms(String terms) {
         checkNotNullOrBlank(terms);
         return execTransactional(() -> cardRepository.findCardsContaining(terms));
     }
+
+    public List<CardOverview> getCardsBySearchterms(String searchterm, ListOrder.Order order, boolean reverseOrder) {
+        checkNotNullOrBlank(searchterm);
+        return execTransactional(() -> {
+            List<CardOverview> cards = new ArrayList<>();
+            switch (order) {
+                case ALPHABETICAL -> {
+                    if (!reverseOrder)
+                        cards = cardRepository.findCardsContaining(searchterm, "co.titelToShow", "asc");
+                    else
+                        cards = cardRepository.findCardsContaining(searchterm, "co.titelToShow", "desc");
+                }
+                case DATE -> {
+                    if (!reverseOrder)
+                        cards = cardRepository.findCardsContaining(searchterm, "co.cardCreated", "asc");
+                    else
+                        cards = cardRepository.findCardsContaining(searchterm, "co.cardCreated", "desc");
+                }
+                case NUM_DECKS -> {
+                    if (!reverseOrder)
+                        cards = cardRepository.findCardsContaining(searchterm, "co.countDecks", "asc");
+                    else
+                        cards = cardRepository.findCardsContaining(searchterm, "co.countDecks", "desc");
+                }
+            }
+            return cards;
+        });
+    }
+
+    public List<CardOverview> getCardsByTag(String tag, ListOrder.Order order, boolean reverseOrder) {
+        checkNotNullOrBlank(tag);
+        return execTransactional(() -> {
+            List<CardOverview> cards = new ArrayList<>();
+            switch (order) {
+                case ALPHABETICAL -> {
+                    if (!reverseOrder)
+                        cards = cardRepository.findCardsByTag(tag, "co.titelToShow", "asc");
+                    else
+                        cards = cardRepository.findCardsByTag(tag, "co.titelToShow", "desc");
+                }
+                case DATE -> {
+                    if (!reverseOrder)
+                        cards = cardRepository.findCardsByTag(tag, "co.cardCreated", "asc");
+                    else
+                        cards = cardRepository.findCardsByTag(tag, "co.cardCreated", "desc");
+                }
+                case NUM_DECKS -> {
+                    if (!reverseOrder)
+                        cards = cardRepository.findCardsByTag(tag, "co.countDecks", "asc");
+                    else
+                        cards = cardRepository.findCardsByTag(tag, "co.countDecks", "desc");
+                }
+            }
+            return cards;
+        });
+    }
+
 
     /**
      * Wird aufgerufen, wenn eine spezifische Karte gelöscht werden soll. Gibt die Karte weiter
@@ -306,7 +362,6 @@ public class CardLogic extends BaseLogic<Card>
      * Wird aufgerufen, um ausgewählte Karten zu exportieren. Wird an die Exporter Klasse weitergereicht.
      * @param cards Set an Karten, die exportiert werden sollen
      * @param filetype Exporttyp der Karten
-     * @throws IOException
      */
     public boolean exportCards(List<CardOverview> cards, String destination, ExportFileType filetype) 
     {
@@ -321,6 +376,5 @@ public class CardLogic extends BaseLogic<Card>
 
         return true;
     }
-
 
 }

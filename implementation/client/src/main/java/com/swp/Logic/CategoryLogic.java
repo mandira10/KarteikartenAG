@@ -7,6 +7,7 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.Category;
+import com.swp.GUI.Extras.ListOrder;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToCategoryRepository;
 import com.swp.Persistence.CategoryHierarchyRepository;
@@ -157,6 +158,34 @@ public class CategoryLogic extends BaseLogic<Category> {
     public List<CardOverview> getCardsInCategory(String categoryName) {
         checkNotNullOrBlank(categoryName);
         return execTransactional(() -> cardRepository.getCardsByCategory(categoryName));
+    }
+
+    public List<CardOverview> getCardsInCategory(String categoryName, ListOrder.Order order, boolean reverseOrder) {
+        checkNotNullOrBlank(categoryName);
+        return execTransactional(() -> {
+            List<CardOverview> cards = new ArrayList<>();
+            switch (order) {
+                case ALPHABETICAL -> {
+                    if (!reverseOrder)
+                        cards = cardRepository.getCardsByCategory(categoryName, "co.titelToShow", "asc");
+                    else
+                        cards = cardRepository.getCardsByCategory(categoryName, "co.titelToShow", "desc");
+                }
+                case DATE -> {
+                    if (!reverseOrder)
+                        cards = cardRepository.getCardsByCategory(categoryName, "co.cardCreated", "asc");
+                    else
+                        cards = cardRepository.getCardsByCategory(categoryName, "co.cardCreated", "desc");
+                }
+                case NUM_DECKS -> {
+                    if (!reverseOrder)
+                        cards = cardRepository.getCardsByCategory(categoryName, "co.countDecks", "asc");
+                    else
+                        cards = cardRepository.getCardsByCategory(categoryName, "co.countDecks", "desc");
+                }
+            }
+            return cards;
+        });
     }
 
     /**
@@ -472,4 +501,6 @@ public class CategoryLogic extends BaseLogic<Category> {
         checkNotNullOrBlank(searchterm);
         return execTransactional(() -> categoryRepository.findCategoriesContaining(searchterm));
     }
+
+
 }

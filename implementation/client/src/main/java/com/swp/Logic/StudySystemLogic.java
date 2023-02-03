@@ -249,7 +249,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
                     testingBoxCards = cardRepository.getAllCardsForTimingSystem(studySystem);
                     break;
                 case LEITNER:
-                    log.info("Test");
                     testingBoxCards = cardRepository.getAllCardsNeededToBeLearned(studySystem);
                     break;
                 case VOTE:
@@ -260,7 +259,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             }
             testingStarted = true;
             if(testingBoxCards.isEmpty()){ //no cards learnable as no cards are due
-                log.info("test");
                 throw new IllegalStateException("studysystemnocardsdue");
             }
         }
