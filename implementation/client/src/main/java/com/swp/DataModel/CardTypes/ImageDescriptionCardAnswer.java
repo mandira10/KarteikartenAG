@@ -28,6 +28,12 @@ public class ImageDescriptionCardAnswer
     private ImageDescriptionCard attachedCard;
 
     /**
+     * zu beschreibende Bild
+     */
+    @Column
+    public byte[] image;
+
+    /**
      * Antworttext
      */
     @Column
@@ -50,15 +56,21 @@ public class ImageDescriptionCardAnswer
      * @param text  Text der Antwort
      * @param x Position x
      * @param y Position y
+     * @param image Blob mit der Bild-Datei
      */
-    public ImageDescriptionCardAnswer(String text, int x, int y)
+    public ImageDescriptionCardAnswer(String text, int x, int y, byte[] image)
     {
         this.id = UUID.randomUUID().toString();
         this.answertext = text;
         this.xpos = x;
         this.ypos = y;
+        this.image = image;
     }
 
+    public ImageDescriptionCardAnswer(String text, int x, int y)
+    {
+        this(text, x, y, null);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
