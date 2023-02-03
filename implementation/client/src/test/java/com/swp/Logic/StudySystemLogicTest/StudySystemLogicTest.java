@@ -1,5 +1,6 @@
 package com.swp.Logic.StudySystemLogicTest;
 
+import clojure.lang.IFn;
 import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
@@ -41,6 +42,7 @@ public class StudySystemLogicTest {
     private CardRepository cardRepository;
     private CardToBoxRepository cardToBoxRepository;
     private List<Card> testingBoxMockCards ;
+
     @BeforeAll
     public static void before()
     {
@@ -176,6 +178,29 @@ public class StudySystemLogicTest {
         when(cardToBoxRepository.save(any(BoxToCard.class))).thenReturn(new BoxToCard());
         studySystemLogic.updateStudySystemData(oldstudySystem,newstudySystem,false);
         verify(cardToBoxRepository,times(2)).save(any(BoxToCard.class));
+    }
+
+    @Test
+    public void updateStudySystemDataLeitnerTest(){
+        StudySystem studySystem = new LeitnerSystem();
+        LeitnerSystem leitnerSystem = new LeitnerSystem();
+        int[] list = {1,2,3};
+        leitnerSystem.setDaysToRelearn(list);
+        List<StudySystemBox> boxes = new ArrayList<>();
+        StudySystemBox studySystemBox = new StudySystemBox();
+        StudySystemBox studySystemBox1 = new StudySystemBox();
+        StudySystemBox studySystemBox2 = new StudySystemBox();
+        StudySystemBox studySystemBox3 = new StudySystemBox();
+        StudySystemBox studySystemBox4 = new StudySystemBox();
+        boxes.add(studySystemBox);
+        boxes.add(studySystemBox1);
+        boxes.add(studySystemBox2);
+        boxes.add(studySystemBox3);
+        boxes.add(studySystemBox4);
+        leitnerSystem.setBoxes(boxes);
+        studySystemLogic.updateStudySystemData(studySystem,leitnerSystem,false);
+        assertEquals(4,leitnerSystem.getBoxes().size());
+
     }
 
 
@@ -407,6 +432,19 @@ public class StudySystemLogicTest {
 
     }
 
+    @Test
+    public void getNextCardEmpty(){
+        StudySystem studySystem = new VoteSystem();
+        studySystem.setNotLearnedYet(false);
+        List<Card> list = new ArrayList<>();
+        when(cardRepository.getAllCardsSortedForVoteSystem(any(StudySystem.class))).thenReturn(list);
+        Exception exception = assertThrows(IllegalStateException.class, () -> {
+            studySystemLogic.getNextCard(studySystem);
+        });
+        String expected = exception.getMessage();
+        assertEquals(expected,"studysystemnocardsdue");
+    }
+
 
 
     @Test
@@ -600,6 +638,30 @@ public class StudySystemLogicTest {
         assertEquals(expected,actual);
     }
 
+    @Test
+    public void deleteStudySystemTest(){
+        StudySystem studySystem = new LeitnerSystem();
+        List<BoxToCard> list = new ArrayList<>();
+        when(cardToBoxRepository.getAllB2CForStudySystem(studySystem)).thenReturn(list);
+        studySystemLogic.deleteStudySystem(studySystem);
+        verify(cardToBoxRepository).delete(list);
+        verify(studySystemRepository).delete(studySystem);
+    }
+
+    @Test
+    public void deleteStudySystemsTest(){
+        StudySystem studySystem = new LeitnerSystem();
+        StudySystem studySystem1 = new TimingSystem();
+        StudySystem[] listStudy = {studySystem,studySystem1};
+        List<BoxToCard> list = new ArrayList<>();
+        List<BoxToCard> list1 = new ArrayList<>();
+        when(cardToBoxRepository.getAllB2CForStudySystem(studySystem)).thenReturn(list);
+        when(cardToBoxRepository.getAllB2CForStudySystem(studySystem1)).thenReturn(list1);
+        studySystemLogic.deleteStudySystem(listStudy);
+        verify(cardToBoxRepository,times(2)).delete(anyList());
+        verify(studySystemRepository,times(2)).delete(any(StudySystem.class));
+    }
+
 
     @Test
     public void moveAllCardsForDeckToFirstBoxTestAlreadyExist(){
@@ -651,6 +713,88 @@ public class StudySystemLogicTest {
         int expected = 17;
         studySystemLogic.calculateProgress(studySystem);
         assertEquals(expected,studySystem.getProgress());
+    }
+
+    @Test
+    public void removeCardsFromStudySystemTestNull(){
+        StudySystem studySystem = new TimingSystem();
+        List<CardOverview> cardsviews = new ArrayList<>();
+        List<Card> cards = new ArrayList<>();
+        cards.add(null);
+        when(cardRepository.getAllCardsForCardOverview(cardsviews)).thenReturn(cards);
+        Exception exception = assertThrows(IllegalStateException.class,() -> {
+            studySystemLogic.removeCardsFromStudySystem(cardsviews,studySystem);
+        });
+        String expected = exception.getMessage();
+        assertEquals(expected,"cardnullerror");
+    }
+
+    @Test
+    public void removeCardsFromStudySystemTest(){
+        StudySystem studySystem = new TimingSystem();
+        List<CardOverview> cardsviews = new ArrayList<>();
+        List<Card> cards = new ArrayList<>();
+        Card card = new TrueFalseCard();
+        cards.add(card);
+        BoxToCard boxToCard = new BoxToCard();
+        when(cardToBoxRepository.getSpecific(any(Card.class),any(StudySystem.class))).thenReturn(boxToCard);
+        when(cardRepository.getAllCardsForCardOverview(cardsviews)).thenReturn(cards);
+        studySystemLogic.removeCardsFromStudySystem(cardsviews,studySystem);
+        verify(cardToBoxRepository).delete(boxToCard);
+    }
+
+    @Test
+    public void addCardsToDeckNullTest(){
+        StudySystem studySystem = null;
+        List<CardOverview> cards = new ArrayList<>();
+        Exception exception = assertThrows(IllegalStateException.class,() -> {
+            studySystemLogic.addCardsToDeck(cards,studySystem);
+        });
+        String expected = exception.getMessage();
+        assertEquals(expected,"studysystemnullerror");
+    }
+
+    @Test
+    public void numCardsInDeckTest(){
+        StudySystem studySystem = new TimingSystem();
+        List<CardOverview> list = new ArrayList<>();
+        list.add(new CardOverview());
+        when(cardRepository.findCardsByStudySystem(any(StudySystem.class))).thenReturn(list);
+        assertEquals(list.size(),studySystemLogic.numCardsInDeck(studySystem));
+    }
+
+
+    @Test
+    public void resetLearnStatusTest(){
+        StudySystem studySystem = new TimingSystem();
+        studySystem.setProgress(1);
+        List<CardOverview> list = new ArrayList<>();
+        when(cardRepository.findCardsByStudySystem(studySystem)).thenReturn(list);
+        List<Card> cardlist = new ArrayList<>();
+        Card card = new TrueFalseCard();
+        cardlist.add(card);
+        when(cardRepository.getAllCardsForCardOverview(list)).thenReturn(cardlist);
+        BoxToCard boxToCard = new BoxToCard();
+        when(cardToBoxRepository.getSpecific(card,studySystem)).thenReturn(boxToCard);
+        boxToCard.setStatus(BoxToCard.CardStatus.SKILLED);
+        boxToCard.setRating(5);
+        boxToCard.setStudySystemBox(studySystem.getBoxes().get(1));
+        studySystem.setNotLearnedYet(false);
+        studySystemLogic.resetLearnStatus(studySystem);
+        verify(cardToBoxRepository).update(boxToCard);
+        verify(studySystemRepository).update(studySystem);
+        assertEquals(boxToCard.getStatus(), BoxToCard.CardStatus.NEW);
+        assertEquals(boxToCard.getRating(),0);
+        assertEquals(boxToCard.getStudySystemBox().getBoxNumber(),0);
+        assertEquals(studySystem.getProgress(),0);
+        assertEquals(studySystem.isNotLearnedYet(),true);
+    }
+
+    @Test
+    public void resetLearnStatusTestElse() {
+        StudySystem studySystem = new TimingSystem();
+        studySystem.setProgress(0);
+        studySystemLogic.resetLearnStatus(studySystem);
     }
 
 
