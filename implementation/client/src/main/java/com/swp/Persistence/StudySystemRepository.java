@@ -1,7 +1,9 @@
 package com.swp.Persistence;
 
+import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.StudySystemBox;
 import jakarta.persistence.NoResultException;
 
 import java.util.List;
@@ -50,6 +52,7 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
         return getEntityManager().createQuery("SELECT s FROM StudySystem s ORDER BY s.name",StudySystem.class).getResultList();
     }
 
+
     /**
      * Holt ein Lernsystem aus der Datenbank, welche die angegebene UUID hat.
      * Wenn es kein Lernsystem mit dieser UUID gibt, dann wird eine Exception geworfen.
@@ -80,10 +83,5 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
                 .getResultList();
     }
 
-    public List<Long> getProgressForLeitner(StudySystem studySystem){
-        return getEntityManager()
-                .createNamedQuery("StudySystemBox.progressLeitner", Long.class)
-                .setParameter("studysystem", studySystem.getUuid())
-                .getResultList();
-    }
+
 }

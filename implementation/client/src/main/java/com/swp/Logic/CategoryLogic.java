@@ -132,8 +132,7 @@ public class CategoryLogic extends BaseLogic<Category> {
                     .delete(CardToCategoryRepository.getAllC2CForCategory(category));
             categoryHierarchyRepository.delete(categoryHierarchyRepository.getAllChildrenAndParentsForCategory(category));
             categoryRepository.delete(category);
-            //TODO alle Parents und Childs der Kategorie müssen noch gelöscht werden generell oder? TODO in CategoryRepo
-            return true;
+              return true;
         });
     }
 

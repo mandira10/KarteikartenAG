@@ -56,7 +56,7 @@ public class StudySystemController extends Controller
             "",
             "", 
             "moveallcardsfordecktofirstboxerror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -67,14 +67,14 @@ public class StudySystemController extends Controller
      * @param studySystem  Das StudySystem, das benötigt wird.
      * @param callback     wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void getAllCardsInStudySystem(StudySystem studySystem, DataCallback<CardOverview> callback) 
+    public void getAllCardsInStudySystem(StudySystem studySystem, DataCallback<CardOverview> callback)
     {
         callLogicFuncInThread(
-            () -> { return studySystemLogic.getAllCardsInStudySystem(studySystem); }, 
+            () -> { return studySystemLogic.getAllCardsInStudySystem(studySystem); },
             "",
-            "Es gibt aktuell noch keine Karten für das Deck", 
+            "Es gibt aktuell noch keine Karten für das Deck",
             "getallcardsinstudysystemerror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -86,14 +86,14 @@ public class StudySystemController extends Controller
      * @param studySystem Das StudySystem, das benötigt wird.
      * @param callback    wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void giveAnswer(StudySystem studySystem, boolean answer, SingleDataCallback<Boolean> callback) 
+    public void giveAnswer(StudySystem studySystem, boolean answer, SingleDataCallback<Boolean> callback)
     {
         callLogicFuncInThread(
-            () -> { studySystemLogic.giveAnswer(studySystem, answer); return true; }, 
-            "", 
-            "", 
+            () -> { studySystemLogic.giveAnswer(studySystem, answer); return true; },
+            "",
+            "",
             "giveanswererror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -106,14 +106,14 @@ public class StudySystemController extends Controller
      * @param rating      Bewertung von GUI
      * @param callback    wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void giveRating(StudySystem studySystem, Card card, int rating, SingleDataCallback<Boolean> callback) 
+    public void giveRating(StudySystem studySystem, Card card, int rating, SingleDataCallback<Boolean> callback)
     {
         callLogicFuncInThread(
-            () -> { studySystemLogic.giveRating(studySystem, card, rating); return true; }, 
-            "", 
-            "", 
+            () -> { studySystemLogic.giveRating(studySystem, card, rating); return true; },
+            "",
+            "",
             "giveratingerror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -124,14 +124,14 @@ public class StudySystemController extends Controller
      * @param studySystem Das StudySystem, das benötigt wird.
      * @param callback    wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void finishTestAndGetResult(StudySystem studySystem, SingleDataCallback<Integer> callback) 
+    public void finishTestAndGetResult(StudySystem studySystem, SingleDataCallback<Integer> callback)
     {
         callLogicFuncInThread(
-            () -> { return studySystemLogic.finishTestAndGetResult(studySystem); }, 
-            "", 
-            "", 
+            () -> { return studySystemLogic.finishTestAndGetResult(studySystem); },
+            "",
+            "",
             "finishtestandgetresulterror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -143,14 +143,14 @@ public class StudySystemController extends Controller
      * @param studySystem Das StudySystem, das benötigt wird.
      * @param callback    wird verwendet, um mögliche Fehler abzufangen.
        */
-    public void getNextCard(StudySystem studySystem, SingleDataCallback<Card> callback) 
+    public void getNextCard(StudySystem studySystem, SingleDataCallback<Card> callback)
     {
         callLogicFuncInThread(
-            () -> { return studySystemLogic.getNextCard(studySystem); }, 
-            "", 
-            "", 
+            () -> { return studySystemLogic.getNextCard(studySystem); },
+            "",
+            "",
             "getnextcarderror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -160,14 +160,14 @@ public class StudySystemController extends Controller
      * @param studySystem studySystem, um die Anzahl der Karten darin zu suchen
      * @param callback    wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void numCardsInDeck(StudySystem studySystem, SingleDataCallback<Integer> callback) 
+    public void numCardsInDeck(StudySystem studySystem, SingleDataCallback<Integer> callback)
     {
         callLogicFuncInThread(
-            () -> { return studySystemLogic.numCardsInDeck(studySystem); }, 
-            "", 
-            "", 
+            () -> { return studySystemLogic.numCardsInDeck(studySystem); },
+            "",
+            "",
             "numcardsindeckerror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -177,7 +177,7 @@ public class StudySystemController extends Controller
      * @param uuid     UUID zu suchen
      * @param callback wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void getStudySystemByUUID(String uuid, SingleDataCallback<StudySystem> callback) 
+    public void getStudySystemByUUID(String uuid, SingleDataCallback<StudySystem> callback)
     {
         if(uuid.isEmpty())
         {
@@ -185,11 +185,11 @@ public class StudySystemController extends Controller
             return;
         }
         callLogicFuncInThread(
-            () -> { return studySystemLogic.getStudySystemByUUID(uuid); }, 
-            "getstudysystembyuuidnoresult", 
-            "", 
+            () -> { return studySystemLogic.getStudySystemByUUID(uuid); },
+            "getstudysystembyuuidnoresult",
+            "",
             "getstudysystembyuuiderror",
-            "", 
+            "$",
             callback,"UUID");
     }
 
@@ -200,14 +200,14 @@ public class StudySystemController extends Controller
      * @param studySystem Das StudySystem, das benötigt wird.
      * @param list        die Liste der Karten zu löschen
      */
-    public void removeCardsFromStudySystem(List<CardOverview> list, StudySystem studySystem, SingleDataCallback<Boolean> callback) 
+    public void removeCardsFromStudySystem(List<CardOverview> list, StudySystem studySystem, SingleDataCallback<Boolean> callback)
     {
         callLogicFuncInThread(
-            () -> { studySystemLogic.removeCardsFromStudySystem(list, studySystem); return true; }, 
-            "", 
-            "Null Variable gegeben", 
+            () -> { studySystemLogic.removeCardsFromStudySystem(list, studySystem); return true; },
+            "",
+            "Null Variable gegeben",
             "removecardsfromstudysystemerror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -218,14 +218,14 @@ public class StudySystemController extends Controller
      * @param callback    wird verwendet, um mögliche Fehler abzufangen.
      * @param studySystem StudySystem zu löschen.
      */
-    public void deleteStudySystem(StudySystem studySystem, SingleDataCallback<Boolean> callback) 
+    public void deleteStudySystem(StudySystem studySystem, SingleDataCallback<Boolean> callback)
     {
         callLogicFuncInThread(
-            () -> { studySystemLogic.deleteStudySystem(studySystem); return true; }, 
-            "", 
-            "Null Variable gegeben", 
+            () -> { studySystemLogic.deleteStudySystem(studySystem); return true; },
+            "",
+            "Null Variable gegeben",
             "deletestudysystemerror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -235,14 +235,14 @@ public class StudySystemController extends Controller
      *
      * @param callback  wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void deleteDecks(StudySystem[] studySystems, SingleDataCallback<Boolean> callback) 
+    public void deleteDecks(StudySystem[] studySystems, SingleDataCallback<Boolean> callback)
     {
         callLogicFuncInThread(
-            () -> { studySystemLogic.deleteStudySystem(studySystems); return true; }, 
-            "", 
-            "", 
+            () -> { studySystemLogic.deleteStudySystem(studySystems); return true; },
+            "",
+            "",
             "deletedeckserror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -251,14 +251,14 @@ public class StudySystemController extends Controller
      *
      * @param callback wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void getStudySystems(DataCallback<StudySystem> callback) 
+    public void getStudySystems(DataCallback<StudySystem> callback)
     {
         callLogicFuncInThread(
-            () -> { return studySystemLogic.getStudySystems(); }, 
-            "", 
-            "Es gibt noch keine Studysystems gefunden", 
+            () -> { return studySystemLogic.getStudySystems(); },
+            "",
+            "Es gibt noch keine Studysystems gefunden",
             "getstudysystemserror",
-            "", 
+            "$",
             callback,"");
     }
 
@@ -268,14 +268,14 @@ public class StudySystemController extends Controller
      * @param searchterm Suchbegriff um nachzusuchen.
      * @param callback   wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void getStudySystemBySearchTerms(String searchterm, DataCallback<StudySystem> callback) 
+    public void getStudySystemBySearchTerms(String searchterm, DataCallback<StudySystem> callback)
     {
         callLogicFuncInThread(
-            () -> { return studySystemLogic.getStudySystemsBySearchterm(searchterm); }, 
-            "getstudysystembysearchtermsempty", 
-            "Es wurden keine zugehörigen StudySystems für den Suchterm gefunden gefunden", 
+            () -> { return studySystemLogic.getStudySystemsBySearchterm(searchterm); },
+            "getstudysystembysearchtermsempty",
+            "Es wurden keine zugehörigen StudySystems für den Suchterm gefunden gefunden",
             "getstudysystembysearchtermserror",
-            "", 
+            "$",
             callback,searchterm);
     }
 
@@ -285,22 +285,21 @@ public class StudySystemController extends Controller
      *
      * @param cards       Die Liste von Karten, um hinzufügen
      * @param studySystem Das StudySystem, das benötigt wird.
-     * @param callback    wird verwendet, um mögliche Fehler abzufangen. 
+     * @param callback    wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void addCardsToStudySystem(List<CardOverview> cards, StudySystem studySystem, SingleDataCallback<String> callback) 
+    public void addCardsToStudySystem(List<CardOverview> cards, StudySystem studySystem, SingleDataCallback<String> callback)
     {
         callLogicFuncInThread(
-            () -> { 
+            () -> {
                 List<Card> existingCards = studySystemLogic.addCardsToDeck(cards, studySystem);
                 String result = "";
                 if(!existingCards.isEmpty())
                     result = Locale.getCurrentLocale().getString("studysystemaddcardsinfo")
                            + existingCards.stream().map(Card::getTitle).collect(Collectors.joining(","));
-                return result; 
-            }, 
+                return result;
+            },
             "result", "",
-            "addcardstostudysystemerror", "", 
-            callback,"");
+            "addcardstostudysystemerror", "$",callback,"");
     }
 
     /**
@@ -311,12 +310,12 @@ public class StudySystemController extends Controller
      * @param neu            Ist true, wenn das StudySystem neu angelegt wurde
      * @param callback       wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu, SingleDataCallback<Boolean> callback) 
+    public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu, boolean changedBoxes, SingleDataCallback<Boolean> callback)
     {
         callLogicFuncInThread(
-            () -> { studySystemLogic.updateStudySystemData(oldStudySystem, newStudySystem, neu); return true; }, 
-            "", "", 
-            "updatedeckdataerror", "",
+            () -> { studySystemLogic.updateStudySystemData(oldStudySystem, newStudySystem, neu, changedBoxes); return true; },
+            "", "",
+            "updatedeckdataerror", "$",
             callback,"");
     }
 
@@ -327,12 +326,12 @@ public class StudySystemController extends Controller
      * @param studySystem Das zurückzusetzende StudySystem
      * @param callback    wird verwendet, um mögliche Fehler abzufangen.
      */
-    public void resetLearnStatus(StudySystem studySystem, SingleDataCallback<Boolean> callback) 
+    public void resetLearnStatus(StudySystem studySystem, SingleDataCallback<Boolean> callback)
     {
         callLogicFuncInThread(
-            () -> { studySystemLogic.resetLearnStatus(studySystem); return true; }, 
-            "", "", 
-            "TODO", "", 
+            () -> { studySystemLogic.resetLearnStatus(studySystem); return true; },
+            "", "",
+            "resetlearnstatuserror", "$",
             callback,"");
     }
 }

@@ -250,3 +250,4 @@ studysystemnocardsdue	           = Currently there are no cards due in this deck
 studysyschangewarning              = If you change the type retroactively, the progress will be resettet to 0.
 studysystemaddcardsinfo		   = Cards already part of deck, not inserted:
 studysystemnullerror                      = Deck does not exist
+resetlearnstatuserror           = An error occured while resetting the learn system.

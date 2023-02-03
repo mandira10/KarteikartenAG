@@ -247,3 +247,4 @@ studysyschangewarning              = Wenn Sie den Typ des StudySystems nachträg
 studysystemaddcardsinfo		   = Karten bereits im Deck enthalten, nicht hinzugefügt:
 studysystemnullerror                      = Deck existiert nicht
 studysystemnullfalsetype                     = Falscher StudySystemTyp.
+resetlearnstatuserror           = Ein Fehler ist aufgetreten beim Zurücksetzen des Lernstatus.

@@ -228,27 +228,27 @@ public class TestDataClass
         //TestData For Decks
 
         StudySystem studySystem1 = new LeitnerSystem("Spanisch", StudySystem.CardOrder.ALPHABETICAL);
-        studySystemController.updateStudySystemData(null, studySystem1, true, null);
+        studySystemController.updateStudySystemData(null, studySystem1, true, false,null);
         studySystemController.moveAllCardsForDeckToFirstBox(spanischL,studySystem1, null);
 
         StudySystem studySystem2 = new TimingSystem("Erdkunde", StudySystem.CardOrder.RANDOM,5);
-        studySystemController.updateStudySystemData(null, studySystem2, true, null);
+        studySystemController.updateStudySystemData(null, studySystem2, true, false,null);
         studySystemController.moveAllCardsForDeckToFirstBox(erdkundeL,studySystem2, null);
 
         StudySystem studySystem3 = new VoteSystem("Technik", StudySystem.CardOrder.ALPHABETICAL,7);
-        studySystemController.updateStudySystemData(null, studySystem3, true, null);
+        studySystemController.updateStudySystemData(null, studySystem3, true, false,null);
         studySystemController.moveAllCardsForDeckToFirstBox(technikL,studySystem3, null);
 
         StudySystem studySystem4 = new VoteSystem("2000er", StudySystem.CardOrder.REVERSED_ALPHABETICAL,5);
-        studySystemController.updateStudySystemData(null, studySystem4, true, null);
+        studySystemController.updateStudySystemData(null, studySystem4, true, false,null);
         studySystemController.moveAllCardsForDeckToFirstBox(zweitausender, studySystem4, null);
 
         StudySystem studySystem5 = new LeitnerSystem("Serien", StudySystem.CardOrder.ALPHABETICAL);
-        studySystemController.updateStudySystemData(null, studySystem5, true, null);
+        studySystemController.updateStudySystemData(null, studySystem5, true, false,null);
         studySystemController.moveAllCardsForDeckToFirstBox(serien,studySystem5, null);
 
         StudySystem studySystem6 = new LeitnerSystem("Random", StudySystem.CardOrder.ALPHABETICAL);
-        studySystemController.updateStudySystemData(null, studySystem6, true, null);
+        studySystemController.updateStudySystemData(null, studySystem6, true, false,null);
         studySystemController.moveAllCardsForDeckToFirstBox(randomL, studySystem6, null);
 
 
