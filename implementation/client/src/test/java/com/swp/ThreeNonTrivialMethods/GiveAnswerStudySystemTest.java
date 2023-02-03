@@ -1,22 +1,16 @@
 package com.swp.ThreeNonTrivialMethods;
 
 import com.gumse.gui.Locale;
-import com.gumse.tools.Output;
-import com.gumse.tools.Toolbox;
 import com.swp.Controller.*;
 import com.swp.DataModel.Card;
-import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Language.German;
 import com.swp.DataModel.StudySystem.*;
-import com.swp.DataModel.Tag;
 import com.swp.Logic.CardLogic;
 import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.*;
-import jakarta.persistence.NoResultException;
-import org.glassfish.jaxb.runtime.v2.runtime.unmarshaller.XsiNilLoader;
 import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatcher;
 
@@ -126,7 +120,7 @@ public class GiveAnswerStudySystemTest {
      */
     public void giveAnswerTestNotLeitner(){
         studySystem2 = new TimingSystem("testStudySystem2", StudySystem.CardOrder.REVERSED_ALPHABETICAL, 10);
-        studySystemLogic.updateStudySystemData(null, studySystem2, true);
+        studySystemLogic.updateStudySystemData(null, studySystem2, true, false);
         studySystemLogic.moveAllCardsForDeckToFirstBox(testingCardsForStudySystem, studySystem2);
 
         //setup
@@ -189,7 +183,7 @@ public class GiveAnswerStudySystemTest {
     public void testGiveAnswerLeitner() {
         //setup
         studySystem1 = new LeitnerSystem("testStudySystem1", StudySystem.CardOrder.ALPHABETICAL);
-        studySystemLogic.updateStudySystemData(null, studySystem1, true);
+        studySystemLogic.updateStudySystemData(null, studySystem1, true, false);
         studySystemLogic.moveAllCardsForDeckToFirstBox(testingCardsForStudySystem, studySystem1);
 
         SingleDataCallback<Boolean> mockSingleDataCallback = mock(SingleDataCallback.class);
@@ -365,7 +359,7 @@ public class GiveAnswerStudySystemTest {
     @Order(2)
     public void testDueDate(){
         studySystem3 = new LeitnerSystem("testStudySystem3", StudySystem.CardOrder.REVERSED_ALPHABETICAL);
-        studySystemLogic.updateStudySystemData(null, studySystem3, true);
+        studySystemLogic.updateStudySystemData(null, studySystem3, true, false);
         studySystemLogic.moveAllCardsForDeckToFirstBox(testingCardsForStudySystem, studySystem3);
 
         BoxToCard boxToCard = studySystemLogic.getBoxToCard(testingCardsForStudySystem.get(0), studySystem3);
@@ -428,7 +422,7 @@ public class GiveAnswerStudySystemTest {
             cardLogic.updateCardData(c, true);
         }
         StudySystem studySystem5 = new LeitnerSystem("Alpha", StudySystem.CardOrder.ALPHABETICAL);
-        studySystemLogic.updateStudySystemData(null, studySystem5, true);
+        studySystemLogic.updateStudySystemData(null, studySystem5, true, false);
         studySystemLogic.moveAllCardsForDeckToFirstBox(random1, studySystem5);
 
         //Get cards out of studySystem
@@ -534,7 +528,7 @@ public class GiveAnswerStudySystemTest {
             cardLogic.updateCardData(c, true);
         }
         StudySystem studySystem6 = new TimingSystem("revAlpha", StudySystem.CardOrder.REVERSED_ALPHABETICAL, 10);
-        studySystemLogic.updateStudySystemData(null, studySystem6, true);
+        studySystemLogic.updateStudySystemData(null, studySystem6, true, false);
         studySystemLogic.moveAllCardsForDeckToFirstBox(random1, studySystem6);
         on(studySystemLogic).set("testingStarted",false);
 
@@ -639,7 +633,7 @@ public class GiveAnswerStudySystemTest {
         }
 
         StudySystem studySystem7 = new VoteSystem("Random3", StudySystem.CardOrder.RANDOM,5);
-        studySystemLogic.updateStudySystemData(null, studySystem7, true);
+        studySystemLogic.updateStudySystemData(null, studySystem7, true, false);
 
         //Test Lernsystem ohne Karten
         assertDoesNotThrow(() -> studySystemController.getNextCard(studySystem7,mockSingleDataCallback));
@@ -682,7 +676,7 @@ public class GiveAnswerStudySystemTest {
         //createStudySystem
         StudySystem studySystem8 = new LeitnerSystem("LeitnerNotNew", StudySystem.CardOrder.ALPHABETICAL);
         studySystem8.setNotLearnedYet(false);
-        studySystemLogic.updateStudySystemData(null, studySystem8, true);
+        studySystemLogic.updateStudySystemData(null, studySystem8, true, false);
         studySystemLogic.moveAllCardsForDeckToFirstBox(testingCardsForStudySystem, studySystem8);
 
             //Karte 0 wird auf gestern due gesetzt und Status Relearned
@@ -894,7 +888,7 @@ public class GiveAnswerStudySystemTest {
         //createStudySystem
         StudySystem studySystem9 = new TimingSystem("TimingNotNew", StudySystem.CardOrder.ALPHABETICAL,10);
         studySystem9.setNotLearnedYet(false);
-        studySystemLogic.updateStudySystemData(null, studySystem9, true);
+        studySystemLogic.updateStudySystemData(null, studySystem9, true, false);
         studySystemLogic.moveAllCardsForDeckToFirstBox(Arrays.asList(testingCardsForStudySystem.get(0),testingCardsForStudySystem.get(1),testingCardsForStudySystem.get(2)), studySystem9);
 
         //Karte 0 wird als gelernt gesetzt und in Box 1 geschoben
@@ -983,7 +977,7 @@ public class GiveAnswerStudySystemTest {
         //createStudySystem
         StudySystem studySystem10 = new VoteSystem("VoteNotNew", StudySystem.CardOrder.ALPHABETICAL,5);
         studySystem10.setNotLearnedYet(false);
-        studySystemLogic.updateStudySystemData(null, studySystem10, true);
+        studySystemLogic.updateStudySystemData(null, studySystem10, true, false);
         studySystemLogic.moveAllCardsForDeckToFirstBox(testingCardsForStudySystem, studySystem10);
 
         //Karte 0 wird als gelernt gesetzt und in Box 1 geschoben
