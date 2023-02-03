@@ -180,30 +180,32 @@ public class StudySystemLogicTest {
         verify(cardToBoxMockRepo,times(2)).save(any(BoxToCard.class));
     }
 
-    /*@Test
-    public void updateStudySystemDataLeitnerTest(){
-        StudySystem studySystem = new LeitnerSystem();
-        LeitnerSystem leitnerSystem = new LeitnerSystem();
-        int[] list = {1,2,3};
-        leitnerSystem.setDaysToRelearn(list);
-        List<StudySystemBox> boxes = new ArrayList<>();
-        StudySystemBox studySystemBox = new StudySystemBox();
-        StudySystemBox studySystemBox1 = new StudySystemBox();
-        StudySystemBox studySystemBox2 = new StudySystemBox();
-        StudySystemBox studySystemBox3 = new StudySystemBox();
-        StudySystemBox studySystemBox4 = new StudySystemBox();
-        boxes.add(studySystemBox);
-        boxes.add(studySystemBox1);
-        boxes.add(studySystemBox2);
-        boxes.add(studySystemBox3);
-        boxes.add(studySystemBox4);
-        leitnerSystem.setBoxes(boxes);
-        studySystemLogic.updateStudySystemData(studySystem,leitnerSystem,false);
-        assertEquals(4,leitnerSystem.getBoxes().size());
 
+    @Test
+    public void updateStudySystemDataElseTest(){
+        StudySystem studySystem = new TimingSystem();
+        StudySystem studySystem1 = new TimingSystem();
+        studySystemLogic.updateStudySystemData(studySystem,studySystem1,false,false);
+        verify(studySystemMockRepo).update(studySystem1);
     }
 
-     */
+    @Test
+    public void updateStudySystemDataElseTestChangedTrue(){
+        StudySystem studySystem = new TimingSystem();
+        StudySystem studySystem1 = new TimingSystem();
+        List<CardOverview> cardsToStudySystem = new ArrayList<>();
+        when(cardMockRepo.findCardsByStudySystem(studySystem)).thenReturn(cardsToStudySystem);
+        List<BoxToCard> b2c = new ArrayList<>();
+        when(cardToBoxMockRepo.getAllB2CForStudySystem(studySystem)).thenReturn(b2c);
+        List<Card> cardlist = new ArrayList<>();
+        cardlist.add(new TrueFalseCard());
+        when(cardMockRepo.getAllCardsForCardOverview(cardsToStudySystem)).thenReturn(cardlist);
+        studySystemLogic.updateStudySystemData(studySystem,studySystem1,false,true);
+        verify(studySystemMockRepo).save(studySystem1);
+        verify(cardToBoxMockRepo).delete(b2c);
+        verify(studySystemMockRepo).delete(studySystem);
+
+    }
 
 
     @Test
