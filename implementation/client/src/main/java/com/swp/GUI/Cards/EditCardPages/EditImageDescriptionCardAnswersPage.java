@@ -1,7 +1,9 @@
 package com.swp.GUI.Cards.EditCardPages;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
@@ -139,9 +141,9 @@ public class EditImageDescriptionCardAnswersPage extends Page
             }
         }
 
-        ImageDescriptionCardAnswer ansarr[] = new ImageDescriptionCardAnswer[answers.size()];
+        ImageDescriptionCardAnswer[] ansarr = new ImageDescriptionCardAnswer[answers.size()];
         answers.toArray(ansarr);
-        pCard.setAnswers(ansarr);
+        pCard.setAnswers(Arrays.stream(ansarr).collect(Collectors.toSet()));
 
         PageManager.viewPage(PAGES.CARD_EDIT);
     }

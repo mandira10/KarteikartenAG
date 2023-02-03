@@ -21,6 +21,7 @@
             -->
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="org.hibernate.dialect" value="h2"/>
+            <property name="hibernate.enable_lazy_load_no_trans" value="true" />
         </properties>
     </persistence-unit>
     <persistence-unit name="KarteikartenDBTest" transaction-type="RESOURCE_LOCAL">
@@ -32,6 +33,7 @@
             <property name="jakarta.persistence.jdbc.password" value="local-user-password" />
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="org.hibernate.dialect" value="h2"/>
+            <property name="hibernate.enable_lazy_load_no_trans" value="true" />
         </properties>
     </persistence-unit>
     <persistence-unit name="demo" transaction-type="RESOURCE_LOCAL">
@@ -43,6 +45,7 @@
             <property name="jakarta.persistence.jdbc.password" value="none" />
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
             <property name="org.hibernate.dialect" value="h2"/>
+            <property name="hibernate.enable_lazy_load_no_trans" value="true" />
         </properties>
     </persistence-unit>
 </persistence>

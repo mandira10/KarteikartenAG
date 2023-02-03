@@ -197,9 +197,10 @@ public class TestCardGUI extends RenderGUI
         sActualAnswer = "Incorrect";
         pAnswerCheckerFunc = (Card acard) -> {
             boolean correctAnswer = true;
+            List<ImageDescriptionCardAnswer> answers = card.getAnswers().stream().toList();
             for(int j = 0; j < answerFields.size(); j++)
             {
-                ImageDescriptionCardAnswer acorrectAnswer = card.getAnswers()[j];
+                ImageDescriptionCardAnswer acorrectAnswer = answers.get(j);
                 TextField currentAnswerField = answerFields.get(j);
                 
                 if(currentAnswerField.equals(acorrectAnswer.answertext))

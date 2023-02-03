@@ -12,10 +12,10 @@ import java.util.UUID;
 @Entity
 @Table
 @NoArgsConstructor
-public class ImageDescriptionCardAnswer //C++ Struct
+public class ImageDescriptionCardAnswer
 {
     /**
-     * Id des Antwort für die ImageDescriptionCard
+     * Id der Antwort für die ImageDescriptionCard
      */
     @Id
     private String id;
@@ -23,9 +23,9 @@ public class ImageDescriptionCardAnswer //C++ Struct
     /**
      * Zugehörige ImageDescriptionCard
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PARENT_ID")
-    private ImageDescriptionCard parent;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ImageDescCard_ID")
+    private ImageDescriptionCard attachedCard;
 
     /**
      * Antworttext
