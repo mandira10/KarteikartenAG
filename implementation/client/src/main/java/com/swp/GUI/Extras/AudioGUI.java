@@ -1,8 +1,13 @@
 package com.swp.GUI.Extras;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import org.lwjgl.openal.AL11;
 import org.lwjgl.opengl.GL11;
@@ -46,9 +51,9 @@ public class AudioGUI extends RenderGUI
             VertexBufferObject pPlayVBO = new VertexBufferObject();
 
             pPlayVBO.setData(new ArrayList<Float>(Arrays.asList(new Float[] { 
-                0.0f,  0.0f, 0.0f,
-                1.0f, -0.5f, 0.0f,
-                0.0f, -1.0f, 0.0f,
+                0.0f, 1.0f, 0.0f,
+                1.0f, 0.5f, 0.0f,
+                0.0f, 0.0f, 0.0f,
             })));
             pPlayVAO.addAttribute(pPlayVBO, 0, 3, GL11.GL_FLOAT, 0, 0);
 
@@ -62,20 +67,20 @@ public class AudioGUI extends RenderGUI
             pPauseVBO.setData(new ArrayList<Float>(Arrays.asList(new Float[] {
                 startGap + 0.0f,       0.0f, 0.0f,
                 startGap + thickness,  0.0f, 0.0f,
-                startGap + 0.0f,      -1.0f, 0.0f,
+                startGap + 0.0f,       1.0f, 0.0f,
 
-                startGap + 0.0f,      -1.0f, 0.0f,
+                startGap + 0.0f,       1.0f, 0.0f,
                 startGap + thickness,  0.0f, 0.0f,
-                startGap + thickness, -1.0f, 0.0f,
+                startGap + thickness,  1.0f, 0.0f,
 
 
                 startGap + gapSize + 0.0f,       0.0f, 0.0f,
                 startGap + gapSize + thickness,  0.0f, 0.0f,
-                startGap + gapSize + 0.0f,      -1.0f, 0.0f,
+                startGap + gapSize + 0.0f,       1.0f, 0.0f,
 
-                startGap + gapSize + 0.0f,      -1.0f, 0.0f,
+                startGap + gapSize + 0.0f,       1.0f, 0.0f,
                 startGap + gapSize + thickness,  0.0f, 0.0f,
-                startGap + gapSize + thickness, -1.0f, 0.0f,
+                startGap + gapSize + thickness,  1.0f, 0.0f,
             })));
             pPauseVAO.addAttribute(pPauseVBO, 0, 3, GL11.GL_FLOAT, 0, 0);
         }
@@ -113,10 +118,9 @@ public class AudioGUI extends RenderGUI
 
         float size = vActualSize.y * 0.5f;
         mat4 model = new mat4();
-        ivec2 offset = new ivec2((int)(vActualSize.y * 0.25f));
         model.translate(new vec3(
-            vActualPos.x + offset.x, 
-            Window.CurrentlyBoundWindow.getSize().y - vActualPos.y - offset.y, 
+            vActualPos.x + vActualSize.y * 0.25f, 
+            Window.CurrentlyBoundWindow.getSize().y - vActualPos.y - vActualSize.y * 0.75f, 
             0));
         model.scale(new vec3(size, size, 1.0f));
         model.rotate(rot);
@@ -204,5 +208,7 @@ public class AudioGUI extends RenderGUI
             Output.error("AudioGUI: Given audiodata is null");
             return;
         }
+
+        loadAudio(new ByteArrayInputStream(data));
     }
 }

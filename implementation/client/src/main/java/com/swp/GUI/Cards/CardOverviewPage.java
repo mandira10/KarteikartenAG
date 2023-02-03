@@ -107,9 +107,6 @@ public class CardOverviewPage extends Page
             bReverseOrder = false;
         }
 
-
-
-
         CardController.getInstance().getCardsToShow(from, to, iOrder, bReverseOrder, new DataCallback<CardOverview>() {
             @Override public void onSuccess(List<CardOverview> data)
             {

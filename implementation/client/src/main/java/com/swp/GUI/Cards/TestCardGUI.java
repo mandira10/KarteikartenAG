@@ -1,6 +1,5 @@
 package com.swp.GUI.Cards;
 
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -133,7 +132,7 @@ public class TestCardGUI extends RenderGUI
         cardImage.setPositionInPercent(true, true);
         cardImage.setSizeInPercent(true, true);
         Texture tex = new Texture();
-        tex.loadMemory(ByteBuffer.wrap(card.getImage()));
+        tex.loadMemory(card.getImage());
         cardImage.setColor(new vec4(1, 1, 1, 1));
         cardImage.setTexture(tex);
         cardImage.invertTexcoordY(true);
@@ -160,7 +159,7 @@ public class TestCardGUI extends RenderGUI
         cardImage.setSizeInPercent(true, true);
 
         Texture tex = new Texture();
-        tex.loadMemory(ByteBuffer.wrap(card.getImage()));
+        tex.loadMemory(card.getImage());
         cardImage.setColor(new vec4(1, 1, 1, 1));
         cardImage.setTexture(tex);
         cardImage.invertTexcoordY(true);
@@ -175,6 +174,7 @@ public class TestCardGUI extends RenderGUI
         List<TextField> answerFields = new ArrayList<>();
         for(ImageDescriptionCardAnswer answer : card.getAnswers())
         {
+            Output.info("Adding answer " + answer.answertext);
             TextBox imageIndexBox = new TextBox(String.valueOf(i), defaultFont, new ivec2(answer.xpos, answer.ypos), new ivec2(20));
             imageIndexBox.setPositionInPercent(true, true);
             cardImage.addGUI(imageIndexBox);

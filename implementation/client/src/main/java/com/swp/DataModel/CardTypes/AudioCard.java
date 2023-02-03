@@ -1,5 +1,10 @@
 package com.swp.DataModel.CardTypes;
 
+import java.nio.ByteBuffer;
+
+import org.lwjgl.system.MemoryUtil;
+
+import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -81,6 +86,21 @@ public class AudioCard extends Card
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
+
+    public boolean loadAudioFile(String filepath)
+    {
+        ByteBuffer audioBuffer = Toolbox.loadFileToByteBuffer(filepath, getClass());  
+        if(audioBuffer == null)
+            return false;    
+
+        audio = new byte[audioBuffer.remaining()];
+        audioBuffer.get(audio);
+        MemoryUtil.memFree(audioBuffer);
+
+        return true;
+    }
+
 
     /**
      * Überschreibt die Grundmethode von getAnswerString in Card.

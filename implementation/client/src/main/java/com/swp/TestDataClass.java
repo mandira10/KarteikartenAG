@@ -22,9 +22,8 @@ import org.lwjgl.system.MemoryUtil;
 /**
  * Klasse speist einzelne Testdaten in die GUI bei Start ein.
  */
-public class TestDataClass {
-
-
+public class TestDataClass 
+{
     public static void importTestData() 
     {
         final CategoryController categoryController = CategoryController.getInstance();
@@ -49,14 +48,27 @@ public class TestDataClass {
 
 
         List<Card> randomL = new ArrayList<>();
-        ByteBuffer imageBuffer = Toolbox.loadResourceToByteBuffer("textures/orange-ket.png", KarteikartenAG.class);
+        ByteBuffer imageBuffer = Toolbox.loadResourceToByteBuffer("textures/testimage.png", KarteikartenAG.class);
         byte[] imgdata = new byte[imageBuffer.remaining()];
         imageBuffer.get(imgdata);
         MemoryUtil.memFree(imageBuffer);
+        randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", imgdata, "ImageTestCardTitle", false));
 
-        for(int i = 0; i < 100; i++) {
-            randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", imgdata, "ImageTestCardTitle" + i, false));
-        }
+        ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
+            new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),
+            new ImageDescriptionCardAnswer("Orange",       61, 26),
+            new ImageDescriptionCardAnswer("Nase",         40, 67),
+            new ImageDescriptionCardAnswer("Hand",         82, 58),
+            new ImageDescriptionCardAnswer("Fuß",          62, 89),
+        };
+        randomL.add(new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", imgdata)); 
+
+
+        ByteBuffer audioBuffer = Toolbox.loadResourceToByteBuffer("audios/testaudio.wav", KarteikartenAG.class);
+        byte[] audiodata = new byte[audioBuffer.remaining()];
+        audioBuffer.get(audiodata);
+        MemoryUtil.memFree(audioBuffer);
+        randomL.add(new AudioCard(audiodata, "AudioCard", "Some Audio Question", "Correct Audio Test Answer", false));
 
         String testReferences = 
             "ctg;" + randomCategory.getUuid() + ";random random\n" +
@@ -234,6 +246,10 @@ public class TestDataClass {
         StudySystem studySystem5 = new LeitnerSystem("Serien", StudySystem.CardOrder.ALPHABETICAL);
         studySystemController.updateStudySystemData(null, studySystem5, true, null);
         studySystemController.moveAllCardsForDeckToFirstBox(serien,studySystem5, null);
+
+        StudySystem studySystem6 = new LeitnerSystem("Random", StudySystem.CardOrder.ALPHABETICAL);
+        studySystemController.updateStudySystemData(null, studySystem6, true, null);
+        studySystemController.moveAllCardsForDeckToFirstBox(randomL, studySystem6, null);
 
 
 

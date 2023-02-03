@@ -1,6 +1,7 @@
 package com.swp.GUI.Extras;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -30,7 +31,8 @@ public class WaveData {
 	private final AudioInputStream audioStream;
 	private final byte[] dataArray;
 
-	private WaveData(AudioInputStream stream) {
+	private WaveData(AudioInputStream stream) 
+    {
 		this.audioStream = stream;
 		AudioFormat audioFormat = stream.getFormat();
 		format = getOpenAlFormat(audioFormat.getChannels(), audioFormat.getSampleSizeInBits());

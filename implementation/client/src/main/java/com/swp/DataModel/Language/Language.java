@@ -1,7 +1,5 @@
 package com.swp.DataModel.Language;
 
-import java.util.Map;
-
 import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
