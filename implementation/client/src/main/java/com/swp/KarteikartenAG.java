@@ -218,9 +218,9 @@ public class KarteikartenAG
 
         pMainGUI.setSize(iWindowSize);
         
-        threadPool.synchronizedTasks(true);
-        importTestData();
-        threadPool.synchronizedTasks(false);
+        //threadPool.synchronizedTasks(true);
+        //importTestData();
+        //threadPool.synchronizedTasks(false);
 
 
         if(User.isLoggedIn())
@@ -249,6 +249,11 @@ public class KarteikartenAG
         PersistenceManager.close();
     }
 
+    public static void loadDemoData() {
+        threadPool.synchronizedTasks(true);
+        importTestData();
+        threadPool.synchronizedTasks(false);
+    }
 
 
 }

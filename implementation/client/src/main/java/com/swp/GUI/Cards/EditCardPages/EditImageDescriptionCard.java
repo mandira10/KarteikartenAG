@@ -83,7 +83,7 @@ public class EditImageDescriptionCard extends EditCardGUI
     @Override
     public boolean checkMandatory() 
     {
-        if(pCard.getAnswers().length == 0)
+        if(pCard.getAnswers().size() == 0)
         {
             NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryanswer"), NotificationType.WARNING, 5);
             return false;

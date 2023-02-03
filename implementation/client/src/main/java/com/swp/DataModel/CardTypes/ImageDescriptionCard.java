@@ -1,8 +1,5 @@
 package com.swp.DataModel.CardTypes;
 
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 import jakarta.persistence.*;
@@ -11,6 +8,11 @@ import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.lwjgl.system.MemoryUtil;
+
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs ImageDescriptionCard
@@ -37,9 +39,9 @@ public class ImageDescriptionCard extends Card
     /**
      * Antwort der Frage
      */
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "attachedCard")
     @Cascade({CascadeType.ALL})
-    private ImageDescriptionCardAnswer[] answers;
+    private Set<ImageDescriptionCardAnswer> answers;
 
     /**
      * Leerer Konstruktor der Klasse ImageDescriptionCard
@@ -61,7 +63,7 @@ public class ImageDescriptionCard extends Card
         setTitle(title);
         this.question = question;
         this.image = image;
-        this.answers = answers;
+        this.answers = Arrays.stream(answers).collect(Collectors.toSet());
         setContent();
     }
 
@@ -112,7 +114,7 @@ public class ImageDescriptionCard extends Card
     public String toString() {
         return "ImageDescriptionCard{" +
                 "image='" + image + '\'' +
-                ", answers=" + Arrays.toString(answers) +
+                ", answers=" + answers +
                 ", uuid='" + uuid + '\'' +
                 ", type=" + type +
                 ", question='" + question + '\'' +

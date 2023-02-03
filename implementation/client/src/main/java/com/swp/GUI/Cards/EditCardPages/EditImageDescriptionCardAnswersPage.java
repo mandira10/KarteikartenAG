@@ -1,7 +1,9 @@
 package com.swp.GUI.Cards.EditCardPages;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
@@ -113,13 +115,10 @@ public class EditImageDescriptionCardAnswersPage extends Page
 
     public void addEntry(String answer, ivec2 pos)
     {
-        EditImageDescriptionCardAnswerEntry entry = new EditImageDescriptionCardAnswerEntry(answer, pos, new RemoveAnswerEntryCallback() {
-            @Override public void run(EditImageDescriptionCardAnswerEntry entry) 
-            {
-                pContextScroller.removeChild(entry);
-                pImageBox.removeChild(entry.getIndexBox());
-                reallignEntries();
-            }
+        EditImageDescriptionCardAnswerEntry entry = new EditImageDescriptionCardAnswerEntry(answer, pos, entry1 -> {
+            pContextScroller.removeChild(entry1);
+            pImageBox.removeChild(entry1.getIndexBox());
+            reallignEntries();
         });
 
         pContextScroller.addGUI(entry);
@@ -136,12 +135,14 @@ public class EditImageDescriptionCardAnswersPage extends Page
             {
                 EditImageDescriptionCardAnswerEntry entry = (EditImageDescriptionCardAnswerEntry)child;
                 answers.add(new ImageDescriptionCardAnswer(entry.getAnswerString(), entry.getIndexBox().getUserDefinedPosition().x, entry.getIndexBox().getUserDefinedPosition().y));
+                //TODO wie wird das Bild als byte[] an den Konstruktor gegeben?
+                //answers.add(new ImageDescriptionCardAnswer(entry.getAnswerString(), entry.getIndexBox().getUserDefinedPosition().x, entry.getIndexBox().getUserDefinedPosition().y, pImageBox.getTexture().getData().array()));
             }
         }
 
-        ImageDescriptionCardAnswer ansarr[] = new ImageDescriptionCardAnswer[answers.size()];
+        ImageDescriptionCardAnswer[] ansarr = new ImageDescriptionCardAnswer[answers.size()];
         answers.toArray(ansarr);
-        pCard.setAnswers(ansarr);
+        pCard.setAnswers(Arrays.stream(ansarr).collect(Collectors.toSet()));
 
         PageManager.viewPage(PAGES.CARD_EDIT);
     }
