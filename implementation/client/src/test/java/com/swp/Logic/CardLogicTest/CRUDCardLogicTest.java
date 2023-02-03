@@ -61,7 +61,7 @@ public class CRUDCardLogicTest {
 
     @Test
     public void testExceptionIfCardToDeleteIsNull() {
-        final String expected = "Karte existiert nicht";
+        final String expected = "cardnullerror";
         final IllegalStateException exception =
                 assertThrows(IllegalStateException.class, () -> cardLogic.deleteCard(null));
         assertEquals(expected, exception.getMessage());
@@ -105,7 +105,7 @@ public class CRUDCardLogicTest {
 
     @Test
     public void testExceptionIfCardToUpdateIsNull() {
-        final String expected = "Karte existiert nicht";
+        final String expected = "cardnullerror";
         final IllegalStateException exception =
                 assertThrows(IllegalStateException.class, () -> cardLogic.updateCardData(null,true));
         assertEquals(expected, exception.getMessage());
@@ -121,7 +121,7 @@ public class CRUDCardLogicTest {
 
     @Test
     public void testGetCardByUUIDNullException(){
-        final String expected = "UUID darf nicht null sein!";
+        final String expected = "nonnull";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, () -> cardLogic.getCardByUUID(null));
         assertEquals(expected, exception.getMessage());
@@ -129,7 +129,7 @@ public class CRUDCardLogicTest {
 
     @Test
     public void testGetCardByUUIDEmptyException(){
-        final String expected = "UUID darf nicht leer sein!";
+        final String expected = "nonempty";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, () -> cardLogic.getCardByUUID(""));
         assertEquals(expected, exception.getMessage());

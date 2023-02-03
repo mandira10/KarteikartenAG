@@ -57,7 +57,7 @@ public class FilterSearchTermsLogicTagTest {
 
     @Test
     public void testExceptionIfTagString(){
-        final String expected = "Tag darf nicht null sein!";
+        final String expected = "nonnull";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, ()->cardLogic.getCardsByTag(null));
                 assertEquals(expected,exception.getMessage());
@@ -65,7 +65,7 @@ public class FilterSearchTermsLogicTagTest {
 
     @Test
     public void testExceptionIfTagEmpty(){
-        final String expected = "Tag darf nicht leer sein!";
+        final String expected = "nonempty";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, ()->cardLogic.getCardsByTag(""));
         assertEquals(expected,exception.getMessage());
@@ -82,7 +82,7 @@ public class FilterSearchTermsLogicTagTest {
 
     @Test
     public void testExceptionIfSearchTermNull(){
-        final String expected = "Suchbegriff darf nicht null sein!";
+        final String expected = "nonnull";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, ()->cardLogic.getCardsBySearchterms(null));
         assertEquals(expected,exception.getMessage());
@@ -90,7 +90,7 @@ public class FilterSearchTermsLogicTagTest {
 
     @Test
     public void testExceptionIfSearchTermsEmpty(){
-        final String expected = "Suchbegriff darf nicht leer sein!";
+        final String expected = "nonempty";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, ()->cardLogic.getCardsBySearchterms(""));
         assertEquals(expected,exception.getMessage());

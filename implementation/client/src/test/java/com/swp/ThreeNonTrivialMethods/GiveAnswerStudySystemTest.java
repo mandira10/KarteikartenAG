@@ -504,7 +504,8 @@ public class GiveAnswerStudySystemTest {
         verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Card>() {
 
             @Override public boolean matches(Card card) {
-                assertNull(card);
+                assertNotNull(card);
+                assertEquals("",card.getQuestion());
                 return true;
             }
         }));
@@ -610,7 +611,8 @@ public class GiveAnswerStudySystemTest {
         verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Card>() {
 
             @Override public boolean matches(Card card) {
-                assertNull(card);
+                assertNotNull(card);
+                assertEquals("",card.getQuestion());
                 return true;
             }
         }));
@@ -867,7 +869,8 @@ public class GiveAnswerStudySystemTest {
         verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Card>() {
 
             @Override public boolean matches(Card card) {
-               assertNull(card);
+                assertNotNull(card);
+                assertEquals("",card.getQuestion());
                 return true;
             }
         }));
@@ -955,7 +958,8 @@ public class GiveAnswerStudySystemTest {
         verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Card>() {
 
             @Override public boolean matches(Card card) {
-                assertNull(card);
+                assertNotNull(card);
+                assertEquals("",card.getQuestion());
                 return true;
             }
         }));
@@ -1159,7 +1163,8 @@ public class GiveAnswerStudySystemTest {
         verify(mockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Card>() {
 
             @Override public boolean matches(Card card) {
-                assertNull(card);
+                assertNotNull(card);
+                assertEquals("",card.getQuestion());
                 return true;
             }
         }));

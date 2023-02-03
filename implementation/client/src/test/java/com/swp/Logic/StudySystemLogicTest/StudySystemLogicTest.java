@@ -138,7 +138,7 @@ public class StudySystemLogicTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             studySystemLogic.updateStudySystemData(studySystem,leer,true);
         });
-        String expectedMessage = "New Study System can't be null";
+        String expectedMessage = "studysystemnullerror";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
 
@@ -505,7 +505,7 @@ public class StudySystemLogicTest {
             studySystemLogic.giveRating(studySystem,card,5);
         });
 
-        assertEquals("Falsches StudySystem", thrown.getMessage());
+        assertEquals("studysystemnullfalsetype", thrown.getMessage());
     }
 
 
@@ -595,7 +595,7 @@ public class StudySystemLogicTest {
         Exception exception = assertThrows(IllegalStateException.class, () -> {
             studySystemLogic.deleteStudySystem(studySystem);
         });
-        String expected = "Karte existiert nicht";
+        String expected = "studysystemnullerror";
         String actual = exception.getMessage();
         assertEquals(expected,actual);
     }

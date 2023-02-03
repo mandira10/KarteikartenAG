@@ -1,6 +1,5 @@
 package com.swp.Logic;
 
-import com.gumse.gui.Locale;
 import com.swp.DataModel.*;
 import com.swp.GUI.Extras.ListOrder;
 import com.swp.Persistence.*;
@@ -192,7 +191,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public List<Tag> getTagsToCard(Card card) {
         if (card == null)
-            throw new IllegalStateException(Locale.getCurrentLocale().getString("cardnullerror"));
+            throw new IllegalStateException("cardnullerror");
 
         return execTransactional(() -> tagRepository.getTagsToCard(card));
     }
@@ -204,7 +203,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public void updateCardData(Card cardToChange, boolean neu) {
         if(cardToChange == null){
-            throw new IllegalStateException(Locale.getCurrentLocale().getString("cardnullerror"));
+            throw new IllegalStateException(("cardnullerror"));
         }
         cardToChange.setContent();
         execTransactional(() -> {
@@ -224,7 +223,7 @@ public class CardLogic extends BaseLogic<Card>
      */
     public void setTagsToCard(Card card, List<Tag> tagNew) {
         if(card == null){
-            throw new IllegalStateException(Locale.getCurrentLocale().getString("cardnullerror"));
+            throw new IllegalStateException("cardnullerror");
         }
             List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
             if (tagOld.isEmpty()) {

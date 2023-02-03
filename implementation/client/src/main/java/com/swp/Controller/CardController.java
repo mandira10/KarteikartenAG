@@ -94,12 +94,13 @@ public class CardController extends Controller
      */
     public void getTagsToCard(Card card, DataCallback<Tag> callback)
     {
+        String cardString = card != null ? card.toString() : "";
         callLogicFuncInThread(
             () -> { return cardLogic.getTagsToCard(card); },
             "",
             "gettagstocardempty",
             "gettagstocarderror",
-            "Beim Suchen nach Tags der Karte "+ card.getUuid() +" ist ein Fehler $ aufgetreten", 
+            "Beim Suchen nach Tags der Karte "+ cardString +" ist ein Fehler $ aufgetreten",
             callback,"");
     }
 
@@ -182,12 +183,13 @@ public class CardController extends Controller
      */
     public void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) 
     {
+        String cardString = card != null ? card.toString() : "";
         callLogicFuncInThread(
             () -> { cardLogic.setTagsToCard(card, set); return true; }, 
             "", 
             "",
             "settagstocarderror",
-            "Beim Setzen der Tags für die Karte mit der UUID "+card.getUuid()+" ist ein Fehler $ aufgetreten", 
+            "Beim Setzen der Tags für die Karte mit der UUID "+cardString+" ist ein Fehler $ aufgetreten",
             singleDataCallback,"");
     }
 

@@ -71,7 +71,7 @@ public class updateSaveDeleteCategoryTest {
 
     @Test
     public void testExceptionIfCategoryToUpdateIsNull() {
-        final String expected = "Kategorie existiert nicht";
+        final String expected = "categorynullerror";
         final IllegalStateException exception =
                 assertThrows(IllegalStateException.class, () -> categoryLogic.updateCategoryData(null,true,false));
         assertEquals(expected, exception.getMessage());
@@ -79,7 +79,7 @@ public class updateSaveDeleteCategoryTest {
 
     @Test
     public void testExceptionIfCategoryNameAlreadyExists1() {
-        final String expected = "Kategorie mit dem Namen existiert bereits!";
+        final String expected = "categorywithnameexistsalready";
         Category catToAdd = new Category("Test");
         Category existingCat = new Category("Test");
         when(categoryRepMock.find("Test")).thenReturn(existingCat);
@@ -90,7 +90,7 @@ public class updateSaveDeleteCategoryTest {
 
     @Test
     public void testExceptionIfCategoryNameAlreadyExists2() {
-        final String expected = "Kategorie mit dem Namen existiert bereits!";
+        final String expected = "categorywithnameexistsalready";
         Category catToChange = new Category("Test");
         Category existingCat = new Category("Test");
         when(categoryRepMock.find("Test")).thenReturn(existingCat);
@@ -115,7 +115,7 @@ public class updateSaveDeleteCategoryTest {
 
     @Test
     public void testGetCategoryByUUIDNullException(){
-        final String expected = "UUID darf nicht null sein!";
+        final String expected = "nonnull";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, () -> categoryLogic.getCategoryByUUID(null));
         assertEquals(expected, exception.getMessage());
@@ -123,7 +123,7 @@ public class updateSaveDeleteCategoryTest {
 
     @Test
     public void testGetCategoryByUUIDEmptyException(){
-        final String expected = "UUID darf nicht leer sein!";
+        final String expected = "nonempty";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, () -> categoryLogic.getCategoryByUUID(""));
         assertEquals(expected, exception.getMessage());

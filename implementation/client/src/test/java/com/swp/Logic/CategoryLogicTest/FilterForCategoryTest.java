@@ -50,7 +50,7 @@ public class FilterForCategoryTest {
 
     @Test
     public void testExceptionIfCategoryNameNull(){
-        final String expected = "Kategorie darf nicht null sein!";
+        final String expected = "nonnull";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, ()->categoryLogic.getCardsInCategory((String) null));
         assertEquals(expected,exception.getMessage());
@@ -58,7 +58,7 @@ public class FilterForCategoryTest {
 
     @Test
     public void testExceptionIfCategoryNameEmpty(){
-        final String expected = "Kategorie darf nicht leer sein!";
+        final String expected = "nonempty";
         final IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, ()->categoryLogic.getCardsInCategory(""));
         assertEquals(expected,exception.getMessage());
