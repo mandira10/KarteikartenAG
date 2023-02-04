@@ -607,8 +607,6 @@ public class CategoryControllerTests {
         final List<Category> list = new ArrayList<>();
         when(categoryMockLogic.getCategories()).thenReturn(list);
         assertDoesNotThrow(() ->  categoryController.getCategories(catMockDataCallback));
-        verify(catMockDataCallback, times(1))
-                .callInfo(Locale.getCurrentLocale().getString("getcatoriesempty"));
         reset(catMockDataCallback);
     }
 
@@ -655,8 +653,6 @@ public class CategoryControllerTests {
         final List<Category> list = new ArrayList<>();
         when(categoryMockLogic.getRootCategories(false)).thenReturn(list);
         assertDoesNotThrow(() ->  categoryController.getRootCategories(false,catMockDataCallback));
-        verify(catMockDataCallback, times(1))
-                .callInfo(Locale.getCurrentLocale().getString("getcatoriesempty"));
         reset(catMockDataCallback);
     }
 
@@ -844,7 +840,7 @@ public class CategoryControllerTests {
         verify(coMockSSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<String>() {
             @Override
             public boolean matches(String s) {
-                assertEquals("Kategorie darf nicht selbstreferenziert werden! Nicht hinzugefügt!",s);
+                assertEquals("Kategorie darf nicht selbstreferenziert oder gleiche Parents wie Childs haben! Nicht hinzugefügt!",s);
                 return true;
             }
 

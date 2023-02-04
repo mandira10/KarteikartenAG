@@ -107,6 +107,22 @@ public class CategoryRepository extends BaseRepository<Category>
                 .getResultList();
     }
 
+
+    /**
+     * Prüft für eine bestimmte Kategorie,
+     * ob diese eine Doppelreferenz (Child/Parent) mit einer anderen Kategorie hat.
+     * Wird bei editCategoryHierarchy aufgerufen, um sicherzustellen, dass wenn Doppelreferenzen erstellt wurden, diese
+     * identifiziert und gelöscht werden.
+     *
+     * @return eine Liste von Doppelreferenzen.
+     */
+    public List<Category> checkDoubleReference(Category category) {
+        return getEntityManager()
+                .createQuery("SELECT ch1.parent FROM CategoryHierarchy ch1 WHERE ch1.child = :category AND EXISTS( SELECT ch2.id from CategoryHierarchy ch2 WHERE ch2.parent = :category AND ch2.child = ch1.parent)", Category.class)
+                .setParameter("category",category)
+                .getResultList();
+    }
+
     /**
      * Holt aus der Datenbank eine Liste von Kategorien.
      * Es wird danach gefiltert, ob die Kategorie das angegebene Suchwort als
