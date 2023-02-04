@@ -459,7 +459,7 @@ public class CategoryLogic extends BaseLogic<Category> {
                }
                return true;
            }
-           else{
+           else {
                return false;
            }
         });
