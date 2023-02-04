@@ -243,5 +243,6 @@ public class KarteikartenAG
         }
         threadPool.runQueue();
         PersistenceManager.close();
+        System.exit(0); // Hack
     }
 }

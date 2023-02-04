@@ -53,11 +53,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.moveAllCardsForDeckToFirstBox(cards, studySystem); return true; }, 
-            "",
-            "", 
-            "moveallcardsfordecktofirstboxerror",
-            "$",
-            callback,"");
+            "", "", 
+            "moveallcardsfordecktofirstboxerror", "",
+            callback, "");
     }
 
 
@@ -71,11 +69,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.getAllCardsInStudySystem(studySystem); },
-            "",
-            "Es gibt aktuell noch keine Karten für das Deck",
-            "getallcardsinstudysystemerror",
-            "$",
-            callback,"");
+            "", "Es gibt aktuell noch keine Karten für das Deck",
+            "getallcardsinstudysystemerror", "",
+            callback, "");
     }
 
     /**
@@ -90,11 +86,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.giveAnswer(studySystem, answer); return true; },
-            "",
-            "",
-            "giveanswererror",
-            "$",
-            callback,"");
+            "", "",
+            "giveanswererror", "",
+            callback, "");
     }
 
     /**
@@ -110,11 +104,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.giveRating(studySystem, card, rating); return true; },
-            "",
-            "",
-            "giveratingerror",
-            "$",
-            callback,"");
+            "", "",
+            "giveratingerror", "",
+            callback, "");
     }
 
     /**
@@ -128,11 +120,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.finishTestAndGetResult(studySystem); },
-            "",
-            "",
-            "finishtestandgetresulterror",
-            "$",
-            callback,"");
+            "", "",
+            "finishtestandgetresulterror", "",
+            callback, "");
     }
 
 
@@ -147,11 +137,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.getNextCard(studySystem); },
-            "",
-            "",
-            "getnextcarderror",
-            "$",
-            callback,"");
+            "", "",
+            "getnextcarderror", "",
+            callback, "");
     }
 
     /**
@@ -164,11 +152,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.numCardsInDeck(studySystem); },
-            "",
-            "",
-            "numcardsindeckerror",
-            "$",
-            callback,"");
+            "", "",
+            "numcardsindeckerror", "",
+            callback, "");
     }
 
     /**
@@ -186,11 +172,9 @@ public class StudySystemController extends Controller
         }
         callLogicFuncInThread(
             () -> { return studySystemLogic.getStudySystemByUUID(uuid); },
-            "getstudysystembyuuidnoresult",
-            "getstudysystembyuuidempty",
-            "getstudysystembyuuiderror",
-            "$",
-            callback,"UUID");
+            "getstudysystembyuuidnoresult", "",
+            "getstudysystembyuuiderror", "",
+            callback, "UUID");
     }
 
     /**
@@ -204,11 +188,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.removeCardsFromStudySystem(list, studySystem); return true; },
-            "",
-            "Null Variable gegeben",
-            "removecardsfromstudysystemerror",
-            "$",
-            callback,"");
+            "", "Null Variable gegeben",
+            "removecardsfromstudysystemerror", "",
+            callback, "");
     }
 
 
@@ -222,11 +204,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.deleteStudySystem(studySystem); return true; },
-            "",
-            "Null Variable gegeben",
-            "deletestudysystemerror",
-            "$",
-            callback,"");
+            "", "Null Variable gegeben",
+            "deletestudysystemerror", "",
+            callback, "");
     }
 
 
@@ -239,11 +219,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.deleteStudySystem(studySystems); return true; },
-            "",
-            "",
-            "deletedeckserror",
-            "$",
-            callback,"");
+            "", "",
+            "deletedeckserror", "",
+            callback, "");
     }
 
     /**
@@ -255,11 +233,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.getStudySystems(); },
-            "",
-            "Es gibt noch keine Studysystems gefunden",
-            "getstudysystemserror",
-            "$",
-            callback,"");
+            "", "Es gibt noch keine Studysystems gefunden",
+            "getstudysystemserror", "",
+            callback, "");
     }
 
     /**
@@ -272,11 +248,9 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.getStudySystemsBySearchterm(searchterm); },
-            "getstudysystembysearchtermsempty",
-            "Es wurden keine zugehörigen StudySystems für den Suchterm gefunden gefunden",
-            "getstudysystembysearchtermserror",
-            "$",
-            callback,searchterm);
+            "getstudysystembysearchtermsempty", "Es wurden keine zugehörigen StudySystems für den Suchterm gefunden gefunden",
+            "getstudysystembysearchtermserror", "",
+            callback, searchterm);
     }
 
 
@@ -299,7 +273,8 @@ public class StudySystemController extends Controller
                 return result;
             },
             "result", "",
-            "addcardstostudysystemerror", "$",callback,"");
+            "addcardstostudysystemerror", "",
+            callback, "");
     }
 
     /**
@@ -315,8 +290,8 @@ public class StudySystemController extends Controller
         callLogicFuncInThread(
             () -> { studySystemLogic.updateStudySystemData(oldStudySystem, newStudySystem, neu, changedBoxes); return true; },
             "", "",
-            "updatedeckdataerror", "$",
-            callback,"");
+            "updatedeckdataerror", "",
+            callback, "");
     }
 
     /**
@@ -331,7 +306,7 @@ public class StudySystemController extends Controller
         callLogicFuncInThread(
             () -> { studySystemLogic.resetLearnStatus(studySystem); return true; },
             "", "",
-            "resetlearnstatuserror", "$",
-            callback,"");
+            "resetlearnstatuserror", "",
+            callback, "");
     }
 }

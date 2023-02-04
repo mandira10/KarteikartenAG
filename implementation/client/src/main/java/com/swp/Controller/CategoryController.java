@@ -50,10 +50,8 @@ public class CategoryController extends Controller
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.updateCategoryData(category, neu, nameChange); return true; },
-            "getcardstoshowempty", 
-            "Es wurden keine zugehörigen Karten gefunden", 
-            "categoryupdatesaveerror",
-            "Beim Updaten/Speichern der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten",
+            "getcardstoshowempty", "Es wurden keine zugehörigen Karten gefunden", 
+            "categoryupdatesaveerror", "Beim Updaten/Speichern der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten",
             callback,"");
     }
 
@@ -73,10 +71,8 @@ public class CategoryController extends Controller
                     ? Locale.getCurrentLocale().getString("selfreferenceerror") 
                     : "";
             }, 
-            "", 
-            "", 
-            "categoryhierarchyupdateerror",
-            "Beim Updaten der Kategorie ist der Fehler $ aufgetreten", 
+            "", "", 
+            "categoryhierarchyupdateerror", "Beim Updaten der Kategorie ist der Fehler $ aufgetreten", 
             callback,"");
     }
 
@@ -91,11 +87,9 @@ public class CategoryController extends Controller
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.deleteCategory(category); return true; }, 
-            "", 
-            "", 
-            "deletecategoryerror",
-            "Beim Löschen der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback,"");
+            "", "", 
+            "deletecategoryerror", "Beim Löschen der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
     /**
@@ -110,11 +104,9 @@ public class CategoryController extends Controller
         String categoriesstr = categories != null ? categories.toString() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.deleteCategories(categories); return true; },
-            "",
-            "",
-            "deletecategorieserror",
-            "Beim Löschen den Kategorien "+categoriesstr+" ist ein Fehler $ aufgetreten",
-            callback,"");
+            "", "",
+            "deletecategorieserror", "Beim Löschen den Kategorien "+categoriesstr+" ist ein Fehler $ aufgetreten",
+            callback, "");
     }
 
 
@@ -129,11 +121,9 @@ public class CategoryController extends Controller
         String categoryname = parent != null ? parent.getName() : "";
         callLogicFuncInThread(
             () -> { return categoryLogic.getChildrenForCategory(parent); }, 
-            "",
-            "", 
-            "catchilderror",
-            "Beim Beim Abrufen der Children für die Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback,"");
+            "", "", 
+            "catchilderror", "Beim Beim Abrufen der Children für die Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
 
@@ -148,11 +138,9 @@ public class CategoryController extends Controller
         String categoryname = child != null ? child.getName() : "";
         callLogicFuncInThread(
             () -> { return categoryLogic.getParentsForCategory(child); }, 
-            "",
-            "", 
-            "catparenterror",
-            "Beim Beim Abrufen der Parents für die Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback,"");
+            "", "", 
+            "catparenterror", "Beim Beim Abrufen der Parents für die Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
     /**
@@ -165,11 +153,9 @@ public class CategoryController extends Controller
     {
         callLogicFuncInThread(
             () -> { return categoryLogic.getCategoryByUUID(uuid); }, 
-            "categorybyuuidempty", 
-            "Es wurde keine Kategorie zur UUID "+uuid+" gefunden", 
-            "categorybyuuiderror",
-            "Beim Abrufen der Kategorie "+uuid+" ist ein Fehler $ aufgetreten", 
-            callback,"UUID");
+            "categorybyuuidempty", "Es wurde keine Kategorie zur UUID "+uuid+" gefunden", 
+            "categorybyuuiderror", "Beim Abrufen der Kategorie "+uuid+" ist ein Fehler $ aufgetreten", 
+            callback, "UUID");
     }
 
 
@@ -185,11 +171,9 @@ public class CategoryController extends Controller
         String uuid = card != null ? card.getUuid() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.setCardToCategories(card, categories); return true; }, 
-            "", 
-            "", 
-            "setcategoriestocarderror",
-            "Beim Setzen der Kategorien für die Karte mit der UUID "+uuid+" ist ein Fehler $ aufgetreten", 
-            callback,"");
+            "", "", 
+            "setcategoriestocarderror", "Beim Setzen der Kategorien für die Karte mit der UUID "+uuid+" ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
 
@@ -205,11 +189,9 @@ public class CategoryController extends Controller
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
             () -> { return categoryLogic.getCardsInCategory(category); }, 
-            "",
-            "", 
-            "getcardincategoryerror",
-            "Beim Suchen nach Karten mit Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback,"");
+            "", "", 
+            "getcardincategoryerror", "Beim Suchen nach Karten mit Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
     /**
@@ -224,11 +206,9 @@ public class CategoryController extends Controller
     {
         callLogicFuncInThread(
             () -> { return categoryLogic.getCardsInCategory(category); }, 
-            "getcardincategoryempty", 
-            "", 
-            "getcardincategoryerror",
-            "Beim Suchen nach Karten mit Kategorie "+category+" ist ein Fehler $ aufgetreten", 
-            callback,"category");
+            "getcardincategoryempty", "", 
+            "getcardincategoryerror", "Beim Suchen nach Karten mit Kategorie "+category+" ist ein Fehler $ aufgetreten", 
+            callback, "category");
     }
 
     /**
@@ -245,12 +225,10 @@ public class CategoryController extends Controller
     public void getCardsInCategory(String category, DataCallback<CardOverview> callback, ListOrder.Order order, boolean reverseorder)
     {
         callLogicFuncInThread(
-                () -> { return categoryLogic.getCardsInCategory(category,order,reverseorder); },
-                "getcardincategoryempty",
-                "",
-                "getcardincategoryerror",
-                "Beim Suchen nach Karten mit Kategorie "+category+" ist ein Fehler $ aufgetreten",
-                callback,"category");
+            () -> { return categoryLogic.getCardsInCategory(category,order,reverseorder); },
+            "getcardincategoryempty", "",
+            "getcardincategoryerror", "Beim Suchen nach Karten mit Kategorie "+category+" ist ein Fehler $ aufgetreten",
+            callback, "category");
     }
 
 
@@ -263,11 +241,9 @@ public class CategoryController extends Controller
     {
         callLogicFuncInThread(
             () -> { return categoryLogic.getCardsInCategories(categories); }, 
-            "getcardsincategoriesempty", 
-            "", 
-            "getcardsincategorieserror",
-            "Beim Suchen nach Karten mit Kategorien ist ein Fehler $ aufgetreten", 
-            callback,"");
+            "getcardsincategoriesempty", "", 
+            "getcardsincategorieserror", "Beim Suchen nach Karten mit Kategorien ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
 
@@ -282,11 +258,9 @@ public class CategoryController extends Controller
         String cardname = card != null ? card.toString() : "";
         callLogicFuncInThread(
             () -> { return categoryLogic.getCategoriesByCard(card); }, 
-            "",
-            "", 
-            "getcategoriestocarderror",
-            "Beim Suchen nach Kategorien für die Karte "+cardname+" ist ein Fehler $ aufgetreten", 
-            callback,"");
+            "", "", 
+            "getcategoriestocarderror", "Beim Suchen nach Kategorien für die Karte "+cardname+" ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
     /**
@@ -299,11 +273,9 @@ public class CategoryController extends Controller
     {
         callLogicFuncInThread(
             categoryLogic::getCategories,
-            "getcatoriesempty",
-            "",
-            "getcatorieserror",
-            "Beim holen von Kategorien ist ein Fehler $ aufgetreten",
-            callback,"");
+            "getcatoriesempty", "",
+            "getcatorieserror", "Beim holen von Kategorien ist ein Fehler $ aufgetreten",
+            callback, "");
     }
 
     /**
@@ -318,11 +290,9 @@ public class CategoryController extends Controller
     {
         callLogicFuncInThread(
             () -> { return categoryLogic.getRootCategories(bReverseOrder); }, 
-            "",
-            "",
-            "getrootcategorieserror",
-            "Beim holen der Root-Kategorien ist ein Fehler $ aufgetreten",
-            callback,"");
+            "", "",
+            "getrootcategorieserror", "Beim holen der Root-Kategorien ist ein Fehler $ aufgetreten",
+            callback, "");
     }
 
     /**
@@ -337,11 +307,9 @@ public class CategoryController extends Controller
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.removeCardsFromCategory(list, category); return true; }, 
-            "", 
-            "", 
-            "removecardsfromstudysystemerror",
-            "Beim entfernen der Karten aus der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
-            callback,"");
+            "", "", 
+            "removecardsfromstudysystemerror", "Beim entfernen der Karten aus der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
     /**
@@ -355,10 +323,8 @@ public class CategoryController extends Controller
     {
         callLogicFuncInThread(
             () -> { return categoryLogic.getCategoriesBySearchterms(searchterm); }, 
-            "getcateoriesbysearchtermsempty", 
-            "", 
-            "getcateoriesbysearchtermserror",
-            "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten", 
-            callback,searchterm);
+            "getcateoriesbysearchtermsempty", "", 
+            "getcateoriesbysearchtermserror", "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten", 
+            callback, searchterm);
     }
 }

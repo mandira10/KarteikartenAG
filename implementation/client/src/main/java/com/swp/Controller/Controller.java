@@ -131,21 +131,21 @@ public abstract class Controller
                 log.error("Der übergebene Wert war leer oder null");
                 if(ex.getMessage() != null)
                     failure(ex.getMessage(),
-                        failurelog.isEmpty() ?  failurelog.replace("$", ex.getMessage()) : ex.getMessage(), 
+                        failurelog.isEmpty() ? ex.getMessage() : failurelog.replace("$", ex.getMessage()), 
                         callback,name);
             }
             catch (NoResultException ex)
             {
                 if(ex.getMessage() != null)
                     failure("noresultexception",
-                            failurelog.isEmpty() ?  failurelog.replace("$", ex.getMessage()) : ex.getMessage(),
+                            failurelog.isEmpty() ? ex.getMessage() : failurelog.replace("$", ex.getMessage()),
                             callback,"");
             }
             catch (final Exception ex) 
             {
                 if(ex.getMessage() != null)
                     failure(failurelocale, 
-                        failurelog.isEmpty() ?  failurelog.replace("$", ex.getMessage()) : ex.getMessage(), 
+                        failurelog.isEmpty() ? ex.getMessage() : failurelog.replace("$", ex.getMessage()), 
                         callback,"");
             }
         });

@@ -50,11 +50,9 @@ public class CardController extends Controller
     {
         callLogicFuncInThread(
             () -> { return cardLogic.getCardOverview(begin, end); }, 
-            "getcardstoshowempty", 
-            "Es wurden keine zugehörigen Karten gefunden", 
-            "getcardstoshowerror", // Beim Abrufen der Karten ist ein Fehler aufgetreten
-            "Beim Suchen nach Karten ist ein Fehler $ aufgetreten",
-            callback,"");
+            "getcardstoshowempty", "Es wurden keine zugehörigen Karten gefunden", 
+            "getcardstoshowerror", "Beim Suchen nach Karten ist ein Fehler $ aufgetreten",
+            callback, "");
     }
 
     /**
@@ -73,11 +71,9 @@ public class CardController extends Controller
     {
         callLogicFuncInThread(
             () -> { return cardLogic.getCardOverview(begin, end, order, reverseOrder); },
-            "getcardstoshowempty", 
-            "Es wurden keine zugehörigen Karten gefunden", 
-            "getcardstoshowerror", // Beim Abrufen der Karten ist ein Fehler aufgetreten
-            "Beim Suchen nach Karten ist ein Fehler $ aufgetreten",
-            callback,"");
+            "getcardstoshowempty", "Es wurden keine zugehörigen Karten gefunden", 
+            "getcardstoshowerror", "Beim Suchen nach Karten ist ein Fehler $ aufgetreten",
+            callback, "");
     }
 
     /**
@@ -94,11 +90,9 @@ public class CardController extends Controller
     {
         callLogicFuncInThread(
             () -> { return cardLogic.getCardsByTag(tag, order, reverseorder); },
-            "getcardsbytagempty", 
-            "Es wurden keine Karten für den Tag gefunden", 
-            "getcardsbytagerror",
-            "Beim Suchen nach Karten mit Tag " + tag + " ist ein Fehler $ aufgetreten",
-            callback,"tag");
+            "getcardsbytagempty", "Es wurden keine Karten für den Tag gefunden", 
+            "getcardsbytagerror", "Beim Suchen nach Karten mit Tag " + tag + " ist ein Fehler $ aufgetreten",
+            callback, "tag");
     }
 
     /**
@@ -112,11 +106,9 @@ public class CardController extends Controller
     {
         callLogicFuncInThread(
                 () -> { return cardLogic.getCardsByTag(tag); },
-                "getcardsbytagempty",
-                "Es wurden keine Karten für den Tag gefunden",
-                "getcardsbytagerror",
-                "Beim Suchen nach Karten mit Tag " + tag + " ist ein Fehler $ aufgetreten",
-                callback,"tag");
+                "getcardsbytagempty", "Es wurden keine Karten für den Tag gefunden",
+                "getcardsbytagerror", "Beim Suchen nach Karten mit Tag " + tag + " ist ein Fehler $ aufgetreten",
+                callback, "tag");
     }
 
     /**
@@ -130,11 +122,9 @@ public class CardController extends Controller
         String cardString = card != null ? card.toString() : "";
         callLogicFuncInThread(
             () -> { return cardLogic.getTagsToCard(card); },
-            "",
-            "gettagstocardempty",
-            "gettagstocarderror",
-            "Beim Suchen nach Tags der Karte "+ cardString +" ist ein Fehler $ aufgetreten",
-            callback,"");
+            "gettagstocardempty", "",
+            "gettagstocarderror", "Beim Suchen nach Tags der Karte "+ cardString +" ist ein Fehler $ aufgetreten",
+            callback, "");
     }
 
     /**
@@ -150,11 +140,9 @@ public class CardController extends Controller
     {
         callLogicFuncInThread(
             () -> { return cardLogic.getCardsBySearchterms(searchterm, order, reverseorder); },
-            "getcardsbysearchtermsempty", 
-            "Es gibt keine Karten für dieses Suchwort",
-            "getcardsbysearchtermserror",
-            "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten", 
-            callback,"searchterm");
+            "getcardsbysearchtermsempty", "Es gibt keine Karten für dieses Suchwort",
+            "getcardsbysearchtermserror", "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten", 
+            callback, "searchterm");
     }
 
     /**
@@ -167,103 +155,91 @@ public class CardController extends Controller
     {
         callLogicFuncInThread(
                 () -> { return cardLogic.getCardsBySearchterms(searchterm); },
-                "getcardsbysearchtermsempty",
-                "Es gibt keine Karten für dieses Suchwort",
-                "getcardsbysearchtermserror",
-                "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten",
-                callback,"searchterm");
+                "getcardsbysearchtermsempty", "Es gibt keine Karten für dieses Suchwort",
+                "getcardsbysearchtermserror", "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten",
+                callback, "searchterm");
     }
 
 
     /**
      * Dient dem Löschen einzelner Karten. Wird an die CardLogic weitergegeben.
      *
-     * @param card Die zu löschende Karte
-     * @param singleDataCallback  Callback für die GUI, bei success passiert nichts, bei Fehler wird die Exception message an GUI weitergegeben.
+     * @param card     Die zu löschende Karte
+     * @param callback Callback für die GUI, bei success passiert nichts, bei Fehler wird die Exception message an GUI weitergegeben.
      */
-    public void deleteCard(Card card, SingleDataCallback<Boolean> singleDataCallback) 
+    public void deleteCard(Card card, SingleDataCallback<Boolean> callback) 
     {
         callLogicFuncInThread(
             () -> { cardLogic.deleteCard(card); return true; }, 
-            "getcardsbysearchtermsempty", 
-            "Es gibt keine Karten für dieses Suchwort",
-            "deletecarderror",
-            "Beim Löschen der Karte "+card.toString()+" ist ein Fehler $ aufgetreten", 
-            singleDataCallback,"");
+            "getcardsbysearchtermsempty", "Es gibt keine Karten für dieses Suchwort",
+            "deletecarderror", "Beim Löschen der Karte "+card.toString()+" ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
     /**
      * Dient dem Löschen mehrerer Karten. Wird an die CardLogic weitergegeben.
      *
      * @param cards Die zu löschenden Karten
-     * @param singleDataCallback  Callback für die GUI, bei success passiert nichts, bei Fehler wird die Exception message an GUI weitergegeben.
+     * @param callback  Callback für die GUI, bei success passiert nichts, bei Fehler wird die Exception message an GUI weitergegeben.
      */
-    public void deleteCards(List<CardOverview> cards, SingleDataCallback<Boolean> singleDataCallback) 
+    public void deleteCards(List<CardOverview> cards, SingleDataCallback<Boolean> callback) 
     {
         callLogicFuncInThread(
             () -> { cardLogic.deleteCards(cards); return true; }, 
-            "", 
-            "",
-            "deletecardserror",
-            "Beim Löschen der Karten "+cards.toString()+" ist ein Fehler $ aufgetreten", 
-            singleDataCallback,"");
+            "", "",
+            "deletecardserror", "Beim Löschen der Karten "+cards.toString()+" ist ein Fehler $ aufgetreten", 
+            callback, "");
     }
 
     /**
      * Wird verwendet, um einzelne Karteninformationen über ihre UUID abzurufen. Wird an die CardLogic weitergegeben.
      *
-     * @param uuid  UUID der abzurufenden Karte
-     * @param singleDataCallback  Callback für die GUI, bei success wird Karte an GUI weitergegeben, bei Fehler wird die Exception message an GUI weitergegeben.
+     * @param uuid     UUID der abzurufenden Karte
+     * @param callback Callback für die GUI, bei success wird Karte an GUI weitergegeben, bei Fehler wird die Exception message an GUI weitergegeben.
      *
      */
-    public void getCardByUUID(String uuid, SingleDataCallback<Card> singleDataCallback) 
+    public void getCardByUUID(String uuid, SingleDataCallback<Card> callback) 
     {
         callLogicFuncInThread(
             () -> cardLogic.getCardByUUID(uuid),
-            "getcardbyuuidempty", 
-            "Es wurde keine Karte zur UUID "+uuid+" gefunden",
-            "getcardbyuuiderror",
-            "Beim Abrufen der Karte ist ein Fehler $ aufgetreten", 
-            singleDataCallback,"UUID");
+            "getcardbyuuidempty", "Es wurde keine Karte zur UUID "+uuid+" gefunden",
+            "getcardbyuuiderror", "Beim Abrufen der Karte ist ein Fehler $ aufgetreten", 
+            callback, "UUID");
     }
 
 
     /**
      * Wird verwendet, um Tags für eine Karte festzulegen. Wird an die CardLogic weitergegeben.
      *
-     * @param card  die Karte
-     * @param set  die Liste der Tags
-     * @param singleDataCallback  Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
+     * @param card     die Karte
+     * @param set      die Liste der Tags
+     * @param callback Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
-    public void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> singleDataCallback) 
+    public void setTagsToCard(Card card, List<Tag> set, SingleDataCallback<Boolean> callback) 
     {
         String cardString = card != null ? card.toString() : "";
         callLogicFuncInThread(
             () -> { cardLogic.setTagsToCard(card, set); return true; }, 
-            "", 
-            "",
-            "settagstocarderror",
-            "Beim Setzen der Tags für die Karte mit der UUID "+cardString+" ist ein Fehler $ aufgetreten",
-            singleDataCallback,"");
+            "", "",
+            "settagstocarderror", "Beim Setzen der Tags für die Karte mit der UUID "+cardString+" ist ein Fehler $ aufgetreten",
+            callback,"");
     }
 
     /**
      * Wird verwendet, um Data für eine Karte zu aktualisieren. Wird an die CardLogic weitergegeben.
      *
-     * @param cardToChange  die Karte zu aktualisieren
-     * @param neu  Ob, die Karte neue oder nicht ist zu verstehen
-     * @param singleDataCallback  Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
+     * @param cardToChange die Karte zu aktualisieren
+     * @param neu          Ob, die Karte neue oder nicht ist zu verstehen
+     * @param callback     Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
-    public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> singleDataCallback) 
+    public void updateCardData(Card cardToChange, boolean neu, SingleDataCallback<Boolean> callback) 
     {
         String uuid = cardToChange != null ? cardToChange.getUuid() : "";
         callLogicFuncInThread(
             () -> { cardLogic.updateCardData(cardToChange, neu); return true; }, 
-            "", 
-            "",
-            "updatecreatecarderror",
-            "Beim Updaten/Speichern der Karte "+uuid+" mit der ist ein Fehler $ aufgetreten",
-            singleDataCallback,"");
+            "", "",
+            "updatecreatecarderror", "Beim Updaten/Speichern der Karte "+uuid+" mit der ist ein Fehler $ aufgetreten",
+            callback,"");
     }
 
 
