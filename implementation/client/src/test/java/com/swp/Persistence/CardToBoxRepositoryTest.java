@@ -117,24 +117,33 @@ public class CardToBoxRepositoryTest {
         byte[] img3 = new byte[]{(byte) 8192};
         byte[] img4 = new byte[]{(byte) 16384};
         byte[] img5 = new byte[]{(byte) 32768};
+        ImageDescriptionCard imagedesccard3 = new ImageDescriptionCard("Bildbeschreibung 3?", new ArrayList<ImageDescriptionCardAnswer>(), "Titel der Karte", img3);
+        imagedesccard3.setAnswers(new ArrayList<ImageDescriptionCardAnswer>() {{ 
+            new ImageDescriptionCardAnswer("Beschreibung 3", 0, 1, imagedesccard3);
+        }});
+    
+        ImageDescriptionCard imagedesccard4 = new ImageDescriptionCard("Bildbeschreibung 4?", new ArrayList<ImageDescriptionCardAnswer>(), "Titel der Karte", img4);
+        imagedesccard4.setAnswers(new ArrayList<ImageDescriptionCardAnswer>() {{ 
+            new ImageDescriptionCardAnswer("Beschreibung 4", 1, 2, imagedesccard4);
+            new ImageDescriptionCardAnswer("andere Beschreibung", 6, 1, imagedesccard4);
+        }});
+    
+        ImageDescriptionCard imagedesccard5 = new ImageDescriptionCard("Bildbeschreibung 5?", new ArrayList<ImageDescriptionCardAnswer>(), "Titel der Karte", img5);
+        imagedesccard5.setAnswers(new ArrayList<ImageDescriptionCardAnswer>() {{ 
+            add(new ImageDescriptionCardAnswer("Beschreibung", 1, 3, imagedesccard5)); 
+        }});
+
         Collections.addAll(exampleCards,
                 new AudioCard(new byte[]{4}, "Audio 1", "Frage 1", "Antwort 1", false),
                 new AudioCard(new byte[]{10}, "Audio 2", "Frage 2", "Antwort 2", true),
                 new AudioCard(new byte[]{100}, "Audio 3", "Frage 3", "Antwort 3", false),
                 new AudioCard(new byte[]{0}, "Audio 4", "Frage 4", "Antwort 4", true),
                 new AudioCard(new byte[]{1}, "Audio 5", "Frage 5", "Antwort 5", false),
-                new ImageDescriptionCard("Bildbeschreibung 1?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", img1),
-                new ImageDescriptionCard("Bildbeschreibung 2?", new ImageDescriptionCardAnswer[]{}, "Titel der Karte", img2),
-                new ImageDescriptionCard("Bildbeschreibung 3?", new ImageDescriptionCardAnswer[]{
-                        new ImageDescriptionCardAnswer("Beschreibung 3", 0, 1)
-                }, "Titel der Karte", img3),
-                new ImageDescriptionCard("Bildbeschreibung 4?", new ImageDescriptionCardAnswer[]{
-                        new ImageDescriptionCardAnswer("Beschreibung 4", 1, 2),
-                        new ImageDescriptionCardAnswer("andere Beschreibung", 6, 1)
-                }, "Titel der Karte", img4),
-                new ImageDescriptionCard("Bildbeschreibung 5?", new ImageDescriptionCardAnswer[]{
-                        new ImageDescriptionCardAnswer("Beschreibung", 1, 3)
-                }, "Titel der Karte", img5),
+                new ImageDescriptionCard("Bildbeschreibung 1?", new ArrayList<ImageDescriptionCardAnswer>(), "Titel der Karte", img1),
+                new ImageDescriptionCard("Bildbeschreibung 2?", new ArrayList<ImageDescriptionCardAnswer>(), "Titel der Karte", img2),
+                imagedesccard3,
+                imagedesccard4,
+                imagedesccard5,
                 new ImageTestCard("Image 1", "Antwort 1", img1, "Titel 1",false),
                 new ImageTestCard("Image 2", "Antwort 2", img2, "Titel 2",true),
                 new ImageTestCard("Image 3", "Antwort 3", img3, "Titel 3",false),

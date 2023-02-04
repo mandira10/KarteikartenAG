@@ -126,6 +126,7 @@ import lombok.extern.slf4j.Slf4j;
 //       - Imagedescanswers         -- done
 //       - Viewpage                 -- done
 //   - javadoc
+//   - test logging fix
 
 ////////////////////////////////////////////////////
 
