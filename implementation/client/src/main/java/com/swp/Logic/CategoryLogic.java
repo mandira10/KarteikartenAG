@@ -429,12 +429,42 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @param children Children der Kategorie
      */
     public Boolean editCategoryHierarchy(Category category, List<Category> parents, List<Category> children) {
-        if(setCategoryHierarchy(category, parents, true) || setCategoryHierarchy(category, children, false))
+        if(category == null || parents == null || children == null){
+            throw new IllegalStateException("categorynullerror");
+        }
+        boolean bolP = setCategoryHierarchy(category, parents, true);
+        boolean bolC = setCategoryHierarchy(category, children, false);
+        //after editing check for doubleReference
+       if(checkForDoubleReference(category) || bolP ||bolC)
             return true;
 
         else
             return false;
     }
+
+    /**
+     * Prüft, ob für eine Kategorie Doppelreferenzierungen (Child und Parent identisch) existieren und
+     * löscht diese. Gibt true zurück, so dass der User die Info bekommt.
+     * @param category zu prüfende Kategorie
+     * @return true, wenn Doppelreferenz vorhanden, false wenn nicht.
+     */
+    private boolean checkForDoubleReference(Category category) {
+        return execTransactional(() -> {
+           List<Category> catDouble = categoryRepository.checkDoubleReference(category);
+           if(!catDouble.isEmpty()){
+               log.info("Es wurden {} Doppelreferenzen gefunden", catDouble.size());
+               for(Category c : catDouble){
+                   categoryHierarchyRepository.deleteCategoryHierarchy(c,category);
+                   categoryHierarchyRepository.deleteCategoryHierarchy(category,c);
+               }
+               return true;
+           }
+           else {
+               return false;
+           }
+        });
+    }
+
 
 
     /**

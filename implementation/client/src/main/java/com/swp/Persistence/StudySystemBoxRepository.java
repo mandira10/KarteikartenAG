@@ -21,16 +21,24 @@ public class StudySystemBoxRepository extends BaseRepository{
             studySystemBoxRepository = new StudySystemBoxRepository();
         return studySystemBoxRepository;
     }
+
+    /**
+     * Gibt die StudySystemBoxen für ein StudySystem zurück
+     * @param studySystem Das StudySystem für das die Boxen geholt werden sollen
+     * @return Liste mit Boxen
+     */
     public List<StudySystemBox> getStudySystemsBoxesForStudySystem(StudySystem studySystem) {
         return getEntityManager().createQuery("SELECT sbox FROM StudySystemBox sbox where sbox.studySystem = :studySystem")
                 .setParameter("studySystem",studySystem)
                 .getResultList();
     }
 
+
     /**
-     * Gibt die Anzahl der Karten in einer Box zurück
-     * @param studySystemBox
-     * @return
+     * Gibt den ermittelten Progress für das Leitner System anhand Karten je Box zurück.
+     * Wird als Liste an die Logik gegeben, um den Fortschritt zu ermitteln.
+     * @param studySystem Das zugehörige StudySystem
+     * @return Liste mit kumulierten Werten je StudySystemBox.
      */
     public List<Long> getProgressForLeitner(StudySystem studySystem){
         return getEntityManager()

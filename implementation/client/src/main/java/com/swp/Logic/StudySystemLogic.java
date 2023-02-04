@@ -367,8 +367,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     public void calculateProgress(StudySystem studySystem) {
         int numCardsInToTal = getAllCardsInStudySystemToReturn(studySystem).size();
         int numOfLearnedCards = getAllCardsLearnedInStudySystem(studySystem);
-        log.info("Anzahl aller gelernten Karten ist {}", numOfLearnedCards);
-        log.info("Anzahl aller Karten ist {}", numCardsInToTal);
 
         if(studySystem.getType() == StudySystem.StudySystemType.LEITNER){
             List<Long> progressPerBox = studySystemBoxRepository.getProgressForLeitner(studySystem);
@@ -409,7 +407,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return Anzahl der Karten mit Status LEARNED
      */
     public int getAllCardsLearnedInStudySystem(StudySystem studySystem) {
-
                return cardRepository.getNumberOfLearnedCardsByStudySystem(studySystem).intValue();
 
     }
@@ -446,7 +443,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         } else {
             if (changedBoxes) {
                 log.info("Try to reset boxes");
-                List<CardOverview> cardsFromOldStudySystem = getCardsFromOldStudySystemAndDelete(oldStudySystem);
+                List<CardOverview> cardsFromOldStudySystem = getCardsFromOldStudySystemAndDeleteBoxes(oldStudySystem);
                 log.info("Anzahl Boxen neues StudySystem {}", newStudySystem.getBoxes().size());
                 resetStudySystem(cardsFromOldStudySystem, newStudySystem);
             } else {
@@ -455,10 +452,27 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             }
         }
     }
+    /**
+     * Hilfsmethode für das Ändern der Boxenanzahl eines StudySystems. Gibt die alten Karten aus dem StudySystem  auf
+     * und löscht das alte StudySystem danach, indem die delete Funktion aufgerufen wird.
+     * @param oldStudySystem das zu löschende StudySystem
+     * @return Karten (wenn vorhanden), die zum Deck gehören
+     */
+    private List<CardOverview> getCardsFromOldStudySystemAndDeleteBoxes(StudySystem oldStudySystem) {
+        return execTransactional(() -> {
+            List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudySystem);
+            log.info("Lösche alle Card To Boxes zum StudySystem");
+            cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForStudySystem(oldStudySystem));
+            studySystemBoxRepository.delete(studySystemBoxRepository.getStudySystemsBoxesForStudySystem(oldStudySystem));
+            log.info("Lösche StudySystem");
+            studySystemRepository.delete(oldStudySystem);
+            return cardsToStudySystem;
+        });
+    }
 
 
     /**
-     * Hilfsmethode für das Resetten / Ändern der Boxenanzahl eines StudySystems. Gibt die alten Karten aus dem StudySystem  auf
+     * Hilfsmethode für das Resetten eines StudySystems. Gibt die alten Karten aus dem StudySystem  auf
      * und löscht das alte StudySystem danach, indem die delete Funktion aufgerufen wird.
      * @param oldStudySystem das zu löschende StudySystem
      * @return Karten (wenn vorhanden), die zum Deck gehören
@@ -513,11 +527,12 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     private void deleteStudySystemNoExec(StudySystem studySystem) {
         log.info("Lösche alle Card To Boxes zum StudySystem");
         cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForStudySystem(studySystem));
-        studySystemBoxRepository.delete(studySystemBoxRepository.getStudySystemsBoxesForStudySystem(studySystem));
+        //studySystemBoxRepository.delete(studySystemBoxRepository.getStudySystemsBoxesForStudySystem(studySystem));
         log.info("Lösche StudySystem");
         studySystemRepository.delete(studySystem);
 
     }
+
 
     /**
      * Wird verwendet, um eine Liste von StudySystem zu löschen. .

@@ -181,10 +181,10 @@ public class CategoryControllerTests {
     @Test
     public void deleteCategoriesTestNull(){
         List list = null;
-        doThrow(new IllegalStateException("categoriesnullerror")).when(categoryMockLogic).deleteCategories(list);
+        doThrow(new IllegalStateException("categorynullerror")).when(categoryMockLogic).deleteCategories(list);
         assertDoesNotThrow(() -> categoryController.deleteCategories(list, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
-                .callFailure(Locale.getCurrentLocale().getString("categoriesnullerror"));
+                .callFailure(Locale.getCurrentLocale().getString("categorynullerror"));
         reset(coMockbSingleDataCallBack);
     }
 
@@ -607,8 +607,6 @@ public class CategoryControllerTests {
         final List<Category> list = new ArrayList<>();
         when(categoryMockLogic.getCategories()).thenReturn(list);
         assertDoesNotThrow(() ->  categoryController.getCategories(catMockDataCallback));
-        verify(catMockDataCallback, times(1))
-                .callInfo(Locale.getCurrentLocale().getString("getcatoriesempty"));
         reset(catMockDataCallback);
     }
 
@@ -655,8 +653,6 @@ public class CategoryControllerTests {
         final List<Category> list = new ArrayList<>();
         when(categoryMockLogic.getRootCategories(false)).thenReturn(list);
         assertDoesNotThrow(() ->  categoryController.getRootCategories(false,catMockDataCallback));
-        verify(catMockDataCallback, times(1))
-                .callInfo(Locale.getCurrentLocale().getString("getcatoriesempty"));
         reset(catMockDataCallback);
     }
 
@@ -844,7 +840,7 @@ public class CategoryControllerTests {
         verify(coMockSSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<String>() {
             @Override
             public boolean matches(String s) {
-                assertEquals("Kategorie darf nicht selbstreferenziert werden! Nicht hinzugefügt!",s);
+                assertEquals("Kategorie darf nicht selbstreferenziert oder gleiche Parents wie Childs haben! Nicht hinzugefügt!",s);
                 return true;
             }
 

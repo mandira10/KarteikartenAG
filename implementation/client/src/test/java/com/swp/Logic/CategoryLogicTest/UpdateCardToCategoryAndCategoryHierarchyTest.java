@@ -438,7 +438,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
     }
 
     /**
-     * Testet das Hinzufügen von Children für eine Kategorie, die bereits Children hat.
+     * Testet das Hinzufügen von Children für eine Kategorie, die bereits Children hat sowie die Selbstreferenz.
      */
     @Test
     public void testCategoryMultiHierarchyCreateChildren() {
@@ -472,6 +472,58 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         //Test
         assertTrue(categoryLogic.setCategoryHierarchy(technik, newChildTechnik, false));
     }
+
+    /**
+     * Testet, dass Doppelreferenzierung (gleiches Child/Parent) korrekt erkannt wird.
+     */
+    @Test
+    public void testCategoryMultiHierarchyDoubleReference() {
+        //Testdaten
+
+        Category technik = new Category("Technik");
+        Category klasse10 = new Category("Klasse10");
+
+        List<Category> newChildTechnik = new ArrayList<>() {
+            {
+                add(klasse10);
+            }
+        };
+        List<Category> newParentsTechnik = new ArrayList<>() {
+            {
+                add(klasse10);
+            }
+        };
+
+        //Gib alte Parents und Children für Kategorie zurück
+        when(categoryRepMock.getChildrenForCategory(technik)).thenReturn(new ArrayList<>());
+        when(categoryRepMock.getParentsForCategory(technik)).thenReturn(new ArrayList<>());
+
+        //Neues Child noch nicht in Db enthalten, tue nichts beim Save
+        when(categoryRepMock.find(klasse10.getName())).thenThrow(NoResultException.class);
+        when(categoryRepMock.save(klasse10)).thenReturn(klasse10);
+
+        //Kein richtiges Speichern
+        doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(klasse10, technik);
+        doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(technik, klasse10);
+
+        when(categoryRepMock.checkDoubleReference(technik)).thenReturn(Arrays.asList(klasse10));
+        doNothing().when(categoryHierarchyRepMock).deleteCategoryHierarchy(technik,klasse10);
+        doNothing().when(categoryHierarchyRepMock).deleteCategoryHierarchy(klasse10,technik);
+          //Test
+        assertTrue(categoryLogic.editCategoryHierarchy(technik,newParentsTechnik,newChildTechnik));
+
+    }
+
+    /**
+     * Testet die Exception, wenn die Category null ist
+     */
+    @Test
+    public void testEditCategoryHierarchyNull(){
+        final String expected = "categorynullerror";
+        IllegalStateException exception =
+                assertThrows(IllegalStateException.class, () -> categoryLogic.editCategoryHierarchy(null,new ArrayList<>(),new ArrayList<>()));
+        assertEquals(expected, exception.getMessage());
+           }
 
     /**
      * Testet die Exception, wenn Category null ist

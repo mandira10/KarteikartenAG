@@ -224,7 +224,7 @@ getcatoriesempty                   = Keine Kategorien vorhanden.
 getcatorieserror                   = Beim Suchen nach Kategorien ist ein Fehler aufgetreten.
 getrootcategorieserror             = Beim Suchen nach Root-Kategorien ist ein Fehler aufgetreten.
 multiplechoicecarderror            = Index der korrekten Antworten muss innerhalb der Antwortmöglichkeiten liegen!
-selfreferenceerror                 = Kategorie darf nicht selbstreferenziert werden! Nicht hinzugefügt!
+selfreferenceerror                 = Kategorie darf nicht selbstreferenziert oder gleiche Parents wie Childs haben! Nicht hinzugefügt!
 getcateoriesbysearchtermserror     = Es gab einen Fehler beim Abrufen der Kategorien für das Suchwort.
 getcateoriesbysearchtermsempty     = Keine Kategorien für dieses Suchwort gefunden.
 
