@@ -6,8 +6,10 @@ import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToCategory;
 import com.swp.DataModel.CardTypes.TextCard;
+import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Language.German;
 import com.swp.Logic.CardLogic;
@@ -19,9 +21,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.joor.Reflect.on;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
@@ -146,10 +151,10 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
     }
 
     /**
-     * Testet das Hinzufügen neuer Kategorien zu einer Karte, wenn diese bereits zugehörige Kategorien hat.
+     * Testet das Hinzufügen neuer Kategorien zu einer Karte, wenn diese bereits zugehörige Kategorien hat.,
      */
     @Test
-    public void addNewCategoriesToExistingCategories() {
+    public void addNewCategoriesToExistingCategoriesWithSelfReference() {
         //Testdaten
         Category exCat1 = new Category("Erdkunde");
         Category exCat2 = new Category("Spanisch");
@@ -322,8 +327,29 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(technik, oberschule);
 
         //Test
-        categoryLogic.setCategoryHierarchy(technik, parentsTechnik, true);
-        categoryLogic.setCategoryHierarchy(technik, childTechnik, false);
+        assertFalse(categoryLogic.editCategoryHierarchy(technik,parentsTechnik,childTechnik));
+    }
+
+    /**
+     * Testet das nichts passiert, wenn einer Kategorie die gleichen Childs übergeben werden
+     */
+    @Test
+    public void testCategoryMultiHierarchyAddSameChilds() {
+        //Testdaten
+        Category technik = new Category("Technik");
+        Category klasse10 = new Category("Klasse10");
+        Category klasse11 = new Category("Klasse11");
+        List<Category> childTechnik = new ArrayList<>() {
+            {
+                add(klasse11);
+                add(klasse10);
+            }
+        };
+
+        //Gib die bestehende Liste zurück
+        when(categoryRepMock.getChildrenForCategory(technik)).thenReturn(childTechnik);
+        //Test
+        assertFalse(categoryLogic.setCategoryHierarchy(technik, childTechnik, false));
     }
     /**
      * Testet das komplette Löschen von Children und Parents für eine Kategorie, die bereits Children und Parents hat.
@@ -355,8 +381,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         doNothing().when(categoryHierarchyRepMock).deleteCategoryHierarchy(any(Category.class),any(Category.class));
 
         //Test
-        categoryLogic.setCategoryHierarchy(technik, new ArrayList<>(), true);
-        categoryLogic.setCategoryHierarchy(technik, new ArrayList<>(), false);
+        assertFalse(categoryLogic.editCategoryHierarchy(technik,new ArrayList<>(),new ArrayList<>()));
 
     }
 
@@ -408,8 +433,71 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(technik, gymnasium);
 
         //Test
-        categoryLogic.setCategoryHierarchy(technik,newParentsTechnik, true);
-        categoryLogic.setCategoryHierarchy(technik, newChildTechnik, false);
+        assertFalse(categoryLogic.editCategoryHierarchy(technik,newParentsTechnik,newChildTechnik));
 
     }
+
+    /**
+     * Testet das Hinzufügen von Children für eine Kategorie, die bereits Children hat.
+     */
+    @Test
+    public void testCategoryMultiHierarchyCreateChildren() {
+        //Testdaten
+
+        Category technik = new Category("Technik");
+        Category klasse10 = new Category("Klasse10");
+        Category klasse11 = new Category("Klasse11");
+        List<Category> oldChildTechnik = new ArrayList<>() {
+            {
+                add(klasse11);
+            }
+        };
+        //Füge Selbstreferenz hinzu und bestehende Kategorie
+        List<Category> newChildTechnik = new ArrayList<>() {
+            {
+                add(klasse10);
+                add(klasse11);
+                add(technik);
+            }
+        };
+
+        //Gib alte Parents und Children für Kategorie zurück
+        when(categoryRepMock.getChildrenForCategory(technik)).thenReturn(oldChildTechnik);
+         //Neues Child noch nicht in Db enthalten, tue nichts beim Save
+        when(categoryRepMock.find(klasse10.getName())).thenThrow(NoResultException.class);
+        when(categoryRepMock.save(klasse10)).thenReturn(klasse10);
+
+        //Kein richtiges Speichern
+        doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(klasse10, technik);
+        //Test
+        assertTrue(categoryLogic.setCategoryHierarchy(technik, newChildTechnik, false));
+    }
+
+    /**
+     * Testet die Exception, wenn Category null ist
+     */
+    @Test
+    public void testChildrenParentsForCategoryNull(){
+        final String expected = "categorynullerror";
+         IllegalStateException exception =
+                assertThrows(IllegalStateException.class, () -> categoryLogic.getChildrenForCategory(null));
+        assertEquals(expected, exception.getMessage());
+        exception =
+                assertThrows(IllegalStateException.class, () -> categoryLogic.getParentsForCategory(null));
+        assertEquals(expected, exception.getMessage());
+    }
+
+
+    /**
+     * Testet die RootCategory Funktion
+     */
+    @Test
+    public void removeCardsFromCategoryTest(){
+        List<Category> roots = new ArrayList<>();
+        when(categoryRepMock.getRoots("desc")).thenReturn(roots);
+        assertEquals(roots,categoryLogic.getRootCategories(true));
+        when(categoryRepMock.getRoots("asc")).thenReturn(roots);
+        assertEquals(roots,categoryLogic.getRootCategories(false));
+    }
+
 }

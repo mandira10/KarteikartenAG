@@ -369,9 +369,10 @@ public class CategoryLogic extends BaseLogic<Category> {
         return execTransactional(() -> {
             boolean selfreference = false;
             for (Category c : catNew) {
-                if (!catOld.isEmpty() && catOld.contains(c))
+                if (!catOld.isEmpty() && catOld.contains(c)) {
                     log.info("Kategorie {} bereits in CategorieHierarchy enthalten, kein erneutes Hinzufügen notwendig", c.getUuid());
-                if(category.equals(c)){
+                }
+                else if(category.equals(c)){
                     log.error("Selbstreferenz einer Kategorie in der Hierarchie nicht möglich");
                     selfreference = true;
                 }
