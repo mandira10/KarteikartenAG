@@ -243,15 +243,6 @@ public class CardLogic extends BaseLogic<Card>
         return execTransactional(() -> cardRepository.getCardByUUID(uuid));
     }
 
-    /**
-     * Lädt alle Tags als Set. Werden in der CardEditPage als Dropdown angezeigt. Wird weitergegeben an das CardRepository.
-     * @return Set mit bestehenden Tags.
-     */
-    public List<Tag> getTags()
-    {
-        return execTransactional(tagRepository::getAll);
-    }
-
 
     /**
      * Wird verwendet, um Tags einer Karte zu bekommen. Wird an das TagRepository weitergegeben.

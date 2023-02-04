@@ -31,7 +31,12 @@ public class FilterForCategoryTest {
     private CardRepository cardRepMock;
     private CategoryRepository categoryRepMock;
     private CategoryLogic categoryLogic = CategoryLogic.getInstance();
-    private Locale locale = new Locale("German", "de");
+
+
+    /**
+     * BeforeAll wird synchronizedTasks aufgerufen und die PU initialisiert für die Tests,
+     * sowie die Language Variable gesetzt.
+     */
     @BeforeAll
     public static void before()
     {
@@ -39,6 +44,11 @@ public class FilterForCategoryTest {
         German.getInstance().activate();
         ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
+
+    /**
+     * Before-Each Tests Methode.
+     * Die Repos werden gemockt und in der Logik als gemockt gesetzt.
+     */
 
     @BeforeEach
     public void beforeEach(){
@@ -48,6 +58,10 @@ public class FilterForCategoryTest {
         on(categoryLogic).set("categoryRepository",categoryRepMock);
     }
 
+    /**
+     * Testet die Exception wenn ein null String übergeben wird
+     * Methode: getCardsInCategory null
+     */
     @Test
     public void testExceptionIfCategoryNameNull(){
         final String expected = "nonnull";
@@ -56,6 +70,10 @@ public class FilterForCategoryTest {
         assertEquals(expected,exception.getMessage());
     }
 
+    /**
+     * Testet die Exception wenn ein leerer String übergeben wird
+     * Methode : getCardsInCategory
+     */
     @Test
     public void testExceptionIfCategoryNameEmpty(){
         final String expected = "nonempty";

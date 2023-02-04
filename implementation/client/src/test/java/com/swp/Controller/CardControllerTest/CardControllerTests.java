@@ -59,7 +59,6 @@ public class CardControllerTests {
     /**
      * Before-Each Tests Methode.
      * Die CardLogic wird gemockt und im Controller als gemockt gesetzt.
-     * Die Sprachvariable wird auf Deutsch eingestellt.
      */
     @BeforeEach
     public void beforeEach(){
@@ -72,6 +71,7 @@ public class CardControllerTests {
 
     /**
      * BeforeAll wird synchronizedTasks aufgerufen und die PU initialisiert für die Tests.
+     * Wird die Language Variable egsetzt.
      */
     @BeforeAll
     public static void before()

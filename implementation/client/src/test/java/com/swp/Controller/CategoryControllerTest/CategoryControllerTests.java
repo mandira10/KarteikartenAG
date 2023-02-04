@@ -47,10 +47,10 @@ public class CategoryControllerTests {
     private SingleDataCallback<Boolean> coMockbSingleDataCallBack;
     private SingleDataCallback<Category> coMockCSingleDataCallBack;
     private SingleDataCallback<String> coMockSSingleDataCallBack;
+
     /**
      * Before-Each Tests Methode.
      * Die CategoryLogic wird gemockt und im Controller als gemockt gesetzt.
-     * Die Sprachvariable wird auf Deutsch eingestellt.
      */
     @BeforeEach
     public void beforeEach(){
@@ -64,7 +64,8 @@ public class CategoryControllerTests {
     }
 
     /**
-     * BeforeAll wird synchronizedTasks aufgerufen und die PU initialisiert für die Tests.
+     * BeforeAll wird synchronizedTasks aufgerufen und die PU initialisiert für die Tests,
+     * sowie die Language Variable gesetzt.
      */
     @BeforeAll
     public static void before()

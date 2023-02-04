@@ -1,17 +1,17 @@
 package com.swp.Logic.CardLogicTest;
 
-import com.gumse.gui.Locale;
-import com.gumse.tools.Output;
-import com.gumse.tools.Toolbox;
 import com.swp.Controller.ControllerThreadPool;
-import com.swp.DataModel.*;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.CardToCategory;
+import com.swp.DataModel.CardToTag;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Language.German;
 import com.swp.DataModel.StudySystem.BoxToCard;
+import com.swp.GUI.Extras.ListOrder;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.*;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
- * Klasse, die die normalen Funktionen für eine Karte testet.
+ * Klasse, die die normalen Funktionen für eine Karte testet, mithilfe von Komponententests.
  */
 public class CRUDCardLogicTest {
 
@@ -40,8 +40,10 @@ public class CRUDCardLogicTest {
 
     private CardLogic cardLogic = CardLogic.getInstance();
 
-    private Locale locale = new Locale("German", "de");
-    private int i;
+    /**
+     * BeforeAll wird synchronizedTasks aufgerufen und die PU initialisiert für die Tests,
+     * sowie die Language Variable gesetzt.
+     */
     @BeforeAll
     public static void before()
     {
@@ -50,6 +52,10 @@ public class CRUDCardLogicTest {
         ControllerThreadPool.getInstance().synchronizedTasks(true);
     }
 
+    /**
+     * Before-Each Tests Methode.
+     * Die Repos werden gemockt und in der Logik als gemockt gesetzt.
+     */
     @BeforeEach
     public void beforeEach(){
         cardRepMock = mock(CardRepository.class);
@@ -59,6 +65,9 @@ public class CRUDCardLogicTest {
         on(cardLogic).set("cardRepository",cardRepMock);
     }
 
+    /**
+     * Testet die delete Funktion, wenn null übergangen wird
+     */
     @Test
     public void testExceptionIfCardToDeleteIsNull() {
         final String expected = "cardnullerror";
@@ -67,6 +76,9 @@ public class CRUDCardLogicTest {
         assertEquals(expected, exception.getMessage());
     }
 
+    /**
+     * Testet das Löschen einer einzelnen Karte
+     */
     @Test
     public void testDeleteCardFunction(){
         on(cardLogic).set("cardToBoxRepository",cardToBoxRepMock);
@@ -83,7 +95,9 @@ public class CRUDCardLogicTest {
         cardLogic.deleteCard(card1);
     }
 
-
+    /**
+     * Testet das Löschen mehrerer Karten
+     */
     @Test
     public void testDeleteFunctionForManyCards(){
         Card c1 = new TextCard();
@@ -103,6 +117,9 @@ public class CRUDCardLogicTest {
         cardLogic.deleteCards(cards);
     }
 
+    /**
+     * Testet die Update Methode, wenn null übergeben wird
+     */
     @Test
     public void testExceptionIfCardToUpdateIsNull() {
         final String expected = "cardnullerror";
@@ -110,6 +127,10 @@ public class CRUDCardLogicTest {
                 assertThrows(IllegalStateException.class, () -> cardLogic.updateCardData(null,true));
         assertEquals(expected, exception.getMessage());
     }
+
+    /**
+     * Testet die Update Methode von CardData
+     */
     @Test
     public void testUpdateCardData(){
         Card card1  = new TextCard("Testfrage","Testantwort","Testtitel");
@@ -119,6 +140,10 @@ public class CRUDCardLogicTest {
         cardLogic.updateCardData(card1,false);
     }
 
+    /**
+     * Testet die Rückgabe einer Karte, wenn null übergeben wird
+     * Methode: getCardByUUID
+     */
     @Test
     public void testGetCardByUUIDNullException(){
         final String expected = "nonnull";
@@ -127,6 +152,10 @@ public class CRUDCardLogicTest {
         assertEquals(expected, exception.getMessage());
     }
 
+    /**
+     * Testet die Rückgabe einer Karte, wenn der String empty ist
+     * Methode: getCardByUUID
+     */
     @Test
     public void testGetCardByUUIDEmptyException(){
         final String expected = "nonempty";
@@ -135,6 +164,10 @@ public class CRUDCardLogicTest {
         assertEquals(expected, exception.getMessage());
     }
 
+    /**
+     * Testet die Rückgabe einer Karte
+     * Methode: getCardByUUID
+     */
     @Test
     public void testGetCardByUUID(){
         Card card = new TrueFalseCard();
@@ -143,11 +176,87 @@ public class CRUDCardLogicTest {
         assertEquals(card,card1);
     }
 
+    /**
+     * Testet die Rückgabe einer Liste von Karten, 
+     * Methode: getCardOverview 
+     */
     @Test
     public void testGetCardOverview(){
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardRepMock.getCardOverview(any(Integer.class),any(Integer.class))).thenReturn(expected);
         List<CardOverview> actual = cardLogic.getCardOverview(1,9);
+        assertEquals(expected,actual);
+    }
+
+    /**
+     * Testet die Rückgabe einer Liste von Karten, Order by Name, reverse Order true
+     * Methode: getCardOverview Order Alphabetical, ASC
+     */
+    @Test
+    public void testListOfCardsForSearchtermAlphabeticalAsc(){
+        final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardRepMock.getCardOverview(1,3, "c.titelToShow", "asc")).thenReturn(expected);
+        List<CardOverview> actual = cardLogic.getCardOverview(1,3, ListOrder.Order.ALPHABETICAL,false);
+        assertEquals(expected,actual);
+    }
+
+    /**
+     * Testet die Rückgabe einer Liste von Karten, Order by Name, reverse Order true
+     * Methode: getCardOverview Order Alphabetical, DESC
+     */
+    @Test
+    public void testListOfCardsForSearchtermAlphabeticalDesc(){
+        final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardRepMock.getCardOverview(1,3, "c.titelToShow", "desc")).thenReturn(expected);
+        List<CardOverview> actual = cardLogic.getCardOverview(1,3, ListOrder.Order.ALPHABETICAL,true);
+        assertEquals(expected,actual);
+    }
+
+    /**
+     * Testet die Rückgabe einer Liste von Karten, Order by Name, reverse Order true
+     * Methode: getCardOverview Order Date, ASC
+     */
+    @Test
+    public void testListOfCardsForSearchtermDateAsc(){
+        final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardRepMock.getCardOverview(1,3, "c.cardCreated", "asc")).thenReturn(expected);
+        List<CardOverview> actual = cardLogic.getCardOverview(1,3, ListOrder.Order.DATE,false);
+        assertEquals(expected,actual);
+    }
+
+    /**
+     * Testet die Rückgabe einer Liste von Karten, Order by Name, reverse Order true
+     * Methode: getCardOverview Order Date, DESC
+     */
+    @Test
+    public void testListOfCardsForSearchtermDateDesc(){
+        final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardRepMock.getCardOverview(1,3, "c.cardCreated", "desc")).thenReturn(expected);
+        List<CardOverview> actual = cardLogic.getCardOverview(1,3, ListOrder.Order.DATE,true);
+        assertEquals(expected,actual);
+    }
+
+    /**
+     * Testet die Rückgabe einer Liste von Karten, Order by Name, reverse Order true
+     * Methode: getCardOverview Order NumDecks, ASC
+     */
+    @Test
+    public void testListOfCardsForSearchtermNumDecksAsc(){
+        final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardRepMock.getCardOverview(1,3, "c.countDecks", "asc")).thenReturn(expected);
+        List<CardOverview> actual = cardLogic.getCardOverview(1,3, ListOrder.Order.NUM_DECKS,false);
+        assertEquals(expected,actual);
+    }
+
+    /**
+     * Testet die Rückgabe einer Liste von Karten, Order by Name, reverse Order true
+     * Methode: getCardOverview Order NumDecks, DESC
+     */
+    @Test
+    public void testListOfCardsForSearchtermNumDecksDesc(){
+        final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardRepMock.getCardOverview(1,3, "c.countDecks", "desc")).thenReturn(expected);
+        List<CardOverview> actual = cardLogic.getCardOverview(1,3, ListOrder.Order.NUM_DECKS,true);
         assertEquals(expected,actual);
     }
 

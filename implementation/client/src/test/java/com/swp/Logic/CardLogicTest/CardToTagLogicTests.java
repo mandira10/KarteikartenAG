@@ -25,8 +25,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
- * Diese Testklasse untersucht alle CardLogic Funktionen für die Card2Tags.
+ * Diese Testklasse untersucht alle CardLogic Funktionen für die Card2Tags als Komponententests.
+ * Ausführlichere Tests finden sich in ThreeNonTrivialTestMethods AddTagsToCardTests.
  */
+
+@Disabled
 public class CardToTagLogicTests {
     private CardRepository cardRepMock;
     private TagRepository tagRepMock;
@@ -273,21 +276,4 @@ public class CardToTagLogicTests {
         cardLogic.setTagsToCard(card1, TagsToAdd);
     }
 
-    /**
-     * Testet die Rückgabe Funktion getTags().
-     */
-    @Test
-    public void getTags(){
-        ArrayList<Tag> tags = new ArrayList<>() {
-            Tag tag1 = new Tag("Erdkunde");
-            Tag tag2 = new Tag("Spanisch");
-            {
-                add(tag1);
-                add(tag2);
-            }
-        };
-        when(tagRepMock.getAll()).thenReturn(tags);
-        on(cardLogic).set("tagRepository",tagRepMock);
-        assertEquals(tags, cardLogic.getTags());
-    }
 }
