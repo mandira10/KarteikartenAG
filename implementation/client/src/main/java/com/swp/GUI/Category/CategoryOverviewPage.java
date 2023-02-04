@@ -88,7 +88,12 @@ public class CategoryOverviewPage extends Page
         pCanvas.addGUI(pCategoryList);
 
         Searchbar searchbar = (Searchbar)findChildByID("searchbar");
-        searchbar.setCallback((String query, int option) -> { loadCategories(query); });
+        searchbar.setCallback((String query, int option) -> { 
+            if(query.equals(""))
+                loadCategories();
+            else
+                loadCategories(query);
+        });
 
 
         ListOrder listorder = (ListOrder)findChildByID("listorder");
