@@ -198,7 +198,7 @@ public class EditCategoryPage extends Page
                 CategoryController.getInstance().editCategoryHierarchy(pNewCategory, aParents, aChildren, new SingleDataCallback<>() {
                     @Override public void onSuccess(String data)
                     {
-                        if(data.isEmpty())
+                        if(!data.equals(""))
                             NotificationGUI.addNotification(data, Notification.NotificationType.INFO, 10);
 
                         if(bIsNewCategory)
@@ -216,6 +216,8 @@ public class EditCategoryPage extends Page
             @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR, 5);
             }
+
         });
+        nameChange = false;
     }
 }

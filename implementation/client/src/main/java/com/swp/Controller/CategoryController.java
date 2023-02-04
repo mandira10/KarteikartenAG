@@ -50,7 +50,7 @@ public class CategoryController extends Controller
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.updateCategoryData(category, neu, nameChange); return true; },
-            "getcardstoshowempty", "Es wurden keine zugehörigen Karten gefunden", 
+            "", "",
             "categoryupdatesaveerror", "Beim Updaten/Speichern der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten",
             callback,"");
     }
@@ -275,7 +275,7 @@ public class CategoryController extends Controller
     {
         callLogicFuncInThread(
             categoryLogic::getCategories,
-            "getcatoriesempty", "",
+            "", "",
             "getcatorieserror", "Beim holen von Kategorien ist ein Fehler $ aufgetreten",
             callback, "");
     }
@@ -292,7 +292,7 @@ public class CategoryController extends Controller
     {
         callLogicFuncInThread(
             () -> { return categoryLogic.getRootCategories(bReverseOrder); },
-            "getcatoriesempty",
+            "",
             "",
             "getrootcategorieserror",
             "Beim holen der Root-Kategorien ist ein Fehler $ aufgetreten",

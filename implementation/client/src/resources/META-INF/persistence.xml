@@ -15,7 +15,7 @@
                 value="jdbc:h2:./db/karteikarten-ag.h2;AUTO_SERVER=TRUE" />
             <property name="jakarta.persistence.jdbc.user" value="local-user" />
             <property name="jakarta.persistence.jdbc.password" value="local-user-password" />
-            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="org.hibernate.dialect" value="h2"/>
             <property name="hibernate.enable_lazy_load_no_trans" value="true" />
         </properties>

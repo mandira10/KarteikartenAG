@@ -66,21 +66,25 @@ public abstract class Controller
 
     protected <T> void info(String localeid, String logstr, DataCallback<T> callback)
     {
-        if(!logstr.isEmpty())
+        if(!localeid.isEmpty()) {
+        if (!logstr.isEmpty())
             log.info(logstr);
         else
             log.info(Locale.getCurrentLocale().getString(localeid));
 
-        if(!localeid.isEmpty() && callback != null)
+        if (!localeid.isEmpty() && callback != null)
             callback.callInfo(Locale.getCurrentLocale().getString(localeid));
+    }
     }
 
     protected <T> void info(String localeid, String logstr, SingleDataCallback<T> callback)
     {
         if(!logstr.isEmpty())
             log.info(logstr);
-        else
+
+        if(!localeid.isEmpty())
             log.info(Locale.getCurrentLocale().getString(localeid));
+
     }
 
     protected <T> void callLogicFuncInThread(LogicFunc<T> func, String infolocale, String infolog, String failurelocale, String failurelog, DataCallback<T> callback,String name)
@@ -128,7 +132,6 @@ public abstract class Controller
             }
             catch (IllegalArgumentException | IllegalStateException ex) 
             {
-                log.error("Der übergebene Wert war leer oder null");
                 if(ex.getMessage() != null)
                     failure(ex.getMessage(),
                         failurelog.isEmpty() ? ex.getMessage() : failurelog.replace("$", ex.getMessage()), 
