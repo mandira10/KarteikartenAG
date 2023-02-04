@@ -1,5 +1,6 @@
 package com.swp.GUI.Category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gumse.gui.Locale;
@@ -45,6 +46,8 @@ public class EditCategoryPage extends Page
         addGUI(XMLGUI.loadFile("guis/categories/categoryeditpage.xml"));
 
         //pCanvas = findChildByID("canvas");
+        aParents = new ArrayList<>();
+        aChildren = new ArrayList<>();
 
         pTitleField = (TextField)findChildByID("titlefield");
         pTitleField.setCallback(new TextFieldInputCallback() {
