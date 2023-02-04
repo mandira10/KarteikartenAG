@@ -152,10 +152,12 @@ public class CategoryController extends Controller
     public void getCategoryByUUID(String uuid, SingleDataCallback<Category> callback) 
     {
         callLogicFuncInThread(
-            () -> { return categoryLogic.getCategoryByUUID(uuid); }, 
-            "categorybyuuidempty", "Es wurde keine Kategorie zur UUID "+uuid+" gefunden", 
-            "categorybyuuiderror", "Beim Abrufen der Kategorie "+uuid+" ist ein Fehler $ aufgetreten", 
-            callback, "UUID");
+            () -> { return categoryLogic.getCategoryByUUID(uuid); },
+            "categorybyuuidempty",
+            "Es wurde keine Kategorie zur UUID "+uuid+" gefunden", 
+            "categorybyuuiderror",
+            "Beim Abrufen der Kategorie "+uuid+" ist ein Fehler $ aufgetreten", 
+            callback,"UUID");
     }
 
 
@@ -289,10 +291,12 @@ public class CategoryController extends Controller
     public void getRootCategories(boolean bReverseOrder, DataCallback<Category> callback)
     {
         callLogicFuncInThread(
-            () -> { return categoryLogic.getRootCategories(bReverseOrder); }, 
-            "", "",
-            "getrootcategorieserror", "Beim holen der Root-Kategorien ist ein Fehler $ aufgetreten",
-            callback, "");
+            () -> { return categoryLogic.getRootCategories(bReverseOrder); },
+            "getcatoriesempty",
+            "",
+            "getrootcategorieserror",
+            "Beim holen der Root-Kategorien ist ein Fehler $ aufgetreten",
+            callback,"");
     }
 
     /**
@@ -302,7 +306,7 @@ public class CategoryController extends Controller
      * @param category          Die Kategorie, bei der die Karten gelöscht werden sollen
      * @param list                die Liste der zu löschenden Karten
      */
-    public void removeCardsFromStudySystem(List<CardOverview> list, Category category, SingleDataCallback<Boolean> callback) 
+    public void removeCardsFromCategory(List<CardOverview> list, Category category, SingleDataCallback<Boolean> callback)
     {
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
@@ -322,9 +326,10 @@ public class CategoryController extends Controller
     public void getCategoriesBySearchterm(String searchterm, DataCallback<Category> callback) 
     {
         callLogicFuncInThread(
-            () -> { return categoryLogic.getCategoriesBySearchterms(searchterm); }, 
+            () -> { return categoryLogic.getCategoriesBySearchterms(searchterm); },
             "getcateoriesbysearchtermsempty", "", 
             "getcateoriesbysearchtermserror", "Beim Suchen nach Karten mit dem Suchbegriff "+searchterm+" ist ein Fehler $ aufgetreten", 
-            callback, searchterm);
+            callback, "searchterm");
+
     }
 }
