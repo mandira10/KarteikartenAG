@@ -4,6 +4,8 @@ import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.StudySystemBox;
+
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.NoResultException;
 
 import java.util.List;
@@ -28,7 +30,6 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
      */
     public void addStudySystemType(StudySystem.StudySystemType type)
     {
-        //TOTEST klären ob Enum, oder DiscriminatorColumn, Column mit String, etc.
         getEntityManager().persist(type);
 
     }
@@ -38,12 +39,18 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
      */
     public void updateStudySystemTypes()
     {
-        //TOTEST (siehe Todo in `addStudySystemType()`)
         getEntityManager().merge(StudySystem.StudySystemType.values());
 
     }
 
-    public void addCardToBox(BoxToCard boxToCard){
+    /**
+     * Für die neuen Entities, die in der Datenbank gespeichert werden sollen, wird ein neuer
+     * Lernsystem-Typ angelegt. Dieser wird dann in der Datenbank gespeichert.
+     * Falls es schon gibt, throws eine Exception. 
+     * 
+     * @param boxToCard eine BoxToCard-Instanz, welche in der Datenbank gespeichert werden soll.
+     */
+    public void addCardToBox(BoxToCard boxToCard)throws EntityExistsException {
         getEntityManager().persist(boxToCard);
     }
 
