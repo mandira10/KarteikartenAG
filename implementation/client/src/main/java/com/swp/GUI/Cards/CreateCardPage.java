@@ -1,5 +1,6 @@
 package com.swp.GUI.Cards;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -20,6 +21,8 @@ import com.swp.GUI.PageManager.PAGES;
 
 public class CreateCardPage extends Page
 {
+    private Dropdown pTypeDropdown;
+
     public CreateCardPage()
     {
         super("Create Card", "createcardpage");
@@ -27,36 +30,32 @@ public class CreateCardPage extends Page
 
         addGUI(XMLGUI.loadFile("guis/cards/cardcreatepage.xml"));
 
-        Dropdown typeDropdown = (Dropdown)findChildByID("typedropdown");
+        pTypeDropdown = (Dropdown)findChildByID("typedropdown");
 
         Button submitButton = (Button)findChildByID("submitbutton");
-        submitButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                Output.info(typeDropdown.getTitle());
-                switch(typeDropdown.getTitle())
-                {
-                    case "Audio":             ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new AudioCard(), true);            break;
-                    case "Text":              ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new TextCard(), true);             break;
-                    case "Image Description": ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new ImageDescriptionCard(), true); break;
-                    case "Image Test":        ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new ImageTestCard(), true);        break;
-                    case "Multiplechoice":    ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new MultipleChoiceCard(), true);   break;
-                    case "True/False":        ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new TrueFalseCard(), true);        break;
-                    default:                  NotificationGUI.addNotification("Please specify a cardtype", NotificationType.INFO, 5);     break;
-                }
-            }
+        submitButton.onClick((RenderGUI gui) -> {
+            String title = pTypeDropdown.getTitle();
+            if     (title.equals(Locale.getCurrentLocale().getString("audiocard")))          { ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new AudioCard(), true); }
+            else if(title.equals(Locale.getCurrentLocale().getString("textcard")))           { ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new TextCard(), true); }
+            else if(title.equals(Locale.getCurrentLocale().getString("imagedesccard")))      { ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new ImageDescriptionCard(), true); }
+            else if(title.equals(Locale.getCurrentLocale().getString("imagetestcard")))      { ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new ImageTestCard(), true); }
+            else if(title.equals(Locale.getCurrentLocale().getString("multiplechoicecard"))) { ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new MultipleChoiceCard(), true); }
+            else if(title.equals(Locale.getCurrentLocale().getString("truefalsecard")))      { ((EditCardPage)PageManager.viewPage(PAGES.CARD_EDIT)).editCard(new TrueFalseCard(), true); }
+            else                                                                             { NotificationGUI.addNotification(Locale.getCurrentLocale().getString("specifycardtype"), NotificationType.INFO, 5); }
         });
 
 
         Button cancelButton = (Button)findChildByID("cancelbutton");
-        cancelButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  
-            {
-                PageManager.viewPage(PAGES.CARD_OVERVIEW);
-            }
+        cancelButton.onClick((RenderGUI gui) -> {
+            PageManager.viewPage(PAGES.CARD_OVERVIEW);
         });
 
         this.setSizeInPercent(true, true);
         reposition();
+    }
+
+    public void reset()
+    {
+        pTypeDropdown.setTitle(Locale.getCurrentLocale().getString("chosecardtype"));
     }
 }

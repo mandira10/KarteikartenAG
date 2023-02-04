@@ -7,7 +7,6 @@ import com.swp.Persistence.Exporter.ExportFileType;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.util.*;
 
 import static com.swp.Validator.checkNotNullOrBlank;

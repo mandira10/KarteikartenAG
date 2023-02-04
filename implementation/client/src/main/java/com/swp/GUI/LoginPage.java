@@ -7,7 +7,6 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.*;
 import com.swp.DataModel.User;
-import com.swp.KarteikartenAG;
 
 public class LoginPage extends Page
 {
@@ -53,6 +52,5 @@ public class LoginPage extends Page
     private void demo()
     {
         User.demoUser();
-        KarteikartenAG.loadDemoData();
     }
 }

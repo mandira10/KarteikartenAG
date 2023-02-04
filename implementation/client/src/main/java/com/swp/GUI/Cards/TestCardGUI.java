@@ -116,6 +116,7 @@ public class TestCardGUI extends RenderGUI
         sActualAnswer = card.getAnswer();
         TextField answerfield = addAnswerTextField();
         pAnswerCheckerFunc = (Card acard) -> {
+            audioGUI.stop();
             return answerfield.getString().equals(sActualAnswer);
         };
     }

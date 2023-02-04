@@ -190,6 +190,9 @@ public class EditReferencesEntry extends RenderGUI
     @Override
     public String toString()
     {
+        if(iType == null)
+            return "";
+        
         String retStr = "";
         String destination = "";
         String description = pDescriptionField.getString();

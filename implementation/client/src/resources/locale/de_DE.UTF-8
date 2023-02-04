@@ -53,7 +53,7 @@ playaudiocardbutton                = Audio abspielen
 showreferencesbutton               = Zeige Referenzen
 addtodeckbutton                    = Zu Deck hinzufügen
 uploadaudiobutton                  = Zum öffnen klicken
-editanswersbutton                  = Antworten bearbeiten
+editanswersbutton                  = Antworten bearb.
 openimagebutton                    = Zum öffnen klicken
 exportbutton                       = Karten exportieren
 cardsearch                         = Karten suchen
@@ -64,6 +64,14 @@ alphabeticalorder                  = Alphabetisch
 numdeckorder                       = Nr. Decks
 dateorder                          = Datum
 cardtaglist                        = Schlagwort hinzufügen
+audiocard                          = Audio
+textcard                           = Text
+imagedesccard                      = Bild Beschreibung
+imagetestcard                      = Bild Frage
+multiplechoicecard                 = Multiplechoice
+truefalsecard                      = Wahr/Falsch
+specifycardtype                    = Bitte wählen Sie einen Kartentyp aus
+chosecardtype                      = Karte auswählen
 
 # Category
 addcategorybutton                  = Kategorie hinzufügen

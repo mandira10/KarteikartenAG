@@ -121,6 +121,7 @@ public class ViewSingleCardPage extends Page
         pCard = card;
         pCardRenderer.setCard(card);
         pRatingGUI.setRating(card.getRating());
+        pTagsText.setString("");
         CardController.getInstance().getTagsToCard(card, new DataCallback<Tag>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Tag> tags)
@@ -133,32 +134,25 @@ public class ViewSingleCardPage extends Page
                 pTagsText.setString(tagStr);
             }
 
-            @Override public void onFailure(String msg) 
-            {
-                NotificationGUI.addNotification("Failed to get Tags: " + msg, NotificationType.WARNING, 5);
+            @Override public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, NotificationType.WARNING, 5);
             }
         });
+        pCategoriesText.setString("");
         CategoryController.getInstance().getCategoriesToCard(card, new DataCallback<Category>() {
-            @Override
-            public void onSuccess(List<Category> data) {
+            @Override public void onSuccess(List<Category> data) {
                 String categoriesStr = "";
                 for(Category category : data)
                     categoriesStr += category.getName() + ", ";
                 if(categoriesStr.length() > 0)
                     categoriesStr = categoriesStr.substring(0, categoriesStr.length() - 2);
                 pCategoriesText.setString(categoriesStr);
-
             }
 
-            @Override
-            public void onFailure(String msg) {
-
+            @Override public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg, NotificationType.WARNING, 5);
             }
-
-            @Override
-            public void onInfo(String msg) {
-
-            }
+            @Override public void onInfo(String msg) {}
         });
 
         if(pCard.getType() == CardType.AUDIO)
@@ -166,6 +160,7 @@ public class ViewSingleCardPage extends Page
             pFlipButton.setTitle(Locale.getCurrentLocale().getString("playaudiocardbutton"));
             pAudioGUI.loadAudio(((AudioCard)pCard).getAudio());
             pFlipButton.onClick((RenderGUI gui) -> { pAudioGUI.play(); });
+            PageManager.setCallback(() -> pAudioGUI.stop());
         }
         else
         {

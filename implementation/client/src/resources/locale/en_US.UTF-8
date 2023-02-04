@@ -64,6 +64,14 @@ alphabeticalorder                  = Alphabetical
 numdeckorder                       = No. Decks
 dateorder                          = Date
 cardtaglist                        = Add Tag
+audiocard                          = Audio
+textcard                           = Text
+imagedesccard                      = Image Description
+imagetestcard                      = Image Test
+multiplechoicecard                 = Multiplechoice
+truefalsecard                      = True/False
+specifycardtype                    = Please specify a cardtype
+chosecardtype                      = Select Type
 
 # Category
 addcategorybutton                  = Add Cat.

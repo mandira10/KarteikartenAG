@@ -12,6 +12,7 @@ import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
@@ -84,7 +85,7 @@ public class CardTypesRenderer
         answerTextbox.setTextSize(50);
         answerTextbox.setAlignment(Alignment.LEFT);
         answerTextbox.getBox().hide(true);
-        answerTextbox.setAutoInsertLinebreaks(true);
+        answerTextbox.setAutoInsertLinebreaks(card.getType() != CardType.MULITPLECHOICE);
         background.addGUI(answerTextbox);
 
         background.resize();

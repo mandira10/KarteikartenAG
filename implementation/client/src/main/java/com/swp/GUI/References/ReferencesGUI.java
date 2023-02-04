@@ -3,7 +3,6 @@ package com.swp.GUI.References;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Output;
 
 public class ReferencesGUI extends RenderGUI
 {

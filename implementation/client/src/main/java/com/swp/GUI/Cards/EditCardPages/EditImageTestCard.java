@@ -30,11 +30,9 @@ public class EditImageTestCard extends EditCardGUI
         addGUI(XMLGUI.loadFile("guis/cards/edit/editimagetestcardpage.xml"));
 
         pImageButton = (Button)findChildByID("imagebox");
-        pImageButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                selectImageFile();
-            }
+        pImageButton.getBox().getBox().invertTexcoordY(true);
+        pImageButton.onClick((RenderGUI gui) -> {
+            selectImageFile();
         });
 
 

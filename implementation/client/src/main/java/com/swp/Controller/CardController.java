@@ -272,20 +272,18 @@ public class CardController extends Controller
      *
      * @param cards    Set an Karten, die exportiert werden sollen
      * @param filetype Exporttyp der Karten
-     * @param singleDataCallback  Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
+     * @param callback Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
-    public void exportCards(List<CardOverview> cards, String destination, ExportFileType filetype, SingleDataCallback<Boolean> singleDataCallback) 
+    public void exportCards(List<CardOverview> cards, String destination, ExportFileType filetype, SingleDataCallback<Boolean> callback) 
     {
-        callLogicFuncInThread(
-            () -> { return cardLogic.exportCards(cards, destination, filetype); }, 
-            "", 
-            "",
-            "cardexporterror",
-            "Beim Exportieren der Karte(n) gab es einen Fehler $", 
-            singleDataCallback,"");
+        //Special case
+        try { success(callback, cardLogic.exportCards(cards, destination, filetype)); }
+        catch(final Exception ex) 
+        {
+            if(ex.getMessage() != null)
+                failure("cardexporterror", "Beim Exportieren der Karte(n) gab es einen Fehler " + ex.getMessage(), callback, "");
+        }
     }
-
-
 }
 
 

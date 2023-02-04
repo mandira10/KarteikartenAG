@@ -97,6 +97,18 @@ public class CardList extends RenderGUI
         reposition();
     }
 
+    public void resetSelection()
+    {
+        pList.getColumnWhere(CHECK_COLUMN, new Predicate<ListEntry<CardOverview>>() {
+            @Override public boolean test(ListEntry<CardOverview> arg0) 
+            {
+                Switch switchgui = (Switch)arg0.getChild(CHECK_COLUMN).getChild(0);
+                switchgui.tick(false);
+                return false;
+            }
+        });
+    }
+
     public void updateSelectmode()
     {
         ArrayList<Boolean> foundEntries = pList.getColumnWhere(CHECK_COLUMN, new Predicate<ListEntry<CardOverview>>() {

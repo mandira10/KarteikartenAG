@@ -54,6 +54,7 @@ public class PageManager
     private static Map<PAGES, Page> mPages = null;
     private static Page pActivePage, pLastPage;
     private static RenderGUI pPageCanvas;
+    private static Runnable pCallback;
 
     private PageManager() {}
 
@@ -122,6 +123,8 @@ public class PageManager
         {
             pLastPage = pActivePage;
             pActivePage = mPages.get(name);
+            if(pCallback != null)
+                pCallback.run();
         }
 
         return pActivePage;
@@ -138,6 +141,11 @@ public class PageManager
             return null;
 
         return mPages.get(name);
+    }
+
+    public static void setCallback(Runnable callback)
+    {
+        pCallback = callback;
     }
 
     public static void render()

@@ -148,7 +148,6 @@ public abstract class Controller
                         failurelog.isEmpty() ?  failurelog.replace("$", ex.getMessage()) : ex.getMessage(), 
                         callback,"");
             }
-
         });
     }
 };

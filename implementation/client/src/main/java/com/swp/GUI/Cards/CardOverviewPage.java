@@ -46,7 +46,7 @@ public class CardOverviewPage extends Page
         MenuOptions menu = (MenuOptions)findChildByID("menu");
 
         Button addCardButton = (Button)findChildByID("addcardbutton");
-        addCardButton.onClick((RenderGUI gui) -> { PageManager.viewPage(PAGES.CARD_CREATE); });
+        addCardButton.onClick((RenderGUI gui) -> { ((CreateCardPage)PageManager.viewPage(PAGES.CARD_CREATE)).reset(); });
 
         Button deleteCardButton = (Button)findChildByID("deletecardbutton");
         deleteCardButton.onClick((RenderGUI gui) -> { deleteCards(); });
@@ -58,7 +58,8 @@ public class CardOverviewPage extends Page
 
         Button addToDeckButton = (Button)findChildByID("addtodeckbutton");
         addToDeckButton.onClick((RenderGUI gui) -> {
-            ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(pCardList.getSelection());
+            List<CardOverview> cards = pCardList.getSelection();
+            ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(cards);
         });
         addToDeckButton.hide(true);
 
@@ -108,17 +109,20 @@ public class CardOverviewPage extends Page
         }
 
         CardController.getInstance().getCardsToShow(from, to, iOrder, bReverseOrder, new DataCallback<CardOverview>() {
+            @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<CardOverview> data)
             {
                 iCurrentLastIndex += data.size();
                 pCardList.addCards(data, PAGES.CARD_OVERVIEW);
             }
 
-            @Override public void onFailure(String msg) 
-            {
+            @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, NotificationType.ERROR, 5);     
             }
-            @Override public void onInfo(String msg) {}
+        });
+
+        PageManager.setCallback(() ->  {
+            pCardList.resetSelection();
         });
     }
 
@@ -128,19 +132,16 @@ public class CardOverviewPage extends Page
         pCardList.reset();
 
         DataCallback<CardOverview> commoncallback = new DataCallback<CardOverview>() {
-            @Override
-            public void onSuccess(List<CardOverview> data) {
+            @Override public void onSuccess(List<CardOverview> data) {
                 pCardList.addCards(data, PAGES.CARD_OVERVIEW);
             }
 
-            @Override
-            public void onFailure(String msg) {
-            NotificationGUI.addNotification(msg,NotificationType.ERROR,5);
+            @Override public void onFailure(String msg) {
+                NotificationGUI.addNotification(msg,NotificationType.ERROR,5);
             }
 
-            @Override
-            public void onInfo(String msg) {
-            NotificationGUI.addNotification(msg,NotificationType.INFO,5);
+            @Override public void onInfo(String msg) {
+                NotificationGUI.addNotification(msg,NotificationType.INFO,5);
             }
         };
 
@@ -162,12 +163,9 @@ public class CardOverviewPage extends Page
             @Override public void onConfirm() 
             {  
                 CardController.getInstance().deleteCards(pCardList.getSelection(), new SingleDataCallback<Boolean>() {
-                    @Override
-                    public void onSuccess(Boolean data) {loadCards(0,30);}
-
-                    @Override
-                    public void onFailure(String msg) {
-                    NotificationGUI.addNotification("Beim Löschen der Karte ist ein Fehler aufgetreten",NotificationType.ERROR,5);
+                    @Override public void onSuccess(Boolean data) {loadCards(0,30);}
+                    @Override public void onFailure(String msg) {
+                        NotificationGUI.addNotification("Beim Löschen der Karte ist ein Fehler aufgetreten",NotificationType.ERROR,5);
                     }
                 });
             }
@@ -179,6 +177,7 @@ public class CardOverviewPage extends Page
 
     private void exportCards()
     {
-        ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(pCardList.getSelection());
+        List<CardOverview> cards = pCardList.getSelection();
+        ((CardExportPage)PageManager.viewPage(PAGES.CARD_EXPORT)).setCards(cards);
     }
 }

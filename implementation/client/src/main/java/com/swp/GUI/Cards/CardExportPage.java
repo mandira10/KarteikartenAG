@@ -69,7 +69,7 @@ public class CardExportPage extends Page
         pBubble.hide(true);
         typebutton.addGUI(pBubble);
 
-        Radiobutton filetypeOptions = new Radiobutton(new ivec2(20, 20), 100, FontManager.getInstance().getDefaultFont(), 20);
+        Radiobutton filetypeOptions = new Radiobutton(new ivec2(20, 20), 140, FontManager.getInstance().getDefaultFont(), 20);
         filetypeOptions.addOption("PDF");
         filetypeOptions.addOption("JSON");
         filetypeOptions.addOption("XML");

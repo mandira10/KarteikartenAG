@@ -1,6 +1,5 @@
 package com.swp;
 
-import static com.swp.TestDataClass.importTestData;
 import static org.lwjgl.opengl.GL11.*;
 
 import java.nio.ByteBuffer;
@@ -119,6 +118,8 @@ import lombok.extern.slf4j.Slf4j;
 //   - Auto add file extensions     -- done
 //   - Fix browser/fileexplorer
 //   - javadoc
+//   - viewpage callback            -- done
+//       - stop audio               -- done
 
 // Missing:
 // - get categories by name
@@ -217,11 +218,6 @@ public class KarteikartenAG
         //}
 
         pMainGUI.setSize(iWindowSize);
-        
-        //threadPool.synchronizedTasks(true);
-        //importTestData();
-        //threadPool.synchronizedTasks(false);
-
 
         if(User.isLoggedIn())
             PageManager.viewPage(PAGES.DECK_OVERVIEW);
@@ -248,12 +244,4 @@ public class KarteikartenAG
         threadPool.runQueue();
         PersistenceManager.close();
     }
-
-    public static void loadDemoData() {
-        threadPool.synchronizedTasks(true);
-        importTestData();
-        threadPool.synchronizedTasks(false);
-    }
-
-
 }
