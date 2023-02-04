@@ -20,6 +20,9 @@ import com.gumse.tools.FPS;
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 
+/**
+ * Rendert eine Karte in 3D
+ */
 public class CardRenderer extends RenderGUI
 {
     private static final float MAX_MOUSE_MOVE_ANGLE = 35.0f;
@@ -34,6 +37,9 @@ public class CardRenderer extends RenderGUI
     private vec3 v3TargetRotation;
     private boolean bCurrentSide, bDoneRotating;
 
+    /**
+     * Der Standardkonstruktor der Klasse CardRenderer
+     */
     public CardRenderer()
     {
         this.vSize = new ivec2(100,100);
@@ -90,6 +96,9 @@ public class CardRenderer extends RenderGUI
         renderToTexture();
     }
 
+    /**
+     * Dreht die dargestellte Karte um
+     */
     public void flip()
     {
         if(bDoneRotating)
@@ -102,6 +111,9 @@ public class CardRenderer extends RenderGUI
         }
     }
 
+    /**
+     * Rendert eine Karte mittels zwei Framebuffer zu Texturen
+     */
     public void renderToTexture()
     {
         pFrontFramebuffer.bind();

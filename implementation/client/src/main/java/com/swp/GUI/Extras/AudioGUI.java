@@ -29,8 +29,8 @@ import com.gumse.system.io.Mouse;
 import com.gumse.tools.Output;
 
 /**
- * AudioGUI wird dazu verwendet um 
- * eine Audio datei mittels einem GUI element 
+ * AudioGUI wird dazu verwendet, um
+ * eine Audio datei mittels eines GUI element
  * abzuspielen und zu pausieren.
  */
 public class AudioGUI extends RenderGUI
@@ -53,11 +53,11 @@ public class AudioGUI extends RenderGUI
             pPlayVAO = new VertexArrayObject();
             VertexBufferObject pPlayVBO = new VertexBufferObject();
 
-            pPlayVBO.setData(new ArrayList<Float>(Arrays.asList(new Float[] { 
+            pPlayVBO.setData(new ArrayList<Float>(Arrays.asList(
                 0.0f, 1.0f, 0.0f,
                 1.0f, 0.5f, 0.0f,
-                0.0f, 0.0f, 0.0f,
-            })));
+                0.0f, 0.0f, 0.0f
+            )));
             pPlayVAO.addAttribute(pPlayVBO, 0, 3, GL11.GL_FLOAT, 0, 0);
 
             pPauseVAO = new VertexArrayObject();
@@ -67,7 +67,7 @@ public class AudioGUI extends RenderGUI
             float gapSize   = 0.5f;
             float thickness = 0.15f;
 
-            pPauseVBO.setData(new ArrayList<Float>(Arrays.asList(new Float[] {
+            pPauseVBO.setData(new ArrayList<Float>(Arrays.asList(
                 startGap + 0.0f,       0.0f, 0.0f,
                 startGap + thickness,  0.0f, 0.0f,
                 startGap + 0.0f,       1.0f, 0.0f,
@@ -83,12 +83,17 @@ public class AudioGUI extends RenderGUI
 
                 startGap + gapSize + 0.0f,       1.0f, 0.0f,
                 startGap + gapSize + thickness,  0.0f, 0.0f,
-                startGap + gapSize + thickness,  1.0f, 0.0f,
-            })));
+                startGap + gapSize + thickness,  1.0f, 0.0f
+            )));
             pPauseVAO.addAttribute(pPauseVBO, 0, 3, GL11.GL_FLOAT, 0, 0);
         }
     }
 
+    /**
+     * Der Hauptkonstruktor der AudioGUI Klasse
+     * @param pos Position des GUIs in Pixeln
+     * @param size Größe des GUIs in Pixeln
+     */
     public AudioGUI(ivec2 pos, ivec2 size)
     {
         this.sTitle = "AudioGUI";
@@ -133,7 +138,7 @@ public class AudioGUI extends RenderGUI
     }
 
     @Override
-    public void renderextra() 
+    public void renderextra()
     {
         pBackground.render();
         renderPlayPause();
@@ -173,6 +178,9 @@ public class AudioGUI extends RenderGUI
         GUIShader.getShaderProgram().unuse();
     }
 
+    /**
+     * Spielt die geladene Audiodatei ab
+     */
     public void play()
     {
         this.lStartTime = System.nanoTime();
@@ -180,12 +188,18 @@ public class AudioGUI extends RenderGUI
         bIsPlaying = true;
     }
 
+    /**
+     * Pausiert die geladene Audiodatei
+     */
     public void stop()
     {
         AL11.alSourceStop(iSourceID);
         bIsPlaying = false;
     }
 
+    /**
+     * Wechselt zwischen abspielen und pausieren
+     */
     public void toggle()
     {
         if(bIsPlaying)
@@ -194,6 +208,10 @@ public class AudioGUI extends RenderGUI
             play();
     }
 
+    /**
+     * Lädt eine Audiodatei, es muss eine WAV Datei im 16Bit PCM Format sein
+     * @param audio Der InputStream der Audiodatei
+     */
     public void loadAudio(InputStream audio)
     {
         if(audio == null)
@@ -217,6 +235,10 @@ public class AudioGUI extends RenderGUI
         AL11.alSourcei(iSourceID, AL11.AL_BUFFER, audiobuffer);
     }
 
+    /**
+     * Lädt eine Audiodatei, es muss eine WAV Datei im 16Bit PCM Format sein
+     * @param data Die WAV Daten als Bytearray
+     */
     public void loadAudio(byte[] data)
     {
         if(data == null)

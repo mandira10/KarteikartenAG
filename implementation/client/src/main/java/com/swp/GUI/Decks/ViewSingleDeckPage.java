@@ -68,8 +68,8 @@ public class ViewSingleDeckPage extends Page
         removeCardsButton.hide(true);
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod()  { removeCardsButton.hide(false); menu.resize(); }
-            @Override public void exitSelectmod()   { removeCardsButton.hide(true);  menu.resize(); }
+            @Override public void enterSelectmode()  { removeCardsButton.hide(false); menu.resize(); }
+            @Override public void exitSelectmode()   { removeCardsButton.hide(true);  menu.resize(); }
         });
         pCardList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCardList);

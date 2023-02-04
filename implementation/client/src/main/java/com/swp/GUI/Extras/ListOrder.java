@@ -23,16 +23,26 @@ import com.gumse.system.io.Mouse;
  */
 public class ListOrder extends Button
 {
+    /**
+     * Das Sortierungskriterium
+     */
     public enum Order
     {
-        ALPHABETICAL,
-        DATE,
-        NUM_DECKS
+        /** Alphabetisch */     ALPHABETICAL,
+        /** Erstelldatum */     DATE,
+        /** Anzahl der Decks */ NUM_DECKS
     };
 
+    /**
+     * Die Callbackfunktion für die Listenreihenfolge
+     */
     public interface ListOrderCallback
     {
-        public void run(Order order, boolean reverse);
+        /**
+         * @param order   Das Sortierungskriterium
+         * @param reverse Ob die Liste rückwärts übergeben werden soll
+         */
+        void run(Order order, boolean reverse);
     }
 
     private ListOrderCallback pCallback;
@@ -119,6 +129,13 @@ public class ListOrder extends Button
     };
 
 
+    /**
+     * Der Hauptkonstruktor der Klasse ListOrder
+     *
+     * @param pos       Die Position des GUIs in Pixeln
+     * @param size      Die Größe des GUIs in Pixeln
+     * @param localeids Die Locale IDs der einträge für andere Sprachen
+     */
     public ListOrder(ivec2 pos, ivec2 size, String[] localeids)
     {
         super(pos, size, "", FontManager.getInstance().getFont("FontAwesome"));
@@ -181,7 +198,11 @@ public class ListOrder extends Button
         pBubble.setColor(vec4.sub(GUI.getTheme().primaryColor, 0.06f));
     }
 
-    public static XMLGUICreator createFromXMLNode() 
+    /**
+     * Erstellt ein ListOrder GUI anhand einer XML Node
+     * @return gibt das erstellte ListOrderobjekt wieder
+     */
+    public static XMLGUICreator createFromXMLNode()
     {
         return (XMLNode node) -> { 
 			String[] optionids = node.getAttribute("option-ids").split(",");

@@ -18,9 +18,18 @@ import com.gumse.maths.vec4;
  */
 public class ConfirmationGUI extends Box
 {
+    /**
+     * Die Callbackmethoden, welche die auswahl des Users zurückgibt
+     */
     public interface ConfirmationCallback
     {
+        /**
+         * Wird bei der auswahl 'Confirm' ausgeführt
+         */
         public void onConfirm();
+        /**
+         * Wird bei der auswahl 'Cancel' ausgeführt
+         */
         public void onCancel();
     }
 
@@ -88,6 +97,12 @@ public class ConfirmationGUI extends Box
         return pInstance;
     }
 
+    /**
+     * Zeigt einen neuen Fragedialog
+     *
+     * @param str      Der Dialogtext
+     * @param callback Die Rückgabefunktion
+     */
     public void showConfirmationDialog(String str, ConfirmationCallback callback)
     {
         this.pCallback = callback;
@@ -97,6 +112,12 @@ public class ConfirmationGUI extends Box
     }
 
 
+    /**
+     * Öffnet einen neuen Fragedialog
+     *
+     * @param str      Der Dialogtext
+     * @param callback Die Rückgabefunktion
+     */
     public static void openDialog(String str, ConfirmationCallback callback)
     {
         getInstance().showConfirmationDialog(str, callback);

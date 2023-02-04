@@ -29,6 +29,9 @@ import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;
 
+/**
+ * Die Seite welche einem alle Kategorien in einer Hierarchieliste darstellt
+ */
 public class CategoryOverviewPage extends Page
 {
     private RenderGUI pCanvas;
@@ -39,7 +42,10 @@ public class CategoryOverviewPage extends Page
     private boolean bReverseOrder;
 
     private static final CategoryController categoryController = CategoryController.getInstance();
-   
+
+    /**
+     * Der Standardkonstruktor der Klasse CategoryOverviewPage
+     */
     public CategoryOverviewPage()
     {
         super("Categories", "categoryoverviewpage");
@@ -75,8 +81,8 @@ public class CategoryOverviewPage extends Page
 
         pCanvas = findChildByID("canvas");
         pCategoryList = new CategoryList(new ivec2(0, 0), new ivec2(100, 100), new CategoryListSelectmodeCallback() {
-            @Override public void enterSelectmod() { pExportButton.hide(false); pDeleteCategoriesButton.hide(false); pAddToDeckButton.hide(false); menu.resize(); }
-            @Override public void exitSelectmod()  { pExportButton.hide(true);  pDeleteCategoriesButton.hide(true);  pAddToDeckButton.hide(true);  menu.resize(); }
+            @Override public void enterSelectmode() { pExportButton.hide(false); pDeleteCategoriesButton.hide(false); pAddToDeckButton.hide(false); menu.resize(); }
+            @Override public void exitSelectmode()  { pExportButton.hide(true);  pDeleteCategoriesButton.hide(true);  pAddToDeckButton.hide(true);  menu.resize(); }
         });
         pCategoryList.setSizeInPercent(true, true);
         pCanvas.addGUI(pCategoryList);
@@ -94,7 +100,10 @@ public class CategoryOverviewPage extends Page
         this.setSizeInPercent(true, true);
         reposition();
     }
-    
+
+    /**
+     * Lädt alle verfügbaren Kategorien in die Liste
+     */
     public void loadCategories()
     {
         pCategoryList.reset();
@@ -109,7 +118,12 @@ public class CategoryOverviewPage extends Page
             }
         });
     }
-    
+
+    /**
+     * Lädt die Kategorien anhand eines Suchbegriffs
+     *
+     * @param searchterm Der Suchbegriff
+     */
     public void loadCategories(String searchterm)
     {
         pCategoryList.reset();
@@ -150,6 +164,9 @@ public class CategoryOverviewPage extends Page
         });
     }
 
+    /**
+     * Fügt die Karten der ausgewählten Kategorien zu einem Deck hinzu
+     */
     public void addToDeck()
     {
         CategoryController.getInstance().getCardsInCategories(pCategoryList.getSelectedCategories(), new DataCallback<CardOverview>() {

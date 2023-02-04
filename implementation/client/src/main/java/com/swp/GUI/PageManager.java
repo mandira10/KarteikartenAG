@@ -22,33 +22,39 @@ import com.swp.GUI.Decks.ViewSingleDeckPage;
 import com.swp.GUI.References.EditReferencesPage;
 import com.swp.GUI.Settings.SettingsPage;
 
+/**
+ * Verwaltet alle verfügbaren Seiten und sorgt dafür,
+ * dass zu jeder Zeit nur eine Seite angezeigt werden kann
+ */
 public class PageManager
 {
-    public static enum PAGES
+    /**
+     * Die verfügbaren Seiten
+     */
+    public enum PAGES
     {
-        LOGIN,
-        CARD_OVERVIEW,
-        CARD_SINGLEVIEW,
-        CARD_CREATE,
-        CARD_EDIT,
-        CARD_TEST,
-        CARD_EXPORT,
-        CARD_IMAGE_ANSWERS,
-        CARD_SELECT,
-        REFERENCES_EDIT_PAGE,
-        CATEGORY_OVERVIEW,
-        CATEGORY_SINGLEVIEW,
-        CATEGORY_EDIT,
-        CATEGORY_SELECTION,
-        CATEGORY_TREE,
-        DECK_OVERVIEW,
-        DECK_SINGLEVIEW,
-        DECK_EDIT,
-        DECK_TEST,
-        DECK_TEST_FINAL,
-        DECK_SELECTION,
-        DECK_CREATE,
-        SETTINGS,
+        /** LoginPage */                           LOGIN,
+        /** CardOverviewPage */                    CARD_OVERVIEW,
+        /** ViewSingleCardPage */                  CARD_SINGLEVIEW,
+        /** CreateCardPage */                      CARD_CREATE,
+        /** EditCardPage */                        CARD_EDIT,
+        /** CardExportPage */                      CARD_EXPORT,
+        /** EditImageDescriptionCardAnswersPage */ CARD_IMAGE_ANSWERS,
+        /** CardSelectPage */                      CARD_SELECT,
+        /** EditReferencesPage */                  REFERENCES_EDIT_PAGE,
+        /** CategoryOverviewPage */                CATEGORY_OVERVIEW,
+        /** ViewSingleCategoryPage */              CATEGORY_SINGLEVIEW,
+        /** EditCategoryPage */                    CATEGORY_EDIT,
+        /** CategorySelectPage */                  CATEGORY_SELECTION,
+        /** ViewCategoryTreePage */                CATEGORY_TREE,
+        /** DeckOverviewPage */                    DECK_OVERVIEW,
+        /** ViewSingleDeckPage */                  DECK_SINGLEVIEW,
+        /** EditDeckPage */                        DECK_EDIT,
+        /** TestDeckPage */                        DECK_TEST,
+        /** TestDeckFinishPage */                  DECK_TEST_FINAL,
+        /** DeckSelectPage */                      DECK_SELECTION,
+        /** CreateDeckPage */                      DECK_CREATE,
+        /** SettingsPage */                        SETTINGS,
     };
 
     private static Map<PAGES, Page> mPages = null;
@@ -58,6 +64,10 @@ public class PageManager
 
     private PageManager() {}
 
+    /**
+     * Initialisiert den PageManager und erstellt alle verfügbaren Seiten
+     * @param parent Das GUI element zu welchem der PageManager hinzugefügt werden soll
+     */
     public static void init(RenderGUI parent)
     {
         pActivePage = null;
@@ -114,6 +124,12 @@ public class PageManager
             pActivePage = page;
     }
 
+    /**
+     * Zeigt eine gewünschte Seite an
+     *
+     * @param name Die anzuzeigende Seite
+     * @return Gibt die angezeigte Seite wieder
+     */
     public static Page viewPage(PAGES name)
     {
         if(!mPages.containsKey(name))
@@ -130,11 +146,19 @@ public class PageManager
         return pActivePage;
     }
 
+    /**
+     * Zeigt die letzte Seite an
+     */
     public static void viewLastPage()
     {
         pActivePage = pLastPage;
     }
 
+    /**
+     * Gibt eine angegebene Seite wieder
+     * @param name Die wiederzugebene Seite
+     * @return Die Seite
+     */
     public static Page getPage(PAGES name)
     {
         if(!mPages.containsKey(name))
@@ -148,11 +172,17 @@ public class PageManager
         pCallback = callback;
     }
 
+    /**
+     * Rendert die aktuelle Seite
+     */
     public static void render()
     {
         pActivePage.render();
     }
 
+    /**
+     * Aktualisiert die aktuelle Seite
+     */
     public static void update()
     {
         pActivePage.update();

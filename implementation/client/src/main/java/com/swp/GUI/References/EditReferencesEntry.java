@@ -23,10 +23,19 @@ import com.swp.GUI.Category.CategorySelectPage;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 
+/**
+ * Ein Eintrag für das EditReference GUI
+ */
 public class EditReferencesEntry extends RenderGUI
 {
+    /**
+     * Wird ausgeführt, wenn der Eintrag gelöscht wird
+     */
     public interface RemoveReferenceEntryCallback
     {
+        /**
+         * @param entry der zu löschende Eintrag
+         */
         public void run(EditReferencesEntry entry);
     }
 
@@ -45,7 +54,13 @@ public class EditReferencesEntry extends RenderGUI
     private Dropdown pTypeDropdown;
     private String sDestination;
     private TYPE iType;
-    
+
+    /**
+     * Der Hauptkonstruktor der Klasse EditReferencesEntry
+     * @param str      Der name des Eintrags
+     * @param callback Die Lösch-Callbackfunktion
+     * @param onclick  Eine Funktion welche beim "auf den Eintrag klicken" ausgeführt wird
+     */
     public EditReferencesEntry(String str, RemoveReferenceEntryCallback callback, GUICallback onclick)
     {
         this.sType = "EditReferencesEntry";
@@ -182,6 +197,9 @@ public class EditReferencesEntry extends RenderGUI
         addGUI(pReferenceBox);
     }
 
+    /**
+     * Klappt das Dropdown-Menü ein
+     */
     public void closeDropdown()
     {
         pTypeDropdown.close();

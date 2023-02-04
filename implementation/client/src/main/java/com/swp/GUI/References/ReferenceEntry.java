@@ -9,9 +9,18 @@ import com.swp.GUI.References.ReferenceTypes.CategoryReference;
 import com.swp.GUI.References.ReferenceTypes.FileReference;
 import com.swp.GUI.References.ReferenceTypes.WebReference;
 
+/**
+ * Ein Referenzeintrag für das ReferenceGUI
+ */
 public abstract class ReferenceEntry extends TextBox
 {
-    public ReferenceEntry(ivec2 pos, ivec2 size, String name) 
+    /**
+     * Der Hauptkonstruktor der Klasse ReferenceEntry
+     * @param pos  Die Position des GUIs in Pixeln
+     * @param size Die Größe des GUIs in Pixeln
+     * @param name Der Name des Eintrags
+     */
+    public ReferenceEntry(ivec2 pos, ivec2 size, String name)
     {
         super(name, FontManager.getInstance().getDefaultFont(), pos, size);
 
@@ -25,6 +34,14 @@ public abstract class ReferenceEntry extends TextBox
         resize();
     }
 
+    /**
+     * Erstellt einen Referenzeintrag aus einem String
+     *
+     * @param str   Die Referenz als String
+     * @param pos  Die Position des GUIs in Pixeln
+     * @param size Die Größe des GUIs in Pixeln
+     * @return Gibt den erstellten Referenzeintrag wieder
+     */
     public static ReferenceEntry createFromString(String str, ivec2 pos, ivec2 size)
     {
         String[] args = str.split(";");

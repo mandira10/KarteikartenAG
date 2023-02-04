@@ -22,6 +22,9 @@ import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.Controller.SingleDataCallback;
 
+/**
+ * Die Seite welche es einem ermöglicht, Kategorien zu bearbeiten
+ */
 public class EditCategoryPage extends Page
 {
     private Category pNewCategory;
@@ -31,6 +34,9 @@ public class EditCategoryPage extends Page
     private List<Category> aParents, aChildren;
     private TextBox pCategoriesParentsBox, pCategoriesChildrenBox;
 
+    /**
+     * Der Standardkonstruktor der Klasse EditCategoryPage
+     */
     public EditCategoryPage()
     {
         super("Edit Category", "editcategorypage");
@@ -88,7 +94,12 @@ public class EditCategoryPage extends Page
         resize();
     }
 
-    public void editCategory(String uuid) 
+    /**
+     * Bearbeitet eine Kategorie anhand ihrer UUID
+     *
+     * @param uuid Die UUID einer Kategorie
+     */
+    public void editCategory(String uuid)
     {
         CategoryController.getInstance().getCategoryByUUID(uuid, new SingleDataCallback<Category>() {
             @Override public void onSuccess(Category data) { editCategory(data, false); }
@@ -98,6 +109,12 @@ public class EditCategoryPage extends Page
         });
     }
 
+    /**
+     * Übergibt eine zu bearbeitende Kategorie
+     *
+     * @param category    Eine Kategorie
+     * @param newCategory Ist die übergebene Kategorie neu?
+     */
     public void editCategory(Category category, boolean newCategory)
     {
         bIsNewCategory = newCategory;
@@ -130,6 +147,11 @@ public class EditCategoryPage extends Page
         });
     }
 
+    /**
+     * Aktualisiert die Unterkategorie-Einträge der zu bearbeitenden Kategorie
+     *
+     * @param children Die unterkategorien
+     */
     public void updateChildCategories(List<Category> children)
     {
         this.aChildren = children;
@@ -141,6 +163,12 @@ public class EditCategoryPage extends Page
         pCategoriesChildrenBox.setString(catString);
     }
 
+
+    /**
+     * Aktualisiert die Überkategorie-Einträge der zu bearbeitenden Kategorie
+     *
+     * @param parents Die überkategorien
+     */
     public void updateParentCategories(List<Category> parents)
     {
         this.aParents = parents;

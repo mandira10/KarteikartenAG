@@ -9,8 +9,18 @@ import com.swp.GUI.References.ReferenceEntry;
 
 import java.io.IOException;
 
+/**
+ * Eine Referenz welche auf eine Website zeigt
+ */
 public class WebReference extends ReferenceEntry
 {
+    /**
+     * Der Hauptkonstruktor der Klasse WebReference
+     *
+     * @param pos  Die Position des GUIs in Pixeln
+     * @param size Die Größe des GUIs in Pixeln
+     * @param url  Die URL der Website
+     */
     public WebReference(ivec2 pos, ivec2 size, String url)
     {
         super(pos, size, "Web");

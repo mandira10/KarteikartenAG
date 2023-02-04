@@ -31,6 +31,9 @@ import com.swp.GUI.References.EditReferencesPage;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 
+/**
+ * Die Seite welche es einem ermöglicht, Karten zu bearbeiten
+ */
 public class EditCardPage extends Page
 {
     private EditCardGUI pEditCard;
@@ -43,6 +46,9 @@ public class EditCardPage extends Page
     private TextBox pCategoriesBox;
     private boolean bIsNewCard;
 
+    /**
+     * Der Standardkonstruktor der Klasse EditCardPage
+     */
     public EditCardPage()
     {
         super("Edit Card", "editcardpage");
@@ -53,24 +59,6 @@ public class EditCardPage extends Page
         addGUI(XMLGUI.loadFile("guis/cards/cardeditpage.xml"));
 
         pCanvas = findChildByID("canvas");
-        
-        /*pEditTextCardPage = new EditTextCard();
-        pCanvas.addGUI(pEditTextCardPage);
-
-        pEditTrueFalseCardPage = new EditTrueFalseCard();
-        pCanvas.addGUI(pEditTrueFalseCardPage);
-
-        pEditMultipleChoiceCardPage = new EditMultipleChoiceCard();
-        pCanvas.addGUI(pEditMultipleChoiceCardPage);
-
-        pEditImageTestCardPage = new EditImageTestCard();
-        pCanvas.addGUI(pEditImageTestCardPage);
-
-        pEditImageDescriptionCardPage = new EditImageDescriptionCard();
-        pCanvas.addGUI(pEditImageDescriptionCardPage);
-
-        pEditAudioCardPage = new EditAudioCard();
-        pCanvas.addGUI(pEditAudioCardPage);*/
 
         pTitlefield = (TextField)findChildByID("titlefield");
         pTitlefield.setCallback(new TextFieldInputCallback() { 
@@ -123,6 +111,11 @@ public class EditCardPage extends Page
         reposition();
     }
 
+    /**
+     * Bearbeitet eine Karte anhand ihrer UUID
+     *
+     * @param uuid Die UUID einer Karte
+     */
     public void editCard(String uuid) {
         CardController.getInstance().getCardByUUID(uuid, new SingleDataCallback<Card>() {
             @Override
@@ -138,6 +131,12 @@ public class EditCardPage extends Page
         }); 
     }
 
+    /**
+     * Übergibt eine zu bearbeitende Karte
+     *
+     * @param card    Eine Karte
+     * @param newcard Ist die übergebene Karte neu?
+     */
     public void editCard(Card card, boolean newcard)
     {
         if(card == null)
@@ -197,6 +196,11 @@ public class EditCardPage extends Page
         resize();
     }
 
+    /**
+     * Aktualisiert die Kategorie-Einträge der zu bearbeitenden Karte
+     *
+     * @param categories Die kategorien
+     */
     public void updateCategories(List<Category> categories)
     {
         this.aCategories = categories;
@@ -208,6 +212,11 @@ public class EditCardPage extends Page
         pCategoriesBox.setString(catString);
     }
 
+    /**
+     * Aktualisiert die Tag-Einträge der zu bearbeitenden Karte
+     *
+     * @param tags Die tags
+     */
     public void updateTags(List<Tag> tags)
     {
         for(Tag tag : tags)

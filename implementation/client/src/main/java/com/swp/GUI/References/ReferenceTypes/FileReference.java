@@ -8,8 +8,18 @@ import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.References.ReferenceEntry;
 
+/**
+ * Eine Referenz welche auf eine Datei zeigt
+ */
 public class FileReference extends ReferenceEntry
 {
+    /**
+     * Der Hauptkonstruktor der Klasse FileReference
+     *
+     * @param pos  Die Position des GUIs in Pixeln
+     * @param size Die Größe des GUIs in Pixeln
+     * @param path Der Dateipfad
+     */
     public FileReference(ivec2 pos, ivec2 size, String path)
     {
         super(pos, size, "File");

@@ -6,7 +6,10 @@ import java.util.Set;
 import com.swp.DataModel.*;
 import com.swp.DataModel.StudySystem.StudySystem;
 
-public class Cache 
+/**
+ * Der Cache speichert Datenbankelemente im Arbeitsspeicher zwischen
+ */
+public class Cache
 {
     private static Cache pCacheInstance = null;
     //private List<Deck> alDecks;

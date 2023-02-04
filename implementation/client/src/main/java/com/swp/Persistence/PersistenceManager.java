@@ -11,7 +11,10 @@ import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.swp.Controller.SingleDataCallback;
 
-public class PersistenceManager 
+/**
+ * @author KarteikartenAG
+ */
+public class PersistenceManager
 {
     private static String puName;
     private static EntityManagerFactory emFactory = null;
@@ -35,6 +38,7 @@ public class PersistenceManager
      * @param port der port eines H2 Datenbankservers (z.B. 8082).
      * @param user der Nutzer für die Anmeldung am Datenbankserver.
      * @param password das Password zur Anmeldung am Datenbankserver.
+     * @param callback Liefert den Erfolg der Methode zurück
      */
     public static void changeH2Server(String host, String port, String user, String password, SingleDataCallback<Boolean> callback) 
     {
@@ -67,6 +71,7 @@ public class PersistenceManager
      * Damit kann zum Beispiel ein vom Nutzer angegebener Datenbankserver benutzt werden.
      * @param user der Nutzer für die Anmeldung am Datenbankserver.
      * @param password das Password zur Anmeldung am Datenbankserver.
+     * @param callback Liefert den Erfolg der Methode zurück
      */
     public static void runLocalH2Server(String user, String password, SingleDataCallback<Boolean> callback) 
     {
@@ -89,7 +94,11 @@ public class PersistenceManager
         callback.callSuccess(true);
     }
 
-    public static void demoServer(SingleDataCallback<Boolean> callback) 
+    /**
+     * Startet einen Demo Datenbankserver im Arbeitsspeicher
+     * @param callback Liefert den Erfolg der Methode zurück
+     */
+    public static void demoServer(SingleDataCallback<Boolean> callback)
     {
         emFactory.close();
 
@@ -102,6 +111,9 @@ public class PersistenceManager
         callback.callSuccess(true);
     }
 
+    /**
+     * Schließt die aktuelle EntitiyManagerFactory
+     */
     public static void close()
     {
         emFactory.close();

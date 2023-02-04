@@ -27,6 +27,9 @@ import com.swp.Persistence.Exporter;
 import com.swp.Persistence.Exporter.ExportFileType;
 import com.swp.Controller.SingleDataCallback;
 
+/**
+ * Die Seite auf welcher das ausgabe Dateiformat zum Exportieren angegeben werden kann.
+ */
 public class CardExportPage extends Page
 {
     private CardList pCardList;
@@ -34,7 +37,10 @@ public class CardExportPage extends Page
     private Text pTypeText;
     private Exporter.ExportFileType iFileType;
 
-    public CardExportPage() 
+    /**
+     * Der Standardkonstruktor für die Klasse CardExportPage
+     */
+    public CardExportPage()
     {
         super("Export Cards", "exportcardspage");
         this.vSize = new ivec2(100,100);
@@ -44,8 +50,8 @@ public class CardExportPage extends Page
         RenderGUI canvas = findChildByID("canvas");
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod() {}
-            @Override public void exitSelectmod()  {}
+            @Override public void enterSelectmode() {}
+            @Override public void exitSelectmode()  {}
         });
         pCardList.setSizeInPercent(true, true);
         canvas.addGUI(pCardList);

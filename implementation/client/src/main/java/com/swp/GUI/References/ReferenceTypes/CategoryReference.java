@@ -12,8 +12,18 @@ import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.References.ReferenceEntry;
 
+/**
+ * Eine Referenz welche auf eine Kategorie zeigt
+ */
 public class CategoryReference extends ReferenceEntry
 {
+    /**
+     * Der Hauptkonstruktor der Klasse CategoryReference
+     *
+     * @param pos  Die Position des GUIs in Pixeln
+     * @param size Die Größe des GUIs in Pixeln
+     * @param uuid Die UUID der Zielkategorie
+     */
     public CategoryReference(ivec2 pos, ivec2 size, String uuid)
     {
         super(pos, size, "Category");

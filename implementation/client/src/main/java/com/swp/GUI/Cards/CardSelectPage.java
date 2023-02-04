@@ -20,11 +20,21 @@ import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.DataCallback;
 
-public class CardSelectPage extends Page 
+/**
+ * Die Seite auf welcher man eine Liste an Karten auswählen kann
+ */
+public class CardSelectPage extends Page
 {
+    /**
+     * Gibt die Liste der ausgewählten Karten wieder
+     */
     public interface CardReturnFunc
     {
-        void run(CardOverview categories);
+        /**
+         * Wird ausgeführt, wenn auf 'Apply' gedrückt wird
+         * @param cards Die ausgewählten karten
+         */
+        void run(CardOverview cards);
     }
 
 
@@ -33,6 +43,9 @@ public class CardSelectPage extends Page
     private CardReturnFunc pReturnFunc;
     private int iCurrentLastIndex;
 
+    /**
+     * Der Standardkonstruktor der Klasse CardSelectPage
+     */
     public CardSelectPage()
     {
         super("Card select", "cardselectpage");
@@ -44,12 +57,12 @@ public class CardSelectPage extends Page
         RenderGUI canvas = findChildByID("canvas");
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), true, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod() 
+            @Override public void enterSelectmode()
             { 
                 if(pReturnFunc != null && pCardList.getSelection().size() > 0)
                     pReturnFunc.run(pCardList.getSelection().get(0)); 
             }
-            @Override public void exitSelectmod()  { }
+            @Override public void exitSelectmode()  { }
         });
         pCardList.setSizeInPercent(true, true);
         pCardList.setSelectMode(true);
@@ -89,12 +102,23 @@ public class CardSelectPage extends Page
         reposition();
     }
 
+    /**
+     * Setzt die auswahl zurück und lädt die Karten neu
+     *
+     * @param returnfunc Die Funktion, für die übergabe der ausgewählten Karten
+     */
     public void reset(CardReturnFunc returnfunc)
     {
         this.pReturnFunc = returnfunc;
         loadCards(0, 30);
     }
 
+    /**
+     * Lädt die Karten von einem Index bis zu einem anderen
+     *
+     * @param from Von-Index
+     * @param to   Bis-Index
+     */
     public void loadCards(int from, int to)
     {
         if(from == 0)
@@ -119,6 +143,12 @@ public class CardSelectPage extends Page
         resize();
     }
 
+    /**
+     * Lädt Karten anhand eines Suchbegriffs
+     *
+     * @param str    Suchbegriff
+     * @param option Die ausgewählte Suchoption
+     */
     public void loadCards(String str, int option)
     {
         pCardList.reset();

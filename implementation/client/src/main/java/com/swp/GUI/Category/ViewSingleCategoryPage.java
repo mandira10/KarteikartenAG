@@ -23,12 +23,18 @@ import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;
 
+/**
+ * Die Seite auf welcher eine Einzelne Kategorie angesehen werden kann
+ */
 public class ViewSingleCategoryPage extends Page
 {
     private Category pCategory;
     private RenderGUI pCanvas;
     private CardList pCardList;
 
+    /**
+     * Der Standardkonstruktor für die Klasse ViewSingleCategoryPage
+     */
     public ViewSingleCategoryPage()
     {
         super("View Category", "viewcategorypage");
@@ -56,12 +62,12 @@ public class ViewSingleCategoryPage extends Page
         removeCardsButton.hide(true);
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod() 
+            @Override public void enterSelectmode()
             {    
                 removeCardsButton.hide(false);
                 menu.resize();
             }
-            @Override public void exitSelectmod() 
+            @Override public void exitSelectmode()
             {   
                 removeCardsButton.hide(true);
                 menu.resize();

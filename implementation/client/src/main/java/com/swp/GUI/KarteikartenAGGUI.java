@@ -9,6 +9,9 @@ import com.swp.DataModel.Settings;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
 
+/**
+ * Das haupt GUI-Element des KarteikartenAG Projekts
+ */
 public class KarteikartenAGGUI extends RenderGUI
 {
     private Sidebar pSidebar;

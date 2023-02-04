@@ -28,6 +28,10 @@ public class MenuOptions extends RenderGUI
     private boolean bLock;
     private static final int GAP_SIZE = 20;
 
+    /**
+     * @param pos  Position des GUIs in Pixeln
+     * @param size Größe des GUIs in Pixeln
+     */
     public MenuOptions(ivec2 pos, ivec2 size)
     {
         this.sType = "MenuOptions";
@@ -128,6 +132,10 @@ public class MenuOptions extends RenderGUI
         return null;
     }
 
+    /**
+     * Erstellt ein MenuOptions GUI anhand einer XML Node
+     * @return gibt das erstellte MenuOptionsobjekt wieder
+     */
     public static XMLGUICreator createFromXMLNode() 
     {
         return (XMLNode node) -> { 

@@ -12,9 +12,13 @@ import java.util.List;
 
 /**
  * Das BaseRepository stellt grundlegende Attribute und Funktionen für die spezifischen Repositories zur Verfügung.
+ * @param <T> Der Datentyp der Repository
  */
-public abstract class BaseRepository<T> {
-    // Objekt zur Synchronisation von mehreren potenziell parallelen Transaktionen
+public abstract class BaseRepository<T>
+{
+    /**
+     * Objekt zur Synchronisation von mehreren potenziell parallelen Transaktionen
+     */
     public static final Object transaction = new Object();
 
     @Getter(AccessLevel.PROTECTED)
@@ -25,6 +29,10 @@ public abstract class BaseRepository<T> {
 
     private final Class<T> repoType;
 
+    /**
+     * Der Basiskonstruktor von allen Repositories
+     * @param repoType Der Klassentyp der Repository
+     */
     public BaseRepository(Class<T> repoType) {
         this.repoType = repoType;
     }
@@ -130,7 +138,8 @@ public abstract class BaseRepository<T> {
      * Funktion um ein Objekt des Repository-Typs in dem entsprechenden Repository zu persistieren.
      *
      * @param object das zu speichernde Objekt.
-     * @throws IllegalStateException wenn bei Aufruf keine Transaktion offen ist.
+     * @throws IllegalStateException, wenn bei Aufruf keine Transaktion offen ist.
+     * @return TODO
      */
     public T save(T object) throws IllegalStateException {
         if (!isTransactionActive()) {

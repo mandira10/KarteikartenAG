@@ -19,10 +19,18 @@ import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * Die Seite welche einem das Erstellen
+ * einer neuen Karte ermöglicht mit
+ * einer auswahl an Kartentypen
+ */
 public class CreateCardPage extends Page
 {
     private Dropdown pTypeDropdown;
 
+    /**
+     * Der Standardkonstruktor der Klasse CreateCardPage
+     */
     public CreateCardPage()
     {
         super("Create Card", "createcardpage");
@@ -54,6 +62,9 @@ public class CreateCardPage extends Page
         reposition();
     }
 
+    /**
+     * Setzt den Titel des auswahl Dropdowns zurück
+     */
     public void reset()
     {
         pTypeDropdown.setTitle(Locale.getCurrentLocale().getString("chosecardtype"));

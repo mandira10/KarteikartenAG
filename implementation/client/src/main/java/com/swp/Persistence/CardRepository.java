@@ -9,7 +9,10 @@ import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
-public class CardRepository extends BaseRepository<Card> 
+/**
+ * Die Datenbank repository für Karten
+ */
+public class CardRepository extends BaseRepository<Card>
 {
     private CardRepository() {
         super(Card.class);
@@ -42,6 +45,16 @@ public class CardRepository extends BaseRepository<Card>
                 .setFirstResult(from).setMaxResults(to - from).getResultList();
     }
 
+    /**
+     * Gibt eine Liste an gefundenen Karten wieder
+     *
+     * @param from    Von-Index
+     * @param to      Bis-Index
+     * @param orderBy Sortierung
+     * @param order   Reihenfolge
+     * @return Die Liste der gefundenen Karten
+     * @throws AssertionError
+     */
     public List<CardOverview> getCardOverview(int from, int to, String orderBy, String order) throws AssertionError {
         assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
         return getEntityManager()
@@ -70,8 +83,8 @@ public class CardRepository extends BaseRepository<Card>
      * Teilstring im Inhalt hat.
      *
      * @param searchWords ein String nach dem im Inhalt aller Karten gesucht werden soll.
-     * @param orderBy Gibt den Parameter an, wonach sortiert werden soll
-     * @param order Gibt an in welche Reihenfolge sortiert werden soll
+     * @param orderBy     Gibt den Parameter an, wonach sortiert werden soll
+     * @param order       Gibt an in welche Reihenfolge sortiert werden soll
      * @return List<CardOverview> eine List von Karten-Übersichten, welche `searchWords` als Teilstring im Inhalt hat.
      */
     public List<CardOverview> findCardsContaining(String searchWords, String orderBy, String order) {

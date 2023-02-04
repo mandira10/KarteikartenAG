@@ -32,11 +32,34 @@ public abstract class Card implements Serializable
      */
     public enum CardType
     {
+        /**
+         * True/False-Karte
+         */
         TRUEFALSE,
+
+        /**
+         * Bildfrage-Karte
+         */
         IMAGETEST,
+
+        /**
+         * Bildbeschreibungskarte
+         */
         IMAGEDESC,
+
+        /**
+         * Multiplechoice-Karte
+         */
         MULITPLECHOICE,
+
+        /**
+         * Textkarte
+         */
         TEXT,
+
+        /**
+         * Audiokarte
+         */
         AUDIO
     }
 
@@ -131,7 +154,10 @@ public abstract class Card implements Serializable
     }
 
 
-    public void setContent(){}
+    /**
+     * Wird dazu verwendet den gesamten Inhalt einer Karte zu sammeln
+     */
+    public abstract void setContent();
 
     /**
      * Manueller Setter, der prüft, ob der übergebene Wert im GUI leer ist

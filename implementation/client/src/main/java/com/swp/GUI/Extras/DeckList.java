@@ -23,8 +23,15 @@ import com.swp.DataModel.StudySystem.StudySystem;
  */
 public class DeckList extends RenderGUI
 {
+    /**
+     * Gibt das ausgewählte Deck wieder
+     */
     public interface DeckListCallback
     {
+        /**
+         * Wird ausgeführt, wenn auf ein Deck gedrückt wird
+         * @param deck Das ausgewählte Deck
+         */
         void run(StudySystem deck);
     }
 
@@ -60,9 +67,8 @@ public class DeckList extends RenderGUI
             iconText.setColor(new vec4(0.13f, 0.13f, 0.14f, 1));
 
             final int[] numCards = {0};
-                    StudySystemController.getInstance().numCardsInDeck(deck, new SingleDataCallback<Integer>() {
-                        @Override
-                        public void onSuccess(Integer data) {
+                    StudySystemController.getInstance().numCardsInDeck(deck, new SingleDataCallback<>() {
+                        @Override public void onSuccess(Integer data) {
                             numCards[0] = data;
 
                             if (data > 0) {
@@ -78,21 +84,17 @@ public class DeckList extends RenderGUI
                             addElement(iconText);
                         }
 
-                        @Override
-                        public void onFailure(String msg) {
-                        //do nothing
+                        @Override public void onFailure(String msg) {
+                            //do nothing
                         }
                     });
 
 
             onHover(null, Mouse.GUM_CURSOR_HAND);
 
-            onClick(new GUICallback() {
-                @Override public void run(RenderGUI gui) 
-                {
-                    if(pCallback != null)
-                        pCallback.run(deck);
-                }
+            onClick((RenderGUI gui) -> {
+                if(pCallback != null)
+                    pCallback.run(deck);
             });
         }
 
@@ -103,11 +105,18 @@ public class DeckList extends RenderGUI
             setBorderThickness(GUI.getTheme().borderThickness);
             setCornerRadius(GUI.getTheme().cornerRadius);
         }
-    };
+    }
 
-    private Scroller pScroller;
-    private DeckListCallback pCallback;
+    private final Scroller pScroller;
+    private final DeckListCallback pCallback;
 
+    /**
+     * Der Hauptkonstruktor der Klasse DeckList
+     *
+     * @param pos     Position des GUIs in Pixeln
+     * @param size    Größe des GUIs in Pixeln
+     * @param onclick Wird ausgeführt, wenn ein Deck ausgewählt wird
+     */
     public DeckList(ivec2 pos, ivec2 size, DeckListCallback onclick)
     {
         this.vPos.set(pos);
@@ -122,12 +131,20 @@ public class DeckList extends RenderGUI
         reposition();
     }
 
-    
+
+    /**
+     * Setzt die Liste zurück
+     */
     public void reset()
     {
         pScroller.destroyChildren();
     }
 
+    /**
+     * Fügt eine Liste an decks hinzu
+     *
+     * @param decks Die hinzuzufügenden Decks
+     */
     public void addDecks(List<StudySystem> decks)
     {
         int y = 0;

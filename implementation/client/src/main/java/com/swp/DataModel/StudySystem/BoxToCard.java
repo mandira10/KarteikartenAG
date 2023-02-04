@@ -10,6 +10,9 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.UUID;
 
+/**
+ * BoxToCard Klasse. Hier werden alle Karten zur spezifischen StudySystemBox gespeichert.
+ */
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uniqueCardBox",columnNames = {"card_uuid","studySystemBox_id"}))
 @Getter
@@ -30,16 +33,12 @@ import java.util.UUID;
         query = "SELECT COUNT(distinct c.card) FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
                 "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND  c.status = 'SKILLED'")
 
-/**
- * Queries für das initiale Lernen bei Random
- */
-
+//Queries für das initiale Lernen bei Random
 @NamedQuery (name = "BoxToCard.allByStudySystem",query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox " +
         "ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem")
 
-/**
- * Queries für das Relearning von Systemen.
- */
+
+//Queries für das Relearning von Systemen.
 @NamedQuery (name = "BoxToCard.allCardNextLearnedAtOlderThanNowAscending",
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
                 "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem " +
@@ -53,15 +52,8 @@ import java.util.UUID;
 @NamedQuery (name = "BoxToCard.allCardsSortedByRating",
         query = "SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox " +
                 "LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem AND sbox.boxNumber = 0 ORDER BY c.status ASC, c.rating ASC")
-
-
-/**
- * BoxToCard Klasse. Hier werden alle Karten zur spezifischen StudySystemBox gespeichert.
- */
-public class BoxToCard {
-
-
-
+public class BoxToCard
+{
     /**
      * Identifier und Primärschlüssel für
      * Karte-zu-studySystemBox Verbindung
@@ -71,14 +63,23 @@ public class BoxToCard {
 
     /**
      * Enum des CardStatus
-     * Skilled: Karte wurde erfolgreich gelernt
-     * Relearn: Karte muss neu gelernt werden
-     * New: Karte ist neu
+     * @see #SKILLED
+     * @see #RELEARN
+     * @see #NEW
      */
     public enum CardStatus
     {
+        /**
+         * Karte wurde erfolgreich gelernt
+         */
         SKILLED,
+        /**
+         * Karte muss neu gelernt werden
+         */
         RELEARN,
+        /**
+         * Karte ist neu
+         */
         NEW
     }
 

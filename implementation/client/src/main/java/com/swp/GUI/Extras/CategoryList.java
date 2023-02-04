@@ -16,25 +16,50 @@ import com.swp.GUI.Category.ViewSingleCategoryPage;
 import com.swp.GUI.PageManager.PAGES;
 
 /**
- * CategoryList wird dazu verwendet um 
+ * CategoryList wird dazu verwendet, um
  * eine gegebene liste von Kategorien anzuzeigen.
  */
 public class CategoryList extends RenderGUI
 {
+    /**
+     * Gibt die ausgewählte Kategorie wieder
+     */
     public interface CategoryListCallback
     {
+        /**
+         * Wird ausgeführt, wenn auf eine Kategorie gedrückt wird
+         * @param category Die ausgewählte Kategorie
+         */
         void run(Category category);
     }
+
+    /**
+     * Das Callback interface welches den Status des Auswahlmodus wiedergibt
+     */
     public interface CategoryListSelectmodeCallback
     {
-        public void enterSelectmod();
-        public void exitSelectmod();
+        /**
+         * Wird beim Aktivieren des Auswahlmodus ausgeführt
+         */
+        void enterSelectmode();
+
+        /**
+         * Wird beim Deaktivieren des Auswahlmodus ausgeführt
+         */
+        void exitSelectmode();
     }
 
     private boolean bIsInSelectmode;
     private CategoryListSelectmodeCallback pSelectmodeCallback;
     private HierarchyList<Category> pList;
 
+    /**
+     * Der Hauptkonstruktor der Klasse CategoryList
+     *
+     * @param pos                Position des GUIs in Pixeln
+     * @param size               Größe des GUIs in Pixeln
+     * @param selectmodeCallback Das Auswahlmodus Callbackinterface
+     */
     public CategoryList(ivec2 pos, ivec2 size, CategoryListSelectmodeCallback selectmodeCallback)
     {
         this.vPos.set(pos);
@@ -69,6 +94,9 @@ public class CategoryList extends RenderGUI
         reposition();
     }
 
+    /**
+     * Überprüft, ob die Kategorienliste sich im Auswahlmodus befinden soll
+     */
     public void updateSelectmode()
     {
         List<HierarchyListEntry<Category> > foundEntries = pList.getTickedEntries();
@@ -76,24 +104,33 @@ public class CategoryList extends RenderGUI
         if(foundEntries.size() > 0)
         {
             if(!bIsInSelectmode && pSelectmodeCallback != null)
-                pSelectmodeCallback.enterSelectmod();
+                pSelectmodeCallback.enterSelectmode();
             bIsInSelectmode = true;
 
             return;
         }
 
         if(bIsInSelectmode && pSelectmodeCallback != null)
-            pSelectmodeCallback.exitSelectmod();
+            pSelectmodeCallback.exitSelectmode();
         bIsInSelectmode = false;
     }
 
-    
+
+    /**
+     * Setzt die Liste zurück
+     */
     public void reset()
     {
         pList.reset();
         updateSelectmode();
     }
 
+    /**
+     * Fügt eine Kategorie zur Liste hinzu
+     *
+     * @param category  Die hinzuzufügende Kategorie
+     * @param listentry Der Parent Listeneintrag
+     */
     public synchronized void addCategory(Category category, HierarchyListEntry<Category> listentry)
     {
         if(listentry == null)

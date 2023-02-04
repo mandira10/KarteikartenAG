@@ -27,7 +27,10 @@ import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.CardOverview;
 
-public class CardOverviewPage extends Page 
+/**
+ * Die Seite auf welcher man nach Karten suchen, oder sich einfach alle Anzeigen lassen kann
+ */
+public class CardOverviewPage extends Page
 {
     private Searchbar pSearchbar;
     private CardList pCardList;
@@ -35,6 +38,9 @@ public class CardOverviewPage extends Page
     private Order iOrder;
     private boolean bReverseOrder;
 
+    /**
+     * Der Standardkonstruktor für CardOverviewPage
+     */
     public CardOverviewPage()
     {
         super("Cards", "cardoverviewpage");
@@ -66,8 +72,8 @@ public class CardOverviewPage extends Page
         RenderGUI canvas = findChildByID("canvas");
 
         pCardList = new CardList(new ivec2(0, 0), new ivec2(100, 100), false, new CardListSelectmodeCallback() {
-            @Override public void enterSelectmod() { exportCardsButton.hide(false); deleteCardButton.hide(false); addToDeckButton.hide(false); menu.resize(); }
-            @Override public void exitSelectmod()  { exportCardsButton.hide(true);  deleteCardButton.hide(true);  addToDeckButton.hide(true);  menu.resize(); }
+            @Override public void enterSelectmode() { exportCardsButton.hide(false); deleteCardButton.hide(false); addToDeckButton.hide(false); menu.resize(); }
+            @Override public void exitSelectmode()  { exportCardsButton.hide(true);  deleteCardButton.hide(true);  addToDeckButton.hide(true);  menu.resize(); }
         });
         pCardList.setSizeInPercent(true, true);
         pCardList.onBottomHit((RenderGUI gui) -> {
@@ -95,6 +101,12 @@ public class CardOverviewPage extends Page
         reposition();
     }
 
+    /**
+     * Lädt Karten von einem Index zum anderen
+     *
+     * @param from Von-Index
+     * @param to   Bis-Index
+     */
     public void loadCards(int from, int to)
     {
         if(from == 0)
@@ -126,6 +138,12 @@ public class CardOverviewPage extends Page
         });
     }
 
+    /**
+     * Sucht nach karten mittels eines Suchbegriffes und einem angegebenen Filter
+     *
+     * @param str    Suchbegriff
+     * @param option Suchfilter
+     */
     public void loadCards(String str, int option)
     {
         iCurrentLastIndex = -1;
@@ -156,6 +174,9 @@ public class CardOverviewPage extends Page
         resize();
     }
 
+    /**
+     * Löscht die ausgewählten Karten
+     */
     public void deleteCards()
     {
         int numCards = pCardList.getSelection().size();

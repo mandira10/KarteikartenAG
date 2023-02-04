@@ -7,7 +7,10 @@ import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
 
 import java.io.File;
 
-public class FileDialog 
+/**
+ * Ein Cross-Platform Dateidialog
+ */
+public class FileDialog
 {
     /**
      * Öffnet den Dateidialog des jeweiligen Betriebssystems,
@@ -15,6 +18,7 @@ public class FileDialog
      * @param title        Der titel des Dialogs
      * @param description  Die beschreibung des Dialogs
      * @param allowedTypes Eine liste an erlaubten Dateiendungen
+     * @return Die geöffnete Datei
      */
     public static String openFile(String title, String description, String[] allowedTypes)
     {
@@ -45,6 +49,7 @@ public class FileDialog
      * @param title        Der titel des Dialogs
      * @param description  Die beschreibung des Dialogs
      * @param allowedTypes Eine liste an erlaubten Dateiendungen
+     * @return Die geöffnete Datei
      */
     public static String saveFile(String title, String description, String[] allowedTypes)
     {

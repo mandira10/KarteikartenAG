@@ -12,19 +12,22 @@ import com.gumse.tools.Output;
 import com.gumse.tools.FPS;
 
 /**
- * Eine Notification für 
+ * Eine Benachrichtigung für
  * die NotificationGUI Klasse
  */
 public class Notification extends RenderGUI
 {
+    /**
+     * Die art von Benachrichtigung
+     */
     public enum NotificationType
     {
-        INFO,
-        WARNING,
-        ERROR,
-        CRITICAL,
-        DEBUG,
-        CONNECTION
+        /** Informationen */       INFO,
+        /** Warnungen */           WARNING,
+        /** Fehler */              ERROR,
+        /** Kritische Fehler */    CRITICAL,
+        /** Debug-Info */          DEBUG,
+        /** Datenbankverbindung */ CONNECTION
     };
 
     private Box pBackground;
@@ -33,6 +36,13 @@ public class Notification extends RenderGUI
     private float fSpeed;
     private boolean bCanBeRemoved;
 
+    /**
+     * Der Hauptkonstruktor der Klasse Notification
+     * @param str   Der Nachrichtentext
+     * @param pos   Position des GUIs in Pixeln
+     * @param type  Art von Benachrichtigung
+     * @param speed Geschwindigkeit in welcher die Nachricht wieder verschwindet
+     */
     public Notification(String str, ivec2 pos, NotificationType type, float speed)
     {
         ivec2 boxSize = new ivec2(300, 30);

@@ -15,8 +15,15 @@ import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * Die Seite welche einem das Erstellen
+ * eines neuen Decks ermöglicht
+ */
 public class CreateDeckPage extends Page
 {
+    /**
+     * Der Standardkonstruktor der Klasse CreateDeckPage
+     */
     public CreateDeckPage()
     {
         super("Create Deck", "createdeckpage");

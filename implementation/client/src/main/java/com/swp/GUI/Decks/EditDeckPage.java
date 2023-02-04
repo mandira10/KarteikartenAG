@@ -33,6 +33,9 @@ import com.swp.GUI.Decks.EditLeitnerDayEntry.EntryCallback;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 
+/**
+ * Die Seite welche es einem ermöglicht, Decks zu bearbeiten
+ */
 public class EditDeckPage extends Page
 {
     private Dropdown pStudySystemDropdown;
@@ -50,6 +53,9 @@ public class EditDeckPage extends Page
     private TextBox pStudysystemdesc;
     private Button pAddEntryButton;
 
+    /**
+     * Der Standardkonstruktor der Klasse EditDeckPage
+     */
     public EditDeckPage()
     {
         super("Edit Deck", "editdeckpage");
@@ -141,6 +147,11 @@ public class EditDeckPage extends Page
         pAddEntryButton.setPosition(new ivec2(100, yoffset));
     }
 
+    /**
+     * Fügt einen Eintrag zu den Leitner Box feldern hinzu
+     *
+     * @param days Anzahl der tage nachdem neu gelernt werden muss
+     */
     public void addEntry(int days)
     {
         EditLeitnerDayEntry entry = new EditLeitnerDayEntry(days, pLeitnersettings.numChildren(), new EntryCallback() {
@@ -191,7 +202,13 @@ public class EditDeckPage extends Page
         system.setBoxes(boxes);
     }
 
-    
+
+
+    /**
+     * Bearbeitet ein Deck anhand seiner UUID
+     *
+     * @param uuid Die UUID eines Decks
+     */
     public void editDeck(String uuid) 
     {
         StudySystemController.getInstance().getStudySystemByUUID(uuid, new SingleDataCallback<StudySystem>() {
@@ -206,6 +223,12 @@ public class EditDeckPage extends Page
     }
 
 
+    /**
+     * Übergibt ein zu bearbeitendes Deck
+     *
+     * @param deck    Ein Deck
+     * @param newdeck Ist das übergebene Deck neu?
+     */
     public void editDeck(StudySystem deck, boolean newdeck)
     {
         if(deck == null)

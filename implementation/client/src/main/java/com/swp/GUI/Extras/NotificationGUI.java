@@ -62,6 +62,13 @@ public class NotificationGUI extends RenderGUI
         }
     }
 
+    /**
+     * Fügt eine Benachrichtigung hinzu
+     *
+     * @param str     Nachrichtentext
+     * @param type    Art der Benachrichtigung
+     * @param seconds Länge in sekunden wie lang die Nachricht zu sehen sein soll
+     */
     public static void addNotification(String str, NotificationType type, float seconds)
     {
         NotificationGUI notificationgui = getInstance();

@@ -19,8 +19,19 @@ import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.DataModel.CardTypes.ImageTestCard;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 
+/**
+ * Rendert eine Karte zu zwei OpenGL Framebuffer,
+ * einer Für die Vorderseite (Frage)
+ * einer Für die Rückseite (Antwort)
+ */
 public class CardTypesRenderer 
 {
+    /**
+     * Rendert die Vorderseite einer Karte
+     *
+     * @param card       Die zu rendernde Karte
+     * @param resolution Die Auflösung in Pixeln
+     */
     public static void renderFront(Card card, ivec2 resolution)
     {
         Font defaultFont = FontManager.getInstance().getDefaultFont();
@@ -65,6 +76,12 @@ public class CardTypesRenderer
         background.render();
     }
 
+    /**
+     * Rendert die Rückseite einer Karte
+     *
+     * @param card       Die zu rendernde Karte
+     * @param resolution Die Auflösung in Pixeln
+     */
     public static void renderBack(Card card, ivec2 resolution)
     {
         Font defaultFont = FontManager.getInstance().getDefaultFont();

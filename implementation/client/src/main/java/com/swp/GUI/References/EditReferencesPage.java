@@ -12,12 +12,18 @@ import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * Die Seite auf welcher man die Referenzeinträge einer Karte bearbeiten kann
+ */
 public class EditReferencesPage extends Page
 {
     private Scroller pContextScroller;
     private Button pAddEntryButton;
     private Card pCard;
 
+    /**
+     * Der Standardkonstruktor der Klasse EditReferencesPage
+     */
     public EditReferencesPage()
     {
         super("Edit References", "editreferencespage");
@@ -75,6 +81,10 @@ public class EditReferencesPage extends Page
         pContextScroller.addGUI(pAddEntryButton);
     }
 
+    /**
+     * Fügt eine Referenz zur Liste hinzu
+     * @param reference Die referenz als String
+     */
     public void addEntry(String reference)
     {
         final EditReferencesEntry nentry = new EditReferencesEntry(reference, (EditReferencesEntry entry) -> {

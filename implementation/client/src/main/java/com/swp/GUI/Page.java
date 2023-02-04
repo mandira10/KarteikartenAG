@@ -7,11 +7,20 @@ import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 
+/**
+ * Die Seitenklasse von welcher alle anderen Seiten erben
+ */
 public class Page extends RenderGUI
 {
     private Text pNameText;
     private String sLocaleID;
 
+    /**
+     * Der Hauptkonstruktor der Klasse Page
+     *
+     * @param name     Name der Seite
+     * @param localeid Locale ID für den namen in anderen Sprachen
+     */
     public Page(String name, String localeid)
     {
         pNameText = new Text(name, FontManager.getInstance().getDefaultFont(), new ivec2(100, 3), 0);

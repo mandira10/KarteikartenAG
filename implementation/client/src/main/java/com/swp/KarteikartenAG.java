@@ -120,6 +120,7 @@ import lombok.extern.slf4j.Slf4j;
 //   - javadoc
 //   - viewpage callback            -- done
 //       - stop audio               -- done
+//   - fix imagedesc answerentries
 
 // Missing:
 // - get categories by name

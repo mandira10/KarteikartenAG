@@ -125,6 +125,13 @@ public class CardLogic extends BaseLogic<Card>
         return execTransactional(() -> cardRepository.findCardsContaining(terms));
     }
 
+    /**
+     * Sucht nach Karten nach Inhalt
+     * @param searchterm   Der Suchbegriff
+     * @param order        Die Reihenfolge in der die Karten gelistet werden sollen
+     * @param reverseOrder Ob die Reihenfolge verkehrtherum sein soll
+     * @return Gibt die Liste der gefundenen Karten wieder
+     */
     public List<CardOverview> getCardsBySearchterms(String searchterm, ListOrder.Order order, boolean reverseOrder) {
         checkNotNullOrBlank(searchterm);
         return execTransactional(() -> {
@@ -153,6 +160,13 @@ public class CardLogic extends BaseLogic<Card>
         });
     }
 
+    /**
+     * Sucht nach Karten nach Tag
+     * @param tag          Der Tag
+     * @param order        Die Reihenfolge in der die Karten gelistet werden sollen
+     * @param reverseOrder Ob die Reihenfolge verkehrtherum sein soll
+     * @return Gibt die Liste der gefundenen Karten wieder
+     */
     public List<CardOverview> getCardsByTag(String tag, ListOrder.Order order, boolean reverseOrder) {
         checkNotNullOrBlank(tag);
         return execTransactional(() -> {
@@ -359,8 +373,10 @@ public class CardLogic extends BaseLogic<Card>
 
     /**
      * Wird aufgerufen, um ausgewählte Karten zu exportieren. Wird an die Exporter Klasse weitergereicht.
-     * @param cards Set an Karten, die exportiert werden sollen
-     * @param filetype Exporttyp der Karten
+     * @param cards       Set an Karten, die exportiert werden sollen
+     * @param destination Der Ausgabedateipfad
+     * @param filetype    Exporttyp der Karten
+     * @return Gibt den Erfolg des Exportierens wieder
      */
     public boolean exportCards(List<CardOverview> cards, String destination, ExportFileType filetype) 
     {

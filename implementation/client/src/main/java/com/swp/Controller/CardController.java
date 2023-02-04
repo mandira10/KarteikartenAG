@@ -246,9 +246,10 @@ public class CardController extends Controller
     /**
      * Wird aufgerufen, um ausgewählte Karten zu exportieren. Wird an die CardLogic weitergereicht.
      *
-     * @param cards    Set an Karten, die exportiert werden sollen
-     * @param filetype Exporttyp der Karten
-     * @param callback Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
+     * @param cards       Liste an Karten, die exportiert werden sollen
+     * @param destination Der Ausgabedateipfad
+     * @param filetype    Exporttyp der Karten
+     * @param callback    Bei Success passiert nichts, bei Failure wird Exception an GUI weitergegeben.
      */
     public void exportCards(List<CardOverview> cards, String destination, ExportFileType filetype, SingleDataCallback<Boolean> callback) 
     {
