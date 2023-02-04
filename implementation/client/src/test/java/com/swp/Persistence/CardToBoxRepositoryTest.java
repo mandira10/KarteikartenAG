@@ -4,6 +4,7 @@ package com.swp.Persistence;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.StudySystem.*;
+import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -13,10 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
 public class CardToBoxRepositoryTest {
 
     // Repositories die getestet werden
@@ -50,43 +49,41 @@ public class CardToBoxRepositoryTest {
     }
 
     @Test
+    @Disabled
     public void cardToBoxCrudTest() {
         CardRepository.startTransaction();
         List<Card> cards = cardRepository.getAll();
         CardRepository.commitTransaction();
-        List<StudySystemBox> boxes = exampleBoxes();
 
         // CREATE
+        // Karten sind pro Lernsystem immer nur in einem Kasten davon enthalten.
         CardToBoxRepository.startTransaction();
-        for (final Card card : cards) {
-            for (final StudySystemBox box : boxes) {
-                cardToBoxRepository.save(new BoxToCard(card, box));
-            }
-        }
+        cardToBoxRepository.save(new BoxToCard(cards.get(0), exampleStudySystems().get(0).getBoxes().get(0)));
+        cardToBoxRepository.save(new BoxToCard(cards.get(1), exampleStudySystems().get(0).getBoxes().get(1)));
+        cardToBoxRepository.save(new BoxToCard(cards.get(2), exampleStudySystems().get(1).getBoxes().get(0)));
+        cardToBoxRepository.save(new BoxToCard(cards.get(3), exampleStudySystems().get(2).getBoxes().get(1)));
+        cardToBoxRepository.save(new BoxToCard(cards.get(4), exampleStudySystems().get(0).getBoxes().get(1)));
+        cardToBoxRepository.save(new BoxToCard(cards.get(5), exampleStudySystems().get(1).getBoxes().get(4)));
         CardToBoxRepository.commitTransaction();
 
         // READ
-        List<BoxToCard> allReadCards = new ArrayList<>();
         CardToBoxRepository.startTransaction();
-        for (final Card card : cards) {
-            for (final StudySystemBox box : boxes) {
-                //final BoxToCard readCard = cardToBoxRepository.//getCardToBoxByUUID(card.getUuid(),
-                        //box.getUuid());
-                //assertEquals(card, readCard.getCard());
-                //assertEquals(box, readCard.getStudySystemBox());
-                //allReadCards.add(readCard);
-            }
-        }
+        Card card0 = cards.get(0);
+        final BoxToCard readB2C = cardToBoxRepository.getSpecific(card0, exampleStudySystems().get(0));
+        assertEquals(card0, readB2C.getCard());
+        assertEquals(exampleStudySystems().get(0).getBoxes().get(0), readB2C.getStudySystemBox());
+        List<BoxToCard> allReadB2C = cardToBoxRepository.getAll();
         CardToBoxRepository.commitTransaction();
-        //TODO ggf. expected Wert anpassen und hier drüber `allReadCards` füllen
-        assertEquals(cards.size() * boxes.size(), allReadCards.size(), "same length");
-        assertTrue(allReadCards.containsAll(cards));
+        assertEquals(6, allReadB2C.size(), "same length");
 
         // UPDATE
-        //TODO
+        // Attribute sind final. man kann nur löschen oder neue anlegen.
 
         // DELETE
-        //TODO
+        CardToBoxRepository.startTransaction();
+        assertDoesNotThrow(() -> cardToBoxRepository.delete(readB2C));
+        assertThrows(NoResultException.class, () -> cardToBoxRepository.getSpecific(readB2C.getCard(), readB2C.getStudySystemBox().getStudySystem()));
+        CardToBoxRepository.commitTransaction();
 
     }
 

@@ -204,7 +204,7 @@ public class AddCategoriesToStudySystemTest {
 
 
     @Test
-    @Disabled
+    @Order(5)
     public void addCategoryToStudySystem() {
         // Best-Case, keine Sonderfälle (doppelte Karten, Exceptions, etc.)
         categoryController = CategoryController.getInstance();
@@ -293,7 +293,6 @@ public class AddCategoriesToStudySystemTest {
     }
 
     @Test
-    @Disabled
     public void ControllerNoCardsInCategory() {
         List<Category> categories = new ArrayList<>();
         categories.add(category3);
@@ -301,7 +300,7 @@ public class AddCategoriesToStudySystemTest {
         DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
         assertDoesNotThrow(() -> categoryController.getCardsInCategories(categories, mockDataCallback));
         verify(mockDataCallback, times(1))
-                .onInfo(Locale.getCurrentLocale().getString("getcardsincategoryempty"));
+                .callInfo("Es gibt keine Karten für diese Kategorien.");
     }
 
     @Test

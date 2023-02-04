@@ -29,7 +29,6 @@ import static org.mockito.Mockito.*;
  * Ausführlichere Tests finden sich in ThreeNonTrivialTestMethods AddTagsToCardTests.
  */
 
-@Disabled
 public class CardToTagLogicTests {
     private CardRepository cardRepMock;
     private TagRepository tagRepMock;
