@@ -134,9 +134,7 @@ public class EditImageDescriptionCardAnswersPage extends Page
             if(child.getType().equals("EditImageDescriptionCardAnswerEntry"))
             {
                 EditImageDescriptionCardAnswerEntry entry = (EditImageDescriptionCardAnswerEntry)child;
-                answers.add(new ImageDescriptionCardAnswer(entry.getAnswerString(), entry.getIndexBox().getUserDefinedPosition().x, entry.getIndexBox().getUserDefinedPosition().y));
-                //TODO wie wird das Bild als byte[] an den Konstruktor gegeben?
-                //answers.add(new ImageDescriptionCardAnswer(entry.getAnswerString(), entry.getIndexBox().getUserDefinedPosition().x, entry.getIndexBox().getUserDefinedPosition().y, pImageBox.getTexture().getData().array()));
+                answers.add(new ImageDescriptionCardAnswer(entry.getAnswerString(), entry.getIndexBox().getUserDefinedPosition().x, entry.getIndexBox().getUserDefinedPosition().y, pCard));
             }
         }
 

@@ -18,6 +18,7 @@ public class PersistenceManager
 {
     private static String puName;
     private static EntityManagerFactory emFactory = null;
+    private static final String DBName = "karteikarten-ag.h2";
 
     public static void init() { init("KarteikartenDB"); }
     public static void init(String puname)
@@ -51,7 +52,7 @@ public class PersistenceManager
         emFactory.close();
 
         Map<String,String> persistenceOptions = new HashMap<String, String>();
-        persistenceOptions.put("jakarta.persistence.jdbc.url", "jdbc:h2:tcp://" + host + ":" + port);
+        persistenceOptions.put("jakarta.persistence.jdbc.url", "jdbc:h2:tcp://" + host + ":" + port + "/" +DBName);
         persistenceOptions.put("jakarta.persistence.jdbc.user", user);
         persistenceOptions.put("jakarta.persistence.jdbc.password", password);
         persistenceOptions.put("jakarta.persistence.jdbc.driver", "org.h2.Driver");
@@ -80,7 +81,7 @@ public class PersistenceManager
         emFactory.close();
 
         Map<String,String> persistenceOptions = new HashMap<String, String>();
-        persistenceOptions.put("jakarta.persistence.jdbc.url", "jdbc:h2:./db/karteikarten-ag.h2;AUTO_SERVER=TRUE");
+        persistenceOptions.put("jakarta.persistence.jdbc.url", "jdbc:h2:./db/" + DBName + ";AUTO_SERVER=TRUE");
         persistenceOptions.put("jakarta.persistence.jdbc.user", user);
         persistenceOptions.put("jakarta.persistence.jdbc.password", password);
         persistenceOptions.put("jakarta.persistence.jdbc.driver", "org.h2.Driver");

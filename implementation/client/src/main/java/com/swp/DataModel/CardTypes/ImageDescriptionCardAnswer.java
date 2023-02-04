@@ -28,12 +28,6 @@ public class ImageDescriptionCardAnswer
     private ImageDescriptionCard attachedCard;
 
     /**
-     * zu beschreibende Bild
-     */
-    @Column
-    public byte[] image;
-
-    /**
      * Antworttext
      */
     @Column
@@ -56,15 +50,15 @@ public class ImageDescriptionCardAnswer
      * @param text  Text der Antwort
      * @param x Position x
      * @param y Position y
-     * @param image Blob mit der Bild-Datei
+     * @param card Karte zu der diese Antwort gehört
      */
-    public ImageDescriptionCardAnswer(String text, int x, int y, byte[] image)
+    public ImageDescriptionCardAnswer(String text, int x, int y, ImageDescriptionCard card)
     {
         this.id = UUID.randomUUID().toString();
         this.answertext = text;
         this.xpos = x;
         this.ypos = y;
-        this.image = image;
+        this.attachedCard = card;
     }
 
     public ImageDescriptionCardAnswer(String text, int x, int y)

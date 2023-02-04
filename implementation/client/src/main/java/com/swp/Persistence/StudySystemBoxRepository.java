@@ -27,6 +27,11 @@ public class StudySystemBoxRepository extends BaseRepository{
                 .getResultList();
     }
 
+    /**
+     * Gibt die Anzahl der Karten in einer Box zurück
+     * @param studySystemBox
+     * @return
+     */
     public List<Long> getProgressForLeitner(StudySystem studySystem){
         return getEntityManager()
                 .createNamedQuery("StudySystemBox.progressLeitner", Long.class)

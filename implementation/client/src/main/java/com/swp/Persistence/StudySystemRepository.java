@@ -55,6 +55,11 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
     }
 
 
+
+    /**
+     * Gibt eine Liste von allen Lernsystemen zurück.
+     * @return eine Liste von allen Lernsystemen.
+     */
     public List<StudySystem> getStudySystems() {
         return getEntityManager().createQuery("SELECT s FROM StudySystem s ORDER BY s.name",StudySystem.class).getResultList();
     }
