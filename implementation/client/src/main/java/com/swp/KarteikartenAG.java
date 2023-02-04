@@ -119,17 +119,13 @@ import lombok.extern.slf4j.Slf4j;
 //   - viewpage callback            -- done
 //       - stop audio               -- done
 //   - fix imagedesc answerentries  -- done
-//   - fix imagedesc answercheck
-//   - Fix browser/fileexplorer
+//   - fix imagedesc answercheck    -- done
+//   - Fix browser/fileexplorer     
+//   - fix aspectratio              -- done
+//       - Tests                    -- done
+//       - Imagedescanswers         -- done
+//       - Viewpage                 -- done
 //   - javadoc
-//   - fix aspectratio
-//       - Tests
-//       - Imagedescanswers
-//       - Viewpage
-
-// Missing:
-// - get categories by name
-// - get cards/categories in different order
 
 ////////////////////////////////////////////////////
 

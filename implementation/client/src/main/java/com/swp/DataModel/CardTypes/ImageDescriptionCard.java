@@ -10,9 +10,8 @@ import org.hibernate.annotations.CascadeType;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs ImageDescriptionCard
@@ -41,14 +40,14 @@ public class ImageDescriptionCard extends Card
      */
     @OneToMany(mappedBy = "attachedCard")
     @Cascade({CascadeType.ALL})
-    private Set<ImageDescriptionCardAnswer> answers;
+    private List<ImageDescriptionCardAnswer> answers;
 
     /**
      * Leerer Konstruktor der Klasse ImageDescriptionCard
      */
     public ImageDescriptionCard()
     {
-        this("", new ImageDescriptionCardAnswer[] {}, "", null);
+        this("", new ArrayList<ImageDescriptionCardAnswer>(), "", null);
     }
 
     /**
@@ -57,13 +56,13 @@ public class ImageDescriptionCard extends Card
      * @param image: Bild für die Karte
      * @param title Optionaler Titel der Karte
      */
-    public ImageDescriptionCard(String question, ImageDescriptionCardAnswer[] answers, String title, byte[] image)
+    public ImageDescriptionCard(String question, List<ImageDescriptionCardAnswer> answers, String title, byte[] image)
     {
         super(CardType.IMAGEDESC);
         setTitle(title);
         this.question = question;
         this.image = image;
-        this.answers = Arrays.stream(answers).collect(Collectors.toSet());
+        this.answers = answers;
         setContent();
     }
 

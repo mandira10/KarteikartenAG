@@ -18,7 +18,6 @@ import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.Cards.EditCardPages.EditImageDescriptionCardAnswerEntry.RemoveAnswerEntryCallback;
 import com.swp.GUI.PageManager.PAGES;
 
 public class EditImageDescriptionCardAnswersPage extends Page
@@ -74,6 +73,7 @@ public class EditImageDescriptionCardAnswersPage extends Page
             tex.loadMemory(card.getImage());
             pImageBox.setTexture(tex);
             pImageBox.setColor(new vec4(1, 1, 1, 1));
+            pImageBox.fitWidth((float)tex.getSize().y / (float)tex.getSize().x);
         }
 
         createAddButton();
@@ -138,10 +138,7 @@ public class EditImageDescriptionCardAnswersPage extends Page
             }
         }
 
-        ImageDescriptionCardAnswer[] ansarr = new ImageDescriptionCardAnswer[answers.size()];
-        answers.toArray(ansarr);
-        pCard.setAnswers(Arrays.stream(ansarr).collect(Collectors.toSet()));
-
+        pCard.setAnswers(answers);
         PageManager.viewPage(PAGES.CARD_EDIT);
     }
 }

@@ -1,5 +1,6 @@
 package com.swp.GUI.Decks;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextBox.Alignment;
@@ -28,7 +29,7 @@ public class TestDeckFinishPage extends Page
         addGUI(XMLGUI.loadFile("guis/decks/decktestfinishpage.xml"));
 
         pFinishText = (TextBox)findChildByID("finishtext");
-        pFinishText.setAutoInsertLinebreaks(true);
+        //pFinishText.setAutoInsertLinebreaks(true);
         pFinishText.getBox().hide(true);
         pFinishText.setAlignment(Alignment.CENTER);
 
@@ -53,7 +54,7 @@ public class TestDeckFinishPage extends Page
         StudySystemController.getInstance().finishTestAndGetResult(pDeck, new SingleDataCallback<Integer>() {
             @Override
             public void onSuccess(Integer data) {
-                pFinishText.setString("Your final score is: " + data);
+                pFinishText.setString(Locale.getCurrentLocale().getString("finalscore") + ": " + data);
             }
 
             @Override

@@ -102,7 +102,7 @@ public class CardTypesRenderer
         answerTextbox.setTextSize(50);
         answerTextbox.setAlignment(Alignment.LEFT);
         answerTextbox.getBox().hide(true);
-        answerTextbox.setAutoInsertLinebreaks(card.getType() != CardType.MULITPLECHOICE);
+        answerTextbox.setAutoInsertLinebreaks(card.getType() != CardType.MULITPLECHOICE && card.getType() != CardType.IMAGEDESC);
         background.addGUI(answerTextbox);
 
         background.resize();
@@ -136,7 +136,7 @@ public class CardTypesRenderer
     private static void renderImageTestCard(RenderGUI canvas, ImageTestCard card)
     {
         Box imageBox = new Box(new ivec2(0, 0), new ivec2(0, 100));
-        imageBox.setSizeInPercent(false, true);
+        //imageBox.setSizeInPercent(true, true);
 
         Texture tex = new Texture();
         if(card.getImage() != null)
@@ -144,16 +144,22 @@ public class CardTypesRenderer
         imageBox.setTexture(tex);
         imageBox.setColor(new vec4(1, 1, 1, 1));
         imageBox.invertTexcoordY(true);
+        imageBox.setSize(new ivec2(100, canvas.getSize().y));
+        imageBox.fitHeight((float)tex.getSize().x / (float)tex.getSize().y);
+        imageBox.setMaxSize(new ivec2(100, 100));
+        imageBox.setMaxSizeInPercent(true, true);
+        imageBox.setOrigin(new ivec2(50, 0));
+        imageBox.setOriginInPercent(true, false);
+        imageBox.setPosition(new ivec2(50, 0));
+        imageBox.setPositionInPercent(true, false);
         canvas.addGUI(imageBox);
         imageBox.resize();
-        imageBox.setSize(new ivec2(imageBox.getSize().y, 100));
-        imageBox.setPosition(new ivec2((canvas.getSize().x - imageBox.getSize().x) / 2, 0));
+        imageBox.reposition();
     }
 
     private static void renderImageDescriptionCard(RenderGUI canvas, ImageDescriptionCard card)
     {
         Box imageBox = new Box(new ivec2(0, 0), new ivec2(0, 100));
-        imageBox.setSizeInPercent(false, true);
 
         Texture tex = new Texture();
         if(card.getImage() != null)
@@ -161,10 +167,17 @@ public class CardTypesRenderer
         imageBox.setTexture(tex);
         imageBox.setColor(new vec4(1, 1, 1, 1));
         imageBox.invertTexcoordY(true);
+        imageBox.setSize(new ivec2(100, canvas.getSize().y));
+        imageBox.fitHeight((float)tex.getSize().x / (float)tex.getSize().y);
+        imageBox.setMaxSize(new ivec2(100, 100));
+        imageBox.setMaxSizeInPercent(true, true);
+        imageBox.setOrigin(new ivec2(50, 0));
+        imageBox.setOriginInPercent(true, false);
+        imageBox.setPosition(new ivec2(50, 0));
+        imageBox.setPositionInPercent(true, false);
         canvas.addGUI(imageBox);
         imageBox.resize();
-        imageBox.setSize(new ivec2(imageBox.getSize().y, 100));
-        imageBox.setPosition(new ivec2((canvas.getSize().x - imageBox.getSize().x) / 2, 0));
+        imageBox.reposition();
 
         int i = 1;
         for(ImageDescriptionCardAnswer answer : card.getAnswers())

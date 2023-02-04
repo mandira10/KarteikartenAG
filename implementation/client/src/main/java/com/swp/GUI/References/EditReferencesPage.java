@@ -118,7 +118,6 @@ public class EditReferencesPage extends Page
             if(child.getType().equals("EditReferencesEntry"))
                 retStr += ((EditReferencesEntry)child).toString() + "\n";
         }
-        Output.info(retStr);
         return retStr;
     }
 

@@ -61,10 +61,6 @@ public class ImageDescriptionCardAnswer
         this.attachedCard = card;
     }
 
-    public ImageDescriptionCardAnswer(String text, int x, int y)
-    {
-        this(text, x, y, null);
-    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

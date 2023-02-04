@@ -54,14 +54,15 @@ public class TestDataClass
         MemoryUtil.memFree(imageBuffer);
         randomL.add(new ImageTestCard("Some Image Test Question", "Correct Image Test Answer", imgdata, "ImageTestCardTitle", false));
 
-        ImageDescriptionCardAnswer[] answers = new ImageDescriptionCardAnswer[] {
-            new ImageDescriptionCardAnswer("Orangenblatt", 75, 5),
-            new ImageDescriptionCardAnswer("Orange",       61, 26),
-            new ImageDescriptionCardAnswer("Nase",         40, 67),
-            new ImageDescriptionCardAnswer("Hand",         82, 58),
-            new ImageDescriptionCardAnswer("Fuß",          62, 89),
-        };
-        randomL.add(new ImageDescriptionCard("What is orange ket?", answers, "Importance of kets", imgdata)); 
+        ImageDescriptionCard imgdesccard = new ImageDescriptionCard("What is orange ket?", new ArrayList<>(), "Importance of kets", imgdata);
+        List<ImageDescriptionCardAnswer> answers = new ArrayList<>();
+        answers.add(new ImageDescriptionCardAnswer("Orangenblatt", 75, 5, imgdesccard));
+        answers.add(new ImageDescriptionCardAnswer("Orange",       61, 26, imgdesccard));
+        answers.add(new ImageDescriptionCardAnswer("Nase",         40, 67, imgdesccard));
+        answers.add(new ImageDescriptionCardAnswer("Hand",         82, 58, imgdesccard));
+        answers.add(new ImageDescriptionCardAnswer("Fuß",          62, 89, imgdesccard));
+        imgdesccard.setAnswers(answers);
+        randomL.add(imgdesccard);
 
 
         ByteBuffer audioBuffer = Toolbox.loadResourceToByteBuffer("audios/testaudio.wav", KarteikartenAG.class);

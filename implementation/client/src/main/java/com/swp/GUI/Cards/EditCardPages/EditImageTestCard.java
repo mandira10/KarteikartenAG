@@ -31,6 +31,8 @@ public class EditImageTestCard extends EditCardGUI
 
         pImageButton = (Button)findChildByID("imagebox");
         pImageButton.getBox().getBox().invertTexcoordY(true);
+        pImageButton.setMaxSize(new ivec2(70, 100));
+        pImageButton.setMaxSizeInPercent(true, true);
         pImageButton.onClick((RenderGUI gui) -> {
             selectImageFile();
         });
@@ -64,9 +66,7 @@ public class EditImageTestCard extends EditCardGUI
                 loadTex.loadMemory(pCard.getImage());
 
                 pImageButton.getBox().setTexture(loadTex);
-                float aspect = (float)loadTex.getSize().x / (float)loadTex.getSize().y;
-                int size = pImageButton.getSize().y;
-                pImageButton.setSize(new ivec2((int)(size * aspect), size));
+                pImageButton.fitHeight((float)loadTex.getSize().x / (float)loadTex.getSize().y);
             }
         }
     }
@@ -86,6 +86,7 @@ public class EditImageTestCard extends EditCardGUI
             Texture loadTex = new Texture();
             loadTex.loadMemory(pCard.getImage());
             pImageButton.getBox().setTexture(loadTex);
+            pImageButton.fitHeight((float)loadTex.getSize().x / (float)loadTex.getSize().y);
         }
         pAnswerField.setString(pCard.getAnswer());
     }

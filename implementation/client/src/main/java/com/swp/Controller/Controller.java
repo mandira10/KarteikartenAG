@@ -118,24 +118,22 @@ public abstract class Controller
     protected <T> void callLogicFuncInThread(SingleLogicFunc<T> func, String infolocale, String infolog, String failurelocale, String failurelog, SingleDataCallback<T> callback,String name)
     {
         threadPool.exec(() -> {
-            T data = null;
             try  {
-                data = func.callFunc();
+                T data = func.callFunc();
 
                 if(data == null)
                 {
                     info(infolocale, infolog, callback);
                     return;
-
                 }
                 success(callback, data);
             }
             catch (IllegalArgumentException | IllegalStateException ex) 
             {
                 if(ex.getMessage() != null)
-                    failure(ex.getMessage(),
+                    failure(failurelocale,
                         failurelog.isEmpty() ? ex.getMessage() : failurelog.replace("$", ex.getMessage()), 
-                        callback,name);
+                        callback, name);
             }
             catch (NoResultException ex)
             {

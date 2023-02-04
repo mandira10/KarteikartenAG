@@ -38,6 +38,8 @@ public class TestCardGUI extends RenderGUI
     private TextBox pQuestionBox;
     private Scroller pQuestionScroller;
     private TextBox pCorrectAnswerBox;
+    private Box pImageBox;
+    private float fAspectRatio;
     private Predicate<Card> pAnswerCheckerFunc;
     private String sActualAnswer;
     private boolean bCurrentTrueFalseAnswer;
@@ -130,15 +132,20 @@ public class TestCardGUI extends RenderGUI
         pQuestionScroller.setSize(new ivec2(40, 60));
         pQuestionScroller.setSizeInPercent(true, true);
 
-        Box cardImage = new Box(new ivec2(55, 5), new ivec2(40, 60));
-        cardImage.setPositionInPercent(true, true);
-        cardImage.setSizeInPercent(true, true);
+        pImageBox = new Box(new ivec2(55, 5), new ivec2(40, 60));
+        pImageBox.setPositionInPercent(true, true);
+        pImageBox.setSizeInPercent(true, false);
+        pImageBox.setMaxSize(new ivec2(100, 60));
+        pImageBox.setMaxSizeInPercent(true, true);
+
         Texture tex = new Texture();
         tex.loadMemory(card.getImage());
-        cardImage.setColor(new vec4(1, 1, 1, 1));
-        cardImage.setTexture(tex);
-        cardImage.invertTexcoordY(true);
-        addGUI(cardImage);
+        pImageBox.setColor(new vec4(1, 1, 1, 1));
+        pImageBox.setTexture(tex);
+        pImageBox.invertTexcoordY(true);
+        fAspectRatio = (float)tex.getSize().y / (float)tex.getSize().x;
+        addGUI(pImageBox);
+        pImageBox.fitWidth(fAspectRatio);
 
         sActualAnswer = card.getAnswer();
         TextField answerfield = addAnswerTextField();
@@ -156,16 +163,21 @@ public class TestCardGUI extends RenderGUI
         pQuestionScroller.setSize(new ivec2(40, 60));
         pQuestionScroller.setSizeInPercent(true, true);
 
-        Box cardImage = new Box(new ivec2(55, 5), new ivec2(40, 60));
-        cardImage.setPositionInPercent(true, true);
-        cardImage.setSizeInPercent(true, true);
+        pImageBox = new Box(new ivec2(55, 5), new ivec2(40, 60));
+        pImageBox.setPositionInPercent(true, true);
+        pImageBox.setSizeInPercent(true, false);
+        pImageBox.setMaxSize(new ivec2(100, 60));
+        pImageBox.setMaxSizeInPercent(true, true);
 
         Texture tex = new Texture();
         tex.loadMemory(card.getImage());
-        cardImage.setColor(new vec4(1, 1, 1, 1));
-        cardImage.setTexture(tex);
-        cardImage.invertTexcoordY(true);
-        addGUI(cardImage);
+        pImageBox.setColor(new vec4(1, 1, 1, 1));
+        pImageBox.setTexture(tex);
+        pImageBox.invertTexcoordY(true);
+        fAspectRatio = (float)tex.getSize().y / (float)tex.getSize().x;
+        addGUI(pImageBox);
+        pImageBox.fitWidth(fAspectRatio);
+
 
         Scroller scroller = new Scroller(new ivec2(5, 70), new ivec2(90, 35));
         scroller.setSizeInPercent(true, true);
@@ -176,11 +188,11 @@ public class TestCardGUI extends RenderGUI
         List<TextField> answerFields = new ArrayList<>();
         for(ImageDescriptionCardAnswer answer : card.getAnswers())
         {
-            Output.info("Adding answer " + answer.answertext);
+            //Output.info("Adding answer " + answer.answertext);
             TextBox imageIndexBox = new TextBox(String.valueOf(i), defaultFont, new ivec2(answer.xpos, answer.ypos), new ivec2(20));
             imageIndexBox.setPositionInPercent(true, true);
-            cardImage.addGUI(imageIndexBox);
-
+            pImageBox.addGUI(imageIndexBox);
+            
             TextBox answerIndexBox = new TextBox(String.valueOf(i++), defaultFont, new ivec2(0, ypos), new ivec2(30));
             scroller.addGUI(answerIndexBox);
 
@@ -205,16 +217,18 @@ public class TestCardGUI extends RenderGUI
                 ImageDescriptionCardAnswer acorrectAnswer = answers.get(j);
                 TextField currentAnswerField = answerFields.get(j);
                 
-                if(currentAnswerField.equals(acorrectAnswer.answertext))
+                vec4 textcol = new vec4();
+                if(currentAnswerField.getString().equals(acorrectAnswer.answertext))
                 {
-                    currentAnswerField.getBox().setTextColor(TRUE_COLOR);
+                    textcol.set(TRUE_COLOR);
                     correctAnswer = false;
                 }
                 else
                 {
-                    currentAnswerField.getBox().setTextColor(FALSE_COLOR);
+                    textcol.set(FALSE_COLOR);
                 }
                 currentAnswerField.setString(acorrectAnswer.answertext);
+                currentAnswerField.getBox().setTextColor(textcol);
             }
 
             return correctAnswer;
@@ -334,5 +348,11 @@ public class TestCardGUI extends RenderGUI
     {
         pQuestionBox.setSize(new ivec2(100, pQuestionBox.getText().getSize().y));
         pQuestionScroller.updateContent();
+
+        if(pImageBox != null)
+        {
+            pImageBox.fitWidth(fAspectRatio);
+            pImageBox.reposition();
+        }
     }
 }
