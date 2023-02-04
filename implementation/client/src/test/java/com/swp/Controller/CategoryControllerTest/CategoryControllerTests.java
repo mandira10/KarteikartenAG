@@ -181,10 +181,10 @@ public class CategoryControllerTests {
     @Test
     public void deleteCategoriesTestNull(){
         List list = null;
-        doThrow(new IllegalStateException("categoriesnullerror")).when(categoryMockLogic).deleteCategories(list);
+        doThrow(new IllegalStateException("categorynullerror")).when(categoryMockLogic).deleteCategories(list);
         assertDoesNotThrow(() -> categoryController.deleteCategories(list, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
-                .callFailure(Locale.getCurrentLocale().getString("categoriesnullerror"));
+                .callFailure(Locale.getCurrentLocale().getString("categorynullerror"));
         reset(coMockbSingleDataCallBack);
     }
 

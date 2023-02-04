@@ -104,7 +104,7 @@ public abstract class Controller
             {
                 log.error("Der übergebene Wert war leer oder null");
                 if(ex.getMessage() != null)
-                    failure(ex.getMessage(), failurelog.replace("$", ex.getMessage()), callback,name);
+                    failure(Locale.getCurrentLocale().getString(ex.getMessage()).equals("") ? failurelocale : ex.getMessage(), failurelog.replace("$", ex.getMessage()), callback,name);
             }  
             catch (final Exception ex) 
             {
@@ -133,7 +133,7 @@ public abstract class Controller
             catch (IllegalArgumentException | IllegalStateException ex) 
             {
                 if(ex.getMessage() != null)
-                    failure(ex.getMessage(),
+                    failure(Locale.getCurrentLocale().getString(ex.getMessage()).equals("") ? failurelocale : ex.getMessage(),
                         failurelog.isEmpty() ? ex.getMessage() : failurelog.replace("$", ex.getMessage()), 
                         callback,name);
             }
