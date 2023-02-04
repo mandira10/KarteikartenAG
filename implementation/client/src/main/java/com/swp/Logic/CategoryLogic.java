@@ -443,6 +443,9 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @return Liste mit Kategorien die Children für Parent sind.
      */
     public List<Category> getChildrenForCategory(Category parent) {
+        if (parent == null) {
+            throw new IllegalStateException("categorynullerror");
+        }
         return execTransactional(() -> categoryRepository.getChildrenForCategory(parent));
     }
 
@@ -453,6 +456,9 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @return Liste mit Kategorien die Parents für Child sind.
      */
     public List<Category> getParentsForCategory(Category child) {
+        if (child == null) {
+            throw new IllegalStateException("categorynullerror");
+        }
         return execTransactional(() -> categoryRepository.getParentsForCategory(child));
     }
 
@@ -482,10 +488,16 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @param category: Die Kategorie, für die die Karten gelöscht werden sollen
      */
     public void removeCardsFromCategory(List<CardOverview> cards, Category category) {
+        if(category  == null)
+            throw new IllegalStateException("categorynullerror");
+
         execTransactional(() -> {
             List<Card> cards1 = cardRepository.getAllCardsForCardOverview(cards);
-            for(Card c: cards1)
-                cardToCategoryRepository.delete(cardToCategoryRepository.getSpecific(c, category));
+            for(Card c: cards1){
+                if(c == null)
+                    throw new IllegalStateException("cardnullerror");
+
+                cardToCategoryRepository.delete(cardToCategoryRepository.getSpecific(c, category));}
             return null;
         });
     }

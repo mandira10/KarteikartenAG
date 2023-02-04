@@ -11,9 +11,11 @@ import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
+import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Language.German;
 import com.swp.DataModel.Tag;
+import com.swp.GUI.Extras.ListOrder;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter;
 import com.swp.Persistence.PersistenceManager;
@@ -21,19 +23,22 @@ import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatcher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.joor.Reflect.on;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
  * Testet die Controller Funktionen mithilfe von Komponententests.
+ * Einzig die beiden Funktionen für den nicht-trivialen Anwendungsfall  'N3-8' Karteikarte Schlagwörter (Tags) zuordnen
+ * werden separat über White-Box-Tests dem Ordner "ThreeNonTrivialMethods" getestet.
  */
 public class CardControllerTests {
 
@@ -47,11 +52,9 @@ public class CardControllerTests {
      */
     private CardLogic cardMockLogic;
 
-    /**
-     * Attribute für die Spracheinstellung
-     */
-    private Locale locale = new Locale("German", "de");
-    private int i;
+    private DataCallback<CardOverview> coMockDataCallback;
+    private SingleDataCallback<Boolean> coMockbSingleDataCallBack;
+    private SingleDataCallback<Card> coMockCSingleDataCallBack;
 
     /**
      * Before-Each Tests Methode.
@@ -61,11 +64,14 @@ public class CardControllerTests {
     @BeforeEach
     public void beforeEach(){
         cardMockLogic = mock(CardLogic.class);
+        coMockDataCallback = mock(DataCallback.class);
+        coMockbSingleDataCallBack = mock(SingleDataCallback.class);
+        coMockCSingleDataCallBack = mock(SingleDataCallback.class);
         on(cardController).set("cardLogic",cardMockLogic);
     }
 
     /**
-     * BeforeAll wird synchronizedTasks aufgerufen.
+     * BeforeAll wird synchronizedTasks aufgerufen und die PU initialisiert für die Tests.
      */
     @BeforeAll
     public static void before()
@@ -76,677 +82,580 @@ public class CardControllerTests {
     }
 
 
-    @Test
-    public void getCardsToShowTestEmptySet(){
-        final List<CardOverview> list = new ArrayList<>();
-        when(cardMockLogic.getCardOverview(any(Integer.class),any(Integer.class))).thenReturn(list);
-        final String expected = "Es gibt bisher noch keine Karten.";
-        final String[] actual = new String[1];
-              cardController.getCardsToShow(2, 3, new DataCallback<CardOverview>() {
-                  @Override
-                  public void onSuccess(List<CardOverview> data) {
-                  }
-
-                  @Override
-                  public void onFailure(String msg) {
-                  }
-
-                  @Override
-                  public void onInfo(String msg) {
-                      actual[0] = msg;
-                  }
-              });
-        assertEquals(expected,actual[0]);
-
-    }
-
+    /**
+     * Testet die callSuccess Funktion beim Controller, wenn ein Liste zurückgegeben wird.
+     * Funktion: getCardsToShow
+     */
     @Test
     public void getCardsToShowTestWithList(){
         final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardMockLogic.getCardOverview(any(Integer.class),any(Integer.class))).thenReturn(list);
-        final List<CardOverview> expected = list;
-        final List<CardOverview>[] actual = new List[1];
-        cardController.getCardsToShow(2, 3, new DataCallback<CardOverview>() {
+        assertDoesNotThrow(() -> cardController.getCardsToShow(2, 3, coMockDataCallback));
+        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
-            public void onSuccess(List<CardOverview> data) {
-                actual[0] = data;
+            public boolean matches(List<CardOverview> overviews) {
+                overviews.equals(list);
+                return true;
             }
 
-            @Override
-            public void onFailure(String msg) {
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected, actual[0]);
+        }));
+        reset(coMockDataCallback);
     }
 
+    /**
+     * Testet die callInfo Funktion beim Controller, wenn ein empty set zurückgegeben wird.
+     * Funktion: getCardsToShow
+     */
+    @Test
+    public void getCardsToShowTestEmptySet(){
+        final List<CardOverview> list = new ArrayList<>();
+        when(cardMockLogic.getCardOverview(any(Integer.class),any(Integer.class))).thenReturn(list);
+        assertDoesNotThrow(() ->     cardController.getCardsToShow(2, 3,coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn eine Exception geworfen wird.
+     * Funktion: getCardsToShow
+     */
     @Test
     public void getCardsToShowTestException(){
         when(cardMockLogic.getCardOverview(any(Integer.class),any(Integer.class))).thenThrow(new RuntimeException("Test"));
-        final String expected = "Beim Abrufen der Karten ist ein Fehler aufgetreten.";
-        final String[] actual = new String[1];
-        cardController.getCardsToShow(2, 3, new DataCallback<CardOverview>() {
-            @Override
-            public void onSuccess(List<CardOverview> data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected,actual[0]);
-
+        assertDoesNotThrow(() ->  cardController.getCardsToShow(2, 3, coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("getcardstoshowerror"));
+        reset(coMockDataCallback);
     }
 
-
-
+    /**
+     * Testet die callSuccess Funktion beim Controller, wenn ein Liste zurückgegeben wird.
+     * Funktion: getCardsToShowWithOrder
+     */
     @Test
-    public void getCardsByTagTestEmptySet(){
-        final List<CardOverview> list = new ArrayList<>();
-        when(cardMockLogic.getCardsByTag(any(String.class))).thenReturn(list);
-        final String expected = "Es gibt keine Karten für dieses Schlagwort.";
-        final String[] actual = new String[1];
-        cardController.getCardsByTag("Test", new DataCallback<CardOverview>() {
+    public void getCardsToShowOrderTestWithList(){
+        final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardMockLogic.getCardOverview(2,3,ListOrder.Order.DATE, false)).thenReturn(list);
+        assertDoesNotThrow(() -> cardController.getCardsToShow(2, 3, ListOrder.Order.DATE, false, coMockDataCallback));
+        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
-            public void onSuccess(List<CardOverview> data) {
+            public boolean matches(List<CardOverview> overviews) {
+                overviews.equals(list);
+                return true;
             }
 
-            @Override
-            public void onFailure(String msg) {
-            }
-
-            @Override
-            public void onInfo(String msg) {
-                actual[0] = msg;
-            }
-        });
-        assertEquals(expected,actual[0]);
+        }));
+        reset(coMockDataCallback);
     }
 
+    /**
+     * Testet die callInfo Funktion beim Controller, wenn ein empty set zurückgegeben wird.
+     * Funktion: getCardsToShowWithOrder
+     */
+    @Test
+    public void getCardsToShowOrderTestEmptySet(){
+        final List<CardOverview> list = new ArrayList<>();
+        when(cardMockLogic.getCardOverview(2,3,ListOrder.Order.DATE, false)).thenReturn(list);
+        assertDoesNotThrow(() -> cardController.getCardsToShow(2, 3, ListOrder.Order.DATE, false, coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn eine Exception geworfen wird.
+     * Funktion: getCardsToShowWithOrder
+     */
+    @Test
+    public void getCardsToShowOrderTestException(){
+        when(cardMockLogic.getCardOverview(2,3,ListOrder.Order.DATE, false)).thenThrow(new RuntimeException("Test"));
+        assertDoesNotThrow(() -> cardController.getCardsToShow(2, 3, ListOrder.Order.DATE, false, coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("getcardstoshowerror"));
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callSuccess Funktion beim Controller, wenn ein Liste zurückgegeben wird.
+     * Funktion: getCardsByTag
+     */
     @Test
     public void getCardsByTagTestWithReturningList(){
         final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardMockLogic.getCardsByTag(any(String.class))).thenReturn(list);
-        final List<CardOverview> expected = list;
-        final List<CardOverview>[] actual = new List[1];
-        cardController.getCardsByTag("Test", new DataCallback<CardOverview>() {
+        assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback));
+        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
-            public void onSuccess(List<CardOverview> data) {
-                actual[0] = data;
+            public boolean matches(List<CardOverview> overviews) {
+                overviews.equals(list);
+                return true;
             }
 
-            @Override
-            public void onFailure(String msg) {
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected, actual[0]);
+        }));
+        reset(coMockDataCallback);
     }
 
+    /**
+     * Testet die callInfo Funktion beim Controller, wenn ein empty set zurückgegeben wird.
+     * Funktion: getCardsByTag
+     */
+    @Test
+    public void getCardsByTagTestEmptySet(){
+        final List<CardOverview> list = new ArrayList<>();
+        when(cardMockLogic.getCardsByTag(any(String.class))).thenReturn(list);
+        assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callInfo(Locale.getCurrentLocale().getString("getcardsbytagempty"));
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn ein random Exception geworfen und gefangen wird.
+     * Funktion: getCardsByTag
+     */
     @Test
     public void getCardsByTagTestNormalException(){
         when(cardMockLogic.getCardsByTag(any(String.class))).thenThrow(new RuntimeException("Test"));
-        final String expected = "Beim Suchen nach Karten für das Schlagwort ist ein Fehler aufgetreten.";
-        final String[] actual = new String[1];
-        cardController.getCardsByTag("Test", new DataCallback<CardOverview>() {
-            @Override
-            public void onSuccess(List<CardOverview> data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected,actual[0]);
+        assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("getcardsbytagerror"));
+        reset(coMockDataCallback);
     }
 
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn ein leerer String übergeben wird.
+     * Funktion: getCardsByTag
+     */
     @Test
     public void getCardsByTagTestIllegalArgumentException(){
         when(cardMockLogic.getCardsByTag("")).thenThrow( new IllegalArgumentException("nonempty"));
-        final String expected = "Schlagwort darf nicht leer sein!";
-        final String[] actual = new String[1];
-        cardController.getCardsByTag("", new DataCallback<CardOverview>() {
-            @Override
-            public void onSuccess(List<CardOverview> data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected,actual[0]);
+        assertDoesNotThrow(() -> cardController.getCardsByTag("",coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callFailure( "Schlagwort darf nicht leer sein!");
+        reset(coMockDataCallback);
     }
 
+
+    /**
+     * Testet die callSuccess Funktion beim Controller, wenn ein Liste zurückgegeben wird.
+     * Funktion: getCardsByTag with Order
+     */
     @Test
-    public void getTagsToCardTestEmptySet(){
-        final List<Tag> list = new ArrayList<>();
-        Card card = new TrueFalseCard();
-        when(cardMockLogic.getTagsToCard(card)).thenReturn(list);
-        final String[] actual = new String[1];
-        cardController.getTagsToCard(card, new DataCallback<Tag>() {
+    public void getCardsByTagOrderTestWithReturningList(){
+        final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardMockLogic.getCardsByTag("test",ListOrder.Order.DATE, false)).thenReturn(list);
+        assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback,ListOrder.Order.DATE, false));
+        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
-            public void onSuccess(List<Tag> data) {
+            public boolean matches(List<CardOverview> overviews) {
+                overviews.equals(list);
+                return true;
             }
 
-            @Override
-            public void onFailure(String msg) {
-            }
-
-            @Override
-            public void onInfo(String msg) {
-                actual[0] = msg;
-            }
-        });
-        assertNull(actual[0]);
+        }));
+        reset(coMockDataCallback);
     }
 
+    /**
+     * Testet die callInfo Funktion beim Controller, wenn ein empty set zurückgegeben wird.
+     * Funktion: getCardsByTag Order
+     */
     @Test
-    public void getTagsToCardTestWithReturningList(){
-        final List<Tag> list = Arrays.asList(new Tag("tag1"), new Tag("tag2"));
-        Card card = new TrueFalseCard();
-        when(cardMockLogic.getTagsToCard(card)).thenReturn(list);
-        final List<Tag> expected = list;
-        final List<Tag>[] actual = new List[1];
-        cardController.getTagsToCard(card, new DataCallback<Tag>() {
-            @Override
-            public void onSuccess(List<Tag> data) {
-                actual[0] = data;
-            }
-
-            @Override
-            public void onFailure(String msg) {
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected, actual[0]);
-    }
-
-    @Test
-    public void getTagsToCardTestNormalException(){
-        Card card = new TrueFalseCard();
-        when(cardMockLogic.getTagsToCard(card)).thenThrow(new RuntimeException("Test"));
-        final String expected = "Beim Suchen nach Schlagwörtern für die Karte ist ein Fehler aufgetreten.";
-        final String[] actual = new String[1];
-        cardController.getTagsToCard(card, new DataCallback<Tag>() {
-            @Override
-            public void onSuccess(List<Tag> data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected,actual[0]);
-    }
-
-    @Test
-    public void getCardsBySearchtermsTestEmptySet(){
+    public void getCardsByTagOrderTestEmptySet(){
         final List<CardOverview> list = new ArrayList<>();
-        when(cardMockLogic.getCardsBySearchterms(any(String.class))).thenReturn(list);
-        final String expected = "Keine Karten für das Suchwort gefunden.";
-        final String[] actual = new String[1];
-        cardController.getCardsBySearchterms("Test", new DataCallback<CardOverview>() {
-            @Override
-            public void onSuccess(List<CardOverview> data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-            }
-
-            @Override
-            public void onInfo(String msg) {
-                actual[0] = msg;
-            }
-        });
-        assertEquals(expected,actual[0]);
+        when(cardMockLogic.getCardsByTag("test",ListOrder.Order.DATE, false)).thenReturn(list);
+        assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback,ListOrder.Order.DATE, false));
+        verify(coMockDataCallback, times(1))
+                .callInfo(Locale.getCurrentLocale().getString("getcardsbytagempty"));
+        reset(coMockDataCallback);
     }
 
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn ein random Exception geworfen und gefangen wird.
+     * Funktion: getCardsByTag Order
+     */
+    @Test
+    public void getCardsByTagOrderTestNormalException(){
+        when(cardMockLogic.getCardsByTag("test",ListOrder.Order.DATE, false)).thenThrow(new RuntimeException("Test"));
+        assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback,ListOrder.Order.DATE, false));
+        verify(coMockDataCallback, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("getcardsbytagerror"));
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn ein leerer String übergeben wird.
+     * Funktion: getCardsByTag Order
+     */
+    @Test
+    public void getCardsByTagOrderTestIllegalArgumentException(){
+        when(cardMockLogic.getCardsByTag("",ListOrder.Order.DATE, false)).thenThrow( new IllegalArgumentException("nonempty"));
+        assertDoesNotThrow(() -> cardController.getCardsByTag("",coMockDataCallback,ListOrder.Order.DATE, false));
+        verify(coMockDataCallback, times(1))
+                .callFailure( "Schlagwort darf nicht leer sein!");
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callSuccess Funktion beim Controller, wenn ein Liste zurückgegeben wird.
+     * Funktion: getCardsBySearchterms
+     */
     @Test
     public void getCardsBySearchtermsTestWithReturningList(){
         final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardMockLogic.getCardsBySearchterms(any(String.class))).thenReturn(list);
-        final List<CardOverview> expected = list;
-        final List<CardOverview>[] actual = new List[1];
-        cardController.getCardsBySearchterms("Test", new DataCallback<CardOverview>() {
+        assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback));
+        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
-            public void onSuccess(List<CardOverview> data) {
-                actual[0] = data;
+            public boolean matches(List<CardOverview> overviews) {
+                overviews.equals(list);
+                return true;
             }
 
-            @Override
-            public void onFailure(String msg) {
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected, actual[0]);
+        }));
+        reset(coMockDataCallback);
     }
 
+    /**
+     * Testet die callInfo Funktion beim Controller, wenn ein empty set zurückgegeben wird.
+     * Funktion: getCardsBySearchterms
+     */
+    @Test
+    public void getCardsBySearchtermsTestEmptySet(){
+        final List<CardOverview> list = new ArrayList<>();
+        when(cardMockLogic.getCardsBySearchterms(any(String.class))).thenReturn(list);
+        assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callInfo(Locale.getCurrentLocale().getString("getcardsbysearchtermsempty"));
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn ein random Exception geworfen und gefangen wird.
+     * Funktion: getCardsBySearchterms
+     */
     @Test
     public void getCardsBySearchtermsTestNormalException(){
         when(cardMockLogic.getCardsBySearchterms(any(String.class))).thenThrow(new RuntimeException("Test"));
-        final String expected = "Beim Suchen nach Karten mit dem Suchbegriff ist ein Fehler aufgetreten.";
-        final String[] actual = new String[1];
-        cardController.getCardsBySearchterms("Test", new DataCallback<CardOverview>() {
-            @Override
-            public void onSuccess(List<CardOverview> data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected,actual[0]);
+        assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("getcardsbysearchtermserror"));
+        reset(coMockDataCallback);
     }
 
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn ein leerer String übergeben wird.
+     * Funktion: getCardsBySearchterms
+     */
     @Test
     public void getCardsBySearchtermsTestIllegalArgumentException(){
-        when(cardMockLogic.getCardsBySearchterms("")).thenThrow(new IllegalArgumentException("nonempty"));
-        final String expected = "Suchbegriff darf nicht leer sein!";
-        final String[] actual = new String[1];
-        cardController.getCardsBySearchterms("", new DataCallback<CardOverview>() {
-            @Override
-            public void onSuccess(List<CardOverview> data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-            @Override
-            public void onInfo(String msg) {
-            }
-        });
-        assertEquals(expected,actual[0]);
+        when(cardMockLogic.getCardsBySearchterms("")).thenThrow( new IllegalArgumentException("nonempty"));
+        assertDoesNotThrow(() -> cardController.getCardsBySearchterms("",coMockDataCallback));
+        verify(coMockDataCallback, times(1))
+                .callFailure( "Suchbegriff darf nicht leer sein!");
+        reset(coMockDataCallback);
     }
 
+    /**
+     * Testet die callSuccess Funktion beim Controller, wenn ein Liste zurückgegeben wird.
+     * Funktion: getCardsBySearchterms with Order
+     */
+    @Test
+    public void getCardsBySearchtermsOrderTestWithReturningList(){
+        final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
+        when(cardMockLogic.getCardsBySearchterms("test",ListOrder.Order.DATE, false)).thenReturn(list);
+        assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback,ListOrder.Order.DATE, false));
+        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
+            @Override
+            public boolean matches(List<CardOverview> overviews) {
+                overviews.equals(list);
+                return true;
+            }
+
+        }));
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callInfo Funktion beim Controller, wenn ein empty set zurückgegeben wird.
+     * Funktion: getCardsBySearchterms Order
+     */
+    @Test
+    public void getCardsBySearchtermsOrderTestEmptySet(){
+        final List<CardOverview> list = new ArrayList<>();
+        when(cardMockLogic.getCardsBySearchterms("test",ListOrder.Order.DATE, false)).thenReturn(list);
+        assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback,ListOrder.Order.DATE, false));
+        verify(coMockDataCallback, times(1))
+                .callInfo(Locale.getCurrentLocale().getString("getcardsbysearchtermsempty"));
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn ein random Exception geworfen und gefangen wird.
+     * Funktion: getCardsBySearchterms Order
+     */
+    @Test
+    public void getCardsBySearchtermsOrderTestNormalException(){
+        when(cardMockLogic.getCardsBySearchterms("test",ListOrder.Order.DATE, false)).thenThrow(new RuntimeException("Test"));
+        assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback,ListOrder.Order.DATE, false));
+        verify(coMockDataCallback, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("getcardsbysearchtermserror"));
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn ein leerer String übergeben wird.
+     * Funktion: getCardsBySearchterms Order
+     */
+    @Test
+    public void getCardsBySearchtermsOrderTestIllegalArgumentException(){
+        when(cardMockLogic.getCardsBySearchterms("",ListOrder.Order.DATE, false)).thenThrow( new IllegalArgumentException("nonempty"));
+        assertDoesNotThrow(() -> cardController.getCardsBySearchterms("",coMockDataCallback,ListOrder.Order.DATE, false));
+        verify(coMockDataCallback, times(1))
+                .callFailure( "Suchbegriff darf nicht leer sein!");
+        reset(coMockDataCallback);
+    }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn null übergeben wird.
+     * Funktion: deleteCard
+     */
 
     @Test
     public void deleteCardTestNull(){
         Card card = new TrueFalseCard();
         doThrow(new IllegalStateException("cardnullerror")).when(cardMockLogic).deleteCard(card);
-        String expected = "Karte existiert nicht";
-        final String[] actual = new String[1];
-        cardController.deleteCard(card, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean  data) {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-        });
-        assertEquals(expected, actual[0]);
+        assertDoesNotThrow(() -> cardController.deleteCard(card, coMockbSingleDataCallBack));
+        verify(coMockbSingleDataCallBack, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("cardnullerror"));
+        reset(coMockbSingleDataCallBack);
     }
 
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn eine Exception geworfen wird.
+     * Funktion: deleteCard
+     */
     @Test
     public void deleteCardTestException(){
         Card card = new TrueFalseCard();
         doThrow(new RuntimeException("Test")).when(cardMockLogic).deleteCard(card);
-        String expected = "Beim Löschen der Karte ist ein Fehler aufgetreten.";
-        final String[] actual = new String[1];
-        cardController.deleteCard(card, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean  data) {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-        });
-        assertEquals(expected, actual[0]);
+        assertDoesNotThrow(() -> cardController.deleteCard(card, coMockbSingleDataCallBack));
+        verify(coMockbSingleDataCallBack, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("deletecarderror"));
+        reset(coMockbSingleDataCallBack);
     }
 
+    /**
+     * Testet die callSuccess Funktion, beim Controller.
+     * Funktion: deleteCard
+     */
     @Test
     public void deleteCardTest(){
         Card card = new TrueFalseCard();
         doNothing().when(cardMockLogic).deleteCard(card);
+        assertDoesNotThrow(() -> cardController.deleteCard(card, coMockbSingleDataCallBack));
+        verify(coMockbSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
+            @Override
+            public boolean matches(Boolean aBoolean) {
+                assertTrue(aBoolean);
+                return true;
+            }
 
-          cardController.deleteCard(card, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean  data) {
-                }
 
-                @Override
-                public void onFailure(String msg) {
-                }
-        });
+        }));
+        reset(coMockbSingleDataCallBack);
 
     }
 
-    //TODO fix
-//    @Test
-//    public void deleteCardsTestNull() {
-//        final Card card = null;
-//        List<Card> cards = new ArrayList<>();
-//        cards.add(card);
-//        doThrow(new IllegalStateException("Karte existiert nicht")).when(cardMockLogic).deleteCard(card);
-//        String expected = "Karte existiert nicht";
-//        final String[] actual = new String[1];
-//        cardController.deleteCards(cards, new SingleDataCallback<Boolean>() {
-//            @Override
-//            public void onSuccess(Boolean data) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(String msg) {
-//                actual[0] = msg;
-//            }
-//
-//        });
-//        assertEquals(expected, actual[0]);
-//    }
-
-
-        @Test
-    public void deleteCardsTestException(){
-            final List<CardOverview> list = Arrays.asList(new CardOverview(),new CardOverview());
-            doThrow(new RuntimeException("test")).when(cardMockLogic).deleteCards(list);
-            String expected = "Beim Löschen der Karten ist ein Fehler aufgetreten.";
-            final String[] actual = new String[1];
-            cardController.deleteCards(list, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean  data) {
-
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                    actual[0] = msg;
-                }
-
-            });
-            assertEquals(expected, actual[0]);
-    }
-
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn null übergeben wird.
+     * Funktion: deleteCards
+     */
     @Test
-    public void deleteCardsTest(){
-        final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
-        doNothing().when(cardMockLogic).deleteCards(null);
-
-        cardController.deleteCards(list, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-            }
-        });
+    public void deleteCardsTestNull(){
+        List list = Arrays.asList(new TextCard(), new TextCard());
+        doThrow(new IllegalStateException("cardnullerror")).when(cardMockLogic).deleteCards(list);
+        assertDoesNotThrow(() -> cardController.deleteCards(list, coMockbSingleDataCallBack));
+        verify(coMockbSingleDataCallBack, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("cardnullerror"));
+        reset(coMockbSingleDataCallBack);
     }
 
+    /**
+     * Testet die callFailure Funktion beim Controller, eine Exception geworfen wird.
+     * Funktion: deleteCards
+     */
+    @Test
+    public void deleteCardsTestException(){
+        List list = Arrays.asList(new TextCard(), new TextCard());
+        doThrow(new RuntimeException("Test")).when(cardMockLogic).deleteCards(list);
+        assertDoesNotThrow(() -> cardController.deleteCards(list, coMockbSingleDataCallBack));
+        verify(coMockbSingleDataCallBack, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("deletecardserror"));
+        reset(coMockbSingleDataCallBack);
+    }
+
+    /**
+     * Testet die callSuccess Funktion, beim Controller.
+     * Funktion: deleteCards
+     */
+    @Test
+    public void deletesCardTest(){
+        List list = Arrays.asList(new TextCard(), new TextCard());
+        doNothing().when(cardMockLogic).deleteCards(list);
+        assertDoesNotThrow(() -> cardController.deleteCards(list, coMockbSingleDataCallBack));
+        verify(coMockbSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
+            @Override
+            public boolean matches(Boolean aBoolean) {
+                assertTrue(aBoolean);
+                return true;
+            }
 
 
+        }));
+        reset(coMockbSingleDataCallBack);
 
+    }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn eine NoResultException geworfen wird.
+     * Funktion: getCardByUUID
+     */
     @Test
     public void getCardByUUIDTestNoResultException(){
-        when(cardMockLogic.getCardByUUID(any(String.class))).thenThrow(new NoResultException("Es "));
-        final String expected = "Es konnte nichts gefunden werden.";
-        final String[] actual = new String[1];
-        cardController.getCardByUUID("Test", new SingleDataCallback<Card>() {
-            @Override
-            public void onSuccess(Card data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-          
-        });
-        assertEquals(expected,actual[0]);
+        when(cardMockLogic.getCardByUUID("Test")).thenThrow(new NoResultException("Es "));
+        assertDoesNotThrow(() -> cardController.getCardByUUID("Test", coMockCSingleDataCallBack));
+        verify(coMockCSingleDataCallBack, times(1))
+                .callFailure("Es konnte nichts gefunden werden.");
+        reset(coMockCSingleDataCallBack);
     }
 
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn eine Runtime Exception geworfen wird.
+     * Funktion: getCardByUUID
+     */
     @Test
     public void getCardByUUIDTestException(){
-        when(cardMockLogic.getCardByUUID(any(String.class))).thenThrow(new RuntimeException("test"));
-        final String expected = "Beim Abrufen der Karte ist ein Fehler aufgetreten.";
-        final String[] actual = new String[1];
-        cardController.getCardByUUID("Test", new SingleDataCallback<Card>() {
-            @Override
-            public void onSuccess(Card data) {
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-
-        });
-        assertEquals(expected,actual[0]);
+        when(cardMockLogic.getCardByUUID("Test")).thenThrow(new RuntimeException("test"));
+        assertDoesNotThrow(() -> cardController.getCardByUUID("Test", coMockCSingleDataCallBack));
+        verify(coMockCSingleDataCallBack, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("getcardbyuuiderror"));
+        reset(coMockCSingleDataCallBack);
     }
 
+    /**
+     * Testet die callSuccess Funktion beim Controller
+     * Funktion: getCardByUUID
+     */
     @Test
     public void getCardByUUID(){
-        final Card[] card = {new MultipleChoiceCard()};
-        when(cardMockLogic.getCardByUUID(any(String.class))).thenReturn(card[0]);
-        final Card[] card1 = new Card[1];
-        cardController.getCardByUUID("Test", new SingleDataCallback<Card>() {
-            @Override
-            public void onSuccess(Card data) {
-               card1[0] = data;
-            }
+        final Card[] card1 = {new MultipleChoiceCard()};
+        when(cardMockLogic.getCardByUUID("Test")).thenReturn(card1[0]);
+        assertDoesNotThrow(() -> cardController.getCardByUUID("Test", coMockCSingleDataCallBack));
+            verify(coMockCSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<Card>() {
+                @Override
+                public boolean matches(Card card) {
+                     assertEquals(card1[0],card);
+                     return true;
+                }
 
-            @Override
-            public void onFailure(String msg) {
-            }
-
-
-        });
-        assertEquals(card[0], card1[0]);
+            }));
+            reset(coMockCSingleDataCallBack);
     }
 
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn die UUID null ist
+     * Funktion: getCardByUUID
+     */
     @Test
     public void getCardByUUIDTestNullUUID(){
-        when(cardMockLogic.getCardByUUID(any(String.class))).thenThrow(new IllegalArgumentException("nonnull"));
-        final String expected = "ID darf nicht null sein!";
-        final String[] actual = new String[1];
-        cardController.getCardByUUID("Test", new SingleDataCallback<Card>() {
-            @Override
-            public void onSuccess(Card data) {
-            }
+        when(cardMockLogic.getCardByUUID("Test")).thenThrow(new IllegalArgumentException("nonnull"));
+        assertDoesNotThrow(() -> cardController.getCardByUUID("Test", coMockCSingleDataCallBack));
+        verify(coMockCSingleDataCallBack, times(1))
+                .callFailure("ID darf nicht null sein!");
+        reset(coMockCSingleDataCallBack);
 
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-
-        });
-        assertEquals(expected,actual[0]);
     }
 
-
-
-    @Test
-    public void setTagsToCardTestException(){
-        final Card card = new TrueFalseCard();
-        final List<Tag> list = Arrays.asList(new Tag("Test"), new Tag("Test1"), new Tag("Test3"));
-        doThrow(new RuntimeException("Test")).when(cardMockLogic).setTagsToCard(card,list);
-        String expected = "Beim Hinzufügen der Schlagwörter zu der Karte ist ein Fehler aufgetreten.";
-        final String[] actual = new String[1];
-        cardController.setTagsToCard(card,list, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-        });
-        assertEquals(expected, actual[0]);
-    }
-
-
-        @Test
-        public void setTagsToCardTest(){
-            final Card card = new TrueFalseCard();
-            final List<Tag> list = Arrays.asList(new Tag("Test"), new Tag("Test1"), new Tag("Test3"));
-            doNothing().when(cardMockLogic).setTagsToCard(card,list);
-            cardController.setTagsToCard(card,list, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean  data) {
-
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-
-            });
-        }
-
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn eine Runtime Exception geworfen wird.
+     * Funktion: updateCardData
+     */
     @Test
     public void updateCardDataException(){
         final Card card = new TrueFalseCard();
         doThrow(new RuntimeException("Test")).when(cardMockLogic).updateCardData(card,true);
-        String expected = "Karte konnte nicht gespeichert oder geupdatet werden.";
-        final String[] actual = new String[1];
-        cardController.updateCardData(card,true, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {
+        assertDoesNotThrow(() -> cardController.updateCardData(card, true, coMockbSingleDataCallBack));
+        verify(coMockbSingleDataCallBack, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("updatecreatecarderror"));
+        reset(coMockbSingleDataCallBack);
 
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-        });
-        assertEquals(expected, actual[0]);
     }
+
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn die Karte null ist
+     * Funktion: getCardByUUID
+     */
     @Test
     public void updateCardDataNull(){
         final Card card = null;
         doThrow(new IllegalStateException("cardnullerror")).when(cardMockLogic).updateCardData(card,true);
-        String expected = "Karte existiert nicht";
-        final String[] actual = new String[1];
-        cardController.updateCardData(card, true, new SingleDataCallback<Boolean>() {
-            @Override
-            public void onSuccess(Boolean data) {
-
-            }
-
-            @Override
-            public void onFailure(String msg) {
-                actual[0] = msg;
-            }
-
-        });
-        assertEquals(expected, actual[0]);
+        assertDoesNotThrow(() -> cardController.updateCardData(card, true, coMockbSingleDataCallBack));
+        verify(coMockbSingleDataCallBack, times(1))
+                .callFailure(Locale.getCurrentLocale().getString("cardnullerror"));
+        reset(coMockbSingleDataCallBack);
     }
-
+    /**
+     * Testet die callSuccess Funktion beim Controller
+     * Funktion: updateCardData
+     */
 
     @Test
     public void updateCardData(){
         final Card card = new TrueFalseCard();
         doNothing().when(cardMockLogic).updateCardData(card,true);
-        cardController.updateCardData(card,true, new SingleDataCallback<Boolean>() {
+        assertDoesNotThrow(() -> cardController.updateCardData(card,true, coMockbSingleDataCallBack));
+        verify(coMockbSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
             @Override
-            public void onSuccess(Boolean  data) {
-
+            public boolean matches(Boolean aBoolean) {
+                assertTrue(aBoolean);
+                return true;
             }
 
-            @Override
-            public void onFailure(String msg) {
-            }
 
-        });
+        }));
+        reset(coMockbSingleDataCallBack);
     }
 
 
-
-
+    /**
+     * Testet die callFailure Funktion beim Controller, wenn eine Exception geworfen wird.
+     * Funktion: exportCards
+     */
         @Test
         public void exportCardsFalse(){
             final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
             String filepath = "Test";
             when(cardMockLogic.exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML)).thenThrow(new RuntimeException("Test"));
-            String expected = "Es gab Probleme beim Exportieren der Karten.";
-            final String[] actual = new String[1];
-            cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean data) {
-
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                    actual[0] = msg;
-                }
-
-            });
-            assertEquals(expected, actual[0]);
+            assertDoesNotThrow(() -> cardController.exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML, coMockbSingleDataCallBack));
+            verify(coMockbSingleDataCallBack, times(1))
+                    .callFailure(Locale.getCurrentLocale().getString("cardexporterror"));
+            reset(coMockbSingleDataCallBack);
         }
 
-
+    /**
+     * Testet die callSuccess Funktion beim Controller.
+     * Funktion: exportCards
+     */
         @Test
         public void exportCards(){
             final List<CardOverview> cards = Arrays.asList(new CardOverview(), new CardOverview());
             String filepath = "Test";
             when(cardMockLogic.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML)).thenReturn(true);
-            cardController.exportCards(cards,filepath, Exporter.ExportFileType.EXPORT_XML, new SingleDataCallback<Boolean>() {
-                @Override
-                public void onSuccess(Boolean  data) {
-
-                }
-
-                @Override
-                public void onFailure(String msg) {
-                }
-
-            });
+            assertDoesNotThrow(() -> cardController.exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML, coMockbSingleDataCallBack));
+            verify(coMockbSingleDataCallBack, times(1))
+                    .callSuccess(true);
         }
 
 

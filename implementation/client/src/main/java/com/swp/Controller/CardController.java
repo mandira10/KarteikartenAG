@@ -170,10 +170,11 @@ public class CardController extends Controller
     public void deleteCard(Card card, SingleDataCallback<Boolean> callback) 
     {
         callLogicFuncInThread(
-            () -> { cardLogic.deleteCard(card); return true; }, 
-            "getcardsbysearchtermsempty", "Es gibt keine Karten für dieses Suchwort",
+            () -> { cardLogic.deleteCard(card); return true; },
+            "", "",
             "deletecarderror", "Beim Löschen der Karte "+card.toString()+" ist ein Fehler $ aufgetreten", 
             callback, "");
+
     }
 
     /**

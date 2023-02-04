@@ -129,7 +129,7 @@ public class ViewSingleCategoryPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                CategoryController.getInstance().removeCardsFromStudySystem(pCardList.getSelection(), pCategory, new SingleDataCallback<Boolean>() {
+                CategoryController.getInstance().removeCardsFromCategory(pCardList.getSelection(), pCategory, new SingleDataCallback<Boolean>() {
                     @Override
                     public void onSuccess(Boolean data) {
                        setCategory(pCategory);
