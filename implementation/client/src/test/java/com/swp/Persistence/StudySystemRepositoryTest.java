@@ -59,10 +59,29 @@ public class StudySystemRepositoryTest {
         assertTrue(allReadStudySystems.containsAll(studySystems));
 
         // UPDATE
-        //TODO
+        allReadStudySystems = new ArrayList<>();
+        StudySystem changedStudySystem = studySystems.get(0);
+        changedStudySystem.setName("Neue Name vom Lernsystem");
+        studySystems.set(0, changedStudySystem);
+        CardRepository.startTransaction();
+        studySystemRepository.update(changedStudySystem);
+        for (final StudySystem s : studySystems) {
+            final StudySystem readStudySystem = studySystemRepository.getStudySystemByUUID(s.getUuid());
+            assertEquals(s, readStudySystem);
+            allReadStudySystems.add(readStudySystem);
+        }
+        CardRepository.commitTransaction();
+        assertEquals(studySystems.size(), allReadStudySystems.size(), "same length");
+        assertTrue(allReadStudySystems.containsAll(studySystems));
 
         // DELETE
-        //TODO
+        CardRepository.startTransaction();
+        final String uuid = changedStudySystem.getUuid();
+        StudySystem studySystem = studySystemRepository.getStudySystemByUUID(uuid);
+        assertNotNull(studySystem);
+        studySystemRepository.delete(studySystem);
+        assertThrows(NoResultException.class, () -> studySystemRepository.getStudySystemByUUID(uuid));
+        CardRepository.commitTransaction();
 
     }
 

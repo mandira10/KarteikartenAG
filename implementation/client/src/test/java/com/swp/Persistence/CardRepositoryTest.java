@@ -54,11 +54,29 @@ public class CardRepositoryTest
         assertTrue(allReadCards.containsAll(cards));
 
         // UPDATE
-        //TODO
+        allReadCards = new ArrayList<>();
+        Card changedCard = cards.get(0);
+        changedCard.setQuestion("Neue Frage");
+        cards.set(0, changedCard);
+        CardRepository.startTransaction();
+        cardRepository.update(changedCard);
+        for (final Card card : cards) {
+            final Card readCard = cardRepository.getCardByUUID(card.getUuid());
+            assertEquals(card, readCard);
+            allReadCards.add(readCard);
+        }
+        CardRepository.commitTransaction();
+        assertEquals(cards.size(), allReadCards.size(), "same length");
+        assertTrue(allReadCards.containsAll(cards));
 
         // DELETE
-        //TODO
-
+        CardRepository.startTransaction();
+        final String uuid = changedCard.getUuid();
+        Card card = cardRepository.getCardByUUID(uuid);
+        assertNotNull(card);
+        cardRepository.delete(card);
+        assertThrows(NoResultException.class, () -> cardRepository.getCardByUUID(uuid));
+        CardRepository.commitTransaction();
     }
 
     @Test

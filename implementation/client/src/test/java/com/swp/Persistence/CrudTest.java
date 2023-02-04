@@ -511,7 +511,6 @@ public class CrudTest {
     }
 
     public List<Category> exampleCategories() {
-        //TODO Test-Kategorien erstellen
         List<Category> exampleCategories = new ArrayList<>();
         Collections.addAll(exampleCategories,
                 new Category("Kategorie A"),
@@ -522,19 +521,5 @@ public class CrudTest {
         );
         return exampleCategories;
     }
-
-//    public List<StudySystemBox> exampleBoxes() {
-//        List<StudySystemBox> exampleBoxes = new ArrayList<>();
-//        Collections.addAll(exampleBoxes,
-//                new StudySystemBox(1),
-//                new StudySystemBox("Box 2"),
-//                new StudySystemBox("Box 3"),
-//                new StudySystemBox("Box 4"),
-//                new StudySystemBox("Box 5")
-//        );
-//        return exampleBoxes;
-//    }
-
-
 
 }
