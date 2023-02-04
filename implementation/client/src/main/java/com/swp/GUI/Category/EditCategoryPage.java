@@ -46,8 +46,6 @@ public class EditCategoryPage extends Page
         addGUI(XMLGUI.loadFile("guis/categories/categoryeditpage.xml"));
 
         //pCanvas = findChildByID("canvas");
-        aParents = new ArrayList<>();
-        aChildren = new ArrayList<>();
 
         pTitleField = (TextField)findChildByID("titlefield");
         pTitleField.setCallback(new TextFieldInputCallback() {
@@ -125,6 +123,7 @@ public class EditCategoryPage extends Page
 
         pTitleField.setString(pNewCategory.getName());
 
+        aChildren = new ArrayList<>();
         pCategoriesChildrenBox.setString("");
         CategoryController.getInstance().getChildrenForCategory(category, new DataCallback<Category>() {
             @Override public void onInfo(String msg) {}
@@ -137,6 +136,7 @@ public class EditCategoryPage extends Page
             }            
         });
 
+        aParents = new ArrayList<>();
         pCategoriesParentsBox.setString("");
         CategoryController.getInstance().getParentsForCategory(category, new DataCallback<Category>() {
             @Override public void onInfo(String msg) {}

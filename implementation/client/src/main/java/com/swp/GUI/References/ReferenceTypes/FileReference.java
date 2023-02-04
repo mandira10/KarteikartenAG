@@ -28,7 +28,7 @@ public class FileReference extends ReferenceEntry
             try 
             {
                 if(Display.getOSType() == Display.GUM_OS_WINDOWS)
-                    Runtime.getRuntime().exec("explorer " + path.replace("/", "\\\\"));
+                    Runtime.getRuntime().exec("explorer " + path.replace("/", "\\"));
                 else
                     Runtime.getRuntime().exec("xdg-open " + path);
 

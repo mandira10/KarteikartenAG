@@ -116,11 +116,12 @@ import lombok.extern.slf4j.Slf4j;
 //       - Leitner fields           -- done
 //   - Fix notification gui         -- done
 //   - Auto add file extensions     -- done
-//   - Fix browser/fileexplorer
-//   - javadoc
 //   - viewpage callback            -- done
 //       - stop audio               -- done
 //   - fix imagedesc answerentries  -- done
+//   - fix imagedesc answercheck
+//   - Fix browser/fileexplorer
+//   - javadoc
 //   - fix aspectratio
 //       - Tests
 //       - Imagedescanswers
