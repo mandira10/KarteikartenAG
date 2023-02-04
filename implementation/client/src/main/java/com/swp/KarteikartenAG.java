@@ -120,7 +120,11 @@ import lombok.extern.slf4j.Slf4j;
 //   - javadoc
 //   - viewpage callback            -- done
 //       - stop audio               -- done
-//   - fix imagedesc answerentries
+//   - fix imagedesc answerentries  -- done
+//   - fix aspectratio
+//       - Tests
+//       - Imagedescanswers
+//       - Viewpage
 
 // Missing:
 // - get categories by name
@@ -195,11 +199,11 @@ public class KarteikartenAG
         XMLGUI.addGUIType("list-order", ListOrder.createFromXMLNode());
         XMLGUI.addGUIType("rating", RatingGUI.createFromXMLNode());
         
+        Settings.getInstance().getLanguage().activate();
+
         //Check for saved login
         User.loginUser(new User(Settings.getInstance().getSetting(Setting.USER_NAME), Settings.getInstance().getSetting(Setting.USER_PASSWD)));
         
-        
-        Settings.getInstance().getLanguage().activate();
         KarteikartenAGGUI pKarteikartenAGGUI = KarteikartenAGGUI.getInstance();
         pKarteikartenAGGUI.setSize(new ivec2(100, 100));
         pKarteikartenAGGUI.setSizeInPercent(true, true);

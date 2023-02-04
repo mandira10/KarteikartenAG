@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import com.gumse.gui.GUI;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Radiobutton;
 import com.gumse.gui.Basics.RadiobuttonOption;
@@ -195,7 +196,7 @@ public class TestCardGUI extends RenderGUI
         scroller.resize();
 
 
-        sActualAnswer = "Incorrect";
+        sActualAnswer = Locale.getCurrentLocale().getString("incorrect");
         pAnswerCheckerFunc = (Card acard) -> {
             boolean correctAnswer = true;
             List<ImageDescriptionCardAnswer> answers = card.getAnswers().stream().toList();
@@ -253,7 +254,7 @@ public class TestCardGUI extends RenderGUI
 
         List<Integer> correctAnswers = Arrays.stream(card.getCorrectAnswers()).boxed().toList();
 
-        sActualAnswer = "Incorrect";
+        sActualAnswer = Locale.getCurrentLocale().getString("incorrect");;
         pAnswerCheckerFunc = (Card acard) -> {
             boolean correctAnswer = true;
             for(int i = 0; i < options.size(); i++)
@@ -280,14 +281,14 @@ public class TestCardGUI extends RenderGUI
         TrueFalseCard card = (TrueFalseCard)pCard;
         Font defaultFont = FontManager.getInstance().getDefaultFont();
 
-        Button trueButton = new Button(new ivec2(50, 100), new ivec2(100, 50), "True", defaultFont);
+        Button trueButton = new Button(new ivec2(50, 100), new ivec2(100, 50), Locale.getCurrentLocale().getString("true"), defaultFont);
         trueButton.setPositionInPercent(true, true);
         trueButton.setOrigin(new ivec2(110, 70));
         addGUI(trueButton);
 
         bCurrentTrueFalseAnswer = false;
 
-        Button falseButton = new Button(new ivec2(50, 100), new ivec2(100, 50), "False", defaultFont);
+        Button falseButton = new Button(new ivec2(50, 100), new ivec2(100, 50), Locale.getCurrentLocale().getString("false"), defaultFont);
         falseButton.setPositionInPercent(true, true);
         falseButton.setOrigin(new ivec2(-10, 70));
 
@@ -303,7 +304,7 @@ public class TestCardGUI extends RenderGUI
         });
         addGUI(falseButton);
 
-        sActualAnswer = card.isAnswer() ? "True" : "False";
+        sActualAnswer = card.isAnswer() ? Locale.getCurrentLocale().getString("true") : Locale.getCurrentLocale().getString("false");
         pAnswerCheckerFunc = (Card acard) -> {
             return bCurrentTrueFalseAnswer == card.isAnswer();
         };
@@ -316,7 +317,7 @@ public class TestCardGUI extends RenderGUI
         if(isAnswerCorrect)
         {
             pCorrectAnswerBox.setTextColor(TRUE_COLOR);
-            pCorrectAnswerBox.setString("Correct");
+            pCorrectAnswerBox.setString(Locale.getCurrentLocale().getString("correct"));
         }
         else
         {

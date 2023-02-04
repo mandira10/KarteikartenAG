@@ -3,9 +3,6 @@
     <gui pos="15%, 15%" size="70%, 70%">
         <textfield id="usernamefield" pos="0,  0" size="100%, 60" fontsize="40" locale-id="usernamefield"></textfield>
         <textfield id="passwordfield" pos="0, 80" size="100%, 60" fontsize="40" locale-id="passwordfield"></textfield>
-
-        <text pos="0, 150" fontsize="20" locale-id="remembermefield"></text>
-        <switch pos="100%, 150" origin="20, 0" size="20, 20" />
     </gui>
     <gui id="menu" size="100%, 50" pos="0, 100%" origin="0, 100%">
         <button id="loginbutton"    pos="97.5%, 0" origin="100, 0" size="100, 30" fontsize="20" locale-id="loginbutton" />

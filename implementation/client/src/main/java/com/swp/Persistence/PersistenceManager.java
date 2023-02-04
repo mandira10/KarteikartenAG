@@ -61,6 +61,7 @@ public class PersistenceManager
         catch(Exception e)
         {
             callback.callFailure(Locale.getCurrentLocale().getString("serverconnectionfailed") + ": " + host + ":" + port);
+            Output.error(e.getMessage());
             return;
         }
         callback.callSuccess(true);

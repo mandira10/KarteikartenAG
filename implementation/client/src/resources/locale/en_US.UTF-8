@@ -72,6 +72,8 @@ multiplechoicecard                 = Multiplechoice
 truefalsecard                      = True/False
 specifycardtype                    = Please specify a cardtype
 chosecardtype                      = Select Type
+true                               = True
+false                              = False
 
 # Category
 addcategorybutton                  = Add Cat.
@@ -109,6 +111,8 @@ random                             = Random
 leitner                            = Leitner
 timing                             = Timing
 voting                             = Voting
+correct                            = Correct
+incorrect                          = Inorrect
 leitnerdesc                        = Leitner Description: In the Leitner system you learn in several boxes, whose due date you can determine yourself. Initially, all cards are in box 1. If you answer the card correctly, it is moved one box on top and gets the indicated due date of the box. If it is wrong, it will be moved one box forward.
 timingdesc                         = Timing Description: The timing system measures the time it takes you to answer a question. Your time limit (seconds) determines how long you have to answer the question. If you don't make the limit, the answer will be scored as wrong.
 votingdesc                         = Voting Description: In VoteSystem you can give stars for each question, 1 = very hard, your maximum = very easy. The questions are submitted each time you learn based on the rating.

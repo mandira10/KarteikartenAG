@@ -38,7 +38,6 @@ public class LoginPage extends Page
             demo();
         });
 
-
         this.setSizeInPercent(true, true);
         reposition();
         resize();
