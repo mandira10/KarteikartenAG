@@ -18,6 +18,13 @@ public class CategoryHierarchyRepository  extends BaseRepository<CategoryHierarc
         return categoryHierarchyRepository;
     }
 
+
+    /**
+     * Gibt alle Eltern-Kategorien einer angegebenen Kind-Kategorie zurück.
+     *
+     * @param category eine Kind-Kategorie
+     * @return eine Liste aller Eltern-Kategorien der angegebenen Kind-Kategorie
+     */
     public List<CategoryHierarchy> getAllChildrenAndParentsForCategory(Category category) {
         return getEntityManager()
                 .createNamedQuery("CategoryH.getAllCHForCategory", CategoryHierarchy.class)
