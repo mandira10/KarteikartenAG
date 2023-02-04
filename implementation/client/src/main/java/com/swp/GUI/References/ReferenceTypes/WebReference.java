@@ -26,19 +26,16 @@ public class WebReference extends ReferenceEntry
         super(pos, size, "Web");
 
         onClick((RenderGUI gui) -> {
+            try  {
             if(Display.getOSType() == Display.GUM_OS_WINDOWS)
-            {
-                try { Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url); } 
-                catch (IOException e) {
-                    NotificationGUI.addNotification("Failed to open Browser", NotificationType.WARNING, 5);
-                }
-            }
+                Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + url);
+            else if(Display.getOSType() == Display.GUM_OS_MAC)
+                Runtime.getRuntime().exec("/usr/bin/open " + url);
             else
-            {
-                try  { Runtime.getRuntime().exec("xdg-open " + url); } 
-                catch (IOException e) {
-                    NotificationGUI.addNotification("Failed to open Browser", NotificationType.WARNING, 5);
-                }
+                Runtime.getRuntime().exec("xdg-open " + url);
+            }
+            catch (IOException e) {
+                NotificationGUI.addNotification("Failed to open Browser", NotificationType.WARNING, 5);
             }
         });
     }

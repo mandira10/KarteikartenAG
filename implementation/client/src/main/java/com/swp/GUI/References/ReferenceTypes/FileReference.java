@@ -29,11 +29,10 @@ public class FileReference extends ReferenceEntry
             {
                 if(Display.getOSType() == Display.GUM_OS_WINDOWS)
                     Runtime.getRuntime().exec("explorer " + path.replace("/", "\\"));
+                else if(Display.getOSType() == Display.GUM_OS_MAC)
+                    Runtime.getRuntime().exec("/usr/bin/open " + path);
                 else
-                    Runtime.getRuntime().exec("xdg-open " + path);
-
-                //Mac specific:
-                //Runtime.getRuntime().exec(new String[]{"/usr/bin/open", file.getAbsolutePath()});
+                    Runtime.getRuntime().exec("xdg-open " + path);                
             } 
             catch (IOException e) 
             {   
