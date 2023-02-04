@@ -39,6 +39,7 @@ public class EditDeckPage extends Page
     private Dropdown pCardOrderDropdown;
     private StudySystem pNewDeck;
     private boolean bIsNewDeck;
+    private boolean bChangedBoxes;
     private StudySystem pOldDeck;
     private TextField pTitleField;
     private TextField pTimingField;
@@ -186,7 +187,7 @@ public class EditDeckPage extends Page
                 boxes.add(new StudySystemBox(system, entry.getDays(), boxes.size()));
             }
         }
-        system.setDaysToRelearn(daysToRelearn.stream().mapToInt(Integer::intValue).toArray());
+        bChangedBoxes = true;
         system.setBoxes(boxes);
     }
 
@@ -236,10 +237,9 @@ public class EditDeckPage extends Page
             return;
         }
 
-        StudySystemController.getInstance().updateStudySystemData(pOldDeck, pNewDeck, bIsNewDeck, new SingleDataCallback<Boolean>() {
+        StudySystemController.getInstance().updateStudySystemData(pOldDeck, pNewDeck, bIsNewDeck, bChangedBoxes, new SingleDataCallback<Boolean>() {
             @Override public void onSuccess(Boolean data) 
             {
-
                 if(bIsNewDeck)
                     ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
                 else
@@ -248,9 +248,10 @@ public class EditDeckPage extends Page
 
             @Override public void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+
             }
         });
-    }
+        bChangedBoxes = false;}
 
     void selectSystem(StudySystem.StudySystemType type, String name)
     {
@@ -271,8 +272,8 @@ public class EditDeckPage extends Page
             }
             pLeitnersettings.destroyChildren();
             createAddButton();
-            for(int days : ((LeitnerSystem)pNewDeck).getDaysToRelearn())
-                addEntry(days);
+            for(int i = 0; i < (pNewDeck).getBoxes().size(); i++)
+                addEntry(pNewDeck.getBoxes().get(i).getDaysToLearnAgain());
             reallignEntries();
 
             pStudySystemDropdown.setTitle(Locale.getCurrentLocale().getString("leitner"));

@@ -339,7 +339,7 @@ public class CategoryController extends Controller
             () -> { categoryLogic.removeCardsFromCategory(list, category); return true; }, 
             "", 
             "", 
-            "TODO",
+            "removecardsfromstudysystemerror",
             "Beim entfernen der Karten aus der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
             callback,"");
     }

@@ -4,10 +4,10 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.StudySystem.BoxToCard;
-import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToBoxRepository;
+import com.swp.Persistence.StudySystemBoxRepository;
 import com.swp.Persistence.StudySystemRepository;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +69,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     private final StudySystemRepository studySystemRepository = StudySystemRepository.getInstance();
     private final CardRepository cardRepository = CardRepository.getInstance();
     private final CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
+
+    private final StudySystemBoxRepository studySystemBoxRepository = StudySystemBoxRepository.getInstance();
 
     /**
      * Verschiebt spezifische Karte in eine Box des StudySystems. 
@@ -303,7 +305,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param studySystem Das StudySystem, das benötigt wird.
      * @return ResultPoint von der Funktion calculateResultAndSave bekommen wird
      */
-    public int finishTestAndGetResult(StudySystem studySystem) { // Testet
+    public int finishTestAndGetResult(StudySystem studySystem) { 
         double result;
         if(studySystem.getTrueAnswerCount() == 0 || studySystem.getQuestionCount() == 0) {
             testingBoxCards.removeAll(testingBoxCards);
@@ -369,7 +371,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         log.info("Anzahl aller Karten ist {}", numCardsInToTal);
 
         if(studySystem.getType() == StudySystem.StudySystemType.LEITNER){
-            List<Long> progressPerBox = studySystemRepository.getProgressForLeitner(studySystem);
+            List<Long> progressPerBox = studySystemBoxRepository.getProgressForLeitner(studySystem);
             int sum = progressPerBox.stream().mapToInt(Long::intValue).sum();
             log.info("Summe des Progresses per Box ist: {}", sum);
            studySystem.setProgress(Math.round((double) sum / (numCardsInToTal * progressPerBox.size()) * 100 ));
@@ -422,35 +424,45 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     /**
      * Wird verwendet, um das StudySystem zu updaten. .
+     *
      * @param oldStudySystem StudySystem im vorherigen Zustand, benötigt, um festzustellen, ob das StudySystem gewechselt wurde und Handling
      * @param newStudySystem Neue StudySystem Eigenschaften
-     * @param neu Ist true, wenn das StudySystem neu angelegt wurde
+     * @param neu            Ist true, wenn das StudySystem neu angelegt wurde
+     * @param changedBoxes
      */
-    public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu) {
-            if (newStudySystem == null) {
-                throw new IllegalArgumentException("studysystemnullerror");
-            } else if (neu) {
-                execTransactional(() -> {
-                studySystemRepository.save(newStudySystem); return true; });
-            } else if (oldStudySystem != null && !newStudySystem.getType().equals(oldStudySystem.getType())) {
-                log.info("Versuche das StudySystem zu wechseln");
-                List<CardOverview> cardsFromOldStudySystem = getCardsFromOldStudySystemAndDelete(oldStudySystem);
-                resetStudySystem(cardsFromOldStudySystem, newStudySystem);
-
-            } else {
-                execTransactional(() -> {
-                if(newStudySystem.getType().equals(StudySystem.StudySystemType.LEITNER)){
-                    LeitnerSystem system = (LeitnerSystem) newStudySystem;
-                    if(system.getDaysToRelearn().length != 5)
-                        system.resetStudySystemBoxes(system.getDaysToRelearn().length, system.getDaysToRelearn());
-                }
-                studySystemRepository.update(newStudySystem);
+    public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu, boolean changedBoxes) {
+        if (newStudySystem == null) {
+            throw new IllegalArgumentException("studysystemnullerror");
+        } else if (neu) {
+            execTransactional(() -> {
+                studySystemRepository.save(newStudySystem);
                 return true;
             });
-            }
+        } else if (oldStudySystem != null && !newStudySystem.getType().equals(oldStudySystem.getType())) {
+            log.info("Versuche das StudySystem zu wechseln");
+            List<CardOverview> cardsFromOldStudySystem = getCardsFromOldStudySystemAndDelete(oldStudySystem);
+            resetStudySystem(cardsFromOldStudySystem, newStudySystem);
 
+        } else {
+            if (changedBoxes) {
+                log.info("Try to reset boxes");
+                List<CardOverview> cardsFromOldStudySystem = getCardsFromOldStudySystemAndDelete(oldStudySystem);
+                log.info("Anzahl Boxen neues StudySystem {}", newStudySystem.getBoxes().size());
+                resetStudySystem(cardsFromOldStudySystem, newStudySystem);
+            } else {
+                execTransactional(() ->
+                        studySystemRepository.update(newStudySystem));
+            }
+        }
     }
 
+
+    /**
+     * Hilfsmethode für das Resetten / Ändern der Boxenanzahl eines StudySystems. Gibt die alten Karten aus dem StudySystem  auf
+     * und löscht das alte StudySystem danach, indem die delete Funktion aufgerufen wird.
+     * @param oldStudySystem das zu löschende StudySystem
+     * @return Karten (wenn vorhanden), die zum Deck gehören
+     */
     private List<CardOverview> getCardsFromOldStudySystemAndDelete(StudySystem oldStudySystem) {
         return execTransactional(() -> {
             List<CardOverview> cardsToStudySystem = cardRepository.findCardsByStudySystem(oldStudySystem);
@@ -458,7 +470,6 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             return cardsToStudySystem;
         });
     }
-
 
     /**
      * Wird aufgerufen, wenn ein StudySystem im EditModus geändert wurde und setzt das gesamte Deck zurück,
@@ -471,8 +482,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
             log.info("Wandle die Karten aus CardOverview in Karten um");
             List<Card> cards = cardRepository.getAllCardsForCardOverview(studySystemCards);
             //then move them to the other StudySystem
-            log.info("Setze alle Karten für neues StudySystem in Box 0");
-            moveAllCardsForDeckToFirstBoxNoExec(cards, newStudyS);
+            if(!cards.isEmpty()) {
+                moveAllCardsForDeckToFirstBoxNoExec(cards, newStudyS);
+                log.info("Setze alle Karten für neues StudySystem in Box 0");
+            }
             return null;
         });
 
@@ -500,6 +513,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
     private void deleteStudySystemNoExec(StudySystem studySystem) {
         log.info("Lösche alle Card To Boxes zum StudySystem");
         cardToBoxRepository.delete(cardToBoxRepository.getAllB2CForStudySystem(studySystem));
+        studySystemBoxRepository.delete(studySystemBoxRepository.getStudySystemsBoxesForStudySystem(studySystem));
         log.info("Lösche StudySystem");
         studySystemRepository.delete(studySystem);
 
@@ -519,7 +533,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param searchterm: Suchbegriff um nach zu suchen.
      * @return eine Liste von StudySystem
      */
-    public List<StudySystem> getStudySystemsBySearchterm(String searchterm) { // Testet
+    public List<StudySystem> getStudySystemsBySearchterm(String searchterm) { 
         checkNotNullOrBlank(searchterm);
         return execTransactional(() -> studySystemRepository.findStudySystemsContaining(searchterm));
     }
@@ -568,7 +582,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @return Karten
      */
 
-    public List<Card> getCardsForCardOverview(List<CardOverview>cards){ // Testet
+    public List<Card> getCardsForCardOverview(List<CardOverview>cards){ 
        return execTransactional(() -> cardRepository.getAllCardsForCardOverview(cards));
     }
 
@@ -578,7 +592,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param uuid: UUID des StudySystem
      * @return Zugehöriges StudySystem
      */
-    public StudySystem getStudySystemByUUID(String uuid) { // Testet
+    public StudySystem getStudySystemByUUID(String uuid) { 
         checkNotNullOrBlank(uuid);
         return execTransactional(() -> studySystemRepository.getStudySystemByUUID(uuid));
     }
@@ -588,7 +602,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param studySystem: studySystem, um die Anzahl der Karten darin zu suchen
      * @return Anzahl der Karten
      */
-    public Integer numCardsInDeck(StudySystem studySystem) { // Testet
+    public Integer numCardsInDeck(StudySystem studySystem) { 
           return getAllCardsInStudySystem(studySystem).size();
     }
 
@@ -599,7 +613,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param card: Für Box zu suchen
      * @return gefundenes BoxToCard
      */
-    public BoxToCard getBoxToCard(Card card,  StudySystem studySystem) { // Testet
+    public BoxToCard getBoxToCard(Card card,  StudySystem studySystem) { 
       return execTransactional(() ->  cardToBoxRepository.getSpecific(card, studySystem));
     }
 

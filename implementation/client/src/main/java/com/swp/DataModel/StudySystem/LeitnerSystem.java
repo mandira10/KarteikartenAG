@@ -18,13 +18,7 @@ import lombok.Setter;
 public class LeitnerSystem extends StudySystem
 {
 
-    /**
-     * daysToRelearn, wird bei Custom Leitner Systemen in der GUI gesetzt
-     * und beim Lernen für die Wiederholung der Boxen verwendet.
-     */
-    @SuppressWarnings("JpaAttributeTypeInspection")
-    @Column
-    private int[] daysToRelearn;
+
 
 
     /**
@@ -35,8 +29,7 @@ public class LeitnerSystem extends StudySystem
      */
     public LeitnerSystem(String name, CardOrder cardOrder) {
         super(name, cardOrder, StudySystemType.LEITNER);
-        daysToRelearn = new int[]{0,1,3,7,14};
-        initStudySystemBoxes(daysToRelearn);
+        initStudySystemBoxes(new int[]{0,1,3,7,14});
     }
 
     /**
@@ -46,17 +39,5 @@ public class LeitnerSystem extends StudySystem
         this("", CardOrder.ALPHABETICAL);
     }
 
-    public void resetStudySystemBoxes(int size, int[] daysToRelearn){
-        if(size>5){
-            for(int i = 5; i < size; i++){
-                this.boxes.add(new StudySystemBox(this, daysToRelearn[i],i));
-            }
-        }
-        else {
-            for(int i = 4; i > size; i--){
-                this.boxes.remove(i);
-            }
-        }
-    }
 
 }

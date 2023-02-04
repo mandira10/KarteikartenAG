@@ -75,7 +75,7 @@ public class CardController extends Controller
             () -> { return cardLogic.getCardOverview(begin, end, order, reverseOrder); },
             "getcardstoshowempty", 
             "Es wurden keine zugehörigen Karten gefunden", 
-            "TODO", // Beim Abrufen der Karten ist ein Fehler aufgetreten
+            "getcardstoshowerror", // Beim Abrufen der Karten ist ein Fehler aufgetreten
             "Beim Suchen nach Karten ist ein Fehler $ aufgetreten",
             callback,"");
     }

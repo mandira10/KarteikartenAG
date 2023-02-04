@@ -2,8 +2,6 @@ package com.swp.Controller.StudySystemControllerTest;
 
 
 import com.gumse.gui.Locale;
-import com.gumse.tools.Output;
-import com.gumse.tools.Toolbox;
 import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
@@ -13,7 +11,6 @@ import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Language.German;
-import com.swp.DataModel.Language.Language;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.Logic.StudySystemLogic;
@@ -362,6 +359,22 @@ public class StudySystemControllerTests {
 
         });
         assertEquals(expected, actual[0]);
+    }
+
+    @Test
+    public void getStudySystemByUUIDEmpty(){
+        String uuid = "";
+        studySystemController.getStudySystemByUUID(uuid, new SingleDataCallback<StudySystem>() {
+            @Override
+            protected void onSuccess(StudySystem data) {
+
+            }
+
+            @Override
+            protected void onFailure(String msg) {
+
+            }
+        });
     }
 
     @Test
@@ -807,7 +820,25 @@ public class StudySystemControllerTests {
         });
     }
 
-    //
+    @Test
+    public void addCardsToStudySystemTestNotEmpty() {
+        StudySystem studySystem = new LeitnerSystem();
+        List<CardOverview> list = new ArrayList<>();
+        list.add(new CardOverview());
+        when(studySystemMockLogic.addCardsToDeck(list, studySystem)).thenReturn(new ArrayList<Card>());
+
+        studySystemController.addCardsToStudySystem(list, studySystem, new SingleDataCallback<String>() {
+            @Override
+            public void onSuccess(String data) {
+            }
+
+            @Override
+            public void onFailure(String msg) {
+            }
+        });
+    }
+
+
 
 
     @Test
@@ -855,10 +886,10 @@ public class StudySystemControllerTests {
     public void updateDeckDataTestException() {
         StudySystem studySystem = new LeitnerSystem();
         StudySystem studySystem2 = new LeitnerSystem();
-        doThrow(new RuntimeException("Test")).when(studySystemMockLogic).updateStudySystemData(studySystem,studySystem2, false);
+        doThrow(new RuntimeException("Test")).when(studySystemMockLogic).updateStudySystemData(studySystem,studySystem2, false, false);
         String expected = "Beim Aktualisieren der Deckdaten ist ein Fehler aufgetreten.";
         final String[] actual = new String[1];
-        studySystemController.updateStudySystemData(studySystem,studySystem2,false, new SingleDataCallback<Boolean>() {
+        studySystemController.updateStudySystemData(studySystem,studySystem2,false, false, new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {
 
@@ -878,9 +909,9 @@ public class StudySystemControllerTests {
         StudySystem studySystem = new LeitnerSystem();
         StudySystem studySystem2 = new LeitnerSystem();
 
-        doNothing().when(studySystemMockLogic).updateStudySystemData(studySystem2, studySystem, true);
+        doNothing().when(studySystemMockLogic).updateStudySystemData(studySystem2, studySystem, true, false);
 
-        studySystemController.updateStudySystemData(studySystem2, studySystem, true, new SingleDataCallback<Boolean>() {
+        studySystemController.updateStudySystemData(studySystem2, studySystem, true, false, new SingleDataCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean data) {
             }
@@ -890,6 +921,27 @@ public class StudySystemControllerTests {
             }
         });
     }
+
+    @Test
+    public void resetLearnStatusTest() {
+        StudySystem studySystem = new LeitnerSystem();
+
+        studySystemController.resetLearnStatus(studySystem, new SingleDataCallback<Boolean>() {
+            @Override
+            protected void onSuccess(Boolean data) {
+
+            }
+
+            @Override
+            protected void onFailure(String msg) {
+
+            }
+        });
+
+        verify(studySystemMockLogic).resetLearnStatus(studySystem);
+    }
+
+
 
 
 }
