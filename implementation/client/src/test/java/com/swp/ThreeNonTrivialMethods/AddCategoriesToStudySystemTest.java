@@ -29,6 +29,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
@@ -342,33 +343,18 @@ public class AddCategoriesToStudySystemTest {
         verify(mockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
             public boolean matches(List<CardOverview> overviews) {
-                overviews.stream().forEach(o -> {
-                    cardsInCategories.add(o);
-                    assertTrue(Objects.equals(o.getUUUID(), card1.getUuid())
-                            || Objects.equals(o.getUUUID(), card2.getUuid()));
-                });
+               assertEquals(3, overviews.size());
+               assertEquals(2,overviews.stream().filter(c -> c.getTitelToShow().equals("Titel 1")).collect(Collectors.toSet()).size());
+               assertEquals(1,overviews.stream().filter(c -> c.getTitelToShow().equals("Titel 2")).collect(Collectors.toSet()).size());
                 return true;
             }
         }));
 
-        /*
-        for (CardOverview co : cardsInCategories) {
-            System.out.println(co.getTitelToShow());
-        }
-
-        // ich würde 3 erwarten
-        // Karte 1 ist in Kategorie 1 und 2
-        // Karte 2 ist nur in Kategorie 2
-        // es kommt aber 6 bei raus
-        // 4x Karte 1 und 2x Karte 2
-        // beides je doppelt so oft wie erwartet
-        assertEquals(3, cardsInCategories.size());
-         */
 
         SingleDataCallback<String> mockCallback = mock(SingleDataCallback.class);
         studySystemController.addCardsToStudySystem(cardsInCategories, study3, mockCallback);
         BaseRepository.startTransaction();
-        assertEquals(4, cardToBoxRepository.countAll());
+        assertEquals(2, cardToBoxRepository.countAll());
         BaseRepository.commitTransaction();
     }
 
