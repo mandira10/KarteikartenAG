@@ -26,6 +26,7 @@ import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.StudySystem.StudySystem;
 
 /**
  * Die Seite auf welcher man nach Karten suchen, oder sich einfach alle Anzeigen lassen kann
@@ -65,7 +66,10 @@ public class CardOverviewPage extends Page
         Button addToDeckButton = (Button)findChildByID("addtodeckbutton");
         addToDeckButton.onClick((RenderGUI gui) -> {
             List<CardOverview> cards = pCardList.getSelection();
-            ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(cards);
+            ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(cards, (StudySystem deck) -> {
+                loadCards(0, 30);
+                PageManager.viewPage(PAGES.CARD_OVERVIEW);
+            });
         });
         addToDeckButton.hide(true);
 

@@ -10,6 +10,7 @@ import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.Category;
+import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardExportPage;
@@ -177,7 +178,10 @@ public class CategoryOverviewPage extends Page
         CategoryController.getInstance().getCardsInCategories(pCategoryList.getSelectedCategories(), new DataCallback<CardOverview>() {
             @Override public void onSuccess(List<CardOverview> cards) 
             {
-                ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(cards);
+                ((DeckSelectPage)PageManager.viewPage(PAGES.DECK_SELECTION)).reset(cards, (StudySystem deck) -> {
+                    PageManager.viewPage(PAGES.CATEGORY_OVERVIEW);
+                    loadCategories();
+                });
             }
 
             @Override public void onFailure(String msg) 

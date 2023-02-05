@@ -27,6 +27,19 @@ public class DeckSelectPage extends Page
 {
     private final DeckList pDeckList;
     private List<CardOverview> alCards;
+    private DeckReturnFunc pReturnFunc;
+
+    /**
+     * Gibt das ausgewähltee Deck wieder
+     */
+    public interface DeckReturnFunc
+    {
+        /**
+         * Wird ausgeführt, wenn auf ein Deck gedrückt wird
+         * @param deck Das ausgewählte Deck
+         */
+        void run(StudySystem deck);
+    }
 
     /**
      * Der Standardkonstruktor der Klasse DeckSelectPage
@@ -46,7 +59,7 @@ public class DeckSelectPage extends Page
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
-        cancelButton.onClick((RenderGUI gui) -> PageManager.viewLastPage() );
+        cancelButton.onClick((RenderGUI gui) -> PageManager.viewLastPage());
 
 
         this.setSizeInPercent(true, true);
@@ -58,9 +71,10 @@ public class DeckSelectPage extends Page
      *
      * @param cards Die Karten welche zu dem Deck hinzugefügt werden sollen
      */
-    public void reset(List<CardOverview> cards)
+    public void reset(List<CardOverview> cards, DeckReturnFunc returnfunc)
     {
         alCards = cards;
+        this.pReturnFunc = returnfunc;
         pDeckList.reset();
         StudySystemController.getInstance().getStudySystems(new DataCallback<>() {
             @Override
@@ -95,7 +109,8 @@ public class DeckSelectPage extends Page
                         NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
                     }
                 });
-                PageManager.viewLastPage(); //TODO unselect card??
+                if(pReturnFunc != null)
+                    pReturnFunc.run(deck);
             }
         });
     }
