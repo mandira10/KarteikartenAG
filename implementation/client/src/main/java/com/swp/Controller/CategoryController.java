@@ -51,7 +51,6 @@ public class CategoryController extends Controller
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.updateCategoryData(category, neu, nameChange); return true; },
-            "", "",
             "categoryupdatesaveerror", "Beim Updaten/Speichern der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten",
             callback,"");
     }
@@ -70,7 +69,6 @@ public class CategoryController extends Controller
             () -> categoryLogic.editCategoryHierarchy(category, parents, children)
                 ? Locale.getCurrentLocale().getString("selfreferenceerror")
                 : "",
-            "", "", 
             "categoryhierarchyupdateerror", "Beim Updaten der Kategorie ist der Fehler $ aufgetreten", 
             callback,"");
     }
@@ -86,7 +84,7 @@ public class CategoryController extends Controller
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.deleteCategory(category); return true; }, 
-            "", "", 
+
             "deletecategoryerror", "Beim Löschen der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
             callback, "");
     }
@@ -103,7 +101,7 @@ public class CategoryController extends Controller
         String categoriesstr = categories != null ? categories.toString() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.deleteCategories(categories); return true; },
-            "", "",
+
             "deletecategorieserror", "Beim Löschen den Kategorien "+categoriesstr+" ist ein Fehler $ aufgetreten",
             callback, "");
     }
@@ -152,8 +150,6 @@ public class CategoryController extends Controller
     {
         callLogicFuncInThread(
             () -> { return categoryLogic.getCategoryByUUID(uuid); },
-            "categorybyuuidempty",
-            "Es wurde keine Kategorie zur UUID "+uuid+" gefunden", 
             "categorybyuuiderror",
             "Beim Abrufen der Kategorie "+uuid+" ist ein Fehler $ aufgetreten", 
             callback,"UUID");
@@ -172,7 +168,7 @@ public class CategoryController extends Controller
         String uuid = card != null ? card.getUuid() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.setCardToCategories(card, categories); return true; }, 
-            "", "", 
+
             "setcategoriestocarderror", "Beim Setzen der Kategorien für die Karte mit der UUID "+uuid+" ist ein Fehler $ aufgetreten", 
             callback, "");
     }
@@ -310,7 +306,7 @@ public class CategoryController extends Controller
         String categoryname = category != null ? category.getName() : "";
         callLogicFuncInThread(
             () -> { categoryLogic.removeCardsFromCategory(list, category); return true; }, 
-            "", "", 
+
             "removecardsfromstudysystemerror", "Beim entfernen der Karten aus der Kategorie "+categoryname+" ist ein Fehler $ aufgetreten", 
             callback, "");
     }

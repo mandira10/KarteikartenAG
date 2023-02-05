@@ -53,7 +53,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.moveAllCardsForDeckToFirstBox(cards, studySystem); return true; }, 
-            "", "", 
+
             "moveallcardsfordecktofirstboxerror", "",
             callback, "");
     }
@@ -86,7 +86,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.giveAnswer(studySystem, answer); return true; },
-            "", "",
+
             "giveanswererror", "",
             callback, "");
     }
@@ -104,7 +104,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.giveRating(studySystem, card, rating); return true; },
-            "", "",
+
             "giveratingerror", "",
             callback, "");
     }
@@ -120,7 +120,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.finishTestAndGetResult(studySystem); },
-            "", "",
+
             "finishtestandgetresulterror", "",
             callback, "");
     }
@@ -137,7 +137,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.getNextCard(studySystem); },
-            "", "",
+
             "getnextcarderror", "",
             callback, "");
     }
@@ -152,7 +152,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.numCardsInDeck(studySystem); },
-            "", "",
+
             "numcardsindeckerror", "",
             callback, "");
     }
@@ -167,7 +167,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.getStudySystemByUUID(uuid); },
-            "getstudysystembyuuidnoresult", "",
+
             "getstudysystembyuuiderror", "",
             callback, "UUID");
     }
@@ -183,7 +183,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.removeCardsFromStudySystem(list, studySystem); return true; },
-            "", "Null Variable gegeben",
+
             "removecardsfromstudysystemerror", "",
             callback, "");
     }
@@ -199,7 +199,6 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.deleteStudySystem(studySystem); return true; },
-            "", "Null Variable gegeben",
             "deletestudysystemerror", "",
             callback, "");
     }
@@ -215,7 +214,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.deleteStudySystem(studySystems); return true; },
-            "", "",
+
             "deletedeckserror", "",
             callback, "");
     }
@@ -268,7 +267,7 @@ public class StudySystemController extends Controller
                            + existingCards.stream().map(Card::getTitle).collect(Collectors.joining(","));
                 return result;
             },
-            "result", "",
+
             "addcardstostudysystemerror", "",
             callback, "");
     }
@@ -286,7 +285,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.updateStudySystemData(oldStudySystem, newStudySystem, neu, changedBoxes); return true; },
-            "", "",
+
             "updatedeckdataerror", "",
             callback, "");
     }
@@ -302,7 +301,6 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { studySystemLogic.resetLearnStatus(studySystem); return true; },
-            "", "",
             "resetlearnstatuserror", "",
             callback, "");
     }

@@ -81,7 +81,7 @@ public abstract class Controller
             callback.callInfo(Locale.getCurrentLocale().getString(localeid));
 
     }
-    
+
     protected <T> void callLogicFuncInThread(LogicFunc<T> func, String infolocale, String infolog, String failurelocale, String failurelog, DataCallback<T> callback,String name)
     {
         threadPool.exec(() -> {
@@ -109,12 +109,13 @@ public abstract class Controller
         });
     }
 
-    protected <T> void callLogicFuncInThread(SingleLogicFunc<T> func, String infolocale, String infolog, String failurelocale, String failurelog, SingleDataCallback<T> callback,String name)
+    protected <T> void callLogicFuncInThread(SingleLogicFunc<T> func, String failurelocale, String failurelog, SingleDataCallback<T> callback,String name)
     {
         threadPool.exec(() -> {
             try  {
                 T data = func.callFunc();
                 success(callback, data);
+
             }
             catch (IllegalArgumentException | IllegalStateException ex) 
             {

@@ -383,9 +383,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
         if(studySystem.getType() == StudySystem.StudySystemType.LEITNER){
             List<Long> progressPerBox = studySystemBoxRepository.getProgressForLeitner(studySystem);
             int sum = progressPerBox.stream().mapToInt(Long::intValue).sum();
-            log.info("Summe des Progresses per Box ist: {}", sum);
            studySystem.setProgress(Math.round((double) sum / (numCardsInToTal * progressPerBox.size()) * 100 ));
-           log.info("Progress Leinter ist {}", studySystem.getProgress());
+           log.info("Progress Leitner ist {}", studySystem.getProgress());
         }
         else {
             studySystem.setProgress(Math.round((double) numOfLearnedCards / numCardsInToTal * 100));
