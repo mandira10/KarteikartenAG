@@ -13,6 +13,8 @@ import java.util.List;
 /**
  * CardController Klasse. Wird in der GUI für alle Funktionen zur Karte aufgerufen und
  * gibt Ergebnisse an die GUI weiter.
+ *
+ * @author Nadja Cordes
  */
 public class CardController extends Controller
 {

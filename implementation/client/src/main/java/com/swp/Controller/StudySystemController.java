@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 /**
  * StudySystemController Klasse. Wird in der GUI für alle Funktionen zur StudySystem aufgerufen und
  * gibt Ergebnisse an die GUI weiter.
+ *
+ * @author Nadja Cordes, Mert As
  */
 @Slf4j
 public class StudySystemController extends Controller

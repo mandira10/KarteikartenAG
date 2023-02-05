@@ -12,6 +12,8 @@ import java.util.List;
 /**
  * CategoryController Klasse. Wird in der GUI für alle Funktionen zur Kategorie aufgerufen und
  * gibt Ergebnisse an die GUI weiter.
+ *
+ * @author Nadja Cordes
  */
 public class CategoryController extends Controller
 {

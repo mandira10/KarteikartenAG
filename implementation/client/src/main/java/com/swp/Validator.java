@@ -3,7 +3,7 @@ package com.swp;
 /**
  * Eine Applikation zur Verwaltung von Kursen und Teilnehmer:innen in den Kursen.
  *
- * @author Karsten Hölscher, modifications by Karteikarten AG
+ * @author Karsten Hölscher, modifications by Nadja Cordes
  */
 public class Validator 
 {
