@@ -114,10 +114,6 @@ public class EditDeckPage extends Page
 
         //CardOrder dropdown
         pCardOrderDropdown = (Dropdown)findChildByID("cardorderdd");
-        pCardOrderDropdown.onClick((RenderGUI gui) -> {
-
-
-        });
         pCardOrderDropdown.onSelection((String str) -> {
             if(str.equals(Locale.getCurrentLocale().getString("alphabetical")))
                 pNewDeck.setCardOrder(CardOrder.ALPHABETICAL);
