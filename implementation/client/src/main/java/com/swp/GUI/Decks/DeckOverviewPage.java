@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class DeckOverviewPage extends Page
 {
-    private RenderGUI pCanvas;
-    private DeckList pDeckList;
+    private final RenderGUI pCanvas;
+    private final DeckList pDeckList;
 
     /**
      * Der Standardkonstruktor der Klasse DeckOverviewPage
@@ -108,9 +108,9 @@ public class DeckOverviewPage extends Page
             }
         };
 
-        switch(option)
-        {
-            /*By Content*/  case 0: StudySystemController.getInstance().getStudySystemBySearchTerms(searchterm, commoncallback);  break;
-        }  
+        /*By Content*/
+        if (option == 0) {
+            StudySystemController.getInstance().getStudySystemBySearchTerms(searchterm, commoncallback);
+        }
     }
 }

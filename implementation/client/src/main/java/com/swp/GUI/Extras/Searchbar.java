@@ -136,5 +136,5 @@ public class Searchbar extends RenderGUI
 
 			return new Searchbar(new ivec2(0,0), new ivec2(30,30), localeid, optionids);
         };
-    };
+    }
 }

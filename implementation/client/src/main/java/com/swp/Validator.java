@@ -1,10 +1,5 @@
 package com.swp;
 
-import com.gumse.gui.Locale;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.Controller.SingleDataCallback;
-
 /**
  * Eine Applikation zur Verwaltung von Kursen und Teilnehmer:innen in den Kursen.
  *
@@ -17,7 +12,7 @@ public class Validator
      *
      * @param object Das zu prüfende Objekt
      * @param <T>    Der Typ des Objekts
-     * @return Das Objekt falls dies nicht null oder leer ist
+     * @return Das Objekt, falls dies nicht null oder leer ist
      */
     public static <T> T checkNotNullOrBlank(final T object)
     {

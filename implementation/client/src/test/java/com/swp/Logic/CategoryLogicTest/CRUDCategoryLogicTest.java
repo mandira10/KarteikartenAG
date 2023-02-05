@@ -29,7 +29,7 @@ import static org.mockito.Mockito.*;
 public class CRUDCategoryLogicTest {
 
     private CategoryRepository categoryRepMock;
-    private CategoryLogic categoryLogic = CategoryLogic.getInstance();
+    private final CategoryLogic categoryLogic = CategoryLogic.getInstance();
 
     /**
      * BeforeAll wird synchronizedTasks aufgerufen und die PU initialisiert für die Tests,
@@ -83,7 +83,7 @@ public class CRUDCategoryLogicTest {
     public void testDeleteFunctionForManyCategories(){
        Category cat1 = new Category("Test");
        Category cat2 = new Category("Test2");
-        List<Category> cats = Arrays.asList(new Category[]{cat2,cat1});
+        List<Category> cats = Arrays.asList(cat2,cat1);
         doNothing().when(categoryRepMock).delete(any(Category.class));
         categoryLogic.deleteCategories(cats);
         verify(categoryRepMock, times(2)).delete(any(Category.class));

@@ -50,8 +50,8 @@ public class CategoryList extends RenderGUI
     }
 
     private boolean bIsInSelectmode;
-    private CategoryListSelectmodeCallback pSelectmodeCallback;
-    private HierarchyList<Category> pList;
+    private final CategoryListSelectmodeCallback pSelectmodeCallback;
+    private final HierarchyList<Category> pList;
 
     /**
      * Der Hauptkonstruktor der Klasse CategoryList

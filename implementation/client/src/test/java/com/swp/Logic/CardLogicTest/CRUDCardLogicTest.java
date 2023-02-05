@@ -38,7 +38,7 @@ public class CRUDCardLogicTest {
     private CardToTagRepository cardToTagRepMock;
     private CardToBoxRepository cardToBoxRepMock;
 
-    private CardLogic cardLogic = CardLogic.getInstance();
+    private final CardLogic cardLogic = CardLogic.getInstance();
 
     /**
      * BeforeAll wird synchronizedTasks aufgerufen und die PU initialisiert für die Tests,

@@ -22,9 +22,9 @@ import com.gumse.system.filesystem.XML.XMLNode;
  */
 public class MenuOptions extends RenderGUI
 {
-    private Button pOptionsButton;
+    private final Button pOptionsButton;
     private Speechbubble pBubble;
-    private List<RenderGUI> alEntries;
+    private final List<RenderGUI> alEntries;
     private boolean bLock;
     private static final int GAP_SIZE = 20;
 
@@ -143,5 +143,5 @@ public class MenuOptions extends RenderGUI
 			MenuOptions menuoptionsgui = new MenuOptions(new ivec2(0, 0), new ivec2(0, 30));
 			return menuoptionsgui;
         };
-    };
+    }
 }

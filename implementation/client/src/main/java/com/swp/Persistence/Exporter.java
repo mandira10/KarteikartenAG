@@ -34,7 +34,7 @@ public class Exporter
     private String prepareDestination(String givendest, String ext)
     {
         String retStr = givendest;
-        if(!givendest.substring(givendest.length() - ext.length(), givendest.length()).equals(ext))
+        if(!givendest.startsWith(ext, givendest.length() - ext.length()))
             retStr += ext;
         return retStr;
     }

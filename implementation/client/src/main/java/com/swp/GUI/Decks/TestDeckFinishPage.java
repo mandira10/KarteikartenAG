@@ -22,7 +22,7 @@ import com.swp.GUI.PageManager.PAGES;
 public class TestDeckFinishPage extends Page
 {
     private StudySystem pDeck;
-    private TextBox pFinishText;
+    private final TextBox pFinishText;
 
     /**
      * Der Standardkonstruktor der Klasse TestDeckFinishPage

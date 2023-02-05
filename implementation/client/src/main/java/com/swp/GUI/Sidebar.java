@@ -26,9 +26,9 @@ public class Sidebar extends RenderGUI
 {
     private class SidebarItem extends RenderGUI
     {
-        private TextBox pSymbol;
-        private Text pTitle;
-        private SmoothFloat pColorSmoothFloat;
+        private final TextBox pSymbol;
+        private final Text pTitle;
+        private final SmoothFloat pColorSmoothFloat;
 
         public SidebarItem(char symbol, String title, ivec2 pos, GUICallback callback)
         {
@@ -106,9 +106,9 @@ public class Sidebar extends RenderGUI
     }
 
 
-    private Box pBackground;
+    private final Box pBackground;
 
-    private SmoothFloat pSmoothFloat;
+    private final SmoothFloat pSmoothFloat;
 
     /**
      * Der Standardkonstruktor der Klasse Sidebar

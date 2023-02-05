@@ -29,11 +29,12 @@ import com.swp.Controller.SingleDataCallback;
 public class EditCategoryPage extends Page
 {
     private Category pNewCategory;
-    private TextField pTitleField;
+    private final TextField pTitleField;
     private boolean bIsNewCategory;
     private boolean nameChange;
     private List<Category> aParents, aChildren;
-    private TextBox pCategoriesParentsBox, pCategoriesChildrenBox;
+    private final TextBox pCategoriesParentsBox;
+    private final TextBox pCategoriesChildrenBox;
 
     /**
      * Der Standardkonstruktor der Klasse EditCategoryPage

@@ -37,15 +37,16 @@ import java.util.List;
  */
 public class ViewSingleCardPage extends Page
 {
-    private RatingGUI pRatingGUI;
+    private final RatingGUI pRatingGUI;
     private Card pCard;
-    private RenderGUI pCanvas;
-    private CardRenderer pCardRenderer;
-    private Text pTagsText, pCategoriesText;
-    private ReferencesGUI pReferences;
+    private final RenderGUI pCanvas;
+    private final CardRenderer pCardRenderer;
+    private final Text pTagsText;
+    private final Text pCategoriesText;
+    private final ReferencesGUI pReferences;
     private PAGES iLastPage;
-    private Button pFlipButton;
-    private AudioGUI pAudioGUI;
+    private final Button pFlipButton;
+    private final AudioGUI pAudioGUI;
 
     /**
      * Der Standardkonstruktor der Klasse ViewSingleCardPage

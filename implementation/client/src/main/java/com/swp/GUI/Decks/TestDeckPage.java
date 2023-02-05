@@ -34,19 +34,20 @@ import com.swp.GUI.PageManager.PAGES;
  */
 public class TestDeckPage extends Page
 {
-    private RenderGUI pCanvas;
+    private final RenderGUI pCanvas;
     private StudySystem pDeck;
     private TestCardGUI pTestGUI;
-    private Text pTimeText;
+    private final Text pTimeText;
     private boolean bAnswerChecked, bNextCardAllowed, bCurrentAnswer;
     private boolean bStopTime;
     private long lStartTime, lTimeLimit;
     private Card pCardToLearn;
-    private Button pCheckButton, pAnswerOverrideButton;
+    private final Button pCheckButton;
+    private final Button pAnswerOverrideButton;
     private RatingGUI pRatingGUI;
-    private RenderGUI pOptionsMenu;
+    private final RenderGUI pOptionsMenu;
 
-    private StudySystemController studySystemController = StudySystemController.getInstance();
+    private final StudySystemController studySystemController = StudySystemController.getInstance();
 
     /**
      * Der Standardkonstruktor der Klasse TestDeckPage
@@ -224,16 +225,10 @@ public class TestDeckPage extends Page
         bCurrentAnswer = pTestGUI.checkAnswers();
         pAnswerOverrideButton.hide(bCurrentAnswer || pDeck.getType() == StudySystemType.VOTE);
 
-        switch(pDeck.getType())
-        {
-            case VOTE:   
-                bNextCardAllowed = false; 
-                pRatingGUI.setRating(0);
-                pRatingGUI.hide(false);
-                break;
-
-            default:
-                break;
+        if (pDeck.getType() == StudySystemType.VOTE) {
+            bNextCardAllowed = false;
+            pRatingGUI.setRating(0);
+            pRatingGUI.hide(false);
         }
     }
 

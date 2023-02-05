@@ -34,11 +34,11 @@ import java.util.List;
  */
 public class CategoryOverviewPage extends Page
 {
-    private RenderGUI pCanvas;
+    private final RenderGUI pCanvas;
     private CategoryList pCategoryList;
-    private Button pDeleteCategoriesButton;
-    private Button pAddToDeckButton;
-    private Button pExportButton;
+    private final Button pDeleteCategoriesButton;
+    private final Button pAddToDeckButton;
+    private final Button pExportButton;
     private boolean bReverseOrder;
 
     private static final CategoryController categoryController = CategoryController.getInstance();

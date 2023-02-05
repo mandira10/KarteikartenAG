@@ -28,7 +28,7 @@ public class CrudTest {
     private final CategoryRepository categoryRepository = CategoryRepository.getInstance();
     private final CardToBoxRepository cardToBoxRepository = CardToBoxRepository.getInstance();
     private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();
-    private Locale locale = new Locale("German", "de");
+    private final Locale locale = new Locale("German", "de");
     private int i;
 
     @BeforeAll

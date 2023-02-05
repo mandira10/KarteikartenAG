@@ -31,8 +31,8 @@ import java.util.List;
 public class ViewSingleDeckPage extends Page
 {
     private StudySystem pDeck;
-    private RenderGUI pCanvas;
-    private CardList pCardList;
+    private final RenderGUI pCanvas;
+    private final CardList pCardList;
 
     /**
      * Der Standardkonstruktor der Klasse ViewSingleDeckPage

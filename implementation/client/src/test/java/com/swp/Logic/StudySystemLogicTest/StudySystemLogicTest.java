@@ -33,7 +33,7 @@ import static org.mockito.Mockito.*;
 
 public class StudySystemLogicTest {
 
-    private StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
+    private final StudySystemLogic studySystemLogic = StudySystemLogic.getInstance();
     private StudySystemRepository studySystemMockRepo;
     
     private StudySystemBoxRepository studySystemBoxMockRepo;
@@ -50,7 +50,7 @@ public class StudySystemLogicTest {
     }
 
 
-    private Locale locale = new Locale("German", "de");
+    private final Locale locale = new Locale("German", "de");
     private int i;
 
 
@@ -152,7 +152,7 @@ public class StudySystemLogicTest {
         StudySystem studySystem1 = new TimingSystem();
         when(studySystemMockRepo.save(studySystem1)).thenReturn(studySystem1);
         studySystemLogic.updateStudySystemData(studySystem,studySystem1,true, false);
-        //TODO
+        verify(studySystemMockRepo).save(studySystem1);
     }
 
     @Test
@@ -793,7 +793,7 @@ public class StudySystemLogicTest {
         assertEquals(boxToCard.getRating(),0);
         assertEquals(boxToCard.getStudySystemBox().getBoxNumber(),0);
         assertEquals(studySystem.getProgress(),0);
-        assertEquals(studySystem.isNotLearnedYet(),true);
+        assertTrue(studySystem.isNotLearnedYet());
     }
 
     @Test

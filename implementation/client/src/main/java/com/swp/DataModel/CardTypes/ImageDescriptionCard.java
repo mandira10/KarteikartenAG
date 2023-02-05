@@ -92,7 +92,7 @@ public class ImageDescriptionCard extends Card
         String retstr = "";
         for(ImageDescriptionCardAnswer answer : answers)
         {
-            retstr += String.valueOf(i++) + " " + answer.answertext + "\n";
+            retstr += i++ + " " + answer.answertext + "\n";
         }
 
         return retstr;

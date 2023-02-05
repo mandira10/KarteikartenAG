@@ -29,8 +29,8 @@ import java.util.List;
 public class ViewSingleCategoryPage extends Page
 {
     private Category pCategory;
-    private RenderGUI pCanvas;
-    private CardList pCardList;
+    private final RenderGUI pCanvas;
+    private final CardList pCardList;
 
     /**
      * Der Standardkonstruktor für die Klasse ViewSingleCategoryPage

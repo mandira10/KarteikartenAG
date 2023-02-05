@@ -33,7 +33,7 @@ public class FilterSearchTermsLogicTagTest {
     /**
      * Zu testende Logik
      */
-    private CardLogic cardLogic = CardLogic.getInstance();
+    private final CardLogic cardLogic = CardLogic.getInstance();
     /**
      * Gemockte Repos
      */

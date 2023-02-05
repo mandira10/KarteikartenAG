@@ -32,8 +32,8 @@ public class RatingGUI extends RenderGUI
         void run(int rating);
     }
 
-    private Box pBackground;
-    private int iStarSize;
+    private final Box pBackground;
+    private final int iStarSize;
     private int iActualRating;
     private boolean bReset;
     private RateCallback pCallback;
@@ -153,5 +153,5 @@ public class RatingGUI extends RenderGUI
 			RatingGUI ratinggui = new RatingGUI(new ivec2(0,0), starsize, numstars);
 			return ratinggui;
         };
-    };
+    }
 }

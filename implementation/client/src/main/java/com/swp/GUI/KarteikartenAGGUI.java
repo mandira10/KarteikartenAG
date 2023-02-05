@@ -14,10 +14,10 @@ import com.swp.GUI.Extras.NotificationGUI;
  */
 public class KarteikartenAGGUI extends RenderGUI
 {
-    private Sidebar pSidebar;
-    private NotificationGUI pNotifications;
-    private ConfirmationGUI pConfirmations;
-    private Theme pLightTheme;
+    private final Sidebar pSidebar;
+    private final NotificationGUI pNotifications;
+    private final ConfirmationGUI pConfirmations;
+    private final Theme pLightTheme;
 
     private static KarteikartenAGGUI pInstance;
 

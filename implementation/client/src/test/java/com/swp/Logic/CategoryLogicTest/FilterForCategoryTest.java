@@ -28,6 +28,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.joor.Reflect.on;
@@ -42,7 +43,7 @@ public class FilterForCategoryTest {
     private CardRepository cardRepMock;
     private CategoryRepository categoryRepMock;
     private CardToCategoryRepository cardToCategoryMock;
-    private CategoryLogic categoryLogic = CategoryLogic.getInstance();
+    private final CategoryLogic categoryLogic = CategoryLogic.getInstance();
 
 
     /**
@@ -114,7 +115,7 @@ public class FilterForCategoryTest {
     public void testExceptionIfCategoryOrderNameNull() {
         final String expected = "nonnull";
         final IllegalArgumentException exception =
-                assertThrows(IllegalArgumentException.class, () -> categoryLogic.getCardsInCategory((String) null, ListOrder.Order.DATE, false));
+                assertThrows(IllegalArgumentException.class, () -> categoryLogic.getCardsInCategory(null, ListOrder.Order.DATE, false));
         assertEquals(expected, exception.getMessage());
     }
 
@@ -246,7 +247,7 @@ public class FilterForCategoryTest {
         Category category = new Category();
         List<CardOverview> cardsviews = new ArrayList<>();
         Card card = null;
-        List<Card> cards = Arrays.asList(card);
+        List<Card> cards = Collections.singletonList(card);
         when(cardRepMock.getAllCardsForCardOverview(cardsviews)).thenReturn(cards);
         Exception exception = assertThrows(IllegalStateException.class,() -> {
             categoryLogic.removeCardsFromCategory(cardsviews,category);
@@ -277,7 +278,7 @@ public class FilterForCategoryTest {
         Category category = new Category();
         List<CardOverview> cardsviews = new ArrayList<>();
         Card card = new TrueFalseCard();
-        List<Card> cards = Arrays.asList(card);
+        List<Card> cards = List.of(card);
         CardToCategory cardToCategory = new CardToCategory();
         when(cardToCategoryMock.getSpecific(card,category)).thenReturn(cardToCategory);
         when(cardRepMock.getAllCardsForCardOverview(cardsviews)).thenReturn(cards);

@@ -40,10 +40,11 @@ public class EditCardPage extends Page
 
     private Card pNewCard;
     private List<Category> aCategories;
-    private RenderGUI pCanvas;
-    private TextField pTitlefield, pQuestionField;
-    private TagList<Tag> pTagList;
-    private TextBox pCategoriesBox;
+    private final RenderGUI pCanvas;
+    private final TextField pTitlefield;
+    private final TextField pQuestionField;
+    private final TagList<Tag> pTagList;
+    private final TextBox pCategoriesBox;
     private boolean bIsNewCard;
 
     /**

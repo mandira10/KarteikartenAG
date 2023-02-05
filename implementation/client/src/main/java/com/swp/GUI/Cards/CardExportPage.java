@@ -32,9 +32,9 @@ import com.swp.Controller.SingleDataCallback;
  */
 public class CardExportPage extends Page
 {
-    private CardList pCardList;
+    private final CardList pCardList;
     private Speechbubble pBubble;
-    private Text pTypeText;
+    private final Text pTypeText;
     private Exporter.ExportFileType iFileType;
 
     /**

@@ -32,8 +32,8 @@ public class CardRenderer extends RenderGUI
     private static Camera pCamera = null;
     private static Framebuffer pFrontFramebuffer = null, pBackFramebuffer;
     private Card pCard;
-    private ivec2 viewportsize;
-    private ivec2 viewportpos;
+    private final ivec2 viewportsize;
+    private final ivec2 viewportpos;
     private vec3 v3TargetRotation;
     private boolean bCurrentSide, bDoneRotating;
 

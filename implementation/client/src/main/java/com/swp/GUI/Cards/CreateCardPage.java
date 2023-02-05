@@ -26,7 +26,7 @@ import com.swp.GUI.PageManager.PAGES;
  */
 public class CreateCardPage extends Page
 {
-    private Dropdown pTypeDropdown;
+    private final Dropdown pTypeDropdown;
 
     /**
      * Der Standardkonstruktor der Klasse CreateCardPage

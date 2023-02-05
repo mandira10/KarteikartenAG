@@ -58,7 +58,7 @@ public class PageManager
         /** DeckSelectPage */                      DECK_SELECTION,
         /** CreateDeckPage */                      DECK_CREATE,
         /** SettingsPage */                        SETTINGS,
-    };
+    }
 
     private static Map<PAGES, Page> mPages = null;
     private static Page pActivePage, pLastPage;

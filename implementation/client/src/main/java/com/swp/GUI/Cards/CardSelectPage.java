@@ -38,8 +38,8 @@ public class CardSelectPage extends Page
     }
 
 
-    private Searchbar pSearchbar;
-    private CardList pCardList;
+    private final Searchbar pSearchbar;
+    private final CardList pCardList;
     private CardReturnFunc pReturnFunc;
     private int iCurrentLastIndex;
 

@@ -34,7 +34,7 @@ public class CardToTagLogicTests {
     private TagRepository tagRepMock;
 
     private CardToTagRepository cardToTagRepMock;
-    private CardLogic cardLogic = CardLogic.getInstance();
+    private final CardLogic cardLogic = CardLogic.getInstance();
 
     @BeforeAll
     public static void before()

@@ -2,15 +2,12 @@ package com.swp.Controller.CategoryControllerTest;
 
 
 import com.gumse.gui.Locale;
-import com.gumse.tools.Output;
-import com.gumse.tools.Toolbox;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
-import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Language.German;
@@ -29,7 +26,6 @@ import java.util.List;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -241,7 +237,7 @@ public class CategoryControllerTests {
         verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
             public boolean matches(List<CardOverview> overviews) {
-                overviews.equals(list);
+                assertEquals(overviews,list);
                 return true;
             }
 
@@ -430,7 +426,7 @@ public class CategoryControllerTests {
         verify(catMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Category>>() {
             @Override
             public boolean matches(List<Category> overviews) {
-                overviews.equals(list);
+                assertEquals(overviews,list);
                 return true;
             }
 
@@ -496,7 +492,7 @@ public class CategoryControllerTests {
         verify(catMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Category>>() {
             @Override
             public boolean matches(List<Category> overviews) {
-                overviews.equals(list);
+                assertEquals(overviews,list);
                 return true;
             }
 
@@ -559,7 +555,7 @@ public class CategoryControllerTests {
         verify(catMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Category>>() {
             @Override
             public boolean matches(List<Category> overviews) {
-                overviews.equals(list);
+                assertEquals(overviews,list);
                 return true;
             }
 
@@ -599,13 +595,13 @@ public class CategoryControllerTests {
      */
     @Test
     public void getCategoriesTestWithReturningList(){
-        final List<Category> list = Arrays.asList(new Category());
+        final List<Category> list = List.of(new Category());
         when(categoryMockLogic.getCategories()).thenReturn(list);
         assertDoesNotThrow(() ->  categoryController.getCategories(catMockDataCallback));
         verify(catMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Category>>() {
             @Override
             public boolean matches(List<Category> overviews) {
-                overviews.equals(list);
+                assertEquals(overviews,list);
                 return true;
             }
 
@@ -651,7 +647,7 @@ public class CategoryControllerTests {
         verify(catMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Category>>() {
             @Override
             public boolean matches(List<Category> overviews) {
-                overviews.equals(list);
+                assertEquals(overviews,list);
                 return true;
             }
 
@@ -836,7 +832,7 @@ public class CategoryControllerTests {
      */
     @Test
     public void getCategoriesBySearchtermsTestWithReturningList(){
-        final List<Category> list = Arrays.asList(new Category());
+        final List<Category> list = List.of(new Category());
         when(categoryMockLogic.getCategoriesBySearchterms("test")).thenReturn(list);
         assertDoesNotThrow(() -> categoryController.getCategoriesBySearchterm("test",catMockDataCallback));
         verify(catMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<Category>>() {

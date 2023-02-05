@@ -26,18 +26,18 @@ public class ConfirmationGUI extends Box
         /**
          * Wird bei der auswahl 'Confirm' ausgeführt
          */
-        public void onConfirm();
+        void onConfirm();
         /**
          * Wird bei der auswahl 'Cancel' ausgeführt
          */
-        public void onCancel();
+        void onCancel();
     }
 
     private static ConfirmationGUI pInstance;
     private ConfirmationCallback pCallback;
-    private TextBox pDialogTextBox;
-    private Button pCancelButton;
-    private Button pConfirmButton;
+    private final TextBox pDialogTextBox;
+    private final Button pCancelButton;
+    private final Button pConfirmButton;
 
     private ConfirmationGUI()
     {
