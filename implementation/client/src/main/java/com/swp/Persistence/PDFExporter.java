@@ -1,27 +1,19 @@
 package com.swp.Persistence;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.List;
-
 import com.gumse.textures.Texture;
 import com.gumse.tools.Output;
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Cards.CardRenderer.CardRenderer;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.List;
+
 /**
  * Exportiert eine liste von Karten als PDF Datei
+ * @author Tom Beuke
  */
 public class PDFExporter
 {

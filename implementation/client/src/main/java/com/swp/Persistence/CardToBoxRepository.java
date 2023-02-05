@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Die Datenbank repository für CardToBox Objekte
+ * @author Ole-Nikas Mahlstädt
  */
 public class CardToBoxRepository extends BaseRepository<BoxToCard> {
 

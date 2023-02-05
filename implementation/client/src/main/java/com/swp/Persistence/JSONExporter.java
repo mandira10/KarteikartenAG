@@ -1,33 +1,27 @@
 package com.swp.Persistence;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Arrays;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.gumse.tools.Output;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
-import com.swp.DataModel.CardTypes.AudioCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
-import com.swp.DataModel.CardTypes.ImageTestCard;
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Exportiert eine liste von Karten als JSON Datei
+ * @author Tom Beuke
  */
 public class JSONExporter
 {

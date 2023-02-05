@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Die Datenbank repository für CardToCategory Objekte
+ * @author Ole-Nikas Mahlstädt
  */
 public class CardToCategoryRepository extends BaseRepository<CardToCategory> {
     private CardToCategoryRepository() {

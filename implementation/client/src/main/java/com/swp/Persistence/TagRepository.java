@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Die Datenbank repository für Tags
+ * @author Ole-Nikas Mahlstädt
  */
 public class TagRepository extends BaseRepository<Tag> {
     private TagRepository() {

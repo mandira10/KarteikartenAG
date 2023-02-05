@@ -1,5 +1,8 @@
 package com.swp.Persistence;
 
+import com.gumse.gui.Locale;
+import com.gumse.tools.Output;
+import com.swp.Controller.SingleDataCallback;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -7,12 +10,9 @@ import jakarta.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gumse.gui.Locale;
-import com.gumse.tools.Output;
-import com.swp.Controller.SingleDataCallback;
-
 /**
- * @author KarteikartenAG
+ * Im Persistence-Manager werden die Daten für die Datenbankverbindung verwaltet.
+ * @author Ole-Nikas Mahlstädt
  */
 public class PersistenceManager
 {

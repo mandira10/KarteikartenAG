@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Die Datenbank repository für CardToTag Objekte
+ * @author Ole-Nikas Mahlstädt
  */
 public class CardToTagRepository extends BaseRepository<CardToTag> {
     private CardToTagRepository() {
