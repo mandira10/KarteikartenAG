@@ -195,7 +195,7 @@ public class CRUDCardLogicTest {
     @Test
     public void testListOfCardsForSearchtermAlphabeticalAsc(){
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.getCardOverview(1,3, "c.titelToShow", "asc")).thenReturn(expected);
+        when(cardRepMock.getCardOverview(1,3, "LOWER(c.titelToShow)", "asc")).thenReturn(expected);
         List<CardOverview> actual = cardLogic.getCardOverview(1,3, ListOrder.Order.ALPHABETICAL,false);
         assertEquals(expected,actual);
     }
@@ -207,7 +207,7 @@ public class CRUDCardLogicTest {
     @Test
     public void testListOfCardsForSearchtermAlphabeticalDesc(){
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.getCardOverview(1,3, "c.titelToShow", "desc")).thenReturn(expected);
+        when(cardRepMock.getCardOverview(1,3, "LOWER(c.titelToShow)", "desc")).thenReturn(expected);
         List<CardOverview> actual = cardLogic.getCardOverview(1,3, ListOrder.Order.ALPHABETICAL,true);
         assertEquals(expected,actual);
     }

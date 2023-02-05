@@ -131,7 +131,7 @@ public class FilterSearchTermsLogicTagTest {
     @Test
     public void testListOfCardsForTagsAlphabeticalAsc(){
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.findCardsByTag("test", "co.titelToShow", "desc")).thenReturn(expected);
+        when(cardRepMock.findCardsByTag("test", "LOWER(co.titelToShow)", "desc")).thenReturn(expected);
         List<CardOverview> actual = cardLogic.getCardsByTag("test", ListOrder.Order.ALPHABETICAL,true);
         assertEquals(expected,actual);
     }
@@ -143,7 +143,7 @@ public class FilterSearchTermsLogicTagTest {
     @Test
     public void testListOfCardsForTagsAlphabeticalDesc(){
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.findCardsByTag("test", "co.titelToShow", "asc")).thenReturn(expected);
+        when(cardRepMock.findCardsByTag("test", "LOWER(co.titelToShow)", "asc")).thenReturn(expected);
         List<CardOverview> actual = cardLogic.getCardsByTag("test", ListOrder.Order.ALPHABETICAL,false);
         assertEquals(expected,actual);
     }
@@ -265,7 +265,7 @@ public class FilterSearchTermsLogicTagTest {
     @Test
     public void testListOfCardsForSearchtermAlphabeticalAsc(){
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.findCardsContaining("test", "co.titelToShow", "asc")).thenReturn(expected);
+        when(cardRepMock.findCardsContaining("test", "LOWER(co.titelToShow)", "asc")).thenReturn(expected);
         List<CardOverview> actual = cardLogic.getCardsBySearchterms("test", ListOrder.Order.ALPHABETICAL,false);
         assertEquals(expected,actual);
     }
@@ -277,7 +277,7 @@ public class FilterSearchTermsLogicTagTest {
     @Test
     public void testListOfCardsForSearchtermAlphabeticalDesc(){
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.findCardsContaining("test", "co.titelToShow", "desc")).thenReturn(expected);
+        when(cardRepMock.findCardsContaining("test", "LOWER(co.titelToShow)", "desc")).thenReturn(expected);
         List<CardOverview> actual = cardLogic.getCardsBySearchterms("test", ListOrder.Order.ALPHABETICAL,true);
         assertEquals(expected,actual);
     }

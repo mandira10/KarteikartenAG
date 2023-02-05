@@ -1,8 +1,6 @@
 package com.swp.Logic.CategoryLogicTest;
 
-import com.gumse.gui.Locale;
-import com.gumse.tools.Output;
-import com.gumse.tools.Toolbox;
+
 import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
@@ -138,7 +136,7 @@ public class FilterForCategoryTest {
     @Test
     public void testListOfCardsForInCategoryAlphabeticalAsc() {
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.getCardsByCategory("test", "co.titelToShow", "asc")).thenReturn(expected);
+        when(cardRepMock.getCardsByCategory("test", "LOWER(co.titelToShow)", "asc")).thenReturn(expected);
         List<CardOverview> actual = categoryLogic.getCardsInCategory("test", ListOrder.Order.ALPHABETICAL, false);
         assertEquals(expected, actual);
     }
@@ -150,7 +148,7 @@ public class FilterForCategoryTest {
     @Test
     public void testListOfCardsForInCategoryAlphabeticalDesc() {
         final List<CardOverview> expected = Arrays.asList(new CardOverview(), new CardOverview());
-        when(cardRepMock.getCardsByCategory("test", "co.titelToShow", "desc")).thenReturn(expected);
+        when(cardRepMock.getCardsByCategory("test", "LOWER(co.titelToShow)", "desc")).thenReturn(expected);
         List<CardOverview> actual = categoryLogic.getCardsInCategory("test", ListOrder.Order.ALPHABETICAL, true);
         assertEquals(expected, actual);
     }
