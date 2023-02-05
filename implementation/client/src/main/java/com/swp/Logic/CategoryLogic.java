@@ -179,9 +179,9 @@ public class CategoryLogic extends BaseLogic<Category>
             switch (order) {
                 case ALPHABETICAL -> {
                     if (!reverseOrder)
-                        cards = cardRepository.getCardsByCategory(categoryName, "co.titelToShow", "asc");
+                        cards = cardRepository.getCardsByCategory(categoryName, "LOWER(co.titelToShow)", "asc");
                     else
-                        cards = cardRepository.getCardsByCategory(categoryName, "co.titelToShow", "desc");
+                        cards = cardRepository.getCardsByCategory(categoryName, "LOWER(co.titelToShow)", "desc");
                 }
                 case DATE -> {
                     if (!reverseOrder)

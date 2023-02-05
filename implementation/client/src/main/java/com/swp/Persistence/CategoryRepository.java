@@ -107,7 +107,7 @@ public class CategoryRepository extends BaseRepository<Category>
      */
     public List<Category> getRoots(String order) {
         return getEntityManager()
-                .createQuery("SELECT c  FROM Category c WHERE NOT EXISTS (SELECT ch.child FROM CategoryHierarchy ch WHERE ch.child = c.uuid) ORDER BY c.name " +  order, Category.class)
+                .createQuery("SELECT c  FROM Category c WHERE NOT EXISTS (SELECT ch.child FROM CategoryHierarchy ch WHERE ch.child = c.uuid) ORDER BY LOWER(c.name) " +  order, Category.class)
                 .getResultList();
     }
 
