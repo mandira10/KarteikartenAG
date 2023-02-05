@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * StudySystemBoxRepository mit den Grundfunktionen des BaseRepos
- * @author Ole-Nikas Mahlstädt
+ * @author Ole-Nikas Mahlstädt, Nadja Cordes
  */
 public class StudySystemBoxRepository extends BaseRepository{
 
