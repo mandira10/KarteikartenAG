@@ -11,6 +11,9 @@ import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.PageManager.PAGES;
+import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.DataModel.Tag;
 import org.lwjgl.system.MemoryUtil;
 
@@ -354,6 +357,8 @@ public class TestDataClass
         //    @Override protected void onFailure(String msg) {}
         //    @Override protected void onInfo(String msg) {}
         //});
+
+        ((DeckOverviewPage)PageManager.getPage(PAGES.DECK_OVERVIEW)).loadDecks();
     }
 
 

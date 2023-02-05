@@ -22,6 +22,7 @@ import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.KarteikartenAGGUI;
 import com.swp.GUI.PageManager;
+import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Persistence.PersistenceManager;
 import lombok.extern.slf4j.Slf4j;
@@ -134,7 +135,7 @@ public class KarteikartenAG
         pMainGUI.setSize(iWindowSize);
 
         if(User.isLoggedIn())
-            PageManager.viewPage(PAGES.DECK_OVERVIEW);
+            ((DeckOverviewPage)PageManager.viewPage(PAGES.DECK_OVERVIEW)).loadDecks();
         else
             PageManager.viewPage(PAGES.LOGIN);
 
