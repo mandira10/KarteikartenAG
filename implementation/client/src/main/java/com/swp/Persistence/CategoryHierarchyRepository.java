@@ -1,11 +1,13 @@
 package com.swp.Persistence;
 
-import com.swp.DataModel.*;
+import com.swp.DataModel.Category;
+import com.swp.DataModel.CategoryHierarchy;
 
 import java.util.List;
 
 /**
  * Die Datenbank repository für CategoryHierarchy Objekte
+ * @author Ole-Nikas Mahlstädt
  */
 public class CategoryHierarchyRepository  extends BaseRepository<CategoryHierarchy> {
     private CategoryHierarchyRepository() {

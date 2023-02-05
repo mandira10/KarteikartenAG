@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Das BaseRepository stellt grundlegende Attribute und Funktionen für die spezifischen Repositories zur Verfügung.
  * @param <T> Der Datentyp der Repository
+ * @author Ole-Nikas Mahlstädt
  */
 public abstract class BaseRepository<T>
 {

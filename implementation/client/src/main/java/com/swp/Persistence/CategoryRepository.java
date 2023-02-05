@@ -1,13 +1,14 @@
 package com.swp.Persistence;
 
-import java.util.List;
-
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 import jakarta.persistence.NoResultException;
 
+import java.util.List;
+
 /**
  * Die Datenbank repository für Kategorien
+ * @author Ole-Nikas Mahlstädt
  */
 public class CategoryRepository extends BaseRepository<Category> 
 {

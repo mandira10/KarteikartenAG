@@ -21,6 +21,7 @@ import org.lwjgl.system.MemoryUtil;
 
 /**
  * Klasse speist einzelne Testdaten in die GUI bei Start ein.
+ * @author Nadja Cordes
  */
 public class TestDataClass 
 {

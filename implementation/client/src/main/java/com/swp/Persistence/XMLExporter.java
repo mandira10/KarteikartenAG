@@ -1,7 +1,16 @@
 package com.swp.Persistence;
 
-import java.util.Arrays;
-import java.util.List;
+import com.gumse.tools.Output;
+import com.swp.Controller.CardController;
+import com.swp.Controller.CategoryController;
+import com.swp.Controller.ControllerThreadPool;
+import com.swp.Controller.DataCallback;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.CardTypes.*;
+import com.swp.DataModel.Category;
+import com.swp.DataModel.Tag;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,28 +21,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import com.gumse.tools.Output;
-import com.swp.Controller.CardController;
-import com.swp.Controller.CategoryController;
-import com.swp.Controller.ControllerThreadPool;
-import com.swp.Controller.DataCallback;
-import com.swp.DataModel.Card;
-import com.swp.DataModel.Category;
-import com.swp.DataModel.Tag;
-import com.swp.DataModel.CardTypes.AudioCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
-import com.swp.DataModel.CardTypes.ImageTestCard;
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Exportiert eine liste von Karten als XML Datei
+ * @author Tom Beuke
  */
 public class XMLExporter
 {

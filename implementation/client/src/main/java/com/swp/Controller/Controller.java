@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Die oberklasse aller Controller-Klassen
+ *
+ * @author Tom Beuke
  */
 @Slf4j
 public abstract class Controller 

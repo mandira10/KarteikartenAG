@@ -1,13 +1,17 @@
 package com.swp.Persistence;
 
+import com.swp.DataModel.CardToCategory;
+import com.swp.DataModel.CardToTag;
+import com.swp.DataModel.Category;
+import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.Tag;
+
 import java.util.HashSet;
 import java.util.Set;
 
-import com.swp.DataModel.*;
-import com.swp.DataModel.StudySystem.StudySystem;
-
 /**
  * Der Cache speichert Datenbankelemente im Arbeitsspeicher zwischen
+ * @author Ole-Nikas Mahlstädt
  */
 public class Cache
 {

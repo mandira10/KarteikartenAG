@@ -3,6 +3,8 @@ package com.swp.Controller;
 /**
  * Singledatacallback Klasse. Gibt die Rückgaben vom Controller an den MainThread weiter.
  * @param <E> je nach Rückgabewert spezifisch
+ *
+ * @author Tom Beuke, Nadja Cordes
  */
 public abstract class SingleDataCallback <E>
 {
