@@ -1,8 +1,5 @@
 package com.swp.DataModel.CardTypes;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
@@ -10,6 +7,9 @@ import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs MultipleChoiceCard
@@ -27,7 +27,7 @@ public class MultipleChoiceCard extends Card
      */
     @SuppressWarnings("JpaAttributeTypeInspection")
     @Column
-    private String[] answers; //TODO: implement Validator in GUI??
+    private String[] answers;
 
     /**
      * Array mit den korrekten Antworten
