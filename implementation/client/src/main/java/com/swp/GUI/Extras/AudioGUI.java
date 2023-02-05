@@ -35,7 +35,7 @@ import com.gumse.tools.Output;
  */
 public class AudioGUI extends RenderGUI
 {
-    private Box pBackground;
+    private final Box pBackground;
     private mat4 m4PlayPauseMatrix;
     private boolean bIsPlaying;
     private int iSourceID;

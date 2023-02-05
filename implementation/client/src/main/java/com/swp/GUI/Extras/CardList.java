@@ -41,10 +41,10 @@ public class CardList extends RenderGUI
         void exitSelectmode();
     }
 
-    private List<CardOverview> pList;
+    private final List<CardOverview> pList;
     private boolean bIsInSelectmode;
-    private boolean bSingleselectmode;
-    private CardListSelectmodeCallback pCallback;
+    private final boolean bSingleselectmode;
+    private final CardListSelectmodeCallback pCallback;
 
     private static final int CHECK_COLUMN = 3;
 

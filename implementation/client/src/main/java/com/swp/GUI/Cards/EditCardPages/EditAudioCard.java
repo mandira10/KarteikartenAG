@@ -18,10 +18,10 @@ import com.swp.GUI.Extras.FileDialog;
  */
 public class EditAudioCard extends EditCardGUI
 {
-    private Button pUploadButton;
+    private final Button pUploadButton;
     private AudioCard pCard;
-    private AudioGUI pAudioGUI;
-    private TextField pAnswerField;
+    private final AudioGUI pAudioGUI;
+    private final TextField pAnswerField;
 
     /**
      * Der Standardkonstruktor für die Klasse EditAudioCard

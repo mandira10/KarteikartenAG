@@ -296,7 +296,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
         else{
             throw new IllegalStateException("studysystemnullfalsetype");
         }
-    };
+    }
 
 
     /**

@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -43,7 +42,7 @@ import static org.mockito.Mockito.*;
 public class StudySystemControllerTests {
 
     private StudySystemLogic studySystemMockLogic;
-    private StudySystemController studySystemController = StudySystemController.getInstance();
+    private final StudySystemController studySystemController = StudySystemController.getInstance();
     private SingleDataCallback<Boolean> bolMockSingleDataCallback;
     private  DataCallback<CardOverview> cardMockDataCallback;
     private DataCallback<StudySystem> studySMockDataCallback;
@@ -89,12 +88,9 @@ public class StudySystemControllerTests {
         when(studySystemMockLogic.getAllCardsInStudySystem(any(StudySystem.class))).thenReturn(list);
         StudySystem studySystem = new LeitnerSystem();
         assertDoesNotThrow(() -> studySystemController.getAllCardsInStudySystem(studySystem,cardMockDataCallback));
-        verify(cardMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
-            @Override
-            public boolean matches(List<CardOverview> overviews) {
-                assertEquals(overviews,list);
-                return true;
-            }
+        verify(cardMockDataCallback).callSuccess(argThat(overviews -> {
+            assertEquals(overviews,list);
+            return true;
         }));
     }
 
@@ -244,12 +240,9 @@ public class StudySystemControllerTests {
         final StudySystem studySystem = new LeitnerSystem();
         when(studySystemMockLogic.getStudySystemByUUID("Test")).thenReturn(studySystem);
           assertDoesNotThrow(() -> studySystemController.getStudySystemByUUID("Test", studySMockSingleDataCallback));
-            verify(studySMockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<StudySystem>() {
-                @Override
-                public boolean matches(StudySystem studySystem1) {
-                    assertEquals(studySystem, studySystem1);
-                    return true;
-                }
+            verify(studySMockSingleDataCallback).callSuccess(argThat(studySystem1 -> {
+                assertEquals(studySystem, studySystem1);
+                return true;
             }));
     }
 
@@ -267,12 +260,9 @@ public class StudySystemControllerTests {
         final Card card = new MultipleChoiceCard();
         when(studySystemMockLogic.getNextCard(any(StudySystem.class))).thenReturn(card);
         assertDoesNotThrow(() -> studySystemController.getNextCard(new LeitnerSystem(), cardMockSingleDataCallback));
-            verify(cardMockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Card>() {
-                @Override
-                public boolean matches(Card card1) {
-                    assertEquals(card1, card);
-                    return true;
-                }
+            verify(cardMockSingleDataCallback).callSuccess(argThat(card1 -> {
+                assertEquals(card1, card);
+                return true;
             }));
     }
 
@@ -290,7 +280,6 @@ public class StudySystemControllerTests {
     public void finishTestAndGetResultTest() {
         int f = 10;
         when(studySystemMockLogic.finishTestAndGetResult(any(StudySystem.class))).thenReturn(f);
-         final int[] f1 = new int[1];
         assertDoesNotThrow(() ->studySystemController.finishTestAndGetResult(new LeitnerSystem(), intMockSingleDataCallback));
             verify(intMockSingleDataCallback).callSuccess(argThat(new ArgumentMatcher<Integer>() {
                 @Override
@@ -315,7 +304,7 @@ public class StudySystemControllerTests {
     public void moveAllCardsForDeckToFirstBoxTestException() {
         StudySystem studySystem = new LeitnerSystem();
         Card testcard = new TrueFalseCard();
-        List<Card> cards = Arrays.asList(testcard);
+        List<Card> cards = List.of(testcard);
         doThrow(new RuntimeException("Test")).when(studySystemMockLogic).moveAllCardsForDeckToFirstBox(cards, studySystem);
         String expected = "Beim Speichern der Karte in dem Deck ist ein Fehler aufgetreten.";
         assertDoesNotThrow(() -> studySystemController.moveAllCardsForDeckToFirstBox(cards, studySystem, bolMockSingleDataCallback));
@@ -535,7 +524,7 @@ public class StudySystemControllerTests {
     public void addCardsToStudySystemTestNonEmptyListString() {
         StudySystem studySystem = new LeitnerSystem();
         List<CardOverview> list = new ArrayList<>();
-        List<Card> cards= Arrays.asList(new TextCard());
+        List<Card> cards= List.of(new TextCard());
         SingleDataCallback<String> stringSMockDataCallback = mock(SingleDataCallback.class);
         when(studySystemMockLogic.addCardsToDeck(list, studySystem)).thenReturn(cards);
         assertDoesNotThrow(() -> studySystemController.addCardsToStudySystem(list, studySystem, stringSMockDataCallback));

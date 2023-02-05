@@ -40,7 +40,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
     private CardToCategoryRepository cardToCategoryRepMock;
 
     private CategoryHierarchyRepository categoryHierarchyRepMock;
-    private Locale locale = new Locale("German", "de");
+    private final Locale locale = new Locale("German", "de");
     private int i;
 
 
@@ -506,7 +506,7 @@ public class UpdateCardToCategoryAndCategoryHierarchyTest {
         doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(klasse10, technik);
         doNothing().when(categoryHierarchyRepMock).saveCategoryHierarchy(technik, klasse10);
 
-        when(categoryRepMock.checkDoubleReference(technik)).thenReturn(Arrays.asList(klasse10));
+        when(categoryRepMock.checkDoubleReference(technik)).thenReturn(List.of(klasse10));
         doNothing().when(categoryHierarchyRepMock).deleteCategoryHierarchy(technik,klasse10);
         doNothing().when(categoryHierarchyRepMock).deleteCategoryHierarchy(klasse10,technik);
           //Test

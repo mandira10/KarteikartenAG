@@ -17,7 +17,7 @@ import com.swp.GUI.PageManager.PAGES;
  */
 public class EditReferencesPage extends Page
 {
-    private Scroller pContextScroller;
+    private final Scroller pContextScroller;
     private Button pAddEntryButton;
     private Card pCard;
 
@@ -116,7 +116,7 @@ public class EditReferencesPage extends Page
         for(RenderGUI child : pContextScroller.getChildren())
         {
             if(child.getType().equals("EditReferencesEntry"))
-                retStr += ((EditReferencesEntry)child).toString() + "\n";
+                retStr += child + "\n";
         }
         return retStr;
     }

@@ -35,16 +35,16 @@ public class CategorySelectPage extends Page
         void run(List<Category> categories);
     }
 
-    private Scroller pCanvas;
+    private final Scroller pCanvas;
     private boolean bSingleselect;
     private CategoryReturnFunc pReturnFunc;
 
     private final CategoryController categoryController = CategoryController.getInstance();
     private class CategoryListEntry extends RenderGUI
     {
-        private Category pCategory;
-        private TextBox pCardNameBox;
-        private Switch pSelectSwitch;
+        private final Category pCategory;
+        private final TextBox pCardNameBox;
+        private final Switch pSelectSwitch;
 
         public CategoryListEntry(Category category, ivec2 pos, ivec2 size, boolean selected)
         {
@@ -85,7 +85,7 @@ public class CategorySelectPage extends Page
         //
         public boolean isSelected()   { return pSelectSwitch.isTicked(); }
         public Category getCategory() { return pCategory; }
-    };
+    }
 
     /**
      * Der Standardkonstruktor der Klasse CategorySelectPage

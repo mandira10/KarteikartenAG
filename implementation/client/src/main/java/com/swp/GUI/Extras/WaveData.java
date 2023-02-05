@@ -29,7 +29,7 @@ public class WaveData {
 
 	private final AudioInputStream audioStream;
 	private final byte[] dataArray;
-    private double durationInSeconds;
+    private final double durationInSeconds;
 
 	private WaveData(AudioInputStream stream) 
     {

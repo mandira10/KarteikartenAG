@@ -48,66 +48,6 @@ public class CardToBoxRepositoryTest {
         StudySystemRepository.commitTransaction();
     }
 
-    @Test
-    @Disabled
-    public void cardToBoxCrudTest() {
-        CardRepository.startTransaction();
-        List<Card> cards = cardRepository.getAll();
-        CardRepository.commitTransaction();
-
-        // CREATE
-        // Karten sind pro Lernsystem immer nur in einem Kasten davon enthalten.
-        CardToBoxRepository.startTransaction();
-        cardToBoxRepository.save(new BoxToCard(cards.get(0), exampleStudySystems().get(0).getBoxes().get(0)));
-        cardToBoxRepository.save(new BoxToCard(cards.get(1), exampleStudySystems().get(0).getBoxes().get(1)));
-        cardToBoxRepository.save(new BoxToCard(cards.get(2), exampleStudySystems().get(1).getBoxes().get(0)));
-        cardToBoxRepository.save(new BoxToCard(cards.get(3), exampleStudySystems().get(2).getBoxes().get(1)));
-        cardToBoxRepository.save(new BoxToCard(cards.get(4), exampleStudySystems().get(0).getBoxes().get(1)));
-        cardToBoxRepository.save(new BoxToCard(cards.get(5), exampleStudySystems().get(1).getBoxes().get(4)));
-        CardToBoxRepository.commitTransaction();
-
-        // READ
-        CardToBoxRepository.startTransaction();
-        Card card0 = cards.get(0);
-        final BoxToCard readB2C = cardToBoxRepository.getSpecific(card0, exampleStudySystems().get(0));
-        assertEquals(card0, readB2C.getCard());
-        assertEquals(exampleStudySystems().get(0).getBoxes().get(0), readB2C.getStudySystemBox());
-        List<BoxToCard> allReadB2C = cardToBoxRepository.getAll();
-        CardToBoxRepository.commitTransaction();
-        assertEquals(6, allReadB2C.size(), "same length");
-
-        // UPDATE
-        // Attribute sind final. man kann nur löschen oder neue anlegen.
-
-        // DELETE
-        CardToBoxRepository.startTransaction();
-        assertDoesNotThrow(() -> cardToBoxRepository.delete(readB2C));
-        assertThrows(NoResultException.class, () -> cardToBoxRepository.getSpecific(readB2C.getCard(), readB2C.getStudySystemBox().getStudySystem()));
-        CardToBoxRepository.commitTransaction();
-
-    }
-
-    
-
-    @Test
-    public void getAllBoxToCardsForStudySystem() {
-
-    }
-
-    @Test
-    public void getAllB2CForCard() {
-
-    }
-
-    @Test
-    public void getAllB2CForStudySystem() {
-
-    }
-
-    @Test
-    public void getSpecific() {
-
-    }
 
     // Hilfsfunktionen um einen Test-Datensatz an Instanzen zu haben
     public List<Card> exampleCards() {

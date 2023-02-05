@@ -28,12 +28,12 @@ public class Notification extends RenderGUI
         /** Kritische Fehler */    CRITICAL,
         /** Debug-Info */          DEBUG,
         /** Datenbankverbindung */ CONNECTION
-    };
+    }
 
-    private Box pBackground;
-    private Box pProgressBar;
+    private final Box pBackground;
+    private final Box pProgressBar;
     private float fProgress;
-    private float fSpeed;
+    private final float fSpeed;
     private boolean bCanBeRemoved;
 
     /**
@@ -118,7 +118,7 @@ public class Notification extends RenderGUI
                 break;
             default: Output.error("Unknown Notification type"); break;
 
-        };
+        }
 
         notificationIcon.setColor(color);
         notificationTextbox.setTextColor(color);

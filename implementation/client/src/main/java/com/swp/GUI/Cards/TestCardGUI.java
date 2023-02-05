@@ -37,10 +37,10 @@ import com.swp.GUI.Extras.AudioGUI;
  */
 public class TestCardGUI extends RenderGUI
 {
-    private Card pCard;
-    private TextBox pQuestionBox;
-    private Scroller pQuestionScroller;
-    private TextBox pCorrectAnswerBox;
+    private final Card pCard;
+    private final TextBox pQuestionBox;
+    private final Scroller pQuestionScroller;
+    private final TextBox pCorrectAnswerBox;
     private Box pImageBox;
     private float fAspectRatio;
     private Predicate<Card> pAnswerCheckerFunc;
@@ -276,7 +276,7 @@ public class TestCardGUI extends RenderGUI
 
         List<Integer> correctAnswers = Arrays.stream(card.getCorrectAnswers()).boxed().toList();
 
-        sActualAnswer = Locale.getCurrentLocale().getString("incorrect");;
+        sActualAnswer = Locale.getCurrentLocale().getString("incorrect");
         pAnswerCheckerFunc = (Card acard) -> {
             boolean correctAnswer = true;
             for(int i = 0; i < options.size(); i++)

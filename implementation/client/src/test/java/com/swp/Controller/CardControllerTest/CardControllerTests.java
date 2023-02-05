@@ -2,8 +2,6 @@ package com.swp.Controller.CardControllerTest;
 
 
 import com.gumse.gui.Locale;
-import com.gumse.tools.Output;
-import com.gumse.tools.Toolbox;
 import com.swp.Controller.CardController;
 import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.DataCallback;
@@ -14,7 +12,6 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Language.German;
-import com.swp.DataModel.Tag;
 import com.swp.GUI.Extras.ListOrder;
 import com.swp.Logic.CardLogic;
 import com.swp.Persistence.Exporter;
@@ -28,7 +25,6 @@ import org.mockito.ArgumentMatcher;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,14 +41,14 @@ public class CardControllerTests {
     /**
      * CardController Instanz
      */
-    private CardController cardController = CardController.getInstance();
+    private final CardController cardController = CardController.getInstance();
 
     /**
      * Gemockte CardLogic Instanz
      */
     private CardLogic cardMockLogic;
 
-    private DataCallback<CardOverview> coMockDataCallback;
+    private DataCallback coMockDataCallback;
     private SingleDataCallback<Boolean> coMockbSingleDataCallBack;
     private SingleDataCallback<Card> coMockCSingleDataCallBack;
 
@@ -91,13 +87,9 @@ public class CardControllerTests {
         final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardMockLogic.getCardOverview(any(Integer.class),any(Integer.class))).thenReturn(list);
         assertDoesNotThrow(() -> cardController.getCardsToShow(2, 3, coMockDataCallback));
-        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
-            @Override
-            public boolean matches(List<CardOverview> overviews) {
-                overviews.equals(list);
-                return true;
-            }
-
+        verify(coMockDataCallback).callSuccess(argThat((ArgumentMatcher<List<CardOverview>>) overviews -> {
+            assertEquals(overviews,list);
+            return true;
         }));
        
     }
@@ -138,13 +130,9 @@ public class CardControllerTests {
         final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardMockLogic.getCardOverview(2,3,ListOrder.Order.DATE, false)).thenReturn(list);
         assertDoesNotThrow(() -> cardController.getCardsToShow(2, 3, ListOrder.Order.DATE, false, coMockDataCallback));
-        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
-            @Override
-            public boolean matches(List<CardOverview> overviews) {
-                overviews.equals(list);
-                return true;
-            }
-
+        verify(coMockDataCallback).callSuccess(argThat((ArgumentMatcher<List<CardOverview>>) overviews -> {
+            assertEquals(overviews,list);
+            return true;
         }));
        
     }
@@ -185,13 +173,9 @@ public class CardControllerTests {
         final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardMockLogic.getCardsByTag(any(String.class))).thenReturn(list);
         assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback));
-        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
-            @Override
-            public boolean matches(List<CardOverview> overviews) {
-                overviews.equals(list);
-                return true;
-            }
-
+        verify(coMockDataCallback).callSuccess(argThat(overviews -> {
+            assertEquals(overviews,list);
+            return true;
         }));
        
     }
@@ -246,13 +230,9 @@ public class CardControllerTests {
         final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardMockLogic.getCardsByTag("test",ListOrder.Order.DATE, false)).thenReturn(list);
         assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback,ListOrder.Order.DATE, false));
-        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
-            @Override
-            public boolean matches(List<CardOverview> overviews) {
-                overviews.equals(list);
-                return true;
-            }
-
+        verify(coMockDataCallback).callSuccess(argThat(overviews -> {
+            assertEquals(overviews,list);
+            return true;
         }));
        
     }
@@ -306,13 +286,9 @@ public class CardControllerTests {
         final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardMockLogic.getCardsBySearchterms(any(String.class))).thenReturn(list);
         assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback));
-        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
-            @Override
-            public boolean matches(List<CardOverview> overviews) {
-                overviews.equals(list);
-                return true;
-            }
-
+        verify(coMockDataCallback).callSuccess(argThat(overviews -> {
+            assertEquals(overviews,list);
+            return true;
         }));
        
     }
@@ -366,13 +342,9 @@ public class CardControllerTests {
         final List<CardOverview> list = Arrays.asList(new CardOverview(), new CardOverview());
         when(cardMockLogic.getCardsBySearchterms("test",ListOrder.Order.DATE, false)).thenReturn(list);
         assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback,ListOrder.Order.DATE, false));
-        verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
-            @Override
-            public boolean matches(List<CardOverview> overviews) {
-                overviews.equals(list);
-                return true;
-            }
-
+        verify(coMockDataCallback).callSuccess(argThat(overviews -> {
+           assertEquals(overviews,list);
+            return true;
         }));
        
     }
@@ -455,14 +427,9 @@ public class CardControllerTests {
         Card card = new TrueFalseCard();
         doNothing().when(cardMockLogic).deleteCard(card);
         assertDoesNotThrow(() -> cardController.deleteCard(card, coMockbSingleDataCallBack));
-        verify(coMockbSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
-            @Override
-            public boolean matches(Boolean aBoolean) {
-                assertTrue(aBoolean);
-                return true;
-            }
-
-
+        verify(coMockbSingleDataCallBack).callSuccess(argThat(aBoolean -> {
+            assertTrue(aBoolean);
+            return true;
         }));
         
 
@@ -505,14 +472,9 @@ public class CardControllerTests {
         List list = Arrays.asList(new TextCard(), new TextCard());
         doNothing().when(cardMockLogic).deleteCards(list);
         assertDoesNotThrow(() -> cardController.deleteCards(list, coMockbSingleDataCallBack));
-        verify(coMockbSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
-            @Override
-            public boolean matches(Boolean aBoolean) {
-                assertTrue(aBoolean);
-                return true;
-            }
-
-
+        verify(coMockbSingleDataCallBack).callSuccess(argThat(aBoolean -> {
+            assertTrue(aBoolean);
+            return true;
         }));
         
 
@@ -553,13 +515,9 @@ public class CardControllerTests {
         final Card[] card1 = {new MultipleChoiceCard()};
         when(cardMockLogic.getCardByUUID("Test")).thenReturn(card1[0]);
         assertDoesNotThrow(() -> cardController.getCardByUUID("Test", coMockCSingleDataCallBack));
-            verify(coMockCSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<Card>() {
-                @Override
-                public boolean matches(Card card) {
-                     assertEquals(card1[0],card);
-                     return true;
-                }
-
+            verify(coMockCSingleDataCallBack).callSuccess(argThat(card -> {
+                 assertEquals(card1[0],card);
+                 return true;
             }));
            
     }
@@ -616,14 +574,9 @@ public class CardControllerTests {
         final Card card = new TrueFalseCard();
         doNothing().when(cardMockLogic).updateCardData(card,true);
         assertDoesNotThrow(() -> cardController.updateCardData(card,true, coMockbSingleDataCallBack));
-        verify(coMockbSingleDataCallBack).callSuccess(argThat(new ArgumentMatcher<Boolean>() {
-            @Override
-            public boolean matches(Boolean aBoolean) {
-                assertTrue(aBoolean);
-                return true;
-            }
-
-
+        verify(coMockbSingleDataCallBack).callSuccess(argThat(aBoolean -> {
+            assertTrue(aBoolean);
+            return true;
         }));
         
     }

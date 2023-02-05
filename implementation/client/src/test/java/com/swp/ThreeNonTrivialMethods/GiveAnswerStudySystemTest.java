@@ -143,7 +143,7 @@ public class GiveAnswerStudySystemTest {
         assertEquals(4,testingBoxMockCards.size());
         BoxToCard boxToCard1 = studySystemLogic.getBoxToCard(testingCardsForStudySystem.get(0),studySystem2);
         assertEquals(0,boxToCard1.getStudySystemBox().getBoxNumber()); //no box moving, if true or false
-        assertTrue(boxToCard1.getStatus().equals(BoxToCard.CardStatus.RELEARN));
+        assertEquals(boxToCard1.getStatus(), BoxToCard.CardStatus.RELEARN);
 
         reset(mockSingleDataCallback);
 
@@ -162,7 +162,7 @@ public class GiveAnswerStudySystemTest {
         assertEquals(3,testingBoxMockCards.size());
         BoxToCard boxToCard2 = studySystemLogic.getBoxToCard(testingCardsForStudySystem.get(1),studySystem2);
         assertEquals(1,boxToCard2.getStudySystemBox().getBoxNumber());
-        assertTrue(boxToCard2.getStatus().equals(BoxToCard.CardStatus.SKILLED));
+        assertEquals(boxToCard2.getStatus(), BoxToCard.CardStatus.SKILLED);
         reset(mockSingleDataCallback);
 
     }
@@ -219,7 +219,7 @@ public class GiveAnswerStudySystemTest {
         assertEquals(4, testingBoxMockCards.size());
         BoxToCard boxToCard1 = studySystemLogic.getBoxToCard(testingCardsForStudySystem.get(0), studySystem1);
         assertEquals(1, boxToCard1.getStudySystemBox().getBoxNumber());
-        assertTrue(boxToCard1.getStatus().equals(BoxToCard.CardStatus.RELEARN));
+        assertEquals(boxToCard1.getStatus(), BoxToCard.CardStatus.RELEARN);
 
         //Check Datum
         cal.add(Calendar.DATE, 1);
@@ -245,7 +245,7 @@ public class GiveAnswerStudySystemTest {
         assertEquals(testingCardsForStudySystem.get(1), testingBoxMockCards.get(3));
         BoxToCard boxToCard2 = studySystemLogic.getBoxToCard(testingCardsForStudySystem.get(1), studySystem1);
         assertEquals(0, boxToCard2.getStudySystemBox().getBoxNumber());
-        assertTrue(boxToCard2.getStatus().equals(BoxToCard.CardStatus.RELEARN));
+        assertEquals(boxToCard2.getStatus(), BoxToCard.CardStatus.RELEARN);
 
         cal.add(Calendar.DATE, 0);
         assertEquals(cal.getTime(), boxToCard2.getLearnedNextAt());
@@ -281,7 +281,7 @@ public class GiveAnswerStudySystemTest {
         assertEquals(testingCardsForStudySystem.get(2), testingBoxMockCards.get(3));
 
         assertEquals(0, boxToCard3.getStudySystemBox().getBoxNumber());
-        assertTrue(boxToCard3.getStatus().equals(BoxToCard.CardStatus.RELEARN));
+        assertEquals(boxToCard3.getStatus(), BoxToCard.CardStatus.RELEARN);
 
         cal.add(Calendar.DATE, 0);
         assertEquals(cal.getTime(), boxToCard3.getLearnedNextAt());
@@ -310,7 +310,7 @@ public class GiveAnswerStudySystemTest {
         assertEquals(3, testingBoxMockCards.size());
 
         assertEquals(4, boxToCard4.getStudySystemBox().getBoxNumber());
-        assertTrue(boxToCard4.getStatus().equals(BoxToCard.CardStatus.SKILLED));
+        assertEquals(boxToCard4.getStatus(), BoxToCard.CardStatus.SKILLED);
 
         //Check date and reset
         cal.add(Calendar.DATE, 14);
@@ -341,7 +341,7 @@ public class GiveAnswerStudySystemTest {
         assertEquals(2, testingBoxMockCards.size());
 
         assertEquals(3, boxToCard5.getStudySystemBox().getBoxNumber());
-        assertTrue(boxToCard5.getStatus().equals(BoxToCard.CardStatus.RELEARN));
+        assertEquals(boxToCard5.getStatus(), BoxToCard.CardStatus.RELEARN);
 
         //Check date and reset
         cal.add(Calendar.DATE, 7);
@@ -1200,7 +1200,7 @@ public class GiveAnswerStudySystemTest {
     @Test
     public void LogicRepoExceptionGetSpecificCardToBoxException(){
         CardToBoxRepository cardToBoxMockRepo = mock(CardToBoxRepository.class);
-        testingBoxMockCards = new ArrayList(Arrays.asList(testingCardsForStudySystem.get(0))); //mock so that list ist not empty
+        testingBoxMockCards = new ArrayList(Collections.singletonList(testingCardsForStudySystem.get(0))); //mock so that list ist not empty
         on(studySystemLogic).set("cardToBoxRepository", cardToBoxMockRepo);
         on(studySystemLogic).set("testingBoxCards", testingBoxMockCards);
         when(cardToBoxMockRepo.getSpecific(testingCardsForStudySystem.get(0),studySystem4)).thenThrow(new RuntimeException("Mock"));
@@ -1210,7 +1210,7 @@ public class GiveAnswerStudySystemTest {
     @Test
     public void LogicRepoExceptionUpdateCardToBoxException(){
         CardToBoxRepository cardToBoxMockRepo = mock(CardToBoxRepository.class);
-        testingBoxMockCards = new ArrayList(Arrays.asList(testingCardsForStudySystem.get(0))); //mock so that list ist not empty
+        testingBoxMockCards = new ArrayList(Collections.singletonList(testingCardsForStudySystem.get(0))); //mock so that list ist not empty
         on(studySystemLogic).set("cardToBoxRepository", cardToBoxMockRepo);
         on(studySystemLogic).set("testingBoxCards", testingBoxMockCards);
         when(cardToBoxMockRepo.getSpecific(testingCardsForStudySystem.get(0),studySystem4)).thenReturn(new BoxToCard());

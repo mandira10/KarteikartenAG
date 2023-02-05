@@ -252,48 +252,6 @@ public class AddCategoriesToStudySystemTest {
     }
 
     @Test
-    @Disabled
-    public void GUIaddToDeckEmptyList() {
-        CategoryController mockCategoryController = mock(CategoryController.class);
-        when(CategoryController.getInstance()).thenReturn(mockCategoryController); // `when()` muss mit einem Mock gemacht werden
-        CategoryOverviewPage categoryOverviewPage = new CategoryOverviewPage();
-        PageManager mockPageManager = mock(PageManager.class);
-        on(categoryOverviewPage).set("PageManager", mockPageManager);
-
-        // selected Categories
-        List<Category> selectedCategories = new ArrayList<>();
-        on(categoryOverviewPage).set("pCategoryList", selectedCategories);
-
-        //categoryOverviewPage.onClick((RenderGUI gui) -> categoryOverviewPage.addToDeck());
-        assertDoesNotThrow(categoryOverviewPage::addToDeck);
-        verify(mockCategoryController, times(1))
-                .getCardsInCategories(selectedCategories, argThat(Objects::nonNull));
-        doNothing().when(mockCategoryController).getCardsInCategories(selectedCategories, any(DataCallback.class));
-        //verify(mockPageManager, times(1))
-        //        .viewPage(PageManager.PAGES.CATEGORY_OVERVIEW);
-
-    }
-
-    @Test
-    @Disabled
-    public void ControllerLogicStateException() {
-        List<Category> categories = new ArrayList<>();
-        categories.add(category1);
-
-        DataCallback<CardOverview> mockDataCallback = mock(DataCallback.class);
-        CategoryLogic mockCategoryLogic = mock(CategoryLogic.class);
-        // IllegalStateException von der Logic
-        when(mockCategoryLogic.getCardsInCategories(categories)).thenThrow(IllegalStateException.class);
-        on(categoryController).set("categoryLogic", mockCategoryLogic);
-        //on(categoryController).set("log", mockLogger);
-        assertDoesNotThrow(() -> categoryController.getCardsInCategories(categories, mockDataCallback));
-        verify(mockLogger, times(1))
-                .error("Der übergebene Wert war leer");
-        verify(mockDataCallback, times(1))
-                .onFailure(any(String.class));
-    }
-
-    @Test
     public void ControllerNoCardsInCategory() {
         List<Category> categories = new ArrayList<>();
         categories.add(category3);
@@ -387,7 +345,7 @@ public class AddCategoriesToStudySystemTest {
     @Test
     public void PersistenceCategory() {
         CardRepository.startTransaction();
-        assertTrue(cardRepository.getCardsByCategory(category1).size() == 1);
+        assertEquals(1, cardRepository.getCardsByCategory(category1).size());
         CardRepository.commitTransaction();
     }
 

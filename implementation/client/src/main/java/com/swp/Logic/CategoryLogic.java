@@ -248,12 +248,12 @@ public class CategoryLogic extends BaseLogic<Category>
         if (catOld.isEmpty()) {
             checkAndCreateCardToCategories(card, catNew, catOld);
         }
-        else if (catOld.containsAll(catNew))
+        else if (new HashSet<>(catOld).containsAll(new HashSet<>(catNew)))
         {
             if (catOld.size() != catNew.size())
                 checkAndRemoveCardToCategories(card, catNew, catOld);
         }
-        else if (catNew.containsAll(catOld)) // nur neue hinzufügen
+        else if (new HashSet<>(catNew).containsAll(new HashSet<>(catOld))) // nur neue hinzufügen
         {
             checkAndCreateCardToCategories(card, catNew, catOld);
         }
@@ -293,12 +293,12 @@ public class CategoryLogic extends BaseLogic<Category>
         {
             selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
         }
-        else if(catOld.containsAll(catNew))
+        else if(new HashSet<>(catOld).containsAll(new HashSet<>(catNew)))
         {
             if(catOld.size() != catNew.size())
                 checkAndRemoveCategoryHierarchy(category, catNew, catOld, child);
         }
-        else if(catNew.containsAll(catOld)) // nur neue hinzufügen
+        else if(new HashSet<>(catNew).containsAll(new HashSet<>(catOld))) // nur neue hinzufügen
         {
             selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
         }

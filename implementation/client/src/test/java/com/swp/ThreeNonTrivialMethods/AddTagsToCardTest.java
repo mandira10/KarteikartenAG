@@ -19,10 +19,7 @@ import org.junit.jupiter.api.*;
 import org.mockito.ArgumentMatcher;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
@@ -208,7 +205,7 @@ public class AddTagsToCardTest {
                 //Testfall 3: Karte hat weiterhin 2 Tags, kriegt nun 2 neue (tagToAdd3, tagToAdd4) mit den 2 alten übermittelt, wobei einer vom Namen her bereits Teil der DB ist (tagToAdd3).
                 Tag tagToAdd3 = new Tag("tagExisting");
                 Tag tagToAdd4 = new Tag("TestTag3");
-                Tag tagToAdd5 = new Tag("TestTag2");
+                Tag tagToAdd5 = new Tag("TestTag2"); //gleiches Value wie bei tagtoadd2, prüfung ob trotzdem als gleich erkannt
                 List<Tag> tagsNewToAdd = Arrays.asList( tagToAdd1,tagToAdd5,tagToAdd3,tagToAdd4);
                 List<Tag> finalTagsNewToAdd = tagsNewToAdd;
                 assertDoesNotThrow(() -> cardController.setTagsToCard(card1, finalTagsNewToAdd,mockSingleDataCallback));
@@ -370,11 +367,11 @@ public class AddTagsToCardTest {
         @Test
         public void LogicNullCard() {
                 Tag tag = new Tag("");
-                assertThrows(IllegalArgumentException.class, () -> cardLogic.setTagsToCard(card2, Arrays.asList(tag)));
+                assertThrows(IllegalArgumentException.class, () -> cardLogic.setTagsToCard(card2, List.of(tag)));
                 Tag tag1 = new Tag(null);
-                assertThrows(IllegalArgumentException.class, () -> cardLogic.setTagsToCard(card2, Arrays.asList(tag1)));
+                assertThrows(IllegalArgumentException.class, () -> cardLogic.setTagsToCard(card2, List.of(tag1)));
                 Card card = null;
-                assertThrows(IllegalStateException.class, () -> cardLogic.setTagsToCard(card,Arrays.asList(tag1)));
+                assertThrows(IllegalStateException.class, () -> cardLogic.setTagsToCard(card, List.of(tag1)));
         }
 
         @Test
@@ -394,7 +391,7 @@ public class AddTagsToCardTest {
                 on(cardLogic1).set("tagRepository", tagMockRepo);
                 when(tagMockRepo.findTag("tagExisting")).thenThrow(new NoResultException());
                 when(tagMockRepo.save(tagExisting)).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
-                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2, Arrays.asList(tagExisting)));
+                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2, Collections.singletonList(tagExisting)));
                 reset(tagMockRepo);
         }
 
@@ -404,7 +401,7 @@ public class AddTagsToCardTest {
                 CardLogic cardLogic1 = CardLogic.getInstance();
                 on(cardLogic1).set("tagRepository", tagMockRepo);
                 when(tagMockRepo.findTag("tagExisting")).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
-                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2, Arrays.asList(tagExisting)));
+                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2, Collections.singletonList(tagExisting)));
                 reset(tagMockRepo);
         }
 
@@ -417,7 +414,7 @@ public class AddTagsToCardTest {
                 on(cardLogic1).set("cardToTagRepository", cardToTagMockRepo);
                 when(tagMockRepo.findTag("tagExisting")).thenReturn(tagExisting);
                 when(cardToTagMockRepo.createCardToTag(card2,tagExisting)).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
-                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2, Arrays.asList(tagExisting)));
+                assertThrows(RuntimeException.class, () -> cardLogic1.setTagsToCard(card2, Collections.singletonList(tagExisting)));
                 reset(tagMockRepo);
                 reset(cardToTagMockRepo);
         }
@@ -429,7 +426,7 @@ public class AddTagsToCardTest {
                 CardLogic cardLogic1 = CardLogic.getInstance();
                 on(cardLogic1).set("tagRepository", tagMockRepo);
                 on(cardLogic1).set("cardToTagRepository", cardToTagMockRepo);
-                List<Tag> existingTags = Arrays.asList(tagExisting);
+                List<Tag> existingTags = Collections.singletonList(tagExisting);
                 List<Tag> newTags = new ArrayList<>();
                 when(tagMockRepo.getTagsToCard(card2)).thenReturn(existingTags);
                 when(cardToTagMockRepo.findSpecificCardToTag(card2,tagExisting)).thenThrow(new RuntimeException("gemockter Datenbankfehler"));
@@ -445,7 +442,7 @@ public class AddTagsToCardTest {
                 CardLogic cardLogic1 = CardLogic.getInstance();
                 on(cardLogic1).set("tagRepository", tagMockRepo);
                 on(cardLogic1).set("cardToTagRepository", cardToTagMockRepo);
-                List<Tag> existingTags = Arrays.asList(tagExisting);
+                List<Tag> existingTags = Collections.singletonList(tagExisting);
                 List<Tag> newTags = new ArrayList<>();
                 CardToTag cardToTag = new CardToTag(card2,tagExisting);
                 when(tagMockRepo.getTagsToCard(card2)).thenReturn(existingTags);

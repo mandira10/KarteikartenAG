@@ -31,7 +31,7 @@ public class ListOrder extends Button
         /** Alphabetisch */     ALPHABETICAL,
         /** Erstelldatum */     DATE,
         /** Anzahl der Decks */ NUM_DECKS
-    };
+    }
 
     /**
      * Die Callbackfunktion für die Listenreihenfolge
@@ -47,13 +47,15 @@ public class ListOrder extends Button
 
     private ListOrderCallback pCallback;
     private Speechbubble pBubble;
-    private List<Option> alOptions;
+    private final List<Option> alOptions;
 
     private class Option extends RenderGUI
     {
-        private Text pName, pSymbol;
-        private String sSymbol, sReverseSymbol;
-        private Order iOrder;
+        private final Text pName;
+        private final Text pSymbol;
+        private final String sSymbol;
+        private final String sReverseSymbol;
+        private final Order iOrder;
         private boolean bReverse, bIsActive;
 
         public Option(String name, Order order, String symbol, String reversesymbol, ivec2 pos)
@@ -126,7 +128,7 @@ public class ListOrder extends Button
                 pName.setColor(GUI.getTheme().textColor);
             }
         }
-    };
+    }
 
 
     /**
@@ -210,5 +212,5 @@ public class ListOrder extends Button
 			ListOrder listordergui = new ListOrder(new ivec2(0,0), new ivec2(30,30), optionids);
 			return listordergui;
         };
-    };
+    }
 }

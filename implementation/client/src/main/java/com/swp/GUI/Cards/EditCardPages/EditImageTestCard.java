@@ -21,8 +21,8 @@ import com.swp.GUI.Extras.NotificationGUI;
  */
 public class EditImageTestCard extends EditCardGUI
 {
-    private Button pImageButton;
-    private TextField pAnswerField;
+    private final Button pImageButton;
+    private final TextField pAnswerField;
     private ImageTestCard pCard;
 
     /**

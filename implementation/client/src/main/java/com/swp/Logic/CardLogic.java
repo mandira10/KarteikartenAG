@@ -284,28 +284,22 @@ public class CardLogic extends BaseLogic<Card>
      * @param tagNew: die Liste von Tags
      */
     public void setTagsToCard(Card card, List<Tag> tagNew) {
-        if(card == null){
-            throw new IllegalStateException("cardnullerror");
-        }
             List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
             if (tagOld.isEmpty())
             {
                 checkAndCreateTags(card, tagNew, tagOld);
             }
-            else if (tagOld.containsAll(tagNew))
+            else if (new HashSet<>(tagOld).containsAll(new HashSet<>(tagNew)))
             {
                 if (tagOld.size() != tagNew.size())
                     checkAndRemoveTags(card, tagNew, tagOld);
 
             }
-            else if (tagNew.containsAll(tagOld)) // nur neue hinzufügen
-            {
+            else {
                 checkAndCreateTags(card, tagNew, tagOld);
-            }
-            else
-            { //neue und alte
-                checkAndCreateTags(card, tagNew, tagOld);
-                checkAndRemoveTags(card, tagNew, tagOld);
+                if (!new HashSet<>(tagNew).containsAll(new HashSet<>(tagOld))) { //neue und alte
+                    checkAndRemoveTags(card, tagNew, tagOld);
+                }
             }
 
     }

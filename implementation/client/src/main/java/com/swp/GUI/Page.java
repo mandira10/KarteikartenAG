@@ -12,8 +12,8 @@ import com.gumse.maths.vec4;
  */
 public class Page extends RenderGUI
 {
-    private Text pNameText;
-    private String sLocaleID;
+    private final Text pNameText;
+    private final String sLocaleID;
 
     /**
      * Der Hauptkonstruktor der Klasse Page

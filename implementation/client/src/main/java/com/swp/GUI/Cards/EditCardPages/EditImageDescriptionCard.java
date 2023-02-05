@@ -21,7 +21,8 @@ import com.swp.GUI.PageManager.PAGES;
  */
 public class EditImageDescriptionCard extends EditCardGUI
 {
-    private Button pImageButton, pAnswersButton;
+    private final Button pImageButton;
+    private final Button pAnswersButton;
     private ImageDescriptionCard pCard;
 
     /**

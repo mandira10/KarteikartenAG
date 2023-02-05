@@ -32,7 +32,7 @@ import com.swp.DataModel.CardOverview;
  */
 public class CardOverviewPage extends Page
 {
-    private Searchbar pSearchbar;
+    private final Searchbar pSearchbar;
     private CardList pCardList;
     private int iCurrentLastIndex;
     private Order iOrder;
