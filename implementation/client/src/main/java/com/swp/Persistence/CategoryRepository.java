@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Die Datenbank repository für Kategorien
- * @author Ole-Nikas Mahlstädt
+ * @author Ole-Nikas Mahlstädt, Efe Carkcioglu
  */
 public class CategoryRepository extends BaseRepository<Category> 
 {
