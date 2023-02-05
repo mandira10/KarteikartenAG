@@ -504,6 +504,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
     private void resetStudySystem(List<CardOverview> studySystemCards, StudySystem newStudyS) {
        execTransactional(() -> {
             log.info("Versuche das neue StudySystem {} zu speichern", newStudyS.getName());
+            newStudyS.setProgress(0);
+            newStudyS.setNotLearnedYet(true);
             studySystemRepository.save(newStudyS);
             log.info("Wandle die Karten aus CardOverview in Karten um");
             List<Card> cards = cardRepository.getAllCardsForCardOverview(studySystemCards);
