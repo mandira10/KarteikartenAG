@@ -158,16 +158,16 @@ viewdeckpage                       = Deck anzeigen
 editreferencespage                 = Referenzen bearbeiten
 
 # Confirmations
-confirmdeletecard                  = Sind sie sicher, dass sie diese Karte löschen wollen?
-confirmdeletecards                 = Sind sie sicher, dass sie $ Karte(n) löschen wollen?
-confirmcategorydelete              = Sind sie sicher, dass sie diese Kategorie löschen wollen?
-confirmremovecardscat              = Sind sie sicher, dass sie $ Karte(n) aus dieser Kategorie löschen wollen?
-confirmdeletecategories            = Sind sie sicher, dass sie $ Kategorie(n) löschen wollen?
-confirmaddtodeck                   = Wollen sie ihre Karten zu dem Deck $ hinzufügen?
-confirmdeletedeck                  = Sind sie sicher, dass sie dieses Deck löschen wollen?
-confirmremovecardsdeck             = Sind sie sicher, dass sie $ Karte(n) aus diesem Deck löschen wollen?
-confirmpause                       = Wollen sie den Test pausieren?
-confirmresetdeck                   = Sind sie sicher, dass sie ihren Fortschritt verwerfen wollen?
+confirmdeletecard                  = Sind Sie sicher, dass Sie diese Karte löschen wollen?
+confirmdeletecards                 = Sind Sie sicher, dass Sie $ Karte(n) löschen wollen?
+confirmcategorydelete              = Sind Sie sicher, dass Sie diese Kategorie löschen wollen?
+confirmremovecardscat              = Sind Sie sicher, dass Sie $ Karte(n) aus dieser Kategorie löschen wollen?
+confirmdeletecategories            = Sind Sie sicher, dass Sie $ Kategorie(n) löschen wollen?
+confirmaddtodeck                   = Wollen Sie ihre Karten zu dem Deck $ hinzufügen?
+confirmdeletedeck                  = Sind Sie sicher, dass Sie dieses Deck löschen wollen?
+confirmremovecardsdeck             = Sind Sie sicher, dass Sie $ Karte(n) aus diesem Deck löschen wollen?
+confirmpause                       = Wollen Sie den Test pausieren?
+confirmresetdeck                   = Sind Sie sicher, dass Sie ihren Fortschritt verwerfen wollen?
 
 # Mandatory fields
 mandatorytitle                     = Der Titel darf nicht leer sein
@@ -258,7 +258,7 @@ createboxtocardforcategory         = Beim Erstellen Box to Card für Kategorie i
 updatedeckdataerror                = Beim Aktualisieren der Deckdaten ist ein Fehler aufgetreten.
 studysystemlearningerror           = Es gibt aktuell keine Karten in diesem Deck. Füge welche hinzu, um das Lernen zu starten.
 studysystemnocardsdue	           = Es gibt aktuell keine fälligen Karten zum Lernen.
-studysyschangewarning              = Wenn Sie den Typ des StudySystems nachträglich wechseln, dann verlieren sie Ihren Lernfortschritt.
+studysyschangewarning              = Wenn Sie den Typ des StudySystems nachträglich wechseln, dann verlieren Sie Ihren Lernfortschritt.
 studysystemaddcardsinfo		   = Karten bereits im Deck enthalten, nicht hinzugefügt:
 studysystemnullerror                      = Deck existiert nicht
 studysystemnullfalsetype                     = Falscher StudySystemTyp.

@@ -174,14 +174,13 @@ public class CardRepository extends BaseRepository<Card>
     }
 
     /**
-     * Holt eine List von Karten-Übersichten aus der Datenbank.
-     * Es wird nach der Zugehörigkeit zu einer angegebenen Lernsystem-Instanz gefiltert.
-     * Ist in dem Lernsystem keine Karte enthalten, wird eine leere Liste zurückgegeben.
+     * Holt für ein angegebenes Lernsystem und eine angegebene Karte die attached Karten-Entität
+     * aus der Datenbank. Ist diese Karte nicht in dem Lernsystem enthalten, wird eine Exception geworfen.
      *
      * @param studySystem         ein Lernsystem
-     * @param card                TODO
-     * @return List<CardOverview> eine List von Karten-Übersichten, aller Karten im angegeben Lernsystem.
-     * @throws NoResultException  falls keine Karte gefunden wurde
+     * @param card                eine Karte, die potenziell in dem Lernsystem enthalten ist.
+     * @return Eine einzelne Karte (attached Entity), falls sie in dem Lernsystem enthalten ist.
+     * @throws NoResultException  falls die angegebene Karte nicht in dem angegebenen Lernsystem drin ist.
      */
     public Card findCardByStudySystem(StudySystem studySystem, Card card) throws NoResultException
     {

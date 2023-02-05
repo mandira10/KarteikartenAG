@@ -171,7 +171,6 @@ public class CardController extends Controller
     {
         callLogicFuncInThread(
             () -> { cardLogic.deleteCard(card); return true; },
-            "", "",
             "deletecarderror", "Beim Löschen der Karte "+card.toString()+" ist ein Fehler $ aufgetreten", 
             callback, "");
 
@@ -186,8 +185,7 @@ public class CardController extends Controller
     public void deleteCards(List<CardOverview> cards, SingleDataCallback<Boolean> callback) 
     {
         callLogicFuncInThread(
-            () -> { cardLogic.deleteCards(cards); return true; }, 
-            "", "",
+            () -> { cardLogic.deleteCards(cards); return true; } ,
             "deletecardserror", "Beim Löschen der Karten "+cards.toString()+" ist ein Fehler $ aufgetreten", 
             callback, "");
     }
@@ -202,8 +200,7 @@ public class CardController extends Controller
     public void getCardByUUID(String uuid, SingleDataCallback<Card> callback) 
     {
         callLogicFuncInThread(
-            () -> cardLogic.getCardByUUID(uuid),
-            "getcardbyuuidempty", "Es wurde keine Karte zur UUID "+uuid+" gefunden",
+            () -> cardLogic.getCardByUUID(uuid) ,
             "getcardbyuuiderror", "Beim Abrufen der Karte ist ein Fehler $ aufgetreten", 
             callback, "UUID");
     }
@@ -220,8 +217,7 @@ public class CardController extends Controller
     {
         String cardString = card != null ? card.toString() : "";
         callLogicFuncInThread(
-            () -> { cardLogic.setTagsToCard(card, set); return true; }, 
-            "", "",
+            () -> { cardLogic.setTagsToCard(card, set); return true; },
             "settagstocarderror", "Beim Setzen der Tags für die Karte mit der UUID "+cardString+" ist ein Fehler $ aufgetreten",
             callback,"");
     }
@@ -237,8 +233,7 @@ public class CardController extends Controller
     {
         String uuid = cardToChange != null ? cardToChange.getUuid() : "";
         callLogicFuncInThread(
-            () -> { cardLogic.updateCardData(cardToChange, neu); return true; }, 
-            "", "",
+            () -> { cardLogic.updateCardData(cardToChange, neu); return true; },
             "updatecreatecarderror", "Beim Updaten/Speichern der Karte "+uuid+" mit der ist ein Fehler $ aufgetreten",
             callback,"");
     }

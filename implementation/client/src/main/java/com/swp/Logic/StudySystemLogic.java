@@ -90,7 +90,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
      * Wird nach der Erstellung eines neuen StudySystem verwendet, Hauptfunktion erfolgt über moveAllCardToFirstBoxNoExec.
      * @param cards: Karten, die StudySystem enthalten soll.
      * @param studySystem: Das StudySystem, das benötigt wird.
-     * @return TODO
+     * @return Eine Liste von Karten, die in dem Lernsystem enthalten sind.
      */
     public List<Card> moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem) {
         return execTransactional(() -> moveAllCardsForDeckToFirstBoxNoExec(cards,studySystem));
@@ -104,7 +104,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
      * Ruft Hilfsmethode moveCardToBoxAndSave auf.
      * @param cards: Karten, die StudySystem enthalten soll.
      * @param studySystem: Das StudySystem, das benötigt wird.
-     * @return TODO
+     * @return Eine Liste von Karten, die bereits in dem Lernsystem enthalten sind.
      */
     public List<Card> moveAllCardsForDeckToFirstBoxNoExec(List<Card> cards, StudySystem studySystem) {
         if (cards.isEmpty()) {
@@ -383,9 +383,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
         if(studySystem.getType() == StudySystem.StudySystemType.LEITNER){
             List<Long> progressPerBox = studySystemBoxRepository.getProgressForLeitner(studySystem);
             int sum = progressPerBox.stream().mapToInt(Long::intValue).sum();
-            log.info("Summe des Progresses per Box ist: {}", sum);
            studySystem.setProgress(Math.round((double) sum / (numCardsInToTal * progressPerBox.size()) * 100 ));
-           log.info("Progress Leinter ist {}", studySystem.getProgress());
+           log.info("Progress Leitner ist {}", studySystem.getProgress());
         }
         else {
             studySystem.setProgress(Math.round((double) numOfLearnedCards / numCardsInToTal * 100));
@@ -589,7 +588,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
      * Für nachträgliches Hinzufügen von Karten. 
      * @param cards: die Liste von Karten, um hinzufügen
      * @param studySystem Das StudySystem, das benötigt wird.
-     * @return TODO
+     * @return Liste an Karten, die bereits Teil des Decks sind und nicht erneut hinzugefügt wurden
      */
     public List<Card> addCardsToDeck(List<CardOverview> cards, StudySystem studySystem) {
         if(studySystem == null){

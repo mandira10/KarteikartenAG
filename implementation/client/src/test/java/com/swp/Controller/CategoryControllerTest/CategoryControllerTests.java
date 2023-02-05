@@ -86,7 +86,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.updateCategoryData(cat,true,false,coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("categoryupdatesaveerror"));
-        reset(coMockbSingleDataCallBack);
+     
     }
 
     /**
@@ -100,7 +100,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->categoryController.updateCategoryData(cat, true,false,coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("categorynullerror"));
-        reset(coMockbSingleDataCallBack);
     }
 
     /**
@@ -119,8 +118,6 @@ public class CategoryControllerTests {
                 return true;
             }
         }));
-        reset(coMockbSingleDataCallBack);
-
     }
 
     /**
@@ -134,7 +131,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->   categoryController.deleteCategory(cat,coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("categorynullerror"));
-        reset(coMockbSingleDataCallBack);
     }
 
     /**
@@ -148,7 +144,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.deleteCategory(cat, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("deletecategoryerror"));
-        reset(coMockbSingleDataCallBack);
     }
 
     /**
@@ -170,8 +165,6 @@ public class CategoryControllerTests {
 
 
         }));
-        reset(coMockbSingleDataCallBack);
-
     }
 
     /**
@@ -185,7 +178,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.deleteCategories(list, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("categorynullerror"));
-        reset(coMockbSingleDataCallBack);
     }
 
     /**
@@ -200,7 +192,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.deleteCategories(list,coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("deletecategorieserror"));
-        reset(coMockbSingleDataCallBack);
     }
 
     /**
@@ -221,7 +212,6 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(coMockbSingleDataCallBack);
     }
 
 
@@ -236,7 +226,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->  categoryController.getCardsInCategory("Test", coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callInfo(Locale.getCurrentLocale().getString("getcardincategoryempty"));
-        reset(coMockDataCallback);
 
     }
 
@@ -257,7 +246,6 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(coMockDataCallback);
     }
 
     /**
@@ -270,7 +258,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getCardsInCategory("Test", coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
-        reset(coMockDataCallback);
     }
 
     /**
@@ -283,7 +270,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->categoryController.getCardsInCategory("",coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure( "Kategorie darf nicht leer sein!");
-        reset(coMockDataCallback);
     }
     /**
      * Testet die callInfo Funktion beim Controller, wenn ein empty set zurückgegeben wird.
@@ -295,8 +281,7 @@ public class CategoryControllerTests {
         Category cat = new Category("Test");
         when(categoryMockLogic.getCardsInCategory(cat)).thenReturn(list);
         assertDoesNotThrow(() ->  categoryController.getCardsInCategory(cat, coMockDataCallback));
-        reset(coMockDataCallback);
-
+       
     }
 
     /**
@@ -312,12 +297,11 @@ public class CategoryControllerTests {
         verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
             public boolean matches(List<CardOverview> overviews) {
-                overviews.equals(list);
-                return true;
+               assertEquals(overviews,list);
+               return true;
             }
 
         }));
-        reset(coMockDataCallback);
     }
 
     /**
@@ -331,7 +315,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getCardsInCategory(cat, coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
-        reset(coMockDataCallback);
     }
 
     /**
@@ -345,7 +328,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->categoryController.getCardsInCategory(cat,coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("categorynullerror"));
-        reset(coMockDataCallback);
+    
     }
 
     /**
@@ -359,7 +342,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->  categoryController.getCardsInCategory("Test", coMockDataCallback,ListOrder.Order.DATE, false));
         verify(coMockDataCallback, times(1))
                 .callInfo(Locale.getCurrentLocale().getString("getcardincategoryempty"));
-        reset(coMockDataCallback);
+         
 
     }
 
@@ -375,12 +358,12 @@ public class CategoryControllerTests {
         verify(coMockDataCallback).callSuccess(argThat(new ArgumentMatcher<List<CardOverview>>() {
             @Override
             public boolean matches(List<CardOverview> overviews) {
-                overviews.equals(list);
+                assertEquals(overviews,list);
                 return true;
             }
 
         }));
-        reset(coMockDataCallback);
+         
     }
 
     /**
@@ -393,7 +376,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getCardsInCategory("Test", coMockDataCallback, ListOrder.Order.DATE, false));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardincategoryerror"));
-        reset(coMockDataCallback);
+         
     }
 
     /**
@@ -406,7 +389,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->categoryController.getCardsInCategory("",coMockDataCallback, ListOrder.Order.DATE, false));
         verify(coMockDataCallback, times(1))
                 .callFailure( "Kategorie darf nicht leer sein!");
-        reset(coMockDataCallback);
+         
     }
 
 
@@ -452,7 +435,7 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -466,7 +449,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->categoryController.getCategoriesToCard(card, catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcategoriestocarderror"));
-        reset(catMockDataCallback);
+       
 
     }
 
@@ -482,7 +465,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getChildrenForCategory(cat, catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("categorynullerror"));
-        reset(catMockDataCallback);
+       
     }
 
 
@@ -497,7 +480,7 @@ public class CategoryControllerTests {
         when(categoryMockLogic.getChildrenForCategory(cat)).thenReturn(list);
 
         assertDoesNotThrow(() -> categoryController.getChildrenForCategory(cat, catMockDataCallback));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -518,7 +501,7 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -532,7 +515,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->  categoryController.getChildrenForCategory(cat, catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("catchilderror"));
-        reset(catMockDataCallback);  
+         
     }
 
     /**
@@ -546,7 +529,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getParentsForCategory(cat, catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("categorynullerror"));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -560,7 +543,7 @@ public class CategoryControllerTests {
         when(categoryMockLogic.getParentsForCategory(cat)).thenReturn(list);
 
         assertDoesNotThrow(() -> categoryController.getParentsForCategory(cat, catMockDataCallback));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -581,7 +564,7 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -595,7 +578,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->  categoryController.getParentsForCategory(cat, catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("catparenterror"));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -607,7 +590,7 @@ public class CategoryControllerTests {
         final List<Category> list = new ArrayList<>();
         when(categoryMockLogic.getCategories()).thenReturn(list);
         assertDoesNotThrow(() ->  categoryController.getCategories(catMockDataCallback));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -627,7 +610,7 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -640,7 +623,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->categoryController.getCategories(catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcatorieserror"));
-        reset(catMockDataCallback);
+       
     }
 
 
@@ -653,7 +636,7 @@ public class CategoryControllerTests {
         final List<Category> list = new ArrayList<>();
         when(categoryMockLogic.getRootCategories(false)).thenReturn(list);
         assertDoesNotThrow(() ->  categoryController.getRootCategories(false,catMockDataCallback));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -673,7 +656,7 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -686,7 +669,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->categoryController.getRootCategories(false, catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getrootcategorieserror"));
-        reset(catMockDataCallback);
+       
     }
 
     /**
@@ -699,7 +682,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getCategoryByUUID("Test",  coMockCSingleDataCallBack));
         verify(coMockCSingleDataCallBack, times(1))
                 .callFailure("Es konnte nichts gefunden werden.");
-        reset(coMockCSingleDataCallBack);
+    
     }
 
     /**
@@ -712,7 +695,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getCategoryByUUID("Test",  coMockCSingleDataCallBack));
         verify(coMockCSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("categorybyuuiderror"));
-        reset(coMockCSingleDataCallBack);
+    
 
     }
 
@@ -733,7 +716,7 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(coMockCSingleDataCallBack);
+    
     }
 
     /**
@@ -746,7 +729,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->   categoryController.getCategoryByUUID("Test",  coMockCSingleDataCallBack));
         verify(coMockCSingleDataCallBack, times(1))
                 .callFailure("ID darf nicht null sein!");
-        reset(coMockCSingleDataCallBack);
     }
 
 
@@ -762,7 +744,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() ->categoryController.setCategoriesToCard(card,list,coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("setcategoriestocarderror"));
-        reset(coMockbSingleDataCallBack);
+       
     }
 
     /**
@@ -782,7 +764,7 @@ public class CategoryControllerTests {
                    return true;
                 }
             }));
-            reset(coMockbSingleDataCallBack);
+          
         }
 
     /**
@@ -799,7 +781,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.editCategoryHierarchy(cat,parents,childs, coMockSSingleDataCallBack));
         verify(coMockSSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("categoryhierarchyupdateerror"));
-        reset(coMockSSingleDataCallBack);
+       
     }
 
     /**
@@ -822,7 +804,7 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(coMockSSingleDataCallBack);
+      
 
     }
     /**
@@ -845,7 +827,6 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(coMockSSingleDataCallBack);
 
     }
 
@@ -866,7 +847,7 @@ public class CategoryControllerTests {
                return true;
             }
         }));
-        reset(catMockDataCallback);
+     
     }
 
     /**
@@ -880,7 +861,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getCategoriesBySearchterm("test",catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callInfo(Locale.getCurrentLocale().getString("getcateoriesbysearchtermsempty"));
-        reset(catMockDataCallback);
     }
 
     /**
@@ -893,7 +873,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getCategoriesBySearchterm("test",catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcateoriesbysearchtermserror"));
-        reset(catMockDataCallback);
     }
 
     /**
@@ -906,7 +885,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.getCategoriesBySearchterm("",catMockDataCallback));
         verify(catMockDataCallback, times(1))
                 .callFailure( "Suchbegriff darf nicht leer sein!");
-        reset(catMockDataCallback);
     }
 
     /**
@@ -921,7 +899,6 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.removeCardsFromCategory(list,cat,coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("removecardsfromstudysystemerror"));
-        reset(coMockbSingleDataCallBack);
     }
     /**
      * Testet die callSuccess Funktion beim Controller, wenn ein Liste zurückgegeben wird.
@@ -942,7 +919,6 @@ public class CategoryControllerTests {
             }
 
         }));
-        reset(coMockbSingleDataCallBack);
     }
     /**
      * Testet die callInfo Funktion beim Controller, wenn die Rückgabe leer ist.
@@ -956,7 +932,7 @@ public class CategoryControllerTests {
         assertDoesNotThrow(() -> categoryController.removeCardsFromCategory(list,cat,coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("cardnullerror"));
-        reset(coMockbSingleDataCallBack);
+       
     }
 
 
