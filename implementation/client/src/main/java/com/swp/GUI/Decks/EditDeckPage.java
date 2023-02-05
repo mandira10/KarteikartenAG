@@ -327,8 +327,6 @@ public class EditDeckPage extends Page
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("leitnerdesc"));
             if(type == StudySystemType.NONE)
             {
-                if(!bIsNewDeck)
-                    NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.WARNING,5);
                 StudySystem tmpDeck = pNewDeck;
                 pNewDeck = new LeitnerSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());
@@ -348,8 +346,6 @@ public class EditDeckPage extends Page
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("votingdesc"));
             if(type == StudySystemType.NONE)
             {
-                if(!bIsNewDeck)
-                    NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.WARNING,5);
                 StudySystem tmpDeck = pNewDeck;
                 pNewDeck = new VoteSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());
@@ -364,8 +360,6 @@ public class EditDeckPage extends Page
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("timingdesc"));
             if(type == StudySystemType.NONE)
             {
-                if(!bIsNewDeck)
-                    NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.WARNING,5);
                 StudySystem tmpDeck = pNewDeck;
                 pNewDeck = new TimingSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());

@@ -23,9 +23,8 @@ public class FileDialog
     public static String openFile(String title, String description, String[] allowedTypes)
     {
         MemoryStack stack = MemoryStack.stackPush();
-        PointerBuffer filters = stack.mallocPointer(1 + allowedTypes.length);
+        PointerBuffer filters = stack.mallocPointer(allowedTypes.length);
 
-        filters.put(stack.UTF8("*." + "txt"));
         for(String type : allowedTypes)
             filters.put(stack.UTF8("*." + type));
         filters.flip();
@@ -54,9 +53,8 @@ public class FileDialog
     public static String saveFile(String title, String description, String[] allowedTypes)
     {
         MemoryStack stack = MemoryStack.stackPush();
-        PointerBuffer filters = stack.mallocPointer(1 + allowedTypes.length);
+        PointerBuffer filters = stack.mallocPointer(allowedTypes.length);
 
-        filters.put(stack.UTF8("*." + "txt"));
         for(String type : allowedTypes)
             filters.put(stack.UTF8("*." + type));
         filters.flip();
