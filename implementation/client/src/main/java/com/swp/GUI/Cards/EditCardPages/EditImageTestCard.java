@@ -19,7 +19,7 @@ import com.swp.GUI.Extras.NotificationGUI;
 /**
  * Wird verwendet, um Bildfrage Karten zu bearbeiten
  * 
- * @author Tom Beuke
+ * @author Tom Beuke, Efe Carkcioglu
  */
 public class EditImageTestCard extends EditCardGUI
 {

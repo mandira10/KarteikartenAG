@@ -19,7 +19,7 @@ import com.swp.GUI.PageManager.PAGES;
 /**
  * Wird verwendet, um Bildbeschreibungskarten zu bearbeiten
  * 
- * @author Tom Beuke
+ * @author Tom Beuke, Efe Carkcioglu
  */
 public class EditImageDescriptionCard extends EditCardGUI
 {
