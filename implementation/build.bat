@@ -4,9 +4,9 @@ set ARG=%1
 set ROOTDIR=%cd%
 
 echo Cleaning..
-mvn clean -q
+call mvn clean -q
 
 echo Packaging..
-mvn package
+call mvn -T 4 package -q -Dmaven.test.skip=true
 
-echo Done, do ./run.bat to run this project
+echo Done, do `.\run.bat` to run this project
