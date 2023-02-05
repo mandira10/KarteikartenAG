@@ -1,11 +1,9 @@
 package com.swp.GUI.Decks;
 
-import java.util.concurrent.TimeUnit;
-
-import com.gumse.gui.GUI;
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.GUI;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
@@ -15,18 +13,20 @@ import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.DataModel.StudySystem.StudySystem.StudySystemType;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
-import com.swp.DataModel.StudySystem.StudySystem.StudySystemType;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.GUI.Page;
-import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.TestCardGUI;
 import com.swp.GUI.Extras.ConfirmationGUI;
-import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.Extras.RatingGUI;
+import com.swp.GUI.Page;
+import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Wird verwendet, um Karten zu testen und den Fortschritt zu merken

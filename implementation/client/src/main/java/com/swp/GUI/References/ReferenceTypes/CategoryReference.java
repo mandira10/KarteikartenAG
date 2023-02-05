@@ -5,11 +5,11 @@ import com.gumse.maths.ivec2;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Category;
-import com.swp.GUI.PageManager;
-import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Category.ViewSingleCategoryPage;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.References.ReferenceEntry;
 
 /**

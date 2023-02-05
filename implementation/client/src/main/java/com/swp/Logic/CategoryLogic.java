@@ -1,7 +1,5 @@
 package com.swp.Logic;
 
-import java.util.*;
-
 import com.gumse.gui.Locale;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
@@ -15,6 +13,9 @@ import com.swp.Persistence.CategoryRepository;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import static com.swp.Validator.checkNotNullOrBlank;
 

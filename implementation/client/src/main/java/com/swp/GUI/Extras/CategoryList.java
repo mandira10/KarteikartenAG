@@ -1,8 +1,5 @@
 package com.swp.GUI.Extras;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gumse.gui.HierarchyList.HierarchyList;
 import com.gumse.gui.HierarchyList.HierarchyListEntry;
 import com.gumse.gui.Primitives.RenderGUI;
@@ -11,9 +8,12 @@ import com.gumse.system.io.Mouse;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
 import com.swp.DataModel.Category;
-import com.swp.GUI.PageManager;
 import com.swp.GUI.Category.ViewSingleCategoryPage;
+import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * CategoryList wird dazu verwendet, um

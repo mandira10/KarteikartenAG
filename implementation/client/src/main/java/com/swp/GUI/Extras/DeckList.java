@@ -1,12 +1,10 @@
 package com.swp.GUI.Extras;
 
-import java.util.List;
-
-import com.gumse.gui.GUI;
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.GUI;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
@@ -16,6 +14,8 @@ import com.gumse.system.io.Mouse;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.StudySystem;
+
+import java.util.List;
 
 /**
  * DeckList wird dazu verwendet um 

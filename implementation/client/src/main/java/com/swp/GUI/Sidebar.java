@@ -1,15 +1,17 @@
 package com.swp.GUI;
 
 import com.gumse.basics.SmoothFloat;
-import com.gumse.gui.GUI;
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.GUI;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
-import com.gumse.maths.*;
+import com.gumse.maths.bbox2i;
+import com.gumse.maths.ivec2;
+import com.gumse.maths.vec4;
 import com.gumse.system.io.Mouse;
 import com.swp.DataModel.User;
 import com.swp.GUI.Cards.CardOverviewPage;

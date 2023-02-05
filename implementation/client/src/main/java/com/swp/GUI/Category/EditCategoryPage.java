@@ -1,27 +1,27 @@
 package com.swp.GUI.Category;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CategoryController;
 import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.Controller.SingleDataCallback;
+import com.swp.GUI.PageManager.PAGES;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Die Seite welche es einem ermöglicht, Kategorien zu bearbeiten

@@ -1,7 +1,7 @@
 package com.swp.GUI;
 
-import com.gumse.gui.Locale;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.ivec2;

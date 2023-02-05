@@ -1,11 +1,11 @@
 package com.swp.Controller;
 
+import com.gumse.tools.Output;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import com.gumse.tools.Output;
 
 /**
  * ThreadPool für die Controllerfunktionen

@@ -1,11 +1,13 @@
 package com.swp.GUI;
 
 import com.gumse.gui.GUI;
-import com.gumse.gui.Theme;
 import com.gumse.gui.Primitives.RenderGUI;
-import com.gumse.maths.*;
-import com.swp.DataModel.Settings.Setting;
+import com.gumse.gui.Theme;
+import com.gumse.maths.Color;
+import com.gumse.maths.ivec2;
+import com.gumse.maths.vec4;
 import com.swp.DataModel.Settings;
+import com.swp.DataModel.Settings.Setting;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.NotificationGUI;
 

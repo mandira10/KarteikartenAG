@@ -1,35 +1,35 @@
 package com.swp.GUI.Cards;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
-import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextBox.Alignment;
+import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.TagList.TagList;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
+import com.swp.GUI.Cards.EditCardPages.*;
+import com.swp.GUI.Category.CategorySelectPage;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.Cards.EditCardPages.*;
-import com.swp.GUI.Category.CategorySelectPage;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.References.EditReferencesPage;
-import com.swp.Controller.DataCallback;
-import com.swp.Controller.SingleDataCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Die Seite welche es einem ermöglicht, Karten zu bearbeiten

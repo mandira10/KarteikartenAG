@@ -1,16 +1,9 @@
 package com.swp.GUI.Decks;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gumse.gui.Locale;
-import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Dropdown;
-import com.gumse.gui.Basics.Scroller;
-import com.gumse.gui.Basics.TextBox;
-import com.gumse.gui.Basics.TextField;
+import com.gumse.gui.Basics.*;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.GumMath;
@@ -19,22 +12,21 @@ import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
-import com.swp.DataModel.StudySystem.LeitnerSystem;
-import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.TimingSystem;
-import com.swp.DataModel.StudySystem.VoteSystem;
+import com.swp.DataModel.StudySystem.*;
 import com.swp.DataModel.StudySystem.StudySystem.CardOrder;
 import com.swp.DataModel.StudySystem.StudySystem.StudySystemType;
-import com.swp.DataModel.StudySystem.StudySystemBox;
-import com.swp.GUI.Extras.ConfirmationGUI;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
-import com.swp.GUI.Extras.Notification.NotificationType;
-import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Decks.EditLeitnerDayEntry.EntryCallback;
+import com.swp.GUI.Extras.ConfirmationGUI;
+import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Extras.Notification;
+import com.swp.GUI.Extras.Notification.NotificationType;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
+import com.swp.GUI.PageManager.PAGES;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Die Seite welche es einem ermöglicht, Decks zu bearbeiten

@@ -1,7 +1,7 @@
 package com.swp.GUI.Decks;
 
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
@@ -12,15 +12,11 @@ import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.GUI.Cards.CardExportPage;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.GUI.Page;
-import com.swp.GUI.PageManager;
-import com.swp.GUI.Extras.CardList;
-import com.swp.GUI.Extras.ConfirmationGUI;
-import com.swp.GUI.Extras.MenuOptions;
+import com.swp.GUI.Extras.*;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Page;
+import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;

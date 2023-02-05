@@ -1,9 +1,7 @@
 package com.swp.GUI.Decks;
 
-import java.util.List;
-
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
@@ -12,13 +10,15 @@ import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.GUI.Extras.ConfirmationGUI;
+import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Extras.DeckList;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.Extras.ConfirmationGUI;
-import com.swp.GUI.Extras.DeckList;
-import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+
+import java.util.List;
 
 /**
  * Die Seite auf welcher man ein Deck auswählen kann

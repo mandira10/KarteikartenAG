@@ -4,8 +4,8 @@ package com.swp.GUI.References;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Basics.TextBox;
-import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextBox.Alignment;
+import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
@@ -16,12 +16,12 @@ import com.swp.Controller.CategoryController;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
-import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardSelectPage;
-import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Category.CategorySelectPage;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.PageManager.PAGES;
 
 /**
  * Ein Eintrag für das EditReference GUI

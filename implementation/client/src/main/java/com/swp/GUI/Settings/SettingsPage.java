@@ -1,20 +1,20 @@
 package com.swp.GUI.Settings;
 
-import com.gumse.gui.GUI;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
+import com.gumse.gui.GUI;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
-import com.swp.DataModel.Settings;
-import com.swp.DataModel.User;
 import com.swp.DataModel.Language.Language;
+import com.swp.DataModel.Settings;
 import com.swp.DataModel.Settings.Setting;
+import com.swp.DataModel.User;
 import com.swp.GUI.KarteikartenAGGUI;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;

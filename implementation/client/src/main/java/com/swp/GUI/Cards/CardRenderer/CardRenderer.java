@@ -1,15 +1,9 @@
 package com.swp.GUI.Cards.CardRenderer;
 
-import org.lwjgl.opengl.GL30;
-
 import com.gumse.PostProcessing.Framebuffer;
 import com.gumse.basics.Camera;
 import com.gumse.gui.Primitives.RenderGUI;
-import com.gumse.maths.ivec2;
-import com.gumse.maths.mat4;
-import com.gumse.maths.quat;
-import com.gumse.maths.vec3;
-import com.gumse.maths.vec4;
+import com.gumse.maths.*;
 import com.gumse.model.Model3D;
 import com.gumse.shader.Shader;
 import com.gumse.shader.ShaderProgram;
@@ -19,6 +13,7 @@ import com.gumse.textures.Texture;
 import com.gumse.tools.FPS;
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
+import org.lwjgl.opengl.GL30;
 
 /**
  * Rendert eine Karte in 3D
