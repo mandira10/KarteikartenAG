@@ -1,10 +1,7 @@
 package com.swp.Persistence;
 
-import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.StudySystemBox;
-
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.NoResultException;
 
@@ -52,10 +49,12 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
      * Falls es schon gibt, throws eine Exception. 
      * 
      * @param boxToCard eine BoxToCard-Instanz, welche in der Datenbank gespeichert werden soll.
-     * @throws EntityExistsException TODO
+     * @throws EntityExistsException falls die übergebene `BoxToCard` bereits persistiert war.
      */
     public void addCardToBox(BoxToCard boxToCard) throws EntityExistsException
     {
+        // Man könnte auch `cardToBoxRepository.save(boxToCard)` aufrufen.
+        // Sollte dann bei bereits persistierten Objekten keine Exceptions werfen.
         getEntityManager().persist(boxToCard);
     }
 

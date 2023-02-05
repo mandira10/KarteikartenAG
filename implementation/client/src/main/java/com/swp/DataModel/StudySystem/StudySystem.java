@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Abstrakte Superklasse für das StudySystem von der die einzelnen
@@ -172,7 +174,7 @@ public abstract class StudySystem implements Serializable
 
 
     /**
-     * TODO
+     * erhöht den Zähler, der die Anzahl der enthaltenen Fragen des Lernsystems enthält
      */
     public void incrementQuestionCount()
     {
@@ -180,7 +182,7 @@ public abstract class StudySystem implements Serializable
     }
 
     /**
-     * TODO
+     * erhöht den Zähler, der die Anzahl der korrekt beantworteten Fragen im Lernsystem enthält
      */
     public void incrementTrueCount()
     {

@@ -139,7 +139,7 @@ public abstract class BaseRepository<T>
      *
      * @param object das zu speichernde Objekt.
      * @throws IllegalStateException, wenn bei Aufruf keine Transaktion offen ist.
-     * @return TODO
+     * @return die attached-Entity des gespeicherten Objekts.
      */
     public T save(T object) throws IllegalStateException {
         if (!isTransactionActive()) {

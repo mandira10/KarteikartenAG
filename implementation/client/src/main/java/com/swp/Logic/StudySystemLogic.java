@@ -90,7 +90,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
      * Wird nach der Erstellung eines neuen StudySystem verwendet, Hauptfunktion erfolgt über moveAllCardToFirstBoxNoExec.
      * @param cards: Karten, die StudySystem enthalten soll.
      * @param studySystem: Das StudySystem, das benötigt wird.
-     * @return TODO
+     * @return Eine Liste von Karten, die in dem Lernsystem enthalten sind.
      */
     public List<Card> moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem) {
         return execTransactional(() -> moveAllCardsForDeckToFirstBoxNoExec(cards,studySystem));
@@ -104,7 +104,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
      * Ruft Hilfsmethode moveCardToBoxAndSave auf.
      * @param cards: Karten, die StudySystem enthalten soll.
      * @param studySystem: Das StudySystem, das benötigt wird.
-     * @return TODO
+     * @return Eine Liste von Karten, die bereits in dem Lernsystem enthalten sind.
      */
     public List<Card> moveAllCardsForDeckToFirstBoxNoExec(List<Card> cards, StudySystem studySystem) {
         if (cards.isEmpty()) {
