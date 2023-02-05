@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Die Datenbank repository für CategoryHierarchy Objekte
- * @author Ole-Nikas Mahlstädt
+ * @author Ole-Nikas Mahlstädt, Nadja Cordes
  */
 public class CategoryHierarchyRepository  extends BaseRepository<CategoryHierarchy> {
     private CategoryHierarchyRepository() {
