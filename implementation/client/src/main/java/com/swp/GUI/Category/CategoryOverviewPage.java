@@ -187,6 +187,7 @@ public class CategoryOverviewPage extends Page
 
             @Override public void onInfo(String msg) 
             {
+                NotificationGUI.addNotification(msg,NotificationType.INFO,5);
             }
         });
     }

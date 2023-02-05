@@ -158,7 +158,7 @@ public class CategoryController extends Controller
 
 
     /**
-     * Wird verwendet, um die Kategorien für eine Kategorie zu ändern. Wird an die CategoryLogic weitergegeben.
+     * Wird verwendet, um die Kategorien für eine Karte zu ändern. Wird an die CategoryLogic weitergegeben.
      * @param card  die Karte, um zu ändern
      * @param categories  Liste der Kategorien
      * @param callback  Callback für die GUI, gibt bei Fehler die Exception message an die GUI weiter.
