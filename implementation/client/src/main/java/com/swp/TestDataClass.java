@@ -126,9 +126,23 @@ public class TestDataClass
 
         List<Card> spanischL = new ArrayList<>();
         //Karten 2: Spanisch
-        spanischL.add(new AudioCard(null, "Comer", "Comer", "Essen", false));
-        spanischL.add(new AudioCard(null, "Trinken", "Trinken", "Beber", false));
-        spanischL.add(new AudioCard(null, "Taufen", "Taufen", "bautizar", false));
+        audioBuffer = Toolbox.loadResourceToByteBuffer("audios/comer.wav", KarteikartenAG.class);
+        byte[] comer = new byte[audioBuffer.remaining()];
+        audioBuffer.get(comer);
+        MemoryUtil.memFree(audioBuffer);
+        spanischL.add(new AudioCard(comer, "", "Essen", "comer", false));
+
+        audioBuffer = Toolbox.loadResourceToByteBuffer("audios/beber.wav", KarteikartenAG.class);
+        byte[] beber = new byte[audioBuffer.remaining()];
+        audioBuffer.get(beber);
+        MemoryUtil.memFree(audioBuffer);
+        spanischL.add(new AudioCard(beber, "Trinken", "Trinken", "Beber", false));
+
+        audioBuffer = Toolbox.loadResourceToByteBuffer("audios/bautizar.wav", KarteikartenAG.class);
+        byte[] bautizar = new byte[audioBuffer.remaining()];
+        audioBuffer.get(bautizar);
+        MemoryUtil.memFree(audioBuffer);
+        spanischL.add(new AudioCard(bautizar, "Taufen", "Taufen", "bautizar", false));
 
         for (Card c : spanischL) {
             c.setReferences(testReferences);
