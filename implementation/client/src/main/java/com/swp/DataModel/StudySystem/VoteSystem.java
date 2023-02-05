@@ -23,8 +23,9 @@ public class VoteSystem extends StudySystem
      * Konstruktor der Klasse VoteSystem.
      * Initialisiert 2 Boxen für das VoteSystem, die dazu verwendet werden,
      * den Kartenfortschritt zu speichern.
-     * @param name: der Name des Systems
-     * @param cardOrder: CardOrdner, um die Reihenfolge der Karten festzulegen
+     * @param name      der Name des Systems
+     * @param cardOrder CardOrdner, um die Reihenfolge der Karten festzulegen
+     * @param stars     Die anzahl der Sterne
      */
     public VoteSystem(String name, CardOrder cardOrder, int stars) {
         super(name, cardOrder, StudySystemType.VOTE);
@@ -32,10 +33,22 @@ public class VoteSystem extends StudySystem
         this.stars = stars;
     }
 
-    public VoteSystem(String name, CardOrder cardOrder) {
+    /**
+     * Konstruktor der Klasse VoteSystem.
+     * Initialisiert 2 Boxen für das VoteSystem, die dazu verwendet werden,
+     * den Kartenfortschritt zu speichern.
+     * @param name      der Name des Systems
+     * @param cardOrder CardOrdner, um die Reihenfolge der Karten festzulegen
+     */
+    public VoteSystem(String name, CardOrder cardOrder)
+    {
         this(name, cardOrder,5);
     }
-
+    /**
+     * Standardkonstruktor der Klasse VoteSystem.
+     * Initialisiert 2 Boxen für das VoteSystem, die dazu verwendet werden,
+     * den Kartenfortschritt zu speichern.
+     */
     public VoteSystem() 
     {
        this("", CardOrder.ALPHABETICAL,5);

@@ -12,7 +12,7 @@ import com.gumse.tools.Output;
  */
 public class ControllerThreadPool
 {
-    private ExecutorService pPool;
+    private final ExecutorService pPool;
     private static final int NUM_THREADS = 3;
     private static BlockingQueue<Runnable> pRunQueue;
     private static ControllerThreadPool pInstance;
@@ -20,10 +20,15 @@ public class ControllerThreadPool
 
     private ControllerThreadPool()
     {
-        pRunQueue = new LinkedBlockingQueue<Runnable>();
+        pRunQueue = new LinkedBlockingQueue<>();
         pPool = Executors.newFixedThreadPool(NUM_THREADS);
     }
 
+    /**
+     * Fügt eine Aufgabe dem Thread-Pool hinzu
+     *
+     * @param runnable Die auszuführende Aufgabe
+     */
     public void exec(Runnable runnable)
     {
         if(bSynchronized)
@@ -32,11 +37,20 @@ public class ControllerThreadPool
             pPool.execute(runnable);
     }
 
+    /**
+     * Führt eine aufgabe im haupt Thread aus
+     *
+     * @param runnable Die auszuführende Aufgabe
+     */
     public void addTaskToMainThread(Runnable runnable)
     {
         pRunQueue.add(runnable);
     }
 
+
+    /**
+     * Führt die Aufgaben aus, welche in den haupt Thread gelegt wurden
+     */
     public void runQueue()
     {
         for(int i = 0; i < pRunQueue.size(); i++)
@@ -49,6 +63,10 @@ public class ControllerThreadPool
         }
     }
 
+    /**
+     * Entscheidet, ob neue Aufgaben zum Thread-Pool hinzugefügt werden sollen, oder nicht
+     * @param sync Soll synchronisiert laufen?
+     */
     public void synchronizedTasks(boolean sync)
     {
         this.bSynchronized = sync;

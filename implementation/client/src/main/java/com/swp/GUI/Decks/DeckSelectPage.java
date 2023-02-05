@@ -19,14 +19,18 @@ import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.DeckList;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
-import com.swp.GUI.Extras.DeckList.DeckListCallback;
 
+/**
+ * Die Seite auf welcher man ein Deck auswählen kann
+ */
 public class DeckSelectPage extends Page
 {
-    private RenderGUI pCanvas;
-    private DeckList pDeckList;
+    private final DeckList pDeckList;
     private List<CardOverview> alCards;
 
+    /**
+     * Der Standardkonstruktor der Klasse DeckSelectPage
+     */
     public DeckSelectPage()
     {
         super("Deck Selection", "deckselectionpage");
@@ -34,31 +38,26 @@ public class DeckSelectPage extends Page
 
         addGUI(XMLGUI.loadFile("guis/decks/deckselectionpage.xml"));
 
-        pCanvas = findChildByID("canvas");
+        RenderGUI pCanvas = findChildByID("canvas");
 
-        pDeckList = new DeckList(new ivec2(0, 0), new ivec2(100, 100), new DeckListCallback() {
-            @Override public void run(StudySystem deck)
-            {
-                selectDeck(deck);
-            }
-        });
+        pDeckList = new DeckList(new ivec2(0, 0), new ivec2(100, 100), this::selectDeck);
         pDeckList.setSizeInPercent(true, true);
         pCanvas.addGUI(pDeckList);
         
         RenderGUI optionsMenu = findChildByID("menu");
         Button cancelButton = (Button)optionsMenu.findChildByID("cancelbutton");
-        cancelButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                PageManager.viewLastPage();
-            }
-        });
+        cancelButton.onClick((RenderGUI gui) -> PageManager.viewLastPage() );
 
 
         this.setSizeInPercent(true, true);
         reposition();
     }
 
+    /**
+     * Setzt die auswahl zurück und lädt die Decks neu
+     *
+     * @param cards Die Karten welche zu dem Deck hinzugefügt werden sollen
+     */
     public void reset(List<CardOverview> cards)
     {
         alCards = cards;
@@ -85,10 +84,10 @@ public class DeckSelectPage extends Page
             @Override public void onCancel() {}
             @Override public void onConfirm() 
             {  
-                StudySystemController.getInstance().addCardsToStudySystem(alCards, deck, new SingleDataCallback<String>() {
+                StudySystemController.getInstance().addCardsToStudySystem(alCards, deck, new SingleDataCallback<>() {
                     @Override
                     public void onSuccess(String data) {
-                        if (data != "")
+                        if(data.isEmpty())
                             NotificationGUI.addNotification(data, Notification.NotificationType.INFO, 10);
 
                     }

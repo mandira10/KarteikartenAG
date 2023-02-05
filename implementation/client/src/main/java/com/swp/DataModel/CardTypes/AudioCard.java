@@ -90,6 +90,7 @@ public class AudioCard extends Card
 
     /**
      * Liest eine WAV datei in einen byte array ein
+     *
      * @param filepath Dateipfad der WAV Datei
      * @return Gibt true bei erfolgreichem Laden der Audiodatei wieder
      */

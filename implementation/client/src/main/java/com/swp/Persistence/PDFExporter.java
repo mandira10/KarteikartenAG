@@ -20,9 +20,15 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Cards.CardRenderer.CardRenderer;
 
+/**
+ * Exportiert eine liste von Karten als PDF Datei
+ */
 public class PDFExporter
 {
-    private PDFExporter() {};
+    private PDFExporter()
+    {
+
+    }
 
     private static boolean writeElement(Document doc, Element elem)
     {
@@ -35,6 +41,13 @@ public class PDFExporter
         return true;
     }
 
+    /**
+     * Exportiert die Karten in eine Ausgabedatei
+     *
+     * @param cards       Die Karten, welche exportiert werden sollen
+     * @param destination Die Ausgabedatei
+     * @return Gibt true bei erfolgreichem Exportieren wieder
+     */
     public static boolean export(List<Card> cards, String destination)
     {
         Document document = new Document();

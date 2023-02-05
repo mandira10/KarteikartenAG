@@ -21,10 +21,16 @@ import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
 
 
+/**
+ * Die Seite, welche es einem ermöglicht die Einstellungen zu verändern
+ */
 public class SettingsPage extends Page 
 {
     Box pSubsettingBox;
 
+    /**
+     * Der Standardkonstruktor der Klasse SettingsPage
+     */
     public SettingsPage() 
     {
         super("Settings", "settingspage");

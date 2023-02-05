@@ -21,16 +21,18 @@ import static com.swp.Validator.checkNotNullOrBlank;
 public class CardLogic extends BaseLogic<Card>
 {
     /**
-     * Konstruktor für eine CardLogic-Instanz.
-     */
-    public CardLogic() {
-        super(CardRepository.getInstance());
-    }
-
-    /**
      * Instanz von CardLogic
      */
     private static CardLogic cardLogic;
+
+
+    /**
+     * Konstruktor für eine CardLogic-Instanz.
+     */
+    public CardLogic()
+    {
+        super(CardRepository.getInstance());
+    }
 
     /**
      * Hilfsmethode. Wird genutzt, damit nicht mehrere Instanzen von CardLogic entstehen.
@@ -286,17 +288,22 @@ public class CardLogic extends BaseLogic<Card>
             throw new IllegalStateException("cardnullerror");
         }
             List<Tag> tagOld = getTagsToCard(card); //check Old Tags to remove unused tags
-            if (tagOld.isEmpty()) {
+            if (tagOld.isEmpty())
+            {
                 checkAndCreateTags(card, tagNew, tagOld);
-            } else if (tagOld.containsAll(tagNew)) {
-                if (tagOld.size() == tagNew.size()) {
-                    //nothing to do
-                } else { //nur Löschen
+            }
+            else if (tagOld.containsAll(tagNew))
+            {
+                if (tagOld.size() != tagNew.size())
                     checkAndRemoveTags(card, tagNew, tagOld);
-                }
-            } else if (tagNew.containsAll(tagOld)) {  // nur neue hinzufügen
+
+            }
+            else if (tagNew.containsAll(tagOld)) // nur neue hinzufügen
+            {
                 checkAndCreateTags(card, tagNew, tagOld);
-            } else { //neue und alte
+            }
+            else
+            { //neue und alte
                 checkAndCreateTags(card, tagNew, tagOld);
                 checkAndRemoveTags(card, tagNew, tagOld);
             }

@@ -37,8 +37,9 @@ public class TrueFalseCard extends Card
 
     /**
      * Konstruktor der Klasse TrueFalseCard
-     * @param question: Frage der Karte
-     * @param answer: Antwort der Karte
+     * @param question Frage der Karte
+     * @param answer   Antwort der Karte
+     * @param title    Der Titel der Karte
      */
     public TrueFalseCard(String question, boolean answer, String title)
     {

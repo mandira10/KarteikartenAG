@@ -7,6 +7,9 @@ import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
+/**
+ * Die Datenbank repository für CardToTag Objekte
+ */
 public class CardToTagRepository extends BaseRepository<CardToTag> {
     private CardToTagRepository() {
         super(CardToTag.class);

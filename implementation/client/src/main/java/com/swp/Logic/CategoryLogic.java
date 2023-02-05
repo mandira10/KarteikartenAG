@@ -24,17 +24,20 @@ import static com.swp.Validator.checkNotNullOrBlank;
  * Erbt von der BaseLogic.
  */
 @Slf4j
-public class CategoryLogic extends BaseLogic<Category> {
-    /**
-     * Konstruktor für eine CategoryLogic-Instanz.
-     */
-    private CategoryLogic() {
-        super(CategoryRepository.getInstance());
-    }
+public class CategoryLogic extends BaseLogic<Category>
+{
     /**
      * Instanz von CategoryLogic
      */
     private static CategoryLogic categoryLogic;
+
+    /**
+     * Konstruktor für eine CategoryLogic-Instanz.
+     */
+    private CategoryLogic()
+    {
+        super(CategoryRepository.getInstance());
+    }
 
     /**
      * Hilfsmethode. Wird genutzt, damit nicht mehrere Instanzen von Kategorie entstehen.
@@ -81,8 +84,9 @@ public class CategoryLogic extends BaseLogic<Category> {
     /**
      * Updated/Saved eine einzelne Kategorie mit ihren Daten. Nach Aufschlüsselung erfolgt Weitergabe ans Repository.
      *
-     * @param category Die upzudatende Kategorie
-     * @param neu      gibt an, ob die Karte neu erstellt werden muss oder nur aktualisiert werden muss
+     * @param category   Die upzudatende Kategorie
+     * @param neu        gibt an, ob die Karte neu erstellt werden muss oder nur aktualisiert werden muss
+     * @param nameChange Hat sich der name der Kategorie geändert?
      */
     public void updateCategoryData(Category category, boolean neu, boolean nameChange) {
         if (category == null) {
@@ -159,6 +163,15 @@ public class CategoryLogic extends BaseLogic<Category> {
         return execTransactional(() -> cardRepository.getCardsByCategory(categoryName));
     }
 
+
+    /**
+     * Gibt alle Karten in einer Kategorie wieder
+     *
+     * @param categoryName Der name der Kategorie
+     * @param order        Die Reihenfolge
+     * @param reverseOrder Ob die Reihenfolge verkehrtherum sein soll
+     * @return Die liste der Karten in der Kategorie
+     */
     public List<CardOverview> getCardsInCategory(String categoryName, ListOrder.Order order, boolean reverseOrder) {
         checkNotNullOrBlank(categoryName);
         return execTransactional(() -> {
@@ -234,15 +247,18 @@ public class CategoryLogic extends BaseLogic<Category> {
         List<Category> catOld = getCategoriesByCard(card);
         if (catOld.isEmpty()) {
             checkAndCreateCardToCategories(card, catNew, catOld);
-        } else if (catOld.containsAll(catNew)) {
-            if (catOld.size() == catNew.size()) {
-                //nothing to do
-            } else { //nur Löschen
+        }
+        else if (catOld.containsAll(catNew))
+        {
+            if (catOld.size() != catNew.size())
                 checkAndRemoveCardToCategories(card, catNew, catOld);
-            }
-        } else if (catNew.containsAll(catOld)) {  // nur neue hinzufügen
+        }
+        else if (catNew.containsAll(catOld)) // nur neue hinzufügen
+        {
             checkAndCreateCardToCategories(card, catNew, catOld);
-        } else { //neue und alte hinzufügen/entfernen
+        }
+        else //neue und alte hinzufügen/entfernen
+        {
             checkAndCreateCardToCategories(card, catNew, catOld);
             checkAndRemoveCardToCategories(card, catNew, catOld);
         }
@@ -261,26 +277,33 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @param category       Category für die Hierarchieanpassung
      * @param catNew         Alle neuen Kategorien für die CategoryHierarchy
      * @param child          Gibt an, ob die übergebene Kategorie ein child ist.
+     * @return Gibt bei selbstreferenzierung true wieder
      */
-    public Boolean setCategoryHierarchy(Category category, List<Category> catNew, boolean child) {
-        List<Category> catOld = new ArrayList<>();
+    public Boolean setCategoryHierarchy(Category category, List<Category> catNew, boolean child)
+    {
         Boolean selfreference = false;
-          if (!child)
+
+        List<Category> catOld;
+        if (!child)
             catOld = getChildrenForCategory(category);
         else
             catOld = getParentsForCategory(category);
 
-        if (catOld.isEmpty()) {
+        if(catOld.isEmpty())
+        {
             selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
-        } else if (catOld.containsAll(catNew)) {
-            if (catOld.size() == catNew.size()) {
-                //nothing to do
-            } else { //nur Löschen
+        }
+        else if(catOld.containsAll(catNew))
+        {
+            if(catOld.size() != catNew.size())
                 checkAndRemoveCategoryHierarchy(category, catNew, catOld, child);
-            }
-        } else if (catNew.containsAll(catOld)) {  // nur neue hinzufügen
+        }
+        else if(catNew.containsAll(catOld)) // nur neue hinzufügen
+        {
             selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
-        } else { //neue und alte hinzufügen/entfernen
+        }
+        else // neue und alte hinzufügen/entfernen
+        {
             selfreference = checkAndCreateCategoryHierarchy(category, catNew, catOld, child);
             checkAndRemoveCategoryHierarchy(category, catNew, catOld, child);
         }
@@ -399,14 +422,17 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @return: Die alte Kategorie oder die neu gespeicherte
      */
     private Category checkAndFindOrCreateCategory(Category c) {
-                    try {
-                        Category category = categoryRepository.find(c.getName());
-                        c = category;
-                        log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", c.getName());
-                    } catch (NoResultException ex) {
-                       categoryRepository.save(c); //sollte aktuell gar nicht passieren, da nur aus bereits bestehenden ausgewählt werden kann?
-                    }
-            return c;
+        try
+        {
+            c = categoryRepository.find(c.getName());
+            log.info("Kategorie mit Namen {} bereits in Datenbank enthalten", c.getName());
+        }
+        catch (NoResultException ex)
+        {
+            //sollte aktuell gar nicht passieren, da nur aus bereits bestehenden ausgewählt werden kann?
+            categoryRepository.save(c);
+        }
+        return c;
     }
 
     /**
@@ -427,6 +453,7 @@ public class CategoryLogic extends BaseLogic<Category> {
      * @param category Kategorie für die Parents und Children übergeben werden.
      * @param parents  Parents der Kategorie
      * @param children Children der Kategorie
+     * @return true, wenn Doppelreferenz vorhanden, false wenn nicht.
      */
     public Boolean editCategoryHierarchy(Category category, List<Category> parents, List<Category> children) {
         if(category == null || parents == null || children == null){
@@ -434,12 +461,9 @@ public class CategoryLogic extends BaseLogic<Category> {
         }
         boolean bolP = setCategoryHierarchy(category, parents, true);
         boolean bolC = setCategoryHierarchy(category, children, false);
-        //after editing check for doubleReference
-       if(checkForDoubleReference(category) || bolP ||bolC)
-            return true;
 
-        else
-            return false;
+        //after editing check for doubleReference
+        return checkForDoubleReference(category) || bolP || bolC;
     }
 
     /**

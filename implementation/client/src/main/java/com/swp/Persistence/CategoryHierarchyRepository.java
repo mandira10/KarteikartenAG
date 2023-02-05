@@ -4,6 +4,9 @@ import com.swp.DataModel.*;
 
 import java.util.List;
 
+/**
+ * Die Datenbank repository für CategoryHierarchy Objekte
+ */
 public class CategoryHierarchyRepository  extends BaseRepository<CategoryHierarchy> {
     private CategoryHierarchyRepository() {
         super(CategoryHierarchy.class);

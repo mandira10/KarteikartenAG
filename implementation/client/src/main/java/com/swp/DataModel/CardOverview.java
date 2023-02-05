@@ -11,7 +11,7 @@ import org.hibernate.annotations.Synchronize;
 import java.sql.Timestamp;
 
 /**
- * Zeigt die einzelnen Karten mitsamt ihrem Erstellzeitpunkt und in wievielen Desks sie derzeit sind.
+ * Zeigt die einzelnen Karten mitsamt ihrem Erstellzeitpunkt und in wie vielen Desks sie derzeit sind.
  */
 @Entity
 @Immutable
@@ -38,9 +38,8 @@ import java.sql.Timestamp;
 @NamedQuery(name = "CardOverview.getCardsForUUIDs",
        query = "SELECT c FROM Card c LEFT JOIN CardOverview co on c.uuid = co.uUUID WHERE co IN (:uuids)"
 )
-public class CardOverview  {
-
-
+public class CardOverview
+{
     @Id
     @Column(name = "uUUID")
     private String uUUID;
@@ -72,13 +71,17 @@ public class CardOverview  {
     /**
      * Leerer Konstruktor der Klasse
      */
-    public CardOverview(){}
+    public CardOverview()
+    {
+    }
 
     /**
      * Nicht leerer Konstruktor, wird nur für Testzwecke verwendet.
      * @param uUUID: Gemockte UUID
      */
-    public CardOverview(String uUUID){
+    public CardOverview(String uUUID)
+    {
+        this();
         this.uUUID = uUUID;
     }
 

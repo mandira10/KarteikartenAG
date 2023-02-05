@@ -20,7 +20,15 @@ public class PersistenceManager
     private static EntityManagerFactory emFactory = null;
     private static final String DBName = "karteikarten-ag.h2";
 
+    /**
+     * Die Standard Initialisations methode
+     */
     public static void init() { init("KarteikartenDB"); }
+
+    /**
+     * Initialisations methode
+     * @param puname Name der Persistence Unit (Datenbank)
+     */
     public static void init(String puname)
     {
         puName = puname;

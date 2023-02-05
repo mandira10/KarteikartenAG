@@ -9,18 +9,38 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 
+/**
+ * Ein Eintrag für das EditMultipleChoiceCard GUI
+ */
 public class EditMultipleChoiceCardAnswerEntry extends RenderGUI
 {
+    /**
+     * Wird ausgeführt, wenn der Eintrag gelöscht oder geändert wird
+     */
     public interface AnswerEntryCallback
     {
-        public void onRemove(EditMultipleChoiceCardAnswerEntry entry);
-        public void onChange(EditMultipleChoiceCardAnswerEntry entry);
+        /**
+         * Wird ausgeführt, wenn der Eintrag gelöscht wird
+         * @param entry Der gelöschte eintrag
+         */
+        void onRemove(EditMultipleChoiceCardAnswerEntry entry);
+
+        /**
+         * Wird ausgeführt, wenn der Eintrag geändert wird
+         * @param entry Der geänderte eintrag
+         */
+        void onChange(EditMultipleChoiceCardAnswerEntry entry);
     }
 
-    private TextField pAnswerField;
-    private Button pTrashButton;
-    private Switch pSwitch;
-    
+    private final TextField pAnswerField;
+    private final Switch pSwitch;
+
+    /**
+     * Der Hauptkonstruktor der Klasse EditMultipleChoiceCardAnswerEntry
+     * @param str      Der name des Eintrags
+     * @param correct  Ob der Eintrag als Korrekt makiert werden soll
+     * @param callback Die Callbackfunktion
+     */
     public EditMultipleChoiceCardAnswerEntry(String str, boolean correct, AnswerEntryCallback callback)
     {
         this.vSize.set(new ivec2(100, 30));
@@ -30,7 +50,7 @@ public class EditMultipleChoiceCardAnswerEntry extends RenderGUI
 
         pSwitch = new Switch(new ivec2(5, 5), new ivec2(20), 0);
         pSwitch.tick(correct);
-        pSwitch.onTick((boolean ticked) -> { callback.onChange(thisentry); });
+        pSwitch.onTick((boolean ticked) -> callback.onChange(thisentry));
         addElement(pSwitch);
 
         pAnswerField = new TextField(str, FontManager.getInstance().getDefaultFont(), new ivec2(40, 0), new ivec2(100, 30));
@@ -45,13 +65,13 @@ public class EditMultipleChoiceCardAnswerEntry extends RenderGUI
         });
         addElement(pAnswerField);
 
-        pTrashButton = new Button(new ivec2(100, 0), new ivec2(30, 30), "", FontManager.getInstance().getFont("FontAwesomeRegular"));
+        Button pTrashButton = new Button(new ivec2(100, 0), new ivec2(30, 30), "", FontManager.getInstance().getFont("FontAwesomeRegular"));
         pTrashButton.getBox().setTextSize(15);
         pTrashButton.getBox().setCornerRadius(new vec4(0, 0, 0, 0));
         pTrashButton.setPositionInPercent(true, false);
         pTrashButton.setOrigin(new ivec2(30, 0));
         
-        this.pTrashButton.onClick((RenderGUI gui) -> { callback.onRemove(thisentry); });
+        pTrashButton.onClick((RenderGUI gui) -> callback.onRemove(thisentry));
         addElement(pTrashButton);
         
         this.setSizeInPercent(true, true);

@@ -24,7 +24,10 @@ import org.lwjgl.system.MemoryUtil;
  */
 public class TestDataClass 
 {
-    public static void importTestData() 
+    /**
+     * Importiert Test/Demo daten in die aktuelle Datenbank
+     */
+    public static void importTestData()
     {
         final CategoryController categoryController = CategoryController.getInstance();
         final CardController cardController = CardController.getInstance();

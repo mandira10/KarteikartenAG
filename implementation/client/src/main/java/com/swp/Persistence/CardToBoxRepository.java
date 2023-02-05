@@ -8,6 +8,9 @@ import jakarta.persistence.NoResultException;
 import java.util.List;
 
 
+/**
+ * Die Datenbank repository für CardToBox Objekte
+ */
 public class CardToBoxRepository extends BaseRepository<BoxToCard> {
 
     private CardToBoxRepository() {

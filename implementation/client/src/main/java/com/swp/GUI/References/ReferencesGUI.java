@@ -4,12 +4,20 @@ import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 
+/**
+ * Das ReferenceGUI zeigt einem alle Referenzen,
+ * welche eine Karte zu externen Orten hat an
+ */
 public class ReferencesGUI extends RenderGUI
 {
     private static final int iGapSize = 20;
     
-    private Scroller pContent;
+    private final Scroller pContent;
 
+    /**
+     * @param pos  Position des GUIs in Pixeln
+     * @param size Größe des GUIs in Pixeln
+     */
     public ReferencesGUI(ivec2 pos, ivec2 size)
     {
         this.vSize.set(size);
@@ -42,11 +50,21 @@ public class ReferencesGUI extends RenderGUI
         //this.vSize.y = maxheight;
     }
 
+    /**
+     * Fügt eine Referenz zur Liste hinzu
+     *
+     * @param entry Ein Referenzeintrag
+     */
     public void addReference(ReferenceEntry entry)
     {
         pContent.addGUI(entry);
     }
 
+    /**
+     * Interpretiert einen Referenzstring zu mehreren Referenzobjekten
+     *
+     * @param str Der Referenzstring aus der Datenbank
+     */
     public void interpreteString(String str)
     {
         pContent.destroyChildren();

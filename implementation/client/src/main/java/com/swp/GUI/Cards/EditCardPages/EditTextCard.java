@@ -12,11 +12,17 @@ import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 
+/**
+ * Wird verwendet, um Text Karten zu bearbeiten
+ */
 public class EditTextCard extends EditCardGUI
 {
     TextCard pCard;
     TextField pAnswerField;
 
+    /**
+     * Der Standardkonstruktor für die Klasse EditTextCard
+     */
     public EditTextCard()
     {
         this.vSize = new ivec2(100,100);

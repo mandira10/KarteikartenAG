@@ -8,8 +8,14 @@ import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.*;
 import com.swp.DataModel.User;
 
+/**
+ * Die Seite, welche es einem ermöglicht sich anzumelden
+ */
 public class LoginPage extends Page
 {
+    /**
+     * Der Standardkonstruktor der Klasse LoginPage
+     */
     public LoginPage()
     {
         super("Login", "loginpage");

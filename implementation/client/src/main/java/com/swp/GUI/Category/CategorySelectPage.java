@@ -19,10 +19,19 @@ import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
 
-public class CategorySelectPage extends Page 
+/**
+ * Die Seite auf welcher man eine Liste an Kategorien auswählen kann
+ */
+public class CategorySelectPage extends Page
 {
+    /**
+     * Gibt die Liste der ausgewählten Kategorien wieder
+     */
     public interface CategoryReturnFunc
     {
+        /**
+         * @param categories Die ausgewählten karten
+         */
         void run(List<Category> categories);
     }
 
@@ -78,6 +87,9 @@ public class CategorySelectPage extends Page
         public Category getCategory() { return pCategory; }
     };
 
+    /**
+     * Der Standardkonstruktor der Klasse CategorySelectPage
+     */
     public CategorySelectPage()
     {
         super("Category Selection", "categoryselectionpage");
@@ -99,6 +111,13 @@ public class CategorySelectPage extends Page
         reposition();
     }
 
+    /**
+     * Setzt die auswahl zurück und lädt die Kategorien neu
+     *
+     * @param singleselect Ob nur eine Kategorie zurzeit ausgewählt werden darf
+     * @param returnfunc   Die Funktion, für die übergabe der ausgewählten Karten
+     * @param selected     Die Liste der bereits ausgewählten Kategorien
+     */
     public void reset(boolean singleselect, CategoryReturnFunc returnfunc, List<Category> selected)
     {
         this.bSingleselect = singleselect;

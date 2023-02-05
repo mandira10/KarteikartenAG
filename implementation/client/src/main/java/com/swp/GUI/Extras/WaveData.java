@@ -70,6 +70,12 @@ public class WaveData {
 	}
 
 
+	/**
+	 * Liest die Audiodaten aus einen InputStream
+	 *
+	 * @param stream Der InputStream
+	 * @return Ein WaveData Objekt mit den Audiodaten
+	 */
 	public static WaveData create(InputStream stream)
     {
 		InputStream bufferedInput = new BufferedInputStream(stream);

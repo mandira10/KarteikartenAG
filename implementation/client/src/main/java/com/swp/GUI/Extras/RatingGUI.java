@@ -21,7 +21,16 @@ import com.gumse.tools.Toolbox;
  */
 public class RatingGUI extends RenderGUI
 {
-    public interface RateCallback { void run(int rating); }
+    /**
+     * Wird ausgeführt, wenn ein Rating abgegeben wurde
+     */
+    public interface RateCallback
+    {
+        /**
+         * @param rating Die bewertung
+         */
+        void run(int rating);
+    }
 
     private Box pBackground;
     private int iStarSize;
@@ -30,6 +39,13 @@ public class RatingGUI extends RenderGUI
     private RateCallback pCallback;
     private static final int iGapSize = 3;
 
+    /**
+     * Der Hauptkonstruktor der Klasse RatingGUI
+     *
+     * @param pos      Position des GUIs in Pixeln
+     * @param starSize Die Größe der Sterne in Pixeln
+     * @param numStars Die anzahl an Sternen
+     */
     public RatingGUI(ivec2 pos, int starSize, int numStars)
     {
         this.vPos.set(pos);
@@ -124,6 +140,10 @@ public class RatingGUI extends RenderGUI
 
 
 
+    /**
+     * Erstellt ein RatingGUI GUI anhand einer XML Node
+     * @return gibt das erstellte RatingGUI-Objekt wieder
+     */
     public static XMLGUICreator createFromXMLNode() 
     {
         return (XMLNode node) -> { 

@@ -21,19 +21,33 @@ import com.gumse.system.filesystem.XML.XMLNode;
  */
 public class Searchbar extends RenderGUI
 {
+    /**
+     * Wird ausgeführt, wenn eine Suche getätigt wurde abgegeben wurde
+     */
     public interface SearchbarCallback
     {
-        public void run(String query, int option);
+        /**
+         * @param query  Der Suchbegriff
+         * @param option Die Suchoptionen
+         */
+        void run(String query, int option);
     }
 
-    private TextField pInputField;
-    private Button pSubmitButton;
-    private Button pOptionsButton;
+    private final TextField pInputField;
+    private final Button pSubmitButton;
+    private final Radiobutton pSearchOptions;
     private SearchbarCallback pCallback;
     private Speechbubble pBubble;
     private int iCurrentSearchOption;
-    private Radiobutton pSearchOptions;
 
+    /**
+     * Der Hauptkonstruktor der Klasse Searchbar
+     *
+     * @param pos             Position des GUIs in Pixeln
+     * @param size            Größe des GUIs in Pixeln
+     * @param localeid        Die Locale ID der Suchleiste für andere Sprachen
+     * @param optionlocaleids Die Locale IDs der Suchoptionen für andere Sprachen
+     */
     public Searchbar(ivec2 pos, ivec2 size, String localeid, String[] optionlocaleids)
     {
         this.sType = "Searchbar";
@@ -59,13 +73,13 @@ public class Searchbar extends RenderGUI
         pInputField.setLocaleID(localeid);
         addElement(pInputField);
 
-        
-        pOptionsButton = new Button(new ivec2(100, 0), new ivec2(size.y, size.y), "", fonts.getFont("FontAwesome"));
+
+        Button pOptionsButton = new Button(new ivec2(100, 0), new ivec2(size.y, size.y), "", fonts.getFont("FontAwesome"));
         pOptionsButton.setOrigin(new ivec2(size.y * 3, 0));
         pOptionsButton.setPositionInPercent(true, false);
         pOptionsButton.getBox().setTextSize(20);
         pOptionsButton.setCornerRadius(new vec4(0,0,0,0));
-        pOptionsButton.onClick((RenderGUI gui) -> { pBubble.show(); });
+        pOptionsButton.onClick((RenderGUI gui) -> pBubble.show());
         addElement(pOptionsButton);
 
         pBubble = new Speechbubble(new ivec2(size.y / 2, 0), new ivec2(100, 120), Side.ABOVE);
@@ -81,9 +95,7 @@ public class Searchbar extends RenderGUI
         for(String locale : optionlocaleids)
             pSearchOptions.addOption("", locale, "");
         pSearchOptions.select(iCurrentSearchOption);
-        pSearchOptions.onSelect((int index, String content) -> {
-            iCurrentSearchOption = index;
-        });
+        pSearchOptions.onSelect((int index, String content) -> iCurrentSearchOption = index);
         pBubble.setSize(new ivec2(200, pSearchOptions.getSize().y + 30));
 
         pSubmitButton = new Button(new ivec2(100, 0), new ivec2(size.y * 2, size.y), "", fonts.getFont("FontAwesome"));
@@ -91,9 +103,7 @@ public class Searchbar extends RenderGUI
         pSubmitButton.setPositionInPercent(true, false);
         pSubmitButton.setCornerRadius(new vec4(0, GUI.getTheme().cornerRadius.y, GUI.getTheme().cornerRadius.z, 0));
         pSubmitButton.getBox().setTextSize(20);
-        pSubmitButton.onClick((RenderGUI gui) -> {
-            pCallback.run(pInputField.getString(), iCurrentSearchOption);
-        });
+        pSubmitButton.onClick((RenderGUI gui) -> pCallback.run(pInputField.getString(), iCurrentSearchOption));
         addElement(pSubmitButton);
 
         resize();
@@ -114,14 +124,17 @@ public class Searchbar extends RenderGUI
         pBubble.setSize(new ivec2(200, pSearchOptions.getSize().y + 30));
     }
 
+    /**
+     * Erstellt ein Searchbar GUI anhand einer XML Node
+     * @return gibt das erstellte Searchbar-Objekt wieder
+     */
     public static XMLGUICreator createFromXMLNode() 
     {
         return (XMLNode node) -> { 
 			String localeid = node.getAttribute("locale-id");
 			String[] optionids = node.getAttribute("option-ids").split(",");
-			
-			Searchbar searchbargui = new Searchbar(new ivec2(0,0), new ivec2(30,30), localeid, optionids);
-			return searchbargui;
+
+			return new Searchbar(new ivec2(0,0), new ivec2(30,30), localeid, optionids);
         };
     };
 }

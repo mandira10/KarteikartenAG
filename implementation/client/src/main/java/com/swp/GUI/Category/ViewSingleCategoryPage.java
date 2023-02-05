@@ -24,7 +24,7 @@ import com.swp.GUI.PageManager.PAGES;
 import java.util.List;
 
 /**
- * Die Seite auf welcher eine Einzelne Kategorie angesehen werden kann
+ * Die Seite auf welcher eine einzelne Kategorie angesehen werden kann
  */
 public class ViewSingleCategoryPage extends Page
 {

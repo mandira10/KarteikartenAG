@@ -26,15 +26,28 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 
+/**
+ * Exportiert eine liste von Karten als JSON Datei
+ */
 public class JSONExporter
 {
-    private JSONExporter() {};
+    private JSONExporter()
+    {
 
+    }
+
+
+    /**
+     * Gibt Kategorien einer Karte als JSONArray wieder
+     *
+     * @param card Die Karte
+     * @return Die Kategorien der Karte als JSONArray
+     */
     public static synchronized JSONArray getCardCategories(Card card)
     {
         JSONArray retArray = new JSONArray();
         ControllerThreadPool.getInstance().synchronizedTasks(true);
-        CategoryController.getInstance().getCategoriesToCard(card, new DataCallback<Category>() {
+        CategoryController.getInstance().getCategoriesToCard(card, new DataCallback<>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Category> categories) 
             {
@@ -51,11 +64,17 @@ public class JSONExporter
         return retArray;
     }
 
+    /**
+     * Gibt Tags einer Karte als JSONArray wieder
+     *
+     * @param card Die Karte
+     * @return Die Tags der Karte als JSONArray
+     */
     public static synchronized JSONArray getCardTags(Card card)
     {
         JSONArray retArray = new JSONArray();
         ControllerThreadPool.getInstance().synchronizedTasks(true);
-        CardController.getInstance().getTagsToCard(card, new DataCallback<Tag>() {
+        CardController.getInstance().getTagsToCard(card, new DataCallback<>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Tag> tags) 
             {
@@ -72,6 +91,12 @@ public class JSONExporter
         return retArray;
     }
 
+    /**
+     * Fügt Kartenspezifische Daten dem JSONObject hinzu
+     *
+     * @param card    Die Karte
+     * @param jsonobj Das Eltern JSONObject
+     */
     public static void putCardSpecificData(Card card, JSONObject jsonobj)
     {
         switch(card.getType())
@@ -132,9 +157,17 @@ public class JSONExporter
         }
     }
 
+
+    /**
+     * Exportiert die Karten in eine Ausgabedatei
+     *
+     * @param cards       Die Karten, welche exportiert werden sollen
+     * @param destination Die Ausgabedatei
+     * @return Gibt true bei erfolgreichem Exportieren wieder
+     */
     public static boolean export(List<Card> cards, String destination)
     {
-        Writer output = null;
+        Writer output;
         try { output = new FileWriter(destination); } 
         catch (IOException e) 
         {

@@ -1,9 +1,7 @@
 package com.swp.GUI.Cards.EditCardPages;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
@@ -20,13 +18,19 @@ import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * Wird verwendet, um die Antworten einer Bildbeschreibungskarte zu bearbeiten
+ */
 public class EditImageDescriptionCardAnswersPage extends Page
 {
-    private Box pImageBox;
-    private Scroller pContextScroller;
+    private final Box pImageBox;
+    private final Scroller pContextScroller;
     private Button pAddEntryButton;
     private ImageDescriptionCard pCard;
 
+    /**
+     * Der Standardkonstruktor für die Klasse EditImageDescriptionCardAnswersPage
+     */
     public EditImageDescriptionCardAnswersPage()
     {
         super("Edit Answers", "editanswerspage");
@@ -41,14 +45,10 @@ public class EditImageDescriptionCardAnswersPage extends Page
         createAddButton();
 
         Button applyButton = (Button)findChildByID("applybutton");
-        applyButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  { applyChanges(); } 
-        });
+        applyButton.onClick((RenderGUI gui) -> applyChanges());
 
         Button cancelButton = (Button)findChildByID("cancelbutton");
-        cancelButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)  { PageManager.viewPage(PAGES.CARD_EDIT); }
-        });
+        cancelButton.onClick((RenderGUI gui) -> PageManager.viewPage(PAGES.CARD_EDIT));
 
         
         this.setSizeInPercent(true, true);
@@ -104,15 +104,16 @@ public class EditImageDescriptionCardAnswersPage extends Page
         pAddEntryButton.setPositionInPercent(true, false);
         pAddEntryButton.getBox().setTextSize(28);
         pAddEntryButton.setOrigin(new ivec2(30, 0));
-        pAddEntryButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                addEntry("", new ivec2(0, 0));
-            }
-        });
+        pAddEntryButton.onClick((RenderGUI gui) -> addEntry("", new ivec2(0, 0)));
         pContextScroller.addGUI(pAddEntryButton);
     }
 
+    /**
+     * Fügt einen eintrag zur Antwortenliste hinzu
+     *
+     * @param answer Der Antworttext
+     * @param pos    Die Position der Indexbox
+     */
     public void addEntry(String answer, ivec2 pos)
     {
         EditImageDescriptionCardAnswerEntry entry = new EditImageDescriptionCardAnswerEntry(answer, pos, entry1 -> {

@@ -126,10 +126,13 @@ import lombok.extern.slf4j.Slf4j;
 //       - Imagedescanswers         -- done
 //       - Viewpage                 -- done
 //   - test logging fix             -- done
-//   - javadoc
+//   - javadoc                      -- done
 
 ////////////////////////////////////////////////////
 
+/**
+ * Die Hauptklasse des Projekts
+ */
 @Slf4j
 public class KarteikartenAG 
 {
@@ -137,6 +140,10 @@ public class KarteikartenAG
     private static final ivec2 iWindowSize = new ivec2(1000, 800);
     private static final ControllerThreadPool threadPool = ControllerThreadPool.getInstance();
 
+    /**
+     * Der Einstiegspunkt des Programms
+     * @param args Die Kommandozeilen argumente
+     */
     public static void main(String[] args)
     {
         Globals.DEBUG_BUILD = true;

@@ -4,17 +4,28 @@ import java.util.List;
 
 import com.swp.DataModel.Card;
 
-public class Exporter 
+/**
+ * Erstellt die jeweiligen Exporter für PDF, XML und JSON Dateien
+ */
+public class Exporter
 {
+    /**
+     * Die Export-Dateiformate
+     */
     public enum ExportFileType
     {
-        EXPORT_PDF,
-        EXPORT_XML,
-        EXPORT_JSON,
+        /** PDF */  EXPORT_PDF,
+        /** XML */  EXPORT_XML,
+        /** JSON */ EXPORT_JSON,
     }
 
     ExportFileType iType;
 
+    /**
+     * Der Hauptkonstruktor der Klasse Exporter
+     *
+     * @param filetype Der dateityp
+     */
     public Exporter(ExportFileType filetype)
     {
         this.iType = filetype;
@@ -28,6 +39,13 @@ public class Exporter
         return retStr;
     }
 
+    /**
+     * Exportiert Karten in die angegebene Datei
+     *
+     * @param cards       Die zu exportierenden Karten
+     * @param destination Die Ausgabedatei
+     * @return Ob das Exportieren erfolgreich war
+     */
     public boolean export(List<Card> cards, String destination)
     {
         switch(this.iType)

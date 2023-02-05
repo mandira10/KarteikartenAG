@@ -8,15 +8,15 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.*;
 
-@Entity
-@Setter
-@Table
-@Getter
 /**
  * StudySystemBox Klasse. Wird verwendet, wenn ein Lernsystem mehrere Boxen hat (z.B. Leitner),
  * deren Karten unterschiedlich oft gelernt werden.
  * Wird in BoxToCard an die spezifischen Karten gebunden.
  */
+@Entity
+@Setter
+@Table
+@Getter
 @NamedQuery (name = "StudySystemBox.allByStudySystemBox",query = "SELECT c.card FROM BoxToCard c " +
         "LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s " +
         "ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem and sbox.boxNumber = 1")
@@ -61,6 +61,7 @@ public class StudySystemBox implements Serializable
     /**
      * Konstruktor um eine neue leere Box für ein Lernsystem anzulegen.
      *
+     * @param studySystem Das Parent StudySystem
      */
     public StudySystemBox(StudySystem studySystem) {
         this.studySystem = studySystem;
@@ -69,8 +70,9 @@ public class StudySystemBox implements Serializable
 
     /**
      * Standardkonstruktor für die StudySystemBox
-     * @param studySystem das zugehörige StudySystem für die Box
+     * @param studySystem      das zugehörige StudySystem für die Box
      * @param daysToLearnAgain Angabe, in welchen Abschnitten die Box wieder gelernt werden muss.
+     * @param boxNumber        Der Boxindex
      */
     public StudySystemBox(StudySystem studySystem, int daysToLearnAgain, int boxNumber) {
         this.studySystem = studySystem;

@@ -17,11 +17,17 @@ import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;
 
+/**
+ * Die Seite welche einem alle Decks in einer Liste darstellt
+ */
 public class DeckOverviewPage extends Page
 {
     private RenderGUI pCanvas;
     private DeckList pDeckList;
 
+    /**
+     * Der Standardkonstruktor der Klasse DeckOverviewPage
+     */
     public DeckOverviewPage()
     {
         super("Decks", "deckoverviewpage");
@@ -46,13 +52,16 @@ public class DeckOverviewPage extends Page
             if(query.equals(""))
                 loadDecks();
             else
-            loadDecks(query, option);
+                loadDecks(query, option);
         });
 
         this.setSizeInPercent(true, true);
         reposition();
     }
-    
+
+    /**
+     * Lädt alle verfügbaren Decks in die Liste
+     */
     public void loadDecks()
     {
         pDeckList.reset();
@@ -71,7 +80,13 @@ public class DeckOverviewPage extends Page
             }
         });
     }
-    
+
+    /**
+     * Lädt die Kategorien anhand eines Suchbegriffs
+     *
+     * @param searchterm Der Suchbegriff
+     * @param option     Die Suchoptionen
+     */
     public void loadDecks(String searchterm, int option)
     {
         pDeckList.reset();

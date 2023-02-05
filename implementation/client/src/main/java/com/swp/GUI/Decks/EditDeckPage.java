@@ -38,19 +38,19 @@ import com.swp.GUI.PageManager;
  */
 public class EditDeckPage extends Page
 {
-    private Dropdown pStudySystemDropdown;
-    private Dropdown pCardOrderDropdown;
+    private final TextField pTitleField;
+    private final TextField pTimingField;
+    private final TextField pVotingField;
+    private final Scroller pLeitnersettings;
+    private final RenderGUI pVotingsettings;
+    private final RenderGUI pTimingsettings;
+    private final TextBox pStudysystemdesc;
+    private final Dropdown pStudySystemDropdown;
+    private final Dropdown pCardOrderDropdown;
     private StudySystem pNewDeck;
     private boolean bIsNewDeck;
     private boolean bChangedBoxes;
     private StudySystem pOldDeck;
-    private TextField pTitleField;
-    private TextField pTimingField;
-    private TextField pVotingField;
-    private Scroller pLeitnersettings;
-    private RenderGUI pVotingsettings;
-    private RenderGUI pTimingsettings;
-    private TextBox pStudysystemdesc;
     private Button pAddEntryButton;
 
     /**
@@ -95,11 +95,11 @@ public class EditDeckPage extends Page
 
         //Cancel Button
         Button cancelButton = (Button)findChildByID("cancelbutton");
-        cancelButton.onClick((RenderGUI gui) -> { PageManager.viewLastPage(); });
+        cancelButton.onClick((RenderGUI gui) -> PageManager.viewLastPage());
 
         //Apply Button
         Button applyButton = (Button)findChildByID("applybutton");
-        applyButton.onClick((RenderGUI gui) -> { applyChanges(); });
+        applyButton.onClick((RenderGUI gui) -> applyChanges());
 
         //Titlefield
         pTitleField = (TextField)findChildByID("titlefield");
@@ -122,9 +122,7 @@ public class EditDeckPage extends Page
         
         //Studysystem dropdown
         pStudySystemDropdown = (Dropdown)findChildByID("studysystemdd");
-        pStudySystemDropdown.onSelection((String str) -> {
-            selectSystem(StudySystemType.NONE, str);
-        });
+        pStudySystemDropdown.onSelection((String str) -> selectSystem(StudySystemType.NONE, str));
 
         createAddButton();
 
@@ -178,9 +176,7 @@ public class EditDeckPage extends Page
         pAddEntryButton.setPositionInPercent(true, false);
         pAddEntryButton.getBox().setTextSize(28);
         pAddEntryButton.setOrigin(new ivec2(30, 0));
-        pAddEntryButton.onClick((RenderGUI gui) -> {
-            addEntry(5);
-        });
+        pAddEntryButton.onClick((RenderGUI gui) -> addEntry(5));
         pLeitnersettings.addGUI(pAddEntryButton);
     }
 
@@ -188,13 +184,11 @@ public class EditDeckPage extends Page
     {
         LeitnerSystem system = (LeitnerSystem)pNewDeck;
         List<StudySystemBox> boxes = new ArrayList<>();
-        List<Integer> daysToRelearn = new ArrayList<>();
         for(RenderGUI child : pLeitnersettings.getChildren())
         {
             if(child.getType().equals("EditLeitnerDayEntry"))
             {
                 EditLeitnerDayEntry entry = (EditLeitnerDayEntry)child;
-                daysToRelearn.add(entry.getDays());
                 boxes.add(new StudySystemBox(system, entry.getDays(), boxes.size()));
             }
         }
@@ -211,7 +205,7 @@ public class EditDeckPage extends Page
      */
     public void editDeck(String uuid) 
     {
-        StudySystemController.getInstance().getStudySystemByUUID(uuid, new SingleDataCallback<StudySystem>() {
+        StudySystemController.getInstance().getStudySystemByUUID(uuid, new SingleDataCallback<>() {
             @Override public void onSuccess(StudySystem data) {
                 editDeck(data, false);
             }

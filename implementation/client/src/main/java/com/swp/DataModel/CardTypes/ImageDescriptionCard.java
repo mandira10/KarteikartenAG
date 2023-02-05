@@ -47,14 +47,16 @@ public class ImageDescriptionCard extends Card
      */
     public ImageDescriptionCard()
     {
-        this("", new ArrayList<ImageDescriptionCardAnswer>(), "", null);
+        this("", new ArrayList<>(), "", null);
     }
 
     /**
      * Konstruktor der Klasse ImageDescriptionCard
+     *
      * @param question Textuelle Frage zum Bild
-     * @param image: Bild für die Karte
-     * @param title Optionaler Titel der Karte
+     * @param image    Bild für die Karte
+     * @param answers  Die liste der Antworten
+     * @param title    Optionaler Titel der Karte
      */
     public ImageDescriptionCard(String question, List<ImageDescriptionCardAnswer> answers, String title, byte[] image)
     {
@@ -96,6 +98,12 @@ public class ImageDescriptionCard extends Card
         return retstr;
     }
 
+    /**
+     * Liest eine Bilddatei in einen byte array ein
+     *
+     * @param filepath Dateipfad der Bilddatei
+     * @return Gibt true bei erfolgreichem Laden der Bilddatei wieder
+     */
     public boolean loadImageFile(String filepath)
     {
         ByteBuffer imageBuffer = Toolbox.loadFileToByteBuffer(filepath, getClass());  

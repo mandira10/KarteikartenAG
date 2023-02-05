@@ -7,6 +7,9 @@ import org.hibernate.annotations.CascadeType;
 
 import java.io.Serializable;
 
+/**
+ * Relations-Objekt zwischen Karten und Tags
+ */
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uniqueCardTag",columnNames = {"tag_uuid","card_uuid"}))
 @Getter

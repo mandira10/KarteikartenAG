@@ -36,7 +36,7 @@ public class EditReferencesEntry extends RenderGUI
         /**
          * @param entry der zu löschende Eintrag
          */
-        public void run(EditReferencesEntry entry);
+        void run(EditReferencesEntry entry);
     }
 
     private enum TYPE 

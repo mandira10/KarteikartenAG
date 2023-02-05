@@ -13,6 +13,9 @@ import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.GUI.Extras.AudioGUI;
 import com.swp.GUI.Extras.FileDialog;
 
+/**
+ * Wird verwendet, um Audiokarten zu bearbeiten
+ */
 public class EditAudioCard extends EditCardGUI
 {
     private Button pUploadButton;
@@ -20,6 +23,9 @@ public class EditAudioCard extends EditCardGUI
     private AudioGUI pAudioGUI;
     private TextField pAnswerField;
 
+    /**
+     * Der Standardkonstruktor für die Klasse EditAudioCard
+     */
     public EditAudioCard()
     {
         this.vSize = new ivec2(100,100);

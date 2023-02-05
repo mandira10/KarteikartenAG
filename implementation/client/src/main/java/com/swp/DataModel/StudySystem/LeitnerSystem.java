@@ -1,20 +1,19 @@
 package com.swp.DataModel.StudySystem;
 
 
-import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 
+/**
+ * Klasse für das LeitnerSystem. Erbt alle Attribute vom StudySystem
+ */
 @Entity
 @DiscriminatorValue("Leitner")
 @Getter
 @Setter
-/**
- * Klasse für das LeitnerSystem. Erbt alle Attribute vom StudySystem
- */
 public class LeitnerSystem extends StudySystem
 {
 

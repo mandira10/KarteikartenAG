@@ -32,15 +32,28 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
 import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 
+/**
+ * Exportiert eine liste von Karten als XML Datei
+ */
 public class XMLExporter
 {
-    private XMLExporter() {};
+    private XMLExporter()
+    {
 
+    }
+
+    /**
+     * Fügt Kategorien einer Karte dem XML Element hinzu
+     *
+     * @param parent  Das Elternelement
+     * @param doc     Das XML Dokument
+     * @param card    Die Karte
+     */
     public static synchronized void addCardCategories(Element parent, Document doc, Card card)
     {
         Element categoryElement = doc.createElement("categories");
         ControllerThreadPool.getInstance().synchronizedTasks(true);
-        CategoryController.getInstance().getCategoriesToCard(card, new DataCallback<Category>() {
+        CategoryController.getInstance().getCategoriesToCard(card, new DataCallback<>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Category> categories) 
             {
@@ -57,11 +70,18 @@ public class XMLExporter
     }
 
 
+    /**
+     * Fügt Tags einer Karte dem XML Element hinzu
+     *
+     * @param parent  Das Elternelement
+     * @param doc     Das XML Dokument
+     * @param card    Die Karte
+     */
     public static synchronized void addCardTags(Element parent, Document doc, Card card)
     {
         Element tagsElement = doc.createElement("tags");
         ControllerThreadPool.getInstance().synchronizedTasks(true);
-        CardController.getInstance().getTagsToCard(card, new DataCallback<Tag>() {
+        CardController.getInstance().getTagsToCard(card, new DataCallback<>() {
             @Override public void onInfo(String msg) {}
             @Override public void onSuccess(List<Tag> tags) 
             {
@@ -78,6 +98,13 @@ public class XMLExporter
     }
 
 
+    /**
+     * Fügt Kartenspezifische Daten dem XML Element hinzu
+     *
+     * @param parent  Das Elternelement
+     * @param doc     Das XML Dokument
+     * @param card    Die Karte
+     */
     public static void putCardSpecificData(Element parent, Document doc, Card card)
     {
         switch(card.getType())
@@ -153,10 +180,18 @@ public class XMLExporter
         parent.appendChild(child);
     }
 
+
+    /**
+     * Exportiert die Karten in eine Ausgabedatei
+     *
+     * @param cards       Die Karten, welche exportiert werden sollen
+     * @param destination Die Ausgabedatei
+     * @return Gibt true bei erfolgreichem Exportieren wieder
+     */
     public static boolean export(List<Card> cards, String destination)
     {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = null;
+        DocumentBuilder docBuilder;
         try { docBuilder = docFactory.newDocumentBuilder(); } 
         catch (ParserConfigurationException e) 
         {

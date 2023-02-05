@@ -19,21 +19,25 @@ import com.swp.DataModel.Language.Language;
  */
 public class Settings
 {
+
+    /**
+     * Verfügbare Sprachen
+     */
     public enum Setting
     {
-        DARK_THEME,
-        LANGUAGE,
-        SERVER_ADDRESS,
-        SERVER_PORT,
-        USER_PASSWD,
-        USER_NAME
-    };
+        /** Dark/Light Theme */  DARK_THEME,
+        /** Sprache */           LANGUAGE,
+        /** Server Adresse */    SERVER_ADDRESS,
+        /** Server Port */       SERVER_PORT,
+        /** Benutzer Passwort */ USER_PASSWD,
+        /** Benutzername */      USER_NAME
+    }
 
-    private Map<Setting, String> mSettings;
+    private final Map<Setting, String> mSettings;
     private Ini pIni;
 
     /**
-     * Hilfsattribut, um sicherzustellen, dass Setttings nur einmal
+     * Hilfsattribut, um sicherzustellen, dass Settings nur einmal
      * konfiguriert werden.
      */
     private static Settings settingsInstance = null;
@@ -82,7 +86,13 @@ public class Settings
 
         return value;
     }
-    
+
+    /**
+     * Gibt den Wert einer Einstellung wieder
+     *
+     * @param setting Der Einstellungseintrag
+     * @return Der Einstellungswert
+     */
     public String getSetting(Setting setting)
     {
         String retvalue = mSettings.get(setting);
@@ -102,12 +112,21 @@ public class Settings
         return English.getInstance();
     }
 
+    /**
+     * Setzt eine Einstellung
+     *
+     * @param setting Der Einstellungseintrag
+     * @param value   Der Einstellungswert
+     */
     public void setSetting(Setting setting, String value)
     {
         mSettings.put(setting, value);
         saveSettings();
     }
 
+    /**
+     * Speichert die Einstellungen
+     */
     public void saveSettings()
     {
         pIni.put("general", "darktheme", getSetting(Setting.DARK_THEME));

@@ -25,12 +25,18 @@ import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;
 
+/**
+ * Die Seite auf welcher ein einzelnes Deck angesehen werden kann
+ */
 public class ViewSingleDeckPage extends Page
 {
     private StudySystem pDeck;
     private RenderGUI pCanvas;
     private CardList pCardList;
 
+    /**
+     * Der Standardkonstruktor der Klasse ViewSingleDeckPage
+     */
     public ViewSingleDeckPage()
     {
         super("View Deck", "viewdeckpage");

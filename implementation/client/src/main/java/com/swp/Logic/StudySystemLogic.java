@@ -22,31 +22,12 @@ import static com.swp.Validator.checkNotNullOrBlank;
  * Erbt von der BaseLogic.
  */
 @Slf4j
-public class StudySystemLogic extends BaseLogic<StudySystem>{
-
-    /**
-     * Konstruktor der Klasse StudySystemLogic.
-     */
-    public StudySystemLogic() {
-        super(StudySystemRepository.getInstance());
-    }
-
+public class StudySystemLogic extends BaseLogic<StudySystem>
+{
     /**
      * Instanz von StudySystemLogic
      */
     private static StudySystemLogic studySystemLogic;
-
-    /**
-     * Aufruf einer Instanz von StudySystemLogic. Stellt sicher, dass nur eine Instanz zur gleichen
-     * Zeit der Klasse besteht
-     * @return die Instanz der Klasse
-     */
-    public static StudySystemLogic getInstance() {
-        if (studySystemLogic == null)
-            studySystemLogic = new StudySystemLogic();
-        return studySystemLogic;
-    }
-
 
     /**
      * Hilfsattribut fürs Testing von Karten.
@@ -72,6 +53,27 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     private final StudySystemBoxRepository studySystemBoxRepository = StudySystemBoxRepository.getInstance();
 
+
+    /**
+     * Konstruktor der Klasse StudySystemLogic.
+     */
+    public StudySystemLogic()
+    {
+        super(StudySystemRepository.getInstance());
+    }
+
+    /**
+     * Aufruf einer Instanz von StudySystemLogic. Stellt sicher, dass nur eine Instanz zur gleichen
+     * Zeit der Klasse besteht
+     * @return die Instanz der Klasse
+     */
+    public static StudySystemLogic getInstance()
+    {
+        if (studySystemLogic == null)
+            studySystemLogic = new StudySystemLogic();
+        return studySystemLogic;
+    }
+
     /**
      * Verschiebt spezifische Karte in eine Box des StudySystems. 
      * @param cardToBox: Zu verschiebende Karte
@@ -88,6 +90,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * Wird nach der Erstellung eines neuen StudySystem verwendet, Hauptfunktion erfolgt über moveAllCardToFirstBoxNoExec.
      * @param cards: Karten, die StudySystem enthalten soll.
      * @param studySystem: Das StudySystem, das benötigt wird.
+     * @return TODO
      */
     public List<Card> moveAllCardsForDeckToFirstBox(List<Card> cards, StudySystem studySystem) {
         return execTransactional(() -> moveAllCardsForDeckToFirstBoxNoExec(cards,studySystem));
@@ -101,6 +104,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * Ruft Hilfsmethode moveCardToBoxAndSave auf.
      * @param cards: Karten, die StudySystem enthalten soll.
      * @param studySystem: Das StudySystem, das benötigt wird.
+     * @return TODO
      */
     public List<Card> moveAllCardsForDeckToFirstBoxNoExec(List<Card> cards, StudySystem studySystem) {
         if (cards.isEmpty()) {
@@ -244,7 +248,8 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         }
         else if(testingBoxCards.isEmpty() && !testingStarted) {
             log.info("Rufe Karten für Lernsystem mit Kartenreihenfolge nach Lernsystemlogik ab");
-            switch (studySystem.getType()) {
+            switch (studySystem.getType())
+            {
                 case TIMING:
                     testingBoxCards = cardRepository.getAllCardsForTimingSystem(studySystem);
                     break;
@@ -279,7 +284,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * Wird verwendet, um eine Bewertung vom Benutzer für VoteStudySystem zu bekommen.
      *
      * @param studySystem Das StudySystem, das benötigt wird.
-     * @param card Karte, die Rating erhält
+     * @param card Karte, die das Rating erhält
      * @param rating Bewertung von GUI
      */
     public void giveRating(StudySystem studySystem, Card card, int rating) {
@@ -293,7 +298,14 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         }
     };
 
-    public void updateCardToBox(BoxToCard cardToBox){
+
+    /**
+     * Aktualisiert eine CardToBox Referenz
+     *
+     * @param cardToBox Karte zu Box Referenz
+     */
+    public void updateCardToBox(BoxToCard cardToBox)
+    {
         execTransactional(() -> cardToBoxRepository.update(cardToBox));
     }
 
@@ -314,7 +326,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
         }
         //everything else
         else {
-            result = 100 * studySystem.getTrueAnswerCount() / studySystem.getQuestionCount();
+            result = 100.0f * studySystem.getTrueAnswerCount() / studySystem.getQuestionCount();
             log.info("True Answers  {}", studySystem.getTrueAnswerCount());
             log.info("Answers  {}", studySystem.getQuestionCount());
             log.info("Result is {}", result);
@@ -413,9 +425,10 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
 
     /**
      * Wird verwendet, Um die alle StudySystems zu bekommen. Wird an das StudySystemRepository weitergegeben.
-     @return eine Liste von StudySystems
+     *
+     * @return eine Liste von StudySystems
      */
-    public List<StudySystem> getStudySystems(){ return execTransactional(() -> studySystemRepository.getStudySystems()); //Testet
+    public List<StudySystem> getStudySystems(){ return execTransactional(studySystemRepository::getStudySystems); //Testet
     }
 
 
@@ -425,7 +438,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * @param oldStudySystem StudySystem im vorherigen Zustand, benötigt, um festzustellen, ob das StudySystem gewechselt wurde und Handling
      * @param newStudySystem Neue StudySystem Eigenschaften
      * @param neu            Ist true, wenn das StudySystem neu angelegt wurde
-     * @param changedBoxes
+     * @param changedBoxes   Ob die Boxen verändert wurden
      */
     public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu, boolean changedBoxes) {
         if (newStudySystem == null) {
@@ -576,6 +589,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>{
      * Für nachträgliches Hinzufügen von Karten. 
      * @param cards: die Liste von Karten, um hinzufügen
      * @param studySystem Das StudySystem, das benötigt wird.
+     * @return TODO
      */
     public List<Card> addCardsToDeck(List<CardOverview> cards, StudySystem studySystem) {
         if(studySystem == null){

@@ -16,11 +16,17 @@ import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * Wird verwendet, um Bildbeschreibungskarten zu bearbeiten
+ */
 public class EditImageDescriptionCard extends EditCardGUI
 {
     private Button pImageButton, pAnswersButton;
     private ImageDescriptionCard pCard;
 
+    /**
+     * Der Standardkonstruktor für die Klasse EditImageDescriptionCard
+     */
     public EditImageDescriptionCard()
     {
         this.vSize = new ivec2(100,100);

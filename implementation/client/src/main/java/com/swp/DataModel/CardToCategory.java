@@ -8,6 +8,9 @@ import org.hibernate.annotations.CascadeType;
 import java.io.Serializable;
 import java.util.UUID;
 
+/**
+ * Relations-Objekt zwischen Karten und Kategorien
+ */
 @Entity
 @Table//(uniqueConstraints = @UniqueConstraint(name = "uniqueCardCategory",columnNames = {"card_uuid","category_uuid"}))
 @Getter

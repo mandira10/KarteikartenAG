@@ -10,6 +10,9 @@ import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
+/**
+ * Die Datenbank repository für StudySystems
+ */
 public class StudySystemRepository extends BaseRepository<StudySystem> {
     private StudySystemRepository() {
         super(StudySystem.class);
@@ -49,8 +52,10 @@ public class StudySystemRepository extends BaseRepository<StudySystem> {
      * Falls es schon gibt, throws eine Exception. 
      * 
      * @param boxToCard eine BoxToCard-Instanz, welche in der Datenbank gespeichert werden soll.
+     * @throws EntityExistsException TODO
      */
-    public void addCardToBox(BoxToCard boxToCard)throws EntityExistsException {
+    public void addCardToBox(BoxToCard boxToCard) throws EntityExistsException
+    {
         getEntityManager().persist(boxToCard);
     }
 

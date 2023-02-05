@@ -6,6 +6,9 @@ import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
+/**
+ * Die Datenbank repository für Tags
+ */
 public class TagRepository extends BaseRepository<Tag> {
     private TagRepository() {
         super(Tag.class);

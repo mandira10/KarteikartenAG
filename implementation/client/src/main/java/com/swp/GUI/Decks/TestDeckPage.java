@@ -27,6 +27,9 @@ import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * Wird verwendet, um Karten zu testen und den Fortschritt zu merken
+ */
 public class TestDeckPage extends Page
 {
     private RenderGUI pCanvas;
@@ -42,6 +45,9 @@ public class TestDeckPage extends Page
 
     private StudySystemController studySystemController = StudySystemController.getInstance();
 
+    /**
+     * Der Standardkonstruktor der Klasse TestDeckPage
+     */
     public TestDeckPage()
     {
         super("Test Deck", "testdeckpage");
@@ -96,6 +102,11 @@ public class TestDeckPage extends Page
         resize();
     }
 
+    /**
+     * Startet den Test mit einem Deck Karten
+     *
+     * @param deck Das zu testende Deck
+     */
     public void startTests(StudySystem deck)
     {
         this.pDeck = deck;
@@ -174,6 +185,9 @@ public class TestDeckPage extends Page
         }
     }
 
+    /**
+     * Überprüft die antwort der aktuellen Karte
+     */
     public void checkAnswer()
     {
         pCheckButton.setTitle(Locale.getCurrentLocale().getString("nextbutton"));

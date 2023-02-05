@@ -91,6 +91,13 @@ public class ImageTestCard extends Card
         this.answer = answer;
     }
 
+
+    /**
+     * Liest eine Bilddatei in einen byte array ein
+     *
+     * @param filepath Dateipfad der Bilddatei
+     * @return Gibt true bei erfolgreichem Laden der Bilddatei wieder
+     */
     public boolean loadImageFile(String filepath)
     {
         ByteBuffer imageBuffer = Toolbox.loadFileToByteBuffer(filepath, getClass());  

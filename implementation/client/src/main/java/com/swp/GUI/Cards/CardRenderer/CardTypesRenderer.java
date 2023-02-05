@@ -66,7 +66,6 @@ public class CardTypesRenderer
 
         switch(card.getType())
         {
-            case AUDIO:          renderAudioCard(canvas, (AudioCard)card);                       break;
             case IMAGEDESC:      renderImageDescriptionCard(canvas, (ImageDescriptionCard)card); break;
             case IMAGETEST:      renderImageTestCard(canvas, (ImageTestCard)card);               break;
             case MULITPLECHOICE: renderMultipleChoiceCard(canvas, (MultipleChoiceCard)card);     break;
@@ -117,7 +116,7 @@ public class CardTypesRenderer
         for(String answer : card.getAnswers())
         {
             TextBox indexBox = new TextBox(
-                String.valueOf(i++) + " " + answer, 
+                    (i++) + " " + answer,
                 FontManager.getInstance().getDefaultFont(), 
                 new ivec2(0, 0), 
                 new ivec2(100, 50)
@@ -186,10 +185,5 @@ public class CardTypesRenderer
             indexBox.setPositionInPercent(true, true);
             imageBox.addGUI(indexBox);
         }
-    }
-
-    private static void renderAudioCard(RenderGUI canvas, AudioCard card)
-    {
-        
     }
 }

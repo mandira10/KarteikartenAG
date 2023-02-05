@@ -41,9 +41,10 @@ public class CategoryController extends Controller
     /**
      * Wird verwendet, um Data für eine Kategorie zu aktualisieren. Wird an die CategoryLogic weitergegeben.
      *
-     * @param category  die Kategorie zu aktualisieren
-     * @param neu  Ob, die Kategorie neue oder nicht ist zu verstehen
-     * @param callback  Callback für die GUI gib bei Fehler die Exception message weiter
+     * @param category   die Kategorie zu aktualisieren
+     * @param neu        Ob, die Kategorie neue oder nicht ist zu verstehen
+     * @param nameChange Hat sich der name der Kategorie geändert?
+     * @param callback   Callback für die GUI gib bei Fehler die Exception message weiter
      */
     public void updateCategoryData(Category category, boolean neu, boolean nameChange, SingleDataCallback<Boolean> callback) 
     {
@@ -66,11 +67,9 @@ public class CategoryController extends Controller
     public void editCategoryHierarchy(Category category, List<Category> parents, List<Category> children, SingleDataCallback<String> callback) 
     {
         callLogicFuncInThread(
-            () -> { 
-                return categoryLogic.editCategoryHierarchy(category, parents, children) 
-                    ? Locale.getCurrentLocale().getString("selfreferenceerror") 
-                    : "";
-            }, 
+            () -> categoryLogic.editCategoryHierarchy(category, parents, children)
+                ? Locale.getCurrentLocale().getString("selfreferenceerror")
+                : "",
             "", "", 
             "categoryhierarchyupdateerror", "Beim Updaten der Kategorie ist der Fehler $ aufgetreten", 
             callback,"");

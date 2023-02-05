@@ -8,20 +8,24 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 
+/**
+ * Wird verwendet, um Wahr/Falsch Karten zu bearbeiten
+ */
 public class EditTrueFalseCard extends EditCardGUI
 {
     private TrueFalseCard pCard;
-    private Switch pTrueFalseSwitch;
+    private final Switch pTrueFalseSwitch;
 
+    /**
+     * Der Standardkonstruktor für die Klasse EditTrueFalseCard
+     */
     public EditTrueFalseCard()
     {
         this.vSize = new ivec2(100,100);
 
         addGUI(XMLGUI.loadFile("guis/cards/edit/edittruefalsecardpage.xml"));
         pTrueFalseSwitch = (Switch)findChildByID("truefalsefield");
-        pTrueFalseSwitch.onTick((boolean ticked) -> {
-            pCard.setAnswer(ticked);
-        });
+        pTrueFalseSwitch.onTick((boolean ticked) -> pCard.setAnswer(ticked));
 
         
         this.setSizeInPercent(true, true);

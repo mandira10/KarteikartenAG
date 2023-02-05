@@ -7,6 +7,9 @@ import com.gumse.gui.Locale;
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Die oberklasse aller Controller-Klassen
+ */
 @Slf4j
 public abstract class Controller 
 {
@@ -33,7 +36,7 @@ public abstract class Controller
             if (!name.isEmpty())
                 callback.callFailure(Locale.getCurrentLocale().getString(name) + " " + Locale.getCurrentLocale().getString(localeid));
             else
-            callback.callFailure(Locale.getCurrentLocale().getString(localeid));
+                callback.callFailure(Locale.getCurrentLocale().getString(localeid));
         }
     }
 
@@ -66,18 +69,20 @@ public abstract class Controller
 
     protected <T> void info(String localeid, String logstr, DataCallback<T> callback)
     {
-        if(!localeid.isEmpty()) {
+        if(localeid.isEmpty())
+            return;
+
         if (!logstr.isEmpty())
             log.info(logstr);
         else
             log.info(Locale.getCurrentLocale().getString(localeid));
 
-        if (!localeid.isEmpty() && callback != null)
+        if (callback != null)
             callback.callInfo(Locale.getCurrentLocale().getString(localeid));
-    }
+
     }
 
-    protected <T> void info(String localeid, String logstr, SingleDataCallback<T> callback)
+    protected void info(String localeid, String logstr)
     {
         if(!logstr.isEmpty())
             log.info(logstr);
@@ -90,8 +95,8 @@ public abstract class Controller
     protected <T> void callLogicFuncInThread(LogicFunc<T> func, String infolocale, String infolog, String failurelocale, String failurelog, DataCallback<T> callback,String name)
     {
         threadPool.exec(() -> {
-            List<T> datalist = null;
-            try  { datalist = func.callFunc();
+            try  {
+                List<T> datalist = func.callFunc();
 
                 if(datalist == null || datalist.isEmpty())
                 {
@@ -106,12 +111,11 @@ public abstract class Controller
                 if(ex.getMessage() != null)
                     failure(Locale.getCurrentLocale().getString(ex.getMessage()).equals("") ? failurelocale : ex.getMessage(), failurelog.replace("$", ex.getMessage()), callback,name);
             }  
-            catch (final Exception ex) 
+            catch(Exception ex)
             {
                 if(ex.getMessage() != null)
                     failure(failurelocale, failurelog.replace("$", ex.getMessage()), callback,"");
             }
-
         });
     }
 
@@ -123,7 +127,7 @@ public abstract class Controller
 
                 if(data == null)
                 {
-                    info(infolocale, infolog, callback);
+                    info(infolocale, infolog);
                     return;
                 }
                 success(callback, data);
@@ -142,7 +146,7 @@ public abstract class Controller
                             failurelog.isEmpty() ? ex.getMessage() : failurelog.replace("$", ex.getMessage()),
                             callback,"");
             }
-            catch (final Exception ex) 
+            catch(Exception ex)
             {
                 if(ex.getMessage() != null)
                     failure(failurelocale, 

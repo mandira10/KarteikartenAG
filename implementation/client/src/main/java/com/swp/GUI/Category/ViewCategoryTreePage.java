@@ -22,6 +22,9 @@ import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 
+/**
+ * Diese Seite wird dazu verwendet alle Kategorien in einem Baumdiagramm darzustellen
+ */
 public class ViewCategoryTreePage extends Page
 {
     private RenderGUI pCanvas;
@@ -131,6 +134,9 @@ public class ViewCategoryTreePage extends Page
         }
     }
 
+    /**
+     * Der Standardkonstruktor der Klasse ViewCategoryTreePage
+     */
     public ViewCategoryTreePage()
     {
         super("Category Tree", "categorytreepage");
@@ -200,6 +206,9 @@ public class ViewCategoryTreePage extends Page
         }
     }
 
+    /**
+     * Setzt das Diagramm zurück
+     */
     public void reset()
     {
         pCanvas.destroyChildren();

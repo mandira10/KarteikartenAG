@@ -16,11 +16,17 @@ import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * Diese Seite wird angezeigt, nachdem ein Decktest abgeschlossen wurde
+ */
 public class TestDeckFinishPage extends Page
 {
     private StudySystem pDeck;
     private TextBox pFinishText;
 
+    /**
+     * Der Standardkonstruktor der Klasse TestDeckFinishPage
+     */
     public TestDeckFinishPage()
     {
         super("Test Finished", "testfinishpage");

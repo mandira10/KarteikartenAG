@@ -11,18 +11,38 @@ import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.tools.Toolbox;
 
+/**
+ * Ein Eintrag für die EditDeckPage
+ */
 public class EditLeitnerDayEntry extends RenderGUI
 {
+    /**
+     * Wird ausgeführt, wenn der Eintrag gelöscht oder geändert wird
+     */
     public interface EntryCallback
     {
-        public void onRemove(EditLeitnerDayEntry entry);
-        public void onChange(EditLeitnerDayEntry entry);
+        /**
+         * Wird ausgeführt, wenn der Eintrag gelöscht wird
+         * @param entry Der gelöschte eintrag
+         */
+        void onRemove(EditLeitnerDayEntry entry);
+
+        /**
+         * Wird ausgeführt, wenn der Eintrag geändert wird
+         * @param entry Der geänderte eintrag
+         */
+        void onChange(EditLeitnerDayEntry entry);
     }
 
-    private TextField pDayField;
-    private Text pDayNumber;
-    private Button pTrashButton;
-    
+    private final TextField pDayField;
+    private final Text pDayNumber;
+
+    /**
+     * Der Hauptkonstruktor der Klasse EditLeitnerDayEntry
+     * @param days     Die Tage bis zum erneuten Lernen
+     * @param index    Der Index des Eintrags
+     * @param callback Die Callbackfunktion
+     */
     public EditLeitnerDayEntry(int days, int index, EntryCallback callback)
     {
         this.vSize.set(new ivec2(100, 30));
@@ -46,13 +66,13 @@ public class EditLeitnerDayEntry extends RenderGUI
         });
         addElement(pDayField);
 
-        pTrashButton = new Button(new ivec2(100, 0), new ivec2(30, 30), "", FontManager.getInstance().getFont("FontAwesomeRegular"));
+        Button pTrashButton = new Button(new ivec2(100, 0), new ivec2(30, 30), "", FontManager.getInstance().getFont("FontAwesomeRegular"));
         pTrashButton.getBox().setTextSize(15);
         pTrashButton.getBox().setCornerRadius(new vec4(0, 0, 0, 0));
         pTrashButton.setPositionInPercent(true, false);
         pTrashButton.setOrigin(new ivec2(30, 0));
         
-        this.pTrashButton.onClick((RenderGUI gui) -> { callback.onRemove(thisentry); });
+        pTrashButton.onClick((RenderGUI gui) -> callback.onRemove(thisentry));
         addElement(pTrashButton);
         
         this.setSizeInPercent(true, true);

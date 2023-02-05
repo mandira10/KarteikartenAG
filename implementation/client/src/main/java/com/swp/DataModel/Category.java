@@ -47,6 +47,7 @@ public class Category implements Serializable
 
     /**
      * Copy Konstruktor
+     * @param other Eine andere Kategorie
      */
     public Category(Category other)
     {

@@ -77,9 +77,9 @@ public abstract class StudySystem implements Serializable
      */
     public enum CardOrder
     {
-        ALPHABETICAL,
-        REVERSED_ALPHABETICAL,
-        RANDOM
+        /** Alphabetisch */         ALPHABETICAL,
+        /** Umgekehrtes Alphabet */ REVERSED_ALPHABETICAL,
+        /** Zufällig */             RANDOM
     }
 
     /**
@@ -94,7 +94,7 @@ public abstract class StudySystem implements Serializable
      * Einzelne Boxen des Systems, die Karten enthalten
      */
     @OneToMany (mappedBy = "studySystem",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    protected List<StudySystemBox> boxes = new ArrayList<StudySystemBox>();
+    protected List<StudySystemBox> boxes = new ArrayList<>();
 
 
     /**
@@ -104,10 +104,10 @@ public abstract class StudySystem implements Serializable
      */
     public enum StudySystemType
     {
-        LEITNER,
-        TIMING,
-        VOTE,
-        NONE;
+        /** Leitner */   LEITNER,
+        /** Zeitlimit */ TIMING,
+        /** Bewertung */ VOTE,
+        /** Keins */     NONE;
 
         @Override
         public String toString() 
@@ -144,7 +144,8 @@ public abstract class StudySystem implements Serializable
     /**
      * Leerer Konstruktor für das StudySystem
      */
-    public StudySystem() {
+    public StudySystem()
+    {
         this("", CardOrder.ALPHABETICAL, StudySystemType.LEITNER);
     }
 
@@ -152,7 +153,8 @@ public abstract class StudySystem implements Serializable
      * Basisfunktion für das Initialisieren von StudySystemBoxes.
      * @param daysToRelearn Tage zum Relearnen (wird nur bei Custom LeitnerSystem gesetzt)
      */
-    protected void  initStudySystemBoxes(int[] daysToRelearn){
+    protected void  initStudySystemBoxes(int[] daysToRelearn)
+    {
         for (int i = 0; i < daysToRelearn.length; i++)
             this.boxes.add(new StudySystemBox(this, daysToRelearn[i],i));
     }
@@ -165,23 +167,32 @@ public abstract class StudySystem implements Serializable
      */
     public static StudySystem copyStudySystem(StudySystem studySystem)
     {
-        StudySystem retStudySystem = studySystem;
-        return retStudySystem;
+        return studySystem;
     }
 
 
-    public void incrementQuestionCount(){questionCount++;}
+    /**
+     * TODO
+     */
+    public void incrementQuestionCount()
+    {
+        questionCount++;
+    }
 
-    public void incrementTrueCount(){
+    /**
+     * TODO
+     */
+    public void incrementTrueCount()
+    {
         trueAnswerCount++;
     }
 
     @Override
-    public boolean equals(Object o){
+    public boolean equals(Object o)
+    {
         if ( this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StudySystem studySystem = (StudySystem) o;
         return name.equals(studySystem.name);
     }
-
 }

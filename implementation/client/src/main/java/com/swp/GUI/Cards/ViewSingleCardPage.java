@@ -32,7 +32,9 @@ import com.swp.Controller.SingleDataCallback;
 
 import java.util.List;
 
-
+/**
+ * Die Seite auf welcher eine einzelne Karte angesehen werden kann
+ */
 public class ViewSingleCardPage extends Page
 {
     private RatingGUI pRatingGUI;
@@ -45,6 +47,9 @@ public class ViewSingleCardPage extends Page
     private Button pFlipButton;
     private AudioGUI pAudioGUI;
 
+    /**
+     * Der Standardkonstruktor der Klasse ViewSingleCardPage
+     */
     public ViewSingleCardPage()
     {
         super("View Card", "viewcardpage");
@@ -115,6 +120,12 @@ public class ViewSingleCardPage extends Page
         reposition();
     }
 
+    /**
+     * Setzt die anzuzeigende Karte
+     *
+     * @param card     Die anzuzeigende Karte
+     * @param lastpage Die zuletzt besuchte Seite
+     */
     public void setCard(Card card, PAGES lastpage)
     {
         iLastPage = lastpage;
@@ -172,6 +183,13 @@ public class ViewSingleCardPage extends Page
         pCardRenderer.hide(false);
     }
 
+
+    /**
+     * Setzt die anzuzeigende Karte
+     *
+     * @param cardoverview Die anzuzeigende Karte
+     * @param lastpage     Die zuletzt besuchte Seite
+     */
     public void setCard(CardOverview cardoverview, PAGES lastpage)
     {
         CardController.getInstance().getCardByUUID(cardoverview.getUUUID(), new SingleDataCallback<Card>() {

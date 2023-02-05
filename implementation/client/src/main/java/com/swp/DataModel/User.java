@@ -13,17 +13,32 @@ import com.swp.GUI.PageManager;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.Persistence.PersistenceManager;
 
-public class User 
+/**
+ * Die Klasse welche Benutzer an- und abmeldet
+ */
+public class User
 {
     private static User pLoggedInUser = null;
-    private String sUsername, sPassword;
+    private final String sUsername;
+    private final String sPassword;
 
+    /**
+     * Der Hauptkonstruktor der Klasse Sidebar
+     *
+     * @param username Der benutzername
+     * @param password Das Passwort
+     */
     public User(String username, String password)
     {
         sUsername = username;
         sPassword = password;
     }
 
+    /**
+     * Trägt einen Benutzer als angemeldet ein
+     *
+     * @param user Der benutzer
+     */
     public static void loginUser(User user)
     {
         if(user.getUsername().equals("null"))
@@ -33,7 +48,7 @@ public class User
         
         String host = Settings.getInstance().getSetting(Setting.SERVER_ADDRESS);
         String port = Settings.getInstance().getSetting(Setting.SERVER_PORT);
-        PersistenceManager.changeH2Server(host, port, user.getUsername(), user.getPassword(), new SingleDataCallback<Boolean>() {
+        PersistenceManager.changeH2Server(host, port, user.getUsername(), user.getPassword(), new SingleDataCallback<>() {
             @Override protected void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, NotificationType.CONNECTION, 7);
                 logout();
@@ -49,10 +64,13 @@ public class User
         });
     }
 
+    /**
+     * Erstellt einen Demobenutzer
+     */
     public static void demoUser()
     {
         pLoggedInUser = new User("Demo User", "none");
-        PersistenceManager.demoServer(new SingleDataCallback<Boolean>() {
+        PersistenceManager.demoServer(new SingleDataCallback<>() {
             @Override protected void onFailure(String msg) {
                 NotificationGUI.addNotification(msg, NotificationType.CONNECTION, 7);
                 logout();
@@ -82,6 +100,9 @@ public class User
         return this.sPassword;
     }
 
+    /**
+     * Meldet den aktuell angemeldeten User ab
+     */
     public static void logout()
     {
         pLoggedInUser = null;

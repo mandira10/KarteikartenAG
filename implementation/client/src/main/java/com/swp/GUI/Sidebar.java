@@ -17,6 +17,11 @@ import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Decks.DeckOverviewPage;
 import com.swp.GUI.PageManager.PAGES;
 
+/**
+ * Die Sidebar wird einmalig erstellt und
+ * ist zu jederzeit in Programm an der
+ * Seite zu sehen
+ */
 public class Sidebar extends RenderGUI
 {
     private class SidebarItem extends RenderGUI
@@ -105,6 +110,9 @@ public class Sidebar extends RenderGUI
 
     private SmoothFloat pSmoothFloat;
 
+    /**
+     * Der Standardkonstruktor der Klasse Sidebar
+     */
     public Sidebar()
     {
         pBackground = new Box(new ivec2(0,0), new ivec2(100, 100));
@@ -136,6 +144,9 @@ public class Sidebar extends RenderGUI
         reposition();
     }
 
+    /**
+     * Lädt die Sidebar elemente neu
+     */
     public void refresh()
     {
         pBackground.destroyChildren();

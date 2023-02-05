@@ -12,19 +12,33 @@ import com.gumse.maths.vec4;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 
+/**
+ * Ein Eintrag für das EditImageDescriptionCardAnswer GUI
+ */
 public class EditImageDescriptionCardAnswerEntry extends RenderGUI
 {
+    /**
+     * Wird ausgeführt, wenn der Eintrag gelöscht wird
+     */
     public interface RemoveAnswerEntryCallback
     {
-        public void run(EditImageDescriptionCardAnswerEntry entry);
+        /**
+         * @param entry der zu löschende Eintrag
+         */
+        void run(EditImageDescriptionCardAnswerEntry entry);
     }
 
-    private TextBox pMovingIndexBox;
-    private TextBox pIndexBox;
-    private TextField pAnswerField;
-    private Button pTrashButton;
+    private final TextBox pMovingIndexBox;
+    private final TextBox pIndexBox;
+    private final TextField pAnswerField;
     private boolean bSnapped;
-    
+
+    /**
+     * Der Hauptkonstruktor der Klasse EditImageDescriptionCardAnswerEntry
+     * @param str      Der name des Eintrags
+     * @param pos      Die Position der Indexbox
+     * @param callback Die Lösch-Callbackfunktion
+     */
     public EditImageDescriptionCardAnswerEntry(String str, ivec2 pos, RemoveAnswerEntryCallback callback)
     {
         this.sType = "EditImageDescriptionCardAnswerEntry";
@@ -41,19 +55,13 @@ public class EditImageDescriptionCardAnswerEntry extends RenderGUI
         pAnswerField.setMargin(new ivec2(-80, 0));
         addElement(pAnswerField);
 
-        pTrashButton = new Button(new ivec2(100, 0), new ivec2(30, 30), "", FontManager.getInstance().getFont("FontAwesomeRegular"));
+        Button pTrashButton = new Button(new ivec2(100, 0), new ivec2(30, 30), "", FontManager.getInstance().getFont("FontAwesomeRegular"));
         pTrashButton.getBox().setTextSize(15);
         pTrashButton.getBox().setCornerRadius(new vec4(0, 0, 0, 0));
         pTrashButton.setPositionInPercent(true, false);
         pTrashButton.setOrigin(new ivec2(30, 0));
         EditImageDescriptionCardAnswerEntry parentPtr = this;
-        this.pTrashButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui)
-            {
-                callback.run(parentPtr);
-            }
-            
-        });
+        pTrashButton.onClick((RenderGUI gui) -> callback.run(parentPtr));
         addElement(pTrashButton);
         
         this.setSizeInPercent(true, true);

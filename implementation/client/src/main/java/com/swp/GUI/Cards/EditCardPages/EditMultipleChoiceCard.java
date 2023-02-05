@@ -20,12 +20,18 @@ import com.swp.GUI.Cards.EditCardPages.EditMultipleChoiceCardAnswerEntry.AnswerE
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 
+/**
+ * Wird verwendet, um Multiple-choice Karten zu bearbeiten
+ */
 public class EditMultipleChoiceCard extends EditCardGUI
 {
     private Button pAddEntryButton;
-    private Scroller pContextScroller;
+    private final Scroller pContextScroller;
     private MultipleChoiceCard pCard;
 
+    /**
+     * Der Standardkonstruktor für die Klasse EditMultipleChoiceCard
+     */
     public EditMultipleChoiceCard()
     {
         this.vSize = new ivec2(100,100);
@@ -50,6 +56,12 @@ public class EditMultipleChoiceCard extends EditCardGUI
         pAddEntryButton.setPosition(new ivec2(100, yoffset));
     }
 
+    /**
+     * Fügt einen eintrag zur Antwortenliste hinzu
+     *
+     * @param answer    Der Antworttext
+     * @param iscorrect Ob die Antwort korrekt ist
+     */
     public void addEntry(String answer, boolean iscorrect)
     {
         EditMultipleChoiceCardAnswerEntry entry = new EditMultipleChoiceCardAnswerEntry(answer, iscorrect, new AnswerEntryCallback() {
@@ -76,12 +88,7 @@ public class EditMultipleChoiceCard extends EditCardGUI
         pAddEntryButton.setPositionInPercent(true, false);
         pAddEntryButton.getBox().setTextSize(28);
         pAddEntryButton.setOrigin(new ivec2(30, 0));
-        pAddEntryButton.onClick(new GUICallback() {
-            @Override public void run(RenderGUI gui) 
-            {
-                addEntry("", false);
-            }
-        });
+        pAddEntryButton.onClick((RenderGUI gui) -> addEntry("", false));
         pContextScroller.addGUI(pAddEntryButton);
     }
 

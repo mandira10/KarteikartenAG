@@ -16,12 +16,18 @@ import com.swp.GUI.Extras.FileDialog;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.NotificationGUI;
 
+/**
+ * Wird verwendet, um Bildfrage Karten zu bearbeiten
+ */
 public class EditImageTestCard extends EditCardGUI
 {
     private Button pImageButton;
     private TextField pAnswerField;
     private ImageTestCard pCard;
 
+    /**
+     * Der Standardkonstruktor für die Klasse EditImageTestCard
+     */
     public EditImageTestCard()
     {
         this.vSize = new ivec2(100,100);

@@ -2,6 +2,9 @@ package com.swp.DataModel.Language;
 
 import com.gumse.gui.Locale;
 
+/**
+ * Deutsche version aller Strings in dem Projekt
+ */
 public class German extends Language
 {
     private static German pInstance = null;

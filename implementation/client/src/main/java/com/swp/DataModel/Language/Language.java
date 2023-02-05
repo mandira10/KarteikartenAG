@@ -7,6 +7,9 @@ import com.gumse.tools.Toolbox;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Die Oberklasse aller Sprachklassen
+ */
 @Getter
 @Setter
 public abstract class Language 
@@ -41,6 +44,9 @@ public abstract class Language
         return retstr;
     }
 
+    /**
+     * Aktiviert diese Sprache Global
+     */
     public void activate()
     {
         Locale.setCurrentLocale(locale);

@@ -32,6 +32,9 @@ import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.GUI.Extras.AudioGUI;
 
+/**
+ * Wird verwendet, um Karten zu testen
+ */
 public class TestCardGUI extends RenderGUI
 {
     private Card pCard;
@@ -46,6 +49,11 @@ public class TestCardGUI extends RenderGUI
     private static final vec4 FALSE_COLOR = new vec4(0.93f, 0.32f, 0.33f, 1);
     private static final vec4 TRUE_COLOR  = new vec4(0.18f, 0.80f, 0.44f, 1);
 
+    /**
+     * Der Hauptkonstruktor der Klasse Sidebar
+     *
+     * @param card Die zu testende Karte
+     */
     public TestCardGUI(Card card)
     {
         this.pCard = card;
@@ -324,6 +332,10 @@ public class TestCardGUI extends RenderGUI
         };
     }
 
+    /**
+     * Überprüft ob die gegebenen Antwort(en) richtig sind/waren
+     * @return
+     */
     public boolean checkAnswers()
     {
         boolean isAnswerCorrect = pAnswerCheckerFunc != null && pAnswerCheckerFunc.test(pCard);

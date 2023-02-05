@@ -6,6 +6,9 @@ import lombok.Getter;
 import java.io.Serializable;
 import java.util.UUID;
 
+/**
+ * Relationen zwischen Parent und Child Kategorie
+ */
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uniqueParentChild",columnNames = {"parent","child"}))
 @Getter

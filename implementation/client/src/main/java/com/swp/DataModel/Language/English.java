@@ -2,6 +2,9 @@ package com.swp.DataModel.Language;
 
 import com.gumse.gui.Locale;
 
+/**
+ * Englische version aller Strings in dem Projekt
+ */
 public class English extends Language
 {
     private static English pInstance = null;

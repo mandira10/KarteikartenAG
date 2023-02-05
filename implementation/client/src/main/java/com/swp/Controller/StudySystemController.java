@@ -213,7 +213,8 @@ public class StudySystemController extends Controller
     /**
      * Wird verwendet, um eine Liste von studySystems zu löschen. Wird an die StudySystemLogic weitergegeben.
      *
-     * @param callback  wird verwendet, um mögliche Fehler abzufangen.
+     * @param studySystems Die zu löschenden Decks
+     * @param callback     wird verwendet, um mögliche Fehler abzufangen.
      */
     public void deleteDecks(StudySystem[] studySystems, SingleDataCallback<Boolean> callback)
     {
@@ -283,6 +284,7 @@ public class StudySystemController extends Controller
      * @param oldStudySystem StudySystem im vorherigen Zustand, benötigt, um festzustellen, ob das StudySystem gewechselt wurde und Handling
      * @param newStudySystem Neue StudySystem Eigenschaften
      * @param neu            Ist true, wenn das StudySystem neu angelegt wurde
+     * @param changedBoxes   Haben sich die Boxen verändert?
      * @param callback       wird verwendet, um mögliche Fehler abzufangen.
      */
     public void updateStudySystemData(StudySystem oldStudySystem, StudySystem newStudySystem, boolean neu, boolean changedBoxes, SingleDataCallback<Boolean> callback)

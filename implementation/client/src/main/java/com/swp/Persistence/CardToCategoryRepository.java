@@ -7,6 +7,9 @@ import jakarta.persistence.NoResultException;
 
 import java.util.List;
 
+/**
+ * Die Datenbank repository für CardToCategory Objekte
+ */
 public class CardToCategoryRepository extends BaseRepository<CardToCategory> {
     private CardToCategoryRepository() {
         super(CardToCategory.class);

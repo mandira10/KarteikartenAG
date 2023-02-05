@@ -33,10 +33,10 @@ public class CardRepository extends BaseRepository<Card>
      * Sie enthält je Karte noch weitere Informationen, wie die Anzahl der
      * Lernsystem-Decks in der sie enthalten ist.
      *
-     * @param from int: unterer Index für den angeforderten Bereich von Karten-Übersichten.
-     * @param to   int: oberer Index für den angeforderten Bereich von Karten-Übersichten.
+     * @param from                unterer Index für den angeforderten Bereich von Karten-Übersichten.
+     * @param to                  oberer Index für den angeforderten Bereich von Karten-Übersichten.
      * @return List<CardOverview> eine Liste von Karten-Übersichten.
-     * @throws AssertionError falls der angegebene Bereich (from, to) ungültig ist.
+     * @throws AssertionError, falls der angegebene Bereich (from, to) ungültig ist.
      */
     public List<CardOverview> getCardOverview(int from, int to) throws AssertionError {
         assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
@@ -53,9 +53,10 @@ public class CardRepository extends BaseRepository<Card>
      * @param orderBy Sortierung
      * @param order   Reihenfolge
      * @return Die Liste der gefundenen Karten
-     * @throws AssertionError
+     * @throws AssertionError, falls der angegebene Bereich (from, to) ungültig ist.
      */
-    public List<CardOverview> getCardOverview(int from, int to, String orderBy, String order) throws AssertionError {
+    public List<CardOverview> getCardOverview(int from, int to, String orderBy, String order) throws AssertionError
+    {
         assert from <= to : "Ungültiger Bereich: `from` muss kleiner/gleich `to` sein";
         return getEntityManager()
                 .createQuery("SELECT c FROM CardOverview c ORDER BY " + orderBy +" " + order, CardOverview.class)
@@ -131,6 +132,8 @@ public class CardRepository extends BaseRepository<Card>
      * Gibt es keine Karten in dieser Kategorie, so wird eine leere Liste zurückgegeben.
      *
      * @param categoryName ein Kategorie-Name für die alle Karten gesucht werden sollen, die diesen haben.
+     * @param orderBy      Das Sortierkriterium
+     * @param order        Die Sortierreihenfolge
      * @return List<CardOverview> eine Menge von Karten-Übersichten, welche der Kategorie zugeordnet sind.
      */
     public List<CardOverview> getCardsByCategory(String categoryName, String orderBy, String order) {
@@ -175,11 +178,13 @@ public class CardRepository extends BaseRepository<Card>
      * Es wird nach der Zugehörigkeit zu einer angegebenen Lernsystem-Instanz gefiltert.
      * Ist in dem Lernsystem keine Karte enthalten, wird eine leere Liste zurückgegeben.
      *
-     * @param studySystem ein Lernsystem
+     * @param studySystem         ein Lernsystem
+     * @param card                TODO
      * @return List<CardOverview> eine List von Karten-Übersichten, aller Karten im angegeben Lernsystem.
-     * @throws NoResultException falls keine Karte gefunden wurde
+     * @throws NoResultException  falls keine Karte gefunden wurde
      */
-    public Card findCardByStudySystem(StudySystem studySystem, Card card) throws NoResultException{
+    public Card findCardByStudySystem(StudySystem studySystem, Card card) throws NoResultException
+    {
         return getEntityManager()
                 .createNamedQuery("Card.ByStudySystem", Card.class)
                 .setParameter("studySystem", studySystem.getUuid())
@@ -248,7 +253,12 @@ public class CardRepository extends BaseRepository<Card>
     }
 
 
-
+    /**
+     * Gibt die anzahl der gelernten Karten in einem Deck wieder
+     *
+     * @param studySystem Das Deck
+     * @return Die anzahl der gelernten Karten
+     */
     public Long getNumberOfLearnedCardsByStudySystem(StudySystem studySystem) {
         return getEntityManager()
                 .createNamedQuery("BoxToCard.numberOfLearnedCards", Long.class)

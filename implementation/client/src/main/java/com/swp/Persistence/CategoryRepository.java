@@ -6,6 +6,9 @@ import com.swp.DataModel.Card;
 import com.swp.DataModel.Category;
 import jakarta.persistence.NoResultException;
 
+/**
+ * Die Datenbank repository für Kategorien
+ */
 public class CategoryRepository extends BaseRepository<Category> 
 {
     private CategoryRepository() {
@@ -99,6 +102,7 @@ public class CategoryRepository extends BaseRepository<Category>
      * Holt die 'Wurzel-Kategorien' aus der Datenbank.
      * Diese Kategorien haben keine übergeordneten Eltern-Kategorien.
      *
+     * @param order Die Reihenfolge
      * @return eine Liste von Wurzel-Kategorien.
      */
     public List<Category> getRoots(String order) {
@@ -114,6 +118,7 @@ public class CategoryRepository extends BaseRepository<Category>
      * Wird bei editCategoryHierarchy aufgerufen, um sicherzustellen, dass wenn Doppelreferenzen erstellt wurden, diese
      * identifiziert und gelöscht werden.
      *
+     * @param category Die Kategorie, welche geprüft werden soll
      * @return eine Liste von Doppelreferenzen.
      */
     public List<Category> checkDoubleReference(Category category) {
