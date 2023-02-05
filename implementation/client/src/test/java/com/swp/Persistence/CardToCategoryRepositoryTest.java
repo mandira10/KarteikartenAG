@@ -21,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author: Efe Carkcioglu, Ole-Niklas Mahlstädt
+ * @author Efe Carkcioglu, Ole-Niklas Mahlstädt
  */
 public class CardToCategoryRepositoryTest {
     // Repositories die getestet werden
