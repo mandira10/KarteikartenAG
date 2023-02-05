@@ -275,7 +275,7 @@ public class CardRepository extends BaseRepository<Card>
      */
     public List<Card> getAllCardsInitiallyOrdered(StudySystem studySystem, String order) {
         return getEntityManager().
-                createQuery("SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY c.card.question " + order, Card.class)
+                createQuery("SELECT c.card FROM BoxToCard c LEFT JOIN StudySystemBox sbox ON sbox.id = c.studySystemBox LEFT JOIN StudySystem s ON s.uuid = sbox.studySystem WHERE s.uuid = :studySystem ORDER BY LOWER(c.card.question) " + order, Card.class)
                 .setParameter("studySystem", studySystem.getUuid())
                 .getResultList();
     }

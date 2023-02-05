@@ -83,9 +83,9 @@ public class CardLogic extends BaseLogic<Card>
             switch (order) {
                 case ALPHABETICAL -> {
                     if (!reverseOrder)
-                        cards = cardRepository.getCardOverview(begin, end, "c.titelToShow", "asc");
+                        cards = cardRepository.getCardOverview(begin, end, "LOWER(c.titelToShow)", "asc");
                     else
-                        cards = cardRepository.getCardOverview(begin, end, "c.titelToShow", "desc");
+                        cards = cardRepository.getCardOverview(begin, end, "LOWER(c.titelToShow)", "desc");
                 }
                 case DATE -> {
                     if (!reverseOrder)
@@ -141,9 +141,9 @@ public class CardLogic extends BaseLogic<Card>
             switch (order) {
                 case ALPHABETICAL -> {
                     if (!reverseOrder)
-                        cards = cardRepository.findCardsContaining(searchterm, "co.titelToShow", "asc");
+                        cards = cardRepository.findCardsContaining(searchterm, "LOWER(co.titelToShow)", "asc");
                     else
-                        cards = cardRepository.findCardsContaining(searchterm, "co.titelToShow", "desc");
+                        cards = cardRepository.findCardsContaining(searchterm, "LOWER(co.titelToShow)", "desc");
                 }
                 case DATE -> {
                     if (!reverseOrder)
@@ -176,9 +176,9 @@ public class CardLogic extends BaseLogic<Card>
             switch (order) {
                 case ALPHABETICAL -> {
                     if (!reverseOrder)
-                        cards = cardRepository.findCardsByTag(tag, "co.titelToShow", "asc");
+                        cards = cardRepository.findCardsByTag(tag, "LOWER(co.titelToShow)", "asc");
                     else
-                        cards = cardRepository.findCardsByTag(tag, "co.titelToShow", "desc");
+                        cards = cardRepository.findCardsByTag(tag, "LOWER(co.titelToShow)", "desc");
                 }
                 case DATE -> {
                     if (!reverseOrder)
@@ -304,9 +304,6 @@ public class CardLogic extends BaseLogic<Card>
 
     }
 
-    /* Mit `cardRepository.update(card.setAssignedTags(List<Tag>))` kann man eine angepasste Karte
-     * persistieren. Die Relation zu den Tags wird kaskadiert.
-     */
     /**
      * Wird verwendet, Um zu überprüfen, ob die angegebene Liste von Tags bereits Tags für die Karte sind oder nicht. Wird an das CardToTagRepository weitergegeben.
      * @param card: die Karte, um ihre Tags zu überprüfen
