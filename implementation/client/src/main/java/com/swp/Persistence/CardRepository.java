@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Die Datenbank repository für Karten
- * @author Ole-Nikas Mahlstädt
+ * @author Ole-Nikas Mahlstädt, Efe Carkcioglu
  */
 public class CardRepository extends BaseRepository<Card>
 {
