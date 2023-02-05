@@ -27,6 +27,8 @@ import static org.mockito.Mockito.*;
  * Nach Anzeigen der Karte und geben der Antwort gibt die GUI die gegebene Antwort und ob diese richtig/falsch war mittels
  * giveAnswer() wieder.
  * Danach wird erneut getNextCard() aufgerufen, um die nächste zu lernende Karte abzurufen.
+ *
+ * @Author Nadja Cordes
  */
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

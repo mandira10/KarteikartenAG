@@ -29,6 +29,8 @@ import static org.mockito.Mockito.*;
  * In dieser Testklasse werden alle Methoden getestet, welche bei dem nicht-trivialen Anwendungsfall 'N3-8' Karteikarte Schlagwörter (Tags)
  * zuordnen involviert sind.
  * In der GUI können bei Erstellen oder bei Bearbeiten einer Karte die Tags angepasst werden.
+ *
+ * @author Nadja Cordes
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddTagsToCardTest {

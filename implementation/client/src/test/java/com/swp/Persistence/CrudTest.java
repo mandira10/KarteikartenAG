@@ -20,7 +20,9 @@ import java.util.List;
 
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * @Author Ole-Niklas Mahlstädt,  Efe Carkcioglu
+ */
 public class CrudTest {
     // Repositories die getestet werden
     private final CardRepository cardRepository = CardRepository.getInstance();

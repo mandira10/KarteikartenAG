@@ -5,21 +5,15 @@ import com.swp.Controller.ControllerThreadPool;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.CardToCategory;
-import com.swp.DataModel.CardTypes.TextCard;
 import com.swp.DataModel.CardTypes.TrueFalseCard;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Language.German;
-import com.swp.DataModel.StudySystem.BoxToCard;
-import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.GUI.Extras.ListOrder;
-import com.swp.Logic.CardLogic;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Persistence.CardRepository;
 import com.swp.Persistence.CardToCategoryRepository;
 import com.swp.Persistence.CategoryRepository;
 import com.swp.Persistence.PersistenceManager;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,10 +26,14 @@ import java.util.List;
 import static org.joor.Reflect.on;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+
+/**
+ * Testet die Filterfunktionen von Category
+ * @Author Nadja Cordes
+ */
 public class FilterForCategoryTest {
 
     private CardRepository cardRepMock;

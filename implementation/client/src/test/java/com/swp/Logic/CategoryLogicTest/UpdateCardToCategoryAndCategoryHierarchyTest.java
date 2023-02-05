@@ -31,6 +31,8 @@ import static org.mockito.Mockito.*;
 
 /**
  * Testclass for updateFunction of Categories to CardToCategory and CategoryHierarchy
+ *
+ * @author Nadja Cordes
  */
 public class UpdateCardToCategoryAndCategoryHierarchyTest {
 

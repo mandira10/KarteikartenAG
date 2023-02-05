@@ -1,16 +1,11 @@
 package com.swp.Persistence;
 
 import com.swp.Controller.ControllerThreadPool;
-import com.swp.DataModel.*;
-import com.swp.DataModel.CardTypes.*;
 import com.swp.DataModel.Language.German;
-import com.swp.DataModel.StudySystem.BoxToCard;
 import com.swp.DataModel.StudySystem.LeitnerSystem;
 import com.swp.DataModel.StudySystem.StudySystem;
-import com.swp.DataModel.StudySystem.StudySystemBox;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
-
 import jakarta.persistence.NoResultException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,6 +15,10 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * @author Efe Carkcioglu, Ole-Niklas Mahlstädt
+ */
 
 public class StudySystemRepositoryTest {
 

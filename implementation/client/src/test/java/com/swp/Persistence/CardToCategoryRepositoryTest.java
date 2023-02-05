@@ -20,6 +20,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @Author: Efe Carkcioglu, Ole-Niklas Mahlstädt
+ */
 public class CardToCategoryRepositoryTest {
     // Repositories die getestet werden
     private final CardToCategoryRepository cardToCategoryRepository = CardToCategoryRepository.getInstance();

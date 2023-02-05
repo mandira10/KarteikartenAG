@@ -16,6 +16,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * @Author:  Efe Carkcioglu, Ole-Niklas Mahlstädt
+ */
 public class CardToBoxRepositoryTest {
 
     // Repositories die getestet werden

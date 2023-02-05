@@ -41,6 +41,8 @@ import static org.mockito.Mockito.*;
  * <p>
  * In der GUI können mehrere Kategorien ausgewählt und ihre Karten einem Karteikasten
  * zugefügt werden.
+ *
+ * @Author Ole-Niklas Mahlstädt
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddCategoriesToStudySystemTest {

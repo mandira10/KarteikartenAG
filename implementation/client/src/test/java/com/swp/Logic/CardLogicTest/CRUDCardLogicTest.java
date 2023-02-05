@@ -29,6 +29,8 @@ import static org.mockito.Mockito.*;
 
 /**
  * Klasse, die die normalen Funktionen für eine Karte testet, mithilfe von Komponententests.
+ *
+ * @author Nadja Cordes
  */
 public class CRUDCardLogicTest {
 

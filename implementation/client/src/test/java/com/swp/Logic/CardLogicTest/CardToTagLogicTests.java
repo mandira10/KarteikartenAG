@@ -27,6 +27,8 @@ import static org.mockito.Mockito.*;
 /**
  * Diese Testklasse untersucht alle CardLogic Funktionen für die Card2Tags als Komponententests.
  * Ausführlichere Tests finden sich in ThreeNonTrivialTestMethods AddTagsToCardTests.
+ *
+ * @author Nadja Cordes
  */
 
 public class CardToTagLogicTests {

@@ -32,6 +32,8 @@ import static org.mockito.Mockito.*;
  * Testet die Controller Funktionen mithilfe von Komponententests.
  * Einzig die beiden Funktionen für den nicht-trivialen Anwendungsfall  'N26 Karteikasten mehrere Kategorien'
  * werden separat über White-Box-Tests dem Ordner "ThreeNonTrivialMethods" getestet.
+ *
+ * @author Nadja Cordes
  */
 public class CategoryControllerTests {
 

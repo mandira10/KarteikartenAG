@@ -37,7 +37,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
- * Testet die Controller Funktionen
+ * Testet die Controller Funktionen mithilfe von Komponententests.
+ *
+ * @author Mert As
  */
 public class StudySystemControllerTests {
 

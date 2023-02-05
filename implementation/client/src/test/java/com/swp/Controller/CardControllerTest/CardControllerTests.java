@@ -33,8 +33,10 @@ import static org.mockito.Mockito.*;
 
 /**
  * Testet die Controller Funktionen mithilfe von Komponententests.
- * Einzig die beiden Funktionen für den nicht-trivialen Anwendungsfall  'N3-8' Karteikarte Schlagwörter (Tags) zuordnen
+ * Einzig die beiden Funktionen für den nicht-trivialen Anwendungsfall 'N3-8' Karteikarte Schlagwörter (Tags) zuordnen
  * werden separat über White-Box-Tests dem Ordner "ThreeNonTrivialMethods" getestet.
+ *
+ * @author Nadja Cordes
  */
 public class CardControllerTests {
 

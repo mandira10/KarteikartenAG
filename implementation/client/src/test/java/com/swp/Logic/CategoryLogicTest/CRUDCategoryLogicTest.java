@@ -25,6 +25,8 @@ import static org.mockito.Mockito.*;
 
 /**
  * Klasse, die die normalen Funktionen für eine Kategorie testet, mithilfe von Komponententests.
+ *
+ *  @author Nadja Cordes
  */
 public class CRUDCategoryLogicTest {
 

@@ -29,6 +29,8 @@ import static org.mockito.Mockito.*;
 
 /**
  * Testet die Logik Funktionen
+ *
+ * @Author Mert As
  */
 
 public class StudySystemLogicTest {
