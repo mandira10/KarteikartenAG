@@ -99,7 +99,7 @@ public class CardControllerTests {
             }
 
         }));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -113,7 +113,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() ->     cardController.getCardsToShow(2, 3,coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -126,7 +126,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() ->  cardController.getCardsToShow(2, 3, coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardstoshowerror"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -146,7 +146,7 @@ public class CardControllerTests {
             }
 
         }));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -160,7 +160,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsToShow(2, 3, ListOrder.Order.DATE, false, coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callInfo(Locale.getCurrentLocale().getString("getcardstoshowempty"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -173,7 +173,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsToShow(2, 3, ListOrder.Order.DATE, false, coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardstoshowerror"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -193,7 +193,7 @@ public class CardControllerTests {
             }
 
         }));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -207,7 +207,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callInfo(Locale.getCurrentLocale().getString("getcardsbytagempty"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -220,7 +220,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardsbytagerror"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -233,7 +233,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsByTag("",coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure( "Schlagwort darf nicht leer sein!");
-        reset(coMockDataCallback);
+       
     }
 
 
@@ -254,7 +254,7 @@ public class CardControllerTests {
             }
 
         }));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -268,7 +268,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback,ListOrder.Order.DATE, false));
         verify(coMockDataCallback, times(1))
                 .callInfo(Locale.getCurrentLocale().getString("getcardsbytagempty"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -281,7 +281,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsByTag("test",coMockDataCallback,ListOrder.Order.DATE, false));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardsbytagerror"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -294,7 +294,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsByTag("",coMockDataCallback,ListOrder.Order.DATE, false));
         verify(coMockDataCallback, times(1))
                 .callFailure( "Schlagwort darf nicht leer sein!");
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -314,7 +314,7 @@ public class CardControllerTests {
             }
 
         }));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -328,7 +328,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callInfo(Locale.getCurrentLocale().getString("getcardsbysearchtermsempty"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -341,7 +341,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardsbysearchtermserror"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -354,7 +354,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsBySearchterms("",coMockDataCallback));
         verify(coMockDataCallback, times(1))
                 .callFailure( "Suchbegriff darf nicht leer sein!");
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -374,7 +374,7 @@ public class CardControllerTests {
             }
 
         }));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -388,7 +388,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback,ListOrder.Order.DATE, false));
         verify(coMockDataCallback, times(1))
                 .callInfo(Locale.getCurrentLocale().getString("getcardsbysearchtermsempty"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -401,7 +401,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsBySearchterms("test",coMockDataCallback,ListOrder.Order.DATE, false));
         verify(coMockDataCallback, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardsbysearchtermserror"));
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -414,7 +414,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardsBySearchterms("",coMockDataCallback,ListOrder.Order.DATE, false));
         verify(coMockDataCallback, times(1))
                 .callFailure( "Suchbegriff darf nicht leer sein!");
-        reset(coMockDataCallback);
+       
     }
 
     /**
@@ -429,7 +429,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.deleteCard(card, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("cardnullerror"));
-        reset(coMockbSingleDataCallBack);
+        
     }
 
     /**
@@ -443,7 +443,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.deleteCard(card, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("deletecarderror"));
-        reset(coMockbSingleDataCallBack);
+        
     }
 
     /**
@@ -464,7 +464,7 @@ public class CardControllerTests {
 
 
         }));
-        reset(coMockbSingleDataCallBack);
+        
 
     }
 
@@ -479,7 +479,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.deleteCards(list, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("cardnullerror"));
-        reset(coMockbSingleDataCallBack);
+        
     }
 
     /**
@@ -493,7 +493,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.deleteCards(list, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("deletecardserror"));
-        reset(coMockbSingleDataCallBack);
+        
     }
 
     /**
@@ -514,7 +514,7 @@ public class CardControllerTests {
 
 
         }));
-        reset(coMockbSingleDataCallBack);
+        
 
     }
 
@@ -528,7 +528,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardByUUID("Test", coMockCSingleDataCallBack));
         verify(coMockCSingleDataCallBack, times(1))
                 .callFailure("Es konnte nichts gefunden werden.");
-        reset(coMockCSingleDataCallBack);
+       
     }
 
     /**
@@ -541,7 +541,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardByUUID("Test", coMockCSingleDataCallBack));
         verify(coMockCSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("getcardbyuuiderror"));
-        reset(coMockCSingleDataCallBack);
+       
     }
 
     /**
@@ -561,7 +561,7 @@ public class CardControllerTests {
                 }
 
             }));
-            reset(coMockCSingleDataCallBack);
+           
     }
 
     /**
@@ -574,7 +574,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.getCardByUUID("Test", coMockCSingleDataCallBack));
         verify(coMockCSingleDataCallBack, times(1))
                 .callFailure("ID darf nicht null sein!");
-        reset(coMockCSingleDataCallBack);
+       
 
     }
 
@@ -589,7 +589,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.updateCardData(card, true, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("updatecreatecarderror"));
-        reset(coMockbSingleDataCallBack);
+        
 
     }
 
@@ -604,7 +604,7 @@ public class CardControllerTests {
         assertDoesNotThrow(() -> cardController.updateCardData(card, true, coMockbSingleDataCallBack));
         verify(coMockbSingleDataCallBack, times(1))
                 .callFailure(Locale.getCurrentLocale().getString("cardnullerror"));
-        reset(coMockbSingleDataCallBack);
+        
     }
     /**
      * Testet die callSuccess Funktion beim Controller
@@ -625,7 +625,7 @@ public class CardControllerTests {
 
 
         }));
-        reset(coMockbSingleDataCallBack);
+        
     }
 
 
@@ -641,7 +641,7 @@ public class CardControllerTests {
             assertDoesNotThrow(() -> cardController.exportCards(cards, filepath, Exporter.ExportFileType.EXPORT_XML, coMockbSingleDataCallBack));
             verify(coMockbSingleDataCallBack, times(1))
                     .callFailure(Locale.getCurrentLocale().getString("cardexporterror"));
-            reset(coMockbSingleDataCallBack);
+            
         }
 
     /**

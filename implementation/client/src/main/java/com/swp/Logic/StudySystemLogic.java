@@ -589,7 +589,7 @@ public class StudySystemLogic extends BaseLogic<StudySystem>
      * Für nachträgliches Hinzufügen von Karten. 
      * @param cards: die Liste von Karten, um hinzufügen
      * @param studySystem Das StudySystem, das benötigt wird.
-     * @return TODO
+     * @return Liste an Karten, die bereits Teil des Decks sind und nicht erneut hinzugefügt wurden
      */
     public List<Card> addCardsToDeck(List<CardOverview> cards, StudySystem studySystem) {
         if(studySystem == null){

@@ -87,7 +87,7 @@ public class DeckSelectPage extends Page
                 StudySystemController.getInstance().addCardsToStudySystem(alCards, deck, new SingleDataCallback<>() {
                     @Override
                     public void onSuccess(String data) {
-                        if(data.isEmpty())
+                        if(!data.isEmpty())
                             NotificationGUI.addNotification(data, Notification.NotificationType.INFO, 10);
 
                     }

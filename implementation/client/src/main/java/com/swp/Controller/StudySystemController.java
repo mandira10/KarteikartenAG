@@ -165,11 +165,6 @@ public class StudySystemController extends Controller
      */
     public void getStudySystemByUUID(String uuid, SingleDataCallback<StudySystem> callback)
     {
-        if(uuid.isEmpty())
-        {
-            log.info(Locale.getCurrentLocale().getString("getstudysystembyuuidempty"));
-            return;
-        }
         callLogicFuncInThread(
             () -> { return studySystemLogic.getStudySystemByUUID(uuid); },
             "getstudysystembyuuidnoresult", "",
@@ -234,7 +229,7 @@ public class StudySystemController extends Controller
     {
         callLogicFuncInThread(
             () -> { return studySystemLogic.getStudySystems(); },
-            "", "Es gibt noch keine Studysystems gefunden",
+            "", "Es gibt noch keine Studysystems",
             "getstudysystemserror", "",
             callback, "");
     }
