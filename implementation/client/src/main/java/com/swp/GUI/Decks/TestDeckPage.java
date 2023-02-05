@@ -11,11 +11,13 @@ import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
+import com.gumse.tools.Output;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
+import com.swp.DataModel.StudySystem.VoteSystem;
 import com.swp.DataModel.StudySystem.StudySystem.StudySystemType;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -42,6 +44,7 @@ public class TestDeckPage extends Page
     private Card pCardToLearn;
     private Button pCheckButton, pAnswerOverrideButton;
     private RatingGUI pRatingGUI;
+    private RenderGUI pOptionsMenu;
 
     private StudySystemController studySystemController = StudySystemController.getInstance();
 
@@ -64,7 +67,7 @@ public class TestDeckPage extends Page
         pTimeText.hide(true);
         addGUI(pTimeText);
 
-        RenderGUI optionsMenu = findChildByID("menu");
+        pOptionsMenu = findChildByID("menu");
         pRatingGUI = (RatingGUI)findChildByID("ratinggui");
         pRatingGUI.hide(true);
         pRatingGUI.setCallback((int rating) -> {
@@ -76,16 +79,15 @@ public class TestDeckPage extends Page
                 }
             });
         });
-        optionsMenu.addGUI(pRatingGUI);
 
-        Button pauseButton = (Button)optionsMenu.findChildByID("pausebutton");
+        Button pauseButton = (Button)pOptionsMenu.findChildByID("pausebutton");
         pauseButton.onClick((RenderGUI gui) -> { pauseTest(); });
 
         pAnswerOverrideButton = (Button)findChildByID("wascorrectbutton");
         pAnswerOverrideButton.onClick((RenderGUI gui) -> { giveAnswer(true); });
         pAnswerOverrideButton.hide(true);
 
-        pCheckButton = (Button)optionsMenu.findChildByID("checkbutton");
+        pCheckButton = (Button)pOptionsMenu.findChildByID("checkbutton");
         pCheckButton.onClick((RenderGUI gui) -> {
             if(!bAnswerChecked)
             {
@@ -112,10 +114,32 @@ public class TestDeckPage extends Page
         this.pDeck = deck;
         pTimeText.hide(true);
         pAnswerOverrideButton.hide(true);
-        if(pDeck.getType() == StudySystem.StudySystemType.TIMING)
+        pRatingGUI.hide(true);
+        bAnswerChecked = false;
+        pCheckButton.setTitle(Locale.getCurrentLocale().getString("checkbutton"));
+        if(pDeck.getType() == StudySystemType.TIMING)
         {
             pTimeText.hide(false);
             lTimeLimit = (long)((TimingSystem)pDeck).getTimeLimit();
+        }
+        else if (pDeck.getType() == StudySystemType.VOTE)
+        {
+            pOptionsMenu.removeChild(pRatingGUI);
+            pRatingGUI = new RatingGUI(new ivec2(50, 0), 20, ((VoteSystem)pDeck).getStars());
+            pRatingGUI.setPositionInPercent(true, false);
+            pRatingGUI.setOriginInPercent(true, false);
+            pRatingGUI.setOrigin(new ivec2(50, 0));
+            pRatingGUI.hide(true);
+            pRatingGUI.setCallback((int rating) -> {
+                bNextCardAllowed = true;
+                studySystemController.giveRating(pDeck, pCardToLearn, rating, new SingleDataCallback<Boolean>() {
+                    @Override public void onSuccess(Boolean data) {}
+                    @Override public void onFailure(String msg) {
+                        NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
+                    }
+                });
+            });
+            pOptionsMenu.addGUI(pRatingGUI);
         }
         nextCard();
     }
