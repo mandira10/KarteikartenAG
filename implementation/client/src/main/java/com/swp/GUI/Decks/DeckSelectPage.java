@@ -85,15 +85,13 @@ public class DeckSelectPage extends Page
             @Override public void onConfirm() 
             {  
                 StudySystemController.getInstance().addCardsToStudySystem(alCards, deck, new SingleDataCallback<>() {
-                    @Override
-                    public void onSuccess(String data) {
+                    @Override public void onSuccess(String data) {
                         if(!data.isBlank())
                             NotificationGUI.addNotification(data, Notification.NotificationType.INFO, 10);
 
                     }
 
-                    @Override
-                    public void onFailure(String msg) {
+                    @Override public void onFailure(String msg) {
                         NotificationGUI.addNotification(msg, Notification.NotificationType.ERROR,5);
                     }
                 });

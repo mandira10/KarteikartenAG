@@ -144,7 +144,7 @@ public class EditCardPage extends Page
             return;
 
         bIsNewCard = newcard;
-        pNewCard = card; //Maybe TODO?
+        pNewCard = card;
 
         //Set data
         pTitlefield.setString(pNewCard.getTitle());

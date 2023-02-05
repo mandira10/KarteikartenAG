@@ -229,11 +229,11 @@ public class TestCardGUI extends RenderGUI
                 if(currentAnswerField.getString().equals(acorrectAnswer.answertext))
                 {
                     textcol.set(TRUE_COLOR);
-                    correctAnswer = false;
                 }
                 else
                 {
                     textcol.set(FALSE_COLOR);
+                    correctAnswer = false;
                 }
                 currentAnswerField.setString(acorrectAnswer.answertext);
                 currentAnswerField.getBox().setTextColor(textcol);
