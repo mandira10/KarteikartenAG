@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 /**
  * Testet die Filterfunktionen von Category
- * @Author Nadja Cordes
+ * @author Nadja Cordes
  */
 public class FilterForCategoryTest {
 

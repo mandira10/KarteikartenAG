@@ -6,7 +6,7 @@ import jakarta.persistence.Converter;
 
 /**
  * Klasse, die Booleans in String Charakters umwandelt, damit bspw. TrueFalseCard verwendet werden kann.
- * @Author: Thorben Janssen: https://thorben-janssen.com/hibernate-tips-how-to-map-a-boolean-to-y-n/
+ * @author Thorben Janssen: <a href="https://thorben-janssen.com/hibernate-tips-how-to-map-a-boolean-to-y-n/">Webseite</a>
  */
 @Converter
 public class BooleanConverter implements AttributeConverter<Boolean,String> {
