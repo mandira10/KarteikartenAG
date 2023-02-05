@@ -55,7 +55,7 @@ public class User
             }
             @Override protected void onSuccess(Boolean data) 
             {
-                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("loginmessage"), NotificationType.INFO, 7);
+                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("loginmessage"), NotificationType.CONNECTION, 7);
                 Settings.getInstance().setSetting(Setting.USER_NAME, user.getUsername());
                 Settings.getInstance().setSetting(Setting.USER_PASSWD, user.getPassword());
                 KarteikartenAGGUI.getInstance().getSidebar().refresh();
@@ -77,7 +77,7 @@ public class User
             }
             @Override protected void onSuccess(Boolean data) 
             {
-                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("loginmessage"), NotificationType.INFO, 7);
+                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("loginmessage"), NotificationType.CONNECTION, 7);
                 KarteikartenAGGUI.getInstance().getSidebar().refresh();
                 PageManager.viewPage(PAGES.DECK_OVERVIEW);
             }

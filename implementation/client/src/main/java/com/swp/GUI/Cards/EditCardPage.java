@@ -226,7 +226,7 @@ public class EditCardPage extends Page
 
     private void applyChanges()
     {
-        if(pQuestionField.getString().isEmpty())
+        if(pQuestionField.getString().isBlank())
         {
             NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryquestion"), NotificationType.WARNING, 5);
             return;

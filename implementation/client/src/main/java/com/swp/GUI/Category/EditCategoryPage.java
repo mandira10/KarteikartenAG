@@ -187,7 +187,7 @@ public class EditCategoryPage extends Page
 
     private void applyChanges()
     {
-        if(pTitleField.getString().isEmpty())
+        if(pTitleField.getString().isBlank())
         {
             NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatorytitle"), NotificationType.WARNING, 5);
             return;

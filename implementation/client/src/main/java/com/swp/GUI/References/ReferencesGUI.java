@@ -70,10 +70,10 @@ public class ReferencesGUI extends RenderGUI
         pContent.destroyChildren();
 
 
-        if(!str.isEmpty())
+        if(!str.isBlank())
         {
             str.lines().forEach((String line) -> {
-                if(line.isEmpty())
+                if(line.isBlank())
                     return;
                     
                 ReferenceEntry entry = ReferenceEntry.createFromString(line, new ivec2(0, pContent.numChildren() * (30 + iGapSize)), new ivec2(100, 30));

@@ -151,7 +151,7 @@ public class EditMultipleChoiceCard extends EditCardGUI
         }
         for(String answer : pCard.getAnswers())
         {
-            if(answer.isEmpty())
+            if(answer.isBlank())
             {
                 NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryanswer"), NotificationType.WARNING, 5);
                 return false;

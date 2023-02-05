@@ -100,7 +100,7 @@ public class EditImageTestCard extends EditCardGUI
     @Override
     public boolean checkMandatory() 
     {
-        if(pAnswerField.getString().isEmpty())
+        if(pAnswerField.getString().isBlank())
         {
             NotificationGUI.addNotification(Locale.getCurrentLocale().getString("mandatoryanswer"), NotificationType.WARNING, 5);
             return false;

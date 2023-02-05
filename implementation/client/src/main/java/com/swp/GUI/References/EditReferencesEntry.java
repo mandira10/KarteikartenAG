@@ -69,7 +69,7 @@ public class EditReferencesEntry extends RenderGUI
         String type = "";
         sDestination = "";
         String description = "";
-        if(!str.isEmpty())
+        if(!str.isBlank())
         {
             String[] args = str.split(";");
             if(args.length < 3)
