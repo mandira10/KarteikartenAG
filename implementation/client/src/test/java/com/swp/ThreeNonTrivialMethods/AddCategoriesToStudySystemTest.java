@@ -346,7 +346,8 @@ public class AddCategoriesToStudySystemTest {
                assertEquals(3, overviews.size());
                assertEquals(2,overviews.stream().filter(c -> c.getTitelToShow().equals("Titel 1")).collect(Collectors.toSet()).size());
                assertEquals(1,overviews.stream().filter(c -> c.getTitelToShow().equals("Titel 2")).collect(Collectors.toSet()).size());
-                return true;
+               cardsInCategories.addAll(overviews);
+               return true;
             }
         }));
 
@@ -354,7 +355,7 @@ public class AddCategoriesToStudySystemTest {
         SingleDataCallback<String> mockCallback = mock(SingleDataCallback.class);
         studySystemController.addCardsToStudySystem(cardsInCategories, study3, mockCallback);
         BaseRepository.startTransaction();
-        assertEquals(2, cardToBoxRepository.countAll());
+        assertEquals(4, cardToBoxRepository.countAll());
         BaseRepository.commitTransaction();
     }
 
