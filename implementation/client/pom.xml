@@ -92,6 +92,7 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.4.4</version>
+            <scope>main</scope>
         </dependency>
 
         <dependency>
@@ -152,16 +153,40 @@
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.0.2</version>
-                <configuration>
-                    <outputDirectory>${basedir}/target/classes</outputDirectory>
-                    <includeEmptyDirs>true</includeEmptyDirs>
-                    <resources>
-                        <resource>
-                            <directory>${basedir}/src/resources</directory>
-                            <filtering>false</filtering>
-                        </resource>
-                    </resources>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>main-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/resources</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/test-classes</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/test/resources</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>

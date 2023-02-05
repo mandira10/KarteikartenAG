@@ -120,13 +120,13 @@ import lombok.extern.slf4j.Slf4j;
 //       - stop audio               -- done
 //   - fix imagedesc answerentries  -- done
 //   - fix imagedesc answercheck    -- done
-//   - Fix browser/fileexplorer     
+//   - Fix browser/fileexplorer     -- done
 //   - fix aspectratio              -- done
 //       - Tests                    -- done
 //       - Imagedescanswers         -- done
 //       - Viewpage                 -- done
+//   - test logging fix             -- done
 //   - javadoc
-//   - test logging fix
 
 ////////////////////////////////////////////////////
 

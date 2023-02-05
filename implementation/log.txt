@@ -1,0 +1,13 @@
+01:06:47.594 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: KarteikartenDB]
+01:06:47.610 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version [WORKING]
+01:06:48.834 [main] WARN  o.hibernate.orm.connections.pooling - HHH10001002: Using built-in connection pool (not intended for production use)
+01:06:48.835 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Loaded JDBC driver class: org.h2.Driver
+01:06:48.835 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001012: Connecting with JDBC URL [jdbc:h2:./db/karteikarten-ag.h2;AUTO_SERVER=TRUE]
+01:06:48.836 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {password=****, user=local-user}
+01:06:48.836 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+01:06:48.837 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001115: Connection pool size: 20 (min=1)
+01:06:48.992 [main] INFO  SQL dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+01:06:49.695 [main] INFO  o.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@ef03206] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+01:06:49.715 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+01:06:50.041 [main] INFO  com.swp.KarteikartenAG - Loading settingsfile (settings.ini)
+01:06:50.160 [main] INFO  com.swp.KarteikartenAG - Loaded Object: models/card.obj, numMeshes: 1, Children: 1
