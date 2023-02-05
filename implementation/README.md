@@ -61,8 +61,8 @@ choco install maven
 Zum Kompilieren und starten
 ```cmd
 cd swpws2022_karteikartenag/implementation
-./build.bat
-./run.bat
+.\build.bat
+.\run.bat
 ```
 
 
