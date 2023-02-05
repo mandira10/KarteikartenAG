@@ -7,12 +7,12 @@ import com.gumse.maths.ivec2;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.GUI.Extras.DeckList;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.Extras.DeckList;
-import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.PageManager.PAGES;
 
 import java.util.List;

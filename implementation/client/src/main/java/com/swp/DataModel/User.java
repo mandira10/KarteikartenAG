@@ -2,16 +2,16 @@ package com.swp.DataModel;
 
 
 import com.gumse.gui.Locale;
-import com.swp.TestDataClass;
 import com.swp.Controller.ControllerThreadPool;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Settings.Setting;
 import com.swp.GUI.Extras.Notification.NotificationType;
-import com.swp.GUI.PageManager.PAGES;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.KarteikartenAGGUI;
 import com.swp.GUI.PageManager;
-import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.PageManager.PAGES;
 import com.swp.Persistence.PersistenceManager;
+import com.swp.TestDataClass;
 
 /**
  * Die Klasse welche Benutzer an- und abmeldet

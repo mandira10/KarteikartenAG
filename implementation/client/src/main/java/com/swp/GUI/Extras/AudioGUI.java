@@ -1,14 +1,5 @@
 package com.swp.GUI.Extras;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
-
-import org.lwjgl.openal.AL11;
-import org.lwjgl.opengl.GL11;
-
 import com.gumse.PostProcessing.Framebuffer;
 import com.gumse.gui.GUI;
 import com.gumse.gui.GUIShader;
@@ -23,6 +14,14 @@ import com.gumse.model.VertexBufferObject;
 import com.gumse.system.Window;
 import com.gumse.system.io.Mouse;
 import com.gumse.tools.Output;
+import org.lwjgl.openal.AL11;
+import org.lwjgl.opengl.GL11;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 /**
  * AudioGUI wird dazu verwendet, um

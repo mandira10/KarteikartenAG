@@ -3,9 +3,10 @@ package com.swp.GUI.Extras;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryStack;
 
-import static org.lwjgl.util.tinyfd.TinyFileDialogs.*;
-
 import java.io.File;
+
+import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_openFileDialog;
+import static org.lwjgl.util.tinyfd.TinyFileDialogs.tinyfd_saveFileDialog;
 
 /**
  * Ein Cross-Platform Dateidialog

@@ -1,8 +1,8 @@
 package com.swp.GUI.Cards.EditCardPages;
 
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.TextField;
 import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
+import com.gumse.gui.Locale;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Output;

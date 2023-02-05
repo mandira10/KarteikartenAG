@@ -1,34 +1,30 @@
 package com.swp.GUI.Cards;
 
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.DataCallback;
+import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.Card;
+import com.swp.DataModel.Card.CardType;
 import com.swp.DataModel.CardOverview;
+import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.Category;
 import com.swp.DataModel.Tag;
-import com.swp.DataModel.Card.CardType;
-import com.swp.DataModel.CardTypes.AudioCard;
-import com.swp.GUI.Extras.Notification;
-import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.GUI.Page;
-import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.CardRenderer.CardRenderer;
-import com.swp.GUI.Extras.AudioGUI;
-import com.swp.GUI.Extras.ConfirmationGUI;
-import com.swp.GUI.Extras.RatingGUI;
+import com.swp.GUI.Extras.*;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.Extras.RatingGUI.RateCallback;
+import com.swp.GUI.Page;
+import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.References.ReferencesGUI;
-import com.swp.Controller.DataCallback;
-import com.swp.Controller.SingleDataCallback;
 
 import java.util.List;
 

@@ -8,8 +8,8 @@ import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.Primitives.Text;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
-import com.gumse.tools.Output;
 import com.gumse.tools.FPS;
+import com.gumse.tools.Output;
 
 /**
  * Eine Benachrichtigung für

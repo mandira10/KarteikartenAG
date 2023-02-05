@@ -1,11 +1,10 @@
 package com.swp.Controller;
 
-import java.util.List;
-
 import com.gumse.gui.Locale;
-
 import jakarta.persistence.NoResultException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * Die oberklasse aller Controller-Klassen

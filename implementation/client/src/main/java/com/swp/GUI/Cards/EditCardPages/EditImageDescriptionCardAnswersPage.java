@@ -1,8 +1,5 @@
 package com.swp.GUI.Cards.EditCardPages;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Font.FontManager;
@@ -17,6 +14,9 @@ import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Wird verwendet, um die Antworten einer Bildbeschreibungskarte zu bearbeiten

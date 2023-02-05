@@ -1,9 +1,9 @@
 package com.swp.GUI.Decks;
 
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.TextBox;
 import com.gumse.gui.Basics.TextBox.Alignment;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;

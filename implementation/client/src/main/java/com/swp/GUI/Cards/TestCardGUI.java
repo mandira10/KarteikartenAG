@@ -1,36 +1,25 @@
 package com.swp.GUI.Cards;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Predicate;
-
-import com.gumse.gui.GUI;
-import com.gumse.gui.Locale;
-import com.gumse.gui.Basics.Button;
-import com.gumse.gui.Basics.Radiobutton;
-import com.gumse.gui.Basics.RadiobuttonOption;
-import com.gumse.gui.Basics.Scroller;
-import com.gumse.gui.Basics.TextBox;
-import com.gumse.gui.Basics.TextField;
+import com.gumse.gui.Basics.*;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.GUI;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.Box;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
 import com.gumse.textures.Texture;
 import com.gumse.tools.Output;
-import com.swp.DataModel.*;
-import com.swp.DataModel.CardTypes.AudioCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCard;
-import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
-import com.swp.DataModel.CardTypes.ImageTestCard;
-import com.swp.DataModel.CardTypes.MultipleChoiceCard;
-import com.swp.DataModel.CardTypes.TextCard;
-import com.swp.DataModel.CardTypes.TrueFalseCard;
+import com.swp.DataModel.Card;
+import com.swp.DataModel.CardTypes.*;
 import com.swp.GUI.Extras.AudioGUI;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Wird verwendet, um Karten zu testen

@@ -1,32 +1,27 @@
 package com.swp.GUI.Cards;
 
-import java.util.List;
-
-import com.gumse.gui.Locale;
 import com.gumse.gui.Basics.Button;
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
-import com.swp.GUI.Page;
-import com.swp.GUI.PageManager;
-import com.swp.GUI.Decks.DeckSelectPage;
-import com.swp.GUI.Extras.CardList;
-import com.swp.GUI.Extras.ConfirmationGUI;
-import com.swp.GUI.Extras.ListOrder;
-import com.swp.GUI.Extras.MenuOptions;
-import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.GUI.Extras.Searchbar;
-import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
-import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
-import com.swp.GUI.Extras.ListOrder.Order;
-import com.swp.GUI.Extras.Notification.NotificationType;
-import com.swp.GUI.PageManager.PAGES;
 import com.swp.Controller.DataCallback;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.DataModel.CardOverview;
 import com.swp.DataModel.StudySystem.StudySystem;
+import com.swp.GUI.Decks.DeckSelectPage;
+import com.swp.GUI.Extras.*;
+import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
+import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
+import com.swp.GUI.Extras.ListOrder.Order;
+import com.swp.GUI.Extras.Notification.NotificationType;
+import com.swp.GUI.Page;
+import com.swp.GUI.PageManager;
+import com.swp.GUI.PageManager.PAGES;
+
+import java.util.List;
 
 /**
  * Die Seite auf welcher man nach Karten suchen, oder sich einfach alle Anzeigen lassen kann

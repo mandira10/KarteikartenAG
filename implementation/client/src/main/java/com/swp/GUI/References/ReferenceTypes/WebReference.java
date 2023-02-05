@@ -3,8 +3,8 @@ package com.swp.GUI.References.ReferenceTypes;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.Display;
-import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Extras.Notification.NotificationType;
+import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.References.ReferenceEntry;
 
 import java.io.IOException;

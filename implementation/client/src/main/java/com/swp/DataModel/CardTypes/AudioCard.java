@@ -1,9 +1,5 @@
 package com.swp.DataModel.CardTypes;
 
-import java.nio.ByteBuffer;
-
-import org.lwjgl.system.MemoryUtil;
-
 import com.gumse.tools.Toolbox;
 import com.swp.DataModel.Card;
 import jakarta.persistence.Column;
@@ -12,6 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Lob;
 import lombok.Getter;
 import lombok.Setter;
+import org.lwjgl.system.MemoryUtil;
+
+import java.nio.ByteBuffer;
 
 /**
  * Klasse zum Erstellen von Karteikarten des Typs AudioCard.

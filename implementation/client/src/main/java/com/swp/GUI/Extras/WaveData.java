@@ -1,17 +1,16 @@
 package com.swp.GUI.Extras;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.openal.AL10;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.openal.AL10;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 /**
  * WaveData wird dazu verwendet WAV 

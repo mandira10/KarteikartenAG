@@ -1,23 +1,23 @@
 package com.swp.GUI.Cards;
 
-import java.util.List;
-
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
+import com.swp.Controller.DataCallback;
 import com.swp.DataModel.CardOverview;
-import com.swp.GUI.Page;
 import com.swp.GUI.Extras.CardList;
-import com.swp.GUI.Extras.NotificationGUI;
-import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.CardList.CardListSelectmodeCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
+import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.Extras.Searchbar;
 import com.swp.GUI.Extras.Searchbar.SearchbarCallback;
+import com.swp.GUI.Page;
 import com.swp.GUI.PageManager.PAGES;
-import com.swp.Controller.DataCallback;
+
+import java.util.List;
 
 /**
  * Die Seite auf welcher man eine Liste an Karten auswählen kann

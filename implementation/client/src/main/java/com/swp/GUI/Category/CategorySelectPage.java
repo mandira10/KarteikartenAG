@@ -1,8 +1,5 @@
 package com.swp.GUI.Category;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.gumse.gui.Basics.Button;
 import com.gumse.gui.Basics.Scroller;
 import com.gumse.gui.Basics.Switch;
@@ -18,6 +15,9 @@ import com.swp.DataModel.Category;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
 import com.swp.GUI.Page;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Die Seite auf welcher man eine Liste an Kategorien auswählen kann

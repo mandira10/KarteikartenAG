@@ -1,29 +1,19 @@
 package com.swp.GUI;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.swp.GUI.Cards.*;
 import com.swp.GUI.Cards.EditCardPages.EditImageDescriptionCardAnswersPage;
-import com.swp.GUI.Category.CategoryOverviewPage;
-import com.swp.GUI.Category.CategorySelectPage;
-import com.swp.GUI.Category.EditCategoryPage;
-import com.swp.GUI.Category.ViewCategoryTreePage;
-import com.swp.GUI.Category.ViewSingleCategoryPage;
-import com.swp.GUI.Decks.CreateDeckPage;
-import com.swp.GUI.Decks.DeckOverviewPage;
-import com.swp.GUI.Decks.DeckSelectPage;
-import com.swp.GUI.Decks.EditDeckPage;
-import com.swp.GUI.Decks.TestDeckFinishPage;
-import com.swp.GUI.Decks.TestDeckPage;
-import com.swp.GUI.Decks.ViewSingleDeckPage;
+import com.swp.GUI.Category.*;
+import com.swp.GUI.Decks.*;
 import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.References.EditReferencesPage;
 import com.swp.GUI.Settings.SettingsPage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Verwaltet alle verfügbaren Seiten und sorgt dafür,

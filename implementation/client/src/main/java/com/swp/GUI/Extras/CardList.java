@@ -1,23 +1,23 @@
 package com.swp.GUI.Extras;
 
-import java.util.ArrayList;
-import java.util.function.Predicate;
-
 import com.gumse.gui.Basics.Switch;
 import com.gumse.gui.Basics.TextBox.Alignment;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.List.ColumnInfo;
+import com.gumse.gui.List.ColumnInfo.ColumnType;
 import com.gumse.gui.List.List;
 import com.gumse.gui.List.ListCell;
 import com.gumse.gui.List.ListEntry;
-import com.gumse.gui.List.ColumnInfo.ColumnType;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.io.Mouse;
 import com.swp.DataModel.CardOverview;
-import com.swp.GUI.PageManager;
 import com.swp.GUI.Cards.ViewSingleCardPage;
+import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
+
+import java.util.ArrayList;
+import java.util.function.Predicate;
 
 /**
  * CardList wird dazu verwendet um 

@@ -3,7 +3,6 @@ package com.swp.DataModel.Language;
 import com.gumse.gui.Locale;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
-
 import lombok.Getter;
 import lombok.Setter;
 
