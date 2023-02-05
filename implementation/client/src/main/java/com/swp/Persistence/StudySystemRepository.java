@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Die Datenbank repository für StudySystems
- * @author Ole-Nikas Mahlstädt
+ * @author Ole-Nikas Mahlstädt, Efe Carkcioglu
  */
 public class StudySystemRepository extends BaseRepository<StudySystem> {
     private StudySystemRepository() {
