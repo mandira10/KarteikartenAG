@@ -19,3 +19,4 @@ swp-abgabe*.pdf
 implementation/client/dependency-reduced-pom.xml
 implementation/settings.ini
 implementation/db/*
+implementation/log.txt
