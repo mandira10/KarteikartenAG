@@ -22,6 +22,7 @@ import static com.swp.Validator.checkNotNullOrBlank;
 /**
  * CategoryLogic Klasse, behandelt alle Category spezifischen Aufrufe.
  * Erbt von der BaseLogic.
+ * @author Nadja Cordes
  */
 @Slf4j
 public class CategoryLogic extends BaseLogic<Category>

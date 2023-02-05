@@ -9,6 +9,8 @@ import com.gumse.tools.Output;
 
 /**
  * ThreadPool für die Controllerfunktionen
+ *
+ * @author Tom Beuke
  */
 public class ControllerThreadPool
 {

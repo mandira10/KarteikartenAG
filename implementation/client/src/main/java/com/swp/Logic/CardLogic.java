@@ -16,6 +16,7 @@ import static com.swp.Validator.checkNotNullOrBlank;
 /**
  * CardLogic Klasse, behandelt alle Card spezifischen Aufrufe.
  * Erbt von der BaseLogic.
+ * @author Nadja Cordes
  */
 @Slf4j
 public class CardLogic extends BaseLogic<Card>

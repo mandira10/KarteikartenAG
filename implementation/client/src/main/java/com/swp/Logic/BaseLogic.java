@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 /**
  * Die BaseLogic stellt Funktionen für die spezifischen Logic-Klassen bereit.
  * Zum Beispiel wird hier der gemeinsame Ablauf für Start, Ausführung und ggf. verwerfen einer Transaktion gesammelt.
+ * @author Ole-Niklas Mahlstädt
  */
 abstract class BaseLogic<T> {
     /**

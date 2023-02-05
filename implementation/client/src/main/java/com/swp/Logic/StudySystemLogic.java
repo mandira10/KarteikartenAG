@@ -20,6 +20,7 @@ import static com.swp.Validator.checkNotNullOrBlank;
 /**
  * StudySystemLogic Klasse, behandelt alle Studysystem spezifischen Aufrufe.
  * Erbt von der BaseLogic.
+ * @author Nadja Cordes, Mert As
  */
 @Slf4j
 public class StudySystemLogic extends BaseLogic<StudySystem>
