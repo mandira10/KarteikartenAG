@@ -10,6 +10,7 @@ checkbutton                        = Prüfen
 nextbutton                         = Weiter
 pausebutton                        = Pause
 box                                = Box
+pagelock                           = Die Seite ist momentan gesperrt
 
 # Sidebar
 sidebarlogin                       = Login
@@ -114,6 +115,7 @@ voting                             = Bewertung
 correct                            = Richtig
 incorrect                          = Falsch
 finalscore                         = Ihre erreichte Punktzahl beträgt
+deckoverridewarning                = Durch diese Aktion wird ihr gesamter Deckfortschritt zurückgesetzt
 leitnerdesc                        = Leitner Beschreibung: Beim Leitner System lernt man in mehreren Boxen, deren Fälligkeit du selbst bestimmen kannst. Anfangs sind alle Karten in Box 1. Wenn du die Karte richtig beantwortest, wird sie eine Box nach hinten gesetzt und bekommt die angegebene Fälligkeit der Box. Wenn sie falsch ist, wird sie eine Box nach vorne gewechselt.
 votingdesc                         = Bewertung Beschreibung: Beim VoteSystem kannst du für jede Frage Sterne vergeben, 1 = sehr schwer, dein Maximum = sehr einfach. Die Fragen werden bei jedem Lernen anhand des Ratings vorgelegt.
 timingdesc                         = Auf Zeit Beschreibung: Beim TimingSystem wird die Zeit gemessen, die du für eine Antwort brauchst. Dein Zeitlimit (Sekunden) bestimmt, wie lange du Zeit hast, die Frage zu beantworten. Schaffst du das Limit nicht, wird die Antwort als falsch bewertet.

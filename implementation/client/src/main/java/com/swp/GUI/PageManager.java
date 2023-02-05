@@ -3,6 +3,7 @@ package com.swp.GUI;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.gumse.gui.Locale;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.maths.ivec2;
 import com.swp.GUI.Cards.*;
@@ -19,6 +20,8 @@ import com.swp.GUI.Decks.EditDeckPage;
 import com.swp.GUI.Decks.TestDeckFinishPage;
 import com.swp.GUI.Decks.TestDeckPage;
 import com.swp.GUI.Decks.ViewSingleDeckPage;
+import com.swp.GUI.Extras.ConfirmationGUI;
+import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.References.EditReferencesPage;
 import com.swp.GUI.Settings.SettingsPage;
 
@@ -60,7 +63,8 @@ public class PageManager
     private static Map<PAGES, Page> mPages = null;
     private static Page pActivePage, pLastPage;
     private static RenderGUI pPageCanvas;
-    private static Runnable pCallback;
+    private static Runnable pCallback, pLockCallback;
+    private static boolean bIsLocked;
 
     private PageManager() {}
 
@@ -135,15 +139,33 @@ public class PageManager
         if(!mPages.containsKey(name))
             return null;
 
-        if(pActivePage != mPages.get(name))
+        if(bIsLocked)
         {
-            pLastPage = pActivePage;
-            pActivePage = mPages.get(name);
-            if(pCallback != null)
-                pCallback.run();
-        }
+            ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("pagelock"), new ConfirmationCallback() {
+                @Override public void onCancel() {}
+                @Override public void onConfirm() {
+                    unlockPage(false);
+                    pLastPage = pActivePage;
+                    pActivePage = mPages.get(name);
+                    if(pCallback != null)
+                        pCallback.run();
+                }
+            });
 
-        return pActivePage;
+            return mPages.get(name);
+        }
+        else
+        {
+    
+            if(pActivePage != mPages.get(name))
+            {
+                pLastPage = pActivePage;
+                pActivePage = mPages.get(name);
+                if(pCallback != null)
+                    pCallback.run();
+            }
+            return pActivePage;
+        }
     }
 
     /**
@@ -170,6 +192,29 @@ public class PageManager
     public static void setCallback(Runnable callback)
     {
         pCallback = callback;
+    }
+
+    /**
+     * Sperrt die aktuelle Seite
+     * 
+     * @param callback Die callbackfunktion welche bei einem unlock aufgerufen wird
+     */
+    public static void lockPage(Runnable callback)
+    {
+        bIsLocked = true;
+        pLockCallback = callback;
+    }
+
+    /**
+     * Entsperrt die aktuelle Seite
+     * 
+     * @param skipcallback Ob das Callback übersprungen werden soll
+     */
+    public static void unlockPage(boolean skipcallback)
+    {
+        bIsLocked = false;
+        if(pLockCallback != null && !skipcallback)
+            pLockCallback.run();
     }
 
     /**

@@ -13,6 +13,7 @@ import com.gumse.gui.Basics.TextField.TextFieldInputCallback;
 import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
+import com.gumse.maths.GumMath;
 import com.gumse.maths.ivec2;
 import com.gumse.tools.Output;
 import com.gumse.tools.Toolbox;
@@ -25,8 +26,10 @@ import com.swp.DataModel.StudySystem.VoteSystem;
 import com.swp.DataModel.StudySystem.StudySystem.CardOrder;
 import com.swp.DataModel.StudySystem.StudySystem.StudySystemType;
 import com.swp.DataModel.StudySystem.StudySystemBox;
+import com.swp.GUI.Extras.ConfirmationGUI;
 import com.swp.GUI.Extras.Notification;
 import com.swp.GUI.Extras.NotificationGUI;
+import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 import com.swp.GUI.Extras.Notification.NotificationType;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.GUI.Decks.EditLeitnerDayEntry.EntryCallback;
@@ -79,7 +82,8 @@ public class EditDeckPage extends Page
             @Override public void enter(String complete) {}
             @Override public void input(String input, String complete) 
             {   
-                ((VoteSystem)pNewDeck).setStars(Toolbox.StringToInt(complete));
+                int numStars = GumMath.clamp(Toolbox.StringToInt(complete), 1, 10);
+                ((VoteSystem)pNewDeck).setStars(numStars);
             }
         });
 
@@ -110,6 +114,10 @@ public class EditDeckPage extends Page
 
         //CardOrder dropdown
         pCardOrderDropdown = (Dropdown)findChildByID("cardorderdd");
+        pCardOrderDropdown.onClick((RenderGUI gui) -> {
+
+
+        });
         pCardOrderDropdown.onSelection((String str) -> {
             if(str.equals(Locale.getCurrentLocale().getString("alphabetical")))
                 pNewDeck.setCardOrder(CardOrder.ALPHABETICAL);
@@ -122,7 +130,21 @@ public class EditDeckPage extends Page
         
         //Studysystem dropdown
         pStudySystemDropdown = (Dropdown)findChildByID("studysystemdd");
-        pStudySystemDropdown.onSelection((String str) -> selectSystem(StudySystemType.NONE, str));
+        pStudySystemDropdown.onSelection((String str) -> {
+            if(!bIsNewDeck)
+            {
+                ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("deckoverridewarning"), new ConfirmationCallback() {
+                    @Override public void onCancel() {}
+                    @Override public void onConfirm() {
+                        selectSystem(StudySystemType.NONE, str);
+                    }
+                });
+            }
+            else
+            {
+                selectSystem(StudySystemType.NONE, str);
+            }
+        });
 
         createAddButton();
 
@@ -155,9 +177,23 @@ public class EditDeckPage extends Page
         EditLeitnerDayEntry entry = new EditLeitnerDayEntry(days, pLeitnersettings.numChildren(), new EntryCallback() {
             @Override public void onRemove(EditLeitnerDayEntry entry) 
             {
-                pLeitnersettings.removeChild(entry);
-                reallignEntries();
-                saveLeitnerboxes();
+                if(!bIsNewDeck)
+                {
+                    ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("deckoverridewarning"), new ConfirmationCallback() {
+                        @Override public void onCancel() {}
+                        @Override public void onConfirm() {
+                            pLeitnersettings.removeChild(entry);
+                            reallignEntries();
+                            saveLeitnerboxes();
+                        }
+                    });
+                }
+                else
+                {
+                    pLeitnersettings.removeChild(entry);
+                    reallignEntries();
+                    saveLeitnerboxes();
+                }
             }
 
             @Override public void onChange(EditLeitnerDayEntry entry) 
@@ -176,7 +212,21 @@ public class EditDeckPage extends Page
         pAddEntryButton.setPositionInPercent(true, false);
         pAddEntryButton.getBox().setTextSize(28);
         pAddEntryButton.setOrigin(new ivec2(30, 0));
-        pAddEntryButton.onClick((RenderGUI gui) -> addEntry(5));
+        pAddEntryButton.onClick((RenderGUI gui) -> {
+            if(!bIsNewDeck)
+            {
+                ConfirmationGUI.openDialog(Locale.getCurrentLocale().getString("deckoverridewarning"), new ConfirmationCallback() {
+                    @Override public void onCancel() {}
+                    @Override public void onConfirm() {
+                        addEntry(5);
+                    }
+                });
+            }
+            else
+            {
+                addEntry(5);
+            }
+        });
         pLeitnersettings.addGUI(pAddEntryButton);
     }
 
@@ -281,7 +331,8 @@ public class EditDeckPage extends Page
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("leitnerdesc"));
             if(type == StudySystemType.NONE)
             {
-                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.INFO,5);
+                if(!bIsNewDeck)
+                    NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.WARNING,5);
                 StudySystem tmpDeck = pNewDeck;
                 pNewDeck = new LeitnerSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());
@@ -301,7 +352,8 @@ public class EditDeckPage extends Page
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("votingdesc"));
             if(type == StudySystemType.NONE)
             {
-                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.INFO,5);
+                if(!bIsNewDeck)
+                    NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.WARNING,5);
                 StudySystem tmpDeck = pNewDeck;
                 pNewDeck = new VoteSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());
@@ -316,7 +368,8 @@ public class EditDeckPage extends Page
             pStudysystemdesc.setString(Locale.getCurrentLocale().getString("timingdesc"));
             if(type == StudySystemType.NONE)
             {
-                NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.INFO,5);
+                if(!bIsNewDeck)
+                    NotificationGUI.addNotification(Locale.getCurrentLocale().getString("studysyschangewarning"),NotificationType.WARNING,5);
                 StudySystem tmpDeck = pNewDeck;
                 pNewDeck = new TimingSystem();
                 pNewDeck.setCardOrder(tmpDeck.getCardOrder());

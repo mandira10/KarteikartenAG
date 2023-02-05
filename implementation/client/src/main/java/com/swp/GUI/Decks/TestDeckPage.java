@@ -111,6 +111,7 @@ public class TestDeckPage extends Page
      */
     public void startTests(StudySystem deck)
     {
+        PageManager.lockPage(() -> finishTest());
         this.pDeck = deck;
         pTimeText.hide(true);
         pAnswerOverrideButton.hide(true);
@@ -181,6 +182,7 @@ public class TestDeckPage extends Page
 
     private void finishTest()
     {
+        PageManager.unlockPage(true);
         ((TestDeckFinishPage)PageManager.viewPage(PAGES.DECK_TEST_FINAL)).setDeck(pDeck);
     }
 
