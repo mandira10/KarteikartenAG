@@ -9,6 +9,8 @@ import java.io.File;
 
 /**
  * Ein Cross-Platform Dateidialog
+ * 
+ * @author Tom Beuke
  */
 public class FileDialog
 {

@@ -14,6 +14,8 @@ import com.gumse.tools.FPS;
 /**
  * Eine Benachrichtigung für
  * die NotificationGUI Klasse
+ * 
+ * @author Tom Beuke
  */
 public class Notification extends RenderGUI
 {

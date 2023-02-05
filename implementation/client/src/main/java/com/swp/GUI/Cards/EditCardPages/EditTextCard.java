@@ -14,6 +14,8 @@ import com.swp.GUI.Extras.NotificationGUI;
 
 /**
  * Wird verwendet, um Text Karten zu bearbeiten
+ * 
+ * @author Tom Beuke
  */
 public class EditTextCard extends EditCardGUI
 {

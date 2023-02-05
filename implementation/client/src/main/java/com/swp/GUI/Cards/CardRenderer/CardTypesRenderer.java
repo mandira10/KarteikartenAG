@@ -13,7 +13,6 @@ import com.gumse.maths.vec4;
 import com.gumse.textures.Texture;
 import com.swp.DataModel.Card;
 import com.swp.DataModel.Card.CardType;
-import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCardAnswer;
 import com.swp.DataModel.CardTypes.ImageTestCard;
@@ -23,6 +22,8 @@ import com.swp.DataModel.CardTypes.MultipleChoiceCard;
  * Rendert eine Karte zu zwei OpenGL Framebuffer,
  * einer Für die Vorderseite (Frage)
  * einer Für die Rückseite (Antwort)
+ * 
+ * @author Tom Beuke
  */
 public class CardTypesRenderer 
 {

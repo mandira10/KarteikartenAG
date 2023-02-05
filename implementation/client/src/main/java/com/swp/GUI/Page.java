@@ -9,6 +9,8 @@ import com.gumse.maths.vec4;
 
 /**
  * Die Seitenklasse von welcher alle anderen Seiten erben
+ * 
+ * @author Tom Beuke
  */
 public class Page extends RenderGUI
 {

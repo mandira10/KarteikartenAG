@@ -11,6 +11,8 @@ import com.swp.GUI.Extras.NotificationGUI;
 
 /**
  * Das haupt GUI-Element des KarteikartenAG Projekts
+ * 
+ * @author Tom Beuke
  */
 public class KarteikartenAGGUI extends RenderGUI
 {

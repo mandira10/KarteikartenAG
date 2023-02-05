@@ -10,6 +10,8 @@ import com.swp.DataModel.User;
 
 /**
  * Die Seite, welche es einem ermöglicht sich anzumelden
+ * 
+ * @author Tom Beuke
  */
 public class LoginPage extends Page
 {

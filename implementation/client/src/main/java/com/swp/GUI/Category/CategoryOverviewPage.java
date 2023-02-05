@@ -32,6 +32,8 @@ import java.util.List;
 
 /**
  * Die Seite welche einem alle Kategorien in einer Hierarchieliste darstellt
+ * 
+ * @author Tom Beuke
  */
 public class CategoryOverviewPage extends Page
 {

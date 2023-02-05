@@ -20,6 +20,8 @@ import com.swp.DataModel.StudySystem.StudySystem;
 /**
  * DeckList wird dazu verwendet um 
  * eine gegebene liste von Decks anzuzeigen.
+ * 
+ * @author Tom Beuke
  */
 public class DeckList extends RenderGUI
 {

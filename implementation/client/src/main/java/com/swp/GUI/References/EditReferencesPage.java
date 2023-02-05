@@ -6,7 +6,6 @@ import com.gumse.gui.Font.FontManager;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Output;
 import com.swp.DataModel.Card;
 import com.swp.GUI.Page;
 import com.swp.GUI.PageManager;
@@ -14,6 +13,8 @@ import com.swp.GUI.PageManager.PAGES;
 
 /**
  * Die Seite auf welcher man die Referenzeinträge einer Karte bearbeiten kann
+ * 
+ * @author Tom Beuke
  */
 public class EditReferencesPage extends Page
 {

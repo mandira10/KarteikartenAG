@@ -29,6 +29,8 @@ import com.swp.Controller.SingleDataCallback;
 
 /**
  * Die Seite auf welcher das ausgabe Dateiformat zum Exportieren angegeben werden kann.
+ * 
+ * @author Tom Beuke
  */
 public class CardExportPage extends Page
 {

@@ -18,6 +18,8 @@ import com.gumse.system.filesystem.XML.XMLNode;
  * Searchbar wird von den Overviewpages 
  * verwendet um nach Karten/Kategorien/Decks 
  * zu suchen.
+ * 
+ * @author Tom Beuke
  */
 public class Searchbar extends RenderGUI
 {

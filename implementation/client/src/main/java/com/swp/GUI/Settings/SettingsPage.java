@@ -23,6 +23,8 @@ import com.swp.GUI.PageManager.PAGES;
 
 /**
  * Die Seite, welche es einem ermöglicht die Einstellungen zu verändern
+ * 
+ * @author Tom Beuke
  */
 public class SettingsPage extends Page 
 {

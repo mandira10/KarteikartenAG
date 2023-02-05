@@ -18,6 +18,8 @@ import com.swp.GUI.PageManager.PAGES;
 
 /**
  * Diese Seite wird angezeigt, nachdem ein Decktest abgeschlossen wurde
+ * 
+ * @author Tom Beuke
  */
 public class TestDeckFinishPage extends Page
 {

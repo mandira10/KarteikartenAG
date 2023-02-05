@@ -15,6 +15,8 @@ import com.swp.GUI.Extras.FileDialog;
 
 /**
  * Wird verwendet, um Audiokarten zu bearbeiten
+ * 
+ * @author Tom Beuke
  */
 public class EditAudioCard extends EditCardGUI
 {

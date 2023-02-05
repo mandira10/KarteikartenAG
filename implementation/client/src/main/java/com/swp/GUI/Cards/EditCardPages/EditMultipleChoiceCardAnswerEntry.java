@@ -11,6 +11,8 @@ import com.gumse.maths.vec4;
 
 /**
  * Ein Eintrag für das EditMultipleChoiceCard GUI
+ * 
+ * @author Tom Beuke
  */
 public class EditMultipleChoiceCardAnswerEntry extends RenderGUI
 {

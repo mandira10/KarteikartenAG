@@ -25,6 +25,8 @@ import java.util.List;
 
 /**
  * Die Seite auf welcher eine einzelne Kategorie angesehen werden kann
+ * 
+ * @author Tom Beuke
  */
 public class ViewSingleCategoryPage extends Page
 {

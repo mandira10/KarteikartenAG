@@ -9,7 +9,6 @@ import com.gumse.maths.ivec2;
 import com.swp.Controller.CardController;
 import com.swp.Controller.CategoryController;
 import com.swp.DataModel.CardOverview;
-import com.swp.GUI.Extras.ListOrder;
 import com.swp.GUI.Page;
 import com.swp.GUI.Extras.CardList;
 import com.swp.GUI.Extras.NotificationGUI;
@@ -22,6 +21,8 @@ import com.swp.Controller.DataCallback;
 
 /**
  * Die Seite auf welcher man eine Liste an Karten auswählen kann
+ * 
+ * @author Tom Beuke
  */
 public class CardSelectPage extends Page
 {

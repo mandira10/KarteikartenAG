@@ -25,6 +25,8 @@ import com.swp.GUI.Extras.NotificationGUI;
 
 /**
  * Ein Eintrag für das EditReference GUI
+ * 
+ * @author Tom Beuke
  */
 public class EditReferencesEntry extends RenderGUI
 {

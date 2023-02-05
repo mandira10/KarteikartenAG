@@ -30,6 +30,8 @@ import com.swp.DataModel.StudySystem.StudySystem;
 
 /**
  * Die Seite auf welcher man nach Karten suchen, oder sich einfach alle Anzeigen lassen kann
+ * 
+ * @author Tom Beuke
  */
 public class CardOverviewPage extends Page
 {

@@ -14,6 +14,8 @@ import com.gumse.system.io.Mouse;
 
 /**
  * Ein Eintrag für das EditImageDescriptionCardAnswer GUI
+ * 
+ * @author Tom Beuke
  */
 public class EditImageDescriptionCardAnswerEntry extends RenderGUI
 {

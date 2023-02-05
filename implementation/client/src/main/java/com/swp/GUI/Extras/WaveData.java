@@ -18,6 +18,8 @@ import org.lwjgl.openal.AL10;
  * dateien zu lesen und in ein von 
  * OpenAL verständliches Format
  * umzuwandeln.
+ * 
+ * @author Tom Beuke
  */
 public class WaveData {
 

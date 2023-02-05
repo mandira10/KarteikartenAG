@@ -25,6 +25,8 @@ import com.swp.Controller.SingleDataCallback;
 
 /**
  * Die Seite welche es einem ermöglicht, Kategorien zu bearbeiten
+ * 
+ * @author Tom Beuke
  */
 public class EditCategoryPage extends Page
 {

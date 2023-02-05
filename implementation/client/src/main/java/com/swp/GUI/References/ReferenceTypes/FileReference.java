@@ -10,6 +10,8 @@ import com.swp.GUI.References.ReferenceEntry;
 
 /**
  * Eine Referenz welche auf eine Datei zeigt
+ * 
+ * @author Tom Beuke
  */
 public class FileReference extends ReferenceEntry
 {

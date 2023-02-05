@@ -27,6 +27,8 @@ import java.util.List;
 
 /**
  * Die Seite auf welcher ein einzelnes Deck angesehen werden kann
+ * 
+ * @author Tom Beuke
  */
 public class ViewSingleDeckPage extends Page
 {

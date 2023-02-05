@@ -14,6 +14,8 @@ import com.swp.GUI.References.ReferenceEntry;
 
 /**
  * Eine Referenz welche auf eine Kategorie zeigt
+ * 
+ * @author Tom Beuke
  */
 public class CategoryReference extends ReferenceEntry
 {

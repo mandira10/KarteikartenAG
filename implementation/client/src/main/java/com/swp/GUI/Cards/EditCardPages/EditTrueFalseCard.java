@@ -10,6 +10,8 @@ import com.swp.DataModel.CardTypes.TrueFalseCard;
 
 /**
  * Wird verwendet, um Wahr/Falsch Karten zu bearbeiten
+ * 
+ * @author Tom Beuke
  */
 public class EditTrueFalseCard extends EditCardGUI
 {

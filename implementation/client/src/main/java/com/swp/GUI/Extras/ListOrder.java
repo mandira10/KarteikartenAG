@@ -20,6 +20,8 @@ import com.gumse.system.io.Mouse;
  * ListOrder wird dazu verwendet ein Menü 
  * zum auswählen der zu verwendenden 
  * Listenreihenfolge darzustellen
+ * 
+ * @author Tom Beuke
  */
 public class ListOrder extends Button
 {

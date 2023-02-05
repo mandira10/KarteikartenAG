@@ -22,6 +22,8 @@ import com.swp.GUI.PageManager.PAGES;
 /**
  * CardList wird dazu verwendet um 
  * eine gegebene liste von Karten anzuzeigen.
+ * 
+ * @author Tom Beuke
  */
 public class CardList extends RenderGUI
 {

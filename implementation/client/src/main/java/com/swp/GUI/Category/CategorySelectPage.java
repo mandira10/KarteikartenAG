@@ -21,6 +21,8 @@ import com.swp.GUI.Page;
 
 /**
  * Die Seite auf welcher man eine Liste an Kategorien auswählen kann
+ * 
+ * @author Tom Beuke
  */
 public class CategorySelectPage extends Page
 {

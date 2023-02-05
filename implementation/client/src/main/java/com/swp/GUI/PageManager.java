@@ -28,6 +28,8 @@ import com.swp.GUI.Settings.SettingsPage;
 /**
  * Verwaltet alle verfügbaren Seiten und sorgt dafür,
  * dass zu jeder Zeit nur eine Seite angezeigt werden kann
+ * 
+ * @author Tom Beuke
  */
 public class PageManager
 {

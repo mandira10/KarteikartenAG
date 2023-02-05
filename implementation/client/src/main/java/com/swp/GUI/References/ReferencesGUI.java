@@ -7,6 +7,8 @@ import com.gumse.maths.ivec2;
 /**
  * Das ReferenceGUI zeigt einem alle Referenzen,
  * welche eine Karte zu externen Orten hat an
+ * 
+ * @author Tom Beuke
  */
 public class ReferencesGUI extends RenderGUI
 {

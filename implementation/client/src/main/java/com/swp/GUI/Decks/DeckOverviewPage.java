@@ -19,6 +19,8 @@ import java.util.List;
 
 /**
  * Die Seite welche einem alle Decks in einer Liste darstellt
+ * 
+ * @author Tom Beuke
  */
 public class DeckOverviewPage extends Page
 {

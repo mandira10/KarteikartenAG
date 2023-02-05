@@ -34,6 +34,8 @@ import java.util.List;
 
 /**
  * Die Seite auf welcher eine einzelne Karte angesehen werden kann
+ * 
+ * @author Tom Beuke
  */
 public class ViewSingleCardPage extends Page
 {

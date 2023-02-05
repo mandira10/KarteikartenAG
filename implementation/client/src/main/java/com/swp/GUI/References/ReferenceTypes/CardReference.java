@@ -14,6 +14,8 @@ import com.swp.GUI.References.ReferenceEntry;
 
 /**
  * Eine Referenz welche auf eine andere Karte zeigt
+ * 
+ * @author Tom Beuke
  */
 public class CardReference extends ReferenceEntry
 {

@@ -18,6 +18,8 @@ import com.swp.GUI.PageManager.PAGES;
 /**
  * CategoryList wird dazu verwendet, um
  * eine gegebene liste von Kategorien anzuzeigen.
+ * 
+ * @author Tom Beuke
  */
 public class CategoryList extends RenderGUI
 {

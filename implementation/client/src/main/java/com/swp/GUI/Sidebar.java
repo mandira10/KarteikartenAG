@@ -21,6 +21,8 @@ import com.swp.GUI.PageManager.PAGES;
  * Die Sidebar wird einmalig erstellt und
  * ist zu jederzeit in Programm an der
  * Seite zu sehen
+ * 
+ * @author Tom Beuke
  */
 public class Sidebar extends RenderGUI
 {

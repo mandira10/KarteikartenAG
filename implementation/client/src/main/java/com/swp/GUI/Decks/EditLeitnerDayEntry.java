@@ -13,6 +13,8 @@ import com.gumse.tools.Toolbox;
 
 /**
  * Ein Eintrag für die EditDeckPage
+ * 
+ * @author Tom Beuke
  */
 public class EditLeitnerDayEntry extends RenderGUI
 {

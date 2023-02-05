@@ -38,6 +38,8 @@ import com.swp.GUI.PageManager;
 
 /**
  * Die Seite welche es einem ermöglicht, Decks zu bearbeiten
+ * 
+ * @author Tom Beuke
  */
 public class EditDeckPage extends Page
 {

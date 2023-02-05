@@ -20,6 +20,8 @@ import com.swp.GUI.PageManager.PAGES;
 
 /**
  * Wird verwendet, um die Antworten einer Bildbeschreibungskarte zu bearbeiten
+ * 
+ * @author Tom Beuke
  */
 public class EditImageDescriptionCardAnswersPage extends Page
 {

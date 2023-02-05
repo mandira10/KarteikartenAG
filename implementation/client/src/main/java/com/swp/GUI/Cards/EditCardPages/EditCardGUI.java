@@ -6,6 +6,8 @@ import com.swp.DataModel.Card;
 
 /**
  * Die Oberklasse für alle EditCardPages
+ * 
+ * @author Tom Beuke
  */
 public abstract class EditCardGUI extends RenderGUI
 {

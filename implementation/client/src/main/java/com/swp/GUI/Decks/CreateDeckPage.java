@@ -18,6 +18,8 @@ import com.swp.GUI.PageManager.PAGES;
 /**
  * Die Seite welche einem das Erstellen
  * eines neuen Decks ermöglicht
+ * 
+ * @author Tom Beuke
  */
 public class CreateDeckPage extends Page
 {

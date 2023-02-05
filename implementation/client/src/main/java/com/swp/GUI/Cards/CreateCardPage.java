@@ -6,7 +6,6 @@ import com.gumse.gui.Basics.Dropdown;
 import com.gumse.gui.Primitives.RenderGUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
-import com.gumse.tools.Output;
 import com.swp.DataModel.CardTypes.AudioCard;
 import com.swp.DataModel.CardTypes.ImageDescriptionCard;
 import com.swp.DataModel.CardTypes.ImageTestCard;
@@ -23,6 +22,8 @@ import com.swp.GUI.PageManager.PAGES;
  * Die Seite welche einem das Erstellen
  * einer neuen Karte ermöglicht mit
  * einer auswahl an Kartentypen
+ * 
+ * @author Tom Beuke
  */
 public class CreateCardPage extends Page
 {

@@ -34,6 +34,8 @@ import com.swp.GUI.Extras.AudioGUI;
 
 /**
  * Wird verwendet, um Karten zu testen
+ * 
+ * @author Tom Beuke
  */
 public class TestCardGUI extends RenderGUI
 {

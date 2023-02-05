@@ -11,6 +11,8 @@ import com.swp.GUI.References.ReferenceTypes.WebReference;
 
 /**
  * Ein Referenzeintrag für das ReferenceGUI
+ * 
+ * @author Tom Beuke
  */
 public abstract class ReferenceEntry extends TextBox
 {

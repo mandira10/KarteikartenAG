@@ -19,6 +19,8 @@ import com.gumse.system.filesystem.XML.XMLNode;
  * welche sich unten rechts befinden automatisch 
  * anzupassen und bei einem overflow in einem 
  * separaten menü zu bündeln
+ * 
+ * @author Tom Beuke
  */
 public class MenuOptions extends RenderGUI
 {

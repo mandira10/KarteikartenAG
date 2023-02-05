@@ -18,6 +18,8 @@ import com.gumse.tools.Toolbox;
  * RatingGUI wird zur Bewertung von Karten 
  * verwendet und stellt eine gegebene 
  * Anzahl an Sternen dar.
+ * 
+ * @author Tom Beuke
  */
 public class RatingGUI extends RenderGUI
 {

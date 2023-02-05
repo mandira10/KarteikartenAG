@@ -22,6 +22,8 @@ import com.swp.DataModel.Card;
 
 /**
  * Rendert eine Karte in 3D
+ * 
+ * @author Tom Beuke
  */
 public class CardRenderer extends RenderGUI
 {

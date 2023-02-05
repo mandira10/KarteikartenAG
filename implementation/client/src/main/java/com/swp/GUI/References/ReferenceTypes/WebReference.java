@@ -11,6 +11,8 @@ import java.io.IOException;
 
 /**
  * Eine Referenz welche auf eine Website zeigt
+ * 
+ * @author Tom Beuke
  */
 public class WebReference extends ReferenceEntry
 {

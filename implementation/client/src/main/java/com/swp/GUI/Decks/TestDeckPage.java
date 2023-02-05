@@ -11,7 +11,6 @@ import com.gumse.gui.Primitives.Text;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.maths.vec4;
-import com.gumse.tools.Output;
 import com.swp.Controller.SingleDataCallback;
 import com.swp.Controller.StudySystemController;
 import com.swp.DataModel.Card;
@@ -31,6 +30,8 @@ import com.swp.GUI.PageManager.PAGES;
 
 /**
  * Wird verwendet, um Karten zu testen und den Fortschritt zu merken
+ * 
+ * @author Tom Beuke
  */
 public class TestDeckPage extends Page
 {

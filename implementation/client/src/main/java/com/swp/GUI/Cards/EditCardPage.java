@@ -33,6 +33,8 @@ import com.swp.Controller.SingleDataCallback;
 
 /**
  * Die Seite welche es einem ermöglicht, Karten zu bearbeiten
+ * 
+ * @author Tom Beuke
  */
 public class EditCardPage extends Page
 {

@@ -24,6 +24,8 @@ import com.swp.GUI.Extras.NotificationGUI;
 
 /**
  * Diese Seite wird dazu verwendet alle Kategorien in einem Baumdiagramm darzustellen
+ * 
+ * @author Tom Beuke
  */
 public class ViewCategoryTreePage extends Page
 {

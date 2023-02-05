@@ -22,6 +22,8 @@ import com.swp.GUI.Extras.NotificationGUI;
 
 /**
  * Wird verwendet, um Multiple-choice Karten zu bearbeiten
+ * 
+ * @author Tom Beuke
  */
 public class EditMultipleChoiceCard extends EditCardGUI
 {

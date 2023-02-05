@@ -22,6 +22,8 @@ import com.swp.GUI.Extras.ConfirmationGUI.ConfirmationCallback;
 
 /**
  * Die Seite auf welcher man ein Deck auswählen kann
+ * 
+ * @author Tom Beuke
  */
 public class DeckSelectPage extends Page
 {

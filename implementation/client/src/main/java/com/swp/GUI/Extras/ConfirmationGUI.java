@@ -15,6 +15,8 @@ import com.gumse.maths.vec4;
 /**
  * ConfirmationGUI wird dazu verwendet um 
  * einen Bestätigungsdialog zu öffnen.
+ * 
+ * @author Tom Beuke
  */
 public class ConfirmationGUI extends Box
 {
