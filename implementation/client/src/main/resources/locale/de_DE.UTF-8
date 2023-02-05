@@ -10,7 +10,7 @@ checkbutton                        = Prüfen
 nextbutton                         = Weiter
 pausebutton                        = Pause
 box                                = Box
-pagelock                           = Die Seite ist momentan gesperrt
+pagelock                           = Sind Sie sicher, dass Sie diese Seite verlassen wollen?
 
 # Sidebar
 sidebarlogin                       = Login
