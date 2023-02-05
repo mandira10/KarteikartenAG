@@ -12,6 +12,7 @@ import java.util.*;
  * StudySystemBox Klasse. Wird verwendet, wenn ein Lernsystem mehrere Boxen hat (z.B. Leitner),
  * deren Karten unterschiedlich oft gelernt werden.
  * Wird in BoxToCard an die spezifischen Karten gebunden.
+ * @author Nadja Cordes
  */
 @Entity
 @Setter

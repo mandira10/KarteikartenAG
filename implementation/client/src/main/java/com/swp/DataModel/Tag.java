@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 /**
  * Klasse für einen Tag für Karteikarten
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 @Entity
 @Table

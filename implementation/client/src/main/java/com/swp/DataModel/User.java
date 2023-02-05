@@ -15,6 +15,7 @@ import com.swp.Persistence.PersistenceManager;
 
 /**
  * Die Klasse welche Benutzer an- und abmeldet
+ * @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 public class User
 {

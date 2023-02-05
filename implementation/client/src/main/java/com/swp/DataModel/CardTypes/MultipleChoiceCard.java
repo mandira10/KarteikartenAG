@@ -14,6 +14,8 @@ import java.util.List;
 /**
  * Klasse zum Erstellen von Karteikarten des Typs MultipleChoiceCard
  * Erbt die Grundeigenschaften der Klasse Card
+ *
+ * @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 
 @Getter

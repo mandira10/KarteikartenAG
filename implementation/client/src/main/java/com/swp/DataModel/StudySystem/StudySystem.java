@@ -13,6 +13,7 @@ import java.util.UUID;
 /**
  * Abstrakte Superklasse für das StudySystem von der die einzelnen
  * Systeme erben
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 
 @Getter

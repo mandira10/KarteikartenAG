@@ -12,6 +12,7 @@ import java.util.UUID;
 
 /**
  * BoxToCard Klasse. Hier werden alle Karten zur spezifischen StudySystemBox gespeichert.
+ *  @author Nadja Cordes
  */
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uniqueCardBox",columnNames = {"card_uuid","studySystemBox_id"}))

@@ -16,6 +16,7 @@ import com.swp.DataModel.Language.Language;
 
 /**
  * Die Klasse repräsentiert die Einstellungen des Nutzers.
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 public class Settings
 {

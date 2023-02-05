@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 /**
  * Klasse repräsentiert den einzelnen Nutzer des Lernsystems.
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 @Entity
 @Table

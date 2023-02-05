@@ -14,6 +14,7 @@ import java.util.UUID;
 
 /**
  * Klasse für eine Kategorie
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 @Getter
 @Setter

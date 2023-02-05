@@ -8,6 +8,8 @@ import java.util.UUID;
 
 /**
  * Klasse für die ImageDescriptionCard.
+ *
+ * @author  Tom Beuke, Ole-Niklas Mahlstädt
  */
 @Entity
 @Table

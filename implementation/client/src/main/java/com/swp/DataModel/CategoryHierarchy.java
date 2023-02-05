@@ -8,6 +8,7 @@ import java.util.UUID;
 
 /**
  * Relationen zwischen Parent und Child Kategorie
+ *  @author Nadja Cordes
  */
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uniqueParentChild",columnNames = {"parent","child"}))

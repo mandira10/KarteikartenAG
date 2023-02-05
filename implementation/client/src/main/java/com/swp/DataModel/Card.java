@@ -17,6 +17,8 @@ import java.util.UUID;
 /**
  * Abstrakte Superklasse für die Karten. Enthält die einzelnen Kartentypen sowie
  * weitere generische Eigenschaften jeder Karte, die alle Untertypen erben.
+ *
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

@@ -9,6 +9,7 @@ import lombok.Setter;
 
 /**
  * Die Oberklasse aller Sprachklassen
+ *  @author Tom Beuke
  */
 @Getter
 @Setter

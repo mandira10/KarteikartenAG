@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 
 /**
  * Zeigt die einzelnen Karten mitsamt ihrem Erstellzeitpunkt und in wie vielen Desks sie derzeit sind.
+ *  @author Nadja Cordes
  */
 @Entity
 @Immutable

@@ -10,6 +10,7 @@ import java.util.UUID;
 
 /**
  * Relations-Objekt zwischen Karten und Kategorien
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 @Entity
 @Table//(uniqueConstraints = @UniqueConstraint(name = "uniqueCardCategory",columnNames = {"card_uuid","category_uuid"}))

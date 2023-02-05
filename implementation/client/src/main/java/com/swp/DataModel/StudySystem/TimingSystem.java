@@ -7,6 +7,7 @@ import lombok.Setter;
 
 /**
  * Klasse für das TimingSystem. Erbt alle Attribute vom StudySystem
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 @Entity
 @Getter

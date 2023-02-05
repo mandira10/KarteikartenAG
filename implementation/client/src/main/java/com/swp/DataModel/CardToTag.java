@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 /**
  * Relations-Objekt zwischen Karten und Tags
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uniqueCardTag",columnNames = {"tag_uuid","card_uuid"}))

@@ -4,6 +4,7 @@ import com.gumse.gui.Locale;
 
 /**
  * Deutsche version aller Strings in dem Projekt
+ *  @author Tom Beuke
  */
 public class German extends Language
 {

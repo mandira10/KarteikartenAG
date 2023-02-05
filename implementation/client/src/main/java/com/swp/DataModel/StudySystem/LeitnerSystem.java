@@ -9,6 +9,7 @@ import lombok.Setter;
 
 /**
  * Klasse für das LeitnerSystem. Erbt alle Attribute vom StudySystem
+ *  @author Mert As, Efe Carkcioglu, Tom Beuke, Ole-Niklas Mahlstädt, Nadja Cordes
  */
 @Entity
 @DiscriminatorValue("Leitner")
@@ -16,9 +17,6 @@ import lombok.Setter;
 @Setter
 public class LeitnerSystem extends StudySystem
 {
-
-
-
 
     /**
      * Konstruktor der Klasse LeitnerSystem.
