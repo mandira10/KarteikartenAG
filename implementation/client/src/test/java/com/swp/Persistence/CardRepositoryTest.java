@@ -19,7 +19,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @Author Ole-Niklas Mahlstädt
+ * @author Ole-Niklas Mahlstädt
  */
 public class CardRepositoryTest
 {

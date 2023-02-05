@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
  * giveAnswer() wieder.
  * Danach wird erneut getNextCard() aufgerufen, um die nächste zu lernende Karte abzurufen.
  *
- * @Author Nadja Cordes
+ * @author Nadja Cordes
  */
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

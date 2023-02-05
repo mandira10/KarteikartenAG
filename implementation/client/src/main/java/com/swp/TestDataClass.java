@@ -12,12 +12,11 @@ import com.swp.DataModel.StudySystem.StudySystem;
 import com.swp.DataModel.StudySystem.TimingSystem;
 import com.swp.DataModel.StudySystem.VoteSystem;
 import com.swp.DataModel.Tag;
+import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.lwjgl.system.MemoryUtil;
 
 /**
  * Klasse speist einzelne Testdaten in die GUI bei Start ein.

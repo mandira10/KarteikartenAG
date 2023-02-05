@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 /**
  * Testklasse, um die Filterfunktionen in CardLogic zu testen sowie weitere Funktionen der Logik.
  *
- * @Author Nadja Cordes
+ * @author Nadja Cordes
  *
  */
 

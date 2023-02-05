@@ -1,47 +1,41 @@
 package com.swp;
 
-import static org.lwjgl.opengl.GL11.*;
-
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-
-import com.swp.DataModel.Settings;
-import com.swp.DataModel.User;
-import com.swp.DataModel.Settings.Setting;
-
-import org.lwjgl.openal.AL;
-import org.lwjgl.openal.AL11;
-import org.lwjgl.openal.ALC;
-import org.lwjgl.openal.ALC10;
-import org.lwjgl.openal.ALC11;
-import org.lwjgl.openal.ALCCapabilities;
-
 import com.gumse.basics.Globals;
-import com.gumse.gui.GUI;
 import com.gumse.gui.Font.Font;
 import com.gumse.gui.Font.FontManager;
+import com.gumse.gui.GUI;
 import com.gumse.gui.XML.XMLGUI;
 import com.gumse.maths.ivec2;
 import com.gumse.system.Display;
 import com.gumse.system.Window;
 import com.gumse.system.Window.WindowResizePosCallback;
+import com.gumse.tools.FPS;
 import com.gumse.tools.Output;
 import com.gumse.tools.Output.OutputCallback;
-import com.gumse.tools.FPS;
-import com.swp.GUI.KarteikartenAGGUI;
-import com.swp.GUI.PageManager;
+import com.swp.Controller.ControllerThreadPool;
+import com.swp.DataModel.Settings;
+import com.swp.DataModel.Settings.Setting;
+import com.swp.DataModel.User;
 import com.swp.GUI.Extras.ListOrder;
 import com.swp.GUI.Extras.MenuOptions;
 import com.swp.GUI.Extras.RatingGUI;
 import com.swp.GUI.Extras.Searchbar;
+import com.swp.GUI.KarteikartenAGGUI;
+import com.swp.GUI.PageManager;
 import com.swp.GUI.PageManager.PAGES;
 import com.swp.Persistence.PersistenceManager;
-import com.swp.Controller.ControllerThreadPool;
-
 import lombok.extern.slf4j.Slf4j;
+import org.lwjgl.openal.*;
+
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
+
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 
 /**
  * Die Hauptklasse des Projekts
+ * @author Tom Beuke
  */
 @Slf4j
 public class KarteikartenAG 

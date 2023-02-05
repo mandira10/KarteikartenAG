@@ -14,7 +14,6 @@ import com.swp.DataModel.Language.German;
 import com.swp.DataModel.StudySystem.*;
 import com.swp.GUI.Category.CategoryOverviewPage;
 import com.swp.GUI.Decks.DeckSelectPage;
-import com.swp.GUI.PageManager;
 import com.swp.Logic.CategoryLogic;
 import com.swp.Logic.StudySystemLogic;
 import com.swp.Persistence.*;
@@ -24,8 +23,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.slf4j.Logger;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -42,7 +39,7 @@ import static org.mockito.Mockito.*;
  * In der GUI können mehrere Kategorien ausgewählt und ihre Karten einem Karteikasten
  * zugefügt werden.
  *
- * @Author Ole-Niklas Mahlstädt
+ * @author Ole-Niklas Mahlstädt
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddCategoriesToStudySystemTest {
@@ -372,20 +369,4 @@ public class AddCategoriesToStudySystemTest {
         assertThrows(NullPointerException.class, () -> studySystemRepository.addCardToBox(null));
     }
 
-    /**
-     * Um final attribute in zu testenden Klassen mit gemockten Objekten neu zu setzen.
-     * @author polygenelubricants [<a href="https://stackoverflow.com/a/3301720">stackoverflow</a>]
-     * @param field    das zu ändernde Attribut in einer Klasse.
-     * @param newValue der neue Wert für dieses Attribut.
-     * @throws Exception Fehler beim Ermitteln oder setzen von dem Attribut auftreten.
-     */
-    private static void setFinalStatic(Field field, Object newValue) throws Exception {
-        field.setAccessible(true);
-
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-
-        field.set(null, newValue);
-    }
 }
